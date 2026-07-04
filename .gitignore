@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.db
+
+# IDE workspace configurations
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Python temporary files (e.g. from compilation scripts)
+__pycache__/
+*.pyc

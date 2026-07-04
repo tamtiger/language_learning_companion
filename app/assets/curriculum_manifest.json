@@ -1,0 +1,58 @@
+{
+  "modules": [
+    {
+      "id": "module_01_-_pronunciation_foundation",
+      "name": "Module 01 - Pronunciation Foundation",
+      "lessons": [
+        {
+          "id": "lesson_01",
+          "title": "Lesson 01 - Hệ thống âm tiếng Anh (English Sounds)",
+          "lessonNumber": 1,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Không yêu cầu."
+        },
+        {
+          "id": "lesson_02",
+          "title": "Lesson 02 - Âm cuối (Ending Sounds)",
+          "lessonNumber": 2,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Hoàn thành Lesson 01 - English Sounds."
+        },
+        {
+          "id": "lesson_03",
+          "title": "Lesson 03 - Trọng âm từ (Word Stress)",
+          "lessonNumber": 3,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Hoàn thành Lesson 02 - Ending Sounds."
+        },
+        {
+          "id": "lesson_04",
+          "title": "Lesson 04 - Trọng âm câu (Sentence Stress)",
+          "lessonNumber": 4,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Hoàn thành Lesson 03 - Word Stress."
+        },
+        {
+          "id": "lesson_05",
+          "title": "Lesson 05 - Nối âm và ngữ điệu (Linking & Intonation)",
+          "lessonNumber": 5,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Hoàn thành Lesson 04 - Sentence Stress."
+        },
+        {
+          "id": "lesson_06",
+          "title": "Lesson 06 - Shadowing & Speaking Routine",
+          "lessonNumber": 6,
+          "estimatedTime": "60–90 phút",
+          "difficulty": "🟢 Cơ bản",
+          "prerequisites": "Hoàn thành Lesson 01 đến Lesson 05."
+        }
+      ]
+    }
+  ]
+}

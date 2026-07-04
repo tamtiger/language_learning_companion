@@ -161,10 +161,30 @@ Hãy ưu tiên:
 
 ---
 
-# Bắt đầu
-
-Nếu đây là lần đầu sử dụng curriculum:
-
 👉 **Đọc `START_HERE.md` trước.**
 
-Sau đó làm theo thứ tự các tài liệu được đề xuất trong roadmap.# language_learning_companion
+Sau đó làm theo thứ tự các tài liệu được đề xuất trong roadmap.
+
+---
+
+# 📱 Ứng dụng Học tập Tương tác (Flutter App)
+
+Dự án này đi kèm với một ứng dụng đồng hành viết bằng **Flutter** (nằm trong thư mục `app/`), hỗ trợ học tập trực quan trên cả **Mobile, Desktop và Web (Chrome)**.
+
+### ✨ Các Tính năng Nổi bật
+- **Giao diện Hiện đại & Trực quan:** Thiết kế theo phong cách tối giản cao cấp (Glassmorphism-like) với tông màu Tím Indigo chủ đạo, bo tròn góc mềm mại và các thẻ thống kê trực quan.
+- **Tiến độ học tập & Streak:** Tích hợp chuỗi ngày học liên tục (Streak) với hiệu ứng gradient bắt mắt cùng hệ thống tính toán tiến trình học thông minh.
+- **Lộ trình học trực quan:** Màn hình Curriculum thiết kế dạng Milestone giúp người học dễ dàng theo dõi và hoàn thành các chương học.
+- **Lưu trữ Cục bộ SQLite:** Lưu trữ lịch sử học tập, hàng đợi ôn tập (`review_queue`), chuỗi ngày streak của riêng bạn ngay trên thiết bị bằng SQLite (`sqflite`).
+
+### 🛠 Kiến trúc Dữ liệu Tối ưu (Split JSON)
+- **`curriculum_manifest.json`:** Chứa siêu dữ liệu (metadata) của toàn bộ lộ trình nhằm tối ưu thời gian tải ban đầu.
+- **Bài học phân tách (`assets/lessons/{id}.json`):** Mỗi bài học được lưu riêng lẻ dưới dạng JSON, giúp tải nhanh nội dung bài học mong muốn mà không gây nặng RAM khi khởi chạy ứng dụng.
+- **Hỗ trợ chạy Web:** Tự động phát hiện và tương thích 100% với môi trường Web (Chrome), không bị gián đoạn hay lỗi quyền ghi file.
+
+### 🚀 Khởi chạy Ứng dụng
+Di chuyển vào thư mục `app/` và chạy:
+```bash
+flutter pub get
+flutter run
+```
