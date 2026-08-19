@@ -33,6 +33,9 @@ Zustand là adapter mỏng: compose state/actions và persist allowlisted progre
 - V1 normalize thành canonical sections và `completionMode: "legacy-quiz"`.
 - V2 normalize thành canonical sections + spoken task và `completionMode: "performance"`.
 - V3 đã có sections + spoken/written task và `completionMode: "capability-loop"`.
+- V3 performance task có thể khai báo `practiceContexts` cho baseline, transfer
+  và review. Mỗi context chứa 1–4 source artifact; parser validate ID duy nhất
+  trong context và canonical task giữ nguyên dữ liệu đã parse.
 - Raw v1/v2 JSON không rewrite, là rollback anchor.
 
 Catalog trả lessons hợp lệ cùng structured errors; một file lỗi không làm crash toàn app nhưng phải làm content validation test fail.
@@ -42,6 +45,10 @@ Catalog trả lessons hợp lệ cùng structured errors; một file lỗi khôn
 Capability loop: `baseline → input → auto-check → performance → self-feedback → retry → transfer → completed`, sau đó có thể vào `review` khi đến hạn.
 
 Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn mission hoàn thành khi chưa self-rate rubric hoặc transfer. UI chỉ dispatch events và render phase.
+
+Practice renderer chọn context bằng phase hiện tại và chỉ mount artifacts của
+context đó. Đây là content-driven behavior, không có branch theo lesson ID và
+không thay đổi progress/storage contract.
 
 Sau self-feedback, UI bắt buộc chọn một `retry focus` trong các criterion `not-met`
 (nếu có). Retry phải tạo output và chấm lại toàn bộ rubric trước transfer. Focus được

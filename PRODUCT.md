@@ -61,10 +61,18 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 ## Scope hiện hành
 
 - Mười hai mission executable, hai mission cho mỗi outcome.
+- Mission `workplace-issue-update-b1` là pilot realism đầu tiên: baseline,
+  transfer và review có evidence packet riêng để người học tổng hợp fact,
+  uncertainty, impact, owner và request thay vì phải tự bịa dữ kiện.
 - Sáu pronunciation lesson schema v1 và Daily Standup schema v2 tiếp tục chạy qua content normalization.
 - Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise progress.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
 - Markdown curriculum legacy đã được loại bỏ; curriculum executable chỉ nằm trong `content/**/*.json`.
+
+Pilot chỉ xác nhận content contract và learning flow có thể chạy với evidence theo
+từng phase. Chưa có learner study nên không được suy diễn rằng pilot đã cải thiện
+hiệu quả học tập; chỉ rollout sang mission khác sau khi có usability evidence và
+attempt evidence từ người học mục tiêu.
 
 ## Non-goals
 

@@ -1,36 +1,185 @@
 {
   "schemaVersion": "v3",
   "lessonId": "workplace-issue-update-b1",
-  "title": "Write an actionable issue update",
-  "summary": "Communicate context, impact, next step and a concrete request.",
+  "title": "Write an evidence-safe incident update",
+  "summary": "Select changing incident signals and write a concise update for the next owner without overstating the cause.",
   "cefrLevel": "B1",
-  "durationMinutes": 12,
-  "learningObjectives": ["Write a concise engineering update without translating from Vietnamese."],
+  "durationMinutes": 20,
+  "learningObjectives": [
+    "Select relevant incident facts from monitoring, team messages and ownership notes.",
+    "Separate observed impact from an unconfirmed cause.",
+    "Write an actionable handoff update with owner, next step and request."
+  ],
   "capabilities": ["workplace-communication"],
-  "workflowTags": ["issue-update", "async-communication"],
+  "workflowTags": ["issue-update", "incident", "handoff", "async-communication"],
   "sections": [
-    { "id": "brief", "type": "brief", "title": "Your mission", "body": "Your distributed team needs an update they can act on before the next handover." },
-    { "id": "source", "type": "source", "title": "Incident notes", "format": "technical-doc", "content": "Checkout requests started returning HTTP 503 after release 2.4. The error affects about one in three attempts. Logs point to a connection-pool limit. Lan is comparing the release diff. The platform team owns the rollback permission and starts its handover in forty minutes." },
-    { "id": "check", "type": "auto-check", "title": "Find the action", "exercises": [{ "id": "issue-impact", "type": "choice", "question": "Which detail is most actionable for the team?", "options": ["The release happened recently.", "Checkout fails for about one in three attempts and platform owns rollback permission."], "correctAnswer": ["Checkout fails for about one in three attempts and platform owns rollback permission."], "explanation": "It combines measurable impact with the team that can unblock the next action." }] }
+    {
+      "id": "signal-workflow",
+      "type": "brief",
+      "title": "Use the F-I-A-R workflow",
+      "body": "FACT — What is directly observed?\nIMPACT — Who or what is affected, and how much?\nACTION — What is happening next, and who owns it?\nREQUEST — What decision or help is needed, and by when?\n\nKeep a suspected cause explicitly uncertain until evidence confirms it."
+    },
+    {
+      "id": "worked-signal-map",
+      "type": "source",
+      "title": "Worked signal map from a notification incident",
+      "format": "technical-doc",
+      "content": "Observed fact: push delivery fell to 72% at 14:06 after release 5.8.\nImpact: password-reset notifications may arrive late.\nHypothesis: the new batch size may be exhausting worker memory; this is not confirmed.\nAction/owner: Jo is comparing worker memory before and after 5.8.\nRequest: Release lead, decide by 14:25 whether to pause the rollout.\nNoise to omit: the dashboard theme changed this morning."
+    },
+    {
+      "id": "signal-check",
+      "type": "auto-check",
+      "title": "Protect the evidence boundary",
+      "exercises": [
+        {
+          "id": "fact-vs-hypothesis",
+          "type": "choice",
+          "question": "Which sentence keeps fact and hypothesis separate?",
+          "options": [
+            "Release 5.8 caused worker memory exhaustion.",
+            "Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."
+          ],
+          "correctAnswer": ["Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."],
+          "explanation": "The timing and delivery rate are observed; the memory explanation remains a hypothesis being checked."
+        },
+        {
+          "id": "actionable-request",
+          "type": "choice",
+          "question": "Which request gives the audience a decision and deadline?",
+          "options": [
+            "Please investigate.",
+            "Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."
+          ],
+          "correctAnswer": ["Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."],
+          "explanation": "It names the decision owner, requested decision and useful deadline."
+        }
+      ]
+    }
   ],
   "performanceTask": {
     "id": "issue-update-task",
     "mode": "written",
-    "title": "Post the issue update",
-    "scenario": "Write an English update in the incident channel before the platform handover.",
-    "baselinePrompt": "Without opening the model, write what happened, the impact, what is being done and what you need.",
-    "performancePrompt": "Write an 80–120 word update with context, measurable impact, owner/next step and one concrete request.",
-    "modelResponse": "Checkout has returned HTTP 503 for roughly one in three attempts since release 2.4. Logs suggest the connection pool may be exhausted. Lan is checking the release diff now. Could the platform team confirm the rollback owner before its handover in forty minutes? If the error rate increases, we will pause the release while we prepare the rollback.",
-    "retryPrompt": "Rewrite the update. Remove vague status language and make the impact, owner and request explicit.",
-    "transferPrompt": "The rollback restored checkout, but twelve orders remain delayed. Write a follow-up with recovery status, remaining impact and the owner of reconciliation.",
-    "reviewPrompt": "A deployment causes intermittent login failures. Write a fresh issue update without viewing your earlier responses.",
-    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["context", "impact", "next step", "request"], "minWords": 80, "maxWords": 120 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
-    "feedbackPriorities": ["Actionability", "Specificity", "Conciseness"],
+    "title": "Post the incident handoff update",
+    "scenario": "You are the communication lead for a distributed engineering incident.",
+    "baselinePrompt": "Cold attempt: use only the job evidence above. Write the update you would post now. Do not invent a confirmed root cause.",
+    "performancePrompt": "Write a 70–110 word update using F-I-A-R. Keep observed facts separate from the connection-pool hypothesis, name the current owner and ask the platform lead for one decision before handover.",
+    "modelResponse": "Checkout 503s rose to 31% of attempts at 22:08, six minutes after release 2.4 began. We have not confirmed the cause; the connection-pool warning is the strongest lead, and Lan is comparing pool metrics with the release diff. Lan owns diagnosis, but rollback access is still unassigned. Platform lead, could you confirm the rollback owner by 22:30, before the 22:35 handover? Until then, support should route affected customers to retry once while we monitor the error rate.",
+    "retryPrompt": "Rewrite your update using the selected retry focus. Keep every fact traceable to an artifact and preserve any uncertainty that is not resolved.",
+    "transferPrompt": "Unseen transfer: write a 70–110 word update for the storage on-call using only this new evidence. Include observed impact, one cautious hypothesis, current action/owner and one decision request.",
+    "reviewPrompt": "Delayed retrieval: write a fresh 70–110 word update for the messaging handover. Do not look for or reconstruct your earlier checkout response.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Checkout incident · 22:14 UTC",
+        "brief": "Audience: platform lead and incoming APAC on-call. Stakes: the current team hands over at 22:35 UTC and only the platform lead can assign rollback access.",
+        "artifacts": [
+          {
+            "id": "checkout-monitor",
+            "type": "source",
+            "title": "Monitoring alert",
+            "format": "code-snippet",
+            "content": "22:02 deploy checkout-api v2.4 started\n22:08 ALERT http_503_rate=31% baseline=0.7%\n22:09 checkout_success_rate=68%\n22:10 WARN db_pool active=50 max=50 wait_p95=820ms"
+          },
+          {
+            "id": "checkout-channel",
+            "type": "source",
+            "title": "Incident channel excerpts",
+            "format": "dialogue",
+            "content": "22:11 Lan (checkout): I own diagnosis. Comparing pool metrics with the 2.4 diff now. No root cause confirmed.\n22:12 Support: Six customer chats report failed checkout; retry worked for four.\n22:13 Design bot: New checkout icon approved."
+          },
+          {
+            "id": "checkout-handoff",
+            "type": "source",
+            "title": "Ownership and handoff note",
+            "format": "meeting-notes",
+            "content": "Current diagnosis owner: Lan\nRollback access: unassigned; platform lead must assign\nAPAC handover: 22:35 UTC\nDecision needed before handover: name rollback owner or continue diagnosis"
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Upload incident · 09:20 UTC",
+        "brief": "Audience: storage on-call and mobile release lead. Stakes: failed uploads block profile verification; the mobile team hands over at 09:40 UTC.",
+        "artifacts": [
+          {
+            "id": "upload-monitor",
+            "type": "source",
+            "title": "Upload service dashboard",
+            "format": "code-snippet",
+            "content": "09:12 mobile release 8.7 reached 50%\n09:14 upload_failure_rate=18% baseline=1.2%\n09:15 object_store_latency_p95=210ms normal<250ms\n09:16 worker_memory=91% normal<75%"
+          },
+          {
+            "id": "upload-channel",
+            "type": "source",
+            "title": "Triage messages",
+            "format": "dialogue",
+            "content": "09:17 Kim (mobile): Pausing further rollout. I own the client diff.\n09:18 Arun (storage): Object store looks healthy; checking worker restarts.\n09:19 Support: Verification uploads fail, but existing profile images still load."
+          },
+          {
+            "id": "upload-handoff",
+            "type": "source",
+            "title": "Decision note",
+            "format": "meeting-notes",
+            "content": "Mobile handover: 09:40 UTC\nRollback owner: release lead, not yet paged\nDecision requested: page release lead now or wait for worker restart evidence"
+          }
+        ]
+      },
+      "review": {
+        "title": "Email queue incident · 16:48 UTC",
+        "brief": "Audience: messaging team and customer operations. Stakes: password-reset emails are delayed before the EU support shift ends at 17:10 UTC.",
+        "artifacts": [
+          {
+            "id": "email-queue",
+            "type": "source",
+            "title": "Queue metrics",
+            "format": "code-snippet",
+            "content": "16:38 queue_depth=4800 baseline<300\n16:39 oldest_message_age=17m\n16:41 send_error_rate=0.4% normal<1%\n16:44 consumer_count=3 expected=12"
+          },
+          {
+            "id": "email-channel",
+            "type": "source",
+            "title": "Messaging channel",
+            "format": "dialogue",
+            "content": "16:45 Mei: I own consumer recovery; checking why nine consumers stopped.\n16:46 Customer Ops: Password-reset emails are delayed; marketing email can wait.\n16:47 Scheduler bot: Maintenance window begins at 17:15."
+          },
+          {
+            "id": "email-handoff",
+            "type": "source",
+            "title": "Shift note",
+            "format": "meeting-notes",
+            "content": "EU support shift ends: 17:10 UTC\nRecovery owner: Mei\nCustomer message owner: unassigned\nDecision needed: assign customer-message owner before shift end"
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 480,
+      "requiredElements": ["observed fact", "impact", "cautious hypothesis", "action and owner", "decision request"],
+      "minWords": 70,
+      "maxWords": 110
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 90
+    },
+    "feedbackPriorities": ["Evidence boundary", "Audience action", "Conciseness"],
     "rubric": [
-      { "id": "context", "label": "Concrete context", "description": "Names the system, symptom and relevant change." },
-      { "id": "impact", "label": "Measurable impact", "description": "Explains who or what is affected with a useful detail." },
-      { "id": "action", "label": "Action and request", "description": "Names a next step, owner and clear request." }
+      {
+        "id": "evidence-boundary",
+        "label": "Fact and hypothesis",
+        "description": "Every fact is traceable to an artifact and any unconfirmed cause is framed as a hypothesis."
+      },
+      {
+        "id": "impact",
+        "label": "Audience-relevant impact",
+        "description": "Quantifies the useful impact and omits unrelated noise."
+      },
+      {
+        "id": "action",
+        "label": "Owner, action and request",
+        "description": "Names the current owner/next step and asks the audience for one decision by a useful deadline."
+      }
     ]
   },
   "reviewPolicy": { "intervalDays": [1, 3, 7] }

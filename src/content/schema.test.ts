@@ -86,4 +86,44 @@ describe('LessonV3Schema', () => {
     const result = LessonV3Schema.safeParse(invalid)
     expect(result.success).toBe(false)
   })
+
+  it('keeps complete phase-specific practice contexts and rejects duplicate artifact ids', () => {
+    const contexts = {
+      baseline: {
+        title: 'Checkout incident brief',
+        brief: 'You are the communications lead preparing a handoff update.',
+        artifacts: [
+          { id: 'alert', type: 'source', title: 'Monitor alert', format: 'code-snippet', content: '22:08 checkout 503 rate=31%' },
+          { id: 'handoff', type: 'source', title: 'Handoff note', format: 'meeting-notes', content: 'Platform handoff starts in 25 minutes.' }
+        ]
+      },
+      transfer: {
+        title: 'Upload incident brief',
+        brief: 'Write a new update from a different evidence set.',
+        artifacts: [
+          { id: 'upload-alert', type: 'source', title: 'Monitor alert', format: 'code-snippet', content: '09:14 upload failure rate=18%' }
+        ]
+      },
+      review: {
+        title: 'Email queue brief',
+        brief: 'Return later and write from fresh evidence.',
+        artifacts: [
+          { id: 'queue-alert', type: 'source', title: 'Queue alert', format: 'code-snippet', content: 'queue_depth=4800 oldest_age=17m' }
+        ]
+      }
+    }
+    const mission = {
+      ...validWrittenMission,
+      performanceTask: { ...validWrittenMission.performanceTask, practiceContexts: contexts }
+    }
+
+    const parsed = LessonV3Schema.parse(mission) as unknown as {
+      performanceTask: { practiceContexts?: typeof contexts }
+    }
+    expect(parsed.performanceTask.practiceContexts).toEqual(contexts)
+
+    const duplicate = structuredClone(mission)
+    duplicate.performanceTask.practiceContexts.baseline.artifacts[1].id = 'alert'
+    expect(LessonV3Schema.safeParse(duplicate).success).toBe(false)
+  })
 })

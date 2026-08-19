@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { CanonicalLesson, PerformanceTaskV3 } from '../../content/schema'
+import type { CanonicalLesson, PerformanceTaskV3, PracticeContext } from '../../content/schema'
 import type { CapabilitySession } from '../../domain/learning/flow'
 import {
   assessTransfer,
@@ -153,6 +153,24 @@ function LearnerOutput({ snapshot }: { snapshot: SessionAttemptSnapshot }) {
   )
 }
 
+function PracticeContextPanel({ lessonId, context }: { lessonId: string; context: PracticeContext }) {
+  return (
+    <section aria-label={context.title} className="space-y-4 rounded-2xl border border-sky-500/30 bg-sky-500/5 p-5">
+      <div>
+        <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Job evidence · chỉ dành cho lượt này</p>
+        <h3 className="mt-2 text-xl font-black">{context.title}</h3>
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {context.artifacts.map((artifact) => (
+          <div key={artifact.id} className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
+            <SectionRenderer lessonId={lessonId} section={artifact} />
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 function attemptId(): string {
   return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
     ? crypto.randomUUID()
@@ -192,6 +210,9 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const canSubmitFeedback = allRated && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
   const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
   const responseReady = task.mode === 'spoken' ? spokenSnapshot !== null : response.trim().length > 0
+  const practiceContext = phase === 'baseline' ? task.practiceContexts?.baseline
+    : phase === 'transfer' ? task.practiceContexts?.transfer
+      : phase === 'review' ? task.practiceContexts?.review : undefined
 
   const startOutput = () => {
     if (outputStartedAt.current === null) outputStartedAt.current = Date.now()
@@ -266,7 +287,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
       <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-5">
         <p className="text-xs font-bold uppercase tracking-widest text-purple-300">{task.mode} capability task · {phase}</p>
         <h2 id="task-title" className="mt-2 text-2xl font-black">{task.title}</h2>
-        <p className="mt-3 text-zinc-300">{task.scenario}</p>
+        <p className="mt-3 text-zinc-300">{practiceContext?.brief ?? task.scenario}</p>
       </div>
 
       {phase === 'input' ? (
@@ -316,6 +337,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
         </div>
       ) : (
         <div className="space-y-5">
+          {practiceContext && <PracticeContextPanel lessonId={lesson.lessonId} context={practiceContext} />}
           <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
           {phase === 'retry' && learnerOutput && (
             <div className="grid gap-4 lg:grid-cols-2">

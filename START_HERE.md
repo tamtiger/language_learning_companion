@@ -12,12 +12,13 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 ## Cách học nhanh nhất
 
 1. Mở **Today** và làm baseline capability được đề xuất.
-2. Tạo output trước khi xem model answer.
-3. Đọc input/scaffold, làm auto-check nếu có.
-4. Nói hoặc viết trong timebox.
-5. Tự đánh giá rubric trung thực và chọn một ưu tiên để retry.
-6. Làm transfer task với nội dung khác.
-7. Quay lại Today khi review đến hạn.
+2. Đọc evidence packet của phase (nếu task cung cấp) và chỉ dùng dữ kiện có trong đó.
+3. Tạo output trước khi xem model answer; đánh dấu rõ fact và điều chưa chắc chắn.
+4. Đọc input/scaffold, làm auto-check nếu có.
+5. Nói hoặc viết trong timebox.
+6. Tự đánh giá rubric trung thực và chọn một ưu tiên để retry.
+7. Làm transfer task với evidence và nội dung khác.
+8. Quay lại Today khi review đến hạn.
 
 Mục tiêu không phải hoàn thành nhiều bài mà là transfer độc lập trong task giống công việc thật.
 
@@ -36,6 +37,8 @@ App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiê
 ## Nội dung hiện có
 
 - Mười hai mission, hai mission ứng với mỗi capability.
+- `Actionable issue update` là pilot có evidence packet riêng cho baseline,
+  transfer và review; hãy phản hồi nếu dữ kiện thiếu, thừa hoặc khó hiểu.
 - Daily Standup và sáu lesson pronunciation vẫn chạy qua normalization; bài phát âm chỉ hoàn tất sau khi mọi auto-check đúng.
 - Catalog có thể lọc theo capability, workflow và CEFR.
 

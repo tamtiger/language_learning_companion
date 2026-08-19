@@ -1,0 +1,288 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-224523-realistic-curriculum-pilot",
+  "title": "Research and implement a realistic curriculum pilot",
+  "mode": "full",
+  "status": "verifying",
+  "checkpoint": "verifying",
+  "goal": "Audit and research the curriculum, then implement one high-leverage pilot that makes learning tasks materially closer to real Software Engineer work and improves unseen transfer.",
+  "nonGoals": [
+    "Không bulk rewrite toàn bộ mission trước khi pilot có evidence.",
+    "Không thêm AI/cloud/account/remote analytics/paid API hoặc persist learner output.",
+    "Không tuyên bố causal learning efficacy từ synthetic QA.",
+    "Không commit, push, publish hoặc tạo PR."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Audit artifact scores all 12 capability missions and records black-box evidence for written, spoken, technical-reading and pronunciation flows, with facts separated from hypotheses.",
+      "status": "pending",
+      "evidenceIds": [
+        "ev-audit-research-pass",
+        "ev-manual-pilot-blocked"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Task-owned research answers one material design question using primary or authoritative sources, source log, limitations, facts, inferences and a decision that changes the pilot plan.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-audit-research-pass"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "One existing mission becomes an implementation-ready and running pilot with realistic artifact, audience, stakes, information gap, observable job deliverable, scaffold fading, focused retry, varied transfer and delayed review.",
+      "status": "pending",
+      "evidenceIds": [
+        "ev-all-tests-pass-2",
+        "ev-manual-pilot-blocked"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Pilot preserves cold-attempt/model separation, local-only privacy and fresh-only v3 progress integrity; no response, transcript or audio is persisted or exported.",
+      "status": "pending",
+      "evidenceIds": [
+        "ev-all-tests-pass-2",
+        "ev-manual-pilot-blocked"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Focused and full automated checks, lint, production build and black-box desktop/mobile pilot flow pass with fresh evidence.",
+      "status": "pending",
+      "evidenceIds": [
+        "ev-all-tests-pass-2",
+        "ev-lint-build-pass",
+        "ev-manual-pilot-blocked"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Affected owner docs and CHANGELOG describe the pilot, measured evidence, limitations and rollout gate without claiming unmeasured learning efficacy.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-docs-pass"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md",
+    "START_HERE.md",
+    "content/modules",
+    "src/app",
+    "src/content",
+    "src/domain",
+    "src/features",
+    "src/infrastructure",
+    "src/shared",
+    "src/types"
+  ],
+  "relevantSpecs": [
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "LEARNER_AUDIT_PROMPT.md",
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-audit-research",
+      "description": "Audit and research artifacts contain the full mission matrix, runtime evidence, source log and pilot decision.",
+      "command": "$p=@('.harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/current-state-audit.md','.harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/learning-design-decision.md');if($p|Where-Object{-not(Test-Path -LiteralPath $_)}){exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-all-tests",
+      "description": "Full automated test suite validates pilot and regressions.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-docs",
+      "description": "Owner docs and changelog reflect the selected pilot and evidence boundary.",
+      "command": "$p=@('PRODUCT.md','CONTENT.md','README.md','START_HERE.md','CHANGELOG.md');if($p|Where-Object{-not(Test-Path -LiteralPath $_)}){exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "check-lint-build",
+      "description": "Lint and production build validate source quality and type integration.",
+      "command": "npm run lint; if($LASTEXITCODE){exit $LASTEXITCODE}; npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-manual-pilot",
+      "description": "Black-box desktop/mobile flow verifies job brief, cold attempt, input selection, feedback, retry, varied transfer, resume and privacy behavior.",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-all-tests-fail-1",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-19T15:56:06.9927946+00:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test: App.test expected the retired mission title Write an actionable issue update; catalog rendered the new pilot title Write an evidence-safe incident update. All other files shown before the failure passed.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "content/modules/capabilities/workplace-issue-update-b1.json"
+      ],
+      "inputDigest": "cb3d44e919cdfc6e5f1bb845127f2b26317860cdddd544ddaf26059d8ac9ed69"
+    },
+    {
+      "id": "ev-app-title-green",
+      "recordedAt": "2026-08-19T15:56:48.7057347+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Confirmed stale catalog-title expectation as root cause; App.test now passes 2/2 against the renamed pilot.",
+      "artifactPaths": [
+        "src/app/App.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-all-tests-pass-2",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-19T16:00:58.5346729+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest suite passed: 18 test files, 82 tests. Includes all 12 capability baseline renders, pronunciation, full written retry/transfer/review, phase isolation, storage and privacy.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "891e41650c322061f4454163da3c7f7e461e611d44eab5c11e9c41acc740a4ac"
+    },
+    {
+      "id": "ev-lint-build-pass",
+      "checkId": "check-lint-build",
+      "recordedAt": "2026-08-19T16:00:58.5356729+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint passed and TypeScript/Vite production build completed successfully (1625 modules).",
+      "artifactPaths": [
+        "dist/index.html"
+      ],
+      "inputDigest": "f3a6275a8de2361f34af040f283849265dce3b6cc22be103d14b41c9436c34be"
+    },
+    {
+      "id": "ev-docs-pass",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-19T16:00:58.5366729+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Owner docs and changelog exist and describe practice contexts, pilot limits and rollout gate without an efficacy claim.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "README.md",
+        "START_HERE.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "9e94c929dd0b0e86438eb1d5427d43c14a6c26d36cc1ea764619ddd06915d083"
+    },
+    {
+      "id": "ev-audit-research-pass",
+      "checkId": "check-audit-research",
+      "recordedAt": "2026-08-19T16:00:58.5376729+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Task-owned audit contains the 12-mission matrix, separated facts/hypotheses and runtime evidence boundary; research contains authoritative source log, limits and the phase-context decision. Multi-flow desktop/mobile black-box remains explicitly pending.",
+      "artifactPaths": [
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/current-state-audit.md",
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/learning-design-decision.md"
+      ],
+      "inputDigest": "42a0dc6afe30aa78719d2dc02cb2c251211a8e8fc8e6d10ba948f532f346f401"
+    },
+    {
+      "id": "ev-manual-pilot-blocked",
+      "checkId": "check-manual-pilot",
+      "recordedAt": "2026-08-19T16:00:58.5386729+00:00",
+      "result": "fail",
+      "summary": "Desktop/mobile browser QA could not complete: the in-app browser transport returned Transport closed on repeated fresh attempts, and the protected shell rejected the isolated Chrome fallback. No manual PASS was claimed.",
+      "artifactPaths": [
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/current-state-audit.md"
+      ],
+      "inputDigest": "76f347ee0ce7b2a67edd2e80b070cdff845daaa160e4b406c3a31b237a3d75ce"
+    },
+    {
+      "id": "ev-review-not-ready",
+      "recordedAt": "2026-08-19T16:00:58.5396729+00:00",
+      "result": "fail",
+      "summary": "harnix-check found no code-level blocking defect in schema, generic renderer, content isolation, storage boundary or tests; verdict is not-ready only because the required desktop/mobile black-box gate is unavailable.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/features/practice/CapabilityTask.tsx",
+        "content/modules/capabilities/workplace-issue-update-b1.json"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-19T15:44:12.9903359Z",
+  "updatedAt": "2026-08-19T16:00:58.5406729+00:00"
+}

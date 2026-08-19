@@ -26,6 +26,8 @@ baseline → input → auto-check → performance → self-feedback
 ```
 
 - Làm baseline trước khi được xem model response.
+- Nhiệm vụ dựa trên bằng chứng có thể đưa log, channel note hoặc handoff riêng
+  cho từng phase, để người học viết từ dữ kiện thay vì tự bịa tình huống.
 - Tạo spoken hoặc written output trong timebox.
 - Timer/word count và preparation time được đo từ thao tác thật, không dùng số mặc định.
 - Tự đánh giá từng tiêu chí bằng rubric `met/not-met`.
@@ -85,6 +87,10 @@ Ngoài 12 mission trên, sáu pronunciation lesson vẫn chạy được và ch�
 khi mọi auto-check đều đúng. Content
 engine đọc và normalize an toàn lesson schema v1, v2 và v3; executable
 curriculum nằm trong `content/**/*.json`.
+
+`Actionable issue update` hiện là realism pilot: baseline, transfer và review dùng
+ba evidence packet khác nhau. Pilot giúp kiểm chứng content contract và UI; dự án
+chưa tuyên bố hiệu quả học tập nếu chưa có thử nghiệm với người học mục tiêu.
 
 ## Privacy và giới hạn
 

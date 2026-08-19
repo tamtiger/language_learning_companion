@@ -17,4 +17,16 @@ describe('new capability mission wave', () => {
       expect(lesson?.performanceTask?.transferPrompt.length).toBeGreaterThan(20)
     }
   })
+
+  it('loads the issue-update realism pilot with varied phase contexts', () => {
+    const pilot = getBundledCatalog().lessons.find((item) => item.lessonId === 'workplace-issue-update-b1')
+    const contexts = pilot?.performanceTask?.practiceContexts
+
+    expect(contexts?.baseline.artifacts.length).toBeGreaterThanOrEqual(2)
+    expect(contexts?.transfer.artifacts.length).toBeGreaterThanOrEqual(2)
+    expect(contexts?.review.artifacts.length).toBeGreaterThanOrEqual(2)
+    expect(contexts?.baseline.brief).toMatch(/audience|handover|communication/i)
+    expect(contexts?.transfer.artifacts.map((item) => item.content).join(' '))
+      .not.toContain(contexts?.baseline.artifacts[0]?.content)
+  })
 })

@@ -6,6 +6,10 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Added
 
+- Thêm optional `performanceTask.practiceContexts` cho schema v3, gồm evidence
+  packet riêng ở baseline, transfer và review với validation artifact ID.
+- Thêm realism pilot cho `workplace-issue-update-b1`: ba incident evidence packet,
+  scaffold F-I-A-R, worked signal map và auto-check về fact/hypothesis/request.
 - Thêm sáu mission v3 nghề nghiệp mới, nâng catalog lên 12 mission với hai mission cho mỗi capability.
 - Thêm learner-output comparison trong session, playback local, transfer assessment có reason codes và glossary learning loop.
 - Thêm pronunciation completion gate lưu exercise ID đã đúng và restart xóa sạch progress của bài.
@@ -19,6 +23,8 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Changed
 
+- Capability task chỉ render evidence của phase hiện tại; cold baseline không lộ
+  instructional input, model response hoặc transfer evidence.
 - Chuyển progress sang fresh-only `ProgressEnvelopeV3`: attempt bắt buộc có duration/word count/preparation đo thật, phase checkpoint và exercise progress; từ chối toàn bộ backup v1/v2.
 - Refactor spoken capture thành `idle → running → ready → reset`, không thể hoàn thành ở 0 giây và cleanup object URL theo ownership.
 - Nâng Progress để hiển thị lịch sử transfer, measured metadata và lý do actionable khi chưa qualifying; navigation reset scroll/focus và ẩn scrollbar trên mobile.
@@ -45,5 +51,7 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Verification
 
-- Regression suite hiện tại đạt 18 test files và 77 tests; lint và production build đều PASS.
+- Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
+  ba evidence packet và phase isolation trong UI.
+- Regression suite hiện tại đạt 18 test files và 82 tests; lint và production build đều PASS.
 - Manual QA xác nhận learning loop written, resume không lưu learner output, pronunciation completion gate/restart và navigation mobile hoạt động đúng.

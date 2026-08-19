@@ -53,6 +53,14 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 - `independenceContract`: `noVietnamese`, `noTranslation`, `noModelAnswer`, `maxHints`, `preparationSeconds`;
 - `feedbackPriorities`: 1–4 strings;
 - `rubric`: 3–5 item có `id`, `label`, `description`.
+- `practiceContexts` (optional): bộ input riêng cho `baseline`, `transfer` và
+  `review`. Mỗi context có `title`, `brief` và 1–4 `artifacts` theo shape của
+  section `source`; artifact ID phải duy nhất trong context.
+
+Khi có `practiceContexts`, UI phải chỉ hiện context của phase hiện tại. Baseline
+không được thấy input giảng dạy, model response hoặc artifact của transfer/review.
+Contract này phù hợp với nhiệm vụ cần tổng hợp nhiều bằng chứng; mission cũ không
+bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ kiện.
 
 ## Invariants
 
@@ -61,6 +69,10 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 - Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
 - Baseline không hiển thị `modelResponse` trước attempt đầu.
 - Transfer thay content/context nhưng giữ workflow để kiểm tra procedural transfer.
+- Evidence-based prompt phải cung cấp đủ artifact ngay tại phase làm bài; không
+  yêu cầu người học bịa log, tài liệu, meeting note hoặc chi tiết sự cố.
+- Baseline, transfer và review dùng evidence khác nhau khi mục tiêu là kiểm tra
+  khả năng áp dụng quy trình vào ngữ cảnh mới.
 - Pronunciation lesson chỉ hoàn thành khi tất cả exercise trong auto-check đã đúng.
 - `reviewPolicy.intervalDays` là số nguyên dương tăng dần; policy đầu tiên dùng `[1,3,7]`.
 - Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
@@ -75,3 +87,7 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 ## Learning-design quality gate
 
 Mỗi baseline mission phải có authentic input, observable output, timebox, independence conditions, rubric, retry, transfer và delayed review. Auto-check chỉ hỗ trợ comprehension; capability completion cần performance + self-rubric + transfer.
+
+`workplace-issue-update-b1` là pilot đầu tiên của `practiceContexts`: ba evidence
+packet độc lập cho checkout, upload và email-queue incident. Đây là rollout gate
+cho tính khả thi của contract, không phải bằng chứng efficacy.

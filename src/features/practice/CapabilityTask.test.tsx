@@ -14,6 +14,31 @@ function mission() {
   return { lesson, task: lesson.performanceTask }
 }
 
+function missionWithPracticeContexts() {
+  const { lesson, task } = mission()
+  const practiceContexts = {
+    baseline: {
+      title: 'Checkout incident brief',
+      brief: 'Audience: platform handover team.',
+      artifacts: [{ id: 'cold-alert', type: 'source' as const, title: 'Cold alert', format: 'code-snippet' as const, content: 'COLD_SIGNAL checkout_503=31%' }]
+    },
+    transfer: {
+      title: 'Upload incident brief',
+      brief: 'Audience: storage on-call.',
+      artifacts: [{ id: 'transfer-alert', type: 'source' as const, title: 'Transfer alert', format: 'code-snippet' as const, content: 'TRANSFER_SIGNAL upload_failures=18%' }]
+    },
+    review: {
+      title: 'Email queue brief',
+      brief: 'Audience: messaging team.',
+      artifacts: [{ id: 'review-alert', type: 'source' as const, title: 'Review alert', format: 'code-snippet' as const, content: 'REVIEW_SIGNAL queue_depth=4800' }]
+    }
+  }
+  return {
+    lesson,
+    task: Object.assign({}, task, { practiceContexts }) as typeof task
+  }
+}
+
 describe('CapabilityTask session evidence', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
 
@@ -30,6 +55,26 @@ describe('CapabilityTask session evidence', () => {
 
     expect(screen.getByText('My unique measured incident update.')).toBeTruthy()
     expect(JSON.stringify(useAppStore.getState().lessonProgress)).not.toContain('My unique measured')
+  })
+
+  it('shows cold-attempt artifacts before input while keeping instruction and model locked', () => {
+    const { lesson, task } = missionWithPracticeContexts()
+    render(<CapabilityTask lesson={lesson} task={task} />)
+
+    expect(screen.getByText(/COLD_SIGNAL checkout_503=31%/i)).toBeTruthy()
+    expect(screen.queryByText(/Incident notes/i)).toBeNull()
+    expect(screen.queryByText(task.modelResponse)).toBeNull()
+    expect(screen.queryByText(/TRANSFER_SIGNAL/i)).toBeNull()
+  })
+
+  it('shows only the unseen transfer artifacts when resuming transfer', () => {
+    const { lesson, task } = missionWithPracticeContexts()
+    useAppStore.getState().setActivePhase(lesson.lessonId, 'transfer')
+    render(<CapabilityTask lesson={lesson} task={task} />)
+
+    expect(screen.getByText(/TRANSFER_SIGNAL upload_failures=18%/i)).toBeTruthy()
+    expect(screen.queryByText(/COLD_SIGNAL/i)).toBeNull()
+    expect(screen.queryByText(task.modelResponse)).toBeNull()
   })
 
   it('resumes the durable performance phase instead of inferring retry from attempts', () => {

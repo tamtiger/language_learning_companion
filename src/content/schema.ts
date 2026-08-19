@@ -114,6 +114,21 @@ export const SourceSectionSchema = z.object({
   content: NonEmptyString
 })
 
+export const PracticeContextSchema = z.object({
+  title: NonEmptyString,
+  brief: NonEmptyString,
+  artifacts: z.array(SourceSectionSchema).min(1).max(4)
+}).superRefine((practiceContext, context) => {
+  const artifactIds = practiceContext.artifacts.map((artifact) => artifact.id)
+  if (new Set(artifactIds).size !== artifactIds.length) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['artifacts'],
+      message: 'Artifact ids must be unique within a practice context'
+    })
+  }
+})
+
 export const AutoCheckSectionSchema = z.object({
   id: IdSchema,
   type: z.literal('auto-check'),
@@ -144,6 +159,11 @@ const PerformanceBaseShape = {
   retryPrompt: NonEmptyString,
   transferPrompt: NonEmptyString,
   reviewPrompt: NonEmptyString,
+  practiceContexts: z.object({
+    baseline: PracticeContextSchema,
+    transfer: PracticeContextSchema,
+    review: PracticeContextSchema
+  }).optional(),
   independenceContract: z.object({
     noVietnamese: z.boolean(),
     noTranslation: z.boolean(),
@@ -239,6 +259,7 @@ export type VocabularyItem = z.infer<typeof VocabularyItemSchema>
 export type ExpressionItem = z.infer<typeof ExpressionItemSchema>
 export type Exercise = z.infer<typeof ExerciseSchema>
 export type LessonSection = z.infer<typeof LessonSectionSchema>
+export type PracticeContext = z.infer<typeof PracticeContextSchema>
 export type PerformanceTaskV3 = z.infer<typeof PerformanceTaskV3Schema>
 export type LessonV1 = z.infer<typeof LessonV1Schema>
 export type LessonV2 = z.infer<typeof LessonV2Schema>
