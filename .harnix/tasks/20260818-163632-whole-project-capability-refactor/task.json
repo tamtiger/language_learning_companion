@@ -1,0 +1,860 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260818-163632-whole-project-capability-refactor",
+  "title": "Refactor toàn dự án theo sáu capability",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Biến toàn bộ repository thành một capability-first offline learning engine nhất quán, có sáu learning loop chạy được và đo được để rút ngắn time-to-capability cho Software Engineer.",
+  "nonGoals": [
+    "Hoàn thiện toàn bộ catalog hàng chục lesson production-ready trong một task.",
+    "Tích hợp AI scoring, cloud sync, account, analytics server hoặc dịch vụ trả phí.",
+    "Gửi voice, text tự do hoặc dữ liệu nhạy cảm ra bên thứ ba.",
+    "Big-bang rewrite làm mất compatibility v1/v2 hoặc progress hiện có.",
+    "Commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "PRODUCT.md, CONTENT.md, ARCHITECTURE.md, README/START_HERE và các prompt owner mô tả nhất quán một capability-first product, sáu outcome, source-of-truth, migration và phạm vi offline/local-only; không còn contract lỗi thời hoặc mâu thuẫn được trình bày như hiện hành.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-specs-20260819-0016",
+        "ev-check-specs-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Content engine có canonical schema v3 data-driven cho input, auto-check và performance task spoken/written, rubric, retry, transfer và delayed review; parser vẫn đọc an toàn toàn bộ lesson v1/v2 hiện có qua normalization có test.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-schema-20260819-final",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-schema-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Có sáu baseline assessment/mission nguyên bản, mỗi mission đại diện đúng một outcome tối cao và khai báo authentic task, input, output, timebox, independence conditions, rubric, retry, transfer variant và delayed review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-20260819-final",
+        "ev-check-learning-domain-20260819-post-review",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-content-20260819-final-s8",
+        "ev-check-learning-domain-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Catalog và curriculum trong app được tổ chức theo capability/workflow thay vì chỉ CEFR hoặc pronunciation; mỗi content unit chạy được từ JSON mà không cần thêm topic-specific branch trong React.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-20260819-final",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-content-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "UI architecture được tách thành app shell, catalog/today, lesson orchestration, section renderers và performance renderers; LessonPlayer không còn monolith sở hữu quiz, media, navigation và completion trong cùng component.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-ui-20260819-matrix",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-ui-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Progress model lưu attempt history metadata, rubric, independence signals, transfer, completion và nextReviewAt; migration và backup round-trip dữ liệu cũ/mới fail-closed, không persist media hoặc nội dung nhạy cảm ngoài contract.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-storage-20260819-final",
+        "ev-check-learning-domain-20260819-post-review",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-learning-domain-20260819-final-s8",
+        "ev-check-storage-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Người học có Today/Review queue ưu tiên baseline chưa làm và practice đến hạn, có thể tiếp tục learning loop sau reload và thấy bằng chứng tiến bộ theo sáu capability thay vì chỉ phần trăm lesson.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-learning-domain-20260819-post-review",
+        "ev-check-ui-20260819-matrix",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-learning-domain-20260819-final-s8",
+        "ev-check-ui-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "text": "Critical flows responsive, keyboard-operable và có semantic labels, focus behavior, live status và error states được kiểm tra tự động hoặc manual có evidence; clickable div và navigation/state không truy cập được bằng bàn phím được loại bỏ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-ui-20260819-matrix",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-ui-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "text": "Sáu lesson pronunciation v1 và Daily Standup v2 vẫn tải/chạy sau refactor; local-only recording, timer fallback, reset và import/export giữ hành vi an toàn, có rollback qua normalization/migration thay vì rewrite dữ liệu người dùng.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-schema-20260819-final",
+        "ev-check-content-20260819-final",
+        "ev-check-storage-20260819-final",
+        "ev-check-ui-20260819-matrix",
+        "ev-check-all-tests-20260819-matrix",
+        "ev-check-build-20260819-matrix",
+        "ev-check-schema-20260819-final-s8",
+        "ev-check-content-20260819-final-s8",
+        "ev-check-storage-20260819-final-s8",
+        "ev-check-ui-20260819-final-s8",
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "text": "Focused tests, content validation, component/integration tests, full test suite, lint, production build, accessibility smoke và manual critical flows đều PASS trên snapshot cuối; review độc lập không còn finding nghiêm trọng trong scope.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-all-tests-20260819-final-s8",
+        "ev-check-lint-20260819-final-s8",
+        "ev-check-build-20260819-final-s8",
+        "ev-check-manual-flows-20260819-final-s8"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md",
+    "README.md",
+    "START_HERE.md",
+    "content/modules/**/*.json",
+    "docs/**/*.md",
+    "lessons/**/*.md",
+    "modules/**/*.md",
+    "package.json",
+    "src/**"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md",
+    "PROJECT_CONVENTIONS.md",
+    "PROJECT_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-specs",
+      "description": "Kiểm tra source-of-truth, sáu outcome, capability-first, schema v3, migration và local-only nhất quán.",
+      "command": "rg -n \"capability|schema v3|six outcomes|sáu outcome|migration|local-only|source of truth\" PRODUCT.md CONTENT.md ARCHITECTURE.md README.md START_HERE.md *_PROMPT.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "IMPROVEMENT_PROMPT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "check-schema",
+      "description": "Kiểm tra v3 canonical schema, normalization và compatibility v1/v2.",
+      "command": "npm test -- src/content/schema.test.ts src/content/normalization.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/content/normalization.test.ts",
+        "src/content/normalization.ts",
+        "src/content/schema.test.ts",
+        "src/content/schema.ts"
+      ]
+    },
+    {
+      "id": "check-content",
+      "description": "Validate toàn catalog và sáu mission theo content/learning-design rules.",
+      "command": "npm test -- src/content/catalog.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-4",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/content/catalog.test.ts",
+        "src/content/catalog.ts",
+        "src/content/schema.ts"
+      ]
+    },
+    {
+      "id": "check-learning-domain",
+      "description": "Kiểm tra completion, independence, transfer, scheduling và capability aggregation bằng pure domain tests.",
+      "command": "npm test -- src/domain/learning/*.test.ts src/domain/progress/*.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-6",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/learning/*.test.ts",
+        "src/domain/learning/*.ts",
+        "src/domain/progress/*.test.ts",
+        "src/domain/progress/*.ts"
+      ]
+    },
+    {
+      "id": "check-storage",
+      "description": "Kiểm tra persistence migration, validation, reset và backup round-trip không chứa media.",
+      "command": "npm test -- src/infrastructure/storage/*.test.ts src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-6",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/infrastructure/storage/*.test.ts",
+        "src/infrastructure/storage/*.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "check-ui",
+      "description": "Chạy component/integration tests cho app shell, catalog/today, generic player, performance renderers, keyboard và error states.",
+      "command": "npm test -- src/app/*.test.tsx src/features/**/*.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/app/*.test.tsx",
+        "src/app/*.tsx",
+        "src/features/**/*.test.tsx",
+        "src/features/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-all-tests",
+      "description": "Chạy toàn bộ suite phát hiện regression xuyên layer.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-10",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy lint toàn repository source.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-10"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript project build và Vite production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-10",
+        "AC-2",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-manual-flows",
+      "description": "Manual critical flow cho sáu mission, retry/transfer/review, reload, fallback, responsive keyboard navigation và backup/reset.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-10",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/app/**",
+        "src/features/**",
+        "src/infrastructure/storage/**"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-specs-20260819-0016",
+      "checkId": "check-specs",
+      "recordedAt": "2026-08-18T17:17:09.6884245Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Owner docs and prompts consistently declare six capability outcomes, schema v3, migration, source-of-truth and local-only scope. PowerShell pre-expanded *_PROMPT.md because native rg wildcard paths are invalid on Windows.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "README.md",
+        "START_HERE.md",
+        "PROJECT_PROMPT.md",
+        "PRODUCT_PROMPT.md",
+        "CONTENT_PROMPT.md",
+        "ARCHITECTURE_PROMPT.md",
+        "IMPLEMENTATION_PROMPT.md",
+        "IMPROVEMENT_PROMPT.md"
+      ],
+      "inputDigest": "63b1e80bb044a399d73513d3f809e0cdb674469c9e235094d9a5a2f8e9a8932b"
+    },
+    {
+      "id": "ev-check-schema-20260819-final",
+      "checkId": "check-schema",
+      "recordedAt": "2026-08-18T17:17:48.1451427Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Schema v3 and v1/v2 normalization focused tests passed.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/content/schema.test.ts",
+        "src/content/normalization.ts",
+        "src/content/normalization.test.ts"
+      ],
+      "inputDigest": "98b195600458e1c51e19acb38a6ce866df2c12e254315cf0143c3ce4758070d3"
+    },
+    {
+      "id": "ev-check-content-20260819-final",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-18T17:17:51.8983058Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Catalog validation passed with six primary capability missions and all legacy fixtures.",
+      "artifactPaths": [
+        "src/content/catalog.ts",
+        "src/content/catalog.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "9e09e386297e4b51b09006560f6589d54edb6156f313a2c6fcdc8ca43d4b9975"
+    },
+    {
+      "id": "ev-check-learning-domain-20260819-final",
+      "checkId": "check-learning-domain",
+      "recordedAt": "2026-08-18T17:17:55.3818595Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Pure learning/progress domain tests passed, including completion, scheduling, Today ordering and evidence bounds.",
+      "artifactPaths": [
+        "src/domain/learning",
+        "src/domain/progress"
+      ],
+      "inputDigest": "9b08dd33c86d411a96a357903a9d6480afe894f22542ba3a0b21f3f076e19c3d"
+    },
+    {
+      "id": "ev-check-storage-20260819-final",
+      "checkId": "check-storage",
+      "recordedAt": "2026-08-18T17:17:58.9657829Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Storage migration, strict backup validation, privacy allowlist and store compatibility tests passed.",
+      "artifactPaths": [
+        "src/infrastructure/storage",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "89b7e158f0f1d2fa1bf70a46bef3e277e04c71add07f8e3402eae063795edb92"
+    },
+    {
+      "id": "ev-check-ui-20260819-final",
+      "checkId": "check-ui",
+      "recordedAt": "2026-08-18T17:18:08.6248265Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "App and feature component tests passed, including axe smoke, capability loop resume, legacy flow and spoken timer fallback.",
+      "artifactPaths": [
+        "src/app",
+        "src/features"
+      ],
+      "inputDigest": "d7308ea79aa1c687b5591a39d0952443486fc52c2d061337046822d8be0ac00f"
+    },
+    {
+      "id": "ev-check-all-tests-20260819-final",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T17:18:20.0525402Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression suite passed on the final source snapshot.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "fde4f65d5c98c0b152bdb65515250d85c82874de5542258f4fbf7a7b259b05f0"
+    },
+    {
+      "id": "ev-check-lint-20260819-final",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T17:18:21.3848547Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Repository source lint passed with zero findings.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "4a2ebd827c89841299b88435022026578eef144d12dff066f5c92f2c28c5a9a2"
+    },
+    {
+      "id": "ev-check-build-20260819-final",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T17:18:26.2217050Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript project build and Vite production bundle passed.",
+      "artifactPaths": [
+        "src",
+        "content/modules",
+        "package.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "3739e1e22cacb373bb1f7f64f5ef6e3f9ee44b2c4256903512c9311af41aad55"
+    },
+    {
+      "id": "ev-check-learning-domain-20260819-post-review",
+      "checkId": "check-learning-domain",
+      "recordedAt": "2026-08-18T17:25:34.6192315Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Pure learning/progress domain tests passed after integrating the UI with the canonical state machine.",
+      "artifactPaths": [
+        "src/domain/learning",
+        "src/domain/progress"
+      ],
+      "inputDigest": "2fc2d6a5bcf1457449b892d4342c06b4fda74f631284e48e58604b2fd7b5ff06"
+    },
+    {
+      "id": "ev-check-ui-20260819-post-review",
+      "checkId": "check-ui",
+      "recordedAt": "2026-08-18T17:25:55.6390807Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "UI integration, accessibility, resume, legacy and spoken fallback tests passed after state-machine refactor and monolith removal.",
+      "artifactPaths": [
+        "src/app",
+        "src/features"
+      ],
+      "inputDigest": "5dd286f4045c75f358ec4ea6a4eeeffe07a9f865de419858af393757e08b1b95"
+    },
+    {
+      "id": "ev-check-all-tests-20260819-post-review",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T17:25:55.6390807Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression suite passed: 14 files and 65 tests after security/toolchain and state-machine fixes.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "c429e33b3f9b6faa2ddce74f6391bc0c55f3cf63d9aeafcd02d650c1cd7a4bfa"
+    },
+    {
+      "id": "ev-check-lint-20260819-post-review",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T17:25:55.6390807Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Repository lint passed after review fixes.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "88850e4d5cc478170b786adb114fbcf060f758eafe18292ed45b1073d76d67c3"
+    },
+    {
+      "id": "ev-check-build-20260819-post-review",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T17:25:55.6390807Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript and Vite production build passed with patched PostCSS dependency.",
+      "artifactPaths": [
+        "src",
+        "content/modules",
+        "package.json",
+        "package-lock.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "9b23908f53cc30923771f3e388cbc09191f35c9082ee5cb63d7e3fb95e8a13f8"
+    },
+    {
+      "id": "ev-security-audit-20260819",
+      "recordedAt": "2026-08-18T17:25:55.6390807Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm audit and npm audit --omit=dev both reported zero vulnerabilities after upgrading patched PostCSS/nanoid.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-check-manual-flows-20260819-browser-blocked",
+      "checkId": "check-manual-flows",
+      "recordedAt": "2026-08-18T17:27:22.8919016Z",
+      "result": "fail",
+      "summary": "Live Vite server returned HTTP 200, but the mandatory in-app Browser could not initialize: browser-service.mjs was rejected because the RPC dependency was outside the configured trusted code path. No DOM/manual interaction was claimed.",
+      "artifactPaths": [
+        "src/app",
+        "src/features",
+        "src/infrastructure/storage",
+        "content/modules"
+      ],
+      "inputDigest": "de23eb9269034a4e6a1c70cb767a4de1fac425c84c4dc035a47278b09a2df6e0"
+    },
+    {
+      "id": "ev-check-ui-20260819-matrix",
+      "checkId": "check-ui",
+      "recordedAt": "2026-08-18T17:31:50.4468752Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "UI matrix passed for six capability missions, six legacy lessons, full/review/resume/spoken/settings/keyboard and axe flows.",
+      "artifactPaths": [
+        "src/app",
+        "src/features"
+      ],
+      "inputDigest": "d45c4c6d8a3556c4e279d2f231dddf973c310557a57ad248534b5f60ae038b23"
+    },
+    {
+      "id": "ev-check-all-tests-20260819-matrix",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T17:32:04.6137242Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression suite passed after mission matrix, settings and keyboard-focus coverage.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "816a1385639519966bf66eeb0e319d31169c120a1309f0592d9bcd0bf3788f70"
+    },
+    {
+      "id": "ev-check-lint-20260819-matrix",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T17:32:06.2400086Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Repository lint passed after final integration coverage and focus fix.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "2f4b8536b8fdf3b68c0531c0362587aafce2faf654c25e2d7b363da25816bf6e"
+    },
+    {
+      "id": "ev-check-build-20260819-matrix",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T17:32:11.2371732Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript and Vite production build passed after final integration coverage and focus fix.",
+      "artifactPaths": [
+        "src",
+        "content/modules",
+        "package.json",
+        "package-lock.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "c94d5ffcbeb0f9a2bc2abe047a6a627a71a5f609b296f1c69fdaf27e288888d0"
+    },
+    {
+      "id": "ev-check-manual-flows-20260819-browser-blocked-2",
+      "checkId": "check-manual-flows",
+      "recordedAt": "2026-08-18T17:33:43.9700484Z",
+      "result": "fail",
+      "summary": "Second fresh retry: live Vite server returned HTTP 200, but Browser setup again failed before DOM interaction because browser-service.mjs was rejected by the configured trusted RPC code-path policy.",
+      "artifactPaths": [
+        "src/app",
+        "src/features",
+        "src/infrastructure/storage",
+        "content/modules"
+      ],
+      "inputDigest": "b29d3521d41cffb0f9290ba0149b19de8ce090c5211d3f237c848dd34e795caf"
+    },
+    {
+      "id": "ev-check-manual-flows-20260819-browser-blocked-3",
+      "checkId": "check-manual-flows",
+      "recordedAt": "2026-08-18T17:34:31.2481636Z",
+      "result": "fail",
+      "summary": "Third consecutive fresh audit: live app returned HTTP 200 and the input digest stayed stable, but the Browser runtime still could not initialize because its packaged service was rejected by the host trusted-code-path policy. Manual DOM interaction requires user confirmation or an external Browser plugin fix.",
+      "artifactPaths": [
+        "src/app",
+        "src/features",
+        "src/infrastructure/storage",
+        "content/modules"
+      ],
+      "inputDigest": "b29d3521d41cffb0f9290ba0149b19de8ce090c5211d3f237c848dd34e795caf"
+    },
+    {
+      "id": "ev-check-learning-domain-20260819-final-s8-literal-fail",
+      "checkId": "check-learning-domain",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Declared wildcard command was passed literally by PowerShell/Vitest and found no files; the same immutable scope was immediately re-run with explicit Windows file expansion.",
+      "artifactPaths": [
+        "src/domain/learning",
+        "src/domain/progress"
+      ],
+      "inputDigest": "8d9487a410a7c2d0fc4d79ec15a7555a477453ae34e34ddafcbb42e2efff20a2"
+    },
+    {
+      "id": "ev-check-specs-20260819-final-s8",
+      "checkId": "check-specs",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Owner docs and prompts consistently expose the six capability outcomes, schema v3, migration, source-of-truth and local-only contract.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "README.md",
+        "START_HERE.md",
+        "PROJECT_PROMPT.md",
+        "PRODUCT_PROMPT.md",
+        "CONTENT_PROMPT.md",
+        "ARCHITECTURE_PROMPT.md",
+        "IMPLEMENTATION_PROMPT.md",
+        "IMPROVEMENT_PROMPT.md"
+      ],
+      "inputDigest": "d1ac7cebcc9366a2899a66333535ae7655e57e994768ecfa81af0752814d99bd"
+    },
+    {
+      "id": "ev-check-schema-20260819-final-s8",
+      "checkId": "check-schema",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Schema v3 plus v1/v2 normalization focused suite passed: 2 files, 8 tests.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/content/schema.test.ts",
+        "src/content/normalization.ts",
+        "src/content/normalization.test.ts"
+      ],
+      "inputDigest": "d5972a6413cc4dfc6d7375cc4d0566220a15e82e497f9d2bd36d896d40acc00f"
+    },
+    {
+      "id": "ev-check-content-20260819-final-s8",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Catalog validation passed for six capability missions and legacy content: 1 file, 3 tests.",
+      "artifactPaths": [
+        "src/content/catalog.ts",
+        "src/content/catalog.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "fa8a81b22bbedd12935ed2cd1f79d050c42eea8d0b975e1c4835479db744c1f8"
+    },
+    {
+      "id": "ev-check-learning-domain-20260819-final-s8",
+      "checkId": "check-learning-domain",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Expanded Windows file list ran the declared learning/progress scope successfully: 2 files, 7 tests.",
+      "artifactPaths": [
+        "src/domain/learning",
+        "src/domain/progress"
+      ],
+      "inputDigest": "8d9487a410a7c2d0fc4d79ec15a7555a477453ae34e34ddafcbb42e2efff20a2"
+    },
+    {
+      "id": "ev-check-storage-20260819-final-s8",
+      "checkId": "check-storage",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Storage migration, privacy allowlist, reset and backup round-trip scope passed: 2 files, 13 tests.",
+      "artifactPaths": [
+        "src/infrastructure/storage",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "823f5daef50233d9ffa7654d4ad97aab8d92e1bbbbb2645a8715ceb28ecce649"
+    },
+    {
+      "id": "ev-check-ui-20260819-final-s8",
+      "checkId": "check-ui",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "App and feature UI matrix passed: 5 files, 23 tests including axe, six missions, legacy, spoken fallback, settings and keyboard.",
+      "artifactPaths": [
+        "src/app",
+        "src/features"
+      ],
+      "inputDigest": "7b9490bb9831024174f4b8fe14b4c0b1ba8673a9540d7e5110cc259ebc462f3f"
+    },
+    {
+      "id": "ev-check-all-tests-20260819-final-s8",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression suite passed on final S8 snapshot: 16 files, 81 tests.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "444a9b9fd18658ae774d9a3107a31b8c76412fe10996ea3db98c17b67fbdddf7"
+    },
+    {
+      "id": "ev-check-lint-20260819-final-s8",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Repository oxlint completed with zero findings on final S8 snapshot.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "aaeb4e88e3114b40f79db342f3e11eee1f9dd7b5c9428a5931d5a662e270d609"
+    },
+    {
+      "id": "ev-check-build-20260819-final-s8",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript project build and Vite production build passed; bundle 355.57 kB JS, 104.50 kB gzip.",
+      "artifactPaths": [
+        "src",
+        "content/modules",
+        "package.json",
+        "package-lock.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "6b721a6bc874f7cbbdd1c479b56957e9967f859d2ea7ea818df51816606aa668"
+    },
+    {
+      "id": "ev-check-manual-flows-20260819-final-s8",
+      "checkId": "check-manual-flows",
+      "recordedAt": "2026-08-18T23:51:12.7137436+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Browser-driven acceptance passed: all six missions rendered correct modes; one complete written baseline-input-performance-feedback-retry-transfer-review loop; reload resume; Daily Standup timer-only fallback; progress evidence; 390px responsive and skip-link keyboard flow; backup control and cancellable two-step reset; v1 legacy lesson; zero app console errors.",
+      "artifactPaths": [
+        "src/app",
+        "src/features",
+        "src/infrastructure/storage",
+        "content/modules"
+      ],
+      "inputDigest": "d506905ae76c7f88667b8fea1fe3e796248279c276c8da2c0e5c64a7de3ad537"
+    }
+  ],
+  "createdAt": "2026-08-18T16:36:32.0785745Z",
+  "updatedAt": "2026-08-18T23:51:24.127Z",
+  "completedAt": "2026-08-18T23:51:24.127Z"
+}

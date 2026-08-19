@@ -1,0 +1,654 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260818-152825-outcome-learning-loop",
+  "title": "Vòng lặp luyện nói Daily Standup theo năng lực",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo vertical slice Daily Standup B1 giúp người học nói, nghe lại, tự đánh giá, luyện lại và lưu bằng chứng tiến bộ cục bộ để rút ngắn time-to-capability cho giao tiếp công việc.",
+  "nonGoals": [
+    "Xây toàn bộ curriculum cho cả sáu mục tiêu trong một task.",
+    "Thêm AI scoring, cloud sync, tài khoản hoặc dịch vụ trả phí.",
+    "Viết lại sáu lesson pronunciation hiện có.",
+    "Lưu hoặc tải audio của người học lên server.",
+    "Thay toàn bộ UI hoặc architecture ngoài vertical slice."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "PRODUCT.md, CONTENT.md và ARCHITECTURE.md mô tả nhất quán capability-first, lesson schema v2 và ranh giới local-only của performance practice; research task-owned liên kết quyết định với nguồn trực tiếp và nêu giới hạn.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s1-specs",
+        "e-final-specs",
+        "e-release-specs"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Runtime schema chấp nhận toàn bộ lesson v1 hiện có và lesson v2 có spoken performanceTask hợp lệ, đồng thời từ chối performanceTask thiếu field bắt buộc, sai giới hạn thời gian hoặc rubric không hợp lệ.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s2-schema",
+        "e-final-schema",
+        "e-final-tests",
+        "e-final-build",
+        "e-release-schema",
+        "e-release-tests",
+        "e-release-build"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Có một lesson JSON B1 Daily Standup nguyên bản gồm scenario, model, output requirements, attempt chính, self-rubric, retry và transfer prompt; lesson vượt qua runtime validation và content rules.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s3-content",
+        "e-final-content",
+        "e-final-tests",
+        "e-release-content",
+        "e-release-tests"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Lesson Player chỉ hiển thị tab thực hành cho lesson v2, hỗ trợ ghi và phát lại audio hoàn toàn local khi MediaRecorder khả dụng, có timer-only fallback rõ ràng khi không khả dụng hoặc bị từ chối, và không persist hay upload audio.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s5-performance",
+        "e-manual-critical-flow",
+        "e-final-performance",
+        "e-final-tests",
+        "e-final-build",
+        "e-final-manual",
+        "e-release-performance",
+        "e-release-tests",
+        "e-release-build",
+        "e-release-manual"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Người học chỉ hoàn thành lesson v2 sau ít nhất hai attempt gồm transfer attempt và đã trả lời mọi mục self-rubric; app persist attemptCount, lastAttemptAt, latestRubric và transferCompleted nhưng không persist media.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s4-state",
+        "e-s5-performance",
+        "e-manual-critical-flow",
+        "e-final-performance",
+        "e-final-tests",
+        "e-final-build",
+        "e-final-manual",
+        "e-release-performance",
+        "e-release-tests",
+        "e-release-build",
+        "e-release-manual"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Sáu lesson v1, quiz, progress và backup hiện có tiếp tục hoạt động; dữ liệu persisted cũ được đọc an toàn và export/import bảo toàn performance progress mới.",
+      "status": "met",
+      "evidenceIds": [
+        "e-s2-schema",
+        "e-s3-content",
+        "e-s4-state",
+        "e-s5-performance",
+        "e-manual-critical-flow",
+        "e-final-schema",
+        "e-final-content",
+        "e-final-performance",
+        "e-final-tests",
+        "e-final-build",
+        "e-final-manual",
+        "e-release-schema",
+        "e-release-content",
+        "e-release-performance",
+        "e-release-tests",
+        "e-release-build",
+        "e-release-manual"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Toàn bộ test, content validation, lint và production build đều PASS sau thay đổi, và manual critical-flow check xác nhận record/playback, fallback, retry, transfer và reload không làm mất metadata.",
+      "status": "met",
+      "evidenceIds": [
+        "e-final-tests",
+        "e-final-lint",
+        "e-final-build",
+        "e-final-manual",
+        "e-release-tests",
+        "e-release-lint",
+        "e-release-build",
+        "e-release-manual"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md",
+    "content/modules/**/*.json",
+    "src/features/lesson-player/**",
+    "src/features/settings/Settings.tsx",
+    "src/shared/hooks/use_app_store.test.ts",
+    "src/shared/hooks/use_app_store.ts",
+    "src/shared/types/lesson.ts",
+    "src/shared/utils/lesson_parser.test.ts",
+    "src/shared/utils/lesson_parser.ts",
+    "src/shared/utils/validate_all_lessons.test.ts"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md",
+    "PROJECT_CONVENTIONS.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-specs",
+      "description": "Kiểm tra tài liệu owner và research cùng mô tả capability-first, schema v2, local-only media và không mâu thuẫn.",
+      "command": "rg -n \"capability|performanceTask|local-only|Daily Standup\" PRODUCT.md CONTENT.md ARCHITECTURE.md .harnix/tasks/20260818-152825-outcome-learning-loop/research",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260818-152825-outcome-learning-loop/research/*.md",
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md"
+      ]
+    },
+    {
+      "id": "check-schema",
+      "description": "Chạy test schema và parser cho backward compatibility v1 cùng validation v2.",
+      "command": "npm test -- src/shared/types/lesson.test.ts src/shared/utils/lesson_parser.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/pronunciation/*.json",
+        "src/shared/types/lesson.test.ts",
+        "src/shared/types/lesson.ts",
+        "src/shared/utils/lesson_parser.test.ts",
+        "src/shared/utils/lesson_parser.ts"
+      ]
+    },
+    {
+      "id": "check-content",
+      "description": "Chạy content validation cho lesson v1 và Daily Standup v2.",
+      "command": "npm test -- src/shared/utils/validate_all_lessons.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/shared/types/lesson.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    },
+    {
+      "id": "check-performance",
+      "description": "Chạy test performance task, media fallback, persistence và completion.",
+      "command": "npm test -- src/features/lesson-player/performance_task.test.ts src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/lesson-player/**",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/types/lesson.ts"
+      ]
+    },
+    {
+      "id": "check-all-tests",
+      "description": "Chạy toàn bộ test suite để phát hiện regression.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy lint toàn dự án.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-7"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-manual-flow",
+      "description": "Manual acceptance test record/playback, fallback, hai attempt, self-rubric, transfer, reload và backup round-trip.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson-player/**",
+        "src/features/settings/Settings.tsx",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-s1-specs",
+      "checkId": "check-specs",
+      "recordedAt": "2026-08-18T15:41:03.3692866Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "PRODUCT.md, CONTENT.md, ARCHITECTURE.md và research thống nhất capability-first, performanceTask v2, Daily Standup và local-only media.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        ".harnix/tasks/20260818-152825-outcome-learning-loop/research/learning-loop.md"
+      ],
+      "inputDigest": "aa6028020b30d6ed728fc0b73d29499c83accb386ee158315542e1263ad0b2e6"
+    },
+    {
+      "id": "e-s2-schema",
+      "checkId": "check-schema",
+      "recordedAt": "2026-08-18T15:42:39.9285843Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "11 focused tests PASS: lesson v1 còn hợp lệ; lesson v2 hợp lệ được parse; thiếu performanceTask, timebox sai và rubric sai bị từ chối.",
+      "artifactPaths": [
+        "src/shared/types/lesson.ts",
+        "src/shared/types/lesson.test.ts",
+        "src/shared/utils/lesson_parser.ts",
+        "src/shared/utils/lesson_parser.test.ts"
+      ],
+      "inputDigest": "ceccbe097bb7343c7e204ca83044492a07ecc3228405d0c2821f90d81a7dc467"
+    },
+    {
+      "id": "e-s3-content",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-18T15:45:00.9704702Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "16 content tests PASS cho 6 lesson v1 và Daily Standup v2; xác nhận schema, ID duy nhất, exercise shape, vocabulary reuse và chuẩn B1 v2.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ],
+      "inputDigest": "3cc32ec4101af7a6039ad59a5c4cf1f1bda6f6e2db59d206a7b90aaec0504f05"
+    },
+    {
+      "id": "e-s4-state",
+      "recordedAt": "2026-08-18T15:46:55.5685463Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "10 store tests và production build PASS: attempt metadata, reset, migration, old backup default, backup v2 round-trip và invalid backup fail-closed.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/features/settings/Settings.tsx"
+      ]
+    },
+    {
+      "id": "e-s5-performance",
+      "checkId": "check-performance",
+      "recordedAt": "2026-08-18T15:51:42.8962133Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "20 focused tests và build PASS: completion predicate, resume phase, fallback classification, MediaStream track cleanup, Blob URL revocation, attempt persistence, migration và backup.",
+      "artifactPaths": [
+        "src/features/lesson-player/LessonPlayer.tsx",
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/performance_task.ts",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/lesson-player/performance_task.test.ts",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "438ad2062b96643eaade0c4e686df5b0b2d46107f46e5d84b794a53052b1a61f"
+    },
+    {
+      "id": "e-debug-media-lifecycle",
+      "recordedAt": "2026-08-18T16:19:36.1254913Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận StrictMode làm mountedRef kẹt false và MediaRecorder start/stop exception làm rò track; GREEN sau khi reset ref ở mỗi effect setup và cleanup mọi synchronous failure.",
+      "artifactPaths": [
+        "src/app/main.tsx",
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/lesson-player/performance_task.test.ts"
+      ]
+    },
+    {
+      "id": "e-manual-critical-flow",
+      "checkId": "check-manual-flow",
+      "recordedAt": "2026-08-18T16:20:11.2369464Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Edge headless local PASS: v1/v2 tab gating; privacy và model-hidden; 2 native MediaRecorder attempts có Blob playback; rubric/transfer completion; reload metadata không media; unsupported timer fallback; Settings File import → Blob export round-trip.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson-player/LessonPlayer.tsx",
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/settings/Settings.tsx",
+        "src/shared/hooks/use_app_store.ts"
+      ],
+      "inputDigest": "e2d6fafeb6fe625da7ff0107016e6911aaa43d9d3c421acf637776d852fce720"
+    },
+    {
+      "id": "e-review-final",
+      "recordedAt": "2026-08-18T16:22:54.1222904Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Review độc lập compliance, correctness, security và maintainability: không còn finding mở; hai finding lifecycle MediaRecorder/React StrictMode đã được sửa và có test hồi quy.",
+      "artifactPaths": [
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/lesson-player/performance_task.test.ts",
+        "src/features/lesson-player/LessonPlayer.tsx",
+        "src/shared/hooks/use_app_store.ts",
+        "src/features/settings/Settings.tsx"
+      ]
+    },
+    {
+      "id": "e-final-specs",
+      "checkId": "check-specs",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Specs/research consistency PASS; capability-first, performanceTask v2, Daily Standup và local-only thống nhất.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        ".harnix/tasks/20260818-152825-outcome-learning-loop/research/learning-loop.md"
+      ],
+      "inputDigest": "cf28e91633f0acfba0fbb7aae69f22bd1a4ac81fe82a9dd9c3b4c4caadf3b691"
+    },
+    {
+      "id": "e-final-schema",
+      "checkId": "check-schema",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "11/11 schema và parser tests PASS cho v1 compatibility và v2 validation.",
+      "artifactPaths": [
+        "src/shared/types/lesson.ts",
+        "src/shared/types/lesson.test.ts",
+        "src/shared/utils/lesson_parser.ts",
+        "src/shared/utils/lesson_parser.test.ts"
+      ],
+      "inputDigest": "5ed12d30530fe69a86bcc9d9b6b655a10da7cce722ffb9c16b7d9d549839cde0"
+    },
+    {
+      "id": "e-final-content",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "16/16 content validation tests PASS cho sáu lesson v1 và Daily Standup v2.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ],
+      "inputDigest": "179c959b2fe1c162c870dc5382d9df7b66229da5e25bd590f4df147d9e9abb54"
+    },
+    {
+      "id": "e-final-performance",
+      "checkId": "check-performance",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "23/23 performance/media/store tests PASS, gồm completion, fallback, lifecycle, migration và backup.",
+      "artifactPaths": [
+        "src/features/lesson-player",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "bc9b63c3f84df75c198e8f1b852653c41ba2266e4b7d61d0d1d27b8a029df5da"
+    },
+    {
+      "id": "e-final-tests",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Toàn bộ 5 test files, 50/50 tests PASS.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "30eedec16a91db3564d513916309d96060415a7c7d3ab978df439632b6a2e432"
+    },
+    {
+      "id": "e-final-lint",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm run lint PASS, không có finding.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "30e2692e98df599eaff9f0c08a40fd8acd573634c07c90a4f31ed01c057e81f6"
+    },
+    {
+      "id": "e-final-build",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript project build và Vite production build PASS.",
+      "artifactPaths": [
+        "dist/index.html",
+        "dist/assets"
+      ],
+      "inputDigest": "be285646f389bceb6615fdfdc9ed4dee36ea43ccc0705ba697546953dd2753b4"
+    },
+    {
+      "id": "e-final-manual",
+      "checkId": "check-manual-flow",
+      "recordedAt": "2026-08-18T16:26:29.2891421Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Manual Edge flow PASS trên source hiện tại: v1/v2 gating, native record/playback, timer fallback, 2 attempts, rubric, transfer, reload metadata không media và backup round-trip; snapshot cuối xác nhận input không đổi.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson-player/LessonPlayer.tsx",
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/settings/Settings.tsx",
+        "src/shared/hooks/use_app_store.ts"
+      ],
+      "inputDigest": "03bdb6e4c917aedef5e8c9c42c9929fccff92fa416d3fae89e140dbfe2b8c50e"
+    },
+    {
+      "id": "e-release-specs",
+      "checkId": "check-specs",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final audited-contract specs check PASS.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        ".harnix/tasks/20260818-152825-outcome-learning-loop/research/learning-loop.md"
+      ],
+      "inputDigest": "07da1838c7d93c2bf954828607b60a000269d8ba7e0a0337a3dab2f7fa710ef5"
+    },
+    {
+      "id": "e-release-schema",
+      "checkId": "check-schema",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final 11/11 schema/parser tests PASS.",
+      "artifactPaths": [
+        "src/shared/types/lesson.ts",
+        "src/shared/types/lesson.test.ts",
+        "src/shared/utils/lesson_parser.ts",
+        "src/shared/utils/lesson_parser.test.ts"
+      ],
+      "inputDigest": "6db796f969f0a0fe4cad9bec59c88d52a5f5a76523e22355ef9d8ac562d9945e"
+    },
+    {
+      "id": "e-release-content",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final 16/16 content tests PASS.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ],
+      "inputDigest": "e30e542197c56604c8b754b22587c1348c306328e5bc80ac325759874478a3a7"
+    },
+    {
+      "id": "e-release-performance",
+      "checkId": "check-performance",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final 23/23 performance/media/store tests PASS.",
+      "artifactPaths": [
+        "src/features/lesson-player",
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "ee05e78e51a9c045a39f2202e0958d6b02b7fab8c61a342a2344eac1c32d62e7"
+    },
+    {
+      "id": "e-release-tests",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final full suite: 5 files, 50/50 tests PASS.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "996ad39baaa3d691df98cf6a3eff7633ae5556e8620dde5ba30df92c7c5ea51a"
+    },
+    {
+      "id": "e-release-lint",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final lint PASS.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "4c829c25fbc7c317bad07c01341d8b815643d8ee925643ade3e9b82283df7586"
+    },
+    {
+      "id": "e-release-build",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final TypeScript and Vite production build PASS.",
+      "artifactPaths": [
+        "dist/index.html",
+        "dist/assets"
+      ],
+      "inputDigest": "0c4d58042e1af6c5e1cc1325873e5a548ba6c5cb251303c07ef618bb55e7bf7d"
+    },
+    {
+      "id": "e-release-manual",
+      "checkId": "check-manual-flow",
+      "recordedAt": "2026-08-18T16:28:54.4807335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Edge manual flow previously PASS on unchanged product inputs; final local HTTP smoke PASS and before/after digest matched.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson-player/LessonPlayer.tsx",
+        "src/features/lesson-player/PerformanceTask.tsx",
+        "src/features/lesson-player/media_recorder.ts",
+        "src/features/settings/Settings.tsx",
+        "src/shared/hooks/use_app_store.ts"
+      ],
+      "inputDigest": "195bbe806c2d31bc8182d60246fbf8c3fe04ffcdfc23bf349246bc7464482f6c"
+    }
+  ],
+  "createdAt": "2026-08-18T15:28:25.019Z",
+  "updatedAt": "2026-08-18T16:29:10.878Z",
+  "completedAt": "2026-08-18T16:29:10.878Z"
+}

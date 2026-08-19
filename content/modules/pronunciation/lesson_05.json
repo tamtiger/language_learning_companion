@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-linking-intonation",
+  "title": "Nối âm và ngữ điệu (Linking & Intonation)",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hiểu bản chất của Nối âm (Linking / Connected Speech) trong giao tiếp",
+    "Sử dụng đúng Ngữ điệu lên (Rising) và Ngữ điệu xuống (Falling) ở cuối câu",
+    "Đọc liền mạch cụm từ kỹ thuật phổ biến (check it, work on, deploy to)"
+  ],
+  "vocabulary": [
+    {
+      "word": "intonation",
+      "ipa": "/ˌɪntəˈneɪʃn/",
+      "definition": "The rise and fall of the voice in speaking.",
+      "technicalMeaning": "The vocal pitch variations used to signal statement completion or query type.",
+      "collocations": ["rising intonation", "falling intonation"],
+      "example": "Use rising intonation for yes/no questions.",
+      "commonMistake": "Do not read everything in a flat tone. Vary your pitch to express meaning."
+    },
+    {
+      "word": "linking",
+      "ipa": "/ˈlɪŋkɪŋ/",
+      "definition": "The act of joining things together.",
+      "technicalMeaning": "Connecting final sounds of words with initial sounds of following words.",
+      "collocations": ["consonant-to-vowel linking", "connected speech"],
+      "example": "Linking words together makes your speech sound much more natural.",
+      "commonMistake": "Do not pause between every word; try to make it sound like a continuous flow."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Can you review my pull request",
+      "meaning": "Bạn có thể xem qua pull request của tôi không? (Lên giọng ở cuối câu)",
+      "tone": "neutral",
+      "example": "Can you review my pull request? (Rising pitch on 'request')",
+      "alternatives": ["Would you mind checking my PR?", "Could you look at my code changes?"]
+    }
+  ],
+  "reading": {
+    "title": "Cập nhật tiến độ dự án (Status Pitch)",
+    "sourceType": "Daily Standup Transcript",
+    "content": "Good morning, everyone. Yesterday, I finished the authentication service. Today, I'm working on the payment API. I also need to review two pull requests before lunch."
+  },
+  "exercises": [
+    {
+      "id": "e5-1",
+      "type": "choice",
+      "question": "Kiểu ngữ điệu nào thường dùng cho câu hỏi Yes/No (ví dụ: 'Are you ready?')?",
+      "options": [
+        "Ngữ điệu xuống (Falling Intonation)",
+        "Ngữ điệu lên (Rising Intonation)",
+        "Ngữ điệu phẳng đều (Flat Intonation)"
+      ],
+      "correctAnswer": ["Ngữ điệu lên (Rising Intonation)"],
+      "explanation": "Câu hỏi Yes/No thường sử dụng ngữ điệu lên giọng (rising intonation) ở cuối câu để xác nhận thông tin."
+    },
+    {
+      "id": "e5-2",
+      "type": "choice",
+      "question": "Cách đọc liền 'check it' (/tʃek ɪt/) thành /tʃekɪt/ là ví dụ của hiện tượng nào?",
+      "options": [
+        "Intonation (Ngữ điệu)",
+        "Stress (Trọng âm)",
+        "Linking (Nối âm giữa Phụ âm và Nguyên âm)"
+      ],
+      "correctAnswer": ["Linking (Nối âm giữa Phụ âm và Nguyên âm)"],
+      "explanation": "Nối phụ âm cuối /k/ của 'check' với nguyên âm đầu /ɪ/ của 'it' tạo thành /tʃekɪt/ là hiện tượng nối âm."
+    },
+    {
+      "id": "e5-3",
+      "type": "matching",
+      "question": "Nối các cụm từ sau với hiện tượng nối âm (Linking) tương ứng của chúng:",
+      "matchingPairs": [
+        {
+          "key": "check it",
+          "value": "Phụ âm + Nguyên âm"
+        },
+        {
+          "key": "go out",
+          "value": "Nguyên âm + Nguyên âm"
+        },
+        {
+          "key": "good day",
+          "value": "Phụ âm giống nhau"
+        }
+      ],
+      "correctAnswer": [
+        "check it - Phụ âm + Nguyên âm",
+        "go out - Nguyên âm + Nguyên âm",
+        "good day - Phụ âm giống nhau"
+      ],
+      "explanation": "'check it' là phụ âm + nguyên âm, 'go out' là nguyên âm + nguyên âm, 'good day' là phụ âm giống nhau đứng liền nhau."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "technical-tradeoff-explanation-b2",
+  "title": "Explain a technical trade-off",
+  "summary": "Recommend an engineering option with constraints and consequences.",
+  "cefrLevel": "B2",
+  "durationMinutes": 12,
+  "learningObjectives": ["Explain a technical decision so a non-owner can evaluate it."],
+  "capabilities": ["technical-explanation"],
+  "workflowTags": ["architecture", "tradeoff"],
+  "sections": [
+    { "id": "brief", "type": "brief", "title": "Your mission", "body": "The team must choose between synchronous validation and a queued validation worker." },
+    { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synchronous validation gives users an immediate answer but adds up to 900 ms at peak traffic. A queued worker keeps the request fast and retries transient failures, but users may wait up to two minutes for final status. The current release needs predictable request latency; compliance still requires every item to be validated before publication." },
+    { "id": "check", "type": "auto-check", "title": "Locate the constraint", "exercises": [{ "id": "tradeoff-constraint", "type": "choice", "question": "Which requirement favors the queued worker?", "options": ["Immediate final status", "Predictable request latency"], "correctAnswer": ["Predictable request latency"], "explanation": "The queue moves validation latency out of the request path." }] }
+  ],
+  "performanceTask": {
+    "id": "tradeoff-task",
+    "mode": "spoken",
+    "title": "Recommend one design",
+    "scenario": "Explain your recommendation in an architecture sync with engineers and a product manager.",
+    "baselinePrompt": "Give your recommendation before viewing support. State the constraint, benefit, cost and mitigation.",
+    "performancePrompt": "Speak for 90–120 seconds: frame the decision, recommend one option, compare its trade-off and mitigate the main risk.",
+    "modelResponse": "I recommend the queued worker because predictable request latency is the release constraint. It also gives us retries for transient failures. The cost is delayed final status, which may take two minutes. We can mitigate that by showing a pending state and preventing publication until validation succeeds. If the product later requires an immediate answer, we can reconsider synchronous validation for smaller payloads.",
+    "retryPrompt": "Repeat with a one-sentence recommendation first, then connect each consequence to a named constraint.",
+    "transferPrompt": "Choose between a managed database with higher cost and a self-hosted database with higher operational load. Recommend one for a two-person team.",
+    "reviewPrompt": "Explain a fresh build-versus-buy decision using constraint, recommendation, cost and mitigation.",
+    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["constraint", "recommendation", "trade-off", "mitigation"], "targetSeconds": 120 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
+    "feedbackPriorities": ["Decision-first structure", "Cause and effect", "Audience clarity"],
+    "rubric": [
+      { "id": "decision", "label": "Clear recommendation", "description": "States one option and the deciding constraint early." },
+      { "id": "tradeoff", "label": "Balanced trade-off", "description": "Explains both a benefit and a meaningful cost." },
+      { "id": "mitigation", "label": "Risk mitigation", "description": "Offers a realistic way to reduce the main downside." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}

@@ -1,0 +1,22 @@
+generator: harnix
+schemaVersion: 2
+developer: trait
+languages:
+  - javascript
+  - typescript
+technologies:
+  - react-web
+packages:
+  - path: .
+    languages:
+      - javascript
+      - typescript
+    technologies:
+      - react-web
+platforms: []
+context:
+  maxCharacters: 24000
+  tokenApproximation: 4
+runtime:
+  research: conditional
+  fullContext: false

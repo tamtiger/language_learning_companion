@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-shadowing-routine",
+  "title": "Shadowing & Speaking Routine",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hiểu phương pháp luyện nói Shadowing và cách áp dụng hiệu quả",
+    "Thiết lập quy trình tự luyện nói hàng ngày (Speaking Routine) trong 30 phút",
+    "Kết hợp tất cả kỹ năng phát âm (âm cuối, trọng âm, nối âm) vào bài giới thiệu bản thân"
+  ],
+  "vocabulary": [
+    {
+      "word": "shadowing",
+      "ipa": "/ˈʃædoʊɪŋ/",
+      "definition": "An advanced speaking technique where you repeat speech immediately after hearing it.",
+      "technicalMeaning": "A training technique used to improve pronunciation, rhythm, and intonation by copying a native speaker synchronously.",
+      "collocations": ["practice shadowing", "shadowing technique"],
+      "example": "He practices shadowing for ten minutes every morning.",
+      "commonMistake": "Do not focus too much on spelling. Focus entirely on mimicking sound and rhythm."
+    },
+    {
+      "word": "routine",
+      "ipa": "/ruːˈtiːn/",
+      "definition": "A sequence of actions regularly followed.",
+      "technicalMeaning": "A daily training schedule or sequence of execution tasks.",
+      "collocations": ["daily routine", "establish a routine"],
+      "example": "Establishing a daily routine is key to language fluency.",
+      "commonMistake": "Do not stress the first syllable. The stress falls on the second syllable: /ruːˈtiːn/."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Practice shadowing daily",
+      "meaning": "Luyện tập shadowing hàng ngày.",
+      "tone": "neutral",
+      "example": "You should practice shadowing daily to build muscle memory.",
+      "alternatives": ["Do shadowing exercises every day", "Incorporate shadowing into your routine"]
+    }
+  ],
+  "reading": {
+    "title": "Kế hoạch Luyện tập nói của Kỹ sư Phần mềm",
+    "sourceType": "Giáo trình nội bộ",
+    "content": "To master English speaking, a software engineer should build a consistent routine. By practicing the shadowing technique for ten minutes daily, you train your vocal muscles to naturally use correct word stress and linking patterns without translation in your head."
+  },
+  "exercises": [
+    {
+      "id": "e6-1",
+      "type": "choice",
+      "question": "Mục tiêu chính của phương pháp Shadowing là gì?",
+      "options": [
+        "Học thuộc lòng từ vựng và ngữ pháp của bài",
+        "Bắt chước phát âm, trọng âm, nhịp điệu và ngữ điệu của người nói gần như đồng thời",
+        "Dịch bài nói sang tiếng mẹ đẻ để hiểu sâu nghĩa"
+      ],
+      "correctAnswer": ["Bắt chước phát âm, trọng âm, nhịp điệu và ngữ điệu của người nói gần như đồng thời"],
+      "explanation": "Shadowing là kỹ thuật nghe và bắt chước lặp lại đồng thời để rèn luyện cơ miệng và nhịp điệu tự nhiên."
+    },
+    {
+      "id": "e6-2",
+      "type": "choice",
+      "question": "Trọng âm chính của từ 'routine' rơi vào âm tiết thứ mấy?",
+      "options": [
+        "Âm tiết thứ nhất (rou-)",
+        "Âm tiết thứ hai (-tine)"
+      ],
+      "correctAnswer": ["Âm tiết thứ hai (-tine)"],
+      "explanation": "/ruːˈtiːn/ có trọng âm nhấn ở âm tiết thứ hai."
+    },
+    {
+      "id": "e6-3",
+      "type": "matching",
+      "question": "Nối các bước sau đây với thứ tự chuẩn trong quy trình Shadowing 6 bước:",
+      "matchingPairs": [
+        {
+          "key": "Bước 1",
+          "value": "Nghe hiểu (không nhìn transcript)"
+        },
+        {
+          "key": "Bước 3",
+          "value": "Shadowing chậm (ngắt từng câu)"
+        },
+        {
+          "key": "Bước 5",
+          "value": "Ghi âm lại toàn bộ"
+        }
+      ],
+      "correctAnswer": [
+        "Bước 1 - Nghe hiểu (không nhìn transcript)",
+        "Bước 3 - Shadowing chậm (ngắt từng câu)",
+        "Bước 5 - Ghi âm lại toàn bộ"
+      ],
+      "explanation": "Quy trình chuẩn gồm nghe hiểu (bước 1), shadowing chậm (bước 3), và ghi âm (bước 5) bên cạnh các bước đọc transcript và đối chiếu."
+    }
+  ]
+}

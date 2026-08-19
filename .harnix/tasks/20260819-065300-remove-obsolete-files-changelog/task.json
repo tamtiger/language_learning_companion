@@ -1,0 +1,251 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-065300-remove-obsolete-files-changelog",
+  "title": "Xóa file dư thừa và lập changelog",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Giảm repository về đúng runtime và source of truth đang dùng, đồng thời ghi CHANGELOG đầy đủ cho capability-first refactor và cleanup hiện tại.",
+  "nonGoals": [
+    "Xóa content JSON schema v1/v2/v3 hoặc làm mất compatibility runtime.",
+    "Xóa Harnix task history, owner docs, prompt owner, test có coverage riêng hoặc cấu hình build.",
+    "Thay đổi hành vi sản phẩm, learning loop, storage contract hoặc UI ngoài việc loại bỏ dead compatibility code.",
+    "Commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Chỉ các file được chứng minh không còn runtime/documentation consumer mới bị xóa; content/modules JSON, owner docs, Harnix history và compatibility v1/v2 được bảo toàn.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-reference-audit-20260819-final",
+        "ev-check-tests-20260819-final",
+        "ev-check-build-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Markdown legacy, asset scaffold và dead facade/adapter không importer được loại bỏ; test media recorder còn giá trị được giữ dưới tên đúng trách nhiệm và không còn stale reference.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-reference-audit-20260819-final",
+        "ev-check-tests-20260819-final",
+        "ev-check-build-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "CHANGELOG.md theo cấu trúc Keep a Changelog mô tả capability-first refactor đã triển khai, compatibility/privacy, verification và cleanup hiện tại, không tuyên bố tính năng chưa có.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-changelog-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Focused reference audit, toàn bộ test còn lại, lint và production build đều PASS trên snapshot cuối.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-tests-20260819-final",
+        "ev-check-lint-20260819-final",
+        "ev-check-build-20260819-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "PROJECT_PROMPT.md",
+    "docs/**",
+    "lessons/**",
+    "modules/**",
+    "public/icons.svg",
+    "src/assets/**",
+    "src/features/course-browser/CourseBrowser.tsx",
+    "src/features/lesson-player/LessonPlayer.tsx",
+    "src/features/lesson-player/performance_task.test.ts",
+    "src/features/lesson-player/performance_task.ts",
+    "src/features/lesson-player/media_recorder.test.ts",
+    "src/shared/types/lesson.test.ts",
+    "src/shared/types/lesson.ts",
+    "src/shared/utils/lesson_parser.test.ts",
+    "src/shared/utils/lesson_parser.ts"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "PROJECT_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-reference-audit",
+      "description": "Xác nhận không còn reference tới các path, facade, adapter và asset đã loại bỏ.",
+      "command": "$hits = rg -n \"docs/|lessons/|modules/|CourseBrowser|LessonPlayer|lesson_parser|shared/types/lesson|performance_task|react\\.svg|vite\\.svg|hero\\.png|icons\\.svg\" README.md START_HERE.md PRODUCT.md CONTENT.md ARCHITECTURE.md PROJECT_PROMPT.md src index.html 2>$null; if ($LASTEXITCODE -eq 0) { $hits; exit 1 }; if ($LASTEXITCODE -gt 1) { exit $LASTEXITCODE }",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "PROJECT_PROMPT.md",
+        "README.md",
+        "START_HERE.md",
+        "src/**"
+      ]
+    },
+    {
+      "id": "check-changelog",
+      "description": "Kiểm tra changelog có đủ refactor capability-first, privacy/compatibility, verification và cleanup.",
+      "command": "rg -n \"capability|schema v3|local-only|compatibility|81 tests|cleanup|Removed\" CHANGELOG.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md"
+      ]
+    },
+    {
+      "id": "check-tests",
+      "description": "Chạy toàn bộ regression suite sau cleanup.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy lint source còn lại.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và Vite production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-reference-audit-20260819-final",
+      "checkId": "check-reference-audit",
+      "recordedAt": "2026-08-19T00:05:21.2660745+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "No stale references remain to removed legacy directories, scaffold assets, compatibility facades, parser wrappers or old performance helper.",
+      "artifactPaths": [
+        "README.md",
+        "START_HERE.md",
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "PROJECT_PROMPT.md",
+        "src",
+        "index.html"
+      ],
+      "inputDigest": "381959d123c223d67bba86b45866f7b91c29fe1d718befc2fc759f0bac2e87ad"
+    },
+    {
+      "id": "ev-check-changelog-20260819-final",
+      "checkId": "check-changelog",
+      "recordedAt": "2026-08-19T00:05:21.2660745+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "CHANGELOG contains capability-first schema v3, compatibility, local-only privacy, cleanup, Removed and verification entries.",
+      "artifactPaths": [
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "98ed58c3bd77a1c18abcfd43866335d81b433abc24660b963a16770c5b69e41c"
+    },
+    {
+      "id": "ev-check-tests-20260819-final",
+      "checkId": "check-tests",
+      "recordedAt": "2026-08-19T00:05:21.2660745+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full post-cleanup regression suite passed: 14 files and 64 tests; media recorder coverage remains 7 tests.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "e7745ebaa551f75f67d898a8dddead7310ca74143ee84754c80d1457660478bc"
+    },
+    {
+      "id": "ev-check-lint-20260819-final",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-19T00:05:21.2660745+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint passed with zero findings after cleanup.",
+      "artifactPaths": [
+        "src",
+        ".oxlintrc.json"
+      ],
+      "inputDigest": "f57e3c0045594f93e074aafcc33095b7c2063eeeb24c07ca78dc2405a73f4c7d"
+    },
+    {
+      "id": "ev-check-build-20260819-final",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-19T00:05:21.2660745+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript and Vite production build passed; output remained 355.57 kB JS and 104.50 kB gzip.",
+      "artifactPaths": [
+        "src",
+        "content/modules",
+        "package.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "9032fe08e215ec4faa296f8ae5db8f7eca35d953040b5a224da29fa0ac211789"
+    }
+  ],
+  "createdAt": "2026-08-18T23:59:51.7420001+00:00",
+  "updatedAt": "2026-08-19T00:06:02.925Z",
+  "completedAt": "2026-08-19T00:06:02.925Z"
+}

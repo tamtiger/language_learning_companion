@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-ending-sounds",
+  "title": "Âm cuối (Ending Sounds)",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hiểu tầm quan trọng của âm cuối (Ending Sounds) trong tiếng Anh giao tiếp kỹ thuật",
+    "Phát âm chính xác các âm cuối phổ biến: /t/, /d/, /k/, /s/, /z/",
+    "Phát âm chính xác đuôi -ed trong các thì quá khứ (fixed, deployed, tested)"
+  ],
+  "vocabulary": [
+    {
+      "word": "fixed",
+      "ipa": "/fɪkst/",
+      "definition": "Repaired or resolved a problem/bug.",
+      "technicalMeaning": "Resolved a software bug or issue in the codebase.",
+      "collocations": ["fixed a bug", "fixed the crash"],
+      "example": "He fixed the memory leak in the production build.",
+      "commonMistake": "Do not read it as 'fix-xơ'. Pronounce the final /t/ sound clearly: /fɪkst/."
+    },
+    {
+      "word": "deployed",
+      "ipa": "/dɪˈplɔɪd/",
+      "definition": "Moved software components to a working environment.",
+      "technicalMeaning": "Released software updates to server, cloud, or app store.",
+      "collocations": ["deployed to production", "deployed successfully"],
+      "example": "We deployed the new API updates yesterday afternoon.",
+      "commonMistake": "Do not skip the final /d/ sound. It should be pronounced /dɪˈplɔɪd/."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Fixed a critical bug",
+      "meaning": "Sửa một lỗi nghiêm trọng trong chương trình.",
+      "tone": "neutral",
+      "example": "Last night, the backend team fixed a critical bug in the auth service.",
+      "alternatives": ["Resolved an emergency issue", "Patched a major vulnerability"]
+    }
+  ],
+  "reading": {
+    "title": "Báo cáo tiến trình kiểm thử và deploy",
+    "sourceType": "Slack Thread",
+    "content": "Last week, our backend team fixed several critical bugs. We tested the new user auth feature, deployed it to staging successfully, and monitored the performance metrics carefully. Everything worked as expected without any memory leaks."
+  },
+  "exercises": [
+    {
+      "id": "e2-1",
+      "type": "choice",
+      "question": "Từ 'fixed' kết thúc bằng âm đuôi -ed phát âm là gì?",
+      "options": [
+        "Phát âm là /ɪd/",
+        "Phát âm là /t/",
+        "Phát âm là /d/"
+      ],
+      "correctAnswer": ["Phát âm là /t/"],
+      "explanation": "Động từ 'fix' kết thúc bằng âm /s/ (vô thanh), do đó khi thêm -ed sẽ phát âm là /t/."
+    },
+    {
+      "id": "e2-2",
+      "type": "choice",
+      "question": "Từ 'deployed' kết thúc bằng âm đuôi -ed phát âm là gì?",
+      "options": [
+        "Phát âm là /ɪd/",
+        "Phát âm là /t/",
+        "Phát âm là /d/"
+      ],
+      "correctAnswer": ["Phát âm là /d/"],
+      "explanation": "Động từ 'deploy' kết thúc bằng nguyên âm hữu thanh, do đó khi thêm -ed sẽ phát âm là /d/."
+    },
+    {
+      "id": "e2-3",
+      "type": "matching",
+      "question": "Nối các từ quá khứ sau đây với cách phát âm đuôi -ed tương ứng của chúng:",
+      "matchingPairs": [
+        {
+          "key": "fixed",
+          "value": "/t/"
+        },
+        {
+          "key": "deployed",
+          "value": "/d/"
+        },
+        {
+          "key": "tested",
+          "value": "/ɪd/"
+        }
+      ],
+      "correctAnswer": [
+        "fixed - /t/",
+        "deployed - /d/",
+        "tested - /ɪd/"
+      ],
+      "explanation": "fixed đi với /t/, deployed đi với /d/, và tested đi với /ɪd/."
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-issue-update-b1",
+  "title": "Write an actionable issue update",
+  "summary": "Communicate context, impact, next step and a concrete request.",
+  "cefrLevel": "B1",
+  "durationMinutes": 12,
+  "learningObjectives": ["Write a concise engineering update without translating from Vietnamese."],
+  "capabilities": ["workplace-communication"],
+  "workflowTags": ["issue-update", "async-communication"],
+  "sections": [
+    { "id": "brief", "type": "brief", "title": "Your mission", "body": "Your distributed team needs an update they can act on before the next handover." },
+    { "id": "source", "type": "source", "title": "Incident notes", "format": "technical-doc", "content": "Checkout requests started returning HTTP 503 after release 2.4. The error affects about one in three attempts. Logs point to a connection-pool limit. Lan is comparing the release diff. The platform team owns the rollback permission and starts its handover in forty minutes." },
+    { "id": "check", "type": "auto-check", "title": "Find the action", "exercises": [{ "id": "issue-impact", "type": "choice", "question": "Which detail is most actionable for the team?", "options": ["The release happened recently.", "Checkout fails for about one in three attempts and platform owns rollback permission."], "correctAnswer": ["Checkout fails for about one in three attempts and platform owns rollback permission."], "explanation": "It combines measurable impact with the team that can unblock the next action." }] }
+  ],
+  "performanceTask": {
+    "id": "issue-update-task",
+    "mode": "written",
+    "title": "Post the issue update",
+    "scenario": "Write an English update in the incident channel before the platform handover.",
+    "baselinePrompt": "Without opening the model, write what happened, the impact, what is being done and what you need.",
+    "performancePrompt": "Write an 80–120 word update with context, measurable impact, owner/next step and one concrete request.",
+    "modelResponse": "Checkout has returned HTTP 503 for roughly one in three attempts since release 2.4. Logs suggest the connection pool may be exhausted. Lan is checking the release diff now. Could the platform team confirm the rollback owner before its handover in forty minutes? If the error rate increases, we will pause the release while we prepare the rollback.",
+    "retryPrompt": "Rewrite the update. Remove vague status language and make the impact, owner and request explicit.",
+    "transferPrompt": "The rollback restored checkout, but twelve orders remain delayed. Write a follow-up with recovery status, remaining impact and the owner of reconciliation.",
+    "reviewPrompt": "A deployment causes intermittent login failures. Write a fresh issue update without viewing your earlier responses.",
+    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["context", "impact", "next step", "request"], "minWords": 80, "maxWords": 120 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
+    "feedbackPriorities": ["Actionability", "Specificity", "Conciseness"],
+    "rubric": [
+      { "id": "context", "label": "Concrete context", "description": "Names the system, symptom and relevant change." },
+      { "id": "impact", "label": "Measurable impact", "description": "Explains who or what is affected with a useful detail." },
+      { "id": "action", "label": "Action and request", "description": "Names a next step, owner and clear request." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}

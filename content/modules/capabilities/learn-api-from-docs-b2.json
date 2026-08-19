@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "learn-api-from-docs-b2",
+  "title": "Learn a new API in English",
+  "summary": "Build a mental model and implementation plan directly from English API documentation.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": ["Explain an unfamiliar API and plan a safe first implementation without translation."],
+  "capabilities": ["technology-learning"],
+  "workflowTags": ["api-learning", "documentation", "implementation-plan"],
+  "sections": [
+    { "id": "brief", "type": "brief", "title": "Your mission", "body": "Learn the fictional Pulse API well enough to plan a reliable integration." },
+    { "id": "source", "type": "source", "title": "Pulse API quickstart", "format": "technical-doc", "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Reusing an idempotency key returns the original event rather than creating a duplicate." },
+    { "id": "check", "type": "auto-check", "title": "Check the mental model", "exercises": [{ "id": "api-async", "type": "choice", "question": "Why must the client query event status?", "options": ["A 202 response means processing is asynchronous.", "The bearer token expires immediately."], "correctAnswer": ["A 202 response means processing is asynchronous."], "explanation": "Acceptance and final processing are separate states." }] }
+  ],
+  "performanceTask": {
+    "id": "api-learning-task",
+    "mode": "written",
+    "title": "Explain and plan the integration",
+    "scenario": "A teammate will implement Pulse tomorrow and needs your English mental model and plan.",
+    "baselinePrompt": "After one read, explain how the API works and outline implementation without translating it.",
+    "performancePrompt": "Write 120–180 words: request lifecycle, idempotency, rate-limit behavior and a four-step implementation/test plan.",
+    "modelResponse": "Pulse accepts an authenticated event and returns 202 because processing continues asynchronously. The client should generate one idempotency key per logical event, store the returned event_id and poll status until processed or failed. Reusing the same key prevents duplicate creation. I would first wrap POST and GET calls, then persist both identifiers. Next I would add bounded polling and handle 429 using Retry-After. Finally I would test duplicate submissions, failed processing and rate limiting before enabling the integration for real traffic.",
+    "retryPrompt": "Rewrite the mental model in your own words and connect every implementation step to a behavior in the docs.",
+    "transferPrompt": "A new Jobs API also returns 202, exposes job status and uses request tokens for deduplication. Produce a fresh mental model and implementation plan.",
+    "reviewPrompt": "Read a new API quickstart and explain lifecycle, safety mechanism, failure handling and first implementation plan.",
+    "outputContract": { "timeLimitSeconds": 720, "requiredElements": ["request lifecycle", "idempotency", "rate limit", "implementation plan"], "minWords": 120, "maxWords": 180 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
+    "feedbackPriorities": ["Mental model", "Traceability to docs", "Implementation safety"],
+    "rubric": [
+      { "id": "model", "label": "Accurate mental model", "description": "Explains asynchronous acceptance and final status correctly." },
+      { "id": "safety", "label": "Reliability controls", "description": "Covers idempotency and rate-limit handling." },
+      { "id": "application", "label": "Executable plan", "description": "Turns documentation into ordered implementation and test steps." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}

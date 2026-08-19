@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-sentence-stress",
+  "title": "Trọng âm câu (Sentence Stress)",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Phân biệt giữa Từ mang thông tin (Content Words) và Từ chức năng (Function Words)",
+    "Xác định và nhấn mạnh các từ khóa chính trong câu kỹ thuật",
+    "Hiểu cách thay đổi trọng âm câu để thay đổi ý nghĩa nhấn mạnh"
+  ],
+  "vocabulary": [
+    {
+      "word": "content",
+      "ipa": "/ˈkɑːntent/",
+      "definition": "The information or matter contained in something.",
+      "technicalMeaning": "Data or curriculum resources managed within an application.",
+      "collocations": ["content creator", "static content"],
+      "example": "Content words like nouns and verbs carry the main meaning.",
+      "commonMistake": "Do not confuse it with 'content' (adjective, meaning satisfied) which is pronounced /kənˈtent/."
+    },
+    {
+      "word": "function",
+      "ipa": "/ˈfʌŋkʃn/",
+      "definition": "An activity or purpose natural to or intended for a person or thing.",
+      "technicalMeaning": "A block of organized, reusable code that is used to perform a single, related action.",
+      "collocations": ["call a function", "function declaration"],
+      "example": "Function words like 'the' or 'to' are rarely stressed in English.",
+      "commonMistake": "Pronounce /fʌŋkʃn/ clearly, paying attention to the /ŋk/ sound combination."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "I fixed the bug",
+      "meaning": "Tôi đã sửa lỗi đó (Nhấn mạnh hành động hoặc đối tượng tùy vị trí nhấn).",
+      "tone": "neutral",
+      "example": "I FIXED the bug yesterday (emphasizing that it's already done).",
+      "alternatives": ["The bug was resolved by me", "I resolved the issue"]
+    }
+  ],
+  "reading": {
+    "title": "Báo cáo cuộc họp hàng ngày (Standup Report)",
+    "sourceType": "Daily Standup Transcript",
+    "content": "Today, we finished the authentication service. We deployed the update to the staging environment and completed all integration tests. Tomorrow, we will start working on the database replication modules."
+  },
+  "exercises": [
+    {
+      "id": "e4-1",
+      "type": "choice",
+      "question": "Loại từ nào sau đây thuộc nhóm Từ mang thông tin (Content Words) thường được nhấn mạnh trong câu?",
+      "options": [
+        "Giới từ (in, at, on)",
+        "Mạo từ (a, an, the)",
+        "Danh từ và Động từ chính",
+        "Trợ động từ chỉ chức năng"
+      ],
+      "correctAnswer": ["Danh từ và Động từ chính"],
+      "explanation": "Content Words bao gồm danh từ, động từ chính, tính từ, trạng từ là những từ mang thông tin chính nên được nhấn mạnh."
+    },
+    {
+      "id": "e4-2",
+      "type": "choice",
+      "question": "Trong câu 'I need to check the database', từ nào là từ chức năng (Function Word) KHÔNG nên nhấn mạnh?",
+      "options": [
+        "need",
+        "check",
+        "to / the",
+        "database"
+      ],
+      "correctAnswer": ["to / the"],
+      "explanation": "'to' (giới từ chỉ hướng) và 'the' (mạo từ) là các từ chức năng, thường được đọc nhẹ/lướt."
+    },
+    {
+      "id": "e4-3",
+      "type": "matching",
+      "question": "Nối các từ sau với nhóm phân loại trọng âm câu của chúng:",
+      "matchingPairs": [
+        {
+          "key": "application",
+          "value": "Content Word"
+        },
+        {
+          "key": "deploy",
+          "value": "Content Word"
+        },
+        {
+          "key": "should / for",
+          "value": "Function Word"
+        }
+      ],
+      "correctAnswer": [
+        "application - Content Word",
+        "deploy - Content Word",
+        "should / for - Function Word"
+      ],
+      "explanation": "Danh từ (application) và động từ (deploy) là Content Words, còn động từ khuyết thiếu và giới từ (should/for) là Function Words."
+    }
+  ]
+}

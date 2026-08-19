@@ -1,0 +1,74 @@
+# Content Contract — Schema v3
+
+## Mục tiêu
+
+JSON dưới `content/**/*.json` là executable curriculum và source of truth cho lesson. UI chỉ hiểu canonical content, không hardcode lesson ID, topic hoặc capability.
+
+Authoring contract mới dùng `schemaVersion: "v3"`. Parser vẫn đọc `v1` và `v2`, sau đó migration/normalization sang `CanonicalLesson`; không rewrite source legacy tại chỗ.
+
+## Sáu capability ID
+
+- `workplace-communication`
+- `technical-reading`
+- `international-meetings`
+- `technical-explanation`
+- `international-interview`
+- `technology-learning`
+
+Mỗi mission v3 có đúng một primary capability; `workflowTags` mô tả workflow như `issue-update`, `documentation`, `standup`, `tradeoff`, `interview`, `api-learning`.
+
+## Lesson v3
+
+```json
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-issue-update-b1",
+  "title": "Write an actionable issue update",
+  "summary": "Communicate impact, next step and request.",
+  "cefrLevel": "B1",
+  "durationMinutes": 12,
+  "learningObjectives": ["Write an actionable update without translation"],
+  "capabilities": ["workplace-communication"],
+  "workflowTags": ["issue-update", "async-communication"],
+  "sections": [],
+  "performanceTask": {},
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}
+```
+
+`sections` là ordered discriminated union:
+
+- `brief`: `id`, `type`, `title`, `body`.
+- `language-support`: `id`, `type`, `title`, `vocabulary`, `expressions`.
+- `source`: `id`, `type`, `title`, `format`, `content`; format là `prose | dialogue | meeting-notes | technical-doc | code-snippet`.
+- `auto-check`: `id`, `type`, `title`, `exercises`; exercise hỗ trợ `choice | matching | ordering`.
+
+`performanceTask` bắt buộc với mission v3:
+
+- identity/context: `id`, `mode: spoken | written`, `title`, `scenario`;
+- loop prompts: `baselinePrompt`, `performancePrompt`, `modelResponse`, `retryPrompt`, `transferPrompt`, `reviewPrompt`;
+- `outputContract`: `timeLimitSeconds`, `requiredElements`, cùng `targetSeconds` cho spoken hoặc `minWords/maxWords` cho written;
+- `independenceContract`: `noVietnamese`, `noTranslation`, `noModelAnswer`, `maxHints`, `preparationSeconds`;
+- `feedbackPriorities`: 1–4 strings;
+- `rubric`: 3–5 item có `id`, `label`, `description`.
+
+## Invariants
+
+- Lesson, section, exercise và rubric IDs duy nhất trong scope tương ứng.
+- V3 có 1 primary capability, ít nhất 1 source/input section và đúng 1 performance task.
+- Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
+- Baseline không hiển thị `modelResponse` trước attempt đầu.
+- Transfer thay content/context nhưng giữ workflow để kiểm tra procedural transfer.
+- `reviewPolicy.intervalDays` là số nguyên dương tăng dần; policy đầu tiên dùng `[1,3,7]`.
+- Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
+- Không đưa secret, personal data hoặc URL yêu cầu network vào lesson.
+
+## Legacy policy
+
+- V1: vocabulary/expressions/reading/exercises, completion theo quiz để giữ compatibility.
+- V2: cùng base fields và spoken performance task hiện hành; được normalize sang canonical spoken task.
+- Legacy lesson không bị ép có evidence giả. `sourceSchemaVersion` được giữ cho diagnostics và completion rule.
+
+## Learning-design quality gate
+
+Mỗi baseline mission phải có authentic input, observable output, timebox, independence conditions, rubric, retry, transfer và delayed review. Auto-check chỉ hỗ trợ comprehension; capability completion cần performance + self-rubric + transfer.

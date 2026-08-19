@@ -1,0 +1,190 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-070944-consolidate-root-markdown",
+  "title": "Tinh gọn Markdown ở root",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Loại bỏ tài liệu và prompt root đã lỗi thời hoặc trùng lặp, đồng thời giữ source of truth và lịch sử Harnix chính xác.",
+  "nonGoals": [
+    "Không xóa PRODUCT.md, CONTENT.md, ARCHITECTURE.md, README.md, START_HERE.md, CHANGELOG.md hoặc AGENTS.md.",
+    "Không xóa prompt chuyên biệt PRODUCT_PROMPT.md, CONTENT_PROMPT.md, ARCHITECTURE_PROMPT.md hoặc IMPROVEMENT_PROMPT.md.",
+    "Không xóa hay sửa lịch sử task, workflow và engineering guide trong .harnix.",
+    "Không thay đổi runtime, curriculum JSON, schema, dependency hoặc hành vi ứng dụng.",
+    "Không commit, push hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "PROJECT_CONVENTIONS.md, IMPLEMENTATION_PROMPT.md và PROJECT_PROMPT.md không còn trong repository; các owner docs, prompt chuyên biệt và Markdown Harnix vẫn được bảo toàn.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-markdown-cleanup-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "PRODUCT.md mô tả đúng rằng Markdown curriculum legacy đã bị loại bỏ và CHANGELOG.md ghi nhận cleanup prompt/convention hiện tại.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-markdown-cleanup-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Không còn tham chiếu mồ côi hoặc contract lỗi thời do cleanup; toàn bộ test, lint và production build đều PASS.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-markdown-cleanup-20260819-final",
+        "ev-check-tests-20260819-final",
+        "ev-check-lint-20260819-final",
+        "ev-check-build-20260819-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "IMPLEMENTATION_PROMPT.md",
+    "PRODUCT.md",
+    "PROJECT_CONVENTIONS.md",
+    "PROJECT_PROMPT.md"
+  ],
+  "relevantSpecs": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-markdown-cleanup",
+      "description": "Xác nhận ba file đã loại bỏ, owner docs và prompt được giữ, đồng thời không còn contract root lỗi thời.",
+      "command": "$removed = @(\"PROJECT_CONVENTIONS.md\", \"IMPLEMENTATION_PROMPT.md\", \"PROJECT_PROMPT.md\"); $kept = @(\"AGENTS.md\", \"PRODUCT.md\", \"CONTENT.md\", \"ARCHITECTURE.md\", \"README.md\", \"START_HERE.md\", \"CHANGELOG.md\", \"IMPROVEMENT_PROMPT.md\", \"PRODUCT_PROMPT.md\", \"CONTENT_PROMPT.md\", \"ARCHITECTURE_PROMPT.md\"); $errors = @($removed | Where-Object { Test-Path -LiteralPath $_ }) + @($kept | Where-Object { -not (Test-Path -LiteralPath $_) }); $stale = @(rg -n \"IMPLEMENTATION\\.md|Markdown curriculum legacy chỉ là tài liệu tham khảo\" --glob \"*.md\" . 2>$null); if ($errors.Count -gt 0 -or $stale.Count -gt 0) { $errors; $stale; exit 1 }",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "*.md",
+        "@task-contract"
+      ]
+    },
+    {
+      "id": "check-tests",
+      "description": "Chạy toàn bộ regression suite để xác nhận cleanup không ảnh hưởng runtime.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy lint source hiện hành.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và Vite production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-markdown-cleanup-20260819-final",
+      "checkId": "check-markdown-cleanup",
+      "recordedAt": "2026-08-19T00:10:52.0101152Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Ba Markdown root lỗi thời hoặc trùng lặp đã bị loại bỏ; owner docs, prompt chuyên biệt và Markdown Harnix được bảo toàn; không còn stale root contract đã xác định.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "PRODUCT.md"
+      ],
+      "inputDigest": "676eff188f37127be778bafd0bfe8e7f63931f40c7ba3d2337404f1aa898c51e"
+    },
+    {
+      "id": "ev-check-tests-20260819-final",
+      "checkId": "check-tests",
+      "recordedAt": "2026-08-19T00:11:21.9185634Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Toàn bộ regression suite PASS: 14 test files, 64 tests.",
+      "artifactPaths": [
+        "content",
+        "src"
+      ],
+      "inputDigest": "12a5945128e9f590eb6e249c794006641e68d7d6f5311314021b871f8adef112"
+    },
+    {
+      "id": "ev-check-lint-20260819-final",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-19T00:11:30.0517212Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint PASS, không có finding.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src"
+      ],
+      "inputDigest": "6558909b820a378f3b6cffb7a6bc2feced45fc39737d947c061b4279a51b6eae"
+    },
+    {
+      "id": "ev-check-build-20260819-final",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-19T00:11:53.5521917Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript và Vite production build PASS; bundle JS 355.57 kB (104.50 kB gzip).",
+      "artifactPaths": [
+        "content",
+        "package.json",
+        "src",
+        "tsconfig.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "9ef08424b16488c534423e3d9fcd4f825262849efdf31e2a116c4fea0a04a9e8"
+    }
+  ],
+  "createdAt": "2026-08-19T00:10:23.6797222Z",
+  "updatedAt": "2026-08-19T00:12:02.187Z",
+  "completedAt": "2026-08-19T00:12:02.187Z"
+}

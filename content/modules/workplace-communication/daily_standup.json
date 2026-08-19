@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "v2",
+  "lessonId": "daily-standup-b1",
+  "title": "Daily Standup: Cập nhật tiến độ rõ ràng",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Trình bày cập nhật Daily Standup theo cấu trúc yesterday, today và blockers trong 60 giây",
+    "Nêu ít nhất một chi tiết kỹ thuật cụ thể thay vì báo cáo chung chung",
+    "Phản hồi blocker bằng một hành động hoặc yêu cầu hỗ trợ rõ ràng"
+  ],
+  "vocabulary": [
+    {
+      "word": "blocker",
+      "ipa": "/ˈblɑːkər/",
+      "definition": "Something that prevents progress.",
+      "technicalMeaning": "An issue or dependency that stops or delays engineering work.",
+      "collocations": ["raise a blocker", "current blocker", "remove a blocker"],
+      "example": "My current blocker is missing access to the staging environment.",
+      "commonMistake": "Do not call every small inconvenience a blocker; explain what work it prevents."
+    },
+    {
+      "word": "deploy",
+      "ipa": "/dɪˈplɔɪ/",
+      "definition": "To put something into use.",
+      "technicalMeaning": "To release an application or change to an environment.",
+      "collocations": ["deploy to staging", "deploy a fix", "deployment pipeline"],
+      "example": "Today, I will deploy the authentication fix to staging.",
+      "commonMistake": "Use deploy to an environment, not deploy on an environment."
+    },
+    {
+      "word": "investigate",
+      "ipa": "/ɪnˈvestɪɡeɪt/",
+      "definition": "To examine a problem carefully.",
+      "technicalMeaning": "To inspect logs, code and system behavior to find a cause.",
+      "collocations": ["investigate an issue", "investigate logs", "investigate the cause"],
+      "example": "I am investigating an intermittent timeout in the payment API.",
+      "commonMistake": "Say investigate the issue, not investigate about the issue."
+    },
+    {
+      "word": "dependency",
+      "ipa": "/dɪˈpendənsi/",
+      "definition": "Something that another thing relies on.",
+      "technicalMeaning": "A service, library or team deliverable required by current work.",
+      "collocations": ["external dependency", "blocked by a dependency", "update a dependency"],
+      "example": "The identity service is an external dependency for this ticket.",
+      "commonMistake": "Name the specific dependency and its effect instead of saying only that you are blocked."
+    },
+    {
+      "word": "estimate",
+      "ipa": "/ˈestɪmət/",
+      "definition": "An approximate calculation or judgment.",
+      "technicalMeaning": "An expected amount of effort or time for engineering work.",
+      "collocations": ["time estimate", "revise the estimate", "provide an estimate"],
+      "example": "I will revise the estimate after I reproduce the bug.",
+      "commonMistake": "An estimate is not a guarantee; state what new information could change it."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Yesterday, I completed...",
+      "meaning": "Nêu ngắn gọn kết quả đã hoàn thành từ lần cập nhật trước.",
+      "tone": "neutral",
+      "example": "Yesterday, I completed the validation logic for the signup form.",
+      "alternatives": ["Since our last standup, I finished...", "I wrapped up..."]
+    },
+    {
+      "phrase": "Today, I am going to...",
+      "meaning": "Nêu việc ưu tiên tiếp theo và kết quả mong đợi.",
+      "tone": "neutral",
+      "example": "Today, I am going to deploy the fix and monitor the error rate.",
+      "alternatives": ["My focus today is...", "Next, I will..."]
+    },
+    {
+      "phrase": "My current blocker is...",
+      "meaning": "Nêu trở ngại cụ thể cùng tác động hoặc hỗ trợ cần thiết.",
+      "tone": "neutral",
+      "example": "My current blocker is missing staging access, so I need help from the platform team.",
+      "alternatives": ["I am blocked by...", "I have no blockers at the moment."]
+    }
+  ],
+  "reading": {
+    "title": "A concise update from Minh",
+    "sourceType": "Daily Standup Transcript",
+    "content": "Good morning. Yesterday, I completed the input validation for the signup form and added unit tests for the main error cases. I also reviewed the logs from our staging environment. Today, I will deploy the validation change to staging and investigate an intermittent timeout in the payment API. My goal is to reproduce the timeout and identify whether it comes from our service or an external dependency. My current blocker is access to the payment dashboard. Without that access, I can inspect application logs, but I cannot compare them with the provider metrics. I have asked the platform team for permission. If access is not available before lunch, I will pair with Linh and use her screen to continue the investigation. The original estimate for this ticket was one day. I will revise the estimate after we confirm the cause. That is all from me. The update is short, but it gives the team concrete completed work, a clear plan, a specific blocker and a next action."
+  },
+  "exercises": [
+    {
+      "id": "daily-standup-choice-1",
+      "type": "choice",
+      "question": "Which update gives the team a specific blocker and next action?",
+      "options": [
+        "I have some problems, but I am working on them.",
+        "My current blocker is payment dashboard access, so I asked the platform team for permission.",
+        "Yesterday was busy and today will also be busy."
+      ],
+      "correctAnswer": ["My current blocker is payment dashboard access, so I asked the platform team for permission."],
+      "explanation": "A useful blocker names what is missing, its effect and the action already taken."
+    },
+    {
+      "id": "daily-standup-matching-1",
+      "type": "matching",
+      "question": "Match each Daily Standup section with its purpose.",
+      "matchingPairs": [
+        { "key": "Yesterday", "value": "Completed outcome" },
+        { "key": "Today", "value": "Next priority" },
+        { "key": "Blocker", "value": "Obstacle and requested action" }
+      ],
+      "correctAnswer": [
+        "Yesterday - Completed outcome",
+        "Today - Next priority",
+        "Blocker - Obstacle and requested action"
+      ],
+      "explanation": "The three-part structure lets the team understand progress and act on obstacles quickly."
+    },
+    {
+      "id": "daily-standup-ordering-1",
+      "type": "ordering",
+      "question": "Order this plan for investigating a delayed dependency.",
+      "options": [
+        "Today, I will investigate the timeout.",
+        "The payment dashboard dependency is blocking comparison.",
+        "I asked the platform team for access."
+      ],
+      "correctAnswer": [
+        "Today, I will investigate the timeout.",
+        "The payment dashboard dependency is blocking comparison.",
+        "I asked the platform team for access."
+      ],
+      "explanation": "State the plan, name the blocker, then make the requested or completed action explicit."
+    }
+  ],
+  "performanceTask": {
+    "id": "daily-standup-spoken-task",
+    "mode": "spoken",
+    "title": "Deliver a concise Daily Standup",
+    "scenario": "Bạn tham gia cuộc Daily Standup trực tuyến với một nhóm kỹ sư quốc tế. Nhóm cần biết kết quả từ hôm qua, ưu tiên hôm nay và trở ngại cần hỗ trợ.",
+    "prompt": "Trong tối đa 60 giây, hãy báo cáo: việc đã hoàn thành, việc sẽ làm hôm nay và blocker hoặc xác nhận không có blocker. Thêm ít nhất một chi tiết kỹ thuật cụ thể.",
+    "modelResponse": "Yesterday, I completed the signup validation and added tests for the main error cases. Today, I will deploy the fix to staging and investigate a payment timeout. My current blocker is access to the payment dashboard, so I have asked the platform team for permission.",
+    "retryPrompt": "Nghe lại lượt nói. Thử lại bằng ba phần ngắn: Yesterday, Today, Blocker. Loại bỏ chi tiết không giúp nhóm hành động và thêm một next action rõ ràng.",
+    "transferPrompt": "Tình huống mới: dashboard đã truy cập được, nhưng external dependency trả lỗi 503 không ổn định. Hãy đưa ra một Daily Standup update mới, gồm kế hoạch điều tra, estimate hiện tại và người bạn cần phối hợp.",
+    "preparationSeconds": 30,
+    "performanceSeconds": 60,
+    "requirements": [
+      "Nêu một kết quả đã hoàn thành từ hôm qua",
+      "Nêu ưu tiên và kết quả mong đợi hôm nay",
+      "Nêu blocker hoặc xác nhận không có blocker",
+      "Đưa vào ít nhất một chi tiết kỹ thuật cụ thể",
+      "Nếu có blocker, nêu next action hoặc hỗ trợ cần thiết"
+    ],
+    "feedbackPriorities": [
+      "Cấu trúc yesterday–today–blocker dễ theo dõi",
+      "Chi tiết kỹ thuật cụ thể nhưng ngắn gọn",
+      "Blocker đi kèm tác động và hành động tiếp theo"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "criterion": "Cấu trúc ba phần",
+        "successDescription": "Người nghe phân biệt rõ việc đã làm, việc sắp làm và blocker."
+      },
+      {
+        "id": "specificity",
+        "criterion": "Chi tiết kỹ thuật cụ thể",
+        "successDescription": "Update gọi tên ít nhất một feature, lỗi, service, test hoặc environment cụ thể."
+      },
+      {
+        "id": "actionability",
+        "criterion": "Thông tin có thể hành động",
+        "successDescription": "Blocker có tác động và next action/hỗ trợ cần thiết, hoặc người nói xác nhận rõ không có blocker."
+      },
+      {
+        "id": "clarity",
+        "criterion": "Diễn đạt rõ và vừa thời lượng",
+        "successDescription": "Các câu ngắn, ý nối tiếp hợp lý và toàn bộ update không vượt quá timebox."
+      }
+    ]
+  }
+}

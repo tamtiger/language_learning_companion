@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-sounds",
+  "title": "Hệ thống âm tiếng Anh (English Sounds)",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hiểu bảng ký âm quốc tế IPA là gì",
+    "Phân biệt được nguyên âm ngắn /ɪ/ và nguyên âm dài /iː/",
+    "Tra cứu phiên âm IPA của thuật ngữ công nghệ chính xác"
+  ],
+  "vocabulary": [
+    {
+      "word": "developer",
+      "ipa": "/dɪˈveləpər/",
+      "definition": "A person who writes computer software code.",
+      "technicalMeaning": "A software engineer who builds applications, services, or tools.",
+      "collocations": ["frontend developer", "backend developer", "lead developer"],
+      "example": "He works as a backend developer at a tech company.",
+      "commonMistake": "Do not pronounce it as 'đờ-ve-lóp-pờ'. Pronounce it with the stress on the second syllable: /dɪˈveləpər/."
+    },
+    {
+      "word": "database",
+      "ipa": "/ˈdeɪtəbeɪs/",
+      "definition": "A structured set of data held in a computer.",
+      "technicalMeaning": "A storage system (SQL or NoSQL) that organizes and manages data.",
+      "collocations": ["relational database", "query a database", "database administrator"],
+      "example": "The application queries the database for user profile details.",
+      "commonMistake": "Do not drop the ending /s/ sound. Pronounce the /s/ clearly at the end."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Tra cứu phiên âm",
+      "meaning": "Look up the pronunciation in the dictionary.",
+      "tone": "neutral",
+      "example": "Always look up the IPA phonetic spelling when learning a new word.",
+      "alternatives": ["Check the dictionary pronunciation"]
+    }
+  ],
+  "reading": {
+    "title": "Tầm quan trọng của IPA đối với Lập trình viên",
+    "sourceType": "Giáo trình nội bộ",
+    "content": "Nhiều kỹ sư phần mềm Việt Nam thường phát âm tiếng Anh theo kiểu 'word-by-word' hoặc đoán mò. Ví dụ, từ 'developer' hay bị đọc sai thành 'đờ-ve-lóp-pờ'. Việc học bảng ký âm quốc tế IPA giúp bạn biết chính xác cách phát âm chuẩn của từng từ như /dɪˈveləpər/. Khi học từ mới, hãy luôn ưu tiên nhìn phiên âm và nghe phát âm mẫu để rèn luyện thói quen tự sửa đổi khẩu hình môi và đặt lưỡi."
+  },
+  "exercises": [
+    {
+      "id": "q1",
+      "type": "choice",
+      "question": "Từ 'developer' được nhấn trọng âm ở âm tiết thứ mấy?",
+      "options": [
+        "Âm tiết thứ nhất (de-)",
+        "Âm tiết thứ hai (-ve-)",
+        "Âm tiết thứ ba (-lo-)",
+        "Âm tiết thứ tư (-per)"
+      ],
+      "correctAnswer": ["Âm tiết thứ hai (-ve-)"],
+      "explanation": "Từ /dɪˈveləpər/ có dấu trọng âm ở trước âm tiết thứ hai. Do đó, trọng âm rơi vào '-ve-'."
+    },
+    {
+      "id": "q2",
+      "type": "matching",
+      "question": "Nối các từ sau với phiên âm IPA đúng của chúng:",
+      "matchingPairs": [
+        {
+          "key": "developer",
+          "value": "/dɪˈveləpər/"
+        },
+        {
+          "key": "database",
+          "value": "/ˈdeɪtəbeɪs/"
+        }
+      ],
+      "correctAnswer": [
+        "developer - /dɪˈveləpər/",
+        "database - /ˈdeɪtəbeɪs/"
+      ],
+      "explanation": "developer nối với /dɪˈveləpər/ và database nối với /ˈdeɪtəbeɪs/."
+    },
+    {
+      "id": "q3",
+      "type": "fill",
+      "question": "Điền từ thích hợp vào chỗ trống: 'A structured set of data held in a computer is a ______.'",
+      "options": [
+        "developer",
+        "database"
+      ],
+      "correctAnswer": ["database"],
+      "explanation": "Database (cơ sở dữ liệu) là tập hợp dữ liệu có cấu trúc được lưu trên máy tính."
+    }
+  ]
+}

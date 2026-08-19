@@ -1,0 +1,63 @@
+# Project agent instructions
+
+## Harnix
+
+- Version: 1.0.7.
+- Role: project-local coding-agent harness for workflow state, task evidence, concise engineering guidance, and diagnostics.
+- Scope: the Harnix CLI manages this project's .harnix lifecycle; this root AGENTS bootstrap and [`.harnix/workflow.md`](.harnix/workflow.md) drive coding tasks. Read the workflow before classifying, persisting, or completing task work. Platform integrations, when explicitly installed, are user-global and never project-local setup output.
+
+## Project profile
+
+- Languages: JavaScript, TypeScript.
+- Technologies: React web.
+- Package paths: `.`.
+
+Treat this profile as an initialization-time discovery seed. Verify current manifests, source, tests, and repository instructions before selecting bounded task context; do not bulk-load the repository.
+
+## Harnix workflow
+
+Use harnix --help or harnix <command> --help for exact CLI syntax; do not guess flags. Public commands are init, setup, update, upgrade, uninstall, mem, doctor, and repo-map. They manage the harness and diagnostics, not coding-task stage transitions.
+
+`harnix init` creates this project's .harnix state and root AGENTS bootstrap. It does not install platform integrations. `harnix setup --kiro`, `harnix setup --antigravity`, and `harnix setup --codex` are explicit user-global integration operations: they may run from any directory and affect only the selected user integration, not this repository. Do not run setup or harnix init automatically. Run a selected setup only with explicit user authorization; if a required global skill or hook is unavailable, report that instead of simulating it.
+
+Activation guard and before work:
+
+1. Locate the nearest initialized project ancestor or workspace root containing .harnix/config.yaml. If none exists or its state is invalid, do not apply Harnix workflow, read Harnix project state, create state, or run harnix init; report the problem.
+2. Read .harnix/workflow.md and .harnix/config.yaml, verify the current repository evidence, then load only the context relevant to the request.
+3. If .harnix/tasks/.active identifies an unfinished task, use harnix-continue and resume its persisted status, checkpoint, and evidence.
+4. Otherwise classify the request as Bypass, Lite, or Full using .harnix/workflow.md. Read-only answers may bypass task creation; implementation work follows the selected workflow.
+
+Use the skills in this order when their stage applies:
+
+- harnix-brainstorm: establish scope, acceptance criteria, validation, and the ready gate.
+- harnix-implement: implement a ready task; use RED-GREEN-REFACTOR for behavior changes unless a documented exception applies.
+- harnix-check: perform standalone read-only code review or active-task verification; use bounded scope, evidence-backed findings, then compliance before quality and security.
+- harnix-finish-work: complete and archive only after every acceptance criterion and required check passes.
+- harnix-research and harnix-debug: use only for material unknowns or failures; harnix-continue restores persisted work.
+
+The persisted lifecycle is planning -> ready -> in_progress -> verifying -> completed. New tasks use TaskRecord schema v2 with criterion-linked checks and input snapshots; schema v1 is legacy read-only unless explicitly migrated at replan. A blocked task resumes only to its recorded status. Do not skip gates or treat stale, partial, or inferred output as verification.
+
+Use Evidence → Requirements → Plan → Execute → Verify → Persist as the semantic lifecycle. Feature, bugfix, hotfix, refactor, test, docs, maintenance, migration, dependency, security, performance, and release are work kinds that choose risk and validation, not separate workflows. Standalone read-only code review is Bypass; review-and-fix is a task mutation.
+
+Workflow persistence transport is hidden and agent-only:
+
+- `harnix workflow --inspect` returns the active TaskRecord and `contextDrift`; run it before creating or resuming work.
+- `harnix workflow --save` accepts one bounded JSON envelope on stdin with shape `{ "task": <TaskRecord>, "artifacts"?: <TaskArtifacts> }`. Stage skills use it for planning state, legal transitions, artifacts, and evidence; never edit task.json directly.
+- `harnix workflow --snapshot --check <id>` computes the TaskRecord v2 freshness digest immediately before and after a required non-mutating check.
+- `harnix workflow --finish` is the only completion transport; it revalidates freshness, writes completion/journal state, and clears only the matching active pointer.
+
+These commands are not supported public user APIs and remain absent from public help. Read the exact envelope and TaskRecord v2 field contract in `.harnix/workflow.md` before saving state.
+
+Operating rules:
+
+- Luôn dùng tiếng Việt khi tạo và cập nhật task Harnix, gồm nội dung hướng người dùng trong `task.json`, `prd.md`, `plan.md`, `design.md`, research và journal. Giữ nguyên code identifier, command, đường dẫn, tên field/schema và trích dẫn nguồn khi cần để bảo đảm chính xác kỹ thuật.
+- On continuation, inspect `contextDrift`; stale context returns to replan before reselection. For each required v2 check, use hidden `workflow --snapshot` before and after verification and persist only a matching `inputDigest`.
+- Preserve user-owned files, tasks, specs, research, journals, credentials, and unrelated configuration.
+- Keep generated paths repository-relative and never expose secrets, prompts, or machine-specific absolute paths in output.
+- Run harnix doctor when managed files, platform setup, or project state may have drifted.
+- For explicit implementation-stage discovery in an initialized project, run `harnix repo-map --query <text>`. It returns cache-only navigation hints; use `harnix doctor --fix` to rebuild a missing, stale, or invalid cache. Platform hooks must not invoke repository-map queries or refreshes.
+- Before recording any task as `completed`, follow this project's release/version instruction when one exists; do not invent package or changelog side effects.
+- Require explicit user authorization for destructive, networked, installation, upgrade, purge, or externally visible actions.
+- Never commit, branch, create a worktree, merge, push, publish, or create a pull request automatically.
+- Before any commit, show the proposed changes and commit message, then wait for explicit user approval.
+- If the CLI, a required skill, or persisted state is unavailable or invalid, report the problem instead of inventing Harnix state or schemas.

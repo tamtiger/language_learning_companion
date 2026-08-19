@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "v1",
+  "lessonId": "pronunciation-word-stress",
+  "title": "Trọng âm từ (Word Stress)",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hiểu khái niệm trọng âm từ và ký hiệu dấu trọng âm trong từ điển IPA",
+    "Nhấn đúng trọng âm của các thuật ngữ chuyên ngành (architecture, repository, engineer)",
+    "Nhận biết sự thay đổi nghĩa của từ khi thay đổi vị trí trọng âm"
+  ],
+  "vocabulary": [
+    {
+      "word": "architecture",
+      "ipa": "/ˈɑːrkɪtektʃər/",
+      "definition": "The complex structure of something.",
+      "technicalMeaning": "The conceptual model that defines the structure and behavior of a software system.",
+      "collocations": ["software architecture", "system architecture", "clean architecture"],
+      "example": "We need to discuss the microservices architecture of the new platform.",
+      "commonMistake": "Do not place stress on the second syllable. The stress must be on the first syllable: /ˈɑːrkɪtektʃər/."
+    },
+    {
+      "word": "repository",
+      "ipa": "/rɪˈpɑːzɪtɔːri/",
+      "definition": "A place where things are stored.",
+      "technicalMeaning": "A storage location for software code, usually managed by Git.",
+      "collocations": ["git repository", "remote repository", "public repository"],
+      "example": "Please clone the repository before starting your task.",
+      "commonMistake": "Do not stress the first syllable. The stress falls on the second syllable: /rɪˈpɑːzɪtɔːri/."
+    }
+  ],
+  "expressions": [
+    {
+      "phrase": "Discuss system architecture",
+      "meaning": "Thảo luận về cấu trúc hệ thống.",
+      "tone": "neutral",
+      "example": "Let's schedule a meeting to discuss the system architecture.",
+      "alternatives": ["Review the design model", "Examine the technical structure"]
+    }
+  ],
+  "reading": {
+    "title": "Thiết lập cấu trúc dự án và thiết kế",
+    "sourceType": "Engineering Pitch",
+    "content": "Before writing code, a senior engineer always defines the clean architecture. When the team clones the git repository, they will see a clear layout representing the system infrastructure and core modules."
+  },
+  "exercises": [
+    {
+      "id": "e3-1",
+      "type": "choice",
+      "question": "Trọng âm chính của từ 'architecture' rơi vào âm tiết thứ mấy?",
+      "options": [
+        "Âm tiết thứ nhất (ar-)",
+        "Âm tiết thứ hai (-chi-)",
+        "Âm tiết thứ ba (-tec-)",
+        "Âm tiết thứ tư (-ture)"
+      ],
+      "correctAnswer": ["Âm tiết thứ nhất (ar-)"],
+      "explanation": "/ˈɑːrkɪtektʃər/ có dấu trọng âm ở đầu từ, do đó rơi vào âm tiết thứ nhất."
+    },
+    {
+      "id": "e3-2",
+      "type": "choice",
+      "question": "Trọng âm chính của từ 'repository' rơi vào âm tiết thứ mấy?",
+      "options": [
+        "Âm tiết thứ nhất (re-)",
+        "Âm tiết thứ hai (-pos-)",
+        "Âm tiết thứ ba (-i-)",
+        "Âm tiết thứ tư (-to-)"
+      ],
+      "correctAnswer": ["Âm tiết thứ hai (-pos-)"],
+      "explanation": "/rɪˈpɑːzɪtɔːri/ có dấu trọng âm trước âm tiết 'pos', do đó trọng âm rơi vào âm tiết thứ hai."
+    },
+    {
+      "id": "e3-3",
+      "type": "matching",
+      "question": "Nối các từ sau với vị trí trọng âm chính của chúng:",
+      "matchingPairs": [
+        {
+          "key": "architecture",
+          "value": "Âm tiết 1"
+        },
+        {
+          "key": "repository",
+          "value": "Âm tiết 2"
+        },
+        {
+          "key": "engineer",
+          "value": "Âm tiết 3"
+        }
+      ],
+      "correctAnswer": [
+        "architecture - Âm tiết 1",
+        "repository - Âm tiết 2",
+        "engineer - Âm tiết 3"
+      ],
+      "explanation": "architecture nhấn âm 1, repository nhấn âm 2, và engineer (/ˌendʒɪˈnɪr/) nhấn âm 3."
+    }
+  ]
+}
