@@ -1,0 +1,77 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260819-205457-learner-audit-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "ev-check-learner-audit-prompt",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260819-205457-learner-audit-prompt",
+      "checkId": "check-learner-audit-prompt",
+      "taskContractHash": "a65390052334fb5d45efc261c35b091e4d1bbec430051b74e91c54c4a507d4e2",
+      "entries": [
+        {
+          "path": "ARCHITECTURE.md",
+          "sha256": "81a14ae07360a01a6486139342f893eaf4eb2b8952ca29cb47d3e4778ad9ec91"
+        },
+        {
+          "path": "CONTENT.md",
+          "sha256": "9e349413ce0ab3a13c4afd7acab8f7c8cde8015c00cea323fd1f33f1cd6cfef0"
+        },
+        {
+          "path": "LEARNER_AUDIT_PROMPT.md",
+          "sha256": "5a0b54846b22e157203102ad1d0710a5e94866e9e4f115179c54cb9060e02fcc"
+        },
+        {
+          "path": "PRODUCT.md",
+          "sha256": "377f43dfca59bb519f0f9bdaac75eb720070965dd04ff37a25fcf570ac0ac2b2"
+        },
+        {
+          "path": "README.md",
+          "sha256": "67a6f8740e03c1c25ddb24eb4c6264541344eeb9eb67755142afcf18ca397dc0"
+        },
+        {
+          "path": "START_HERE.md",
+          "sha256": "20a123f3dcde527bf9184c4d29c369bc0c2fe81c01c232fee3d02edf16927591"
+        }
+      ],
+      "inputDigest": "5645907470563cc529ac8d880a458aead8a3c11474b295fb00dc188ab1d7bd5e"
+    },
+    {
+      "evidenceId": "ev-check-learner-audit-prompt-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260819-205457-learner-audit-prompt",
+      "checkId": "check-learner-audit-prompt",
+      "taskContractHash": "a65390052334fb5d45efc261c35b091e4d1bbec430051b74e91c54c4a507d4e2",
+      "entries": [
+        {
+          "path": "ARCHITECTURE.md",
+          "sha256": "81a14ae07360a01a6486139342f893eaf4eb2b8952ca29cb47d3e4778ad9ec91"
+        },
+        {
+          "path": "CONTENT.md",
+          "sha256": "9e349413ce0ab3a13c4afd7acab8f7c8cde8015c00cea323fd1f33f1cd6cfef0"
+        },
+        {
+          "path": "LEARNER_AUDIT_PROMPT.md",
+          "sha256": "5a0b54846b22e157203102ad1d0710a5e94866e9e4f115179c54cb9060e02fcc"
+        },
+        {
+          "path": "PRODUCT.md",
+          "sha256": "377f43dfca59bb519f0f9bdaac75eb720070965dd04ff37a25fcf570ac0ac2b2"
+        },
+        {
+          "path": "README.md",
+          "sha256": "67a6f8740e03c1c25ddb24eb4c6264541344eeb9eb67755142afcf18ca397dc0"
+        },
+        {
+          "path": "START_HERE.md",
+          "sha256": "20a123f3dcde527bf9184c4d29c369bc0c2fe81c01c232fee3d02edf16927591"
+        }
+      ],
+      "inputDigest": "5645907470563cc529ac8d880a458aead8a3c11474b295fb00dc188ab1d7bd5e"
+    }
+  ]
+}

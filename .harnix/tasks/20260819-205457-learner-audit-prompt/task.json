@@ -1,0 +1,103 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-205457-learner-audit-prompt",
+  "title": "Tạo prompt audit trải nghiệm người học",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo một prompt tiếng Việt điều khiển AI sử dụng ứng dụng như người học thật, kiểm thử đầy đủ các luồng chính và báo cáo bug, hạn chế cùng đề xuất cải tiến có thể triển khai.",
+  "nonGoals": [
+    "Không thay đổi runtime, product contract hoặc content trong task này.",
+    "Không tự động sửa các finding do prompt tương lai phát hiện.",
+    "Không commit, push hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Prompt định nghĩa persona thực tế, nguyên tắc kiểm thử dựa trên runtime và bảo toàn dữ liệu người dùng.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-learner-audit-prompt-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Prompt bao phủ Today, Catalog, sáu capability, pronunciation, learning loop viết/nói, retry, transfer, delayed review, Progress, reload/resume, backup/import và các trạng thái lỗi quan trọng.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-learner-audit-prompt-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Prompt yêu cầu báo cáo có bằng chứng, reproduction, expected/actual, severity, tác động tới mục tiêu học tập, hướng sửa và acceptance criteria; đồng thời phân biệt bug, hạn chế và giả thuyết.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-learner-audit-prompt-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "LEARNER_AUDIT_PROMPT.md"
+  ],
+  "relevantSpecs": [
+    "PRODUCT.md",
+    "CONTENT.md",
+    "ARCHITECTURE.md",
+    "README.md",
+    "START_HERE.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-learner-audit-prompt",
+      "description": "Kiểm tra prompt có persona, runtime evidence, phạm vi luồng chính, data safety và mẫu báo cáo actionable.",
+      "command": "$text=Get-Content LEARNER_AUDIT_PROMPT.md -Raw -Encoding utf8;$terms=@('Persona','runtime','Today','Catalog','sáu capability','pronunciation','baseline','retry','transfer','delayed review','Progress','reload','backup','expected','actual','severity','acceptance criteria','Không sửa code');$missing=@($terms|Where-Object{-not $text.Contains($_)});if($missing.Count){$missing;exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "LEARNER_AUDIT_PROMPT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-learner-audit-prompt",
+      "checkId": "check-learner-audit-prompt",
+      "recordedAt": "2026-08-19T13:57:02.223Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Prompt contract PASS: persona, runtime testing, complete flow coverage, data safety, actionable finding template and report structure are present.",
+      "artifactPaths": [
+        "LEARNER_AUDIT_PROMPT.md"
+      ],
+      "inputDigest": "5645907470563cc529ac8d880a458aead8a3c11474b295fb00dc188ab1d7bd5e"
+    },
+    {
+      "id": "ev-check-learner-audit-prompt-final",
+      "checkId": "check-learner-audit-prompt",
+      "recordedAt": "2026-08-19T13:57:19.468Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh final verification PASS: prompt satisfies the requested real-user simulation, complete functional audit scope, data-safety constraints, and actionable bug/limitation reporting contract.",
+      "artifactPaths": [
+        "LEARNER_AUDIT_PROMPT.md"
+      ],
+      "inputDigest": "5645907470563cc529ac8d880a458aead8a3c11474b295fb00dc188ab1d7bd5e"
+    }
+  ],
+  "createdAt": "2026-08-19T13:54:57.48Z",
+  "updatedAt": "2026-08-19T13:57:27.613Z",
+  "completedAt": "2026-08-19T13:57:27.613Z"
+}

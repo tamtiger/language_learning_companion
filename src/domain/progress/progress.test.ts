@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   appendAttempt,
+  assessTransfer,
   applyReviewResult,
   buildTodayQueue,
   createEmptyLessonProgress,
@@ -21,6 +22,7 @@ function attempt(index: number): AttemptEvidence {
     phase: 'retry',
     attemptedAt: new Date(Date.UTC(2026, 7, 18, 0, index)).toISOString(),
     durationSeconds: 60,
+    wordCount: null,
     rubric: { clarity: 'met' },
     independence: {
       usedVietnamese: false,
@@ -61,6 +63,31 @@ describe('progress evidence and scheduling', () => {
     expect(isQualifyingTransfer(hintedTransfer, 1)).toBe(true)
     expect(isQualifyingTransfer({ ...transfer, phase: 'retry' })).toBe(false)
     expect(isQualifyingTransfer({ ...transfer, completed: false })).toBe(false)
+  })
+
+  it('returns actionable reasons for rubric, independence and output-contract gaps', () => {
+    const transfer = {
+      ...attempt(1),
+      phase: 'transfer' as const,
+      wordCount: 20,
+      durationSeconds: 200,
+      rubric: { clarity: 'not-met' as const },
+      independence: {
+        ...attempt(1).independence,
+        usedTranslation: true,
+        hintCount: 2
+      }
+    }
+
+    expect(assessTransfer(transfer, {
+      maxHints: 1,
+      timeLimitSeconds: 120,
+      minWords: 80,
+      maxWords: 120
+    })).toEqual({
+      qualifies: false,
+      reasons: ['rubric-gap', 'used-translation', 'too-many-hints', 'overtime', 'too-short']
+    })
   })
 
   it('uses content-owned review intervals and repeats failed stages after one day', () => {

@@ -1,0 +1,374 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-072921-actionable-retry-evidence",
+  "title": "Actionable retry và truthful transfer evidence",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Refactor self-feedback → retry → transfer để retry có tiêu chí sửa, lưu evidence cải thiện và Progress chỉ báo transfer đạt khi rubric cùng independence thỏa điều kiện.",
+  "nonGoals": [
+    "Không đổi content JSON/schema.",
+    "Không đổi completion/review scheduling.",
+    "Không bump storage hay persist free text/media.",
+    "Không thêm AI/cloud hoặc sửa timing.",
+    "Không commit/push/PR."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Self-feedback bắt buộc chọn criterion not-met làm retry focus khi có gap; retry hiển thị focus, yêu cầu output và rerate đầy đủ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-practice-ui-final",
+        "ev-check-all-tests-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Retry persist rubric và optional focusCriterionId; storage v2 backward-compatible, strict và privacy-safe.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-storage-final",
+        "ev-check-practice-ui-final",
+        "ev-check-all-tests-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Pure helpers và Progress phân loại/hiển thị attempts, transfer attempts, qualifying transfers đúng contract.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-storage-final",
+        "ev-check-progress-ui-final",
+        "ev-check-all-tests-final"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Owner docs và CHANGELOG phản ánh runtime, compatibility và privacy.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-docs-final",
+        "ev-check-all-tests-final"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Focused/full tests, lint, build PASS; manual keyboard, resume cũ và transfer đạt/chưa đạt.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-all-tests-final",
+        "ev-check-lint-final",
+        "ev-check-build-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "PRODUCT.md",
+    "src/domain/progress/progress.test.ts",
+    "src/domain/progress/progress.ts",
+    "src/features/lesson/LessonFlow.test.tsx",
+    "src/features/practice/CapabilityTask.tsx",
+    "src/features/progress/ProgressPage.test.tsx",
+    "src/features/progress/ProgressPage.tsx",
+    "src/infrastructure/storage/progress_storage.test.ts",
+    "src/infrastructure/storage/progress_storage.ts",
+    "src/shared/hooks/use_app_store.test.ts",
+    "src/shared/hooks/use_app_store.ts"
+  ],
+  "relevantSpecs": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-domain-storage",
+      "description": "Pure helpers, optional focus, compatibility/privacy.",
+      "command": "npx vitest run src/domain/progress/progress.test.ts src/infrastructure/storage/progress_storage.test.ts src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "check-practice-ui",
+      "description": "Focus selection và retry rerating.",
+      "command": "npx vitest run src/features/lesson/LessonFlow.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "check-progress-ui",
+      "description": "Truthful Progress aggregates.",
+      "command": "npx vitest run src/features/progress/ProgressPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "check-docs",
+      "description": "Owner docs và changelog contract.",
+      "command": "$files=@('PRODUCT.md','ARCHITECTURE.md','CHANGELOG.md');$text=($files|%{Get-Content $_ -Raw})-join \"`n\";$terms=@('retry focus','qualifying transfer','focusCriterionId');if(@($terms|?{-not $text.Contains($_)}).Count){exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "PRODUCT.md"
+      ]
+    },
+    {
+      "id": "check-all-tests",
+      "description": "Full regression.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**",
+        "package-lock.json",
+        "package.json",
+        "src/**",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Lint.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "src/**",
+        "tsconfig.app.json",
+        "tsconfig.json",
+        "vite.config.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts"
+      ],
+      "exitCode": 0,
+      "id": "ev-s1-domain-storage-green",
+      "result": "pass",
+      "recordedAt": "2026-08-19T00:36:32.7655536Z",
+      "summary": "RED xác nhận helpers/focus schema còn thiếu; GREEN: 19 focused domain, storage và store tests PASS."
+    },
+    {
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "exitCode": 0,
+      "id": "ev-s2-practice-green",
+      "result": "pass",
+      "recordedAt": "2026-08-19T00:36:32.7655536Z",
+      "summary": "RED xác nhận retry không rerate và self-feedback không chặn focus; GREEN: 5 LessonFlow tests PASS."
+    },
+    {
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "exitCode": 0,
+      "id": "ev-s3-progress-green",
+      "result": "pass",
+      "recordedAt": "2026-08-19T00:36:32.7655536Z",
+      "summary": "RED xác nhận Progress đánh đồng independence/transfer; GREEN: domain và Progress tests PASS, gồm content-owned maxHints."
+    },
+    {
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-domain-storage",
+      "inputDigest": "15bc8902d06efaf73a4e3ab46d5bbe897cc8fd53f985521dbbb43907ef5790c6",
+      "id": "ev-check-domain-storage-final",
+      "summary": "19 focused domain/storage/store tests PASS; optional focus, strict privacy, backward compatibility and maxHints-aware evidence verified.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-practice-ui",
+      "inputDigest": "dd68735380fec470a02b6e04cba46bccaa58fd29d7047cb9b8f983dc005e8379",
+      "id": "ev-check-practice-ui-final",
+      "summary": "5 LessonFlow integration tests PASS, including focus guard, persisted retry focus, rerating and legacy resume.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-progress-ui",
+      "inputDigest": "0c39f18937cfded6f2937a780b1b74aba6943c8c3ddb2c797a579d1618338a0c",
+      "id": "ev-check-progress-ui-final",
+      "summary": "Progress component test PASS; transfer attempts and qualifying transfers are distinct and content maxHints is honored.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "PRODUCT.md",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-docs",
+      "inputDigest": "3a7c6cf73f01cc4194ded0a68800feab8e3be6a3b0b2a1a2434adb41007c0610",
+      "id": "ev-check-docs-final",
+      "summary": "PRODUCT, ARCHITECTURE and CHANGELOG contain the implemented retry-focus, focusCriterionId and qualifying-transfer contracts.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-all-tests",
+      "inputDigest": "c9f220860dcb6f3c785ea797ae7c5eab61ea148bba2be6ee5899fcbb7c297e38",
+      "id": "ev-check-all-tests-final",
+      "summary": "Full regression PASS: 15 test files, 68 tests, including all content schema/normalization/catalog and mission compatibility tests.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "src"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-lint",
+      "inputDigest": "e7689e7c90b47457e3a58252d62c09a809f88e26f8a0795eefd603a801efc4d5",
+      "id": "ev-check-lint-final",
+      "summary": "npm run lint PASS with no project findings.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "artifactPaths": [
+        "dist/index.html"
+      ],
+      "result": "pass",
+      "exitCode": 0,
+      "checkId": "check-build",
+      "inputDigest": "21bc02a76d19ca9a8e2d2f14ba077374ecedd3aa1aa9c49fd0a9771d832da436",
+      "id": "ev-check-build-final",
+      "summary": "TypeScript and Vite production build PASS; 1619 modules, JS 357.72 kB / 105.02 kB gzip.",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z"
+    },
+    {
+      "recordedAt": "2026-08-19T00:41:28.9070674Z",
+      "result": "pass",
+      "id": "ev-manual-critical-flow",
+      "summary": "Browser manual flow PASS: keyboard Enter navigation, not-met focus guard, retry rerating guard, mission completion, and Progress 1 transfer attempt / 0 qualifying transfer. No app-origin console errors.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-content-and-diff-review",
+      "recordedAt": "2026-08-19T00:41:28.9070674Z",
+      "summary": "14 focused content/schema tests PASS; git diff --check PASS; review found no blocking correctness, privacy, compatibility or accidental-deletion issue in task scope.",
+      "result": "pass",
+      "exitCode": 0,
+      "artifactPaths": [
+        "content",
+        "src/content",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-19T00:29:21.0432456Z",
+  "updatedAt": "2026-08-19T00:41:47.821Z",
+  "completedAt": "2026-08-19T00:41:47.821Z"
+}

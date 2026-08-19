@@ -1,0 +1,91 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-204812-expand-readme",
+  "title": "Cập nhật README theo tính năng hiện hành",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Biến README thành tài liệu giới thiệu và khởi động đầy đủ, phản ánh chính xác tính năng hiện đang chạy của Language Learning Companion.",
+  "nonGoals": [
+    "Không thay đổi runtime, content, product contract hoặc dependency.",
+    "Không quảng bá AI/cloud/account hay tính năng chưa implement.",
+    "Không commit, push hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "README mô tả sáu mục tiêu, các màn hình và learning loop hiện hành gồm retry focus, transfer và delayed review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-readme-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "README liệt kê nội dung hiện có, privacy/local-only, backup, compatibility v1/v2/v3 và các giới hạn quan trọng.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-readme-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "README có prerequisites, quickstart, scripts verification, cấu trúc source-of-truth và không mâu thuẫn owner docs.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-readme-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "README.md"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "START_HERE.md",
+    "package.json"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-readme",
+      "description": "Kiểm tra README có các mục sản phẩm, tính năng, privacy, setup, verification và source-of-truth bắt buộc.",
+      "command": "$text=Get-Content README.md -Raw -Encoding utf8;$terms=@('Sáu mục tiêu','Today','retry focus','Transfer đạt','local-only','schema v1, v2 và v3','npm run dev','npm test','Không có AI scoring','PRODUCT.md');$missing=@($terms|Where-Object{-not $text.Contains($_)});if($missing.Count){$missing;exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md",
+        "package.json"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "summary": "README contract, referenced paths and git diff whitespace check PASS.",
+      "inputDigest": "f42a1156e7b4cee6d200b7cd93054b7ab196e91e593a34f3180db0c9ea0bfd8b",
+      "exitCode": 0,
+      "recordedAt": "2026-08-19T13:49:24.8193470Z",
+      "result": "pass",
+      "artifactPaths": [
+        "README.md"
+      ],
+      "id": "ev-check-readme-final",
+      "checkId": "check-readme"
+    }
+  ],
+  "createdAt": "2026-08-19T13:48:12.4315732Z",
+  "updatedAt": "2026-08-19T13:49:46.134Z",
+  "completedAt": "2026-08-19T13:49:46.134Z"
+}

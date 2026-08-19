@@ -9,11 +9,11 @@ describe('capability-first catalog', () => {
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(1)
   })
 
-  it('contains one baseline mission for each of the six primary capabilities', () => {
+  it('contains two baseline missions for each of the six primary capabilities', () => {
     const catalog = getBundledCatalog()
     const capabilities = catalog.baselineMissions.flatMap((lesson) => lesson.capabilities)
 
-    expect(catalog.baselineMissions).toHaveLength(6)
+    expect(catalog.baselineMissions).toHaveLength(12)
     expect(new Set(capabilities)).toEqual(new Set([
       'workplace-communication',
       'technical-reading',
@@ -22,6 +22,9 @@ describe('capability-first catalog', () => {
       'international-interview',
       'technology-learning'
     ]))
+    for (const capability of new Set(capabilities)) {
+      expect(capabilities.filter((item) => item === capability)).toHaveLength(2)
+    }
   })
 
   it('returns structured errors for invalid files and duplicate lesson ids', () => {

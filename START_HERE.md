@@ -25,10 +25,18 @@ Mục tiêu không phải hoàn thành nhiều bài mà là transfer độc lậ
 
 App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiên hiện tại, không persist hoặc upload. Backup chỉ chứa metadata tiến độ đã allowlist. Nếu trình duyệt không hỗ trợ hoặc từ chối microphone, bạn vẫn luyện bằng timer-only fallback.
 
+## Thuật ngữ trong learning loop
+
+- **Baseline**: lượt làm đầu tiên trước khi xem input hoặc model.
+- **Retry**: lượt sửa có trọng tâm sau khi tự đối chiếu rubric.
+- **Transfer**: dùng cùng kỹ năng trong một tình huống mới.
+- **Qualifying transfer**: transfer đáp ứng rubric, độ dài/thời gian và điều kiện độc lập.
+- **Review**: lượt kiểm tra lại theo lịch để củng cố khả năng dùng độc lập.
+
 ## Nội dung hiện có
 
-- Sáu baseline mission, mỗi mission ứng với một capability.
-- Daily Standup và sáu lesson pronunciation legacy vẫn chạy qua migration/normalization.
+- Mười hai mission, hai mission ứng với mỗi capability.
+- Daily Standup và sáu lesson pronunciation vẫn chạy qua normalization; bài phát âm chỉ hoàn tất sau khi mọi auto-check đúng.
 - Catalog có thể lọc theo capability, workflow và CEFR.
 
 Chi tiết product xem `PRODUCT.md`; content schema v3 xem `CONTENT.md`; kiến trúc và migration xem `ARCHITECTURE.md`.

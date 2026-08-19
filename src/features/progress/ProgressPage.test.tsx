@@ -21,6 +21,7 @@ function evidence(
     phase,
     attemptedAt: '2026-08-18T08:00:00.000Z',
     durationSeconds: 60,
+    wordCount: 100,
     rubric,
     independence: {
       usedVietnamese: false,
@@ -61,6 +62,7 @@ describe('capability progress evidence', () => {
     expect(scope.getByText('Attempts').nextElementSibling?.textContent).toBe('3')
     expect(scope.getByText('Transfer attempts').nextElementSibling?.textContent).toBe('2')
     expect(scope.getByText('Transfer đạt').nextElementSibling?.textContent).toBe('1')
-    expect(screen.getByText(/transfer đạt = toàn bộ rubric đạt.*không vượt giới hạn/i)).toBeTruthy()
+    expect(scope.getByText(/còn tiêu chí rubric chưa đạt/i)).toBeTruthy()
+    expect(scope.getAllByText(/60s · 100 từ/i)).toHaveLength(2)
   })
 })

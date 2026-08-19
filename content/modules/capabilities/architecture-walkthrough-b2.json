@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "architecture-walkthrough-b2",
+  "title": "Walk through a system architecture",
+  "summary": "Giải thích luồng hệ thống, ranh giới và trade-off bằng tiếng Anh dễ theo dõi.",
+  "cefrLevel": "B2",
+  "durationMinutes": 20,
+  "learningObjectives": ["Tổ chức explanation theo luồng", "Nêu component responsibility", "Giải thích trade-off"],
+  "capabilities": ["technical-explanation"],
+  "workflowTags": ["architecture", "walkthrough"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Order pipeline", "format": "technical-doc", "content": "Client → API gateway → order service → event broker → inventory and payment consumers. The API returns after validation; downstream processing is asynchronous. Failed events enter a dead-letter queue." },
+    { "id": "check", "type": "auto-check", "title": "Choose a clear transition", "exercises": [{ "id": "architecture-check", "type": "choice", "question": "Câu nào giúp người nghe theo dõi luồng tốt nhất?", "options": ["There are many services.", "Once the order service publishes the event, two consumers process inventory and payment independently.", "It is event-driven."], "correctAnswer": ["Once the order service publishes the event, two consumers process inventory and payment independently."], "explanation": "Transition chỉ rõ thời điểm, component và hành động." }] }
+  ],
+  "performanceTask": {
+    "id": "architecture-walkthrough", "mode": "spoken", "title": "Explain the order pipeline",
+    "scenario": "Một kỹ sư mới cần hiểu request flow và cách hệ thống xử lý failure.",
+    "baselinePrompt": "Giải thích sơ đồ bằng tiếng Anh mà chưa xem model.",
+    "performancePrompt": "Trong 2 phút, đi từ entry point đến consumers, nêu responsibility, async trade-off và failure path.",
+    "modelResponse": "A request first enters the API gateway, which authenticates and routes it to the order service. The service validates the payload, stores the order and publishes an event. From that point, inventory and payment run independently. This reduces request latency and isolates consumers, but the client sees acceptance rather than final completion. Failed events move to the dead-letter queue for investigation and replay.",
+    "retryPrompt": "Giải thích lại với signposting rõ và sửa một tiêu chí chưa đạt.",
+    "transferPrompt": "Giải thích một pipeline upload file gồm gateway, object storage, queue và worker.",
+    "reviewPrompt": "Walk through một architecture khác, gồm happy path, trade-off và failure path.",
+    "outputContract": { "timeLimitSeconds": 180, "requiredElements": ["request flow", "responsibilities", "trade-off", "failure path"], "targetSeconds": 90 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
+    "feedbackPriorities": ["structure", "accuracy", "trade-off"],
+    "rubric": [
+      { "id": "flow", "label": "Traceable flow", "description": "Uses transitions so the listener can follow the request end to end." },
+      { "id": "responsibility", "label": "Component responsibilities", "description": "Explains what major components do, not only their names." },
+      { "id": "tradeoff", "label": "Trade-off and failure", "description": "Names one benefit, one cost and the failure path." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+}

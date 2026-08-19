@@ -1,0 +1,22 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260819-223702-curriculum-realism-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "ev-check-curriculum-prompt",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260819-223702-curriculum-realism-prompt",
+      "checkId": "check-curriculum-prompt",
+      "taskContractHash": "9aef8085401a3300eb927aba08bcf4c2f4fd5cd6b5fa9ead4c71ea127582734f",
+      "entries": [
+        {
+          "path": "CURRICULUM_RESEARCH_PROMPT.md",
+          "sha256": "a4096e7bca7fbe8526ab41eef2073d1d16828812544a4873a0cc5db057b94a48"
+        }
+      ],
+      "inputDigest": "628ae71aefda3c8a6d4b9397a78f5748aa3185f0f929d05daf070e2f5a6bea12"
+    }
+  ]
+}

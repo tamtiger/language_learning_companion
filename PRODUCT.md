@@ -34,8 +34,8 @@ Một phiên học tốt phải:
 North-star: thời gian đến transfer attempt đầu tiên đạt toàn bộ rubric trong điều kiện độc lập đã khai báo.
 
 Một `qualifying transfer` phải là transfer đã hoàn tất, có rubric không rỗng với mọi
-criterion `met`, đồng thời không dùng tiếng Việt, bản dịch, model answer và không
-vượt `maxHints` do task khai báo.
+criterion `met`, đồng thời không dùng tiếng Việt, bản dịch, model answer, không
+vượt `maxHints`, time limit và min/max output do task khai báo.
 Transfer chưa đạt vẫn hoàn tất mission và đi vào delayed review, nhưng Progress phân
 biệt rõ transfer attempt với qualifying transfer thay vì suy diễn mastery.
 
@@ -45,6 +45,7 @@ Evidence hiển thị:
 - rubric criterion `met/not-met/not-rated`;
 - rubric criterion được chọn làm retry focus và rubric chấm lại sau retry;
 - independence signals: dùng tiếng Việt/bản dịch/model answer, số hint, preparation time;
+- duration đo thật, word count cho written output và lý do transfer chưa qualifying;
 - lần thực hành gần nhất và lần review kế tiếp.
 
 Completion count và streak chỉ là metadata phụ. App không suy diễn proficiency score khi không có human/validated assessment.
@@ -59,8 +60,9 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 
 ## Scope hiện hành
 
-- Sáu baseline mission executable, mỗi mission đại diện một outcome.
-- Sáu pronunciation lesson schema v1 và Daily Standup schema v2 tiếp tục chạy qua migration/normalization.
+- Mười hai mission executable, hai mission cho mỗi outcome.
+- Sáu pronunciation lesson schema v1 và Daily Standup schema v2 tiếp tục chạy qua content normalization.
+- Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise progress.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
 - Markdown curriculum legacy đã được loại bỏ; curriculum executable chỉ nằm trong `content/**/*.json`.
 
@@ -75,7 +77,7 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 
 - `PRODUCT.md`: outcome, privacy, product behavior và success evidence.
 - `CONTENT.md`: schema v3, content invariants và authoring rules.
-- `ARCHITECTURE.md`: runtime boundaries, migration và verification.
+- `ARCHITECTURE.md`: runtime boundaries, storage và verification.
 - `START_HERE.md`: hành trình người học.
 - `README.md`: developer quickstart.
 

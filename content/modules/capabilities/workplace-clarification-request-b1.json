@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-clarification-request-b1",
+  "title": "Ask for clarification without blocking work",
+  "summary": "Viết câu hỏi làm rõ ngắn, lịch sự và có thể hành động trong công việc.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": ["Nêu điều chưa rõ", "Xác nhận cách hiểu hiện tại", "Đề xuất bước tiếp theo"],
+  "capabilities": ["workplace-communication"],
+  "workflowTags": ["clarification", "async-message"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Ambiguous ticket", "format": "technical-doc", "content": "Ticket: Make the export faster and ready for enterprise customers by Friday. No target latency, data size or owner is specified." },
+    { "id": "check", "type": "auto-check", "title": "Choose an actionable question", "exercises": [{ "id": "clarify-check", "type": "choice", "question": "Câu nào giúp nhóm ra quyết định nhanh nhất?", "options": ["Can you explain more?", "For the Friday release, should we optimize the 10k-row CSV export to finish under 5 seconds, and is Mai the approver?", "This ticket is unclear."], "correctAnswer": ["For the Friday release, should we optimize the 10k-row CSV export to finish under 5 seconds, and is Mai the approver?"], "explanation": "Câu hỏi tốt xác nhận scope, success signal và owner." }] }
+  ],
+  "performanceTask": {
+    "id": "clarification-request", "mode": "written", "title": "Send a clarification request",
+    "scenario": "Bạn cần bắt đầu ticket nhưng acceptance criteria còn mơ hồ.",
+    "baselinePrompt": "Viết tin nhắn hỏi lại mà chưa xem mẫu.",
+    "performancePrompt": "Viết tin nhắn gồm cách hiểu hiện tại, hai điểm cần xác nhận và bước bạn sẽ làm sau khi nhận câu trả lời.",
+    "modelResponse": "My current understanding is that we need the 10k-row CSV export under five seconds for Friday. Could you confirm whether XLSX is in scope and whether Mai approves the benchmark? Once confirmed, I’ll add the performance test and share the result today.",
+    "retryPrompt": "Viết lại, tập trung vào tiêu chí chưa đạt và giữ tin nhắn dưới 100 từ.",
+    "transferPrompt": "Một API ticket nói 'improve reliability'. Hãy hỏi làm rõ success metric, phạm vi và owner.",
+    "reviewPrompt": "Viết câu hỏi làm rõ cho một yêu cầu mới mà không xem lại model.",
+    "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["current understanding", "specific questions", "next action"], "minWords": 45, "maxWords": 100 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
+    "feedbackPriorities": ["specificity", "polite directness", "actionability"],
+    "rubric": [
+      { "id": "understanding", "label": "Current understanding", "description": "States a concrete interpretation instead of only saying it is unclear." },
+      { "id": "questions", "label": "Specific questions", "description": "Asks for measurable scope, success signal or ownership." },
+      { "id": "next-action", "label": "Next action", "description": "Explains what will happen after clarification." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}

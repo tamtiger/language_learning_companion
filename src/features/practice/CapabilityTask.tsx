@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { CanonicalLesson, PerformanceTaskV3 } from '../../content/schema'
-import { advancePhase, type CapabilitySession } from '../../domain/learning/flow'
-import type {
-  AttemptEvidence,
-  IndependenceEvidence,
-  LessonProgress,
-  RubricState
+import type { CapabilitySession } from '../../domain/learning/flow'
+import {
+  assessTransfer,
+  type AttemptEvidence,
+  type IndependenceEvidence,
+  type LessonProgress,
+  type RubricState,
+  type TransferAssessment,
+  type TransferReason
 } from '../../domain/progress/progress'
 import { useAppStore } from '../../shared/hooks/use_app_store'
 import { SectionRenderer } from '../lesson/SectionRenderer'
-import { SpokenResponse } from './SpokenResponse'
+import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 
 const DEFAULT_INDEPENDENCE: IndependenceEvidence = {
   usedVietnamese: false,
@@ -19,66 +22,53 @@ const DEFAULT_INDEPENDENCE: IndependenceEvidence = {
   preparationSeconds: 0
 }
 
+interface WrittenAttemptSnapshot {
+  kind: 'written'
+  text: string
+  durationSeconds: number
+  wordCount: number
+  audioUrl: null
+}
+
+type SessionAttemptSnapshot = WrittenAttemptSnapshot | SpokenAttemptSnapshot
+
+const TRANSFER_REASON_LABELS: Record<TransferReason, string> = {
+  incomplete: 'lượt transfer chưa hoàn chỉnh',
+  'rubric-not-rated': 'rubric chưa được đánh giá đủ',
+  'rubric-gap': 'còn tiêu chí chưa đạt',
+  'used-vietnamese': 'đã dùng tiếng Việt',
+  'used-translation': 'đã dùng công cụ dịch',
+  'used-model-answer': 'đã dùng model answer',
+  'too-many-hints': 'vượt số gợi ý',
+  'too-short': 'output ngắn hơn yêu cầu',
+  'too-long': 'output dài hơn yêu cầu',
+  overtime: 'vượt thời gian'
+}
+
 function initialSession(progress: LessonProgress | undefined, now = Date.now()): CapabilitySession {
   const completed: CapabilitySession = {
-    phase: 'completed',
-    baselineAttempted: true,
-    rubricRated: true,
-    transferCompleted: true
+    phase: 'completed', baselineAttempted: true, rubricRated: true, transferCompleted: true
   }
-
   if (progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= now) {
     return { ...completed, phase: 'review' }
   }
   if (progress?.status === 'completed') return completed
-
-  const latestPhase = progress?.recentAttempts.at(-1)?.phase
-  if (latestPhase === 'baseline') {
-    return { phase: 'input', baselineAttempted: true, rubricRated: false, transferCompleted: false }
+  switch (progress?.activePhase) {
+    case 'input':
+      return { phase: 'input', baselineAttempted: true, rubricRated: false, transferCompleted: false }
+    case 'performance':
+      return { phase: 'performance', baselineAttempted: true, rubricRated: false, transferCompleted: false }
+    case 'retry':
+      return { phase: 'retry', baselineAttempted: true, rubricRated: true, transferCompleted: false }
+    case 'transfer':
+      return { phase: 'transfer', baselineAttempted: true, rubricRated: true, transferCompleted: false }
+    default:
+      return { phase: 'baseline', baselineAttempted: false, rubricRated: false, transferCompleted: false }
   }
-  if (latestPhase === 'performance') {
-    return { phase: 'retry', baselineAttempted: true, rubricRated: true, transferCompleted: false }
-  }
-  if (latestPhase === 'retry') {
-    return { phase: 'transfer', baselineAttempted: true, rubricRated: true, transferCompleted: false }
-  }
-  if (latestPhase === 'transfer' || latestPhase === 'review') return completed
-  return { phase: 'baseline', baselineAttempted: false, rubricRated: false, transferCompleted: false }
 }
 
-function ResponseEditor({ task, value, onChange, onReady }: {
-  task: PerformanceTaskV3
-  value: string
-  onChange: (value: string) => void
-  onReady: (ready: boolean) => void
-}) {
-  if (task.mode === 'spoken') {
-    return <SpokenResponse onReady={(ready) => {
-      onReady(ready)
-      if (ready) onChange('[spoken attempt completed]')
-    }} />
-  }
-
-  const words = value.trim() ? value.trim().split(/\s+/u).length : 0
-  return (
-    <div>
-      <label className="block font-semibold">
-        Bản nháp tiếng Anh
-        <textarea
-          value={value}
-          onChange={(event) => {
-            onChange(event.target.value)
-            onReady(event.target.value.trim().length > 0)
-          }}
-          rows={7}
-          className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7"
-        />
-      </label>
-      <p className="mt-2 text-xs text-zinc-500">
-        {words} từ · Bản nháp chỉ ở session hiện tại và không được persist.
-      </p>
-    </div>
-  )
+function countWords(value: string): number {
+  return value.trim() ? value.trim().split(/\s+/u).length : 0
 }
 
 function RubricEditor({ task, answers, setAnswers }: {
@@ -120,15 +110,11 @@ function IndependenceEditor({ value, onChange }: {
   value: IndependenceEvidence
   onChange: (value: IndependenceEvidence) => void
 }) {
-  const options: Array<{
-    key: 'usedVietnamese' | 'usedTranslation' | 'usedModelAnswer'
-    label: string
-  }> = [
+  const options: Array<{ key: 'usedVietnamese' | 'usedTranslation' | 'usedModelAnswer'; label: string }> = [
     { key: 'usedVietnamese', label: 'Tôi đã dùng tiếng Việt để chuẩn bị' },
     { key: 'usedTranslation', label: 'Tôi đã dùng công cụ dịch' },
     { key: 'usedModelAnswer', label: 'Tôi đã xem hoặc dùng model answer' }
   ]
-
   return (
     <fieldset className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4">
       <legend className="px-1 text-sm font-bold">Mức độ độc lập của lượt này</legend>
@@ -152,6 +138,21 @@ function IndependenceEditor({ value, onChange }: {
   )
 }
 
+function LearnerOutput({ snapshot }: { snapshot: SessionAttemptSnapshot }) {
+  return (
+    <div className="rounded-xl border border-sky-500/30 bg-sky-500/10 p-5">
+      <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Output của bạn · chỉ trong phiên này</p>
+      {snapshot.kind === 'written' ? (
+        <p className="mt-3 whitespace-pre-wrap leading-7 text-zinc-200">{snapshot.text}</p>
+      ) : snapshot.audioUrl ? (
+        <audio className="mt-4 w-full" controls src={snapshot.audioUrl} aria-label="Output nói của bạn" />
+      ) : (
+        <p className="mt-3 text-zinc-300">Lượt nói timer-only: {snapshot.durationSeconds} giây.</p>
+      )}
+    </div>
+  )
+}
+
 function attemptId(): string {
   return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
     ? crypto.randomUUID()
@@ -161,85 +162,109 @@ function attemptId(): string {
 export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task: PerformanceTaskV3 }) {
   const progress = useAppStore((state) => state.lessonProgress[lesson.lessonId])
   const recordAttempt = useAppStore((state) => state.recordCapabilityAttempt)
+  const setActivePhase = useAppStore((state) => state.setActivePhase)
   const [session, setSession] = useState<CapabilitySession>(() => initialSession(progress))
   const [response, setResponse] = useState('')
-  const [responseReady, setResponseReady] = useState(false)
+  const [spokenSnapshot, setSpokenSnapshot] = useState<SpokenAttemptSnapshot | null>(null)
+  const [learnerOutput, setLearnerOutput] = useState<SessionAttemptSnapshot | null>(null)
   const [rubric, setRubric] = useState<Record<string, RubricState>>({})
-  const [retryFocusId, setRetryFocusId] = useState<string | null>(
-    () => progress?.recentAttempts.at(-1)?.focusCriterionId ?? null
-  )
+  const [retryFocusId, setRetryFocusId] = useState<string | null>(() => progress?.recentAttempts.at(-1)?.focusCriterionId ?? null)
   const [independence, setIndependence] = useState<IndependenceEvidence>(DEFAULT_INDEPENDENCE)
+  const [completionAssessment, setCompletionAssessment] = useState<TransferAssessment | null>(null)
+  const preparationStartedAt = useRef(Date.now())
+  const outputStartedAt = useRef<number | null>(null)
+  const learnerAudio = useRef<SpokenAttemptSnapshot | null>(null)
+  const draftAudio = useRef<SpokenAttemptSnapshot | null>(null)
   const phase = session.phase
-  const allRated = task.rubric.every(
-    (item) => rubric[item.id] === 'met' || rubric[item.id] === 'not-met'
-  )
-  const notMetCriterionIds = task.rubric
-    .filter((item) => rubric[item.id] === 'not-met')
-    .map((item) => item.id)
-  const selectedRetryFocusId = notMetCriterionIds.includes(retryFocusId ?? '')
-    ? retryFocusId
-    : null
-  const canSubmitFeedback = allRated
-    && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
-  const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
 
+  useEffect(() => {
+    learnerAudio.current = learnerOutput?.kind === 'spoken' ? learnerOutput : null
+    draftAudio.current = spokenSnapshot
+  }, [learnerOutput, spokenSnapshot])
+  useEffect(() => () => {
+    learnerAudio.current?.release?.()
+    if (draftAudio.current !== learnerAudio.current) draftAudio.current?.release?.()
+  }, [])
+
+  const allRated = task.rubric.every((item) => rubric[item.id] === 'met' || rubric[item.id] === 'not-met')
+  const notMetCriterionIds = task.rubric.filter((item) => rubric[item.id] === 'not-met').map((item) => item.id)
+  const selectedRetryFocusId = notMetCriterionIds.includes(retryFocusId ?? '') ? retryFocusId : null
+  const canSubmitFeedback = allRated && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
+  const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
+  const responseReady = task.mode === 'spoken' ? spokenSnapshot !== null : response.trim().length > 0
+
+  const startOutput = () => {
+    if (outputStartedAt.current === null) outputStartedAt.current = Date.now()
+  }
+  const createSnapshot = (): SessionAttemptSnapshot | null => {
+    if (task.mode === 'spoken') return spokenSnapshot
+    if (!response.trim()) return null
+    return {
+      kind: 'written', text: response,
+      durationSeconds: Math.max(1, Math.ceil((Date.now() - (outputStartedAt.current ?? Date.now())) / 1_000)),
+      wordCount: countWords(response), audioUrl: null
+    }
+  }
+  const measuredPreparationSeconds = () => Math.max(
+    0, Math.floor(((outputStartedAt.current ?? Date.now()) - preparationStartedAt.current) / 1_000)
+  )
   const saveAttempt = (
     attemptPhase: AttemptEvidence['phase'],
+    snapshot: SessionAttemptSnapshot,
     ratings = rubric,
     focusCriterionId?: string | null
-  ) => recordAttempt({
-    attemptId: attemptId(),
-    lessonId: lesson.lessonId,
-    taskId: task.id,
-    capabilityId: lesson.capabilities[0] ?? 'workplace-communication',
-    phase: attemptPhase,
-    attemptedAt: new Date().toISOString(),
-    durationSeconds: 0,
-    rubric: Object.fromEntries(
-      task.rubric.map((item) => [item.id, ratings[item.id] ?? 'not-rated'])
-    ),
+  ) => {
+    const attempt: AttemptEvidence = {
+    attemptId: attemptId(), lessonId: lesson.lessonId, taskId: task.id,
+    capabilityId: lesson.capabilities[0] ?? 'workplace-communication', phase: attemptPhase,
+    attemptedAt: new Date().toISOString(), durationSeconds: snapshot.durationSeconds,
+    wordCount: snapshot.wordCount,
+    rubric: Object.fromEntries(task.rubric.map((item) => [item.id, ratings[item.id] ?? 'not-rated'])),
     ...(focusCriterionId ? { focusCriterionId } : {}),
-    independence: {
-      ...independence,
-      preparationSeconds: task.independenceContract.preparationSeconds
-    },
-    completed: true
-  }, lesson.reviewPolicy.intervalDays)
-
-  const resetResponse = () => {
+    independence: { ...independence, preparationSeconds: measuredPreparationSeconds() },
+      completed: true
+    }
+    recordAttempt(attempt, lesson.reviewPolicy.intervalDays)
+    return attempt
+  }
+  const resetResponse = (releaseLearnerOutput = true) => {
+    if (releaseLearnerOutput) {
+      if (learnerOutput?.kind === 'spoken') learnerOutput.release?.()
+      setLearnerOutput(null)
+    }
+    spokenSnapshot?.release?.()
+    setSpokenSnapshot(null)
     setResponse('')
-    setResponseReady(false)
     setIndependence(DEFAULT_INDEPENDENCE)
+    preparationStartedAt.current = Date.now()
+    outputStartedAt.current = null
   }
 
   if (phase === 'completed') {
     return (
       <section role="status" className="rounded-2xl border border-green-500/30 bg-green-500/10 p-8 text-center">
         <h2 className="text-2xl font-black">Mission hoàn thành</h2>
-        <p className="mt-2 text-zinc-300">
-          Transfer evidence đã được lưu. Review tiếp theo được đưa vào Today theo lịch{' '}
-          {lesson.reviewPolicy.intervalDays.join('–')} ngày.
-        </p>
+        <p className="mt-2 text-zinc-300">Transfer evidence đã được lưu. Review tiếp theo được đưa vào Today theo lịch {lesson.reviewPolicy.intervalDays.join('–')} ngày.</p>
+        {completionAssessment && (
+          <p className={`mt-4 rounded-xl p-4 text-sm ${completionAssessment.qualifies ? 'bg-green-500/10 text-green-200' : 'bg-amber-500/10 text-amber-200'}`}>
+            {completionAssessment.qualifies
+              ? 'Transfer đạt hợp đồng độc lập và output contract.'
+              : `Transfer đã lưu nhưng chưa qualifying: ${completionAssessment.reasons.map((reason) => TRANSFER_REASON_LABELS[reason]).join(', ')}.`}
+          </p>
+        )}
       </section>
     )
   }
 
-  const prompt = phase === 'baseline'
-    ? task.baselinePrompt
-    : phase === 'performance'
-      ? task.performancePrompt
-      : phase === 'retry'
-        ? task.retryPrompt
-        : phase === 'review'
-          ? task.reviewPrompt
-          : task.transferPrompt
+  const prompt = phase === 'baseline' ? task.baselinePrompt
+    : phase === 'performance' ? task.performancePrompt
+      : phase === 'retry' ? task.retryPrompt
+        : phase === 'review' ? task.reviewPrompt : task.transferPrompt
 
   return (
     <section aria-labelledby="task-title" className="space-y-6">
       <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-purple-300">
-          {task.mode} capability task · {phase}
-        </p>
+        <p className="text-xs font-bold uppercase tracking-widest text-purple-300">{task.mode} capability task · {phase}</p>
         <h2 id="task-title" className="mt-2 text-2xl font-black">{task.title}</h2>
         <p className="mt-3 text-zinc-300">{task.scenario}</p>
       </div>
@@ -251,152 +276,113 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               <SectionRenderer lessonId={lesson.lessonId} section={section} />
             </div>
           ))}
-          <button
-            type="button"
-            onClick={() => setSession(advancePhase(session, 'COMPLETE_AUTO_CHECK'))}
-            className="rounded-xl bg-purple-500 px-5 py-3 font-bold"
-          >
-            Bắt đầu lượt chính
-          </button>
+          <button type="button" onClick={() => {
+            setSession({ ...session, phase: 'performance' })
+            setActivePhase(lesson.lessonId, 'performance')
+            preparationStartedAt.current = Date.now()
+          }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold">Bắt đầu lượt chính</button>
         </div>
-      ) : phase === 'self-feedback' ? (
+      ) : phase === 'self-feedback' && learnerOutput ? (
         <div className="space-y-6">
+          <LearnerOutput snapshot={learnerOutput} />
           <div className="rounded-xl border border-zinc-700 bg-zinc-950 p-5">
-            <p className="text-xs font-bold uppercase tracking-wider text-purple-400">
-              Model response — chỉ mở sau attempt
-            </p>
+            <p className="text-xs font-bold uppercase tracking-wider text-purple-400">Model response — chỉ mở sau attempt</p>
             <p className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
           </div>
           <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />
           {allRated && notMetCriterionIds.length > 0 ? (
             <fieldset className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
               <legend className="px-1 text-sm font-bold text-amber-200">Chọn ưu tiên retry</legend>
-              <p className="mb-3 text-sm text-zinc-300">
-                Chọn một tiêu chí chưa đạt để tập trung sửa ở lượt kế tiếp.
-              </p>
+              <p className="mb-3 text-sm text-zinc-300">Chọn một tiêu chí chưa đạt để tập trung sửa ở lượt kế tiếp.</p>
               <div className="grid gap-2">
-                {task.rubric
-                  .filter((item) => notMetCriterionIds.includes(item.id))
-                  .map((item) => (
-                    <label key={item.id} className="flex cursor-pointer items-center gap-3 text-sm">
-                      <input
-                        type="radio"
-                        name="retry-focus"
-                        checked={selectedRetryFocusId === item.id}
-                        onChange={() => setRetryFocusId(item.id)}
-                        className="h-4 w-4 accent-amber-400"
-                      />
-                      {item.label}
-                    </label>
-                  ))}
+                {task.rubric.filter((item) => notMetCriterionIds.includes(item.id)).map((item) => (
+                  <label key={item.id} className="flex cursor-pointer items-center gap-3 text-sm">
+                    <input type="radio" name="retry-focus" checked={selectedRetryFocusId === item.id}
+                      onChange={() => setRetryFocusId(item.id)} className="h-4 w-4 accent-amber-400" />
+                    {item.label}
+                  </label>
+                ))}
               </div>
             </fieldset>
           ) : allRated ? (
-            <p className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-200">
-              Tất cả tiêu chí đã đạt. Retry để giữ chất lượng khi diễn đạt lại.
-            </p>
+            <p className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-200">Tất cả tiêu chí đã đạt. Retry để giữ chất lượng khi diễn đạt lại.</p>
           ) : null}
-          <button
-            type="button"
-            disabled={!canSubmitFeedback}
-            onClick={() => {
-              saveAttempt('performance', rubric, selectedRetryFocusId)
-              setRubric({})
-              resetResponse()
-              setSession(advancePhase(session, 'SUBMIT_RUBRIC'))
-            }}
-            className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40"
-          >
-            Lưu self-feedback
-          </button>
+          <button type="button" disabled={!canSubmitFeedback} onClick={() => {
+            saveAttempt('performance', learnerOutput, rubric, selectedRetryFocusId)
+            setRubric({})
+            resetResponse(false)
+            setSession({ ...session, phase: 'retry', rubricRated: true })
+          }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Lưu self-feedback</button>
         </div>
       ) : (
         <div className="space-y-5">
           <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
+          {phase === 'retry' && learnerOutput && (
+            <div className="grid gap-4 lg:grid-cols-2">
+              <LearnerOutput snapshot={learnerOutput} />
+              <div className="rounded-xl border border-zinc-700 bg-zinc-950 p-5">
+                <p className="text-xs font-bold uppercase tracking-wider text-purple-400">Model để đối chiếu</p>
+                <p className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
+              </div>
+            </div>
+          )}
           {phase === 'retry' && (
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-amber-300">Ưu tiên retry</p>
-              <p className="mt-2 font-semibold">
-                {retryFocus?.label ?? 'Giữ toàn bộ tiêu chí đã đạt khi diễn đạt lại'}
-              </p>
+              <p className="mt-2 font-semibold">{retryFocus?.label ?? 'Giữ toàn bộ tiêu chí đã đạt khi diễn đạt lại'}</p>
             </div>
           )}
-          <ResponseEditor
-            task={task}
-            value={response}
-            onChange={setResponse}
-            onReady={setResponseReady}
-          />
-          <IndependenceEditor value={independence} onChange={setIndependence} />
-          {(phase === 'retry' || phase === 'transfer' || phase === 'review') && (
-            <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />
+          {task.mode === 'spoken' ? (
+            <SpokenResponse onStarted={startOutput} onReady={setSpokenSnapshot} />
+          ) : (
+            <div>
+              <label className="block font-semibold">Bản nháp tiếng Anh
+                <textarea value={response} onChange={(event) => {
+                  if (event.target.value.trim()) startOutput()
+                  setResponse(event.target.value)
+                }} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7" />
+              </label>
+              <p className="mt-2 text-xs text-zinc-500">{countWords(response)} từ · Bản nháp chỉ ở session hiện tại và không được persist.</p>
+            </div>
           )}
+          <IndependenceEditor value={independence} onChange={setIndependence} />
+          {(phase === 'retry' || phase === 'transfer' || phase === 'review') && <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />}
           <div className="flex flex-wrap gap-3">
-            {phase === 'baseline' && (
-              <button
-                type="button"
-                disabled={!responseReady}
-                onClick={() => {
-                  saveAttempt('baseline', {})
-                  resetResponse()
-                  setSession(advancePhase(session, 'SUBMIT_BASELINE'))
-                }}
-                className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40"
-              >
-                Lưu baseline
-              </button>
-            )}
-            {phase === 'performance' && (
-              <button
-                type="button"
-                disabled={!responseReady}
-                onClick={() => setSession(advancePhase(session, 'SUBMIT_PERFORMANCE'))}
-                className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40"
-              >
-                Đối chiếu rubric
-              </button>
-            )}
-            {phase === 'retry' && (
-              <button
-                type="button"
-                disabled={!responseReady || !allRated}
-                onClick={() => {
-                  saveAttempt('retry', rubric, retryFocusId)
-                  setRubric({})
-                  resetResponse()
-                  setSession(advancePhase(session, 'START_TRANSFER'))
-                }}
-                className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40"
-              >
-                Sang transfer
-              </button>
-            )}
-            {phase === 'transfer' && (
-              <button
-                type="button"
-                disabled={!responseReady || !allRated}
-                onClick={() => {
-                  saveAttempt('transfer')
-                  setSession(advancePhase(session, 'SUBMIT_TRANSFER'))
-                }}
-                className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40"
-              >
-                Hoàn thành transfer
-              </button>
-            )}
-            {phase === 'review' && (
-              <button
-                type="button"
-                disabled={!responseReady || !allRated}
-                onClick={() => {
-                  saveAttempt('review')
-                  setSession(advancePhase(session, 'SUBMIT_REVIEW'))
-                }}
-                className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40"
-              >
-                Lưu review
-              </button>
-            )}
+            {phase === 'baseline' && <button type="button" disabled={!responseReady} onClick={() => {
+              const snapshot = createSnapshot(); if (!snapshot) return
+              saveAttempt('baseline', snapshot, {})
+              resetResponse()
+              setSession({ ...session, phase: 'input', baselineAttempted: true })
+            }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Lưu baseline</button>}
+            {phase === 'performance' && <button type="button" disabled={!responseReady} onClick={() => {
+              const snapshot = createSnapshot(); if (!snapshot) return
+              setLearnerOutput(snapshot)
+              setSpokenSnapshot(null)
+              setSession({ ...session, phase: 'self-feedback' })
+            }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Đối chiếu rubric</button>}
+            {phase === 'retry' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+              const snapshot = createSnapshot(); if (!snapshot) return
+              saveAttempt('retry', snapshot, rubric, retryFocusId)
+              setRubric({})
+              resetResponse()
+              setSession({ ...session, phase: 'transfer' })
+            }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Sang transfer</button>}
+            {phase === 'transfer' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+              const snapshot = createSnapshot(); if (!snapshot) return
+              const attempt = saveAttempt('transfer', snapshot)
+              const contract = task.mode === 'spoken'
+                ? { maxHints: task.independenceContract.maxHints, timeLimitSeconds: task.outputContract.timeLimitSeconds, targetSeconds: task.outputContract.targetSeconds }
+                : { maxHints: task.independenceContract.maxHints, timeLimitSeconds: task.outputContract.timeLimitSeconds, minWords: task.outputContract.minWords, maxWords: task.outputContract.maxWords }
+              setCompletionAssessment(assessTransfer(attempt, contract))
+              resetResponse()
+              setSession({ ...session, phase: 'completed', transferCompleted: true })
+            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Hoàn thành transfer</button>}
+            {phase === 'review' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+              const snapshot = createSnapshot(); if (!snapshot) return
+              saveAttempt('review', snapshot)
+              resetResponse()
+              setSession({ ...session, phase: 'completed' })
+            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Lưu review</button>}
           </div>
         </div>
       )}

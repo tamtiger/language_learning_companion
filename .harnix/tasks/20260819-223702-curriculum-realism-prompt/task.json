@@ -1,0 +1,98 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-223702-curriculum-realism-prompt",
+  "title": "Create curriculum realism research prompt",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo một prompt tiếng Việt chuyên audit, research và cải tổ bài học/cách học để sát công việc Software Engineer và tăng transfer thực tế.",
+  "nonGoals": [
+    "Không chạy external research hoặc sửa executable curriculum trong task này.",
+    "Không thay thế PRODUCT.md, CONTENT.md hoặc IMPROVEMENT_PROMPT.md làm source of truth.",
+    "Không commit, push hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Prompt buộc audit runtime và toàn bộ mission theo sáu capability bằng tiêu chí authenticity, task fidelity, progression, feedback, transfer và retention.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-curriculum-prompt"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Prompt quy định research có câu hỏi quyết định, ưu tiên nguồn gốc/official, source log, giới hạn áp dụng và tách fact/inference/recommendation.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-curriculum-prompt"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Prompt yêu cầu đầu ra implementation-ready gồm audit matrix, capability map, pilot design, content/schema impact, plan, acceptance criteria và verification với người học.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-curriculum-prompt"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Prompt giữ privacy/local-only, không tuyên bố hiệu quả từ self-rating và không dừng ở đề xuất khi không có blocker.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-curriculum-prompt"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CONTENT.md",
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "LEARNER_AUDIT_PROMPT.md",
+    "PRODUCT.md",
+    "START_HERE.md",
+    "content/modules"
+  ],
+  "relevantSpecs": [
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-curriculum-prompt",
+      "description": "Prompt tồn tại và chứa đầy đủ research, realism audit, deliverables, guardrails và verification.",
+      "command": "$p='CURRICULUM_RESEARCH_PROMPT.md';$terms=@('sáu capability','authenticity','source log','fact','inference','pilot','acceptance criteria','privacy','transfer');if(-not(Test-Path -LiteralPath $p)){exit 1};$t=Get-Content -Raw $p;foreach($term in $terms){if($t -notmatch [regex]::Escape($term)){Write-Error \"Missing $term\";exit 1}}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-curriculum-prompt",
+      "checkId": "check-curriculum-prompt",
+      "recordedAt": "2026-08-19T15:38:51.2639452Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Prompt contract check passed with matching pre/post input digest; the file covers realism audit, evidence-based research, pilot implementation, privacy guardrails and verification.",
+      "artifactPaths": [
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "628ae71aefda3c8a6d4b9397a78f5748aa3185f0f929d05daf070e2f5a6bea12"
+    }
+  ],
+  "createdAt": "2026-08-19T15:37:02.7313162Z",
+  "updatedAt": "2026-08-19T15:38:52.121Z",
+  "completedAt": "2026-08-19T15:38:52.121Z"
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "technology-troubleshooting-from-docs-b2",
+  "title": "Troubleshoot a new technology from English docs",
+  "summary": "Đọc documentation, tạo hypothesis và thử nghiệm an toàn mà không cần bản dịch.",
+  "cefrLevel": "B2",
+  "durationMinutes": 25,
+  "learningObjectives": ["Đọc điều kiện trong docs", "Tạo hypothesis kiểm chứng được", "Viết safe experiment"],
+  "capabilities": ["technology-learning"],
+  "workflowTags": ["documentation", "troubleshooting"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Worker retry documentation", "format": "technical-doc", "content": "Retries are scheduled only when the handler returns an error. Uncaught exceptions are recorded as failed attempts. A job moves to the dead-letter queue after maxAttempts. Setting maxAttempts to 1 disables retries." },
+    { "id": "check", "type": "auto-check", "title": "Read the condition precisely", "exercises": [{ "id": "docs-troubleshoot-check", "type": "choice", "question": "Vì sao job có thể không retry?", "options": ["The queue is asynchronous.", "maxAttempts may be set to 1.", "The handler uses English."], "correctAnswer": ["maxAttempts may be set to 1."], "explanation": "Docs nói rõ giá trị 1 sẽ tắt retry." }] }
+  ],
+  "performanceTask": {
+    "id": "docs-troubleshooting", "mode": "written", "title": "Plan a safe troubleshooting experiment",
+    "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn chỉ có đoạn documentation và config.",
+    "baselinePrompt": "Viết kế hoạch chẩn đoán mà chưa xem model.",
+    "performancePrompt": "Tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal và rollback.",
+    "modelResponse": "The docs say retries require maxAttempts above one and an error result from the handler. My first hypothesis is that maxAttempts is set to one in this environment. I would inspect the effective config, then enqueue one synthetic failing job in staging with maxAttempts set to three. The expected signal is three recorded attempts before dead-lettering. I would revert the test config and remove the synthetic job afterwards.",
+    "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
+    "transferPrompt": "Docs của một cache nói TTL=0 means no expiry. Viết kế hoạch kiểm tra an toàn cho bug stale data.",
+    "reviewPrompt": "Từ docs mới, tạo hypothesis và safe experiment có expected signal.",
+    "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "cleanup"], "minWords": 100, "maxWords": 180 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
+    "feedbackPriorities": ["doc accuracy", "testability", "safety"],
+    "rubric": [
+      { "id": "rule", "label": "Documentation rule", "description": "Restates the relevant condition accurately in plain English." },
+      { "id": "hypothesis", "label": "Testable hypothesis", "description": "Connects the symptom to a condition that can be checked." },
+      { "id": "experiment", "label": "Safe experiment", "description": "Defines action, expected signal and cleanup or rollback." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+}

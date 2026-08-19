@@ -8,7 +8,7 @@ JSON v1/v2/v3
   → src/app + src/features: Today/Catalog/Lesson orchestration
   → spoken hoặc written performance renderer
   → pure learning/progress event
-  → versioned storage repository
+  → strict fresh-only storage repository
   → localStorage / allowlisted backup
 ```
 
@@ -19,7 +19,7 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
 - `src/content`: Zod raw schemas, `CanonicalLesson`, migration/normalization và catalog validation.
 - `src/domain/learning`: phase transitions, rubric và completion rules.
 - `src/domain/progress`: attempt evidence, capability aggregation, review scheduling và Today selectors.
-- `src/infrastructure/storage`: `ProgressEnvelopeV2`, migration, validated import/export/reset.
+- `src/infrastructure/storage`: `ProgressEnvelopeV3`, validated import/export/reset; không có progress migration pre-release.
 - `src/app`: semantic app shell và typed in-memory navigation.
 - `src/features/catalog`, `today`, `lesson`, `practice`, `progress`: UI orchestration.
 - `src/shared`: UI primitives, media adapters và generic hooks; không chứa business rules.
@@ -49,16 +49,30 @@ lưu bằng ID có cấu trúc, không dùng free-text feedback.
 
 ## Progress và privacy
 
-`ProgressEnvelopeV2` lưu status/current section, aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`, transfer flag, review stage/`nextReviewAt`, legacy import summary và settings. Field focus là optional để backup v2 cũ tiếp tục hợp lệ; storage version không đổi.
+`ProgressEnvelopeV3` lưu status/current section, `activePhase`, các exercise đã đúng,
+aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`,
+transfer flag, review stage/`nextReviewAt` và settings. Mỗi attempt bắt buộc có
+duration dương, `wordCount` nullable và preparation time đo từ phiên.
 
 Pure progress selectors định nghĩa `qualifying transfer` là completed transfer có
 rubric không rỗng và toàn bộ `met`, không dùng tiếng Việt, translation, model answer
-và không vượt content-owned `maxHints` (fallback 0 nếu task không có contract). Progress UI hiển thị riêng attempts, transfer attempts và qualifying
-transfers; không đếm một independent baseline/retry như transfer đạt.
+và không vượt content-owned `maxHints`, time limit hoặc output length. Progress UI
+hiển thị riêng attempts, transfer attempts, qualifying transfers và reason codes;
+không đếm một independent baseline/retry như transfer đạt.
 
-Không lưu audio/blob URL, transcript, written response hoặc free-text. Import flow là parse → normalize → validate → preview → explicit confirm → atomic replace. Invalid import giữ nguyên state và trả recoverable error; không reset ngầm.
+Không lưu audio/blob URL, transcript, written response hoặc free-text. Import flow là
+parse v3 → validate → preview → explicit confirm → atomic replace. Invalid/v1/v2
+import giữ nguyên state và trả recoverable error; không reset ngầm.
 
-Migration từ legacy maps completion/performance aggregates nhưng không tạo timestamp, rubric hoặc attempt giả.
+Vì app chưa phát hành, state v1/v2 bị bỏ và khởi tạo rỗng; không có
+`legacy-unknown` hoặc evidence giả.
+
+## Resume và pronunciation
+
+`activePhase` là checkpoint bền vững: input, performance, retry hoặc transfer.
+Self-feedback giữ learner output trong memory; reload tại đây quay về performance.
+Pronunciation lưu union các exercise ID đã đúng, chỉ bật Finish khi đủ toàn bộ và
+restart tạo progress rỗng.
 
 ## Review scheduling
 

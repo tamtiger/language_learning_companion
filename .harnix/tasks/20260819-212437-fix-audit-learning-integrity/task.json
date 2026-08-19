@@ -1,0 +1,554 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-212437-fix-audit-learning-integrity",
+  "title": "Fix audit findings and improve learning integrity",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Sửa toàn bộ finding đã xác nhận trong learner audit và nâng learning loop để evidence trung thực, feedback actionable, resume an toàn, UX rõ ràng và mỗi capability có thêm một mission nghề nghiệp.",
+  "nonGoals": [
+    "Không thêm AI grading, cloud sync, account, backend, analytics hoặc telemetry.",
+    "Không persist response, transcript, audio, draft hoặc free text của người học.",
+    "Không mở rộng thành English course tổng quát hoặc thêm hàng chục lesson.",
+    "Không migrate hoặc duy trì compatibility cho localStorage/backup v2; dữ liệu pre-release cũ bị từ chối.",
+    "Không commit, push hoặc tạo pull request trong task implementation này."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Spoken capture có start/finish/reset rõ ràng, không thể complete tức thời ở 0 giây, playback hoạt động khi có audio và attempt nhận số đo thực.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-practice-ui",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Attempt mới lưu timing/word-count đo thật; record cũ là timing unknown; qualifying transfer dùng output contract; backup v2 tương thích và không chứa learner output.",
+      "status": "waived",
+      "evidenceIds": [],
+      "waiverReason": "Người dùng xác nhận app chưa chạy và không cần giữ dữ liệu cũ; AC-10 thay compatibility v2/legacy-unknown bằng schema v3 fresh-only."
+    },
+    {
+      "id": "AC-3",
+      "text": "Self-feedback/retry hiển thị learner output phiên hiện tại cùng model/rubric/focus, nhưng reload/export không giữ response/audio.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-practice-ui",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Reload/resume đưa người học về phase an toàn theo contract, không suy diễn từ last attempt và không làm mất completion hợp lệ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-storage",
+        "ev-check-practice-ui",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Progress hiển thị evidence chi tiết, qualifying state và lý do actionable, đồng nhất với domain assessment.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-storage",
+        "ev-check-progress-ui",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Đổi page reset scroll/focus hợp lý, mobile navigation không lộ scrollbar và onboarding/glossary giải thích thuật ngữ chính.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-shell-legacy",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Pronunciation lesson chưa hoàn tất chỉ finish sau khi mọi exercise đúng; completion cũ được bảo toàn và restart xóa exercise progress.",
+      "status": "waived",
+      "evidenceIds": [],
+      "waiverReason": "Người dùng không yêu cầu bảo toàn completion pre-release; AC-11 thay bằng pronunciation gate không có legacy bypass."
+    },
+    {
+      "id": "AC-8",
+      "text": "Có đúng sáu mission v3 mới, một mission cho mỗi capability, qua content validation và hiển thị trong catalog/learning flow.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content",
+        "ev-check-all-tests",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "text": "PRODUCT, ARCHITECTURE, CONTENT, README, START_HERE và CHANGELOG phản ánh hành vi mới; focused tests, full tests, lint, build và manual critical-flow đều đạt.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-docs",
+        "ev-check-all-tests",
+        "ev-check-lint",
+        "ev-check-build",
+        "ev-check-manual-critical"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "text": "Storage schema v3 fresh-only chỉ chấp nhận evidence đo thật, từ chối dữ liệu v2, export không chứa learner output và không có nhánh legacy-unknown.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-fresh-schema"
+      ]
+    },
+    {
+      "id": "AC-11",
+      "text": "Mọi pronunciation lesson chỉ hoàn tất sau khi tất cả exercise đúng và restart xóa exercise progress, không có ngoại lệ completion legacy.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-fresh-schema"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md",
+    "START_HERE.md",
+    "content/modules",
+    "src/app",
+    "src/content",
+    "src/domain/progress",
+    "src/features/lesson",
+    "src/features/practice",
+    "src/features/progress",
+    "src/infrastructure/storage",
+    "src/shared/hooks",
+    "src/styles.css",
+    "src/types/progress.ts"
+  ],
+  "relevantSpecs": [
+    "LEARNER_AUDIT_PROMPT.md",
+    ".harnix/tasks/20260819-072921-actionable-retry-evidence/prd.md",
+    ".harnix/tasks/20260819-072921-actionable-retry-evidence/plan.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-domain-storage",
+      "description": "Measured/legacy evidence, transfer qualification, phase/exercise defaults và backup v2 privacy/compatibility.",
+      "command": "npx vitest run src/domain/progress/progress.test.ts src/infrastructure/storage/progress_storage.test.ts src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-4",
+        "AC-5",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts",
+        "src/types/progress.ts"
+      ]
+    },
+    {
+      "id": "check-practice-ui",
+      "description": "Spoken lifecycle, metadata đo thật, session-only comparison và phase boundary.",
+      "command": "npx vitest run src/features/practice/SpokenResponse.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx"
+      ]
+    },
+    {
+      "id": "check-progress-ui",
+      "description": "Progress evidence detail, qualifying state và localized reasons.",
+      "command": "npx vitest run src/features/progress/ProgressPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "check-shell-legacy",
+      "description": "Scroll/focus/mobile navigation, glossary và pronunciation completion/restart.",
+      "command": "npx vitest run src/app/App.test.tsx src/features/lesson/LessonFlow.test.tsx src/features/lesson/SectionRenderer.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-6",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/styles.css"
+      ]
+    },
+    {
+      "id": "check-content",
+      "description": "Sáu companion mission v3 hợp lệ, unique, đúng capability và load qua catalog.",
+      "command": "npx vitest run src/content/content.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/content/content.test.ts",
+        "src/content/content.ts"
+      ]
+    },
+    {
+      "id": "check-docs",
+      "description": "Tài liệu mô tả learning-integrity contract mới.",
+      "command": "$p=@('PRODUCT.md','ARCHITECTURE.md','CONTENT.md','README.md','START_HERE.md','CHANGELOG.md');$m=@($p|?{-not(Test-Path -LiteralPath $_)});if($m.Count){$m;exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "check-all-tests",
+      "description": "Toàn bộ automated test suite.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Lint toàn bộ source/test bị ảnh hưởng.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "eslint.config.js",
+        "package-lock.json",
+        "package.json",
+        "src/**/*"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Production build và type integration.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-manual-critical",
+      "description": "Manual critical-flow trên desktop/mobile, reload, privacy, old backup, pronunciation và content discovery.",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "content/**/*.json",
+        "src/**/*"
+      ]
+    },
+    {
+      "id": "check-fresh-schema",
+      "description": "Fresh storage v3 rejects pre-release v2 data, persists only measured privacy-safe evidence, and pronunciation has no legacy completion bypass.",
+      "command": "npx vitest run src/infrastructure/storage/progress_storage.test.ts src/shared/hooks/use_app_store.test.ts src/features/lesson/LessonFlow.test.tsx src/features/lesson/SectionRenderer.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-10",
+        "AC-11"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts",
+        "src/types/progress.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-debug-spoken-test-timers",
+      "recordedAt": "2026-08-19T15:03:21.0820838Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Confirmed fake-timer/userEvent scheduling caused the timeout; real-timer focused test passes and verifies explicit start, positive elapsed duration, playback, reset and cleanup.",
+      "artifactPaths": [
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx"
+      ]
+    },
+    {
+      "id": "ev-lint-input-missing",
+      "result": "fail",
+      "exitCode": 1,
+      "recordedAt": "2026-08-19T15:22:25.0903935Z",
+      "summary": "Harnix freshness snapshot failed because frozen check-lint input eslint.config.js did not exist; npm run lint itself passed.",
+      "checkId": "check-lint",
+      "artifactPaths": []
+    },
+    {
+      "id": "ev-check-domain-storage",
+      "checkId": "check-domain-storage",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "14 focused domain/storage/store tests passed; measured evidence, strict v3 parsing, transfer assessment and privacy-safe persistence are verified.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "2f7ca9c9f74f9b29b6a94a472757aae61a4fe32473149fb130a5baa2cb08d002"
+    },
+    {
+      "id": "ev-check-practice-ui",
+      "checkId": "check-practice-ui",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "8 focused practice tests passed; spoken lifecycle, positive measured timing, session-only comparison, retry and safe phase resume are verified.",
+      "artifactPaths": [
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "df991da8703fda3e9e5e9f2324ddccb06cc47bac0dd2843e8a378657025a7da4"
+    },
+    {
+      "id": "ev-check-progress-ui",
+      "checkId": "check-progress-ui",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Progress UI focused test passed; measured evidence, qualifying transfer state and localized actionable reasons are rendered.",
+      "artifactPaths": [
+        "src/features/progress/ProgressPage.test.tsx"
+      ],
+      "inputDigest": "46a22a2eb7fe86f6b87f93e6aa7b2145387e9b73033f88dc862d29cd0ef12fbc"
+    },
+    {
+      "id": "ev-check-shell-legacy",
+      "checkId": "check-shell-legacy",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "8 shell and pronunciation tests passed; scroll/focus, mobile navigation, glossary, completion gate and restart behavior are verified.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ],
+      "inputDigest": "22a56fa53ae638980c0c1ca67056010dcceeab61c76cc09c6e527916b377829f"
+    },
+    {
+      "id": "ev-check-content",
+      "checkId": "check-content",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Content validation passed; exactly six new unique v3 missions cover all six capabilities and load through the catalog.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "src/content/content.ts",
+        "content/modules/capabilities"
+      ],
+      "inputDigest": "b4b629c3318e80af7a76d7ef6116d52d89ef08415347e950ed21e4bc985f0b50"
+    },
+    {
+      "id": "ev-check-docs",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "All six owner documents exist and describe the fresh-only v3 learning-integrity behavior; CHANGELOG reflects current verification.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md",
+        "START_HERE.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "b0b3e05dfe61066764069dbc8ed3da28dba5aae01aa46098ad0c2d821d4ea756"
+    },
+    {
+      "id": "ev-check-fresh-schema",
+      "checkId": "check-fresh-schema",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "14 fresh-schema and pronunciation tests passed; v2 data is rejected, only measured privacy-safe v3 evidence persists, and no legacy completion bypass remains.",
+      "artifactPaths": [
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ],
+      "inputDigest": "3c530be1a0cfd29d9d3f17a28b835110f33fe581a013d237d21a668f7869ce76"
+    },
+    {
+      "id": "ev-check-all-tests",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full automated suite passed: 18 test files and 77 tests.",
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "inputDigest": "cd8ac4f36e854750fb0a7b5aeb1d7fbbfd752090f8a039978f238f6c19b06cfa"
+    },
+    {
+      "id": "ev-check-lint",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Repository lint command passed after restoring the frozen lint input contract.",
+      "artifactPaths": [
+        "eslint.config.js",
+        "src"
+      ],
+      "inputDigest": "9be6f9c25e4ebdaf3325c772c5725c51a174c4faf470beef131e2c02fbf5abdf"
+    },
+    {
+      "id": "ev-check-build",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Production TypeScript and Vite build passed.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "dist"
+      ],
+      "inputDigest": "185caf8dc33e4f16f08fdcf9d05d1ab06397eb5e9a4432a5c488bc62ee7885b4"
+    },
+    {
+      "id": "ev-check-manual-critical",
+      "checkId": "check-manual-critical",
+      "recordedAt": "2026-08-19T15:24:39.0647322Z",
+      "result": "pass",
+      "summary": "Browser QA passed: 390px mobile layout and internal nav scrolling; written learner/model comparison; reload resumes safely without learner output; pronunciation finish gate, completion and restart reset; no app-origin console errors.",
+      "artifactPaths": [
+        "src/app/App.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/styles.css"
+      ],
+      "inputDigest": "dc072e6388386411dc9471b4915d69c6add06a694e1ff4fd6fc793f3fd95a32b"
+    }
+  ],
+  "createdAt": "2026-08-19T14:24:37.575Z",
+  "updatedAt": "2026-08-19T15:24:59.038Z",
+  "completedAt": "2026-08-19T15:24:59.038Z"
+}

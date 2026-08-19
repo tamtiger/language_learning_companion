@@ -15,7 +15,9 @@ Authoring contract mới dùng `schemaVersion: "v3"`. Parser vẫn đọc `v1` v
 - `international-interview`
 - `technology-learning`
 
-Mỗi mission v3 có đúng một primary capability; `workflowTags` mô tả workflow như `issue-update`, `documentation`, `standup`, `tradeoff`, `interview`, `api-learning`.
+Mỗi mission v3 có đúng một primary capability; catalog hiện có 12 mission, hai
+mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-update`,
+`documentation`, `standup`, `tradeoff`, `interview`, `api-learning`.
 
 ## Lesson v3
 
@@ -59,6 +61,7 @@ Mỗi mission v3 có đúng một primary capability; `workflowTags` mô tả wo
 - Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
 - Baseline không hiển thị `modelResponse` trước attempt đầu.
 - Transfer thay content/context nhưng giữ workflow để kiểm tra procedural transfer.
+- Pronunciation lesson chỉ hoàn thành khi tất cả exercise trong auto-check đã đúng.
 - `reviewPolicy.intervalDays` là số nguyên dương tăng dần; policy đầu tiên dùng `[1,3,7]`.
 - Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
 - Không đưa secret, personal data hoặc URL yêu cầu network vào lesson.

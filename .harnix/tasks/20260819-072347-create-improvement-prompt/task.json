@@ -1,0 +1,102 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260819-072347-create-improvement-prompt",
+  "title": "Tạo prompt tổng review research và cải tiến",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo một prompt tiếng Việt có thể chạy lặp lại để review, research, ưu tiên và triển khai cải tiến giúp người dùng đạt sáu năng lực tiếng Anh nghề nghiệp nhanh hơn.",
+  "nonGoals": [
+    "Không thay đổi product contract, content schema, architecture hoặc runtime trong task này.",
+    "Không tạo lại các prompt chuyên biệt đã xóa.",
+    "Không thực hiện research bên ngoài hoặc refactor sản phẩm ngay trong task viết prompt.",
+    "Không commit, push hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "IMPROVEMENT_PROMPT.md nêu đầy đủ sáu mục tiêu người dùng và lấy time-to-capability, independent transfer cùng delayed retention làm tiêu chí tối ưu.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-improvement-prompt-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Prompt quy định quy trình end-to-end gồm audit repository, research có câu hỏi và nguồn đáng tin cậy, ưu tiên bottleneck, lập kế hoạch, implement/refactor và verification.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-improvement-prompt-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Prompt bảo toàn owner docs, compatibility, privacy, dirty worktree và quyền commit; yêu cầu cập nhật CHANGELOG và báo cáo bằng chứng thay vì tuyên bố chung chung.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-improvement-prompt-20260819-final"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "CHANGELOG.md ghi nhận prompt tổng mới và không còn tham chiếu tới bộ prompt cạnh tranh.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-improvement-prompt-20260819-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "IMPROVEMENT_PROMPT.md"
+  ],
+  "relevantSpecs": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-improvement-prompt",
+      "description": "Kiểm tra prompt có đủ sáu mục tiêu, chu trình review-research-prioritize-implement-verify và guardrails bắt buộc.",
+      "command": "$text = Get-Content -LiteralPath \"IMPROVEMENT_PROMPT.md\" -Raw -Encoding utf8; $required = @(\"Giao tiếp tiếng Anh tự tin trong công việc\", \"Đọc tài liệu kỹ thuật mà không cần bản dịch\", \"Tham gia họp với đồng nghiệp quốc tế\", \"Giải thích ý tưởng kỹ thuật bằng tiếng Anh\", \"Phỏng vấn và làm việc tại công ty nước ngoài\", \"Học công nghệ mới hoàn toàn bằng tiếng Anh\", \"Review repository\", \"Research có mục tiêu\", \"Ưu tiên bottleneck\", \"Implement và refactor\", \"Verification\", \"CHANGELOG.md\", \"Không commit, push\"); $missing = @($required | Where-Object { -not $text.Contains($_) }); $changelog = Get-Content -LiteralPath \"CHANGELOG.md\" -Raw -Encoding utf8; if ($missing.Count -gt 0 -or -not $changelog.Contains(\"prompt tổng review, research và cải tiến\")) { $missing; exit 1 }",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "IMPROVEMENT_PROMPT.md",
+        "PRODUCT.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-improvement-prompt-20260819-final",
+      "checkId": "check-improvement-prompt",
+      "recordedAt": "2026-08-19T00:25:03.8970321Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Prompt tổng 107 dòng có đủ sáu mục tiêu, review-research-prioritization-implementation-verification, owner-doc/privacy/compatibility/commit guardrails và CHANGELOG entry.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "IMPROVEMENT_PROMPT.md"
+      ],
+      "inputDigest": "f4f9badd6f3468ddb1268e0f0eeccba316e2848841184721144c4880252ffa22"
+    }
+  ],
+  "createdAt": "2026-08-19T00:23:47.9211444Z",
+  "updatedAt": "2026-08-19T00:25:21.226Z",
+  "completedAt": "2026-08-19T00:25:21.226Z"
+}

@@ -2,6 +2,7 @@ import type { CapabilityId } from '../../content/schema'
 
 export type RubricState = 'met' | 'not-met' | 'not-rated'
 export type AttemptPhase = 'baseline' | 'performance' | 'retry' | 'transfer' | 'review'
+export type DurableCapabilityPhase = 'input' | 'performance' | 'retry' | 'transfer'
 
 export interface IndependenceEvidence {
   usedVietnamese: boolean
@@ -19,6 +20,7 @@ export interface AttemptEvidence {
   phase: AttemptPhase
   attemptedAt: string
   durationSeconds: number
+  wordCount: number | null
   rubric: Record<string, RubricState>
   focusCriterionId?: string
   independence: IndependenceEvidence
@@ -38,6 +40,60 @@ export function isIndependentAttempt(attempt: AttemptEvidence, maxHints = 0): bo
     && evidence.hintCount <= maxHints
 }
 
+export type TransferReason =
+  | 'incomplete'
+  | 'rubric-not-rated'
+  | 'rubric-gap'
+  | 'used-vietnamese'
+  | 'used-translation'
+  | 'used-model-answer'
+  | 'too-many-hints'
+  | 'too-short'
+  | 'too-long'
+  | 'overtime'
+
+export interface EvidenceContract {
+  maxHints: number
+  timeLimitSeconds: number
+  targetSeconds?: number
+  minWords?: number
+  maxWords?: number
+}
+
+export interface TransferAssessment {
+  qualifies: boolean
+  reasons: TransferReason[]
+}
+
+export function assessTransfer(
+  attempt: AttemptEvidence,
+  contract: EvidenceContract
+): TransferAssessment {
+  const reasons: TransferReason[] = []
+  if (attempt.phase !== 'transfer' || !attempt.completed) reasons.push('incomplete')
+  const ratings = Object.values(attempt.rubric)
+  if (ratings.length === 0 || ratings.some((rating) => rating === 'not-rated')) {
+    reasons.push('rubric-not-rated')
+  } else if (ratings.some((rating) => rating === 'not-met')) {
+    reasons.push('rubric-gap')
+  }
+  if (attempt.independence.usedVietnamese) reasons.push('used-vietnamese')
+  if (attempt.independence.usedTranslation) reasons.push('used-translation')
+  if (attempt.independence.usedModelAnswer) reasons.push('used-model-answer')
+  if (attempt.independence.hintCount > contract.maxHints) reasons.push('too-many-hints')
+  if (attempt.durationSeconds > contract.timeLimitSeconds) reasons.push('overtime')
+  if (contract.targetSeconds !== undefined && attempt.durationSeconds < contract.targetSeconds) {
+    reasons.push('too-short')
+  }
+  if (contract.minWords !== undefined && (attempt.wordCount ?? 0) < contract.minWords) {
+    reasons.push('too-short')
+  }
+  if (contract.maxWords !== undefined && (attempt.wordCount ?? 0) > contract.maxWords) {
+    reasons.push('too-long')
+  }
+  return { qualifies: reasons.length === 0, reasons }
+}
+
 export function isQualifyingTransfer(attempt: AttemptEvidence, maxHints = 0): boolean {
   return attempt.phase === 'transfer'
     && attempt.completed
@@ -45,28 +101,18 @@ export function isQualifyingTransfer(attempt: AttemptEvidence, maxHints = 0): bo
     && isIndependentAttempt(attempt, maxHints)
 }
 
-export interface LegacyImportSummary {
-  completed?: boolean
-  incorrectExerciseIds?: string[]
-  performanceSummary?: {
-    attemptCount: number
-    lastAttemptAt: string | null
-    latestRubric: Record<string, boolean>
-    transferCompleted: boolean
-  }
-}
-
 export interface LessonProgress {
   status: 'not-started' | 'in-progress' | 'completed'
   currentSectionId: string | null
   completedSectionIds: string[]
+  activePhase: DurableCapabilityPhase | null
+  completedExerciseIds: string[]
   attemptCount: number
   recentAttempts: AttemptEvidence[]
   transferCompleted: boolean
   reviewStage: number
   nextReviewAt: string | null
   lastActivityAt: string | null
-  legacyImport?: LegacyImportSummary
 }
 
 export type ProgressByLesson = Record<string, LessonProgress>
@@ -76,6 +122,8 @@ export function createEmptyLessonProgress(): LessonProgress {
     status: 'not-started',
     currentSectionId: null,
     completedSectionIds: [],
+    activePhase: null,
+    completedExerciseIds: [],
     attemptCount: 0,
     recentAttempts: [],
     transferCompleted: false,

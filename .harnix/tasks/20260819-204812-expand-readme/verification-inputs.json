@@ -1,0 +1,42 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260819-204812-expand-readme",
+  "snapshots": [
+    {
+      "evidenceId": "ev-check-readme-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260819-204812-expand-readme",
+      "checkId": "check-readme",
+      "taskContractHash": "accc5c41760dff89c4bea057bcacc97b6aa81b2ea4305d209964599139656e8a",
+      "entries": [
+        {
+          "path": "ARCHITECTURE.md",
+          "sha256": "81a14ae07360a01a6486139342f893eaf4eb2b8952ca29cb47d3e4778ad9ec91"
+        },
+        {
+          "path": "CONTENT.md",
+          "sha256": "9e349413ce0ab3a13c4afd7acab8f7c8cde8015c00cea323fd1f33f1cd6cfef0"
+        },
+        {
+          "path": "PRODUCT.md",
+          "sha256": "377f43dfca59bb519f0f9bdaac75eb720070965dd04ff37a25fcf570ac0ac2b2"
+        },
+        {
+          "path": "README.md",
+          "sha256": "67a6f8740e03c1c25ddb24eb4c6264541344eeb9eb67755142afcf18ca397dc0"
+        },
+        {
+          "path": "START_HERE.md",
+          "sha256": "20a123f3dcde527bf9184c4d29c369bc0c2fe81c01c232fee3d02edf16927591"
+        },
+        {
+          "path": "package.json",
+          "sha256": "08888027793ce84fa5be8fcd27b51bfc41078c284561cb64a9b74c8e9c1ae756"
+        }
+      ],
+      "inputDigest": "f42a1156e7b4cee6d200b7cd93054b7ab196e91e593a34f3180db0c9ea0bfd8b"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "technical-log-diagnosis-b1",
+  "title": "Diagnose an incident from logs",
+  "summary": "Đọc log tiếng Anh, tách signal khỏi noise và viết chẩn đoán có bằng chứng.",
+  "cefrLevel": "B1",
+  "durationMinutes": 20,
+  "learningObjectives": ["Định vị lỗi gốc", "Trích bằng chứng kỹ thuật", "Đề xuất kiểm tra tiếp theo"],
+  "capabilities": ["technical-reading"],
+  "workflowTags": ["logs", "incident"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Checkout logs", "format": "code-snippet", "content": "10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" },
+    { "id": "check", "type": "auto-check", "title": "Find the strongest signal", "exercises": [{ "id": "log-check", "type": "choice", "question": "Dòng nào là bằng chứng mạnh nhất cho nguyên nhân gần?", "options": ["request started", "retry attempt=2", "connection pool exhausted active=50 max=50"], "correctAnswer": ["connection pool exhausted active=50 max=50"], "explanation": "Dòng này nêu resource đã chạm giới hạn, liên hệ trực tiếp với lỗi 503." }] }
+  ],
+  "performanceTask": {
+    "id": "log-diagnosis", "mode": "written", "title": "Write an evidence-based diagnosis",
+    "scenario": "Checkout trả 503 và bạn cần gửi chẩn đoán ban đầu cho on-call engineer.",
+    "baselinePrompt": "Đọc log và viết chẩn đoán ban đầu bằng tiếng Anh.",
+    "performancePrompt": "Viết symptom, probable cause, evidence và next verification step. Phân biệt fact với hypothesis.",
+    "modelResponse": "Checkout request 91 returned HTTP 503. The strongest signal is that all 50 database connections were active immediately before the failure. This suggests pool exhaustion, although the logs do not yet prove why connections were retained. Next, compare pool wait time and connection release metrics before and after the latest deploy.",
+    "retryPrompt": "Sửa chẩn đoán để mỗi hypothesis có evidence và một bước kiểm chứng.",
+    "transferPrompt": "Log khác cho thấy memory tăng rồi pod bị OOMKilled. Viết chẩn đoán và bước xác minh tiếp theo.",
+    "reviewPrompt": "Từ một log lỗi mới, tóm tắt fact, hypothesis và verification step.",
+    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["symptom", "evidence", "hypothesis", "verification"], "minWords": 70, "maxWords": 130 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
+    "feedbackPriorities": ["evidence", "uncertainty", "next step"],
+    "rubric": [
+      { "id": "symptom", "label": "Observed symptom", "description": "Names the failure and relevant context accurately." },
+      { "id": "evidence", "label": "Evidence-backed hypothesis", "description": "Connects a log signal to a cautious probable cause." },
+      { "id": "verification", "label": "Verification step", "description": "Proposes a concrete next check that could confirm or reject the hypothesis." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+}

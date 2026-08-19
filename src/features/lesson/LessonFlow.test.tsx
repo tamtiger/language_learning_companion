@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { getBundledCatalog } from '../../content/catalog'
 import { useAppStore } from '../../shared/hooks/use_app_store'
@@ -36,7 +36,10 @@ describe('generic capability lesson flow', () => {
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()
-  })
+    const attempts = useAppStore.getState().lessonProgress[lesson.lessonId]?.recentAttempts ?? []
+    expect(attempts.every((attempt) => attempt.durationSeconds > 0)).toBe(true)
+    expect(attempts.every((attempt) => (attempt.wordCount ?? 0) > 0)).toBe(true)
+  }, 15_000)
 
   it('turns a not-met rubric item into a persisted retry focus', async () => {
     const user = userEvent.setup()
@@ -95,24 +98,34 @@ describe('generic capability lesson flow', () => {
     expect(screen.queryByRole('button', { name: /lưu baseline/i })).toBeNull()
   })
 
-  it('resumes and preserves completion for a legacy v1 lesson without fabricating evidence', async () => {
+  it('requires every pronunciation auto-check to be correct and restart clears completion', async () => {
     const user = userEvent.setup()
     const lesson = getBundledCatalog().lessons.find((item) => item.sourceSchemaVersion === 'v1')
     if (!lesson) throw new Error('Legacy fixture missing')
     const lastSection = lesson.sections.at(-1)
-    if (!lastSection) throw new Error('Legacy lesson has no sections')
+    if (!lastSection || lastSection.type !== 'auto-check') throw new Error('Pronunciation auto-check missing')
 
     useAppStore.getState().setCurrentSection(lesson.lessonId, lastSection.id)
     const firstRender = render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     expect(screen.getByRole('button', { name: `${lesson.sections.length}. ${lastSection.title}` }).getAttribute('aria-current')).toBe('step')
 
-    await user.click(screen.getByRole('button', { name: /hoàn thành bài/i }))
+    const finish = screen.getByRole('button', { name: /hoàn thành bài/i }) as HTMLButtonElement
+    expect(finish.disabled).toBe(true)
+    for (const exercise of lastSection.exercises) {
+      const fieldset = screen.getByText(exercise.question).closest('fieldset')
+      if (!fieldset) throw new Error('Exercise fieldset missing')
+      for (const answer of exercise.correctAnswer) await user.click(within(fieldset).getByLabelText(answer))
+      await user.click(within(fieldset).getByRole('button', { name: /kiểm tra/i }))
+    }
+    expect(finish.disabled).toBe(false)
+    await user.click(finish)
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]?.recentAttempts).toEqual([])
     firstRender.unmount()
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     expect(screen.getByRole('heading', { name: /bài pronunciation đã hoàn thành/i })).toBeTruthy()
-    expect(screen.getByRole('button', { name: /học lại từ đầu/i })).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: /học lại từ đầu/i }))
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId]?.completedExerciseIds).toEqual([])
   })
 
   it('opens a due delayed review and reschedules it after rubric submission', async () => {
@@ -131,6 +144,7 @@ describe('generic capability lesson flow', () => {
       phase: 'transfer',
       attemptedAt: '2026-01-01T00:00:00.000Z',
       durationSeconds: 60,
+      wordCount: 10,
       rubric: Object.fromEntries(task.rubric.map((item) => [item.id, 'met'])),
       independence: {
         usedVietnamese: false,

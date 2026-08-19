@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "behavioral-interview-ownership-b2",
+  "title": "Show ownership in a behavioral interview",
+  "summary": "Kể một câu chuyện STAR có quyết định cá nhân, kết quả đo được và bài học.",
+  "cefrLevel": "B2",
+  "durationMinutes": 20,
+  "learningObjectives": ["Dùng cấu trúc STAR", "Phân biệt I và we", "Nêu kết quả đo được"],
+  "capabilities": ["international-interview"],
+  "workflowTags": ["interview", "ownership"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Weak interview answer", "format": "prose", "content": "We had a production problem. We worked hard and fixed it. Everyone was happy and I learned a lot." },
+    { "id": "check", "type": "auto-check", "title": "Make ownership visible", "exercises": [{ "id": "ownership-check", "type": "choice", "question": "Chi tiết nào cải thiện câu trả lời nhiều nhất?", "options": ["It was very difficult.", "I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes.", "My team is excellent."], "correctAnswer": ["I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes."], "explanation": "Câu này nêu hành động cá nhân và kết quả đo được." }] }
+  ],
+  "performanceTask": {
+    "id": "ownership-interview", "mode": "spoken", "title": "Tell an ownership story",
+    "scenario": "Interviewer hỏi: Tell me about a time you took ownership of a production problem.",
+    "baselinePrompt": "Trả lời câu hỏi mà chưa xem model.",
+    "performancePrompt": "Trong 2 phút, kể situation/task ngắn, hành động của riêng bạn, result đo được và lesson.",
+    "modelResponse": "During a payment incident, our rollback took forty minutes because ownership was unclear. I coordinated recovery, assigned one engineer to customer impact and ran the rollback myself. Afterwards, I created a checklist, named a rollback owner in every release and tested it in staging. The next incident recovered in twelve minutes. I learned that ownership also means improving the system after the immediate fix.",
+    "retryPrompt": "Kể lại, rút gọn context và làm rõ hành động cá nhân hoặc kết quả.",
+    "transferPrompt": "Kể một câu chuyện bạn chủ động xử lý rủi ro trước khi nó thành incident.",
+    "reviewPrompt": "Trả lời một ownership question mới bằng STAR và evidence.",
+    "outputContract": { "timeLimitSeconds": 180, "requiredElements": ["situation", "personal action", "measured result", "lesson"], "targetSeconds": 90 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
+    "feedbackPriorities": ["ownership", "evidence", "reflection"],
+    "rubric": [
+      { "id": "structure", "label": "Concise STAR structure", "description": "Keeps situation and task brief enough to foreground action." },
+      { "id": "ownership", "label": "Personal ownership", "description": "Uses specific I-statements for decisions and actions." },
+      { "id": "result", "label": "Result and learning", "description": "Provides a measurable outcome and a credible lesson." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+}

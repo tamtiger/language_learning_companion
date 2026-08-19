@@ -19,7 +19,7 @@ describe('bundled mission UI matrix', () => {
       expect(screen.queryByText(/model response — chỉ mở sau attempt/i)).toBeNull()
 
       if (lesson.performanceTask?.mode === 'spoken') {
-        expect(screen.getByRole('button', { name: /dùng timer-only/i })).toBeTruthy()
+        expect(screen.getByRole('button', { name: /bắt đầu timer-only/i })).toBeTruthy()
       } else {
         expect(screen.getByRole('textbox', { name: /bản nháp tiếng anh/i })).toBeTruthy()
       }

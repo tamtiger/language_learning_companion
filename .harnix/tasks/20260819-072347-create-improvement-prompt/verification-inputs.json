@@ -1,0 +1,42 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260819-072347-create-improvement-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "ev-check-improvement-prompt-20260819-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260819-072347-create-improvement-prompt",
+      "checkId": "check-improvement-prompt",
+      "taskContractHash": "a990e2317ac19153f8a9baf599b4767738b0920fb1e07112bbdc8dfbc00d87d2",
+      "entries": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "373b956d89102f1adff15eff7b8ae3843ec8d3d72ea557c6d6304f24540ce26e"
+        },
+        {
+          "path": "ARCHITECTURE.md",
+          "sha256": "b20655d10635d14715433bc2a3f8b1f772f6512bbb9be1ba2aa74675fba8d9bb"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "8eaf15f9c729bddd478d87c520e0459afb9273ae9d436ad89f79ad143e7ff526"
+        },
+        {
+          "path": "CONTENT.md",
+          "sha256": "9e349413ce0ab3a13c4afd7acab8f7c8cde8015c00cea323fd1f33f1cd6cfef0"
+        },
+        {
+          "path": "IMPROVEMENT_PROMPT.md",
+          "sha256": "a8c48c57084607837b43d3c64b179b7447ff681fa28055a88cbbdcf61963b11f"
+        },
+        {
+          "path": "PRODUCT.md",
+          "sha256": "040db9d04e7e18b8ce8656d592a71db1e01e24518aa3363561469c154f8e5a4d"
+        }
+      ],
+      "inputDigest": "f4f9badd6f3468ddb1268e0f0eeccba316e2848841184721144c4880252ffa22"
+    }
+  ]
+}

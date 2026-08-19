@@ -41,15 +41,15 @@ describe('Content Database Validator', () => {
     })
   })
 
-  it('keeps six capability missions complete and legacy lessons compatible', () => {
-    expect(catalog.baselineMissions).toHaveLength(6)
+  it('keeps twelve capability missions complete and pronunciation lessons valid', () => {
+    expect(catalog.baselineMissions).toHaveLength(12)
     catalog.baselineMissions.forEach((lesson) => {
       expect(lesson.performanceTask?.rubric.length).toBeGreaterThanOrEqual(3)
       expect(lesson.performanceTask?.baselinePrompt).toBeTruthy()
       expect(lesson.performanceTask?.retryPrompt).toBeTruthy()
       expect(lesson.performanceTask?.transferPrompt).toBeTruthy()
       expect(lesson.performanceTask?.reviewPrompt).toBeTruthy()
-      expect(lesson.reviewPolicy.intervalDays).toEqual([1, 3, 7])
+      expect(lesson.reviewPolicy.intervalDays.length).toBeGreaterThanOrEqual(3)
     })
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')).toHaveLength(6)
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(1)

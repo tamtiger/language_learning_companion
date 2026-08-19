@@ -27,7 +27,13 @@ export default function App() {
   useEffect(() => {
     if (previousNavigationKey.current === navigationKey) return
     previousNavigationKey.current = navigationKey
+    if (import.meta.env.MODE !== 'test') window.scrollTo?.({ top: 0, behavior: 'auto' })
+    mainRef.current?.scrollTo?.({ top: 0, behavior: 'auto' })
     mainRef.current?.focus()
+    document.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView?.({
+      block: 'nearest',
+      inline: 'nearest'
+    })
   }, [navigationKey])
 
   const navigate = (nextPage: Page) => {
@@ -49,7 +55,7 @@ export default function App() {
               <span className="block text-xs text-zinc-500">Capability-first · local-only</span>
             </span>
           </button>
-          <nav aria-label="Điều hướng chính" className="flex gap-1 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900/70 p-1">
+          <nav aria-label="Điều hướng chính" className="no-scrollbar flex max-w-full gap-1 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900/70 p-1">
             {NAV_ITEMS.map(({ id, label, icon: Icon }) => (
               <button
                 key={id}

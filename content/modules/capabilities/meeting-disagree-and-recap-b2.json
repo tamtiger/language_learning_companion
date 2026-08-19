@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "meeting-disagree-and-recap-b2",
+  "title": "Disagree and recap in an international meeting",
+  "summary": "Phản biện lịch sự, nêu trade-off và chốt quyết định có owner.",
+  "cefrLevel": "B2",
+  "durationMinutes": 20,
+  "learningObjectives": ["Ngắt lời lịch sự", "Phản biện bằng evidence", "Recap decision và owner"],
+  "capabilities": ["international-meetings"],
+  "workflowTags": ["meeting", "disagreement"],
+  "sections": [
+    { "id": "source", "type": "source", "title": "Meeting proposal", "format": "meeting-notes", "content": "Proposal: skip the load test to keep Friday's launch. Current evidence: staging has only handled 20% of forecast traffic. Rollback owner is not assigned." },
+    { "id": "check", "type": "auto-check", "title": "Choose constructive disagreement", "exercises": [{ "id": "disagree-check", "type": "choice", "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?", "options": ["That is wrong.", "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.", "Whatever you decide."], "correctAnswer": ["I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."], "explanation": "Câu này acknowledge mục tiêu chung rồi nêu concern kèm evidence." }] }
+  ],
+  "performanceTask": {
+    "id": "meeting-disagree-recap", "mode": "spoken", "title": "Challenge and close the decision",
+    "scenario": "Trong cuộc họp release, nhóm muốn bỏ load test để giữ deadline.",
+    "baselinePrompt": "Nói phản hồi của bạn mà chưa xem model.",
+    "performancePrompt": "Trong 90 giây, acknowledge mục tiêu, nêu disagreement có evidence, đề xuất phương án và recap owner/deadline.",
+    "modelResponse": "I understand why we want to protect Friday’s date. I’m concerned about skipping the load test because staging has covered only twenty percent of forecast traffic. Could we run the critical scenario today and make launch conditional on the result? To recap, Minh will run it by four, I’ll review the error rate, and Lan will own rollback if we proceed.",
+    "retryPrompt": "Nói lại, sửa tiêu chí chưa đạt và kết thúc bằng decision recap rõ ràng.",
+    "transferPrompt": "Nhóm muốn bỏ security review để kịp demo. Phản biện và recap phương án thay thế.",
+    "reviewPrompt": "Phản biện một shortcut mới và chốt owner/deadline mà không xem model.",
+    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["acknowledgement", "evidence", "alternative", "recap"], "targetSeconds": 60 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
+    "feedbackPriorities": ["tone", "evidence", "closure"],
+    "rubric": [
+      { "id": "tone", "label": "Constructive tone", "description": "Acknowledges the shared goal before disagreeing." },
+      { "id": "case", "label": "Evidence and alternative", "description": "Supports the concern and offers a practical path." },
+      { "id": "recap", "label": "Decision recap", "description": "Ends with decision, owner and timing." }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+}
