@@ -165,13 +165,29 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const [response, setResponse] = useState('')
   const [responseReady, setResponseReady] = useState(false)
   const [rubric, setRubric] = useState<Record<string, RubricState>>({})
+  const [retryFocusId, setRetryFocusId] = useState<string | null>(
+    () => progress?.recentAttempts.at(-1)?.focusCriterionId ?? null
+  )
   const [independence, setIndependence] = useState<IndependenceEvidence>(DEFAULT_INDEPENDENCE)
   const phase = session.phase
   const allRated = task.rubric.every(
     (item) => rubric[item.id] === 'met' || rubric[item.id] === 'not-met'
   )
+  const notMetCriterionIds = task.rubric
+    .filter((item) => rubric[item.id] === 'not-met')
+    .map((item) => item.id)
+  const selectedRetryFocusId = notMetCriterionIds.includes(retryFocusId ?? '')
+    ? retryFocusId
+    : null
+  const canSubmitFeedback = allRated
+    && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
+  const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
 
-  const saveAttempt = (attemptPhase: AttemptEvidence['phase'], ratings = rubric) => recordAttempt({
+  const saveAttempt = (
+    attemptPhase: AttemptEvidence['phase'],
+    ratings = rubric,
+    focusCriterionId?: string | null
+  ) => recordAttempt({
     attemptId: attemptId(),
     lessonId: lesson.lessonId,
     taskId: task.id,
@@ -182,6 +198,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
     rubric: Object.fromEntries(
       task.rubric.map((item) => [item.id, ratings[item.id] ?? 'not-rated'])
     ),
+    ...(focusCriterionId ? { focusCriterionId } : {}),
     independence: {
       ...independence,
       preparationSeconds: task.independenceContract.preparationSeconds
@@ -251,11 +268,39 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             <p className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
           </div>
           <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />
+          {allRated && notMetCriterionIds.length > 0 ? (
+            <fieldset className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+              <legend className="px-1 text-sm font-bold text-amber-200">Chọn ưu tiên retry</legend>
+              <p className="mb-3 text-sm text-zinc-300">
+                Chọn một tiêu chí chưa đạt để tập trung sửa ở lượt kế tiếp.
+              </p>
+              <div className="grid gap-2">
+                {task.rubric
+                  .filter((item) => notMetCriterionIds.includes(item.id))
+                  .map((item) => (
+                    <label key={item.id} className="flex cursor-pointer items-center gap-3 text-sm">
+                      <input
+                        type="radio"
+                        name="retry-focus"
+                        checked={selectedRetryFocusId === item.id}
+                        onChange={() => setRetryFocusId(item.id)}
+                        className="h-4 w-4 accent-amber-400"
+                      />
+                      {item.label}
+                    </label>
+                  ))}
+              </div>
+            </fieldset>
+          ) : allRated ? (
+            <p className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-200">
+              Tất cả tiêu chí đã đạt. Retry để giữ chất lượng khi diễn đạt lại.
+            </p>
+          ) : null}
           <button
             type="button"
-            disabled={!allRated}
+            disabled={!canSubmitFeedback}
             onClick={() => {
-              saveAttempt('performance')
+              saveAttempt('performance', rubric, selectedRetryFocusId)
               setRubric({})
               resetResponse()
               setSession(advancePhase(session, 'SUBMIT_RUBRIC'))
@@ -268,6 +313,14 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
       ) : (
         <div className="space-y-5">
           <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
+          {phase === 'retry' && (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+              <p className="text-xs font-bold uppercase tracking-wider text-amber-300">Ưu tiên retry</p>
+              <p className="mt-2 font-semibold">
+                {retryFocus?.label ?? 'Giữ toàn bộ tiêu chí đã đạt khi diễn đạt lại'}
+              </p>
+            </div>
+          )}
           <ResponseEditor
             task={task}
             value={response}
@@ -275,7 +328,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             onReady={setResponseReady}
           />
           <IndependenceEditor value={independence} onChange={setIndependence} />
-          {(phase === 'transfer' || phase === 'review') && (
+          {(phase === 'retry' || phase === 'transfer' || phase === 'review') && (
             <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />
           )}
           <div className="flex flex-wrap gap-3">
@@ -306,9 +359,10 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             {phase === 'retry' && (
               <button
                 type="button"
-                disabled={!responseReady}
+                disabled={!responseReady || !allRated}
                 onClick={() => {
-                  saveAttempt('retry', {})
+                  saveAttempt('retry', rubric, retryFocusId)
+                  setRubric({})
                   resetResponse()
                   setSession(advancePhase(session, 'START_TRANSFER'))
                 }}

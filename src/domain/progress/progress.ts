@@ -20,8 +20,29 @@ export interface AttemptEvidence {
   attemptedAt: string
   durationSeconds: number
   rubric: Record<string, RubricState>
+  focusCriterionId?: string
   independence: IndependenceEvidence
   completed: boolean
+}
+
+export function isRubricFullyMet(attempt: AttemptEvidence): boolean {
+  const ratings = Object.values(attempt.rubric)
+  return ratings.length > 0 && ratings.every((rating) => rating === 'met')
+}
+
+export function isIndependentAttempt(attempt: AttemptEvidence, maxHints = 0): boolean {
+  const evidence = attempt.independence
+  return !evidence.usedVietnamese
+    && !evidence.usedTranslation
+    && !evidence.usedModelAnswer
+    && evidence.hintCount <= maxHints
+}
+
+export function isQualifyingTransfer(attempt: AttemptEvidence, maxHints = 0): boolean {
+  return attempt.phase === 'transfer'
+    && attempt.completed
+    && isRubricFullyMet(attempt)
+    && isIndependentAttempt(attempt, maxHints)
 }
 
 export interface LegacyImportSummary {

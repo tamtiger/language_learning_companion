@@ -18,6 +18,7 @@ const AttemptEvidenceSchema = z.object({
   attemptedAt: z.string().datetime(),
   durationSeconds: z.number().int().nonnegative(),
   rubric: z.record(RubricStateSchema),
+  focusCriterionId: z.string().min(1).optional(),
   independence: z.object({
     usedVietnamese: z.boolean(),
     usedTranslation: z.boolean(),

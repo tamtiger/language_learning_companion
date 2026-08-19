@@ -10,6 +10,7 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 - Thêm năm mission schema v3 và normalize Daily Standup v2 thành mission thứ sáu; mỗi mission có baseline, input, performance, self-feedback, retry, transfer và delayed review.
 - Thêm Today queue, Catalog theo capability, trang evidence tiến bộ và Settings cho backup/import/reset metadata.
 - Thêm learning/progress domain thuần, lịch review 1–3–7 ngày, attempt history có giới hạn và progress aggregation theo capability.
+- Thêm `focusCriterionId` optional, pure qualifying-transfer selectors và regression tests cho retry/progress evidence mà vẫn tương thích backup v2 cũ.
 - Thêm test harness React, accessibility smoke, mission matrix, storage migration, privacy và spoken timer-only fallback.
 
 ### Changed
@@ -18,6 +19,8 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 - Chuẩn hóa content bằng canonical schema v3, đồng thời giữ compatibility cho sáu lesson pronunciation v1 và Daily Standup v2 qua parse/normalization thay vì rewrite dữ liệu nguồn.
 - Chuyển Zustand thành adapter mỏng trên storage contract v2 có strict validation, migration và import fail-closed.
 - Đồng bộ `PRODUCT.md`, `CONTENT.md`, `ARCHITECTURE.md`, `README.md`, `START_HERE.md` và các prompt owner theo product local-only và time-to-capability.
+- Refactor self-feedback để chọn một `retry focus` từ criterion chưa đạt, bắt buộc chấm lại rubric sau retry và lưu evidence thật thay vì `not-rated`.
+- Đổi Progress từ số “Độc lập” trên mọi attempt sang `Transfer attempts` và `qualifying transfer` đạt toàn bộ rubric trong điều kiện độc lập, kèm định nghĩa công khai.
 
 ### Removed
 

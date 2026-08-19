@@ -24,6 +24,7 @@ Một phiên học tốt phải:
 - bắt đầu bằng nhiệm vụ nghề nghiệp rõ ràng;
 - tạo spoken hoặc written output trong timebox;
 - cho người học tự đối chiếu rubric có cấu trúc;
+- khi rubric còn gap, chọn đúng một `retry focus` rồi chấm lại toàn bộ rubric sau retry;
 - yêu cầu retry và transfer, không hoàn thành chỉ vì trả lời quiz;
 - quay lại đúng practice đến hạn;
 - cho thấy evidence theo capability thay vì một điểm trình độ mơ hồ.
@@ -32,10 +33,17 @@ Một phiên học tốt phải:
 
 North-star: thời gian đến transfer attempt đầu tiên đạt toàn bộ rubric trong điều kiện độc lập đã khai báo.
 
+Một `qualifying transfer` phải là transfer đã hoàn tất, có rubric không rỗng với mọi
+criterion `met`, đồng thời không dùng tiếng Việt, bản dịch, model answer và không
+vượt `maxHints` do task khai báo.
+Transfer chưa đạt vẫn hoàn tất mission và đi vào delayed review, nhưng Progress phân
+biệt rõ transfer attempt với qualifying transfer thay vì suy diễn mastery.
+
 Evidence hiển thị:
 
 - baseline, transfer và review attempts;
 - rubric criterion `met/not-met/not-rated`;
+- rubric criterion được chọn làm retry focus và rubric chấm lại sau retry;
 - independence signals: dùng tiếng Việt/bản dịch/model answer, số hint, preparation time;
 - lần thực hành gần nhất và lần review kế tiếp.
 

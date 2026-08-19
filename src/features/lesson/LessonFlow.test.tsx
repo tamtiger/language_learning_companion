@@ -28,12 +28,51 @@ describe('generic capability lesson flow', () => {
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /lưu self-feedback/i }))
     await user.type(screen.getByRole('textbox'), 'Retry with a concrete impact, owner and request.')
+    expect((screen.getByRole('button', { name: /sang transfer/i }) as HTMLButtonElement).disabled).toBe(true)
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /sang transfer/i }))
     await user.type(screen.getByRole('textbox'), 'Transfer update for delayed orders and reconciliation.')
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()
+  })
+
+  it('turns a not-met rubric item into a persisted retry focus', async () => {
+    const user = userEvent.setup()
+    const lesson = getBundledCatalog().lessons.find(
+      (item) => item.lessonId === 'workplace-issue-update-b1'
+    )
+    const task = lesson?.performanceTask
+    if (!lesson || !task) throw new Error('Mission fixture missing')
+
+    render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
+    await user.type(screen.getByRole('textbox'), 'Initial issue update.')
+    await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
+    await user.click(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))
+    await user.type(screen.getByRole('textbox'), 'Main issue update.')
+    await user.click(screen.getByRole('button', { name: /đối chiếu rubric/i }))
+
+    const notMetButtons = screen.getAllByRole('button', { name: 'Chưa đạt' })
+    await user.click(notMetButtons[0])
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' }).slice(1)) {
+      await user.click(button)
+    }
+    expect((screen.getByRole('button', { name: /lưu self-feedback/i }) as HTMLButtonElement).disabled).toBe(true)
+
+    await user.click(screen.getByRole('radio', { name: task.rubric[0].label }))
+    await user.click(screen.getByRole('button', { name: /lưu self-feedback/i }))
+    expect(screen.getByText(/ưu tiên retry/i)).toBeTruthy()
+    expect(screen.getByText(task.rubric[0].description)).toBeTruthy()
+
+    await user.type(screen.getByRole('textbox'), 'Retry focused on the missing criterion.')
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await user.click(screen.getByRole('button', { name: /sang transfer/i }))
+
+    const retryAttempt = useAppStore.getState().lessonProgress[lesson.lessonId]
+      ?.recentAttempts.find((attempt) => attempt.phase === 'retry')
+    expect(retryAttempt?.focusCriterionId).toBe(task.rubric[0].id)
+    expect(retryAttempt?.rubric[task.rubric[0].id]).toBe('met')
   })
 
   it('resumes after a persisted baseline and records learner-reported independence', async () => {

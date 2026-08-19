@@ -43,9 +43,18 @@ Capability loop: `baseline → input → auto-check → performance → self-fee
 
 Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn mission hoàn thành khi chưa self-rate rubric hoặc transfer. UI chỉ dispatch events và render phase.
 
+Sau self-feedback, UI bắt buộc chọn một `retry focus` trong các criterion `not-met`
+(nếu có). Retry phải tạo output và chấm lại toàn bộ rubric trước transfer. Focus được
+lưu bằng ID có cấu trúc, không dùng free-text feedback.
+
 ## Progress và privacy
 
-`ProgressEnvelopeV2` lưu status/current section, aggregate count, tối đa 50 attempt metadata gần nhất, transfer flag, review stage/`nextReviewAt`, legacy import summary và settings.
+`ProgressEnvelopeV2` lưu status/current section, aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`, transfer flag, review stage/`nextReviewAt`, legacy import summary và settings. Field focus là optional để backup v2 cũ tiếp tục hợp lệ; storage version không đổi.
+
+Pure progress selectors định nghĩa `qualifying transfer` là completed transfer có
+rubric không rỗng và toàn bộ `met`, không dùng tiếng Việt, translation, model answer
+và không vượt content-owned `maxHints` (fallback 0 nếu task không có contract). Progress UI hiển thị riêng attempts, transfer attempts và qualifying
+transfers; không đếm một independent baseline/retry như transfer đạt.
 
 Không lưu audio/blob URL, transcript, written response hoặc free-text. Import flow là parse → normalize → validate → preview → explicit confirm → atomic replace. Invalid import giữ nguyên state và trả recoverable error; không reset ngầm.
 
