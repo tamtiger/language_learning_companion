@@ -1,0 +1,207 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-001922-research-learning-features",
+  "title": "Nghiên cứu tính năng học tập dựa trên bằng chứng",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Audit ứng dụng và tổng hợp bằng chứng để xác định tập tính năng học tập nhỏ nhất, phù hợp nhất cần bổ sung nhằm rút ngắn time-to-capability cho Software Engineer Việt Nam.",
+  "nonGoals": [
+    "Không implement hoặc refactor product code/content trong task này.",
+    "Không mặc định IPA hay sentence chunks là giải pháp đúng hoặc đủ.",
+    "Không thêm AI, cloud, account, analytics, paid API hoặc dependency.",
+    "Không tuyên bố learning efficacy cho app khi chưa có learner study, unseen transfer và delayed retention.",
+    "Không sửa, xóa, commit hoặc ghi đè thay đổi hiện có ngoài task-owned artifacts."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Audit black-box và repository lập inventory feature hiện có, bao phủ pronunciation, spoken, meeting/technical explanation, technical reading, retry, transfer, delayed review, desktop/mobile và gap map theo sáu mục tiêu.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-current-feature-audit-pass"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Research synthesis dùng nguồn học thuật hoặc chính thức đáng tin cậy, ghi protocol, population, intervention, comparator, outcome, giới hạn và tách fact khỏi inference cho các cơ chế có thể đổi quyết định.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-evidence-synthesis-pass"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Decision matrix đánh giá IPA, sentence chunks và các candidate khác theo evidence–fit–impact–cost–risk, phân loại Must-have, experiment, later hoặc reject/defer và tạo roadmap P0/P1/P2.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-feature-roadmap-pass"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "P0 pilot brief xác định learner journey, local-only/privacy boundary, measurable success/failure threshold, unseen transfer, delayed retention, rollout và rollback mà không tuyên bố efficacy chưa đo.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-feature-roadmap-pass"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Task chỉ tạo/cập nhật Harnix task artifacts và báo cáo nghiên cứu; không thay đổi product code, content hoặc owner docs.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-research-scope-pass"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+    "PRODUCT.md",
+    "CONTENT.md",
+    "ARCHITECTURE.md",
+    "README.md",
+    "START_HERE.md",
+    "content/modules",
+    "src/features/lesson",
+    "src/features/practice",
+    "src/features/progress",
+    "src/infrastructure/storage"
+  ],
+  "relevantSpecs": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "LEARNER_AUDIT_PROMPT.md",
+    "PRODUCT.md",
+    "CONTENT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-current-feature-audit",
+      "description": "Audit artifact có inventory runtime/repository, các flow bắt buộc và gap map theo sáu mục tiêu.",
+      "command": "rg -n \"pronunciation|spoken|meeting|technical-reading|desktop|mobile|transfer|delayed|Gap map\" .harnix/tasks/20260820-001922-research-learning-features/research/current-feature-audit.md",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+        "PRODUCT.md",
+        "content/**/*.json",
+        "src/features/**/*"
+      ]
+    },
+    {
+      "id": "check-evidence-synthesis",
+      "description": "Research artifact có protocol, source log, fact/inference, population/outcome và limitation.",
+      "command": "rg -n \"Protocol|Source log|Population|Intervention|Comparator|Outcome|Limitation|Fact|Inference\" .harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-feature-roadmap",
+      "description": "Decision artifact có IPA, sentence chunks, candidate matrix, P0/P1/P2 và pilot threshold/rollback.",
+      "command": "rg -n \"IPA|sentence chunks|Candidate matrix|Must-have|P0|P1|P2|success threshold|rollback\" .harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-research-scope",
+      "description": "Fresh status/diff inspection confirms no product code, content or owner doc was changed by this research task.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-current-feature-audit-pass",
+      "checkId": "check-current-feature-audit",
+      "recordedAt": "2026-08-20T00:36:50.7550685+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Audit artifact bao phủ inventory runtime/repository, pronunciation, spoken, meeting/technical explanation, technical-reading, retry, transfer, delayed review, desktop/mobile và gap map sáu mục tiêu; digest trước/sau khớp.",
+      "artifactPaths": [
+        ".harnix/tasks/20260820-001922-research-learning-features/research/current-feature-audit.md"
+      ],
+      "inputDigest": "29c7d529f3e97d968fc69749372e94ce76172f5283ce14c86778c221b139bc4c"
+    },
+    {
+      "id": "ev-evidence-synthesis-pass",
+      "checkId": "check-evidence-synthesis",
+      "recordedAt": "2026-08-20T00:36:50.7550685+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Evidence synthesis ghi research protocol, 15 source groups, population/intervention/comparator/outcome/limitation, fact/inference, conflict và confidence; digest trước/sau khớp.",
+      "artifactPaths": [
+        ".harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md"
+      ],
+      "inputDigest": "e95a2494e5069dcf6e606b8da44200dd13ad6c380890a604166700c3c7c84d26"
+    },
+    {
+      "id": "ev-feature-roadmap-pass",
+      "checkId": "check-feature-roadmap",
+      "recordedAt": "2026-08-20T00:36:50.7550685+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Roadmap có candidate matrix IPA/chunks/các lựa chọn khác, phân loại Must-have/experiment/later/reject, P0/P1/P2 và pilot có pretest, success/failure threshold, local-only, rollout/rollback; digest trước/sau khớp.",
+      "artifactPaths": [
+        ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md"
+      ],
+      "inputDigest": "3d0f06c54e16ee70188b81000404d09ee8516f21359365478110d8cd89e0f562"
+    },
+    {
+      "id": "ev-research-scope-pass",
+      "checkId": "check-research-scope",
+      "recordedAt": "2026-08-20T00:36:50.7550685+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh git status/diff xác nhận product code, content, owner docs và manifests không đổi; không còn temporary payload; chỉ task-owned artifacts và prompt user-owned hiện diện trong scope.",
+      "artifactPaths": [
+        ".harnix/tasks/20260820-001922-research-learning-features",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "f271734c5e91dee589a2dbe7b8b5ab76cc4c3e791e346b3041e5838f5fee9506"
+    },
+    {
+      "id": "ev-review-ready",
+      "recordedAt": "2026-08-20T00:36:50.7550685+07:00",
+      "result": "pass",
+      "summary": "harnix-check verdict ready: compliance đủ năm AC; quality review đã bổ sung perception pretest trước khi chốt. Không có finding blocking. Residual risk là chưa có learner/expert study, delayed cohort outcome, microphone QA hay efficacy evidence.",
+      "artifactPaths": [
+        ".harnix/tasks/20260820-001922-research-learning-features/research/current-feature-audit.md",
+        ".harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md",
+        ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-19T17:19:22.3106632Z",
+  "updatedAt": "2026-08-19T17:37:05.261Z",
+  "completedAt": "2026-08-19T17:37:05.261Z"
+}

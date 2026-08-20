@@ -12,19 +12,23 @@
 - For all v3 missions, the source needed by the task lives in lesson.sections. Therefore baseline prompts such as “read the log”, “from the notes” or “explain the diagram” cannot be completed from supplied evidence.
 - Transfer/review render only transferPrompt/reviewPrompt strings; no new source artifacts exist in the current contract.
 
-## Post-implementation runtime evidence
-- Automated DOM runtime now renders baseline controls for all 12 capability missions and canonical navigation for all six pronunciation lessons.
-- The issue-update pilot runtime exposes only the checkout evidence packet at cold baseline, keeps instructional input/model/transfer evidence hidden, and exposes only the upload packet when transfer is resumed.
-- The generic written loop completes baseline → input → performance → self-feedback → retry → transfer; a delayed review uses the third packet, and session output is absent from persisted progress.
-- Spoken runtime exposes explicit timer-only start and measured positive duration; pronunciation still requires every auto-check before completion; technical-reading missions render their written baseline controls.
-- The in-app browser transport disconnected (`Transport closed`) before a clean post-implementation desktop/mobile pass. A policy-protected Chrome fallback was not permitted. Therefore desktop/mobile black-box QA remains pending and is not counted as pass.
+## Bằng chứng runtime sau triển khai
+- Desktop Chrome ở viewport 1920×855 không có horizontal overflow. Cold baseline của pilot hiển thị đúng ba artifact checkout, không hiển thị instructional input, model response hoặc transfer evidence.
+- Sau khi lưu baseline, UI chỉ mở scaffold F-I-A-R và auto-check. Reload quay lại đúng phase `input`; câu trả lời baseline duy nhất của phiên không được phục dựng hoặc hiển thị lại.
+- Flow thực tế hoàn tất `baseline → input → performance → self-feedback → retry → transfer`. Model chỉ xuất hiện sau performance; một criterion `not-met` bắt buộc chọn retry focus; retry giữ output trước đó trong session.
+- Transfer chỉ hiển thị bộ artifact upload, không còn artifact checkout hoặc model. Lượt transfer hoàn tất trên viewport mobile 390×844, không horizontal overflow. Progress hiển thị 4 attempts, 1 transfer attempt và 1 qualifying transfer.
+- Spoken Daily Standup hiển thị timer-only fallback, đo 1 giây thật, cho phép lưu baseline và chuyển sang input mà không cần microphone permission.
+- Technical-reading baseline render đúng written task/textbox và vẫn không có source hoặc model; đây là bằng chứng black-box xác nhận gap còn lại ở các mission chưa rollout `practiceContexts`.
+- Pronunciation flow chuyển từ 0/3 với nút Finish disabled sang 3/3 với Finish enabled và màn hình hoàn thành sau khi trả lời đúng cả ba auto-check.
+- Không có console error từ origin của app; warning quan sát được đến từ browser extension bên thứ ba, không phải ứng dụng.
+- Chưa đo: learner usability với ba người dùng mục tiêu, expert walkthrough, delayed retention thực tế và microphone vật lý.
 
 ## Mission matrix
 
 | Mission | Capability | Job | Artifact | Decision / gap | Scaffold | Transfer | Main evidence |
 |---|---|---:|---:|---:|---:|---:|---|
 | daily-standup-b1 | meetings | 4 | 2 | 3 | 3 | 3 | Personal work content is naturally authentic, but no supplied artifact and v2 transfer is a prompt only. |
-| workplace-issue-update-b1 | workplace | 4 | 3 | 1 | 3 | 1 | Useful incident task, but baseline hides incident notes and transfer supplies only a summary. |
+| workplace-issue-update-b1 | workplace | 4 | 4 | 4 | 4 | 4 | Pilot cung cấp ba artifact cho cold baseline, scaffold F-I-A-R, retry focus và bộ artifact khác cho transfer/review. |
 | workplace-clarification-request-b1 | workplace | 4 | 2 | 1 | 3 | 1 | Ambiguous ticket is realistic but hidden at cold attempt; answer-worthy ambiguity is already preselected. |
 | technical-doc-action-b1 | reading | 4 | 3 | 1 | 3 | 1 | Plausible runbook, but cold attempt cannot see it and transfer paraphrases a second runbook in one sentence. |
 | technical-log-diagnosis-b1 | reading | 4 | 3 | 2 | 3 | 1 | Log signal/noise is useful; only four lines and no baseline artifact/varied transfer evidence. |
@@ -55,15 +59,15 @@
 | Technology learning | mental model, experiment plan | transfer has no fresh docs/config | new API/doc artifact in each context |
 
 ## Prioritized findings
-1. S1 — Impossible evidence-based baseline for v3: source is hidden until after submission. High frequency (11 missions), direct integrity impact.
-2. S1 — Transfer/review lack unseen artifacts: learner can reuse the learned template without selecting new evidence.
+1. S1 — Mười mission v3 chưa rollout vẫn có baseline dựa trên source bị ẩn đến sau submission; pilot issue-update đã sửa gap này.
+2. S1 — Mười mission v3 chưa rollout vẫn thiếu artifact mới cho transfer/review; learner có thể tái dùng template mà không chọn evidence mới.
 3. S2 — One short, cleaned source per mission: weak information-gap and uncertainty handling.
 4. S2 — Self-rubric cannot verify factual accuracy; it must remain reflection, not mastery evidence.
 5. S2 — Progression is topical more than difficulty-controlled.
 6. S3 — Spoken/meeting tasks have no scripted interlocutor response.
 
 ## Facts, interpretations and hypotheses
-- Fact: rendering order and JSON structure create the baseline/source mismatch.
+- Fact: pilot issue-update đã sửa baseline/source mismatch; mười mission v3 còn lại vẫn dùng source trong phase input.
 - Fact: no free-text learner output is persisted.
 - Interpretation: current transfer primarily measures structured production and self-report, not evidence selection.
 - Hypothesis: phase-specific varied artifacts will improve task comprehension and unseen transfer; real learners are required to test this.

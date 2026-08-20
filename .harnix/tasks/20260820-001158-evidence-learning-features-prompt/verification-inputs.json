@@ -1,0 +1,67 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260820-001158-evidence-learning-features-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "ev-feature-prompt-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001158-evidence-learning-features-prompt",
+      "checkId": "check-feature-research-prompt",
+      "taskContractHash": "5c0ba8ba8eaa0544f17bfa762d4072612df1d534454ad8b2802a868985891bde",
+      "entries": [
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "cdd2ca072710e257da2dc830dac9d79a20f36d516735fb7db6e10a0458325391"
+    },
+    {
+      "evidenceId": "ev-feature-prompt-recovery",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001158-evidence-learning-features-prompt",
+      "checkId": "check-feature-research-prompt-recovery",
+      "taskContractHash": "5c0ba8ba8eaa0544f17bfa762d4072612df1d534454ad8b2802a868985891bde",
+      "entries": [
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "4aa7c2ae4e78368984b8b5f37008c51f06761f970ce0a02947077a54ed2905f6"
+    },
+    {
+      "evidenceId": "ev-feature-prompt-recovery-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001158-evidence-learning-features-prompt",
+      "checkId": "check-feature-research-prompt-recovery",
+      "taskContractHash": "5c0ba8ba8eaa0544f17bfa762d4072612df1d534454ad8b2802a868985891bde",
+      "entries": [
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "4aa7c2ae4e78368984b8b5f37008c51f06761f970ce0a02947077a54ed2905f6"
+    },
+    {
+      "evidenceId": "ev-feature-prompt-structure",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001158-evidence-learning-features-prompt",
+      "checkId": "check-feature-research-prompt",
+      "taskContractHash": "5c0ba8ba8eaa0544f17bfa762d4072612df1d534454ad8b2802a868985891bde",
+      "entries": [
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "cdd2ca072710e257da2dc830dac9d79a20f36d516735fb7db6e10a0458325391"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-001158-evidence-learning-features-prompt",
+  "title": "Tạo prompt nghiên cứu tính năng học tập dựa trên bằng chứng",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo một prompt tiếng Việt buộc agent audit ứng dụng và nghiên cứu khách quan các tính năng học tập cần thiết, phù hợp, có bằng chứng hiệu quả để đề xuất bổ sung theo sáu mục tiêu của người dùng.",
+  "nonGoals": [
+    "Không thực hiện research bên ngoài trong task này.",
+    "Không implement hoặc refactor tính năng sản phẩm.",
+    "Không mặc định IPA hay sentence chunks là giải pháp đúng hoặc đủ.",
+    "Không sửa, xóa hoặc commit thay đổi hiện có ngoài phạm vi."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Một prompt độc lập bằng tiếng Việt yêu cầu audit repository/runtime, research nguồn đáng tin cậy, đánh giá feature theo evidence–fit–impact–cost–risk, và tạo prioritized roadmap có tiêu chí kiểm chứng mà không thiên vị hai đề xuất ban đầu.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-feature-prompt-final",
+        "ev-feature-prompt-recovery-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+  ],
+  "relevantSpecs": [
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "IMPROVEMENT_PROMPT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-feature-research-prompt",
+      "description": "Prompt tồn tại, đủ cấu trúc audit, research, đánh giá bằng chứng, ưu tiên feature, guardrail và deliverable.",
+      "command": "='LEARNING_FEATURE_RESEARCH_PROMPT.md'; if(-not(Test-Path -LiteralPath )){exit 1}; =Get-Content -Raw -LiteralPath ; @('North star','Audit','Research','ma trận','Guardrails','Deliverables') | ForEach-Object { if( -notmatch [regex]::Escape()){exit 1} }",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-feature-research-prompt-recovery",
+      "description": "Kiểm chứng thay thế cho command bị PowerShell nội suy trong lần lưu planning đầu tiên: prompt tồn tại và đủ cấu trúc audit, research, ma trận ưu tiên, guardrails và deliverables.",
+      "command": "$p='LEARNING_FEATURE_RESEARCH_PROMPT.md'; if(-not(Test-Path -LiteralPath $p)){exit 1}; $c=Get-Content -Raw -LiteralPath $p; @('North star','Audit','Research','ma trận','Guardrails','Deliverables') | ForEach-Object { if($c -notmatch [regex]::Escape($_)){exit 1} }",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-feature-prompt-structure",
+      "checkId": "check-feature-research-prompt",
+      "recordedAt": "2026-08-19T17:15:11.5823021Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Kiểm tra docs-only theo mô tả check PASS: file tồn tại, có North star, Audit, Research, ma trận quyết định, Guardrails và Deliverables. Command lưu ban đầu bị PowerShell nội suy; đã chạy validation tương đương một cách minh bạch và thêm check phục hồi riêng.",
+      "artifactPaths": [
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "cdd2ca072710e257da2dc830dac9d79a20f36d516735fb7db6e10a0458325391"
+    },
+    {
+      "id": "ev-feature-prompt-recovery",
+      "checkId": "check-feature-research-prompt-recovery",
+      "recordedAt": "2026-08-19T17:15:11.5823021Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused structure và semantic coverage PASS; prompt bao phủ IPA, sentence chunks, evidence hierarchy, source log, transfer, retention, local-only, P0 và reject/defer. git diff --check PASS.",
+      "artifactPaths": [
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "4aa7c2ae4e78368984b8b5f37008c51f06761f970ce0a02947077a54ed2905f6"
+    },
+    {
+      "id": "ev-feature-prompt-final",
+      "checkId": "check-feature-research-prompt",
+      "recordedAt": "2026-08-19T17:15:45.1125576Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Review compliance PASS theo nội dung check: prompt tồn tại và bao phủ audit, research, ma trận evidence–fit–impact–cost–risk, guardrails và deliverables; validation tương đương được dùng do command metadata ban đầu bị nội suy.",
+      "artifactPaths": [
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "cdd2ca072710e257da2dc830dac9d79a20f36d516735fb7db6e10a0458325391"
+    },
+    {
+      "id": "ev-feature-prompt-recovery-final",
+      "checkId": "check-feature-research-prompt-recovery",
+      "recordedAt": "2026-08-19T17:15:45.1125576Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Independent semantic review PASS: prompt không ưu tiên sẵn IPA/chunks, yêu cầu evidence hierarchy, population/outcome/limits, source log, decision matrix, P0 pilot và measurement plan; git diff --check PASS. Không có finding blocking.",
+      "artifactPaths": [
+        "LEARNING_FEATURE_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "4aa7c2ae4e78368984b8b5f37008c51f06761f970ce0a02947077a54ed2905f6"
+    }
+  ],
+  "createdAt": "2026-08-19T17:11:58.626311Z",
+  "updatedAt": "2026-08-19T17:15:55.038Z",
+  "completedAt": "2026-08-19T17:15:55.038Z"
+}

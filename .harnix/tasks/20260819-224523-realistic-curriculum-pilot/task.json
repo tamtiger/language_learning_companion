@@ -4,8 +4,8 @@
   "id": "20260819-224523-realistic-curriculum-pilot",
   "title": "Research and implement a realistic curriculum pilot",
   "mode": "full",
-  "status": "verifying",
-  "checkpoint": "verifying",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Audit and research the curriculum, then implement one high-leverage pilot that makes learning tasks materially closer to real Software Engineer work and improves unseen transfer.",
   "nonGoals": [
     "Không bulk rewrite toàn bộ mission trước khi pilot có evidence.",
@@ -17,10 +17,10 @@
     {
       "id": "AC-1",
       "text": "Audit artifact scores all 12 capability missions and records black-box evidence for written, spoken, technical-reading and pronunciation flows, with facts separated from hypotheses.",
-      "status": "pending",
+      "status": "met",
       "evidenceIds": [
-        "ev-audit-research-pass",
-        "ev-manual-pilot-blocked"
+        "ev-audit-research-final",
+        "ev-manual-pilot-final"
       ]
     },
     {
@@ -28,35 +28,35 @@
       "text": "Task-owned research answers one material design question using primary or authoritative sources, source log, limitations, facts, inferences and a decision that changes the pilot plan.",
       "status": "met",
       "evidenceIds": [
-        "ev-audit-research-pass"
+        "ev-audit-research-final"
       ]
     },
     {
       "id": "AC-3",
       "text": "One existing mission becomes an implementation-ready and running pilot with realistic artifact, audience, stakes, information gap, observable job deliverable, scaffold fading, focused retry, varied transfer and delayed review.",
-      "status": "pending",
+      "status": "met",
       "evidenceIds": [
-        "ev-all-tests-pass-2",
-        "ev-manual-pilot-blocked"
+        "ev-all-tests-final",
+        "ev-manual-pilot-final"
       ]
     },
     {
       "id": "AC-4",
       "text": "Pilot preserves cold-attempt/model separation, local-only privacy and fresh-only v3 progress integrity; no response, transcript or audio is persisted or exported.",
-      "status": "pending",
+      "status": "met",
       "evidenceIds": [
-        "ev-all-tests-pass-2",
-        "ev-manual-pilot-blocked"
+        "ev-all-tests-final",
+        "ev-manual-pilot-final"
       ]
     },
     {
       "id": "AC-5",
       "text": "Focused and full automated checks, lint, production build and black-box desktop/mobile pilot flow pass with fresh evidence.",
-      "status": "pending",
+      "status": "met",
       "evidenceIds": [
-        "ev-all-tests-pass-2",
-        "ev-lint-build-pass",
-        "ev-manual-pilot-blocked"
+        "ev-all-tests-final",
+        "ev-lint-build-final",
+        "ev-manual-pilot-final"
       ]
     },
     {
@@ -64,7 +64,7 @@
       "text": "Affected owner docs and CHANGELOG describe the pilot, measured evidence, limitations and rollout gate without claiming unmeasured learning efficacy.",
       "status": "met",
       "evidenceIds": [
-        "ev-docs-pass"
+        "ev-docs-final"
       ]
     }
   ],
@@ -281,8 +281,87 @@
         "src/features/practice/CapabilityTask.tsx",
         "content/modules/capabilities/workplace-issue-update-b1.json"
       ]
+    },
+    {
+      "id": "ev-audit-research-final",
+      "checkId": "check-audit-research",
+      "recordedAt": "2026-08-19T16:28:17.9492047+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Audit có ma trận đủ 12 mission, bằng chứng black-box cho written, spoken, technical-reading và pronunciation, đồng thời tách fact, interpretation, hypothesis và giới hạn đo lường; research giữ source log và quyết định pilot.",
+      "artifactPaths": [
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/current-state-audit.md",
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/learning-design-decision.md"
+      ],
+      "inputDigest": "eb61dde24d65499a42f1adef24cb9f02af533ab09b9676447bccdbc79843db85"
+    },
+    {
+      "id": "ev-docs-final",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-19T16:28:17.9502047+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Năm owner docs bắt buộc tồn tại và mô tả practice contexts, giới hạn evidence cùng rollout gate mà không tuyên bố efficacy chưa đo.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "README.md",
+        "START_HERE.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "718543d3ad2db50efc0923fc0cb578e8513f951a4c721d17f809318036ac45a4"
+    },
+    {
+      "id": "ev-all-tests-final",
+      "checkId": "check-all-tests",
+      "recordedAt": "2026-08-19T16:28:17.9512047+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest suite PASS: 18 test files, 82 tests; bao phủ schema/content, 12 mission baseline, phase isolation, privacy/storage, retry, transfer, review, spoken và pronunciation.",
+      "artifactPaths": [
+        "src",
+        "content/modules"
+      ],
+      "inputDigest": "57804c2058dd20062df135b8659fdc6ec8e0cc1322baae175add390073739bd6"
+    },
+    {
+      "id": "ev-lint-build-final",
+      "checkId": "check-lint-build",
+      "recordedAt": "2026-08-19T16:28:17.9522047+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint PASS; TypeScript và Vite production build PASS với 1625 modules transformed.",
+      "artifactPaths": [
+        "dist/index.html"
+      ],
+      "inputDigest": "488690b92aeaf77713ff53f29bdff1a51c06b6e3a024350926243f59a0818de5"
+    },
+    {
+      "id": "ev-manual-pilot-final",
+      "checkId": "check-manual-pilot",
+      "recordedAt": "2026-08-19T16:28:17.9532047+00:00",
+      "result": "pass",
+      "summary": "Black-box Chrome PASS trên desktop 1920×855 và mobile 390×844: cold evidence/model lock, reload resume không phục dựng response, performance/self-feedback/focused retry, transfer artifact isolation, qualifying và non-qualifying progress, spoken timer-only, technical-reading gap observation, pronunciation 0/3→3/3 và không có app-origin console error.",
+      "artifactPaths": [
+        ".harnix/tasks/20260819-224523-realistic-curriculum-pilot/research/current-state-audit.md",
+        "content/modules/capabilities/workplace-issue-update-b1.json",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "inputDigest": "6a27284ad159a48090f0c866e81506dd5bdb0392e0d969fac2ad18d23a16cd02"
+    },
+    {
+      "id": "ev-review-ready-final",
+      "recordedAt": "2026-08-19T16:28:17.9542047+00:00",
+      "result": "pass",
+      "summary": "harnix-check verdict ready: không có finding blocking về compliance, correctness, privacy, compatibility hoặc unnecessary complexity. Residual risk là learner study, expert walkthrough, delayed retention và microphone vật lý chưa được đo.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/features/practice/CapabilityTask.tsx",
+        "content/modules/capabilities/workplace-issue-update-b1.json"
+      ]
     }
   ],
   "createdAt": "2026-08-19T15:44:12.9903359Z",
-  "updatedAt": "2026-08-19T16:00:58.5406729+00:00"
+  "updatedAt": "2026-08-19T16:29:06.671Z",
+  "completedAt": "2026-08-19T16:29:06.671Z"
 }

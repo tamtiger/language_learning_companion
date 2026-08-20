@@ -1,11 +1,11 @@
 # Plan — Realistic curriculum pilot
 
 ## Checklist
-- [ ] `S1` — Complete runtime/content audit and research evidence.
+- [x] `S1` — Complete runtime/content audit and research evidence.
 - [x] `S2` — RED tests for the practice-context contract.
 - [x] `S3` — Schema and generic phase-context renderer.
 - [x] `S4` — Issue-update content pilot.
-- [ ] `S5` — Owner docs and complete verification.
+- [x] `S5` — Owner docs and complete verification.
 
 Each behavioral slice uses RED → GREEN → REFACTOR. The additive content contract does not migrate storage and missions without practiceContexts remain unchanged.
 

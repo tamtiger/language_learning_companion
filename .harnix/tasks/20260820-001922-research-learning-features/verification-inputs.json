@@ -1,0 +1,251 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260820-001922-research-learning-features",
+  "snapshots": [
+    {
+      "evidenceId": "ev-current-feature-audit-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001922-research-learning-features",
+      "checkId": "check-current-feature-audit",
+      "taskContractHash": "f65614327bac49c221dd5a0efe25c81591cff63c8c3edd8bc7a031505ddb1acb",
+      "entries": [
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/plan.md",
+          "sha256": "f4ecb57b4b65c5a14626dd725a28f23da26fbff14df295aff4740f750fcc6814"
+        },
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/prd.md",
+          "sha256": "9bb64c9cc64902076ede1d6f34e5317f7633716baabc307a7b1fcfe934ad6e60"
+        },
+        {
+          "path": "ARCHITECTURE.md",
+          "sha256": "963752081b4cde7427cea99a529750ec1bf56b0e556cc62bd16e941e6e2a5168"
+        },
+        {
+          "path": "CONTENT.md",
+          "sha256": "388184ff681fa9e5b9bfd5a3d7eae0a4446a0a38c542b11874ae7969b676b10b"
+        },
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        },
+        {
+          "path": "PRODUCT.md",
+          "sha256": "15be2b7b012c24ffe8db3055bed796a388b5caf13fff585a42927df337b1dcc9"
+        },
+        {
+          "path": "content/modules/capabilities/architecture-walkthrough-b2.json",
+          "sha256": "dcf005675970ef9c482854608f0b3cea8b3b460f9d8555435f97019c63ff69b9"
+        },
+        {
+          "path": "content/modules/capabilities/behavioral-interview-ownership-b2.json",
+          "sha256": "3ff8b3f547c2935b7e1abfe3baffa29d7ffcfd35384aa19ead0962347b2c32ff"
+        },
+        {
+          "path": "content/modules/capabilities/learn-api-from-docs-b2.json",
+          "sha256": "2a8d7d56b695a9b20a03829963ca529354f6979c0e2c684ac78fade3d893eb1b"
+        },
+        {
+          "path": "content/modules/capabilities/meeting-disagree-and-recap-b2.json",
+          "sha256": "c9b0fccfd42e99f0499420cb87ee13978108467144effb04889b1f566dacd2ff"
+        },
+        {
+          "path": "content/modules/capabilities/technical-doc-action-b1.json",
+          "sha256": "8af5071e6bd92e70cb7d297e64cde4c751279810653bde441fe1b4b9edc76dd9"
+        },
+        {
+          "path": "content/modules/capabilities/technical-interview-decision-b2.json",
+          "sha256": "c2947a43d08a0b5acf48933b09d520741c49c88922caeb1c6243a19e4a281594"
+        },
+        {
+          "path": "content/modules/capabilities/technical-log-diagnosis-b1.json",
+          "sha256": "4b67b165945ce98084640e8686c9385951fe15cf4e1c406a0760cd45dd5be6aa"
+        },
+        {
+          "path": "content/modules/capabilities/technical-tradeoff-explanation-b2.json",
+          "sha256": "3daf9cbb419471d1f5a0ca5c1b0d2beaa91e7382c284e3b338d339445a228f86"
+        },
+        {
+          "path": "content/modules/capabilities/technology-troubleshooting-from-docs-b2.json",
+          "sha256": "d1177ce240c6af5a6141750a131a06aeff124a3dc89ee57c9c10e05433b8f14b"
+        },
+        {
+          "path": "content/modules/capabilities/workplace-clarification-request-b1.json",
+          "sha256": "985a44ab9ae2b40d1203af33cefbb16afb7b9c76cbc4d25921909a7285049a63"
+        },
+        {
+          "path": "content/modules/capabilities/workplace-issue-update-b1.json",
+          "sha256": "c64c71ff0dc72a1e60aa3ee505d1f9d250e67afd05148ea4c5b87e7eb29f3a4c"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_01.json",
+          "sha256": "a3e3e0befa6cf372748b76a6174af3785246a1b15e31ef463b0a06884b22f090"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_02.json",
+          "sha256": "2dab057200de686a06f249e4819fea423928f69644133ab0c2d2fd80cb0d6a49"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_03.json",
+          "sha256": "b56dc1dd0d4a2650a6c3fde6a357fa02124aa25218998b9db72fa1cf9a7a46f7"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_04.json",
+          "sha256": "11870db27119395048b731139ea72135c46ef15422ff90ad383a592bcf0b60b5"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_05.json",
+          "sha256": "bad8f2eb80dab8b22c0ce3e748f30a45204985ece8ae9be057713b746811ef68"
+        },
+        {
+          "path": "content/modules/pronunciation/lesson_06.json",
+          "sha256": "57c119643f2c3c0490fe88c4531d614600f926417c93602043335998cb42bd7b"
+        },
+        {
+          "path": "content/modules/workplace-communication/daily_standup.json",
+          "sha256": "150f455225cb27784a23d55c4bd071bd7c25f2803df08025c5e45d5aa1783e9e"
+        },
+        {
+          "path": "src/features/catalog/CatalogPage.tsx",
+          "sha256": "7e6500cec1a82e924d5696257573435f2ca388f228b0f6483ccbbbc35f9bc681"
+        },
+        {
+          "path": "src/features/lesson-player/media_recorder.test.ts",
+          "sha256": "ff7245260ca1ae48ac04c00933a18c4b9cfd4a7db7538ed06cb2cd312771a52e"
+        },
+        {
+          "path": "src/features/lesson-player/media_recorder.ts",
+          "sha256": "bf68732eaaa50e43c08610e2264c3a739b92964a1fa484e26168b24bab7b5e65"
+        },
+        {
+          "path": "src/features/lesson/LessonFlow.test.tsx",
+          "sha256": "77a5043398504465987fd2951d79d416ed7571805bcfc6d42c4f229cac5dac87"
+        },
+        {
+          "path": "src/features/lesson/LessonFlow.tsx",
+          "sha256": "f44aca55c62a073a338ef2ec72dff4b5a3eeda516351651a171231ab7eb98109"
+        },
+        {
+          "path": "src/features/lesson/MissionMatrix.test.tsx",
+          "sha256": "c8e2b56be073e284d32ed7c98da219c5c01312b9876193fbf1fceca1e2b7a476"
+        },
+        {
+          "path": "src/features/lesson/SectionRenderer.test.tsx",
+          "sha256": "337c1e09dc7dd2a70d2a69e27f79fee96ba9c452593e7dc7ba9cba533cc3a84c"
+        },
+        {
+          "path": "src/features/lesson/SectionRenderer.tsx",
+          "sha256": "d961367dd1983ed67c450e20ac6c30c375e6bd5ea58c5e6b95deac89a7466de5"
+        },
+        {
+          "path": "src/features/practice/CapabilityTask.test.tsx",
+          "sha256": "ee99705b58abe563e8bef1238e095aec039b283012b0211e3c0a450f7d3146af"
+        },
+        {
+          "path": "src/features/practice/CapabilityTask.tsx",
+          "sha256": "e2ec7c43ab0045005a04968fc5a536ad7b7eb41d96cca8f036c153f570c06845"
+        },
+        {
+          "path": "src/features/practice/SpokenResponse.test.tsx",
+          "sha256": "5bf006eed71cfb8d082db1a9ec629ba551c02f245ff28837815f675e1c34afcb"
+        },
+        {
+          "path": "src/features/practice/SpokenResponse.tsx",
+          "sha256": "3f9392d6930a400e873b5c2f9fea27fdafb8facb9705308b4d266cc938bb3d60"
+        },
+        {
+          "path": "src/features/progress/ProgressPage.test.tsx",
+          "sha256": "74060233b32b4a8fa22747d86d630ac256e32b61acc0ed75b42b7a99f31cd7c2"
+        },
+        {
+          "path": "src/features/progress/ProgressPage.tsx",
+          "sha256": "af5d23ce006eaf004684e25363568fd8392259354a728579f25426fb0375b430"
+        },
+        {
+          "path": "src/features/settings/Settings.test.tsx",
+          "sha256": "29ef826f7bc9740977dc07d938bc5538cc1e6733ba13195079bdd34ea79031ab"
+        },
+        {
+          "path": "src/features/settings/Settings.tsx",
+          "sha256": "249f1f17c19a52cb1e601b206328d2cd0b71190e4628290bb0f7e9a05892d68c"
+        },
+        {
+          "path": "src/features/today/TodayPage.tsx",
+          "sha256": "9b2384f52cbfa59026a4820cf95200bcbbe633464bdc17f21644ce0e33f24768"
+        }
+      ],
+      "inputDigest": "29c7d529f3e97d968fc69749372e94ce76172f5283ce14c86778c221b139bc4c"
+    },
+    {
+      "evidenceId": "ev-evidence-synthesis-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001922-research-learning-features",
+      "checkId": "check-evidence-synthesis",
+      "taskContractHash": "f65614327bac49c221dd5a0efe25c81591cff63c8c3edd8bc7a031505ddb1acb",
+      "entries": [
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/plan.md",
+          "sha256": "f4ecb57b4b65c5a14626dd725a28f23da26fbff14df295aff4740f750fcc6814"
+        },
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/prd.md",
+          "sha256": "9bb64c9cc64902076ede1d6f34e5317f7633716baabc307a7b1fcfe934ad6e60"
+        },
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "e95a2494e5069dcf6e606b8da44200dd13ad6c380890a604166700c3c7c84d26"
+    },
+    {
+      "evidenceId": "ev-feature-roadmap-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001922-research-learning-features",
+      "checkId": "check-feature-roadmap",
+      "taskContractHash": "f65614327bac49c221dd5a0efe25c81591cff63c8c3edd8bc7a031505ddb1acb",
+      "entries": [
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/plan.md",
+          "sha256": "f4ecb57b4b65c5a14626dd725a28f23da26fbff14df295aff4740f750fcc6814"
+        },
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/prd.md",
+          "sha256": "9bb64c9cc64902076ede1d6f34e5317f7633716baabc307a7b1fcfe934ad6e60"
+        },
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "3d0f06c54e16ee70188b81000404d09ee8516f21359365478110d8cd89e0f562"
+    },
+    {
+      "evidenceId": "ev-research-scope-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260820-001922-research-learning-features",
+      "checkId": "check-research-scope",
+      "taskContractHash": "f65614327bac49c221dd5a0efe25c81591cff63c8c3edd8bc7a031505ddb1acb",
+      "entries": [
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/plan.md",
+          "sha256": "f4ecb57b4b65c5a14626dd725a28f23da26fbff14df295aff4740f750fcc6814"
+        },
+        {
+          "path": ".harnix/tasks/20260820-001922-research-learning-features/prd.md",
+          "sha256": "9bb64c9cc64902076ede1d6f34e5317f7633716baabc307a7b1fcfe934ad6e60"
+        },
+        {
+          "path": "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+          "sha256": "9986cbb749f669d0139a303986be4fee1543828e7b38fb1f6b38e32a3d60d149"
+        }
+      ],
+      "inputDigest": "f271734c5e91dee589a2dbe7b8b5ab76cc4c3e791e346b3041e5838f5fee9506"
+    }
+  ]
+}
