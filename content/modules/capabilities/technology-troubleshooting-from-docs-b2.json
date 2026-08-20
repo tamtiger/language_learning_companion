@@ -15,12 +15,51 @@
   "performanceTask": {
     "id": "docs-troubleshooting", "mode": "written", "title": "Plan a safe troubleshooting experiment",
     "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn chỉ có đoạn documentation và config.",
-    "baselinePrompt": "Viết kế hoạch chẩn đoán mà chưa xem model.",
+    "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan without the model.",
     "performancePrompt": "Tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal và rollback.",
     "modelResponse": "The docs say retries require maxAttempts above one and an error result from the handler. My first hypothesis is that maxAttempts is set to one in this environment. I would inspect the effective config, then enqueue one synthetic failing job in staging with maxAttempts set to three. The expected signal is three recorded attempts before dead-lettering. I would revert the test config and remove the synthetic job afterwards.",
     "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
     "transferPrompt": "Docs của một cache nói TTL=0 means no expiry. Viết kế hoạch kiểm tra an toàn cho bug stale data.",
-    "reviewPrompt": "Từ docs mới, tạo hypothesis và safe experiment có expected signal.",
+    "reviewPrompt": "Từ unseen docs đã đọc một lần, tạo hypothesis và safe experiment có expected signal.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Worker retry behavior",
+        "brief": "Read once and derive a safe test from the documented condition.",
+        "artifacts": [{ "id": "trouble-baseline-worker", "type": "source", "title": "Retry documentation", "format": "technical-doc", "content": "Retries are scheduled only when the handler returns an error. A job moves to dead-letter after maxAttempts. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment." }]
+      },
+      "retry": {
+        "title": "Worker effective configuration",
+        "brief": "Use focused facts to repair hypothesis, expected signal or cleanup.",
+        "artifacts": [{ "id": "trouble-retry-worker", "type": "source", "title": "Staging configuration", "format": "code-snippet", "content": "environment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true" }]
+      },
+      "transfer": {
+        "title": "Cache expiry behavior",
+        "brief": "Unseen documentation: design a safe stale-data experiment.",
+        "artifacts": [{ "id": "trouble-transfer-cache", "type": "source", "title": "Cache TTL documentation", "format": "technical-doc", "content": "TTL is measured in seconds. TTL=0 means entries do not expire automatically. cache.invalidate(key) removes one entry. The effective TTL can be inspected with cachectl describe --key KEY." }]
+      },
+      "review": {
+        "title": "Circuit breaker recovery",
+        "brief": "Delayed retrieval with a different technology rule.",
+        "artifacts": [{ "id": "trouble-review-breaker", "type": "source", "title": "Circuit breaker documentation", "format": "technical-doc", "content": "The breaker opens after five failures in thirty seconds. It remains open for coolDownSeconds, then permits one probe request. A successful probe closes the breaker; a failed probe reopens it." }]
+      }
+    },
+    "readingLadder": {
+      "version": "v1",
+      "trainingSource": {
+        "id": "batch-docs-ladder-source",
+        "type": "source",
+        "title": "Batch concurrency documentation",
+        "format": "technical-doc",
+        "content": "concurrency controls simultaneous jobs. A value of zero pauses dispatch without deleting queued jobs. Changes apply to new dispatches only. Use scheduler status to confirm active and queued counts."
+      },
+      "extractionItems": [
+        { "id": "batch-rule", "question": "What does concurrency zero do?", "options": ["Pauses new dispatch", "Deletes queued jobs"], "correctAnswer": "Pauses new dispatch", "feedback": "The docs separate dispatch from queue retention." },
+        { "id": "batch-scope", "question": "When does a changed value apply?", "options": ["To new dispatches", "Retroactively to completed jobs"], "correctAnswer": "To new dispatches", "feedback": "The scope limits the expected signal." },
+        { "id": "batch-signal", "question": "What verifies the behavior?", "options": ["Scheduler active and queued counts", "A translated summary"], "correctAnswer": "Scheduler active and queued counts", "feedback": "The status command supplies observable evidence." }
+      ],
+      "applicationPrompt": "State the documented rule, form one hypothesis for a stalled batch, and design a reversible staging experiment with an expected signal.",
+      "applicationChecklist": ["I quoted no more than the necessary rule.", "My hypothesis is testable.", "The experiment has an expected signal and cleanup."]
+    },
     "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "cleanup"], "minWords": 100, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["doc accuracy", "testability", "safety"],

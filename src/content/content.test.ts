@@ -73,4 +73,45 @@ describe('new capability mission wave', () => {
     expect(baseline?.artifacts[0]?.content).toMatch(/MIGRATION_COMPLETE/i)
     expect(baseline?.artifacts[0]?.content).toMatch(/rollback/i)
   })
+
+  it('loads reading ladders and unseen phase sources for all four technical documentation missions', () => {
+    const ids = [
+      'learn-api-from-docs-b2',
+      'technical-doc-action-b1',
+      'technical-log-diagnosis-b1',
+      'technology-troubleshooting-from-docs-b2'
+    ]
+    const lessons = getBundledCatalog().lessons.filter((lesson) => ids.includes(lesson.lessonId))
+    expect(lessons.map((lesson) => lesson.lessonId).sort()).toEqual(ids)
+    for (const lesson of lessons) {
+      const task = lesson.performanceTask
+      if (task?.mode !== 'written') throw new Error('Technical reading fixture missing')
+      expect(task.readingLadder?.extractionItems).toHaveLength(3)
+      expect(task.readingLadder?.applicationChecklist.length).toBeGreaterThanOrEqual(2)
+      expect(task.practiceContexts?.retry?.artifacts.length).toBeGreaterThan(0)
+      const sources = [
+        task.practiceContexts?.baseline.artifacts[0]?.content,
+        task.practiceContexts?.transfer.artifacts[0]?.content,
+        task.practiceContexts?.review.artifacts[0]?.content
+      ]
+      expect(new Set(sources).size).toBe(3)
+      expect(sources.every(Boolean)).toBe(true)
+    }
+  })
+
+  it('requests at least three synthetic English locales in every spoken loop', () => {
+    const spokenLoops = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken')
+    expect(spokenLoops).toHaveLength(6)
+    for (const lesson of spokenLoops) {
+      const task = lesson.performanceTask
+      if (task?.mode !== 'spoken' || !task.learningLoop) throw new Error('Spoken loop missing')
+      const items = [
+        ...task.learningLoop.perception.pretest,
+        ...task.learningLoop.perception.training,
+        ...task.learningLoop.perception.posttest
+      ]
+      const locales = new Set(items.flatMap((item) => item.audio.kind === 'speech-synthesis' ? [item.audio.locale] : []))
+      expect(locales.size).toBeGreaterThanOrEqual(3)
+    }
+  })
 })

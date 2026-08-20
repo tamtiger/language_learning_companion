@@ -59,12 +59,19 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 - Spoken task có thể khai báo `learningLoop.version: "v1"`: perception
   `pretest/training/posttest`, 1–2 pronunciation cues, 4–6 functional chunks,
   năm `shadowingSteps`, 2–4 listen-back checks và 1–3 interaction turns.
+- Written task có thể khai báo `readingLadder.version: "v1"`: một
+  `trainingSource`, 3–6 `extractionItems` có options/correct answer/feedback,
+  một `applicationPrompt` và 2–5 `applicationChecklist` items. Ladder không hợp
+  lệ trên spoken task; extraction ID phải unique và đáp án phải thuộc options.
 
 `ModelAudioSource` là discriminated union:
 
 - `bundled`: chỉ nhận đường dẫn tương đối an toàn `/audio/...`, transcript,
   `speakerId` và provenance;
 - `speech-synthesis`: text, locale và voice hints; UI phải gắn nhãn TTS thử nghiệm.
+
+Player hỗ trợ tốc độ 0.85×/1×/1.15×. `locale` chỉ là requested locale cho voice
+tổng hợp có trên thiết bị; content và UI không được gọi nó là human accent sample.
 
 Learning loop chỉ hợp lệ trên spoken v3 task. Perception cần ít nhất 4 pretest,
 6 training có feedback và 4 posttest items. ID trong toàn loop phải duy nhất;
@@ -89,6 +96,9 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
   khả năng áp dụng quy trình vào ngữ cảnh mới.
 - Learning-loop pilot phải có context riêng cho baseline/retry/transfer/review;
   pre/post dùng item khác nhau và không lộ transcript trước khi learner trả lời.
+- Bốn technical docs missions có reading ladder và context riêng cho
+  baseline/retry/transfer/review. Baseline, transfer và delayed retrieval review
+  dùng unseen source; UI ẩn source trước khi learner nhập output từ trí nhớ.
 - Toàn bộ 6 spoken v3 missions phải có learning loop; training miss nhận feedback
   ngay nhưng chỉ pre/post diagnostic miss mới kích hoạt pronunciation cue.
 - Mỗi spoken loop có 2–3 interaction turns và ít nhất một clarification,

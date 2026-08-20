@@ -22,7 +22,7 @@ describe('PerceptionPractice', () => {
     const onComplete = vi.fn()
     render(<PerceptionPractice perception={perception()} onComplete={onComplete} />)
     expect(screen.queryByLabelText('Bản chép audio')).toBeNull()
-    expect(screen.getByText(/TTS thử nghiệm/i)).toBeTruthy()
+    expect(screen.getByText(/TTS tổng hợp trên thiết bị/i)).toBeTruthy()
     expect(screen.getByText(/0 voice khả dụng/i)).toBeTruthy()
     await user.click(screen.getByRole('button', { name: 'test' }))
     expect(screen.getByLabelText('Bản chép audio').textContent).toBe('tests')

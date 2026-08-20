@@ -74,6 +74,12 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 - Cả 6 spoken missions chạy chuỗi perception → cue theo lỗi diagnostic →
   functional chunks → guided shadowing/delayed imitation/variation → listen-back
   → scripted clarification/interruption/repair → retry/transfer/review.
+- Bốn mission đọc docs/log thuộc `technical-reading` và `technology-learning`
+  chạy `ReadingLadderV1`: read once rồi ẩn source → trích action/constraint/evidence
+  → explain/apply → unseen transfer → delayed retrieval bằng source mới.
+- Model audio cho chọn 0.85×/1×/1.15× và hiển thị requested locale. Đây là
+  synthetic device voice exposure, không phải human accent sample hoặc bằng chứng
+  người học đã nghe hiểu accent quốc tế.
 - Pronunciation trong capability loop chỉ dạy tối đa hai cue làm thay đổi khả
   năng nghe hiểu hoặc ý nghĩa; IPA hỗ trợ cue, không phải syllabus bắt buộc độc lập.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
@@ -87,11 +93,13 @@ suy diễn rằng app đã cải thiện phát âm, phản xạ hay hiệu quả
 
 - **P0:** hai spoken pilot, synthetic content, local TTS và process
   metadata; gate là usability/flow/privacy, không phải efficacy.
-- **P1 (hiện tại):** 6 spoken missions có context/interaction đa dạng; cue chỉ
+- **P1:** 6 spoken missions có context/interaction đa dạng; cue chỉ
   dựa trên lỗi pre/post diagnostic trong phiên. Listener protocol ghi
   `evidence observed`, chưa có listener result hoặc efficacy claim.
-- **P2:** mở rộng technical-reading/listening ladder và thiết kế listener study;
-  chỉ human calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
+- **P2 (hiện tại):** 4 technical reading missions có read-once/extract/apply và
+  delayed unseen source; TTS có tốc độ điều chỉnh cùng requested locale trung thực.
+  Study protocol đã decision-complete nhưng chưa có participant data; chỉ human
+  calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
 
 Rollback theo content flag: bỏ `learningLoop` khỏi spoken task sẽ trả mission về
 capability flow chuẩn mà không làm mất progress V4.

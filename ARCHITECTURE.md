@@ -36,6 +36,10 @@ Zustand là adapter mỏng: compose state/actions và persist allowlisted progre
 - V3 performance task có thể khai báo `practiceContexts` cho baseline, optional retry, transfer
   và review. Mỗi context chứa 1–4 source artifact; parser validate ID duy nhất
   trong context và canonical task giữ nguyên dữ liệu đã parse.
+- Written V3 task có thể khai báo `ReadingLadderV1`. Runtime giữ ladder state
+  (`read → extract → apply`) trong component; answer/application draft không đi
+  vào `AttemptEvidence` hoặc storage. Baseline/transfer/review dùng read-once gate
+  và chỉ mở textarea sau khi artifact đã bị ẩn.
 - Raw v1/v2 JSON không rewrite, là rollback anchor.
 
 Catalog trả lessons hợp lệ cùng structured errors; một file lỗi không làm crash toàn app nhưng phải làm content validation test fail.
@@ -44,6 +48,9 @@ Spoken v3 task có thể khai báo `LearningLoopV1`. Model audio được resolv
 adapter local: bundled relative asset hoặc browser speech synthesis. Adapter
 không fetch URL bên ngoài; TTS được gắn nhãn và voice count thực tế được đưa vào
 process evidence thay vì suy diễn speaker/accent coverage.
+Player truyền playback rate 0.85/1/1.15 thật cho Web Speech hoặc bundled audio.
+Locale/hints chỉ là yêu cầu chọn device voice và UI công khai fallback; không có
+network fetch hoặc human-accent claim.
 
 ## Learning state machine
 
@@ -59,6 +66,11 @@ Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn
 Practice renderer chọn context bằng phase hiện tại và chỉ mount artifacts của
 context đó. Đây là content-driven behavior, không có branch theo lesson ID và
 không thay đổi progress/storage contract.
+
+Với written reading ladder, `input` chỉ mở performance sau khi extraction đúng và
+application checklist hoàn tất. Read-once là instructional constraint: source ẩn
+trong phase hiện tại nhưng reload có thể bắt đầu phase lại; app không xem nó như
+cơ chế chống gian lận.
 
 Sau self-feedback, UI bắt buộc chọn một `retry focus` trong các criterion `not-met`
 (nếu có). Retry phải tạo output và chấm lại toàn bộ rubric trước transfer. Focus được

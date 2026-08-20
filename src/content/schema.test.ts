@@ -183,4 +183,35 @@ describe('LessonV3Schema', () => {
     writtenWithLoop.performanceTask.learningLoop = learningLoop
     expect(LessonV3Schema.safeParse(writtenWithLoop).success).toBe(false)
   })
+
+  it('accepts a complete ReadingLadderV1 only on written tasks', () => {
+    const readingLadder = {
+      version: 'v1',
+      trainingSource: {
+        id: 'ladder-source', type: 'source', title: 'Retry documentation', format: 'technical-doc',
+        content: 'Retries require maxAttempts above one and an error result from the handler.'
+      },
+      extractionItems: [
+        { id: 'rule', question: 'What enables retries?', options: ['maxAttempts above one', 'TTL zero'], correctAnswer: 'maxAttempts above one', feedback: 'The condition is explicit.' },
+        { id: 'signal', question: 'What must the handler return?', options: ['An error', 'A success'], correctAnswer: 'An error', feedback: 'The return value schedules retries.' },
+        { id: 'limit', question: 'What disables retries?', options: ['maxAttempts one', 'Three attempts'], correctAnswer: 'maxAttempts one', feedback: 'One attempt means no retry.' }
+      ],
+      applicationPrompt: 'Explain the rule and propose one safe check in English.',
+      applicationChecklist: ['I separated fact from hypothesis.', 'I named an expected signal.']
+    }
+    const writtenWithLadder = structuredClone(validWrittenMission) as any
+    writtenWithLadder.performanceTask.readingLadder = readingLadder
+    expect(LessonV3Schema.safeParse(writtenWithLadder).success).toBe(true)
+
+    const duplicate = structuredClone(writtenWithLadder)
+    duplicate.performanceTask.readingLadder.extractionItems[1].id = 'rule'
+    expect(LessonV3Schema.safeParse(duplicate).success).toBe(false)
+
+    const spokenWithLadder = structuredClone(writtenWithLadder)
+    spokenWithLadder.performanceTask.mode = 'spoken'
+    spokenWithLadder.performanceTask.outputContract = {
+      timeLimitSeconds: 120, requiredElements: ['intent'], targetSeconds: 45
+    }
+    expect(LessonV3Schema.safeParse(spokenWithLadder).success).toBe(false)
+  })
 })

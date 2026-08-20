@@ -235,6 +235,31 @@ export const LearningLoopV1Schema = z.object({
   })
 })
 
+const ReadingExtractionItemSchema = z.object({
+  id: IdSchema,
+  question: NonEmptyString,
+  options: z.array(NonEmptyString).min(2).max(5),
+  correctAnswer: NonEmptyString,
+  feedback: NonEmptyString
+}).strict().superRefine((item, context) => {
+  if (!item.options.includes(item.correctAnswer)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'correctAnswer must be one of options' })
+  }
+})
+
+export const ReadingLadderV1Schema = z.object({
+  version: z.literal('v1'),
+  trainingSource: SourceSectionSchema,
+  extractionItems: z.array(ReadingExtractionItemSchema).min(3).max(6),
+  applicationPrompt: NonEmptyString,
+  applicationChecklist: z.array(NonEmptyString).min(2).max(5)
+}).strict().superRefine((ladder, context) => {
+  const ids = ladder.extractionItems.map((item) => item.id)
+  if (new Set(ids).size !== ids.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['extractionItems'], message: 'Extraction item ids must be unique' })
+  }
+})
+
 export const AutoCheckSectionSchema = z.object({
   id: IdSchema,
   type: z.literal('auto-check'),
@@ -296,6 +321,7 @@ const SpokenPerformanceTaskSchema = z.object({
 const WrittenPerformanceTaskSchema = z.object({
   ...PerformanceBaseShape,
   mode: z.literal('written'),
+  readingLadder: ReadingLadderV1Schema.optional(),
   outputContract: z.object({
     timeLimitSeconds: z.number().int().min(30).max(1800),
     requiredElements: z.array(NonEmptyString).min(1).max(8),
@@ -370,6 +396,7 @@ export type LessonSection = z.infer<typeof LessonSectionSchema>
 export type PracticeContext = z.infer<typeof PracticeContextSchema>
 export type ModelAudioSource = z.infer<typeof ModelAudioSourceSchema>
 export type LearningLoopV1 = z.infer<typeof LearningLoopV1Schema>
+export type ReadingLadderV1 = z.infer<typeof ReadingLadderV1Schema>
 export type PerformanceTaskV3 = z.infer<typeof PerformanceTaskV3Schema>
 export type LessonV1 = z.infer<typeof LessonV1Schema>
 export type LessonV2 = z.infer<typeof LessonV2Schema>

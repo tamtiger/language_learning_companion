@@ -54,9 +54,22 @@ baseline → input → auto-check → performance → self-feedback
 - Rubric, independence signals và retry focus được lưu dưới dạng metadata;
   response, transcript và audio không được persist.
 
-### Learning loop nghe–phát âm–phản xạ (pilot)
+### Technical reading ladder
 
-Hai spoken mission `Disagree and recap` và `Technical trade-off` có thêm chuỗi:
+Bốn mission đọc runbook, logs, API docs và troubleshooting docs có chuỗi:
+
+```text
+read once rồi ẩn source → extract action/constraint/evidence
+→ explain/apply → retry → unseen transfer → delayed retrieval
+```
+
+- Textarea baseline/transfer/review chỉ mở sau khi source đã ẩn.
+- Extraction có feedback tức thời; explain/apply draft và đáp án chỉ ở session.
+- Transfer/review dùng source mới cùng workflow để tránh học thuộc một passage.
+
+### Learning loop nghe–phát âm–phản xạ
+
+Cả sáu spoken mission có thêm chuỗi:
 
 ```text
 perception pretest → training có feedback → posttest
@@ -66,8 +79,8 @@ perception pretest → training có feedback → posttest
 
 - Dạy 4–6 functional chunks theo chức năng giao tiếp, không bắt học IPA toàn bộ.
 - Chỉ hiện tối đa hai pronunciation cue có rủi ro làm sai nghĩa; IPA là ký hiệu hỗ trợ.
-- Model audio dùng Web Speech API tại máy và được gắn nhãn `TTS thử nghiệm`; số
-  voice khả dụng được ghi nhận, không giả vờ có accent variability.
+- Model audio dùng Web Speech API tại máy, cho chọn 0.85×/1×/1.15× và ghi rõ
+  requested locale. Đây là synthetic device voice, không phải human accent sample.
 - Người học có thể bỏ qua perception nếu audio không phù hợp và vẫn làm nhiệm vụ.
 - App lưu count/flag của process, không lưu câu trả lời, transcript hoặc audio.
 
@@ -106,13 +119,13 @@ khi mọi auto-check đều đúng. Content
 engine đọc và normalize an toàn lesson schema v1, v2 và v3; executable
 curriculum nằm trong `content/**/*.json`.
 
-`Actionable issue update` là realism pilot. `Disagree and recap` cùng `Technical
-trade-off` là hai learning-loop pilot nghe–phát âm–phản xạ. Các pilot giúp kiểm
+`Actionable issue update` là realism pilot. Sáu spoken loops và bốn reading
+ladders giúp kiểm
 chứng content contract và UI; dự án chưa tuyên bố hiệu quả học tập nếu chưa có
 thử nghiệm với người học mục tiêu và đánh giá người nghe độc lập.
 
-Rollout có ba gate: P0 giữ đúng hai pilot; P1 mới mở rộng interaction/context sau
-usability audit; P2 mới mở rộng reading/listening ladder và human listener study.
+Rollout P0–P2 đã có executable flow và protocol. Dự án vẫn chưa có participant
+study; functional QA không được diễn giải thành learning efficacy.
 
 ## Privacy và giới hạn
 

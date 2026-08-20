@@ -1,0 +1,393 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-084851-technical-reading-listening-ladder",
+  "title": "Technical reading và listening ladder P2",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Bổ sung technical reading ladder thực thi được cho bốn mission docs và synthetic listening variability trung thực về tốc độ/locale, kèm study design không bịa efficacy.",
+  "nonGoals": [
+    "Không thêm human audio khi chưa có asset/provenance.",
+    "Không ASR/AI grading, cloud, analytics, account, upload hoặc dependency mới.",
+    "Không đổi ProgressEnvelopeV4 hoặc persist response/extraction/application text.",
+    "Không chạy hay bịa learner/listener study và không claim efficacy/mastery/accent coverage.",
+    "Không ép hai written workplace missions ngoài phạm vi docs vào ladder.",
+    "Không sửa hoặc commit dirty artifacts ngoài task P2."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Schema có optional ReadingLadderV1 chỉ cho written v3 task, validate source, 3–6 extraction items unique/có đáp án hợp lệ, application prompt và 2–5 checklist items; đúng bốn bundled technical docs missions khai báo ladder.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-reading-content",
+        "ev-p2-full-tests"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Task có ladder buộc learner đọc rồi ẩn source trước khi nhập baseline/transfer/review; input ladder chạy source → extraction có feedback → explain/apply với checklist, và mọi draft/answer chỉ sống trong component session.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-reading-ui",
+        "ev-p2-manual"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Bốn mission technical-reading/technology-learning có baseline/retry/transfer/review contexts với facts khác nhau, transfer/review dùng unseen source cùng function và delayed review tiếp tục dùng scheduler hiện có.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-reading-content",
+        "ev-p2-reading-ui",
+        "ev-p2-full-tests",
+        "ev-p2-manual"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Model audio player hỗ trợ 0.85×/1×/1.15× và truyền rate thật cho Web Speech/bundled audio; UI ghi requested locale, synthetic device limitation, không gọi là human accent sample; sáu spoken loops có ít nhất ba requested locales.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-listening-variation",
+        "ev-p2-study-docs",
+        "ev-p2-full-tests",
+        "ev-p2-manual"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Evaluation protocol có preregistration, primary outcomes, sampling/power rationale, exclusions, missing data, subgroup/fairness, agreement và stopping rule nhưng không ghi participant result hoặc efficacy claim.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-study-docs"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Focused/full tests, lint, production build và desktop/mobile smoke QA pass; model isolation, local-only privacy, no horizontal overflow và no app-origin console error không regress.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p2-reading-ui",
+        "ev-p2-listening-variation",
+        "ev-p2-study-docs",
+        "ev-p2-full-tests",
+        "ev-p2-lint-build",
+        "ev-p2-manual",
+        "ev-p2-review"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md",
+    "content/modules/capabilities",
+    "docs/EVALUATION_PROTOCOL.md",
+    "src/content",
+    "src/features/practice"
+  ],
+  "relevantSpecs": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-reading-content",
+      "description": "Schema/content tests prove written-only ReadingLadderV1 and four complete technical mission ladders with distinct phase sources.",
+      "command": "npm test -- src/content/schema.test.ts src/content/content.test.ts src/shared/utils/validate_all_lessons.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/*.json",
+        "src/content/**/*.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    },
+    {
+      "id": "check-reading-ui",
+      "description": "Component tests prove read-once gate, source hiding, extraction feedback, application checklist and session-only flow.",
+      "command": "npm test -- src/features/practice/ReadingLadderPractice.test.tsx src/features/practice/CapabilityTask.test.tsx src/features/lesson/LessonFlow.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/*.json",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx",
+        "src/features/practice/ReadingLadderPractice.tsx"
+      ]
+    },
+    {
+      "id": "check-listening-variation",
+      "description": "Audio/content tests prove selectable playback rate, requested-locale limitation copy and three-locale coverage across six spoken loops.",
+      "command": "npm test -- src/features/practice/model_audio.test.ts src/features/practice/ModelAudioPlayer.test.tsx src/content/content.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/content.test.ts",
+        "src/features/practice/ModelAudioPlayer.test.tsx",
+        "src/features/practice/ModelAudioPlayer.tsx",
+        "src/features/practice/model_audio.test.ts",
+        "src/features/practice/model_audio.ts"
+      ]
+    },
+    {
+      "id": "check-study-docs",
+      "description": "Documentation inspection proves P2 ladder/limitation wording and preregistered human-study fields without result claims.",
+      "command": "rg -n \"preregister|primary outcome|power|exclusion|subgroup|fairness|stopping|requested locale|synthetic|read once|delayed retrieval|chưa có dữ liệu\" docs/EVALUATION_PROTOCOL.md PRODUCT.md CONTENT.md README.md CHANGELOG.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "docs/EVALUATION_PROTOCOL.md"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Full Vitest suite proves content normalization, progress, prior spoken loops and written mission flows remain compatible.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*"
+      ]
+    },
+    {
+      "id": "check-lint-build",
+      "description": "Static analysis and production compilation pass.",
+      "command": "npm run lint; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "tsconfig*.json",
+        "vite.config.*"
+      ]
+    },
+    {
+      "id": "check-manual-p2",
+      "description": "Desktop and 390px Chrome smoke one technical reading mission through read-once/input ladder/performance and inspect TTS rate/locale labels, console, overflow and local-only boundary.",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/*.json",
+        "src/features/practice/**/*"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-p2-build-debug",
+      "recordedAt": "2026-08-20T08:57:59.9780499+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused behavior 8 files/32 tests đã pass; build ban đầu fail TS1294 do parameter property trong test mock dưới erasableSyntaxOnly. Đổi mock sang property assignment thường; test 1/1, lint và build pass.",
+      "artifactPaths": [
+        "src/features/practice/model_audio.test.ts"
+      ]
+    },
+    {
+      "id": "ev-p2-copy-regression-debug",
+      "recordedAt": "2026-08-20T08:59:34.6419258+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full suite ban đầu chỉ fail assertion copy cũ TTS thử nghiệm sau khi public limitation label đổi. Cập nhật test theo TTS tổng hợp trên thiết bị; full suite 27 files/104 tests pass.",
+      "artifactPaths": [
+        "src/features/practice/PerceptionPractice.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-p2-red",
+      "recordedAt": "2026-08-20T09:04:49.4181624+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED xác nhận sáu khoảng trống trước implementation: schema chưa nhận reading ladder, bốn mission chưa đủ ladder, hai spoken loop thiếu locale thứ ba, read-once chưa khóa input, playback rate bị bỏ qua và player chưa có speed/limitation controls.",
+      "artifactPaths": [
+        "src/content/schema.test.ts",
+        "src/content/content.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/ModelAudioPlayer.test.tsx",
+        "src/features/practice/model_audio.test.ts"
+      ]
+    },
+    {
+      "id": "ev-p2-locale-debug",
+      "recordedAt": "2026-08-20T09:12:10.1789199+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Review tái hiện việc generic voice hint có thể chọn en-US trước requested en-AU. Đổi selection order sang exact locale + hint, exact locale, rồi mới fallback cùng ngôn ngữ; RED 1/2 và GREEN 2/2.",
+      "artifactPaths": [
+        "src/features/practice/model_audio.test.ts",
+        "src/features/practice/model_audio.ts"
+      ]
+    },
+    {
+      "id": "ev-p2-reading-content",
+      "checkId": "check-reading-content",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Schema/content focused pass 3 files/14 tests: ReadingLadderV1 written-only, đúng bốn technical missions và phase sources khác nhau.",
+      "artifactPaths": [
+        "src/content",
+        "content/modules/capabilities"
+      ],
+      "inputDigest": "a0aa17a12497c4ff6c6320a5a10ca9ef5ff0536915f0f7eca030dff3c4802373"
+    },
+    {
+      "id": "ev-p2-reading-ui",
+      "checkId": "check-reading-ui",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "UI focused pass 3 files/16 tests: read-once gate, source hiding, extraction feedback, application checklist, performance và delayed review không regress.",
+      "artifactPaths": [
+        "src/features/practice/ReadingLadderPractice.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson"
+      ],
+      "inputDigest": "3a5d101acaf6d748fbae5c8f79246d152ff9d4883d001c6e011d2c465f8a9e5e"
+    },
+    {
+      "id": "ev-p2-listening-variation",
+      "checkId": "check-listening-variation",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Listening focused pass 3 files/9 tests: ba playback rates, exact-locale voice priority, honest synthetic/requested-locale copy và six-loop locale coverage.",
+      "artifactPaths": [
+        "src/features/practice/model_audio.ts",
+        "src/features/practice/ModelAudioPlayer.tsx",
+        "content/modules/capabilities"
+      ],
+      "inputDigest": "661ea843a80a74e8841b38f79b055b6e9137fecb481e0005e35eca9f057464ee"
+    },
+    {
+      "id": "ev-p2-study-docs",
+      "checkId": "check-study-docs",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Owner docs/protocol chứa preregistration, primary outcome, power, exclusion, missing data, subgroup/fairness, stopping và giới hạn synthetic; không ghi participant result.",
+      "artifactPaths": [
+        "docs/EVALUATION_PROTOCOL.md",
+        "PRODUCT.md",
+        "CONTENT.md",
+        "README.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "7eb3e0ac62695850d00477ae69c8ec04cc71fb9553a940e4bb01a7d1115156a6"
+    },
+    {
+      "id": "ev-p2-full-tests",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Toàn bộ 27 test files/105 tests pass, gồm content, learning flow, progress/storage, accessibility, privacy và P0/P1 regressions.",
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "inputDigest": "c85c21d82b9cc04704ec097fe18f5d715007b242f73faa8bcb5a6c20b34a30c5"
+    },
+    {
+      "id": "ev-p2-lint-build",
+      "checkId": "check-lint-build",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint và TypeScript/Vite production build pass; bundle chính 465.54 kB.",
+      "artifactPaths": [
+        "package.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "fa4aa4ac990d1577c66832a2fc58a998ac406ac9a079894de4cc217323326592"
+    },
+    {
+      "id": "ev-p2-manual",
+      "checkId": "check-manual-p2",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Chrome desktop/390px đi trọn technical read-once → extraction → application → performance; source/model khóa đúng, TTS rate/locale labels hoạt động, không overflow/app-origin error; static scan không có network/upload API. Đây là functional QA, không phải efficacy evidence.",
+      "artifactPaths": [
+        "content/modules/capabilities",
+        "src/features/practice"
+      ],
+      "inputDigest": "f62de398e5733383341b895a7c07ace98c375b3de167b07716f81e89dc0903b7"
+    },
+    {
+      "id": "ev-p2-review",
+      "recordedAt": "2026-08-20T09:16:05.8517597+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Compliance/correctness/privacy/maintainability review không còn finding sau khi sửa exact-locale voice priority; residual risk được giới hạn rõ: chưa có human audio hoặc learner/listener study.",
+      "artifactPaths": [
+        "src/content",
+        "src/features/practice",
+        "content/modules/capabilities",
+        "docs/EVALUATION_PROTOCOL.md"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-20T08:48:51.6291584+07:00",
+  "updatedAt": "2026-08-20T02:16:25.210Z",
+  "completedAt": "2026-08-20T02:16:25.210Z"
+}

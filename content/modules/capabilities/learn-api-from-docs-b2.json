@@ -18,12 +18,51 @@
     "mode": "written",
     "title": "Explain and plan the integration",
     "scenario": "A teammate will implement Pulse tomorrow and needs your English mental model and plan.",
-    "baselinePrompt": "After one read, explain how the API works and outline implementation without translating it.",
+    "baselinePrompt": "Read the quickstart once, hide it, then explain how the API works and outline implementation without translating it.",
     "performancePrompt": "Write 120–180 words: request lifecycle, idempotency, rate-limit behavior and a four-step implementation/test plan.",
     "modelResponse": "Pulse accepts an authenticated event and returns 202 because processing continues asynchronously. The client should generate one idempotency key per logical event, store the returned event_id and poll status until processed or failed. Reusing the same key prevents duplicate creation. I would first wrap POST and GET calls, then persist both identifiers. Next I would add bounded polling and handle 429 using Retry-After. Finally I would test duplicate submissions, failed processing and rate limiting before enabling the integration for real traffic.",
     "retryPrompt": "Rewrite the mental model in your own words and connect every implementation step to a behavior in the docs.",
     "transferPrompt": "A new Jobs API also returns 202, exposes job status and uses request tokens for deduplication. Produce a fresh mental model and implementation plan.",
-    "reviewPrompt": "Read a new API quickstart and explain lifecycle, safety mechanism, failure handling and first implementation plan.",
+    "reviewPrompt": "Read an unseen API quickstart once and explain lifecycle, safety mechanism, failure handling and first implementation plan from memory.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Pulse Events API",
+        "brief": "Read once and build the request lifecycle from memory.",
+        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. Reusing a key returns the original event." }]
+      },
+      "retry": {
+        "title": "Pulse reliability notes",
+        "brief": "Repair the weakest part of your mental model with focused evidence.",
+        "artifacts": [{ "id": "api-retry-pulse", "type": "source", "title": "Reliability contract", "format": "technical-doc", "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. Respect Retry-After and do not create a new key for the same logical event." }]
+      },
+      "transfer": {
+        "title": "Jobs API",
+        "brief": "Unseen API with the same asynchronous function but different fields.",
+        "artifacts": [{ "id": "api-transfer-jobs", "type": "source", "title": "Jobs quickstart", "format": "technical-doc", "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. A 503 response includes Retry-In seconds." }]
+      },
+      "review": {
+        "title": "Exports API",
+        "brief": "Delayed retrieval from a new asynchronous API.",
+        "artifacts": [{ "id": "api-review-exports", "type": "source", "title": "Exports quickstart", "format": "technical-doc", "content": "POST /exports accepts a report request and returns 202 with export_id. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again." }]
+      }
+    },
+    "readingLadder": {
+      "version": "v1",
+      "trainingSource": {
+        "id": "quanta-api-ladder-source",
+        "type": "source",
+        "title": "Quanta Tasks API",
+        "format": "technical-doc",
+        "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After."
+      },
+      "extractionItems": [
+        { "id": "quanta-lifecycle", "question": "What does 202 mean here?", "options": ["The task was accepted for asynchronous processing", "The task is already complete"], "correctAnswer": "The task was accepted for asynchronous processing", "feedback": "Acceptance and final completion are separate states." },
+        { "id": "quanta-safety", "question": "What prevents duplicates?", "options": ["Reuse Request-Key for the same logical task", "Generate a new key for every retry"], "correctAnswer": "Reuse Request-Key for the same logical task", "feedback": "The request key identifies one logical operation." },
+        { "id": "quanta-limit", "question": "How should 429 be handled?", "options": ["Wait for Retry-After", "Poll faster"], "correctAnswer": "Wait for Retry-After", "feedback": "The server supplies the backoff interval." }
+      ],
+      "applicationPrompt": "Explain the lifecycle in plain English and turn each documented behavior into one implementation or test step.",
+      "applicationChecklist": ["I separated acceptance from completion.", "I connected idempotency to retries.", "I included bounded polling and rate-limit handling."]
+    },
     "outputContract": { "timeLimitSeconds": 720, "requiredElements": ["request lifecycle", "idempotency", "rate limit", "implementation plan"], "minWords": 120, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["Mental model", "Traceability to docs", "Implementation safety"],

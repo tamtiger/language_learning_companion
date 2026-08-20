@@ -16,6 +16,7 @@ import { SectionRenderer } from '../lesson/SectionRenderer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 import { InteractionPractice } from './InteractionPractice'
 import { LearningLoopPractice } from './LearningLoopPractice'
+import { ReadingLadderPractice } from './ReadingLadderPractice'
 
 const DEFAULT_INDEPENDENCE: IndependenceEvidence = {
   usedVietnamese: false,
@@ -192,7 +193,10 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const [retryFocusId, setRetryFocusId] = useState<string | null>(() => progress?.recentAttempts.at(-1)?.focusCriterionId ?? null)
   const [independence, setIndependence] = useState<IndependenceEvidence>(DEFAULT_INDEPENDENCE)
   const [completionAssessment, setCompletionAssessment] = useState<TransferAssessment | null>(null)
-  const [learningLoopReady, setLearningLoopReady] = useState(task.mode !== 'spoken' || !task.learningLoop)
+  const [inputPracticeReady, setInputPracticeReady] = useState(
+    !((task.mode === 'spoken' && task.learningLoop) || (task.mode === 'written' && task.readingLadder))
+  )
+  const [readOnceClosedPhase, setReadOnceClosedPhase] = useState<CapabilitySession['phase'] | null>(null)
   const [processEvidence, setProcessEvidence] = useState<AttemptProcessEvidence | null>(null)
   const [listenedBack, setListenedBack] = useState(false)
   const [cueToSpeechStartMs, setCueToSpeechStartMs] = useState<number | null>(null)
@@ -216,13 +220,16 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const selectedRetryFocusId = notMetCriterionIds.includes(retryFocusId ?? '') ? retryFocusId : null
   const canSubmitFeedback = allRated && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
   const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
-  const responseReady = task.mode === 'spoken'
-    ? spokenSnapshot !== null && (!task.learningLoop || !spokenSnapshot.audioUrl || listenedBack)
-    : response.trim().length > 0
   const practiceContext = phase === 'baseline' ? task.practiceContexts?.baseline
     : phase === 'retry' ? task.practiceContexts?.retry
       : phase === 'transfer' ? task.practiceContexts?.transfer
         : phase === 'review' ? task.practiceContexts?.review : undefined
+  const requiresReadOnce = task.mode === 'written' && !!task.readingLadder
+    && !!practiceContext && (phase === 'baseline' || phase === 'transfer' || phase === 'review')
+  const readOnceReady = !requiresReadOnce || readOnceClosedPhase === phase
+  const responseReady = task.mode === 'spoken'
+    ? spokenSnapshot !== null && (!task.learningLoop || !spokenSnapshot.audioUrl || listenedBack)
+    : readOnceReady && response.trim().length > 0
 
   const startOutput = () => {
     if (outputStartedAt.current === null) {
@@ -313,17 +320,21 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               <SectionRenderer lessonId={lesson.lessonId} section={section} />
             </div>
           ))}
-          {task.mode === 'spoken' && task.learningLoop && !learningLoopReady && (
+          {task.mode === 'spoken' && task.learningLoop && !inputPracticeReady && (
             <LearningLoopPractice loop={task.learningLoop} onComplete={(process) => {
               setProcessEvidence(process)
-              setLearningLoopReady(true)
+              setInputPracticeReady(true)
             }} />
+          )}
+          {task.mode === 'written' && task.readingLadder && !inputPracticeReady && (
+            <ReadingLadderPractice lessonId={lesson.lessonId} ladder={task.readingLadder}
+              onComplete={() => setInputPracticeReady(true)} />
           )}
           <button type="button" onClick={() => {
             setSession({ ...session, phase: 'performance' })
             setActivePhase(lesson.lessonId, 'performance')
             preparationStartedAt.current = Date.now()
-          }} disabled={!learningLoopReady} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Bắt đầu lượt chính</button>
+          }} disabled={!inputPracticeReady} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Bắt đầu lượt chính</button>
         </div>
       ) : phase === 'interaction' && task.mode === 'spoken' && task.learningLoop && learnerOutput ? (
         <div className="space-y-6">
@@ -367,7 +378,20 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
         </div>
       ) : (
         <div className="space-y-5">
-          {practiceContext && <PracticeContextPanel lessonId={lesson.lessonId} context={practiceContext} />}
+          {practiceContext && (!requiresReadOnce || !readOnceReady) && (
+            <PracticeContextPanel lessonId={lesson.lessonId} context={practiceContext} />
+          )}
+          {requiresReadOnce && !readOnceReady && (
+            <button type="button" onClick={() => setReadOnceClosedPhase(phase)}
+              className="rounded-xl border border-cyan-400 px-5 py-3 font-bold text-cyan-200">
+              Đã đọc một lần — ẩn tài liệu
+            </button>
+          )}
+          {requiresReadOnce && readOnceReady && (
+            <p role="status" className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-4 text-sm text-cyan-100">
+              Source đã ẩn. Hãy trích xuất và diễn đạt từ trí nhớ; reload chỉ dùng khi bạn cần bắt đầu lại phase.
+            </p>
+          )}
           <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
           {phase === 'retry' && learnerOutput && (
             <div className="grid gap-4 lg:grid-cols-2">
@@ -397,7 +421,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
                 <textarea value={response} onChange={(event) => {
                   if (event.target.value.trim()) startOutput()
                   setResponse(event.target.value)
-                }} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7" />
+                }} disabled={!readOnceReady} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7 disabled:cursor-not-allowed disabled:opacity-40" />
               </label>
               <p className="mt-2 text-xs text-zinc-500">{countWords(response)} từ · Bản nháp chỉ ở session hiện tại và không được persist.</p>
             </div>

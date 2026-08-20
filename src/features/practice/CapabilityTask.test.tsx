@@ -77,7 +77,8 @@ describe('CapabilityTask session evidence', () => {
     expect(screen.queryByText(/TRANSFER_SIGNAL/i)).toBeNull()
   })
 
-  it('shows the technical runbook before its read-from-memory baseline', () => {
+  it('hides a read-once technical source before enabling baseline output', async () => {
+    const user = userEvent.setup()
     const lesson = getBundledCatalog().lessons.find((item) => item.lessonId === 'technical-doc-action-b1')
     if (!lesson?.performanceTask) throw new Error('Technical reading fixture missing')
 
@@ -86,6 +87,14 @@ describe('CapabilityTask session evidence', () => {
     expect(screen.getByText(/cachectl migrate --target v2/i)).toBeTruthy()
     expect(screen.getByText(/read once and write the actions from memory/i)).toBeTruthy()
     expect(screen.queryByText(lesson.performanceTask.modelResponse)).toBeNull()
+    expect((screen.getByRole('textbox') as HTMLTextAreaElement).disabled).toBe(true)
+    await user.click(screen.getByRole('button', { name: /đã đọc một lần.*ẩn tài liệu/i }))
+    expect(screen.queryByText(/cachectl migrate --target v2/i)).toBeNull()
+    expect((screen.getByRole('textbox') as HTMLTextAreaElement).disabled).toBe(false)
+    await user.type(screen.getByRole('textbox'), 'Prerequisite, command, success signal and rollback from memory.')
+    await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
+    expect(screen.getByText(/reading ladder.*bước 1\/3/i)).toBeTruthy()
+    expect((screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement).disabled).toBe(true)
   })
 
   it('resets spoken capture when baseline changes to the performance phase', async () => {

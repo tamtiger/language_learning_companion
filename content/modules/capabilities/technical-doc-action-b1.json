@@ -78,6 +78,23 @@
         ]
       }
     },
+    "readingLadder": {
+      "version": "v1",
+      "trainingSource": {
+        "id": "feature-flag-ladder-source",
+        "type": "source",
+        "title": "Feature flag rollout procedure",
+        "format": "technical-doc",
+        "content": "Confirm the error budget is green and save the current flag allocation. Run flagctl set checkout-v2 --percent 10. Success requires error_rate below 1% for fifteen minutes. If the threshold is exceeded, restore the saved allocation and notify the release owner."
+      },
+      "extractionItems": [
+        { "id": "flag-prerequisite", "question": "What must be true before rollout?", "options": ["The error budget is green", "The flag is at 100%"], "correctAnswer": "The error budget is green", "feedback": "The prerequisite appears before the command." },
+        { "id": "flag-success", "question": "What proves success?", "options": ["Error rate stays below 1% for fifteen minutes", "The command exits immediately"], "correctAnswer": "Error rate stays below 1% for fifteen minutes", "feedback": "A command exit is not the operational success signal." },
+        { "id": "flag-recovery", "question": "What is the recovery action?", "options": ["Restore the saved allocation and notify the release owner", "Increase traffic and retry"], "correctAnswer": "Restore the saved allocation and notify the release owner", "feedback": "Recovery combines rollback and escalation." }
+      ],
+      "applicationPrompt": "Explain the rollout as prerequisite → action → success signal → recovery, then apply that structure to a database migration.",
+      "applicationChecklist": ["I preserved the safety sequence.", "I named a measurable success signal.", "I included rollback and owner notification."]
+    },
     "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["prerequisite", "command", "success signal", "recovery"], "minWords": 45, "maxWords": 100 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
     "feedbackPriorities": ["Accuracy", "Safety sequence", "Paraphrasing"],

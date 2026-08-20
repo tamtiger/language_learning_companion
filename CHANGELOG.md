@@ -6,6 +6,12 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Added
 
+- Thêm `ReadingLadderV1` cho bốn mission technical docs: read once rồi ẩn source,
+  extraction có feedback, explain/apply session-only, unseen transfer và delayed retrieval.
+- Thêm điều khiển model audio 0.85×/1×/1.15×, requested locale/ synthetic-device
+  limitation và three-locale content invariant cho cả sáu spoken loops.
+- Mở rộng listener/expert protocol với preregister, primary outcome, power rationale,
+  exclusion, subgroup/fairness và stopping rule; chưa ghi participant result.
 - Mở rộng `LearningLoopV1` tới cả 6 spoken missions; bổ sung four-phase context
   banks cho architecture walkthrough, ownership interview, technical decision và
   Daily Standup.
@@ -81,5 +87,5 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 - Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
   ba evidence packet và phase isolation trong UI.
-- Regression suite hiện tại đạt 24 test files và 97 tests; lint và production build đều PASS.
-- Manual QA desktop/mobile xác nhận bốn spoken mission mới vào đúng cold baseline và Daily Standup đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer. Model/chunks vẫn khóa trước attempt, viewport 390px không tràn ngang, console không có app-origin error; đây là QA chức năng synthetic, không phải evidence về efficacy.
+- Regression suite hiện tại đạt 27 test files và 105 tests; lint và production build đều PASS.
+- Manual QA desktop/mobile xác nhận bốn spoken mission mới vào đúng cold baseline và Daily Standup đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer. P2 cũng đi trọn technical read-once → extraction → application → performance, xác nhận source/model được khóa đúng lúc, ba tốc độ TTS hoạt động, requested locale/giới hạn synthetic hiển thị rõ và viewport 390px không tràn ngang. Console không có app-origin error; đây là QA chức năng synthetic, không phải evidence về efficacy.
