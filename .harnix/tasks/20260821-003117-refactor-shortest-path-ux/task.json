@@ -1,0 +1,408 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260821-003117-refactor-shortest-path-ux",
+  "title": "Refactor UX theo đường ngắn nhất tới capability",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Đo và refactor bottleneck UX có leverage cao nhất để người học bắt đầu meaningful practice nhanh hơn mà vẫn giữ learning integrity và privacy.",
+  "nonGoals": [
+    "Không redesign toàn bộ app hoặc curriculum trong một increment.",
+    "Không thêm account, cloud, analytics, AI scoring hoặc dependency lớn.",
+    "Không tuyên bố learning efficacy từ synthetic browser session.",
+    "Không commit, push hoặc publish."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Có baseline journey và research synthesis phân biệt observation, fact, inference; chọn một bottleneck bằng impact, frequency, confidence và effort/risk.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-s1-ux-baseline-research",
+        "ev-verify-responsive-final-check"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Journey được chọn giảm ít nhất 30% primary actions/decision points hoặc đạt một primary action tới meaningful practice, đo trên cùng persona/state, không bỏ learning gate bắt buộc.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-verify-primary-final-check",
+        "ev-verify-responsive-final-check"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "First viewport cho biết next-best-action, outcome công việc và CTA chính; feature/resume liên quan tới slice được tìm thấy mà không cần README hay thử nhiều lesson.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-verify-primary-final-check",
+        "ev-verify-responsive-final-check"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Critical path dùng được bằng keyboard và screen reader surface, không overflow/chồng lấn ở 390x844 và 1440x900, có current/next/error/empty/resume state rõ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-verify-primary-final-check",
+        "ev-verify-responsive-final-check"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Không regression learning integrity, content-driven behavior, local-only privacy, legacy/non-slice lessons hoặc progress evidence.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-verify-primary-final-check",
+        "ev-verify-full-final-check"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Focused tests, full tests, lint, build, browser QA và release/version check pass trên source cuối.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-verify-primary-final-check",
+        "ev-verify-full-final-check",
+        "ev-verify-static-final-check",
+        "ev-verify-release-final-check",
+        "ev-verify-responsive-final-check"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "package-lock.json",
+    "package.json",
+    "src/app/App.tsx",
+    "src/features/catalog/CatalogPage.tsx",
+    "src/features/lesson/LessonFlow.tsx",
+    "src/features/practice/CapabilityTask.tsx",
+    "src/features/today/TodayPage.tsx",
+    "src/index.css",
+    "src/features/today/TodayPage.test.tsx"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "UX_RESEARCH_REFACTOR_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-primary-journey",
+      "description": "Focused React tests xác nhận shortest path, first-viewport CTA và state behavior của vertical slice.",
+      "command": "npm test -- --run src/features",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/**/*.test.tsx",
+        "src/features/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-full-suite",
+      "description": "Full regression xác nhận learning flow, content, storage, privacy và non-slice behavior không thoái lui.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-static-build",
+      "description": "Lint, TypeScript và production bundle pass.",
+      "command": "npm run lint && npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-responsive-qa",
+      "description": "Browser QA cùng persona/state xác nhận baseline, before-after delta, keyboard surface, responsive và console.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/app/App.tsx",
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/today/TodayPage.tsx",
+        "src/index.css"
+      ]
+    },
+    {
+      "id": "check-release",
+      "description": "Release/version checker xác nhận production change có version mới, manifest đồng bộ và changelog append-only.",
+      "command": "node scripts/check-changelog-rule",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-changelog-rule"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-s1-ux-baseline-research",
+      "recordedAt": "2026-08-20T17:37:35.8583245Z",
+      "result": "pass",
+      "summary": "Đã audit first-run/returning desktop và mobile, xếp hạng friction, research control accessibility và khóa target giảm 3 xuống 2 primary actions.",
+      "artifactPaths": [
+        ".harnix/tasks/20260821-003117-refactor-shortest-path-ux/prd.md",
+        ".harnix/tasks/20260821-003117-refactor-shortest-path-ux/plan.md",
+        ".harnix/tasks/20260821-003117-refactor-shortest-path-ux/research/ux-shortest-path.md"
+      ]
+    },
+    {
+      "id": "ev-primary-journey-green",
+      "checkId": "check-primary-journey",
+      "recordedAt": "2026-08-20T17:42:38.4968183Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "18 feature test files, 66 tests PASS; gồm RED→GREEN cho sáu job intent, Daily Standup shortcut, spoken feature discovery và resume priority.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "75076685007a3489dabc59fdcb7566201e87d2cf4bfc6649b56cd72445428588"
+    },
+    {
+      "id": "ev-full-suite-final",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-20T17:43:42.9166110Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "29 test files, 118 tests PASS trên production source và content cuối.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "98088d07ecfce750d89f05c0d52e448b693b840af93aca826c510d4ab219d1ce"
+    },
+    {
+      "id": "ev-static-build-initial-fail",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-20T17:44:34.338Z",
+      "result": "fail",
+      "exitCode": 2,
+      "summary": "Lint PASS; build FAIL TS2339 tại TodayPage vì truy cập learningLoop trên union spoken|written chưa được narrow qua biến performanceTask.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx"
+      ],
+      "inputDigest": "751947d1e5272192d62e625158ab1e480e9fd29456518a34ddaca6111cc81972"
+    },
+    {
+      "id": "ev-static-build-root-cause",
+      "recordedAt": "2026-08-20T17:44:53.317Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Hypothesis được xác nhận: TypeScript narrow đúng khi giữ performanceTask trong biến cục bộ; npx tsc -b --pretty false PASS sau fix tối thiểu.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-static-build-final",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-20T17:45:16.586Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint PASS; TypeScript build và Vite production build PASS, 1635 modules transformed.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "bf75b0f4de4c860d11cf86f867e04787d12dfdd3935fcad525769fd01de07c86"
+    },
+    {
+      "id": "ev-primary-journey-final",
+      "checkId": "check-primary-journey",
+      "recordedAt": "2026-08-20T17:46:37.686Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final focused verification: 18 feature files, 66 tests PASS sau TypeScript narrowing fix.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "dd0b9bf872986eb0e9e49b1a585e3aefb8249cc38f72d58a26b0d29d5076f1c1"
+    },
+    {
+      "id": "ev-full-suite-final-2",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-20T17:46:37.686Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final regression: 29 test files, 118 tests PASS sau source fix cuối.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "9cf5f017819dfdbad953a042ba6507b7bf4f36b2b628c586ef3d187169cd4745"
+    },
+    {
+      "id": "ev-responsive-qa-final",
+      "checkId": "check-responsive-qa",
+      "recordedAt": "2026-08-20T17:48:14.774Z",
+      "result": "pass",
+      "summary": "Browser QA PASS: first-run và returning; 1440x900 + 390x844 không overflow; 6 shortcut; Enter mở Daily Standup; focus main; timer gate còn; 0 app console error.",
+      "artifactPaths": [
+        "src/app/App.tsx",
+        "src/features/today/TodayPage.tsx",
+        "src/features/lesson/LessonFlow.tsx"
+      ],
+      "inputDigest": "497665a5abc0ca70dc2c6bc378858aef59c0ece1f104317eb5b1e3dbc642a7bf"
+    },
+    {
+      "id": "ev-release-final",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-20T17:48:14.774Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release checker PASS; version 1.0.2 đồng bộ và changelog release mới ở đầu lịch sử.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "43783673dad41d3cbc22ad3989791e277f0231845eb8f00f2fac6edc598f832d"
+    },
+    {
+      "id": "ev-diff-review-final",
+      "recordedAt": "2026-08-20T17:48:14.774Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "git diff --check PASS; review bounded diff không thấy defect compliance/correctness/security trong slice Today; thay đổi user-owned AGENTS/script/prompt được giữ nguyên.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-verify-primary-final-check",
+      "checkId": "check-primary-journey",
+      "recordedAt": "2026-08-20T17:51:45.001Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contract cuối: 18 feature files, 66 tests PASS.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "3549e9abe09ae1a3df5ea7e58719ad6ee88a9be05f88037ae71eb90db3dfb867"
+    },
+    {
+      "id": "ev-verify-full-final-check",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-20T17:51:45.001Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contract cuối: 29 test files, 118 tests PASS.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "9caf2dda495db6adc09e706d3f0f7bb41bde1f2979b7799a7f57ff48d6cf0d2e"
+    },
+    {
+      "id": "ev-verify-static-final-check",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-20T17:51:45.001Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contract cuối: oxlint, TypeScript build và Vite production build PASS.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "ddef2a6c6ef4531d271c1923a692a2b44f81ec1a16ec4590a7a101c171233aa0"
+    },
+    {
+      "id": "ev-verify-release-final-check",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-20T17:51:45.001Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contract cuối: release checker PASS cho version 1.0.2 và changelog append-only.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "24d5fd35c136ec2427a457940aac40f3d024b2963497c12c6976daf32b6bdc96"
+    },
+    {
+      "id": "ev-verify-responsive-final-check",
+      "checkId": "check-responsive-qa",
+      "recordedAt": "2026-08-20T17:51:45.001Z",
+      "result": "pass",
+      "summary": "Contract cuối: 1440x900 và 390x844 không overflow; 6 intent; keyboard mở Daily Standup; resume đúng; timer gate giữ nguyên; 0 app error.",
+      "artifactPaths": [
+        "src/app/App.tsx",
+        "src/features/today/TodayPage.tsx",
+        "src/features/lesson/LessonFlow.tsx"
+      ],
+      "inputDigest": "a7f0be369790168ac046aa81ef7f37b7c6cefe87b08da8f6b884dcb3cffef7c6"
+    }
+  ],
+  "createdAt": "2026-08-20T17:31:58.1741641Z",
+  "updatedAt": "2026-08-20T17:52:42.895Z",
+  "completedAt": "2026-08-20T17:52:42.895Z"
+}

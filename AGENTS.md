@@ -16,15 +16,16 @@ Treat this profile as an initialization-time discovery seed. Verify current mani
 
 ## Release và changelog
 
-- Sau mỗi lần implement, trước khi đánh dấu task hoàn tất, phải tăng đúng một version theo [Semantic Versioning](https://semver.org/) và thêm một mục release mới vào `CHANGELOG.md`.
+- Sau mỗi lần implement có thay đổi production, trước khi đánh dấu task hoàn tất, phải tăng đúng một version theo [Semantic Versioning](https://semver.org/) và thêm một mục release mới vào `CHANGELOG.md`. Thay đổi production gồm source/runtime behavior, executable content, public contract, schema/storage, dependency phát hành hoặc capability hướng người dùng.
 - Đặt mục mới ở đầu lịch sử changelog: ngay sau tiêu đề và đoạn mở đầu, trước mọi mục release đã tồn tại. Mục mới dùng dạng `## [X.Y.Z] - YYYY-MM-DD` và chỉ ghi các thay đổi thuộc lần implement hiện tại.
 - Chọn mức tăng version theo tác động thực tế:
   - `MAJOR` (`X.Y.Z` → `(X+1).0.0`) cho breaking change, migration không tương thích ngược hoặc thay đổi lớn làm người dùng hay consumer phải đổi cách sử dụng.
   - `MINOR` (`X.Y.Z` → `X.(Y+1).0`) cho tính năng hoặc capability mới tương thích ngược và thay đổi hành vi đáng kể nhưng không phá contract hiện có.
-  - `PATCH` (`X.Y.Z` → `X.Y.(Z+1)`) cho bugfix, refactor tương thích ngược, cải thiện UI nhỏ, test, tài liệu hoặc maintenance không thêm capability lớn.
+  - `PATCH` (`X.Y.Z` → `X.Y.(Z+1)`) cho bugfix, refactor tương thích ngược, cải thiện UI nhỏ hoặc production maintenance không thêm capability lớn.
 - Version hiện tại lấy từ `package.json`. Khi tăng version, phải đồng bộ trường version của root package trong cả `package.json` và `package-lock.json` nếu các file đó tồn tại; không tự ý đổi version của dependency.
 - `CHANGELOG.md` là lịch sử append-only: không sửa, xóa, gộp, đổi tên hoặc sắp xếp lại bất kỳ mục cũ nào. Nếu mục cũ sai, ghi một mục đính chính trong release mới.
-- Changelog và version là completion gate: không hoàn tất task implementation khi mục release mới chưa nằm ở đầu changelog hoặc các manifest còn lệch version. Không áp dụng gate này cho yêu cầu chỉ đọc, review không chỉnh file hoặc task bị hủy.
+- Không tăng version và không thêm release cho thay đổi `docs-only` hoặc `prompt-only`, comment/formatting-only, test-only hay Harnix metadata-only. Nếu một task trộn các thay đổi được miễn với production implementation, vẫn tăng đúng một version theo tác động của phần production.
+- Changelog và version là completion gate chỉ cho production implementation: không hoàn tất task thuộc phạm vi này khi mục release mới chưa nằm ở đầu changelog hoặc các manifest còn lệch version. Không áp dụng gate cho các nhóm được miễn ở trên, yêu cầu chỉ đọc, review không chỉnh file hoặc task bị hủy.
 
 ## Harnix workflow
 

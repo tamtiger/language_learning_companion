@@ -1,0 +1,53 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260821-002232-create-practical-ux-refactor-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "ev-docs-version-rule-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260821-002232-create-practical-ux-refactor-prompt",
+      "checkId": "check-docs-version-exemption",
+      "taskContractHash": "4d3ade2a4fdffc99e0010418e38155baff5d5a8e2960b68829c7dc969cd7d2ad",
+      "entries": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "c9d382569d235e6f6eafa00e3231788b525df84507ff45083ff5522f0dc74cd8"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "sha256": "18d8cce8936603f4dfc0cac7bddd0fedc3fbe799fa0fd28075ea0b5f8466dfbe"
+        },
+        {
+          "path": "package-lock.json",
+          "sha256": "6601c2570560743887dceab97230f7cc3618fc762d7ec0ff6871480242541c0c"
+        },
+        {
+          "path": "package.json",
+          "sha256": "67957b617f3a6103e70e79a8bee78cd2ea08506f8c7e72092cfc3b245901a362"
+        },
+        {
+          "path": "scripts/check-changelog-rule",
+          "sha256": "cadb7cf5008f461596307c015116aa86babf80c51137bc472926fd714c7c89c0"
+        }
+      ],
+      "inputDigest": "79920bd1412c17606dff528de66c973479192cc2c41e3a990c2cdc9f6e7fde06"
+    },
+    {
+      "evidenceId": "ev-ux-prompt-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260821-002232-create-practical-ux-refactor-prompt",
+      "checkId": "check-ux-prompt",
+      "taskContractHash": "4d3ade2a4fdffc99e0010418e38155baff5d5a8e2960b68829c7dc969cd7d2ad",
+      "entries": [
+        {
+          "path": "UX_RESEARCH_REFACTOR_PROMPT.md",
+          "sha256": "ed14d87fefd0d56449369ca877c446c009d7ae82b3f0cebda1f8bf7de7cf87cb"
+        }
+      ],
+      "inputDigest": "c50b32c80a03a4189bd19d7b496bb768bc43353b9d82edeb613b80dc83891eb5"
+    }
+  ]
+}

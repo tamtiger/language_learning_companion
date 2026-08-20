@@ -2,6 +2,14 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.0.2] - 2026-08-21
+
+### Changed
+
+- Refactor Today thành đường vào job-first với sáu tình huống công việc, tự chọn
+  lesson phù hợp theo review/resume/baseline và hiển thị Sentence chunks cùng
+  Luyện phát âm trước khi mở spoken mission.
+
 ## [1.0.1] - 2026-08-21
 
 ### Changed

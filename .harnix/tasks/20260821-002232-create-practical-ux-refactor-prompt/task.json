@@ -1,0 +1,172 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260821-002232-create-practical-ux-refactor-prompt",
+  "title": "Tạo prompt research và refactor UX thực tế",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tạo prompt chạy được để research và refactor UI theo hành trình thực tế, giúp người học đi tới hoạt động tạo output có ý nghĩa nhanh nhất mà vẫn giữ learning integrity và privacy.",
+  "nonGoals": [
+    "Không chạy prompt hoặc refactor UI trong task này.",
+    "Không thay đổi runtime, learning flow, storage hoặc content schema.",
+    "Không sao chép owner contract thành một source of truth cạnh tranh."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Prompt xác định rõ persona, job-to-be-done, north-star và các phép đo friction/time-to-first-meaningful-practice cho hành trình người học thực tế.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-ux-prompt-final",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Prompt bắt buộc audit browser black-box trước, research có mục tiêu từ nguồn đáng tin cậy, phân biệt observation/fact/inference và ưu tiên một bottleneck UX có leverage cao nhất.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-ux-prompt-final",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Prompt yêu cầu implement/refactor vertical slice hoàn chỉnh, không dừng ở report/mockup, đồng thời bảo toàn learning integrity, accessibility, responsive, local-only privacy và compatibility.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-ux-prompt-final",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Prompt có acceptance/verification và báo cáo cuối định lượng được, dẫn chiếu owner docs, không chứa placeholder và phù hợp Harnix cùng release rule của dự án.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-ux-prompt-final",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Release rule chỉ yêu cầu changelog/version cho product implementation; docs/prompt-only, comment/formatting, test-only và Harnix metadata-only không tăng version, còn task trộn vẫn tăng một lần theo phần implementation.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-docs-version-rule-final",
+        "ev-final-review"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "UX_RESEARCH_REFACTOR_PROMPT.md",
+    "package-lock.json",
+    "package.json",
+    "scripts/check-changelog-rule"
+  ],
+  "relevantSpecs": [
+    "AGENTS.md",
+    "PRODUCT.md",
+    "CONTENT.md",
+    "ARCHITECTURE.md",
+    "LEARNER_AUDIT_PROMPT.md",
+    "IMPROVEMENT_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-ux-prompt",
+      "description": "Kiểm tra prompt có các section bắt buộc về north-star, evidence, research, journey, implementation, verification và report.",
+      "command": "rg -n \"North star|Evidence|Research|Journey|Implement|Verification|Báo cáo cuối\" UX_RESEARCH_REFACTOR_PROMPT.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "UX_RESEARCH_REFACTOR_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-docs-version-exemption",
+      "description": "Kiểm tra release rule có docs-only exemption rõ ràng, checker hợp lệ và manifest/changelog vẫn ở version đã phát hành gần nhất.",
+      "command": "node scripts/check-changelog-rule",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-changelog-rule"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-docs-tdd-exception",
+      "recordedAt": "2026-08-20T17:22:58.367Z",
+      "result": "pass",
+      "summary": "Ngoại lệ TDD: task chỉ tạo prompt tài liệu và release metadata, không thay đổi runtime behavior; dùng structural content check, manual contract review và diff validation.",
+      "artifactPaths": [
+        "UX_RESEARCH_REFACTOR_PROMPT.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-ux-prompt-final",
+      "checkId": "check-ux-prompt",
+      "recordedAt": "2026-08-20T17:27:00.488Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh prompt verification PASS: có north-star, evidence discipline, browser journeys, targeted research, implementation vertical slice, before/after metrics, verification và báo cáo cuối; snapshots khớp.",
+      "artifactPaths": [
+        "UX_RESEARCH_REFACTOR_PROMPT.md"
+      ],
+      "inputDigest": "c50b32c80a03a4189bd19d7b496bb768bc43353b9d82edeb613b80dc83891eb5"
+    },
+    {
+      "id": "ev-docs-version-rule-final",
+      "checkId": "check-docs-version-exemption",
+      "recordedAt": "2026-08-20T17:27:00.489Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh release-rule verification PASS: production implementation mới bump; docs/prompt-only và các nhóm metadata-only được miễn; checker và manifest/changelog đồng bộ; snapshots khớp.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "79920bd1412c17606dff528de66c973479192cc2c41e3a990c2cdc9f6e7fde06"
+    },
+    {
+      "id": "ev-final-review",
+      "recordedAt": "2026-08-20T17:27:00.489Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Review cuối PASS: prompt bám owner docs, không có placeholder, không thay runtime; release 1.0.2 đã được gỡ hoàn toàn, version giữ 1.0.1; git diff --check sạch ngoài cảnh báo LF/CRLF. Omitted app tests vì thay đổi chỉ gồm prompt, instruction và checker tĩnh.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "UX_RESEARCH_REFACTOR_PROMPT.md",
+        "scripts/check-changelog-rule"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-20T17:22:43.4888657Z",
+  "updatedAt": "2026-08-20T17:27:19.999Z",
+  "completedAt": "2026-08-20T17:27:19.999Z"
+}
