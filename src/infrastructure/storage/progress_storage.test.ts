@@ -31,7 +31,7 @@ function measuredAttempt() {
   }
 }
 
-describe('progress storage v4', () => {
+describe('progress storage v5', () => {
   it('rejects v2 and migrates a valid v3 backup without learner output', () => {
     expect(ProgressEnvelopeSchema.safeParse({
       storageVersion: 2,
@@ -41,18 +41,20 @@ describe('progress storage v4', () => {
 
     const legacyAttempt = measuredAttempt() as Record<string, unknown>
     delete legacyAttempt.process
+    const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
+    delete legacyProgress.activeProcessEvidence
     const legacy = {
       storageVersion: 3,
       exportedAt: '2026-08-18T10:00:00.000Z',
       lessonProgress: {
-        mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [legacyAttempt] }
+        mission: { ...legacyProgress, attemptCount: 1, recentAttempts: [legacyAttempt] }
       },
       settings: { theme: 'dark' }
     }
     const migrated = parseBackup(legacy)
     expect(migrated.success).toBe(true)
     if (migrated.success) {
-      expect(migrated.data.storageVersion).toBe(4)
+      expect(migrated.data.storageVersion).toBe(5)
       expect(migrated.data.lessonProgress.mission.recentAttempts[0].process).toBeNull()
     }
   })
@@ -67,7 +69,7 @@ describe('progress storage v4', () => {
       recentAttempts: [measuredAttempt()]
     }
     const result = ProgressEnvelopeSchema.safeParse({
-      storageVersion: 4,
+      storageVersion: 5,
       lessonProgress: { mission: progress },
       settings: { theme: 'dark' }
     })
@@ -85,7 +87,7 @@ describe('progress storage v4', () => {
 
   it('exports only strict allowlisted metadata', () => {
     const envelope = ProgressEnvelopeSchema.parse({
-      storageVersion: 4,
+      storageVersion: 5,
       lessonProgress: {
         mission: {
           ...createEmptyLessonProgress(),
@@ -116,13 +118,14 @@ describe('progress storage v4', () => {
       variabilityQualified: false,
       shadowingStepIds: ['listen', 'chunk-shadow', 'full-shadow', 'delayed-imitation', 'variation'],
       listenedBack: true,
+      listenBackChecklistCompleted: true,
       cueToSpeechStartMs: 3200,
       interactionTurnIds: ['clarify', 'repair'],
       optedOut: false
     }
     const attempt = { ...measuredAttempt(), process }
     const valid = ProgressEnvelopeSchema.safeParse({
-      storageVersion: 4,
+      storageVersion: 5,
       lessonProgress: {
         mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [attempt] }
       },
@@ -133,11 +136,49 @@ describe('progress storage v4', () => {
     const unsafe = structuredClone(attempt) as Record<string, unknown>
     unsafe.audioUrl = 'blob:private-recording'
     expect(ProgressEnvelopeSchema.safeParse({
-      storageVersion: 4,
+      storageVersion: 5,
       lessonProgress: {
         mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [unsafe] }
       },
       settings: { theme: 'dark' }
     }).success).toBe(false)
+  })
+
+  it('migrates a v4 backup with no active process evidence into v5', () => {
+    const legacyProcess = {
+      perceptionPretestCorrect: 2,
+      perceptionPretestTotal: 4,
+      perceptionPosttestCorrect: 3,
+      perceptionPosttestTotal: 4,
+      perceptionTrainingCompleted: 6,
+      availableVariantCount: 2,
+      variabilityQualified: false,
+      shadowingStepIds: ['listen'],
+      listenedBack: true,
+      cueToSpeechStartMs: 1200,
+      interactionTurnIds: ['clarify'],
+      optedOut: false
+    }
+    const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
+    delete legacyProgress.activeProcessEvidence
+    const legacy = {
+      storageVersion: 4,
+      exportedAt: '2026-08-18T10:00:00.000Z',
+      lessonProgress: {
+        mission: {
+          ...legacyProgress,
+          attemptCount: 1,
+          recentAttempts: [{ ...measuredAttempt(), process: legacyProcess }]
+        }
+      },
+      settings: { theme: 'dark' }
+    }
+    const migrated = parseBackup(legacy)
+    expect(migrated.success).toBe(true)
+    if (migrated.success) {
+      expect(migrated.data.storageVersion).toBe(5)
+      expect(migrated.data.lessonProgress.mission.activeProcessEvidence).toBeNull()
+      expect(migrated.data.lessonProgress.mission.recentAttempts[0].process?.listenBackChecklistCompleted).toBe(false)
+    }
   })
 })

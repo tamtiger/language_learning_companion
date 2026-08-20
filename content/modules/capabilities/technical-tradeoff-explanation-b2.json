@@ -7,7 +7,7 @@
   "durationMinutes": 25,
   "learningObjectives": ["Nghe ra constraint và consequence", "Giải thích trade-off bằng chunks", "Trả lời clarification bằng repair"],
   "capabilities": ["technical-explanation"],
-  "workflowTags": ["architecture", "tradeoff", "learning-loop"],
+  "workflowTags": ["architecture", "tradeoff", "learning-loop", "p0-pilot"],
   "sections": [
     { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synchronous validation gives an immediate answer but adds up to 900 ms at peak. A queued worker keeps requests fast and retries transient failures, but final status may take two minutes. The release needs predictable request latency; compliance requires validation before publication." },
     { "id": "check", "type": "auto-check", "title": "Locate the deciding constraint", "exercises": [{ "id": "tradeoff-constraint", "type": "choice", "question": "Which requirement favors the queued worker?", "options": ["Immediate final status", "Predictable request latency"], "correctAnswer": ["Predictable request latency"], "explanation": "The queue moves validation latency out of the request path." }] }

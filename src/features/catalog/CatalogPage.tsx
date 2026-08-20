@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ArrowRight, CheckCircle2, Clock3 } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Clock3, FlaskConical } from 'lucide-react'
 import type { CapabilityId } from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/use_app_store'
 
@@ -46,12 +46,16 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
       <div className="grid gap-4 md:grid-cols-2">
         {filtered.map((lesson) => {
           const completed = lessonProgress[lesson.lessonId]?.status === 'completed'
+          const isPilot = lesson.workflowTags.includes('p0-pilot')
           const label = lesson.capabilities[0] ? CAPABILITY_LABELS[lesson.capabilities[0]] : 'Pronunciation legacy'
           return (
             <button key={lesson.lessonId} type="button" onClick={() => onStartLesson(lesson.lessonId)} className="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 text-left hover:border-purple-500/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400">
               <span className="flex items-center justify-between gap-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-purple-400">{label}</span>
-                {completed && <CheckCircle2 aria-label="Đã hoàn thành" className="h-5 w-5 text-green-400" />}
+                <span className="flex items-center gap-2">
+                  {isPilot && <span className="inline-flex items-center gap-1 rounded-md border border-cyan-400/40 bg-cyan-500/10 px-2 py-1 text-xs font-bold text-cyan-200"><FlaskConical aria-hidden="true" className="h-3.5 w-3.5" />P0 pilot</span>}
+                  {completed && <CheckCircle2 aria-label="Đã hoàn thành" className="h-5 w-5 text-green-400" />}
+                </span>
               </span>
               <span className="mt-3 block text-lg font-bold text-zinc-100">{lesson.title}</span>
               <span className="mt-2 block text-sm leading-relaxed text-zinc-400">{lesson.summary}</span>

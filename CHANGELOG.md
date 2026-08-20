@@ -6,6 +6,11 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Added
 
+- Hoàn thiện P0 pilot `Understand → Retrieve → Repair` cho meeting disagreement và
+  technical trade-off: Catalog có badge riêng, mission có stage navigator và
+  recording phải qua playback + listener-oriented checklist trước khi tiếp tục.
+- Thêm transfer reason `listen-back-missing` và `interaction-incomplete` để
+  timer-only fallback vẫn dùng được nhưng không tạo qualifying evidence giả.
 - Thêm `ReadingLadderV1` cho bốn mission technical docs: read once rồi ẩn source,
   extraction có feedback, explain/apply session-only, unseen transfer và delayed retrieval.
 - Thêm điều khiển model audio 0.85×/1×/1.15×, requested locale/ synthetic-device
@@ -44,6 +49,9 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Changed
 
+- Nâng progress/backup lên v5 với `activeProcessEvidence` allowlist để perception,
+  shadowing và interaction metadata sống qua reload; migrate v3/v4 không lưu hoặc
+  suy diễn learner audio, transcript hay response.
 - Migrate Daily Standup từ v2 sang v3 capability mission; giữ function
   yesterday–today–blocker và thêm cold baseline, retry, unseen transfer, D2/D7.
 - Training mistakes vẫn nhận immediate feedback nhưng không tự tạo pronunciation
@@ -77,6 +85,8 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Security
 
+- Listener/process evidence mới chỉ persist boolean, count và content-owned ID;
+  learner audio, transcript và nội dung trả lời tiếp tục chỉ tồn tại trong session.
 - Từ chối external audio URL trong content; bundled audio chỉ dùng đường dẫn
   `/audio/...` đã giới hạn và TTS chạy qua browser API tại thiết bị.
 - Không persist hoặc upload audio, transcript hay nội dung câu trả lời; written response chỉ tồn tại trong session và audio chỉ dùng local object URL có cleanup.
@@ -87,5 +97,5 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 - Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
   ba evidence packet và phase isolation trong UI.
-- Regression suite hiện tại đạt 27 test files và 105 tests; lint và production build đều PASS.
+- Regression suite hiện tại đạt 28 test files và 111 tests; lint và production build đều PASS.
 - Manual QA desktop/mobile xác nhận bốn spoken mission mới vào đúng cold baseline và Daily Standup đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer. P2 cũng đi trọn technical read-once → extraction → application → performance, xác nhận source/model được khóa đúng lúc, ba tốc độ TTS hoạt động, requested locale/giới hạn synthetic hiển thị rõ và viewport 390px không tràn ngang. Console không có app-origin error; đây là QA chức năng synthetic, không phải evidence về efficacy.

@@ -7,7 +7,7 @@
   "durationMinutes": 25,
   "learningObjectives": ["Nghe ra evidence và owner", "Phản biện bằng functional chunks", "Repair và recap quyết định"],
   "capabilities": ["international-meetings"],
-  "workflowTags": ["meeting", "disagreement", "learning-loop"],
+  "workflowTags": ["meeting", "disagreement", "learning-loop", "p0-pilot"],
   "sections": [
     { "id": "source", "type": "source", "title": "Meeting proposal", "format": "meeting-notes", "content": "Proposal: skip the load test to keep Friday's launch. Current evidence: staging has only handled 20% of forecast traffic. Rollback owner is not assigned." },
     { "id": "check", "type": "auto-check", "title": "Choose constructive disagreement", "exercises": [{ "id": "disagree-check", "type": "choice", "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?", "options": ["That is wrong.", "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.", "Whatever you decide."], "correctAnswer": ["I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."], "explanation": "Acknowledge mục tiêu chung rồi nêu concern kèm evidence." }] }

@@ -8,6 +8,7 @@ describe('capability-first app shell', () => {
   it('starts on Today and exposes semantic keyboard navigation', async () => {
     const user = userEvent.setup()
     const scrollTo = vi.fn()
+    const focus = vi.spyOn(HTMLElement.prototype, 'focus')
     Object.defineProperty(HTMLElement.prototype, 'scrollTo', { configurable: true, value: scrollTo })
     render(<App />)
 
@@ -23,10 +24,12 @@ describe('capability-first app shell', () => {
     expect(screen.getByRole('heading', { name: /catalog theo capability/i })).toBeTruthy()
     expect(screen.getByRole('button', { name: /write an evidence-safe incident update/i })).toBeTruthy()
     expect(document.activeElement).toBe(screen.getByRole('main'))
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true })
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
 
     await user.click(screen.getByRole('button', { name: /tiến bộ/i }))
     expect(screen.getByText(/glossary: cách đọc learning loop/i)).toBeTruthy()
+    focus.mockRestore()
   })
 
   it('has no detectable critical accessibility violations in the initial shell', async () => {

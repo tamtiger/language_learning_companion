@@ -90,6 +90,38 @@ describe('progress evidence and scheduling', () => {
     })
   })
 
+  it('does not qualify a pilot transfer without listen-back and scripted interaction evidence', () => {
+    const transfer = {
+      ...attempt(1),
+      phase: 'transfer' as const,
+      process: {
+        perceptionPretestCorrect: 2,
+        perceptionPretestTotal: 4,
+        perceptionPosttestCorrect: 3,
+        perceptionPosttestTotal: 4,
+        perceptionTrainingCompleted: 6,
+        availableVariantCount: 2,
+        variabilityQualified: false,
+        shadowingStepIds: ['listen'],
+        listenedBack: false,
+        listenBackChecklistCompleted: false,
+        cueToSpeechStartMs: 1200,
+        interactionTurnIds: ['clarify'],
+        optedOut: false
+      }
+    }
+
+    expect(assessTransfer(transfer, {
+      maxHints: 0,
+      timeLimitSeconds: 120,
+      requireListenBack: true,
+      requiredInteractionTurnIds: ['clarify', 'repair']
+    })).toEqual({
+      qualifies: false,
+      reasons: ['listen-back-missing', 'interaction-incomplete']
+    })
+  })
+
   it('uses content-owned review intervals and repeats failed stages after one day', () => {
     const now = new Date('2026-08-18T08:00:00.000Z')
     const scheduled = scheduleTransferReview(createEmptyLessonProgress(), [1, 3, 7], now)

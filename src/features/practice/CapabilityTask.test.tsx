@@ -5,6 +5,7 @@ import { getBundledCatalog } from '../../content/catalog'
 import { useAppStore } from '../../shared/hooks/use_app_store'
 import { createEmptyLessonProgress, type DurableCapabilityPhase } from '../../domain/progress/progress'
 import { CapabilityTask } from './CapabilityTask'
+import { ListenBackChecklist } from './ListenBackChecklist'
 
 function mission() {
   const lesson = getBundledCatalog().lessons.find(
@@ -51,6 +52,34 @@ function missionWithPracticeContexts() {
 
 describe('CapabilityTask session evidence', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
+
+  it('shows the three-stage P0 journey only for a tagged pilot mission', () => {
+    const pilot = getBundledCatalog().lessons.find(
+      (item) => item.lessonId === 'meeting-disagree-and-recap-b2'
+    )
+    if (!pilot?.performanceTask) throw new Error('P0 pilot fixture missing')
+
+    render(<CapabilityTask lesson={pilot} task={pilot.performanceTask} />)
+
+    const journey = screen.getByRole('navigation', { name: /tiến trình pilot/i })
+    expect(journey.textContent).toMatch(/Understand.*Retrieve.*Repair/i)
+    expect(screen.getByText('Understand').getAttribute('aria-current')).toBe('step')
+  })
+
+  it('keeps listener checks locked until playback and requires every item', () => {
+    const items = ['Intent is clear.', 'Critical facts are audible.']
+    const view = render(
+      <ListenBackChecklist items={items} checked={[false, false]} playbackCompleted={false} onChange={() => undefined} />
+    )
+
+    expect(screen.getAllByRole('checkbox').every((checkbox) => (checkbox as HTMLInputElement).disabled)).toBe(true)
+    expect(screen.getByText(/checklist mở sau/i)).toBeTruthy()
+
+    view.rerender(
+      <ListenBackChecklist items={items} checked={[true, true]} playbackCompleted onChange={() => undefined} />
+    )
+    expect(screen.getByText(/listen-back đã đủ evidence/i)).toBeTruthy()
+  })
 
   it('shows the learner written output during self-feedback without persisting it', async () => {
     const user = userEvent.setup()

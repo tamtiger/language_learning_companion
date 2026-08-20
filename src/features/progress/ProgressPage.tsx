@@ -13,16 +13,20 @@ const REASON_LABELS: Record<TransferReason, string> = {
   'too-many-hints': 'Vượt số gợi ý cho phép',
   'too-short': 'Output ngắn hơn yêu cầu',
   'too-long': 'Output dài hơn yêu cầu',
-  overtime: 'Vượt thời gian cho phép'
+  overtime: 'Vượt thời gian cho phép',
+  'listen-back-missing': 'Chưa nghe lại và hoàn tất listener checklist',
+  'interaction-incomplete': 'Chưa hoàn thành đủ lượt clarification/repair'
 }
 
-function evidenceContract(task: PerformanceTaskV3 | undefined): EvidenceContract {
+function evidenceContract(task: PerformanceTaskV3 | undefined, isPilot: boolean): EvidenceContract {
   if (!task) return { maxHints: 0, timeLimitSeconds: Number.MAX_SAFE_INTEGER }
   return task.mode === 'spoken'
     ? {
         maxHints: task.independenceContract.maxHints,
         timeLimitSeconds: task.outputContract.timeLimitSeconds,
-        targetSeconds: task.outputContract.targetSeconds
+        targetSeconds: task.outputContract.targetSeconds,
+        requireListenBack: isPilot,
+        requiredInteractionTurnIds: isPilot ? task.learningLoop?.interactionTurns.map((turn) => turn.id) : undefined
       }
     : {
         maxHints: task.independenceContract.maxHints,
@@ -35,7 +39,7 @@ function evidenceContract(task: PerformanceTaskV3 | undefined): EvidenceContract
 export function ProgressPage() {
   const { lessonProgress, lessons } = useAppStore()
   const attempts = Object.values(lessonProgress).flatMap((progress) => progress.recentAttempts)
-  const tasksByLesson = new Map(lessons.map((lesson) => [lesson.lessonId, lesson.performanceTask]))
+  const lessonsById = new Map(lessons.map((lesson) => [lesson.lessonId, lesson]))
   const ids = Object.keys(CAPABILITY_LABELS) as CapabilityId[]
 
   return (
@@ -52,7 +56,13 @@ export function ProgressPage() {
           const transfers = capabilityAttempts.filter((attempt) => attempt.phase === 'transfer')
           const assessments = transfers.map((attempt) => ({
             attempt,
-            assessment: assessTransfer(attempt, evidenceContract(tasksByLesson.get(attempt.lessonId)))
+            assessment: assessTransfer(
+              attempt,
+              evidenceContract(
+                lessonsById.get(attempt.lessonId)?.performanceTask,
+                lessonsById.get(attempt.lessonId)?.workflowTags.includes('p0-pilot') ?? false
+              )
+            )
           }))
           return (
             <article key={id} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">

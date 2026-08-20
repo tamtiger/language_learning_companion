@@ -39,6 +39,7 @@ export function LearningLoopPractice({ loop, onComplete }: {
       variabilityQualified: result.variabilityQualified,
       shadowingStepIds: stepIds,
       listenedBack: false,
+      listenBackChecklistCompleted: false,
       cueToSpeechStartMs: null,
       interactionTurnIds: [],
       optedOut: result.optedOut

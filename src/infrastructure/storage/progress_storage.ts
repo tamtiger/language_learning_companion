@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const RubricStateSchema = z.enum(['met', 'not-met', 'not-rated'])
 
-const AttemptProcessEvidenceSchema = z.object({
+const AttemptProcessEvidenceV4Schema = z.object({
   perceptionPretestCorrect: z.number().int().nonnegative(),
   perceptionPretestTotal: z.number().int().nonnegative(),
   perceptionPosttestCorrect: z.number().int().nonnegative(),
@@ -15,6 +15,10 @@ const AttemptProcessEvidenceSchema = z.object({
   cueToSpeechStartMs: z.number().int().nonnegative().nullable(),
   interactionTurnIds: z.array(z.string().min(1)).max(10),
   optedOut: z.boolean()
+}).strict()
+
+const AttemptProcessEvidenceSchema = AttemptProcessEvidenceV4Schema.extend({
+  listenBackChecklistCompleted: z.boolean()
 }).strict()
 
 const AttemptEvidenceV3Schema = z.object({
@@ -45,6 +49,10 @@ const AttemptEvidenceV3Schema = z.object({
   completed: z.boolean()
 }).strict()
 
+const AttemptEvidenceV4Schema = AttemptEvidenceV3Schema.extend({
+  process: AttemptProcessEvidenceV4Schema.nullable().default(null)
+}).strict()
+
 const AttemptEvidenceSchema = AttemptEvidenceV3Schema.extend({
   process: AttemptProcessEvidenceSchema.nullable().default(null)
 }).strict()
@@ -63,8 +71,13 @@ const LessonProgressV3Schema = z.object({
   lastActivityAt: z.string().datetime().nullable()
 }).strict()
 
-export const LessonProgressSchema = LessonProgressV3Schema.extend({
-  recentAttempts: z.array(AttemptEvidenceSchema).max(50)
+const LessonProgressV4Schema = LessonProgressV3Schema.extend({
+  recentAttempts: z.array(AttemptEvidenceV4Schema).max(50)
+}).strict()
+
+export const LessonProgressSchema = LessonProgressV4Schema.extend({
+  recentAttempts: z.array(AttemptEvidenceSchema).max(50),
+  activeProcessEvidence: AttemptProcessEvidenceSchema.nullable()
 }).strict()
 
 const ProgressEnvelopeV3Schema = z.object({
@@ -73,8 +86,14 @@ const ProgressEnvelopeV3Schema = z.object({
   settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
 }).strict()
 
-export const ProgressEnvelopeSchema = z.object({
+const ProgressEnvelopeV4Schema = z.object({
   storageVersion: z.literal(4),
+  lessonProgress: z.record(LessonProgressV4Schema),
+  settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
+}).strict()
+
+export const ProgressEnvelopeSchema = z.object({
+  storageVersion: z.literal(5),
   lessonProgress: z.record(LessonProgressSchema),
   settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
 }).strict()
@@ -105,15 +124,37 @@ export function parseBackup(input: unknown): BackupParseResult {
     const candidate: unknown = typeof input === 'string' ? JSON.parse(input) : input
     const result = ProgressBackupSchema.safeParse(candidate)
     if (!result.success) {
-      const legacy = ProgressEnvelopeV3Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
-      if (legacy.success) {
+      const legacyV4 = ProgressEnvelopeV4Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
+      if (legacyV4.success) {
         const migrated: ProgressBackup = {
-          storageVersion: 4,
-          exportedAt: legacy.data.exportedAt,
-          settings: legacy.data.settings,
-          lessonProgress: Object.fromEntries(Object.entries(legacy.data.lessonProgress).map(([lessonId, progress]) => [
+          storageVersion: 5,
+          exportedAt: legacyV4.data.exportedAt,
+          settings: legacyV4.data.settings,
+          lessonProgress: Object.fromEntries(Object.entries(legacyV4.data.lessonProgress).map(([lessonId, progress]) => [
             lessonId,
-            { ...progress, recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null })) }
+            {
+              ...progress,
+              activeProcessEvidence: null,
+              recentAttempts: progress.recentAttempts.map((attempt) => ({
+                ...attempt,
+                process: attempt.process
+                  ? { ...attempt.process, listenBackChecklistCompleted: false }
+                  : null
+              }))
+            }
+          ]))
+        }
+        return { success: true, data: ProgressBackupSchema.parse(migrated) }
+      }
+      const legacyV3 = ProgressEnvelopeV3Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
+      if (legacyV3.success) {
+        const migrated: ProgressBackup = {
+          storageVersion: 5,
+          exportedAt: legacyV3.data.exportedAt,
+          settings: legacyV3.data.settings,
+          lessonProgress: Object.fromEntries(Object.entries(legacyV3.data.lessonProgress).map(([lessonId, progress]) => [
+            lessonId,
+            { ...progress, activeProcessEvidence: null, recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null })) }
           ]))
         }
         return { success: true, data: ProgressBackupSchema.parse(migrated) }

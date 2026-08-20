@@ -8,6 +8,7 @@ import {
   createEmptyLessonProgress,
   scheduleTransferReview,
   type AttemptEvidence,
+  type AttemptProcessEvidence,
   type DurableCapabilityPhase,
   type ProgressByLesson
 } from '../../domain/progress/progress'
@@ -46,6 +47,7 @@ export interface AppState {
   setActiveLessonId: (lessonId: string | null) => void
   setCurrentSection: (lessonId: string, sectionId: string | null) => void
   setActivePhase: (lessonId: string, phase: DurableCapabilityPhase | null) => void
+  setActiveProcessEvidence: (lessonId: string, evidence: AttemptProcessEvidence | null) => void
   markExerciseCorrect: (lessonId: string, exerciseId: string) => void
   markLessonComplete: (lessonId: string, completed: boolean) => void
   recordCapabilityAttempt: (attempt: AttemptEvidence, reviewIntervals: number[]) => void
@@ -71,7 +73,7 @@ export function createCapabilityBackup(
     ])
   )
   return createBackup({
-    storageVersion: 4,
+    storageVersion: 5,
     lessonProgress,
     settings: { theme: source.theme }
   }, exportedAt)
@@ -120,6 +122,15 @@ export const useAppStore = create<AppState>()(
           }
         }
       }),
+      setActiveProcessEvidence: (lessonId, activeProcessEvidence) => set((state) => {
+        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        return {
+          lessonProgress: {
+            ...state.lessonProgress,
+            [lessonId]: { ...current, activeProcessEvidence, lastActivityAt: new Date().toISOString() }
+          }
+        }
+      }),
       markExerciseCorrect: (lessonId, exerciseId) => set((state) => {
         const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
         if (current.completedExerciseIds.includes(exerciseId)) return {}
@@ -159,7 +170,13 @@ export const useAppStore = create<AppState>()(
             : attempt.phase === 'retry'
               ? 'transfer'
               : null
-        next = { ...next, activePhase: nextPhase }
+        next = {
+          ...next,
+          activePhase: nextPhase,
+          activeProcessEvidence: nextPhase === null
+            ? null
+            : attempt.process ?? current.activeProcessEvidence
+        }
         if (attempt.phase === 'transfer') {
           next = {
             ...scheduleTransferReview(next, reviewIntervals, new Date(attempt.attemptedAt)),
@@ -195,9 +212,19 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'language-learning-companion-storage-v3',
-      version: 4,
+      version: 5,
       storage: createJSONStorage(getSafeStorage),
-      migrate: (persisted) => persisted as AppState,
+      migrate: (persisted, version) => {
+        if (version >= 5) return persisted as AppState
+        const state = persisted as AppState
+        return {
+          ...state,
+          lessonProgress: Object.fromEntries(Object.entries(state.lessonProgress ?? {}).map(([lessonId, progress]) => [
+            lessonId,
+            { ...progress, activeProcessEvidence: null }
+          ]))
+        }
+      },
       partialize: (state) => ({
         theme: state.theme,
         currentCefrLevel: state.currentCefrLevel,

@@ -22,6 +22,7 @@ export interface AttemptProcessEvidence {
   variabilityQualified: boolean
   shadowingStepIds: string[]
   listenedBack: boolean
+  listenBackChecklistCompleted: boolean
   cueToSpeechStartMs: number | null
   interactionTurnIds: string[]
   optedOut: boolean
@@ -67,6 +68,8 @@ export type TransferReason =
   | 'too-short'
   | 'too-long'
   | 'overtime'
+  | 'listen-back-missing'
+  | 'interaction-incomplete'
 
 export interface EvidenceContract {
   maxHints: number
@@ -74,6 +77,8 @@ export interface EvidenceContract {
   targetSeconds?: number
   minWords?: number
   maxWords?: number
+  requireListenBack?: boolean
+  requiredInteractionTurnIds?: string[]
 }
 
 export interface TransferAssessment {
@@ -107,6 +112,12 @@ export function assessTransfer(
   if (contract.maxWords !== undefined && (attempt.wordCount ?? 0) > contract.maxWords) {
     reasons.push('too-long')
   }
+  if (contract.requireListenBack && (!attempt.process?.listenedBack || !attempt.process.listenBackChecklistCompleted)) {
+    reasons.push('listen-back-missing')
+  }
+  if (contract.requiredInteractionTurnIds?.some((id) => !attempt.process?.interactionTurnIds.includes(id))) {
+    reasons.push('interaction-incomplete')
+  }
   return { qualifies: reasons.length === 0, reasons }
 }
 
@@ -125,6 +136,7 @@ export interface LessonProgress {
   completedExerciseIds: string[]
   attemptCount: number
   recentAttempts: AttemptEvidence[]
+  activeProcessEvidence: AttemptProcessEvidence | null
   transferCompleted: boolean
   reviewStage: number
   nextReviewAt: string | null
@@ -142,6 +154,7 @@ export function createEmptyLessonProgress(): LessonProgress {
     completedExerciseIds: [],
     attemptCount: 0,
     recentAttempts: [],
+    activeProcessEvidence: null,
     transferCompleted: false,
     reviewStage: 0,
     nextReviewAt: null,

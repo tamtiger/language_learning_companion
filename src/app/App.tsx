@@ -29,7 +29,7 @@ export default function App() {
     previousNavigationKey.current = navigationKey
     if (import.meta.env.MODE !== 'test') window.scrollTo?.({ top: 0, behavior: 'auto' })
     mainRef.current?.scrollTo?.({ top: 0, behavior: 'auto' })
-    mainRef.current?.focus()
+    mainRef.current?.focus({ preventScroll: true })
     document.querySelector<HTMLElement>('[aria-current="page"]')?.scrollIntoView?.({
       block: 'nearest',
       inline: 'nearest'

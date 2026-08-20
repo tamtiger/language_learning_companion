@@ -2,7 +2,7 @@
 
 ## Harnix
 
-- Version: 1.0.7.
+- Version: 1.0.10.
 - Role: project-local coding-agent harness for workflow state, task evidence, concise engineering guidance, and diagnostics.
 - Scope: the Harnix CLI manages this project's .harnix lifecycle; this root AGENTS bootstrap and [`.harnix/workflow.md`](.harnix/workflow.md) drive coding tasks. Read the workflow before classifying, persisting, or completing task work. Platform integrations, when explicitly installed, are user-global and never project-local setup output.
 
@@ -29,13 +29,15 @@ Activation guard and before work:
 
 Use the skills in this order when their stage applies:
 
+Route first, then load only one current stage-owner skill and read that `SKILL.md` separately through EOF. Do not batch-read or preload later-stage skills; if tool output is truncated, reread the selected skill alone before acting.
+
 - harnix-brainstorm: establish scope, acceptance criteria, validation, and the ready gate.
 - harnix-implement: implement a ready task; use RED-GREEN-REFACTOR for behavior changes unless a documented exception applies.
 - harnix-check: perform standalone read-only code review or active-task verification; use bounded scope, evidence-backed findings, then compliance before quality and security.
-- harnix-finish-work: complete and archive only after every acceptance criterion and required check passes.
+- harnix-finish-work: complete only after every acceptance criterion and required check passes, or cancel an unfinished task only with explicit user authority while preserving failed evidence.
 - harnix-research and harnix-debug: use only for material unknowns or failures; harnix-continue restores persisted work.
 
-The persisted lifecycle is planning -> ready -> in_progress -> verifying -> completed. New tasks use TaskRecord schema v2 with criterion-linked checks and input snapshots; schema v1 is legacy read-only unless explicitly migrated at replan. A blocked task resumes only to its recorded status. Do not skip gates or treat stale, partial, or inferred output as verification.
+The persisted lifecycle is planning -> ready -> in_progress -> verifying -> completed, with cancelled as a separate terminal state for explicitly abandoned incomplete work. New tasks use TaskRecord schema v2 with criterion-linked checks and input snapshots; schema v1 is legacy read-only unless explicitly migrated at replan. A blocked task resumes only to its recorded status unless the user explicitly cancels it. Do not skip gates or treat stale, partial, or inferred output as verification.
 
 Use Evidence → Requirements → Plan → Execute → Verify → Persist as the semantic lifecycle. Feature, bugfix, hotfix, refactor, test, docs, maintenance, migration, dependency, security, performance, and release are work kinds that choose risk and validation, not separate workflows. Standalone read-only code review is Bypass; review-and-fix is a task mutation.
 
@@ -43,15 +45,17 @@ Workflow persistence transport is hidden and agent-only:
 
 - `harnix workflow --inspect` returns the active TaskRecord and `contextDrift`; run it before creating or resuming work.
 - `harnix workflow --save` accepts one bounded JSON envelope on stdin with shape `{ "task": <TaskRecord>, "artifacts"?: <TaskArtifacts> }`. Stage skills use it for planning state, legal transitions, artifacts, and evidence; never edit task.json directly.
+- `harnix workflow --audit-ready` deterministically validates Full PRD/plan criterion, slice, check, path, and placeholder trace before readiness.
 - `harnix workflow --snapshot --check <id>` computes the TaskRecord v2 freshness digest immediately before and after a required non-mutating check.
 - `harnix workflow --finish` is the only completion transport; it revalidates freshness, writes completion/journal state, and clears only the matching active pointer.
+- `harnix workflow --cancel` is the only cancellation transport; its first call reads bounded JSON `{ "reason": <text>, "authorizedBy": "user" }`, preserves criteria/evidence, writes cancellation/journal state, and clears only the matching active pointer.
 
 These commands are not supported public user APIs and remain absent from public help. Read the exact envelope and TaskRecord v2 field contract in `.harnix/workflow.md` before saving state.
 
 Operating rules:
 
 - Luôn dùng tiếng Việt khi tạo và cập nhật task Harnix, gồm nội dung hướng người dùng trong `task.json`, `prd.md`, `plan.md`, `design.md`, research và journal. Giữ nguyên code identifier, command, đường dẫn, tên field/schema và trích dẫn nguồn khi cần để bảo đảm chính xác kỹ thuật.
-- On continuation, inspect `contextDrift`; stale context returns to replan before reselection. For each required v2 check, use hidden `workflow --snapshot` before and after verification and persist only a matching `inputDigest`.
+- On continuation, inspect both path `changes` and selection-basis `selectionChanges` in `contextDrift`; stale context returns to replan before reselection. For each required v2 check, use hidden `workflow --snapshot` before and after verification and persist only a matching `inputDigest`.
 - Preserve user-owned files, tasks, specs, research, journals, credentials, and unrelated configuration.
 - Keep generated paths repository-relative and never expose secrets, prompts, or machine-specific absolute paths in output.
 - Run harnix doctor when managed files, platform setup, or project state may have drifted.

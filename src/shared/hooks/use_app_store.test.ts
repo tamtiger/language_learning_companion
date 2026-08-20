@@ -25,7 +25,7 @@ function attempt(overrides: Partial<AttemptEvidence> = {}): AttemptEvidence {
   }
 }
 
-describe('v4 app store', () => {
+describe('v5 app store', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
 
   it('starts with only canonical progress state', () => {
@@ -48,6 +48,30 @@ describe('v4 app store', () => {
     })
   })
 
+  it('keeps active learning-loop process metadata across backup without learner output', () => {
+    const process = {
+      perceptionPretestCorrect: 2,
+      perceptionPretestTotal: 4,
+      perceptionPosttestCorrect: 3,
+      perceptionPosttestTotal: 4,
+      perceptionTrainingCompleted: 6,
+      availableVariantCount: 2,
+      variabilityQualified: false,
+      shadowingStepIds: ['listen', 'variation'],
+      listenedBack: false,
+      listenBackChecklistCompleted: false,
+      cueToSpeechStartMs: null,
+      interactionTurnIds: [],
+      optedOut: false
+    }
+
+    useAppStore.getState().setActiveProcessEvidence('pilot', process)
+    const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
+
+    expect(backup.lessonProgress.pilot.activeProcessEvidence).toEqual(process)
+    expect(JSON.stringify(backup)).not.toMatch(/audioUrl|responseText|transcript/i)
+  })
+
   it('records measured attempts and clears phase after transfer', () => {
     useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'transfer' }), [1, 3, 7])
     const progress = useAppStore.getState().lessonProgress['workplace-issue-update-b1']
@@ -57,12 +81,12 @@ describe('v4 app store', () => {
     expect(JSON.stringify(progress)).not.toMatch(/responseText|audio|blob/i)
   })
 
-  it('round-trips v4 backup and rejects v2 without replacing state', () => {
+  it('round-trips v5 backup and rejects v2 without replacing state', () => {
     useAppStore.setState({
       lessonProgress: { mission: { ...createEmptyLessonProgress(), activePhase: 'performance' } }
     })
     const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
-    expect(backup.storageVersion).toBe(4)
+    expect(backup.storageVersion).toBe(5)
     expect(parseCapabilityBackup(JSON.stringify(backup))).toEqual({ success: true, data: backup })
     expect(parseCapabilityBackup({ ...backup, storageVersion: 2 }).success).toBe(false)
     expect(useAppStore.getState().lessonProgress.mission.activePhase).toBe('performance')
