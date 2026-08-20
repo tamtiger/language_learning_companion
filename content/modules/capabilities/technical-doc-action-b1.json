@@ -24,6 +24,60 @@
     "retryPrompt": "Return to the source, correct one omitted safety condition, then rewrite without copying full sentences.",
     "transferPrompt": "A second runbook says to back up the schema, run dbctl upgrade, verify SCHEMA_OK, and restore the backup if validation fails. Produce the same four-part checklist.",
     "reviewPrompt": "Read a new short runbook and extract prerequisite, action, success signal and recovery without translation.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Cache migration runbook",
+        "brief": "Cold attempt: read the complete English runbook once, then produce the checklist from memory.",
+        "artifacts": [
+          {
+            "id": "cache-baseline-runbook",
+            "type": "source",
+            "title": "Complete migration procedure",
+            "format": "technical-doc",
+            "content": "Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Cache migration evidence",
+        "brief": "Use the same source only to repair the safety condition you omitted; then close it and rewrite.",
+        "artifacts": [
+          {
+            "id": "cache-retry-runbook",
+            "type": "source",
+            "title": "Safety-critical details",
+            "format": "technical-doc",
+            "content": "Prerequisites: queue depth below 100 and a configuration snapshot. Success: MIGRATION_COMPLETE plus healthy status within two minutes. Recovery: rollback latest, disable read-only mode, notify on-call, and wait for incident-owner approval before retrying."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Database schema upgrade",
+        "brief": "Unseen runbook: extract the same four functions without copying the cache example.",
+        "artifacts": [
+          {
+            "id": "database-transfer-runbook",
+            "type": "source",
+            "title": "Schema upgrade procedure",
+            "format": "technical-doc",
+            "content": "Confirm replica lag is below five seconds and back up the schema. Run dbctl upgrade --target 14. Success is reported as SCHEMA_OK after validation. If validation fails, restore the backup, keep writes disabled and page the database owner."
+          }
+        ]
+      },
+      "review": {
+        "title": "Certificate rotation",
+        "brief": "Delayed review: recover prerequisite, action, success signal and recovery from a new procedure.",
+        "artifacts": [
+          {
+            "id": "certificate-review-runbook",
+            "type": "source",
+            "title": "Certificate rotation procedure",
+            "format": "technical-doc",
+            "content": "Verify the replacement certificate has at least 90 days remaining and save the current thumbprint. Run certctl rotate --service api. Confirm TLS_CHECK_OK from every region. If any region fails, restore the previous thumbprint and alert security operations."
+          }
+        ]
+      }
+    },
     "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["prerequisite", "command", "success signal", "recovery"], "minWords": 45, "maxWords": 100 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
     "feedbackPriorities": ["Accuracy", "Safety sequence", "Paraphrasing"],

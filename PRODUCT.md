@@ -47,6 +47,8 @@ Evidence hiển thị:
 - independence signals: dùng tiếng Việt/bản dịch/model answer, số hint, preparation time;
 - duration đo thật, word count cho written output và lý do transfer chưa qualifying;
 - lần thực hành gần nhất và lần review kế tiếp.
+- với hai spoken pilot: perception pre/post counts, số bước training/shadowing,
+  listen-back, cue-to-speech latency, interaction turns và cờ audio variability.
 
 Completion count và streak chỉ là metadata phụ. App không suy diễn proficiency score khi không có human/validated assessment.
 
@@ -57,6 +59,8 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 - Audio, written response, transcript và free-text note chỉ sống trong session; không persist và không xuất backup.
 - Progress backup chỉ chứa allowlisted metadata, được validate trước khi import.
 - Media permission chỉ được hỏi sau thao tác rõ ràng của người dùng và luôn có timer-only fallback.
+- Model audio ưu tiên nguồn đóng gói có provenance; pilot hiện dùng speech
+  synthesis tại thiết bị, được gắn nhãn rõ và không gửi text ra dịch vụ của app.
 
 ## Scope hiện hành
 
@@ -66,13 +70,30 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
   uncertainty, impact, owner và request thay vì phải tự bịa dữ kiện.
 - Sáu pronunciation lesson schema v1 và Daily Standup schema v2 tiếp tục chạy qua content normalization.
 - Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise progress.
+- Hai spoken mission `meeting-disagree-and-recap-b2` và
+  `technical-tradeoff-explanation-b2` pilot chuỗi perception → cue theo lỗi →
+  functional chunks → guided shadowing/delayed imitation/variation → listen-back
+  → scripted clarification/repair → retry/transfer/review.
+- Pronunciation trong capability loop chỉ dạy tối đa hai cue làm thay đổi khả
+  năng nghe hiểu hoặc ý nghĩa; IPA hỗ trợ cue, không phải syllabus bắt buộc độc lập.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
 - Markdown curriculum legacy đã được loại bỏ; curriculum executable chỉ nằm trong `content/**/*.json`.
 
-Pilot chỉ xác nhận content contract và learning flow có thể chạy với evidence theo
-từng phase. Chưa có learner study nên không được suy diễn rằng pilot đã cải thiện
-hiệu quả học tập; chỉ rollout sang mission khác sau khi có usability evidence và
-attempt evidence từ người học mục tiêu.
+Các pilot chỉ xác nhận content contract và learning flow có thể chạy với evidence
+theo từng phase. Chưa có learner study hoặc listener calibration nên không được
+suy diễn rằng app đã cải thiện phát âm, phản xạ hay hiệu quả học tập.
+
+## Rollout gate P0 → P1 → P2
+
+- **P0 (hiện tại):** hai spoken pilot, synthetic content, local TTS và process
+  metadata; gate là usability/flow/privacy, không phải efficacy.
+- **P1:** chỉ mở rộng learning loop sau khi audit pilot không lộ support và cho
+  thấy learner hoàn thành được retry/transfer; bổ sung context/interaction đa dạng.
+- **P2:** mở rộng technical-reading/listening ladder và thiết kế listener study;
+  chỉ human calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
+
+Rollback theo content flag: bỏ `learningLoop` khỏi spoken task sẽ trả mission về
+capability flow chuẩn mà không làm mất progress V4.
 
 ## Non-goals
 

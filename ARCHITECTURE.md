@@ -19,7 +19,7 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
 - `src/content`: Zod raw schemas, `CanonicalLesson`, migration/normalization và catalog validation.
 - `src/domain/learning`: phase transitions, rubric và completion rules.
 - `src/domain/progress`: attempt evidence, capability aggregation, review scheduling và Today selectors.
-- `src/infrastructure/storage`: `ProgressEnvelopeV3`, validated import/export/reset; không có progress migration pre-release.
+- `src/infrastructure/storage`: `ProgressEnvelopeV4`, validated import/export/reset và migration backup V3 → V4.
 - `src/app`: semantic app shell và typed in-memory navigation.
 - `src/features/catalog`, `today`, `lesson`, `practice`, `progress`: UI orchestration.
 - `src/shared`: UI primitives, media adapters và generic hooks; không chứa business rules.
@@ -33,16 +33,26 @@ Zustand là adapter mỏng: compose state/actions và persist allowlisted progre
 - V1 normalize thành canonical sections và `completionMode: "legacy-quiz"`.
 - V2 normalize thành canonical sections + spoken task và `completionMode: "performance"`.
 - V3 đã có sections + spoken/written task và `completionMode: "capability-loop"`.
-- V3 performance task có thể khai báo `practiceContexts` cho baseline, transfer
+- V3 performance task có thể khai báo `practiceContexts` cho baseline, optional retry, transfer
   và review. Mỗi context chứa 1–4 source artifact; parser validate ID duy nhất
   trong context và canonical task giữ nguyên dữ liệu đã parse.
 - Raw v1/v2 JSON không rewrite, là rollback anchor.
 
 Catalog trả lessons hợp lệ cùng structured errors; một file lỗi không làm crash toàn app nhưng phải làm content validation test fail.
 
+Spoken v3 task có thể khai báo `LearningLoopV1`. Model audio được resolve qua
+adapter local: bundled relative asset hoặc browser speech synthesis. Adapter
+không fetch URL bên ngoài; TTS được gắn nhãn và voice count thực tế được đưa vào
+process evidence thay vì suy diễn speaker/accent coverage.
+
 ## Learning state machine
 
 Capability loop: `baseline → input → auto-check → performance → self-feedback → retry → transfer → completed`, sau đó có thể vào `review` khi đến hạn.
+
+Với learning-loop pilot, phase `input` chứa state machine thuần
+`perception-pretest → perception-training → perception-posttest → pronunciation-cue
+→ guided-shadowing → ready-for-performance`; sau spoken performance có
+`interaction` trước self-feedback. Illegal transition bị từ chối trong domain.
 
 Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn mission hoàn thành khi chưa self-rate rubric hoặc transfer. UI chỉ dispatch events và render phase.
 
@@ -56,10 +66,17 @@ lưu bằng ID có cấu trúc, không dùng free-text feedback.
 
 ## Progress và privacy
 
-`ProgressEnvelopeV3` lưu status/current section, `activePhase`, các exercise đã đúng,
+`ProgressEnvelopeV4` lưu status/current section, `activePhase`, các exercise đã đúng,
 aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`,
 transfer flag, review stage/`nextReviewAt` và settings. Mỗi attempt bắt buộc có
 duration dương, `wordCount` nullable và preparation time đo từ phiên.
+
+Attempt V4 có optional process metadata đã allowlist: perception counts,
+training/shadowing/interaction completion IDs, listen-back, cue latency, audio
+variant count/qualification và opt-out. Không lưu answer, transcript, response,
+audio URL/blob hoặc pronunciation score. Backup V3 hợp lệ được migrate với
+`process: null`; local persist giữ cùng storage key và nâng middleware version để
+không bỏ rơi state V3.
 
 Pure progress selectors định nghĩa `qualifying transfer` là completed transfer có
 rubric không rỗng và toàn bộ `met`, không dùng tiếng Việt, translation, model answer
@@ -68,7 +85,7 @@ hiển thị riêng attempts, transfer attempts, qualifying transfers và reason
 không đếm một independent baseline/retry như transfer đạt.
 
 Không lưu audio/blob URL, transcript, written response hoặc free-text. Import flow là
-parse v3 → validate → preview → explicit confirm → atomic replace. Invalid/v1/v2
+parse v4 hoặc migrate v3 → validate → preview → explicit confirm → atomic replace. Invalid/v1/v2
 import giữ nguyên state và trả recoverable error; không reset ngầm.
 
 Vì app chưa phát hành, state v1/v2 bị bỏ và khởi tạo rỗng; không có

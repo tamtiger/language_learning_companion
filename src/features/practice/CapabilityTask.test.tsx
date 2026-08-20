@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { getBundledCatalog } from '../../content/catalog'
@@ -11,6 +11,16 @@ function mission() {
     (item) => item.lessonId === 'workplace-issue-update-b1'
   )
   if (!lesson?.performanceTask) throw new Error('Mission fixture missing')
+  return { lesson, task: lesson.performanceTask }
+}
+
+function spokenMission() {
+  const lesson = getBundledCatalog().lessons.find(
+    (item) => item.lessonId === 'technical-interview-decision-b2'
+  )
+  if (!lesson?.performanceTask || lesson.performanceTask.mode !== 'spoken') {
+    throw new Error('Spoken mission fixture missing')
+  }
   return { lesson, task: lesson.performanceTask }
 }
 
@@ -65,6 +75,35 @@ describe('CapabilityTask session evidence', () => {
     expect(screen.queryByText(/Incident notes/i)).toBeNull()
     expect(screen.queryByText(task.modelResponse)).toBeNull()
     expect(screen.queryByText(/TRANSFER_SIGNAL/i)).toBeNull()
+  })
+
+  it('shows the technical runbook before its read-from-memory baseline', () => {
+    const lesson = getBundledCatalog().lessons.find((item) => item.lessonId === 'technical-doc-action-b1')
+    if (!lesson?.performanceTask) throw new Error('Technical reading fixture missing')
+
+    render(<CapabilityTask lesson={lesson} task={lesson.performanceTask} />)
+
+    expect(screen.getByText(/cachectl migrate --target v2/i)).toBeTruthy()
+    expect(screen.getByText(/read once and write the actions from memory/i)).toBeTruthy()
+    expect(screen.queryByText(lesson.performanceTask.modelResponse)).toBeNull()
+  })
+
+  it('resets spoken capture when baseline changes to the performance phase', async () => {
+    const user = userEvent.setup()
+    const { lesson, task } = spokenMission()
+    render(<CapabilityTask lesson={lesson} task={task} />)
+
+    await user.click(screen.getByRole('button', { name: /bắt đầu timer-only/i }))
+    await waitFor(() => {
+      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+    }, { timeout: 1_500 })
+    await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
+    await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
+    await user.click(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))
+
+    expect(screen.getByRole('button', { name: /bắt đầu timer-only/i })).toBeTruthy()
+    expect(screen.queryByRole('button', { name: /làm lại/i })).toBeNull()
+    expect(screen.getByText('0s')).toBeTruthy()
   })
 
   it('shows only the unseen transfer artifacts when resuming transfer', () => {

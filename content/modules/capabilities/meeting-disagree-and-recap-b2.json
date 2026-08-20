@@ -2,26 +2,73 @@
   "schemaVersion": "v3",
   "lessonId": "meeting-disagree-and-recap-b2",
   "title": "Disagree and recap in an international meeting",
-  "summary": "Phản biện lịch sự, nêu trade-off và chốt quyết định có owner.",
+  "summary": "Phản biện lịch sự, xử lý câu hỏi tiếp theo và chốt quyết định có owner.",
   "cefrLevel": "B2",
-  "durationMinutes": 20,
-  "learningObjectives": ["Ngắt lời lịch sự", "Phản biện bằng evidence", "Recap decision và owner"],
+  "durationMinutes": 25,
+  "learningObjectives": ["Nghe ra evidence và owner", "Phản biện bằng functional chunks", "Repair và recap quyết định"],
   "capabilities": ["international-meetings"],
-  "workflowTags": ["meeting", "disagreement"],
+  "workflowTags": ["meeting", "disagreement", "learning-loop"],
   "sections": [
     { "id": "source", "type": "source", "title": "Meeting proposal", "format": "meeting-notes", "content": "Proposal: skip the load test to keep Friday's launch. Current evidence: staging has only handled 20% of forecast traffic. Rollback owner is not assigned." },
-    { "id": "check", "type": "auto-check", "title": "Choose constructive disagreement", "exercises": [{ "id": "disagree-check", "type": "choice", "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?", "options": ["That is wrong.", "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.", "Whatever you decide."], "correctAnswer": ["I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."], "explanation": "Câu này acknowledge mục tiêu chung rồi nêu concern kèm evidence." }] }
+    { "id": "check", "type": "auto-check", "title": "Choose constructive disagreement", "exercises": [{ "id": "disagree-check", "type": "choice", "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?", "options": ["That is wrong.", "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.", "Whatever you decide."], "correctAnswer": ["I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."], "explanation": "Acknowledge mục tiêu chung rồi nêu concern kèm evidence." }] }
   ],
   "performanceTask": {
     "id": "meeting-disagree-recap", "mode": "spoken", "title": "Challenge and close the decision",
-    "scenario": "Trong cuộc họp release, nhóm muốn bỏ load test để giữ deadline.",
-    "baselinePrompt": "Nói phản hồi của bạn mà chưa xem model.",
-    "performancePrompt": "Trong 90 giây, acknowledge mục tiêu, nêu disagreement có evidence, đề xuất phương án và recap owner/deadline.",
+    "scenario": "Trong cuộc họp release, nhóm muốn bỏ một quality gate để giữ deadline.",
+    "baselinePrompt": "Dựa trên meeting evidence đang hiển thị, phản hồi mà chưa xem model hoặc chunk bank.",
+    "performancePrompt": "Trong 60–90 giây, acknowledge mục tiêu, nêu disagreement có evidence, đề xuất phương án và recap owner/deadline.",
     "modelResponse": "I understand why we want to protect Friday’s date. I’m concerned about skipping the load test because staging has covered only twenty percent of forecast traffic. Could we run the critical scenario today and make launch conditional on the result? To recap, Minh will run it by four, I’ll review the error rate, and Lan will own rollback if we proceed.",
-    "retryPrompt": "Nói lại, sửa tiêu chí chưa đạt và kết thúc bằng decision recap rõ ràng.",
-    "transferPrompt": "Nhóm muốn bỏ security review để kịp demo. Phản biện và recap phương án thay thế.",
-    "reviewPrompt": "Phản biện một shortcut mới và chốt owner/deadline mà không xem model.",
-    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["acknowledgement", "evidence", "alternative", "recap"], "targetSeconds": 60 },
+    "retryPrompt": "Dùng retry evidence mới. Sửa tiêu chí trọng tâm và kết thúc bằng decision recap rõ ràng.",
+    "transferPrompt": "Dùng security-review evidence. Phản biện và recap phương án thay thế mà không xem model/chunks.",
+    "reviewPrompt": "Dùng accessibility evidence mới và chốt owner/deadline mà không xem model/chunks.",
+    "practiceContexts": {
+      "baseline": { "title": "Load-test decision", "brief": "Bạn là backend engineer trong release meeting.", "artifacts": [{ "id": "load-note", "type": "source", "title": "Release note", "format": "meeting-notes", "content": "Friday launch; staging handled 20% of forecast traffic; load test takes three hours; no rollback owner." }] },
+      "retry": { "title": "Failover rehearsal decision", "brief": "Giữ communicative function nhưng dùng evidence khác.", "artifacts": [{ "id": "failover-note", "type": "source", "title": "Reliability note", "format": "meeting-notes", "content": "Tuesday cutover; failover has not been rehearsed; rehearsal takes 45 minutes; Priya can own rollback." }] },
+      "transfer": { "title": "Security-review decision", "brief": "Tình huống mới, không dùng lại facts của load test.", "artifacts": [{ "id": "security-note", "type": "source", "title": "Demo note", "format": "meeting-notes", "content": "Customer demo is tomorrow; security review found two unresolved high-risk permissions; a scoped demo environment can be ready by 15:00; security owner is Elena." }] },
+      "review": { "title": "Accessibility-check decision", "brief": "Delayed retrieval bằng quality gate mới.", "artifacts": [{ "id": "a11y-note", "type": "source", "title": "Launch note", "format": "meeting-notes", "content": "Public launch is Monday; keyboard navigation fails in checkout; a fix can be verified Friday; frontend owner is Noor." }] }
+    },
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "meet-pre-1", "audio": { "kind": "speech-synthesis", "text": "We skipped the test.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Team đã làm gì?", "options": ["Skipped one test", "Skipped several tests"], "correctAnswer": "Skipped one test" },
+          { "id": "meet-pre-2", "audio": { "kind": "speech-synthesis", "text": "We skipped the tests.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Team đã làm gì?", "options": ["Skipped one test", "Skipped several tests"], "correctAnswer": "Skipped several tests" },
+          { "id": "meet-pre-3", "audio": { "kind": "speech-synthesis", "text": "I understand the deadline, but I am concerned about the risk.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Speaker đang làm function nào?", "options": ["Acknowledge then disagree", "Agree without concern"], "correctAnswer": "Acknowledge then disagree" },
+          { "id": "meet-pre-4", "audio": { "kind": "speech-synthesis", "text": "To recap, Minh owns the test and Lan owns rollback.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Điều gì được chốt?", "options": ["Owners for test and rollback", "A new deadline only"], "correctAnswer": "Owners for test and rollback" }
+        ],
+        "training": [
+          { "id": "meet-train-1", "audio": { "kind": "speech-synthesis", "text": "The test failed.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Một hay nhiều test?", "options": ["One test", "Several tests"], "correctAnswer": "One test", "feedback": "Nghe âm cuối của test và động từ failed." },
+          { "id": "meet-train-2", "audio": { "kind": "speech-synthesis", "text": "The tests failed.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Một hay nhiều test?", "options": ["One test", "Several tests"], "correctAnswer": "Several tests", "feedback": "Âm /s/ cuối tests mang thông tin số nhiều." },
+          { "id": "meet-train-3", "audio": { "kind": "speech-synthesis", "text": "I see the schedule concern, but skipping review creates risk.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Concern chính là gì?", "options": ["Schedule", "Risk from skipping review"], "correctAnswer": "Risk from skipping review", "feedback": "Trọng âm rơi vào skipping review và risk." },
+          { "id": "meet-train-4", "audio": { "kind": "speech-synthesis", "text": "Could we run the critical scenario today?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đưa ra gì?", "options": ["An alternative", "A rejection without action"], "correctAnswer": "An alternative", "feedback": "Could we mở một alternative mang tính hợp tác." },
+          { "id": "meet-train-5", "audio": { "kind": "speech-synthesis", "text": "To recap, Priya will test failover by four.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Owner và deadline là gì?", "options": ["Priya by four", "No owner yet"], "correctAnswer": "Priya by four", "feedback": "Nghe content words Priya, test failover, four." },
+          { "id": "meet-train-6", "audio": { "kind": "speech-synthesis", "text": "Let me rephrase that: launch is conditional on the result.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đang làm gì?", "options": ["Repairing the message", "Ending the meeting"], "correctAnswer": "Repairing the message", "feedback": "Let me rephrase that báo hiệu conversation repair." }
+        ],
+        "posttest": [
+          { "id": "meet-post-1", "audio": { "kind": "speech-synthesis", "text": "The checks passed.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Bao nhiêu check được nói tới?", "options": ["One", "Several"], "correctAnswer": "Several" },
+          { "id": "meet-post-2", "audio": { "kind": "speech-synthesis", "text": "I understand the demo date, but the permissions are still risky.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Speaker đang làm gì?", "options": ["Acknowledge then disagree", "Approve the shortcut"], "correctAnswer": "Acknowledge then disagree" },
+          { "id": "meet-post-3", "audio": { "kind": "speech-synthesis", "text": "Could we use a scoped environment instead?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Đây là gì?", "options": ["Alternative", "Blame"], "correctAnswer": "Alternative" },
+          { "id": "meet-post-4", "audio": { "kind": "speech-synthesis", "text": "To recap, Elena owns review by three.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Recap có gì?", "options": ["Owner and deadline", "Concern only"], "correctAnswer": "Owner and deadline" }
+        ]
+      },
+      "pronunciationCues": [
+        { "id": "meet-cue-final-s", "ipa": "/s/", "articulatoryCue": "Giữ luồng khí ngắn ở cuối tests/checks; đừng thêm nguyên âm sau /s/.", "meaningRisk": "Bỏ /s/ làm người nghe hiểu một test thay vì nhiều tests.", "triggerItemIds": ["meet-pre-2", "meet-train-2", "meet-post-1"] },
+        { "id": "meet-cue-stress", "articulatoryCue": "Nhấn content words mang decision: RISK, ALTERNATIVE, OWNER, DEADLINE.", "meaningRisk": "Trọng âm đều làm concern và decision khó bắt nhanh trong meeting.", "triggerItemIds": ["meet-pre-3", "meet-train-3", "meet-post-2"] }
+      ],
+      "chunks": [
+        { "id": "meet-chunk-ack", "function": "acknowledge", "text": "I see the ___ concern, but I’m concerned about ___ because ___.", "meaning": "Công nhận mục tiêu rồi nêu concern có evidence.", "slots": ["shared goal", "risk", "evidence"], "stressPattern": "SEE · CONCERNED · BECAUSE", "modelAudio": { "kind": "speech-synthesis", "text": "I see the schedule concern, but I’m concerned about skipping the test because staging covers only twenty percent.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } },
+        { "id": "meet-chunk-alt", "function": "propose", "text": "Could we ___ and make ___ conditional on ___?", "meaning": "Đưa ra alternative có điều kiện.", "slots": ["action", "decision", "evidence"], "stressPattern": "COULD · CONDITIONAL", "modelAudio": { "kind": "speech-synthesis", "text": "Could we run the critical scenario and make launch conditional on the result?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
+        { "id": "meet-chunk-repair", "function": "repair", "text": "Let me rephrase that: ___.", "meaning": "Sửa thông điệp khi người nghe chưa hiểu.", "slots": ["clear decision"], "stressPattern": "REPHRASE", "modelAudio": { "kind": "speech-synthesis", "text": "Let me rephrase that: launch is conditional on the result.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] } },
+        { "id": "meet-chunk-recap", "function": "recap", "text": "To recap, ___ will ___ by ___, and ___ owns ___.", "meaning": "Chốt action, owner và deadline.", "slots": ["owner", "action", "deadline", "risk"], "stressPattern": "RECAP · OWNER · DEADLINE", "modelAudio": { "kind": "speech-synthesis", "text": "To recap, Minh will run the test by four, and Lan owns rollback.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Shared goal và disagreement đều nghe rõ.", "Critical evidence không bị mất âm cuối.", "Alternative và recap có owner/deadline."],
+      "interactionTurns": [
+        { "id": "meet-turn-clarify", "kind": "clarification", "prompt": "What exactly would make the launch safe enough?", "expectedFunction": "clarify the condition and evidence", "audio": { "kind": "speech-synthesis", "text": "What exactly would make the launch safe enough?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
+        { "id": "meet-turn-repair", "kind": "misunderstanding", "prompt": "So you want to cancel the launch completely?", "expectedFunction": "repair the misunderstanding and restate the conditional alternative", "audio": { "kind": "speech-synthesis", "text": "So you want to cancel the launch completely?", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } }
+      ]
+    },
+    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["acknowledgement", "evidence", "alternative", "recap"], "targetSeconds": 45 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
     "feedbackPriorities": ["tone", "evidence", "closure"],
     "rubric": [
@@ -30,5 +77,5 @@
       { "id": "recap", "label": "Decision recap", "description": "Ends with decision, owner and timing." }
     ]
   },
-  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+  "reviewPolicy": { "intervalDays": [2, 7] }
 }

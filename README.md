@@ -54,12 +54,30 @@ baseline → input → auto-check → performance → self-feedback
 - Rubric, independence signals và retry focus được lưu dưới dạng metadata;
   response, transcript và audio không được persist.
 
+### Learning loop nghe–phát âm–phản xạ (pilot)
+
+Hai spoken mission `Disagree and recap` và `Technical trade-off` có thêm chuỗi:
+
+```text
+perception pretest → training có feedback → posttest
+→ pronunciation cue theo lỗi → guided shadowing → delayed imitation → variation
+→ spoken output + listen-back → clarification/repair turn
+```
+
+- Dạy 4–6 functional chunks theo chức năng giao tiếp, không bắt học IPA toàn bộ.
+- Chỉ hiện tối đa hai pronunciation cue có rủi ro làm sai nghĩa; IPA là ký hiệu hỗ trợ.
+- Model audio dùng Web Speech API tại máy và được gắn nhãn `TTS thử nghiệm`; số
+  voice khả dụng được ghi nhận, không giả vờ có accent variability.
+- Người học có thể bỏ qua perception nếu audio không phù hợp và vẫn làm nhiệm vụ.
+- App lưu count/flag của process, không lưu câu trả lời, transcript hoặc audio.
+
 ### Progress, review và backup
 
 - Resume section hoặc learning phase an toàn sau khi reload; output session-only không được phục dựng giả.
 - Lưu tối đa 50 attempt metadata gần nhất cho mỗi lesson.
 - Tự đưa review đến hạn vào Today queue.
-- Export/import backup v3 bằng allowlisted metadata; v1/v2 bị từ chối vì app chưa phát hành.
+- Export/import backup v4 bằng allowlisted metadata; backup v3 được migrate bằng
+  cách thêm process metadata rỗng, còn v1/v2 bị từ chối.
 - Import có schema validation, preview và xác nhận trước khi thay state.
 - Dữ liệu malformed hoặc sai version bị từ chối theo cơ chế fail-closed.
 
@@ -88,9 +106,13 @@ khi mọi auto-check đều đúng. Content
 engine đọc và normalize an toàn lesson schema v1, v2 và v3; executable
 curriculum nằm trong `content/**/*.json`.
 
-`Actionable issue update` hiện là realism pilot: baseline, transfer và review dùng
-ba evidence packet khác nhau. Pilot giúp kiểm chứng content contract và UI; dự án
-chưa tuyên bố hiệu quả học tập nếu chưa có thử nghiệm với người học mục tiêu.
+`Actionable issue update` là realism pilot. `Disagree and recap` cùng `Technical
+trade-off` là hai learning-loop pilot nghe–phát âm–phản xạ. Các pilot giúp kiểm
+chứng content contract và UI; dự án chưa tuyên bố hiệu quả học tập nếu chưa có
+thử nghiệm với người học mục tiêu và đánh giá người nghe độc lập.
+
+Rollout có ba gate: P0 giữ đúng hai pilot; P1 mới mở rộng interaction/context sau
+usability audit; P2 mới mở rộng reading/listening ladder và human listener study.
 
 ## Privacy và giới hạn
 
@@ -133,7 +155,7 @@ content JSON v1/v2/v3
   → parse + validate + normalize
   → Today / Catalog / Lesson / Progress
   → pure learning + progress domain
-  → fresh-only local storage v3 + validated backup
+  → local storage v4 + validated backup/migration v3
 ```
 
 Stack chính: React 19, TypeScript, Vite, Zustand, Zod, Vitest và Testing

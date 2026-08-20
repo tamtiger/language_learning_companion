@@ -1,31 +1,75 @@
 {
   "schemaVersion": "v3",
   "lessonId": "technical-tradeoff-explanation-b2",
-  "title": "Explain a technical trade-off",
-  "summary": "Recommend an engineering option with constraints and consequences.",
+  "title": "Explain and defend a technical trade-off",
+  "summary": "Recommend an engineering option, make consequences audible and repair an unclear explanation.",
   "cefrLevel": "B2",
-  "durationMinutes": 12,
-  "learningObjectives": ["Explain a technical decision so a non-owner can evaluate it."],
+  "durationMinutes": 25,
+  "learningObjectives": ["Nghe ra constraint và consequence", "Giải thích trade-off bằng chunks", "Trả lời clarification bằng repair"],
   "capabilities": ["technical-explanation"],
-  "workflowTags": ["architecture", "tradeoff"],
+  "workflowTags": ["architecture", "tradeoff", "learning-loop"],
   "sections": [
-    { "id": "brief", "type": "brief", "title": "Your mission", "body": "The team must choose between synchronous validation and a queued validation worker." },
-    { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synchronous validation gives users an immediate answer but adds up to 900 ms at peak traffic. A queued worker keeps the request fast and retries transient failures, but users may wait up to two minutes for final status. The current release needs predictable request latency; compliance still requires every item to be validated before publication." },
-    { "id": "check", "type": "auto-check", "title": "Locate the constraint", "exercises": [{ "id": "tradeoff-constraint", "type": "choice", "question": "Which requirement favors the queued worker?", "options": ["Immediate final status", "Predictable request latency"], "correctAnswer": ["Predictable request latency"], "explanation": "The queue moves validation latency out of the request path." }] }
+    { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synchronous validation gives an immediate answer but adds up to 900 ms at peak. A queued worker keeps requests fast and retries transient failures, but final status may take two minutes. The release needs predictable request latency; compliance requires validation before publication." },
+    { "id": "check", "type": "auto-check", "title": "Locate the deciding constraint", "exercises": [{ "id": "tradeoff-constraint", "type": "choice", "question": "Which requirement favors the queued worker?", "options": ["Immediate final status", "Predictable request latency"], "correctAnswer": ["Predictable request latency"], "explanation": "The queue moves validation latency out of the request path." }] }
   ],
   "performanceTask": {
-    "id": "tradeoff-task",
-    "mode": "spoken",
-    "title": "Recommend one design",
-    "scenario": "Explain your recommendation in an architecture sync with engineers and a product manager.",
-    "baselinePrompt": "Give your recommendation before viewing support. State the constraint, benefit, cost and mitigation.",
-    "performancePrompt": "Speak for 90–120 seconds: frame the decision, recommend one option, compare its trade-off and mitigate the main risk.",
-    "modelResponse": "I recommend the queued worker because predictable request latency is the release constraint. It also gives us retries for transient failures. The cost is delayed final status, which may take two minutes. We can mitigate that by showing a pending state and preventing publication until validation succeeds. If the product later requires an immediate answer, we can reconsider synchronous validation for smaller payloads.",
-    "retryPrompt": "Repeat with a one-sentence recommendation first, then connect each consequence to a named constraint.",
-    "transferPrompt": "Choose between a managed database with higher cost and a self-hosted database with higher operational load. Recommend one for a two-person team.",
-    "reviewPrompt": "Explain a fresh build-versus-buy decision using constraint, recommendation, cost and mitigation.",
-    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["constraint", "recommendation", "trade-off", "mitigation"], "targetSeconds": 120 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
+    "id": "tradeoff-task", "mode": "spoken", "title": "Recommend and defend one design",
+    "scenario": "Explain an architecture recommendation to engineers and a product manager.",
+    "baselinePrompt": "Use the decision evidence shown here. State the constraint, recommendation, cost and mitigation before support appears.",
+    "performancePrompt": "In 60–90 seconds, frame the decision, recommend one option, connect the benefit and cost to constraints, then mitigate the main risk.",
+    "modelResponse": "I recommend the queued worker because predictable request latency is the release constraint. It also gives us retries for transient failures. The cost is delayed final status, which may take two minutes. We can mitigate that by showing a pending state and blocking publication until validation succeeds.",
+    "retryPrompt": "Use the retry context. Lead with one recommendation and connect each consequence to a named constraint.",
+    "transferPrompt": "Use the database context and make a new recommendation without model/chunks.",
+    "reviewPrompt": "Use the build-versus-buy context and explain a fresh decision without model/chunks.",
+    "practiceContexts": {
+      "baseline": { "title": "Validation architecture", "brief": "Audience includes an engineer and product manager.", "artifacts": [{ "id": "validation-data", "type": "source", "title": "Latency and compliance", "format": "technical-doc", "content": "Sync: immediate status, +900 ms peak. Queue: fast request, retries, up to two-minute result. Constraint: predictable latency and validation before publication." }] },
+      "retry": { "title": "Image processing architecture", "brief": "Same explanation function, different engineering facts.", "artifacts": [{ "id": "image-data", "type": "source", "title": "Processing options", "format": "technical-doc", "content": "Inline resize: immediate image, +1.4 s request time. Background resize: 120 ms request, up to 30 s pending. Constraint: mobile upload reliability; preview may be delayed." }] },
+      "transfer": { "title": "Database ownership", "brief": "Unseen transfer for a two-person team.", "artifacts": [{ "id": "database-data", "type": "source", "title": "Managed versus self-hosted", "format": "technical-doc", "content": "Managed database costs $900/month and includes backups/on-call support. Self-hosted costs $250/month but needs about 12 engineer-hours/month. Constraint: two-person team and 24/7 recovery." }] },
+      "review": { "title": "Build versus buy", "brief": "Delayed retrieval with new constraints.", "artifacts": [{ "id": "vendor-data", "type": "source", "title": "Authentication options", "format": "technical-doc", "content": "Vendor: four-week integration, recurring fee, compliance reports included. Build: twelve weeks, full control, team owns audits. Constraint: launch in six weeks." }] }
+    },
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "trade-pre-1", "audio": { "kind": "speech-synthesis", "text": "The request stays fast, but the result is delayed.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Trade-off là gì?", "options": ["Fast request, delayed result", "Slow request, immediate result"], "correctAnswer": "Fast request, delayed result" },
+          { "id": "trade-pre-2", "audio": { "kind": "speech-synthesis", "text": "I recommend the queued worker because latency is the constraint.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Deciding constraint là gì?", "options": ["Latency", "Storage"], "correctAnswer": "Latency" },
+          { "id": "trade-pre-3", "audio": { "kind": "speech-synthesis", "text": "It retries failures; however, users wait for final status.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Speaker nêu gì?", "options": ["Benefit and cost", "Benefit only"], "correctAnswer": "Benefit and cost" },
+          { "id": "trade-pre-4", "audio": { "kind": "speech-synthesis", "text": "We can mitigate the delay with a pending state.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Pending state có vai trò gì?", "options": ["Mitigation", "Constraint"], "correctAnswer": "Mitigation" }
+        ],
+        "training": [
+          { "id": "trade-train-1", "audio": { "kind": "speech-synthesis", "text": "The worker retries transient failures.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Một hay nhiều failure?", "options": ["One", "Several"], "correctAnswer": "Several", "feedback": "Nghe /z/ cuối failures để giữ thông tin số nhiều." },
+          { "id": "trade-train-2", "audio": { "kind": "speech-synthesis", "text": "The deciding constraint is predictable latency.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Từ nào mang decision?", "options": ["Predictable latency", "The"], "correctAnswer": "Predictable latency", "feedback": "Nhấn deciding constraint và predictable latency." },
+          { "id": "trade-train-3", "audio": { "kind": "speech-synthesis", "text": "The benefit is retry support; the cost is delayed status.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Cặp trade-off?", "options": ["Retries versus delay", "Cost versus storage"], "correctAnswer": "Retries versus delay", "feedback": "Thought groups tách benefit khỏi cost." },
+          { "id": "trade-train-4", "audio": { "kind": "speech-synthesis", "text": "For this release, I would choose the queue.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Recommendation là gì?", "options": ["Queue", "Synchronous validation"], "correctAnswer": "Queue", "feedback": "Lead with recommendation before detail." },
+          { "id": "trade-train-5", "audio": { "kind": "speech-synthesis", "text": "If the product needs immediate status, we can revisit the decision.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Đây là gì?", "options": ["Boundary for reconsideration", "Current requirement"], "correctAnswer": "Boundary for reconsideration", "feedback": "If clause defines when the decision should change." },
+          { "id": "trade-train-6", "audio": { "kind": "speech-synthesis", "text": "Let me put that more clearly: speed matters more than immediate status.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đang làm gì?", "options": ["Repairing an explanation", "Adding a new option"], "correctAnswer": "Repairing an explanation", "feedback": "Let me put that more clearly signals repair." }
+        ],
+        "posttest": [
+          { "id": "trade-post-1", "audio": { "kind": "speech-synthesis", "text": "Managed backups reduce operational work, but the fee is higher.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Trade-off là gì?", "options": ["Lower operations, higher fee", "Higher operations, lower fee"], "correctAnswer": "Lower operations, higher fee" },
+          { "id": "trade-post-2", "audio": { "kind": "speech-synthesis", "text": "The deciding constraint is a two-person team.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Constraint là gì?", "options": ["Team capacity", "Database size"], "correctAnswer": "Team capacity" },
+          { "id": "trade-post-3", "audio": { "kind": "speech-synthesis", "text": "I would choose managed service and cap costs with reserved capacity.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Mitigation là gì?", "options": ["Reserved capacity", "More on-call work"], "correctAnswer": "Reserved capacity" },
+          { "id": "trade-post-4", "audio": { "kind": "speech-synthesis", "text": "Let me rephrase: we are buying recovery capacity, not only a database.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Function là gì?", "options": ["Repair and clarify", "Reject both options"], "correctAnswer": "Repair and clarify" }
+        ]
+      },
+      "pronunciationCues": [
+        { "id": "trade-cue-finals", "ipa": "/s/ · /z/", "articulatoryCue": "Giữ âm cuối trong requests, retries, failures và costs; không thêm nguyên âm.", "meaningRisk": "Mất plural endings làm số lượng constraint/consequence không rõ.", "triggerItemIds": ["trade-pre-1", "trade-train-1", "trade-post-1"] },
+        { "id": "trade-cue-groups", "articulatoryCue": "Chia thought groups: RECOMMENDATION | BECAUSE CONSTRAINT | BENEFIT | BUT COST | MITIGATION.", "meaningRisk": "Không chia nhóm khiến audience khó theo logic quyết định.", "triggerItemIds": ["trade-pre-3", "trade-train-3", "trade-post-2"] }
+      ],
+      "chunks": [
+        { "id": "trade-chunk-rec", "function": "recommend", "text": "I recommend ___ because ___ is the deciding constraint.", "meaning": "Nêu option và constraint trước.", "slots": ["option", "constraint"], "stressPattern": "RECOMMEND · DECIDING CONSTRAINT", "modelAudio": { "kind": "speech-synthesis", "text": "I recommend the queued worker because predictable latency is the deciding constraint.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } },
+        { "id": "trade-chunk-balance", "function": "compare", "text": "The benefit is ___; the cost is ___.", "meaning": "Nêu benefit và cost cân bằng.", "slots": ["benefit", "cost"], "stressPattern": "BENEFIT · COST", "modelAudio": { "kind": "speech-synthesis", "text": "The benefit is retry support; the cost is delayed status.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
+        { "id": "trade-chunk-mitigate", "function": "mitigate", "text": "We can mitigate ___ by ___.", "meaning": "Gắn risk với action giảm thiểu.", "slots": ["risk", "action"], "stressPattern": "MITIGATE · ACTION", "modelAudio": { "kind": "speech-synthesis", "text": "We can mitigate the delay by showing a pending state.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] } },
+        { "id": "trade-chunk-repair", "function": "repair", "text": "Let me put that more clearly: ___.", "meaning": "Repair explanation theo audience.", "slots": ["simpler decision"], "stressPattern": "MORE CLEARLY", "modelAudio": { "kind": "speech-synthesis", "text": "Let me put that more clearly: speed matters more than immediate status.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Recommendation xuất hiện sớm.", "Benefit và cost nằm ở hai thought groups rõ.", "Critical plural endings và mitigation nghe được."],
+      "interactionTurns": [
+        { "id": "trade-turn-clarify", "kind": "clarification", "prompt": "Why does that constraint matter more than immediate status?", "expectedFunction": "connect the recommendation to the audience constraint", "audio": { "kind": "speech-synthesis", "text": "Why does that constraint matter more than immediate status?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
+        { "id": "trade-turn-repair", "kind": "misunderstanding", "prompt": "So the queued worker has no downside?", "expectedFunction": "repair the misunderstanding and restate cost plus mitigation", "audio": { "kind": "speech-synthesis", "text": "So the queued worker has no downside?", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } }
+      ]
+    },
+    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["constraint", "recommendation", "trade-off", "mitigation"], "targetSeconds": 45 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
     "feedbackPriorities": ["Decision-first structure", "Cause and effect", "Audience clarity"],
     "rubric": [
       { "id": "decision", "label": "Clear recommendation", "description": "States one option and the deciding constraint early." },
@@ -33,5 +77,5 @@
       { "id": "mitigation", "label": "Risk mitigation", "description": "Offers a realistic way to reduce the main downside." }
     ]
   },
-  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+  "reviewPolicy": { "intervalDays": [2, 7] }
 }

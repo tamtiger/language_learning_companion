@@ -27,7 +27,7 @@ export function Settings() {
       const result = parseCapabilityBackup(reader.result)
       if (!result.success) {
         setPending(null)
-        setMessage(`Backup không hợp lệ hoặc không phải v3; dữ liệu hiện tại được giữ nguyên. ${result.error}`)
+        setMessage(`Backup không hợp lệ hoặc không thuộc version được hỗ trợ; dữ liệu hiện tại được giữ nguyên. ${result.error}`)
         return
       }
       const { storageVersion, lessonProgress, settings } = result.data
@@ -41,7 +41,7 @@ export function Settings() {
     if (!pending) return
     store.restoreEnvelope(pending)
     setPending(null)
-    setMessage('Đã import backup v3 sau khi validate và xác nhận.')
+    setMessage('Đã import backup v4 sau khi validate và xác nhận.')
   }
 
   return (
@@ -52,8 +52,8 @@ export function Settings() {
       </div>
       {message && <div role="status" className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-4 text-sm">{message}</div>}
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
-        <h2 className="flex items-center gap-2 text-xl font-bold"><Download className="h-5 w-5 text-purple-400" />Backup version 3</h2>
-        <p className="mt-2 text-sm text-zinc-400">Ứng dụng chưa phát hành nên chỉ nhận đúng schema hiện tại; backup v1/v2 bị từ chối.</p>
+        <h2 className="flex items-center gap-2 text-xl font-bold"><Download className="h-5 w-5 text-purple-400" />Backup version 4</h2>
+        <p className="mt-2 text-sm text-zinc-400">Nhận backup v4 và tự migrate backup v3; backup v1/v2 bị từ chối.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <button type="button" onClick={exportBackup} className="rounded-xl bg-purple-500 px-4 py-3 font-bold">Tải backup metadata</button>
           <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-700 px-4 py-3 font-bold">
@@ -63,7 +63,7 @@ export function Settings() {
         </div>
         {pending && (
           <div className="mt-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-            <p className="text-sm">Đã validate backup v3. Xác nhận mới thay thế progress hiện tại.</p>
+            <p className="text-sm">Đã validate backup v4. Xác nhận mới thay thế progress hiện tại.</p>
             <div className="mt-3 flex gap-2">
               <button type="button" onClick={confirmImport} className="rounded-lg bg-amber-400 px-4 py-2 font-bold text-zinc-950">Xác nhận import</button>
               <button type="button" onClick={() => setPending(null)} className="rounded-lg border border-zinc-700 px-4 py-2">Hủy</button>

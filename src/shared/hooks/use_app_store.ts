@@ -58,9 +58,21 @@ export function createCapabilityBackup(
   source: Pick<AppState, 'theme' | 'lessonProgress'>,
   exportedAt = new Date().toISOString()
 ): ProgressBackup {
+  const lessonProgress = Object.fromEntries(
+    Object.entries(source.lessonProgress).map(([lessonId, progress]) => [
+      lessonId,
+      {
+        ...progress,
+        recentAttempts: progress.recentAttempts.map((attempt) => ({
+          ...attempt,
+          process: attempt.process ?? null
+        }))
+      }
+    ])
+  )
   return createBackup({
-    storageVersion: 3,
-    lessonProgress: source.lessonProgress,
+    storageVersion: 4,
+    lessonProgress,
     settings: { theme: source.theme }
   }, exportedAt)
 }
@@ -183,9 +195,9 @@ export const useAppStore = create<AppState>()(
     }),
     {
       name: 'language-learning-companion-storage-v3',
-      version: 3,
+      version: 4,
       storage: createJSONStorage(getSafeStorage),
-      migrate: () => ({}),
+      migrate: (persisted) => persisted as AppState,
       partialize: (state) => ({
         theme: state.theme,
         currentCefrLevel: state.currentCefrLevel,

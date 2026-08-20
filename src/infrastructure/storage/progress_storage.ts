@@ -2,7 +2,22 @@ import { z } from 'zod'
 
 const RubricStateSchema = z.enum(['met', 'not-met', 'not-rated'])
 
-const AttemptEvidenceSchema = z.object({
+const AttemptProcessEvidenceSchema = z.object({
+  perceptionPretestCorrect: z.number().int().nonnegative(),
+  perceptionPretestTotal: z.number().int().nonnegative(),
+  perceptionPosttestCorrect: z.number().int().nonnegative(),
+  perceptionPosttestTotal: z.number().int().nonnegative(),
+  perceptionTrainingCompleted: z.number().int().nonnegative(),
+  availableVariantCount: z.number().int().nonnegative(),
+  variabilityQualified: z.boolean(),
+  shadowingStepIds: z.array(z.string().min(1)).max(10),
+  listenedBack: z.boolean(),
+  cueToSpeechStartMs: z.number().int().nonnegative().nullable(),
+  interactionTurnIds: z.array(z.string().min(1)).max(10),
+  optedOut: z.boolean()
+}).strict()
+
+const AttemptEvidenceV3Schema = z.object({
   attemptId: z.string().min(1),
   lessonId: z.string().min(1),
   taskId: z.string().min(1),
@@ -30,22 +45,36 @@ const AttemptEvidenceSchema = z.object({
   completed: z.boolean()
 }).strict()
 
-export const LessonProgressSchema = z.object({
+const AttemptEvidenceSchema = AttemptEvidenceV3Schema.extend({
+  process: AttemptProcessEvidenceSchema.nullable().default(null)
+}).strict()
+
+const LessonProgressV3Schema = z.object({
   status: z.enum(['not-started', 'in-progress', 'completed']),
   currentSectionId: z.string().nullable(),
   completedSectionIds: z.array(z.string()),
   activePhase: z.enum(['input', 'performance', 'retry', 'transfer']).nullable(),
   completedExerciseIds: z.array(z.string()),
   attemptCount: z.number().int().nonnegative(),
-  recentAttempts: z.array(AttemptEvidenceSchema).max(50),
+  recentAttempts: z.array(AttemptEvidenceV3Schema).max(50),
   transferCompleted: z.boolean(),
   reviewStage: z.number().int().nonnegative(),
   nextReviewAt: z.string().datetime().nullable(),
   lastActivityAt: z.string().datetime().nullable()
 }).strict()
 
-export const ProgressEnvelopeSchema = z.object({
+export const LessonProgressSchema = LessonProgressV3Schema.extend({
+  recentAttempts: z.array(AttemptEvidenceSchema).max(50)
+}).strict()
+
+const ProgressEnvelopeV3Schema = z.object({
   storageVersion: z.literal(3),
+  lessonProgress: z.record(LessonProgressV3Schema),
+  settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
+}).strict()
+
+export const ProgressEnvelopeSchema = z.object({
+  storageVersion: z.literal(4),
   lessonProgress: z.record(LessonProgressSchema),
   settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
 }).strict()
@@ -75,6 +104,21 @@ export function parseBackup(input: unknown): BackupParseResult {
   try {
     const candidate: unknown = typeof input === 'string' ? JSON.parse(input) : input
     const result = ProgressBackupSchema.safeParse(candidate)
+    if (!result.success) {
+      const legacy = ProgressEnvelopeV3Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
+      if (legacy.success) {
+        const migrated: ProgressBackup = {
+          storageVersion: 4,
+          exportedAt: legacy.data.exportedAt,
+          settings: legacy.data.settings,
+          lessonProgress: Object.fromEntries(Object.entries(legacy.data.lessonProgress).map(([lessonId, progress]) => [
+            lessonId,
+            { ...progress, recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null })) }
+          ]))
+        }
+        return { success: true, data: ProgressBackupSchema.parse(migrated) }
+      }
+    }
     if (!result.success) {
       return {
         success: false,

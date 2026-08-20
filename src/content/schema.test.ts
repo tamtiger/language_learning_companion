@@ -126,4 +126,61 @@ describe('LessonV3Schema', () => {
     duplicate.performanceTask.practiceContexts.baseline.artifacts[1].id = 'alert'
     expect(LessonV3Schema.safeParse(duplicate).success).toBe(false)
   })
+
+  it('accepts a complete spoken LearningLoopV1 and rejects unsafe audio or written loops', () => {
+    const audio = (text: string) => ({
+      kind: 'speech-synthesis' as const,
+      text,
+      locale: 'en-US',
+      voiceHints: ['English US']
+    })
+    const item = (id: string, feedback?: string) => ({
+      id,
+      audio: audio(`Audio ${id}`),
+      question: 'Which message did you hear?',
+      options: ['Option A', 'Option B'],
+      correctAnswer: 'Option A',
+      ...(feedback ? { feedback } : {})
+    })
+    const learningLoop = {
+      version: 'v1' as const,
+      perception: {
+        pretest: Array.from({ length: 4 }, (_, index) => item(`pre-${index + 1}`)),
+        training: Array.from({ length: 6 }, (_, index) => item(`train-${index + 1}`, 'Listen for the final sound.')),
+        posttest: Array.from({ length: 4 }, (_, index) => item(`post-${index + 1}`))
+      },
+      pronunciationCues: [{
+        id: 'final-s', ipa: '/s/', articulatoryCue: 'Release the final sound.',
+        meaningRisk: 'test and tests refer to different counts.', triggerItemIds: ['train-1']
+      }],
+      chunks: Array.from({ length: 4 }, (_, index) => ({
+        id: `chunk-${index + 1}`, function: 'clarify', text: `Chunk ${index + 1} ___`,
+        meaning: 'Clarify one point.', slots: ['detail'], modelAudio: audio(`Chunk ${index + 1}`)
+      })),
+      shadowingSteps: ['listen', 'chunk-shadow', 'full-shadow', 'delayed-imitation', 'variation'] as const,
+      listenBackChecklist: ['The intent is clear.', 'Critical words are audible.'],
+      interactionTurns: [{ id: 'turn-1', kind: 'clarification' as const, prompt: 'Could you clarify?', expectedFunction: 'clarify' }]
+    }
+    const spoken = {
+      ...validWrittenMission,
+      performanceTask: {
+        ...validWrittenMission.performanceTask,
+        mode: 'spoken',
+        outputContract: { timeLimitSeconds: 120, requiredElements: ['intent'], targetSeconds: 45 },
+        learningLoop
+      }
+    }
+
+    expect(LessonV3Schema.safeParse(spoken).success).toBe(true)
+
+    const unsafe = structuredClone(spoken) as any
+    unsafe.performanceTask.learningLoop.chunks[0].modelAudio = {
+      kind: 'bundled', src: 'https://example.com/model.mp3', transcript: 'Model', speakerId: 'speaker', provenance: 'unknown'
+    }
+    expect(LessonV3Schema.safeParse(unsafe).success).toBe(false)
+
+    const writtenWithLoop = structuredClone(validWrittenMission) as any
+    writtenWithLoop.performanceTask.learningLoop = learningLoop
+    expect(LessonV3Schema.safeParse(writtenWithLoop).success).toBe(false)
+  })
 })

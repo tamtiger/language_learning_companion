@@ -3,6 +3,7 @@ import type { CanonicalLesson, PerformanceTaskV3, PracticeContext } from '../../
 import type { CapabilitySession } from '../../domain/learning/flow'
 import {
   assessTransfer,
+  type AttemptProcessEvidence,
   type AttemptEvidence,
   type IndependenceEvidence,
   type LessonProgress,
@@ -13,6 +14,8 @@ import {
 import { useAppStore } from '../../shared/hooks/use_app_store'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
+import { InteractionPractice } from './InteractionPractice'
+import { LearningLoopPractice } from './LearningLoopPractice'
 
 const DEFAULT_INDEPENDENCE: IndependenceEvidence = {
   usedVietnamese: false,
@@ -189,6 +192,10 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const [retryFocusId, setRetryFocusId] = useState<string | null>(() => progress?.recentAttempts.at(-1)?.focusCriterionId ?? null)
   const [independence, setIndependence] = useState<IndependenceEvidence>(DEFAULT_INDEPENDENCE)
   const [completionAssessment, setCompletionAssessment] = useState<TransferAssessment | null>(null)
+  const [learningLoopReady, setLearningLoopReady] = useState(task.mode !== 'spoken' || !task.learningLoop)
+  const [processEvidence, setProcessEvidence] = useState<AttemptProcessEvidence | null>(null)
+  const [listenedBack, setListenedBack] = useState(false)
+  const [cueToSpeechStartMs, setCueToSpeechStartMs] = useState<number | null>(null)
   const preparationStartedAt = useRef(Date.now())
   const outputStartedAt = useRef<number | null>(null)
   const learnerAudio = useRef<SpokenAttemptSnapshot | null>(null)
@@ -209,13 +216,19 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const selectedRetryFocusId = notMetCriterionIds.includes(retryFocusId ?? '') ? retryFocusId : null
   const canSubmitFeedback = allRated && (notMetCriterionIds.length === 0 || selectedRetryFocusId !== null)
   const retryFocus = task.rubric.find((item) => item.id === retryFocusId)
-  const responseReady = task.mode === 'spoken' ? spokenSnapshot !== null : response.trim().length > 0
+  const responseReady = task.mode === 'spoken'
+    ? spokenSnapshot !== null && (!task.learningLoop || !spokenSnapshot.audioUrl || listenedBack)
+    : response.trim().length > 0
   const practiceContext = phase === 'baseline' ? task.practiceContexts?.baseline
-    : phase === 'transfer' ? task.practiceContexts?.transfer
-      : phase === 'review' ? task.practiceContexts?.review : undefined
+    : phase === 'retry' ? task.practiceContexts?.retry
+      : phase === 'transfer' ? task.practiceContexts?.transfer
+        : phase === 'review' ? task.practiceContexts?.review : undefined
 
   const startOutput = () => {
-    if (outputStartedAt.current === null) outputStartedAt.current = Date.now()
+    if (outputStartedAt.current === null) {
+      outputStartedAt.current = Date.now()
+      setCueToSpeechStartMs(Math.max(0, Date.now() - preparationStartedAt.current))
+    }
   }
   const createSnapshot = (): SessionAttemptSnapshot | null => {
     if (task.mode === 'spoken') return spokenSnapshot
@@ -243,6 +256,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
     rubric: Object.fromEntries(task.rubric.map((item) => [item.id, ratings[item.id] ?? 'not-rated'])),
     ...(focusCriterionId ? { focusCriterionId } : {}),
     independence: { ...independence, preparationSeconds: measuredPreparationSeconds() },
+      process: processEvidence ? { ...processEvidence, listenedBack, cueToSpeechStartMs } : null,
       completed: true
     }
     recordAttempt(attempt, lesson.reviewPolicy.intervalDays)
@@ -257,6 +271,8 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
     setSpokenSnapshot(null)
     setResponse('')
     setIndependence(DEFAULT_INDEPENDENCE)
+    setListenedBack(false)
+    setCueToSpeechStartMs(null)
     preparationStartedAt.current = Date.now()
     outputStartedAt.current = null
   }
@@ -297,11 +313,25 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               <SectionRenderer lessonId={lesson.lessonId} section={section} />
             </div>
           ))}
+          {task.mode === 'spoken' && task.learningLoop && !learningLoopReady && (
+            <LearningLoopPractice loop={task.learningLoop} onComplete={(process) => {
+              setProcessEvidence(process)
+              setLearningLoopReady(true)
+            }} />
+          )}
           <button type="button" onClick={() => {
             setSession({ ...session, phase: 'performance' })
             setActivePhase(lesson.lessonId, 'performance')
             preparationStartedAt.current = Date.now()
-          }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold">Bắt đầu lượt chính</button>
+          }} disabled={!learningLoopReady} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Bắt đầu lượt chính</button>
+        </div>
+      ) : phase === 'interaction' && task.mode === 'spoken' && task.learningLoop && learnerOutput ? (
+        <div className="space-y-6">
+          <LearnerOutput snapshot={learnerOutput} />
+          <InteractionPractice turns={task.learningLoop.interactionTurns} onComplete={(turnIds) => {
+            setProcessEvidence((current) => current ? { ...current, interactionTurnIds: turnIds } : current)
+            setSession({ ...session, phase: 'self-feedback' })
+          }} />
         </div>
       ) : phase === 'self-feedback' && learnerOutput ? (
         <div className="space-y-6">
@@ -355,7 +385,12 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             </div>
           )}
           {task.mode === 'spoken' ? (
-            <SpokenResponse onStarted={startOutput} onReady={setSpokenSnapshot} />
+            <div className="space-y-3">
+              <SpokenResponse key={`${lesson.lessonId}:${phase}`} onStarted={startOutput} onReady={setSpokenSnapshot} onListenedBack={() => setListenedBack(true)} />
+              {task.learningLoop && spokenSnapshot?.audioUrl && !listenedBack && (
+                <p className="rounded-lg bg-amber-500/10 p-3 text-sm text-amber-200">Hãy nghe lại bản ghi ít nhất một lần trước khi tiếp tục.</p>
+              )}
+            </div>
           ) : (
             <div>
               <label className="block font-semibold">Bản nháp tiếng Anh
@@ -380,7 +415,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               const snapshot = createSnapshot(); if (!snapshot) return
               setLearnerOutput(snapshot)
               setSpokenSnapshot(null)
-              setSession({ ...session, phase: 'self-feedback' })
+              setSession({ ...session, phase: task.mode === 'spoken' && task.learningLoop ? 'interaction' : 'self-feedback' })
             }} className="rounded-xl bg-purple-500 px-5 py-3 font-bold disabled:opacity-40">Đối chiếu rubric</button>}
             {phase === 'retry' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return

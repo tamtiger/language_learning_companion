@@ -129,6 +129,112 @@ export const PracticeContextSchema = z.object({
   }
 })
 
+const BundledAudioSourceSchema = z.object({
+  kind: z.literal('bundled'),
+  src: z.string().regex(/^\/audio\/(?!.*\.\.)[a-zA-Z0-9/_-]+\.(?:mp3|ogg|wav)$/),
+  transcript: NonEmptyString,
+  speakerId: IdSchema,
+  provenance: NonEmptyString
+}).strict()
+
+const SpeechSynthesisAudioSourceSchema = z.object({
+  kind: z.literal('speech-synthesis'),
+  text: NonEmptyString,
+  locale: z.string().regex(/^[a-z]{2,3}(?:-[A-Z]{2})?$/),
+  voiceHints: z.array(NonEmptyString).min(1).max(5)
+}).strict()
+
+export const ModelAudioSourceSchema = z.discriminatedUnion('kind', [
+  BundledAudioSourceSchema,
+  SpeechSynthesisAudioSourceSchema
+])
+
+const PerceptionItemSchema = z.object({
+  id: IdSchema,
+  audio: ModelAudioSourceSchema,
+  question: NonEmptyString,
+  options: z.array(NonEmptyString).min(2).max(5),
+  correctAnswer: NonEmptyString,
+  feedback: NonEmptyString.optional()
+}).strict().superRefine((item, context) => {
+  if (!item.options.includes(item.correctAnswer)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'correctAnswer must be one of options' })
+  }
+})
+
+const PronunciationCueSchema = z.object({
+  id: IdSchema,
+  ipa: NonEmptyString.optional(),
+  articulatoryCue: NonEmptyString,
+  meaningRisk: NonEmptyString,
+  triggerItemIds: z.array(IdSchema).min(1)
+}).strict()
+
+const FunctionalChunkSchema = z.object({
+  id: IdSchema,
+  function: NonEmptyString,
+  text: NonEmptyString,
+  meaning: NonEmptyString,
+  slots: z.array(NonEmptyString).min(1).max(4),
+  stressPattern: NonEmptyString.optional(),
+  modelAudio: ModelAudioSourceSchema
+}).strict()
+
+const InteractionTurnSchema = z.object({
+  id: IdSchema,
+  kind: z.enum(['follow-up', 'clarification', 'misunderstanding', 'repair', 'recap']),
+  prompt: NonEmptyString,
+  expectedFunction: NonEmptyString,
+  audio: ModelAudioSourceSchema.optional()
+}).strict()
+
+const SHADOWING_STEPS = ['listen', 'chunk-shadow', 'full-shadow', 'delayed-imitation', 'variation'] as const
+
+export const LearningLoopV1Schema = z.object({
+  version: z.literal('v1'),
+  perception: z.object({
+    pretest: z.array(PerceptionItemSchema).min(4).max(8),
+    training: z.array(PerceptionItemSchema).min(6).max(12),
+    posttest: z.array(PerceptionItemSchema).min(4).max(8)
+  }).strict(),
+  pronunciationCues: z.array(PronunciationCueSchema).min(1).max(2),
+  chunks: z.array(FunctionalChunkSchema).min(4).max(6),
+  shadowingSteps: z.array(z.enum(SHADOWING_STEPS)).length(SHADOWING_STEPS.length),
+  listenBackChecklist: z.array(NonEmptyString).min(2).max(4),
+  interactionTurns: z.array(InteractionTurnSchema).min(1).max(3)
+}).strict().superRefine((loop, context) => {
+  const ids = [
+    ...loop.perception.pretest.map((item) => item.id),
+    ...loop.perception.training.map((item) => item.id),
+    ...loop.perception.posttest.map((item) => item.id),
+    ...loop.pronunciationCues.map((item) => item.id),
+    ...loop.chunks.map((item) => item.id),
+    ...loop.interactionTurns.map((item) => item.id)
+  ]
+  if (new Set(ids).size !== ids.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: [], message: 'Learning loop ids must be globally unique' })
+  }
+  loop.perception.training.forEach((item, index) => {
+    if (!item.feedback) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['perception', 'training', index, 'feedback'], message: 'Training feedback is required' })
+    }
+  })
+  if (new Set(loop.shadowingSteps).size !== SHADOWING_STEPS.length
+    || SHADOWING_STEPS.some((step) => !loop.shadowingSteps.includes(step))) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['shadowingSteps'], message: 'All shadowing steps are required exactly once' })
+  }
+  const perceptionIds = new Set([
+    ...loop.perception.pretest.map((item) => item.id),
+    ...loop.perception.training.map((item) => item.id),
+    ...loop.perception.posttest.map((item) => item.id)
+  ])
+  loop.pronunciationCues.forEach((cue, index) => {
+    if (cue.triggerItemIds.some((id) => !perceptionIds.has(id))) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['pronunciationCues', index, 'triggerItemIds'], message: 'Cue triggers must reference perception items' })
+    }
+  })
+})
+
 export const AutoCheckSectionSchema = z.object({
   id: IdSchema,
   type: z.literal('auto-check'),
@@ -161,6 +267,7 @@ const PerformanceBaseShape = {
   reviewPrompt: NonEmptyString,
   practiceContexts: z.object({
     baseline: PracticeContextSchema,
+    retry: PracticeContextSchema.optional(),
     transfer: PracticeContextSchema,
     review: PracticeContextSchema
   }).optional(),
@@ -178,12 +285,13 @@ const PerformanceBaseShape = {
 const SpokenPerformanceTaskSchema = z.object({
   ...PerformanceBaseShape,
   mode: z.literal('spoken'),
+  learningLoop: LearningLoopV1Schema.optional(),
   outputContract: z.object({
     timeLimitSeconds: z.number().int().min(30).max(1800),
     requiredElements: z.array(NonEmptyString).min(1).max(8),
     targetSeconds: z.number().int().min(30).max(600)
   }).strict()
-})
+}).strict()
 
 const WrittenPerformanceTaskSchema = z.object({
   ...PerformanceBaseShape,
@@ -197,7 +305,7 @@ const WrittenPerformanceTaskSchema = z.object({
     message: 'minWords must be less than or equal to maxWords',
     path: ['maxWords']
   })
-})
+}).strict()
 
 export const PerformanceTaskV3Schema = z.discriminatedUnion('mode', [
   SpokenPerformanceTaskSchema,
@@ -260,6 +368,8 @@ export type ExpressionItem = z.infer<typeof ExpressionItemSchema>
 export type Exercise = z.infer<typeof ExerciseSchema>
 export type LessonSection = z.infer<typeof LessonSectionSchema>
 export type PracticeContext = z.infer<typeof PracticeContextSchema>
+export type ModelAudioSource = z.infer<typeof ModelAudioSourceSchema>
+export type LearningLoopV1 = z.infer<typeof LearningLoopV1Schema>
 export type PerformanceTaskV3 = z.infer<typeof PerformanceTaskV3Schema>
 export type LessonV1 = z.infer<typeof LessonV1Schema>
 export type LessonV2 = z.infer<typeof LessonV2Schema>

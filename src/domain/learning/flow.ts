@@ -3,6 +3,7 @@ export type CapabilityPhase =
   | 'input'
   | 'auto-check'
   | 'performance'
+  | 'interaction'
   | 'self-feedback'
   | 'retry'
   | 'transfer'

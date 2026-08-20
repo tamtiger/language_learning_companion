@@ -25,7 +25,7 @@ function attempt(overrides: Partial<AttemptEvidence> = {}): AttemptEvidence {
   }
 }
 
-describe('fresh v3 app store', () => {
+describe('v4 app store', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
 
   it('starts with only canonical progress state', () => {
@@ -57,12 +57,12 @@ describe('fresh v3 app store', () => {
     expect(JSON.stringify(progress)).not.toMatch(/responseText|audio|blob/i)
   })
 
-  it('round-trips v3 backup and rejects v2 without replacing state', () => {
+  it('round-trips v4 backup and rejects v2 without replacing state', () => {
     useAppStore.setState({
       lessonProgress: { mission: { ...createEmptyLessonProgress(), activePhase: 'performance' } }
     })
     const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
-    expect(backup.storageVersion).toBe(3)
+    expect(backup.storageVersion).toBe(4)
     expect(parseCapabilityBackup(JSON.stringify(backup))).toEqual({ success: true, data: backup })
     expect(parseCapabilityBackup({ ...backup, storageVersion: 2 }).success).toBe(false)
     expect(useAppStore.getState().lessonProgress.mission.activePhase).toBe('performance')

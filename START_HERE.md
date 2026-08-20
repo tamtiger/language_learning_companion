@@ -15,10 +15,12 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 2. Đọc evidence packet của phase (nếu task cung cấp) và chỉ dùng dữ kiện có trong đó.
 3. Tạo output trước khi xem model answer; đánh dấu rõ fact và điều chưa chắc chắn.
 4. Đọc input/scaffold, làm auto-check nếu có.
-5. Nói hoặc viết trong timebox.
-6. Tự đánh giá rubric trung thực và chọn một ưu tiên để retry.
-7. Làm transfer task với evidence và nội dung khác.
-8. Quay lại Today khi review đến hạn.
+5. Với learning-loop pilot: nghe pretest, học cue cần thiết, luyện functional
+   chunks bằng shadowing → delayed imitation → variation.
+6. Nói hoặc viết trong timebox; nếu ghi âm, nghe lại trước khi tiếp tục.
+7. Trả lời clarification/repair turn, rồi tự đánh giá rubric trung thực.
+8. Chọn một ưu tiên để retry và làm transfer với evidence mới.
+9. Quay lại Today khi review đến hạn.
 
 Mục tiêu không phải hoàn thành nhiều bài mà là transfer độc lập trong task giống công việc thật.
 
@@ -33,12 +35,18 @@ App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiê
 - **Transfer**: dùng cùng kỹ năng trong một tình huống mới.
 - **Qualifying transfer**: transfer đáp ứng rubric, độ dài/thời gian và điều kiện độc lập.
 - **Review**: lượt kiểm tra lại theo lịch để củng cố khả năng dùng độc lập.
+- **Functional chunk**: khung câu gắn với một chức năng như phản biện, làm rõ,
+  recap hoặc repair; bạn thay slot để phản xạ thay vì học thuộc script.
+- **Pronunciation cue**: chỉ dẫn ngắn cho âm/nhịp có thể làm người nghe hiểu sai;
+  IPA chỉ là ký hiệu hỗ trợ, không cần học toàn bộ trước khi nói.
 
 ## Nội dung hiện có
 
 - Mười hai mission, hai mission ứng với mỗi capability.
 - `Actionable issue update` là pilot có evidence packet riêng cho baseline,
   transfer và review; hãy phản hồi nếu dữ kiện thiếu, thừa hoặc khó hiểu.
+- `Disagree and recap` và `Technical trade-off` là hai pilot có perception,
+  pronunciation cue, guided shadowing, listen-back và interaction/repair.
 - Daily Standup và sáu lesson pronunciation vẫn chạy qua normalization; bài phát âm chỉ hoàn tất sau khi mọi auto-check đúng.
 - Catalog có thể lọc theo capability, workflow và CEFR.
 

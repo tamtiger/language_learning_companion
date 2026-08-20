@@ -17,10 +17,12 @@ type CaptureState = 'idle' | 'running' | 'ready'
 
 export function SpokenResponse({
   onReady,
-  onStarted
+  onStarted,
+  onListenedBack
 }: {
   onReady: (snapshot: SpokenAttemptSnapshot | null) => void
   onStarted?: () => void
+  onListenedBack?: () => void
 }) {
   const [captureState, setCaptureState] = useState<CaptureState>('idle')
   const [status, setStatus] = useState('Sẵn sàng. Chọn ghi âm hoặc timer-only để bắt đầu.')
@@ -152,7 +154,7 @@ export function SpokenResponse({
           </button>
         )}
       </div>
-      {audioUrl && <audio className="mt-4 w-full" controls src={audioUrl} aria-label="Bản ghi cục bộ của attempt" />}
+      {audioUrl && <audio className="mt-4 w-full" controls src={audioUrl} onPlay={onListenedBack} aria-label="Bản ghi cục bộ của attempt" />}
     </div>
   )
 }

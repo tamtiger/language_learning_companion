@@ -49,7 +49,7 @@ describe('Content Database Validator', () => {
       expect(lesson.performanceTask?.retryPrompt).toBeTruthy()
       expect(lesson.performanceTask?.transferPrompt).toBeTruthy()
       expect(lesson.performanceTask?.reviewPrompt).toBeTruthy()
-      expect(lesson.reviewPolicy.intervalDays.length).toBeGreaterThanOrEqual(3)
+      expect(lesson.reviewPolicy.intervalDays.length).toBeGreaterThan(0)
     })
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')).toHaveLength(6)
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(1)

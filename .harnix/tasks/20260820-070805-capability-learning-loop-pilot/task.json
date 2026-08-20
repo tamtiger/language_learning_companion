@@ -1,0 +1,416 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-070805-capability-learning-loop-pilot",
+  "title": "Bổ sung capability learning loop P0",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Ship một P0 learning loop local-only giúp learner nghe–nhận biết–bắt chước có mục tiêu–tự nói–xử lý repair–transfer–ôn trễ trên hai workplace missions, đồng thời tạo contract và rollout gate cho P1/P2.",
+  "nonGoals": [
+    "Không xây full IPA course, shadowing-only track, phrasebook, streak, XP hoặc native-accent scoring.",
+    "Không thêm ASR/AI grading, cloud, account, analytics, upload audio/text, paid API hoặc dependency mới.",
+    "Không bulk rewrite toàn bộ 18 lesson hoặc rollout learning loop sang 10 capability missions còn lại trước khi pilot đạt gate.",
+    "Không triển khai extensive technical-reading ladder hoặc listener efficacy study trong P0; chúng thuộc P2/follow-up task.",
+    "Không tuyên bố learning efficacy từ unit test, synthetic QA, self-rubric hoặc completion.",
+    "Không commit, push, publish, tạo PR hoặc ghi đè dirty worktree/user-owned task artifacts."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Schema hỗ trợ LearningLoopV1 optional chỉ cho spoken v3 tasks, gồm perception pretest/training/posttest, pronunciation cues, functional chunks, guided shadowing/delayed imitation, listen-back checklist và scripted interaction turns; validation từ chối duplicate IDs, external audio URLs và contract thiếu phase.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-schema-content-pass",
+        "ev-full-tests-pass"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Hai pilot missions chạy đúng learner journey: cold baseline → perception → just-in-time cue → guided shadowing/delayed imitation → production/listen-back → follow-up/repair → focused retry → unseen transfer → delayed review, với model/chunks bị khóa trước cold/transfer/review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-pass",
+        "ev-full-tests-pass",
+        "ev-manual-pilot-pass"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Audio model dùng provider local-first có bundled-relative source và speech-synthesis fallback được gắn nhãn; UI hỗ trợ play/replay, transcript/caption phù hợp phase, keyboard/screen reader và graceful opt-out khi audio hoặc microphone không khả dụng, không giả vờ đủ speaker variability.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-pass",
+        "ev-manual-pilot-pass"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Learner audio/text chỉ tồn tại trong phiên, được release khi reset/unmount/đổi phase; SpokenResponse không hiển thị stale attempt, listen-back được ghi nhận trung thực và app không persist hoặc gửi response/transcript/raw audio ra network.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-pass",
+        "ev-progress-storage-pass",
+        "ev-full-tests-pass",
+        "ev-manual-pilot-pass"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "ProgressEnvelopeV4 chỉ persist process metadata tối thiểu (perception counts, listen-back, cue latency, interaction/shadowing completion và qualification flags), migrate V3 an toàn, giữ backup/import/reset và không chứa response text, transcript, audio URL/blob hoặc pronunciation score.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-progress-storage-pass",
+        "ev-full-tests-pass"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "meeting-disagree-and-recap-b2 và technical-tradeoff-explanation-b2 có synthetic P0 content: 4–6 functional chunks, tối đa 2 pronunciation targets, pre/training/post items, guided shadowing, repair turns và ba context variants; content validation và cold-model isolation pass.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-schema-content-pass",
+        "ev-full-tests-pass",
+        "ev-manual-pilot-pass"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Hai defect prerequisite được sửa bằng regression tests: technical-doc-action baseline có source hợp lệ trước yêu cầu read-from-memory và spoken capture reset sạch khi retry chuyển sang transfer/review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-pass",
+        "ev-full-tests-pass",
+        "ev-manual-pilot-pass"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "text": "Owner docs mô tả feature, privacy, fallback, measured-vs-unmeasured evidence và P0→P1→P2 rollout gate; focused/full tests, lint, production build và desktop/mobile black-box QA pass mà không có app-origin error.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-full-tests-pass",
+        "ev-lint-build-pass",
+        "ev-owner-docs-pass",
+        "ev-manual-pilot-pass"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md",
+    "START_HERE.md",
+    "content/modules/capabilities/meeting-disagree-and-recap-b2.json",
+    "content/modules/capabilities/technical-doc-action-b1.json",
+    "content/modules/capabilities/technical-tradeoff-explanation-b2.json",
+    "src/content",
+    "src/domain/learning",
+    "src/domain/progress",
+    "src/features/practice",
+    "src/infrastructure/storage",
+    "src/shared/hooks"
+  ],
+  "relevantSpecs": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/current-feature-audit.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-schema-content",
+      "description": "Schema/content tests prove strict LearningLoopV1 contracts, external-URL rejection, pilot completeness and model isolation.",
+      "command": "npm test -- src/content/schema.test.ts src/content/content.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/**/*.ts"
+      ]
+    },
+    {
+      "id": "check-learning-loop",
+      "description": "Domain/component tests prove ordered phases, shadowing/interaction behavior, accessibility fallback, phase reset and learner-output lifetime.",
+      "command": "npm test -- src/domain/learning/flow.test.ts src/domain/learning/learning_loop.test.ts src/features/practice/CapabilityTask.test.tsx src/features/practice/GuidedShadowing.test.tsx src/features/practice/InteractionPractice.test.tsx src/features/practice/PerceptionPractice.test.tsx src/features/practice/SpokenResponse.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/learning/**/*.ts",
+        "src/features/practice/**/*"
+      ]
+    },
+    {
+      "id": "check-progress-storage",
+      "description": "Progress/store/storage tests prove V3→V4 migration, bounded metadata, backup/import/reset and privacy deny-list.",
+      "command": "npm test -- src/domain/progress/progress.test.ts src/infrastructure/storage/progress_storage.test.ts src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/**/*.ts",
+        "src/infrastructure/storage/**/*.ts",
+        "src/shared/hooks/**/*"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Full Vitest suite proves compatibility with legacy v1/v2 lessons and non-pilot v3 missions.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*"
+      ]
+    },
+    {
+      "id": "check-lint-build",
+      "description": "Static analysis and production compilation pass without warnings promoted to errors.",
+      "command": "npm run lint; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "tsconfig*.json",
+        "vite.config.*"
+      ]
+    },
+    {
+      "id": "check-owner-docs",
+      "description": "Owner docs and changelog name learning loop, privacy boundary, no-efficacy limitation and rollout gates.",
+      "command": "rg -n \"LearningLoopV1|shadowing|listen-back|local-only|P0|P1|P2|efficacy|rollback\" PRODUCT.md CONTENT.md ARCHITECTURE.md README.md START_HERE.md CHANGELOG.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "START_HERE.md"
+      ]
+    },
+    {
+      "id": "check-manual-pilot",
+      "description": "Desktop 1920px và mobile 390px black-box complete both pilot flows plus audio-unavailable, microphone-denied, reload/privacy and delayed-review paths; console/network inspection has no app-origin error or response upload.",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6",
+        "AC-7",
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/*.json",
+        "src/features/practice/**/*",
+        "src/infrastructure/storage/**/*"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-full-tests-fail-1",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-20T07:58:53.0544102+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test: 93/94 tests pass; validate_all_lessons ép mọi capability mission có >=3 review intervals, trong khi PRD pilot yêu cầu D2/D7 và schema cho phép mảng tăng dần. Root cause là validator legacy chặt hơn content contract.",
+      "artifactPaths": [
+        "src/shared/utils/validate_all_lessons.test.ts",
+        "content/modules/capabilities/meeting-disagree-and-recap-b2.json",
+        "content/modules/capabilities/technical-tradeoff-explanation-b2.json"
+      ],
+      "inputDigest": "dfd5fb61171c721a99cf638f57ee183402e339e9097a00fed83751d0226641d0"
+    },
+    {
+      "id": "ev-debug-review-policy-pass",
+      "recordedAt": "2026-08-20T07:59:26.9178862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Regression GREEN: validator tuân schema (ít nhất một interval tăng dần) và content test khóa riêng hai pilot ở D2/D7; 7/7 tests pass.",
+      "artifactPaths": [
+        "src/shared/utils/validate_all_lessons.test.ts",
+        "src/content/content.test.ts"
+      ]
+    },
+    {
+      "id": "ev-manual-pilot-fail-1",
+      "checkId": "check-manual-pilot",
+      "recordedAt": "2026-08-20T08:04:40.9825372+07:00",
+      "result": "fail",
+      "summary": "Desktop black-box: cold baseline và perception/cue đúng, nhưng bước listen/delayed-imitation vẫn render functional chunk text bên ngoài ModelAudioPlayer, làm hỏng transcript fading.",
+      "artifactPaths": [
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx"
+      ],
+      "inputDigest": "c053eabc4a3d30fb4c7e6386ec2974d64cde3df986244ccc2a6696297bc2fd68"
+    },
+    {
+      "id": "ev-debug-shadow-fading-pass",
+      "recordedAt": "2026-08-20T08:05:16.5499495+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Regression GREEN: chunk/transcript bị ẩn ở listen và delayed-imitation, chỉ hiện ở guided shadow/full-shadow hoặc variation; focused test pass.",
+      "artifactPaths": [
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-schema-content-pass",
+      "checkId": "check-schema-content",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Schema/content: 2 test files, 8 tests pass; strict LearningLoopV1, pilot completeness, D2/D7 và external audio URL rejection đều được xác nhận.",
+      "artifactPaths": [
+        "src/content/schema.test.ts",
+        "src/content/content.test.ts"
+      ],
+      "inputDigest": "a5f44b4b06152aae5911f29d9a499e6213f1fcb50ad3356dade79656590cf767"
+    },
+    {
+      "id": "ev-learning-loop-pass",
+      "checkId": "check-learning-loop",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Learning loop: 7 test files, 20 tests pass; phase order, transcript fading, interaction repair, fallback và phase-local response đều được xác nhận.",
+      "artifactPaths": [
+        "src/domain/learning/learning_loop.test.ts",
+        "src/features/practice/GuidedShadowing.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "521981e57be9d91035efc57ef2c9e1ed6739cbd2d1bfcdc5ee6c34cff06e287f"
+    },
+    {
+      "id": "ev-progress-storage-pass",
+      "checkId": "check-progress-storage",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Progress/storage: 3 test files, 15 tests pass; V3→V4 migration, bounded process metadata, backup/import/reset và privacy deny-list được xác nhận.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ],
+      "inputDigest": "1e1a785ff1301502f730ec537715c817f0e4e0d5a1d555aa87904582ef5e01c3"
+    },
+    {
+      "id": "ev-full-tests-pass",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Toàn bộ Vitest suite pass: 22 test files, 94 tests; tương thích với content v1/v2 và các mission v3 không pilot.",
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "inputDigest": "261161ad73ecca2236bf2f7474cfd0c52ea9918a843e7bb4b7f89eb5b66c1f51"
+    },
+    {
+      "id": "ev-lint-build-pass",
+      "checkId": "check-lint-build",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint và TypeScript/Vite production build đều pass; bundle được tạo thành công.",
+      "artifactPaths": [
+        "src",
+        "dist/index.html"
+      ],
+      "inputDigest": "1dfa1be1a1617b39a0b6a28c6b75c9d370cca0babb0cfeaf97c9c920c654ada3"
+    },
+    {
+      "id": "ev-owner-docs-pass",
+      "checkId": "check-owner-docs",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Owner docs mô tả LearningLoopV1, shadowing/listen-back, local-only privacy, giới hạn efficacy và rollout/rollback P0→P2.",
+      "artifactPaths": [
+        "PRODUCT.md",
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "README.md",
+        "START_HERE.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "abb965a7e35a280c22166168bfa98eaa19e8a795c50288f55357e2091ff6a123"
+    },
+    {
+      "id": "ev-manual-pilot-pass",
+      "checkId": "check-manual-pilot",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Black-box desktop/mobile hoàn tất hai pilot, xác nhận model lock, transcript fading, timer-only/microphone fallback, interaction repair, retry/transfer, reload không lưu learner output và lịch D2/D7. Audio-unavailable opt-out và due-review execution được component/integration tests bao phủ; network API không khả dụng trong browser QA nên bổ sung source scan và privacy tests. Không có app-origin console error; chỉ có cảnh báo extension bên ngoài app.",
+      "artifactPaths": [
+        "src/features/practice",
+        "content/modules/capabilities/meeting-disagree-and-recap-b2.json",
+        "content/modules/capabilities/technical-tradeoff-explanation-b2.json"
+      ],
+      "inputDigest": "110017e0bf3663a0f4c32e386bc5b8026b7480f04dbad4b22f5bc2c8319b7fc7"
+    },
+    {
+      "id": "ev-network-source-inspection",
+      "recordedAt": "2026-08-20T08:12:59.4404653+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Quét fetch/XMLHttpRequest/sendBeacon/WebSocket/http(s) trong practice và storage không thấy lời gọi mạng; git diff --check không phát hiện whitespace error.",
+      "artifactPaths": [
+        "src/features/practice",
+        "src/infrastructure/storage"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-20T07:11:00.8436674+07:00",
+  "updatedAt": "2026-08-20T01:13:05.214Z",
+  "completedAt": "2026-08-20T01:13:05.214Z"
+}

@@ -23,7 +23,7 @@ describe('Settings data safety flows', () => {
     expect(useAppStore.getState().lessonProgress['keep-me']?.status).toBe('completed')
   })
 
-  it('previews a valid v3 backup and only replaces state after confirmation', async () => {
+  it('migrates a valid v3 backup and only replaces state after confirmation', async () => {
     const user = userEvent.setup()
     useAppStore.getState().markLessonComplete('old-progress', true)
     render(<Settings />)
@@ -36,7 +36,7 @@ describe('Settings data safety flows', () => {
     })], 'backup.json', { type: 'application/json' })
     await user.upload(screen.getByLabelText(/chọn file import/i), valid)
 
-    expect(await screen.findByText(/đã validate backup v3/i)).toBeTruthy()
+    expect(await screen.findByText(/đã validate backup v4/i)).toBeTruthy()
     expect(useAppStore.getState().lessonProgress['old-progress']).toBeTruthy()
     await user.click(screen.getByRole('button', { name: /xác nhận import/i }))
 

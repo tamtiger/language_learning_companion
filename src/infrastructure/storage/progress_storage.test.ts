@@ -26,17 +26,35 @@ function measuredAttempt() {
       hintCount: 0,
       preparationSeconds: 18
     },
+    process: null,
     completed: true
   }
 }
 
-describe('fresh progress storage v3', () => {
-  it('rejects v2 instead of migrating pre-release data', () => {
+describe('progress storage v4', () => {
+  it('rejects v2 and migrates a valid v3 backup without learner output', () => {
     expect(ProgressEnvelopeSchema.safeParse({
       storageVersion: 2,
       lessonProgress: {},
       settings: { theme: 'dark' }
     }).success).toBe(false)
+
+    const legacyAttempt = measuredAttempt() as Record<string, unknown>
+    delete legacyAttempt.process
+    const legacy = {
+      storageVersion: 3,
+      exportedAt: '2026-08-18T10:00:00.000Z',
+      lessonProgress: {
+        mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [legacyAttempt] }
+      },
+      settings: { theme: 'dark' }
+    }
+    const migrated = parseBackup(legacy)
+    expect(migrated.success).toBe(true)
+    if (migrated.success) {
+      expect(migrated.data.storageVersion).toBe(4)
+      expect(migrated.data.lessonProgress.mission.recentAttempts[0].process).toBeNull()
+    }
   })
 
   it('requires measured metadata and durable phase/exercise progress', () => {
@@ -49,7 +67,7 @@ describe('fresh progress storage v3', () => {
       recentAttempts: [measuredAttempt()]
     }
     const result = ProgressEnvelopeSchema.safeParse({
-      storageVersion: 3,
+      storageVersion: 4,
       lessonProgress: { mission: progress },
       settings: { theme: 'dark' }
     })
@@ -67,7 +85,7 @@ describe('fresh progress storage v3', () => {
 
   it('exports only strict allowlisted metadata', () => {
     const envelope = ProgressEnvelopeSchema.parse({
-      storageVersion: 3,
+      storageVersion: 4,
       lessonProgress: {
         mission: {
           ...createEmptyLessonProgress(),
@@ -85,5 +103,41 @@ describe('fresh progress storage v3', () => {
     const unsafe = JSON.parse(serialized) as Record<string, unknown>
     unsafe.responseText = 'private learner output'
     expect(parseBackup(unsafe).success).toBe(false)
+  })
+
+  it('accepts measured process metadata and rejects learner media fields', () => {
+    const process = {
+      perceptionPretestCorrect: 2,
+      perceptionPretestTotal: 4,
+      perceptionPosttestCorrect: 4,
+      perceptionPosttestTotal: 4,
+      perceptionTrainingCompleted: 6,
+      availableVariantCount: 1,
+      variabilityQualified: false,
+      shadowingStepIds: ['listen', 'chunk-shadow', 'full-shadow', 'delayed-imitation', 'variation'],
+      listenedBack: true,
+      cueToSpeechStartMs: 3200,
+      interactionTurnIds: ['clarify', 'repair'],
+      optedOut: false
+    }
+    const attempt = { ...measuredAttempt(), process }
+    const valid = ProgressEnvelopeSchema.safeParse({
+      storageVersion: 4,
+      lessonProgress: {
+        mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [attempt] }
+      },
+      settings: { theme: 'dark' }
+    })
+    expect(valid.success).toBe(true)
+
+    const unsafe = structuredClone(attempt) as Record<string, unknown>
+    unsafe.audioUrl = 'blob:private-recording'
+    expect(ProgressEnvelopeSchema.safeParse({
+      storageVersion: 4,
+      lessonProgress: {
+        mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [unsafe] }
+      },
+      settings: { theme: 'dark' }
+    }).success).toBe(false)
   })
 })

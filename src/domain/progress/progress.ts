@@ -12,6 +12,21 @@ export interface IndependenceEvidence {
   preparationSeconds: number
 }
 
+export interface AttemptProcessEvidence {
+  perceptionPretestCorrect: number
+  perceptionPretestTotal: number
+  perceptionPosttestCorrect: number
+  perceptionPosttestTotal: number
+  perceptionTrainingCompleted: number
+  availableVariantCount: number
+  variabilityQualified: boolean
+  shadowingStepIds: string[]
+  listenedBack: boolean
+  cueToSpeechStartMs: number | null
+  interactionTurnIds: string[]
+  optedOut: boolean
+}
+
 export interface AttemptEvidence {
   attemptId: string
   lessonId: string
@@ -24,6 +39,7 @@ export interface AttemptEvidence {
   rubric: Record<string, RubricState>
   focusCriterionId?: string
   independence: IndependenceEvidence
+  process?: AttemptProcessEvidence | null
   completed: boolean
 }
 

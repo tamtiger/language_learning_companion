@@ -6,6 +6,15 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Added
 
+- Thêm `LearningLoopV1` optional cho spoken v3: perception pretest/training/posttest,
+  pronunciation cue theo lỗi, 4–6 functional chunks, guided shadowing, delayed
+  imitation, variation, listen-back và scripted clarification/repair.
+- Thêm hai pilot `meeting-disagree-and-recap-b2` và
+  `technical-tradeoff-explanation-b2`, với context riêng cho baseline, retry,
+  transfer và delayed review.
+- Thêm model-audio adapter local cho bundled assets hoặc browser TTS có nhãn,
+  transcript theo phase, replay, voice-availability evidence và honest opt-out.
+- Thêm process evidence tối thiểu cho perception/shadowing/listen-back/interaction.
 - Thêm optional `performanceTask.practiceContexts` cho schema v3, gồm evidence
   packet riêng ở baseline, transfer và review với validation artifact ID.
 - Thêm realism pilot cho `workplace-issue-update-b1`: ba incident evidence packet,
@@ -23,6 +32,12 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Changed
 
+- Nâng backup/progress contract lên `ProgressEnvelopeV4`; backup V3 được migrate
+  an toàn với `process: null`, còn learner response/audio vẫn session-only.
+- Bổ sung complete runbook cho baseline `technical-doc-action-b1` trước yêu cầu
+  đọc một lần rồi viết từ trí nhớ; thêm retry context cho practice contract.
+- Spoken capture được key theo lesson/phase/interaction turn để timer, snapshot và
+  object URL không rò sang attempt kế tiếp.
 - Capability task chỉ render evidence của phase hiện tại; cold baseline không lộ
   instructional input, model response hoặc transfer evidence.
 - Chuyển progress sang fresh-only `ProgressEnvelopeV3`: attempt bắt buộc có duration/word count/preparation đo thật, phase checkpoint và exercise progress; từ chối toàn bộ backup v1/v2.
@@ -45,6 +60,8 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Security
 
+- Từ chối external audio URL trong content; bundled audio chỉ dùng đường dẫn
+  `/audio/...` đã giới hạn và TTS chạy qua browser API tại thiết bị.
 - Không persist hoặc upload audio, transcript hay nội dung câu trả lời; written response chỉ tồn tại trong session và audio chỉ dùng local object URL có cleanup.
 - Backup chỉ chứa metadata allowlist; import malformed hoặc sai version bị từ chối mà không thay state hiện tại.
 - Dependency audit sau refactor không còn vulnerability đã biết.
@@ -53,5 +70,5 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 - Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
   ba evidence packet và phase isolation trong UI.
-- Regression suite hiện tại đạt 18 test files và 82 tests; lint và production build đều PASS.
-- Manual QA xác nhận learning loop written, resume không lưu learner output, pronunciation completion gate/restart và navigation mobile hoạt động đúng.
+- Regression suite hiện tại đạt 22 test files và 94 tests; lint và production build đều PASS.
+- Manual QA desktop/mobile xác nhận hai pilot đi tới completion, transcript fading, timer-only/microphone fallback, reload privacy và lịch D2/D7; việc thực thi due-review được regression test bao phủ.
