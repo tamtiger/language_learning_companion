@@ -95,6 +95,26 @@
           }
         ]
       },
+      "retry": {
+        "title": "Checkout incident · 22:20 UTC",
+        "brief": "Focused retry: update the same platform audience with the newest evidence. Preserve uncertainty, name the active owner and ask for the still-open rollback decision.",
+        "artifacts": [
+          {
+            "id": "checkout-retry-monitor",
+            "type": "source",
+            "title": "Updated monitoring snapshot",
+            "format": "code-snippet",
+            "content": "22:16 http_503_rate=24% previous=31% baseline=0.7%\n22:17 db_pool active=50 max=50 wait_p95=690ms\n22:18 checkout_success_rate=75%\n22:19 rollback_owner=unassigned"
+          },
+          {
+            "id": "checkout-retry-channel",
+            "type": "source",
+            "title": "Latest incident messages",
+            "format": "dialogue",
+            "content": "22:17 Lan (checkout): The 2.4 diff changed the pool timeout, but this is still a hypothesis. I am testing it now.\n22:18 Support: Two new failures; both customers completed checkout after one retry.\n22:19 Platform lead: I need the current risk and owner request before assigning rollback access."
+          }
+        ]
+      },
       "transfer": {
         "title": "Upload incident · 09:20 UTC",
         "brief": "Audience: storage on-call and mobile release lead. Stakes: failed uploads block profile verification; the mobile team hands over at 09:40 UTC.",

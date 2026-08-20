@@ -21,6 +21,88 @@
     "retryPrompt": "Viết lại, tập trung vào tiêu chí chưa đạt và giữ tin nhắn dưới 100 từ.",
     "transferPrompt": "Một API ticket nói 'improve reliability'. Hãy hỏi làm rõ success metric, phạm vi và owner.",
     "reviewPrompt": "Viết câu hỏi làm rõ cho một yêu cầu mới mà không xem lại model.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Enterprise export request",
+        "brief": "Bạn chuẩn bị sprint planning. Xác nhận cách hiểu hiện tại, hỏi các tiêu chí còn thiếu và nêu bước sẽ làm sau khi product trả lời.",
+        "artifacts": [
+          {
+            "id": "export-baseline-ticket",
+            "type": "source",
+            "title": "Ticket EXP-214",
+            "format": "technical-doc",
+            "content": "Make the customer export faster and enterprise-ready by Friday. Current CSV exports contain up to 10,000 rows. The ticket does not specify a target duration, whether XLSX is in scope or who approves the benchmark."
+          },
+          {
+            "id": "export-baseline-thread",
+            "type": "source",
+            "title": "Planning thread",
+            "format": "dialogue",
+            "content": "Product: Enterprise customers mentioned exports in two calls.\nEngineering: We can add a benchmark once the expected format and latency are confirmed.\nDelivery lead: Friday is the requested date, but no approver is named."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Partner webhook request",
+        "brief": "Sửa tin nhắn clarification cho partner demo: giữ giọng lịch sự, biến từ 'flaky' thành câu hỏi đo được và chốt next action.",
+        "artifacts": [
+          {
+            "id": "webhook-retry-ticket",
+            "type": "source",
+            "title": "Ticket WEB-88",
+            "format": "technical-doc",
+            "content": "Fix flaky webhook delivery before Tuesday's partner demo. The dashboard shows retries, but the request has no acceptable success rate, event types in scope or decision owner. The demo environment currently uses the standard retry policy."
+          },
+          {
+            "id": "webhook-retry-note",
+            "type": "source",
+            "title": "Team note",
+            "format": "meeting-notes",
+            "content": "Known deadline: Tuesday demo. Known environment: partner demo. Missing: reliability threshold, event scope, approver. Engineering can run a replay test after those points are confirmed."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "API reliability request",
+        "brief": "Unseen transfer: hỏi làm rõ success metric, phạm vi endpoint và owner mà không dùng lại dữ kiện export hoặc webhook.",
+        "artifacts": [
+          {
+            "id": "api-transfer-ticket",
+            "type": "source",
+            "title": "Ticket API-431",
+            "format": "technical-doc",
+            "content": "Improve API reliability for the mobile launch next week. Recent alerts cover both authentication and profile endpoints, but the ticket does not define an error-rate target, launch-critical endpoints or the person who accepts the result."
+          },
+          {
+            "id": "api-transfer-channel",
+            "type": "source",
+            "title": "Launch channel",
+            "format": "dialogue",
+            "content": "Mobile lead: We need a go/no-go signal by Thursday.\nAPI team: We can compare the last seven days once the endpoint scope and acceptable failure rate are agreed.\nRelease coordinator: Acceptance owner is still open."
+          }
+        ]
+      },
+      "review": {
+        "title": "Audit-log retention request",
+        "brief": "Delayed review: viết câu hỏi làm rõ mới từ memory của workflow, không xem lại model hay các response trước.",
+        "artifacts": [
+          {
+            "id": "audit-review-request",
+            "type": "source",
+            "title": "Compliance request",
+            "format": "technical-doc",
+            "content": "Make audit-log retention ready for regulated customers next sprint. Current retention is 30 days in the primary region. The request does not name the required retention period, whether replicas are included or who signs off on compliance."
+          },
+          {
+            "id": "audit-review-handoff",
+            "type": "source",
+            "title": "Security handoff",
+            "format": "meeting-notes",
+            "content": "Target window: next sprint. Current state: 30-day primary-region retention. Missing decisions: duration, regional scope, compliance approver. Platform can estimate storage cost after scope confirmation."
+          }
+        ]
+      }
+    },
     "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["current understanding", "specific questions", "next action"], "minWords": 45, "maxWords": 100 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
     "feedbackPriorities": ["specificity", "polite directness", "actionability"],

@@ -1,0 +1,21 @@
+import { readFileSync } from 'node:fs'
+
+const instructions = readFileSync(new URL('../AGENTS.md', import.meta.url), 'utf8')
+const requiredStatements = [
+  'Sau mỗi lần implement',
+  'đầu lịch sử changelog',
+  '`MAJOR`',
+  '`MINOR`',
+  '`PATCH`',
+  '`package.json`',
+  '`package-lock.json`',
+  'không sửa, xóa, gộp, đổi tên hoặc sắp xếp lại bất kỳ mục cũ nào',
+  'completion gate'
+]
+
+const missing = requiredStatements.filter((statement) => !instructions.includes(statement))
+if (missing.length > 0) {
+  throw new Error(`Thiếu quy tắc changelog/version: ${missing.join(', ')}`)
+}
+
+console.log('Quy tắc changelog/version đầy đủ.')

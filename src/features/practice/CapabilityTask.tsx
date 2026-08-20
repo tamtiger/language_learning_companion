@@ -16,7 +16,11 @@ import { useAppStore } from '../../shared/hooks/use_app_store'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 import { InteractionPractice } from './InteractionPractice'
-import { LearningLoopPractice } from './LearningLoopPractice'
+import {
+  LearningLoopPractice,
+  LearningLoopProgress,
+  type LearningLoopSummary
+} from './LearningLoopPractice'
 import { ListenBackChecklist } from './ListenBackChecklist'
 import { ReadingLadderPractice } from './ReadingLadderPractice'
 
@@ -225,6 +229,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const [inputPracticeReady, setInputPracticeReady] = useState(
     !((task.mode === 'spoken' && task.learningLoop) || (task.mode === 'written' && task.readingLadder))
   )
+  const [learningLoopSummary, setLearningLoopSummary] = useState<LearningLoopSummary | null>(null)
   const [readOnceClosedPhase, setReadOnceClosedPhase] = useState<CapabilitySession['phase'] | null>(null)
   const [processEvidence, setProcessEvidence] = useState<AttemptProcessEvidence | null>(
     () => progress?.activeProcessEvidence ?? null
@@ -371,11 +376,18 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             </div>
           ))}
           {task.mode === 'spoken' && task.learningLoop && !inputPracticeReady && (
-            <LearningLoopPractice loop={task.learningLoop} onComplete={(process) => {
+            <LearningLoopPractice loop={task.learningLoop} onComplete={(process, summary) => {
               setProcessEvidence(process)
               setActiveProcessEvidence(lesson.lessonId, process)
+              setLearningLoopSummary(summary)
               setInputPracticeReady(true)
             }} />
+          )}
+          {task.mode === 'spoken' && task.learningLoop && inputPracticeReady && (
+            <LearningLoopProgress
+              stage="ready"
+              pronunciationStatus={learningLoopSummary?.pronunciationStatus ?? 'completed'}
+            />
           )}
           {task.mode === 'written' && task.readingLadder && !inputPracticeReady && (
             <ReadingLadderPractice lessonId={lesson.lessonId} ladder={task.readingLadder}

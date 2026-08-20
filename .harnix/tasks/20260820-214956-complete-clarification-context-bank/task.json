@@ -1,0 +1,206 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-214956-complete-clarification-context-bank",
+  "title": "Hoàn tất context bank cho clarification mission",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Bổ sung context bank theo phase cho workplace clarification để toàn bộ mission v3 có evidence packet độc lập cho baseline, retry, transfer và review.",
+  "nonGoals": [
+    "Không đổi schema content hoặc progress storage.",
+    "Không thêm learning loop, reading ladder, ASR, cloud service hay learner-data export.",
+    "Không thay đổi rubric, output contract hoặc lịch review của mission."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Mission workplace-clarification-request-b1 có practiceContexts hợp lệ cho baseline, retry, transfer và review; mỗi phase có brief và artifact riêng, không tái dùng cùng evidence packet.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-clarification-context-green",
+        "ev-browser-smoke",
+        "ev-compliance-review"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Regression content chứng minh mọi mission v3 bundled đều có đủ bốn practice context và clarification mission tiếp tục render qua generic capability flow.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-clarification-context-green",
+        "ev-full-suite-green",
+        "ev-browser-smoke",
+        "ev-compliance-review"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Full tests, lint và production build pass; changelog/content contract phản ánh context bank hoàn chỉnh mà không tạo claim efficacy.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-full-suite-green",
+        "ev-static-build-green",
+        "ev-compliance-review"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "content/modules/capabilities/workplace-clarification-request-b1.json",
+    "src/content/content.test.ts",
+    "src/features/practice/CapabilityTask.test.tsx",
+    "content/modules/capabilities/workplace-issue-update-b1.json"
+  ],
+  "relevantSpecs": [
+    "CONTENT.md",
+    "PRODUCT.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-clarification-context",
+      "description": "Focused tests xác nhận bốn context độc lập và generic mission renderer.",
+      "command": "npm test -- --run src/content/content.test.ts src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/workplace-clarification-request-b1.json",
+        "src/content/content.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "check-full-suite",
+      "description": "Full regression xác nhận catalog, schema và capability flows không thoái lui.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-static-build",
+      "description": "Lint và production build xác nhận content/type/bundle.",
+      "command": "npm run lint && npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "vite.config.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-context-red",
+      "recordedAt": "2026-08-20T14:52:51.522Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED xác nhận workplace-clarification-request-b1 là mission v3 duy nhất không có practiceContexts.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "content/modules/capabilities/workplace-clarification-request-b1.json"
+      ]
+    },
+    {
+      "id": "ev-retry-context-gap",
+      "recordedAt": "2026-08-20T14:52:51.522Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "GREEN đầu tiên lộ contract gap cũ: workplace-issue-update-b1 có baseline/transfer/review nhưng thiếu retry; giữ tiêu chí coverage thay vì nới test.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "content/modules/capabilities/workplace-issue-update-b1.json"
+      ]
+    },
+    {
+      "id": "ev-clarification-context-green",
+      "checkId": "check-clarification-context",
+      "recordedAt": "2026-08-20T14:53:16.289Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused GREEN: 2 files, 19 tests; 12 mission v3 có bốn context khác nhau và generic CapabilityTask regression pass; snapshot trước/sau khớp.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "content/modules/capabilities/workplace-clarification-request-b1.json",
+        "content/modules/capabilities/workplace-issue-update-b1.json"
+      ],
+      "inputDigest": "57f090695fc65778ae9aad453524828b689af35098c3e91ae11201a749728c4a"
+    },
+    {
+      "id": "ev-full-suite-green",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-20T14:54:40.275Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression PASS: 28 test files, 112 tests; snapshot trước/sau khớp.",
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "inputDigest": "fc6a8b1769db8b2074c4949327385c38a2c31f6a5dca7c6a0a873ac738a8e1e5"
+    },
+    {
+      "id": "ev-static-build-green",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-20T14:54:40.275Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint, TypeScript và Vite production build PASS; snapshot trước/sau khớp.",
+      "artifactPaths": [
+        "dist/index.html"
+      ],
+      "inputDigest": "330fd03e8df1162faa06fe944df7043f5f643f66508380b0c9bcd206e65a11fa"
+    },
+    {
+      "id": "ev-browser-smoke",
+      "recordedAt": "2026-08-20T14:54:40.275Z",
+      "result": "pass",
+      "summary": "Browser smoke PASS: clarification baseline hiển thị Enterprise export request cùng Ticket EXP-214 và Planning thread; scrollY 0, không overflow ngang và không có app-origin warning/error.",
+      "artifactPaths": [
+        "content/modules/capabilities/workplace-clarification-request-b1.json"
+      ]
+    },
+    {
+      "id": "ev-compliance-review",
+      "recordedAt": "2026-08-20T14:54:40.275Z",
+      "result": "pass",
+      "summary": "Compliance/quality review PASS: đủ 12 mission v3 x 4 phase context, evidence packet khác nhau, không đổi schema/storage/network/privacy hoặc thêm efficacy claim; git diff --check sạch.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "CHANGELOG.md",
+        "content/modules/capabilities/workplace-clarification-request-b1.json",
+        "content/modules/capabilities/workplace-issue-update-b1.json",
+        "src/content/content.test.ts"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-20T14:50:12.486Z",
+  "updatedAt": "2026-08-20T14:54:51.163Z",
+  "completedAt": "2026-08-20T14:54:51.163Z"
+}

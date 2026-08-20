@@ -94,6 +94,8 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
   yêu cầu người học bịa log, tài liệu, meeting note hoặc chi tiết sự cố.
 - Baseline, transfer và review dùng evidence khác nhau khi mục tiêu là kiểm tra
   khả năng áp dụng quy trình vào ngữ cảnh mới.
+- Toàn bộ mission v3 có context riêng cho baseline/retry/transfer/review; retry
+  giữ communicative function nhưng dùng evidence packet cập nhật hoặc khác ngữ cảnh.
 - Learning-loop pilot phải có context riêng cho baseline/retry/transfer/review;
   pre/post dùng item khác nhau và không lộ transcript trước khi learner trả lời.
 - Bốn technical docs missions có reading ladder và context riêng cho
@@ -120,9 +122,9 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
 
 Mỗi baseline mission phải có authentic input, observable output, timebox, independence conditions, rubric, retry, transfer và delayed review. Auto-check chỉ hỗ trợ comprehension; capability completion cần performance + self-rubric + transfer.
 
-`workplace-issue-update-b1` là pilot đầu tiên của `practiceContexts`: ba evidence
-packet độc lập cho checkout, upload và email-queue incident. Đây là rollout gate
-cho tính khả thi của contract, không phải bằng chứng efficacy.
+`practiceContexts` đã được rollout tới toàn bộ 12 mission v3 với evidence packet
+riêng cho baseline/retry/transfer/review. Đây là coverage của content contract và
+generic flow, không phải bằng chứng efficacy.
 
 Cả 6 spoken missions dùng learning loop P1. TTS/metadata chỉ chứng minh flow có
 thể chạy; human listener protocol ở `docs/EVALUATION_PROTOCOL.md` mới định nghĩa

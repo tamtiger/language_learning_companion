@@ -1,0 +1,142 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260821-001521-add-changelog-version-rule",
+  "title": "Bổ sung quy tắc changelog và version",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Bổ sung chỉ dẫn dự án để mỗi lần implement tạo release mới ở đầu CHANGELOG và tăng version nhất quán theo mức độ thay đổi mà không sửa lịch sử cũ.",
+  "nonGoals": [
+    "Không viết lại hoặc sắp xếp lại nội dung CHANGELOG hiện có.",
+    "Không commit, push hoặc phát hành package.",
+    "Không thay đổi hành vi runtime của ứng dụng."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "AGENTS.md yêu cầu sau mỗi lần implement phải thêm một mục release mới ở đầu CHANGELOG.md với version và ngày, đồng thời không sửa, xóa hoặc sắp xếp lại các mục cũ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-changelog-rule-verification",
+        "ev-release-1-0-1",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "AGENTS.md định nghĩa tăng version theo Semantic Versioning: MAJOR cho breaking/thay đổi lớn, MINOR cho tính năng tương thích ngược, PATCH cho sửa lỗi, refactor, tài liệu hoặc thay đổi nhỏ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-changelog-rule-verification",
+        "ev-release-1-0-1",
+        "ev-final-review"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "AGENTS.md yêu cầu đồng bộ version trong package.json và package-lock.json khi các file tồn tại, và coi changelog/version là gate trước khi hoàn tất implementation.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-changelog-rule-verification",
+        "ev-release-1-0-1",
+        "ev-final-review"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "AGENTS.md",
+    "scripts/check-changelog-rule"
+  ],
+  "relevantSpecs": [
+    ".harnix/workflow.md",
+    "CHANGELOG.md",
+    "package-lock.json",
+    "package.json"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-changelog-rule",
+      "description": "Kiểm tra AGENTS.md chứa đầy đủ vị trí entry mới, quy tắc SemVer, đồng bộ manifest và bảo toàn lịch sử changelog.",
+      "command": "node scripts/check-changelog-rule",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-docs-tdd-exception",
+      "recordedAt": "2026-08-20T17:16:17.014Z",
+      "result": "pass",
+      "summary": "Ngoại lệ TDD: thay đổi chỉ bổ sung instruction text và checker tĩnh, không có runtime behavior để tạo RED có ý nghĩa; dùng exact-content validation và git diff check làm bằng chứng thay thế.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "scripts/check-changelog-rule"
+      ]
+    },
+    {
+      "id": "ev-changelog-rule-final",
+      "checkId": "check-changelog-rule",
+      "recordedAt": "2026-08-20T17:17:30.825Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused validation PASS: AGENTS.md có đầy đủ vị trí release mới, phân loại MAJOR/MINOR/PATCH, đồng bộ manifest, append-only và completion gate; snapshots trước/sau khớp.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "d56da4ca60716e34ddabcf6a2d3a51b55f9c9e079c85ae476307458ee86235eb"
+    },
+    {
+      "id": "ev-release-1-0-1",
+      "recordedAt": "2026-08-20T17:17:30.827Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release-state validation PASS: mục 1.0.1 ngày 2026-08-21 đứng đầu changelog; package.json và root package-lock.json cùng version 1.0.1; git diff --check sạch ngoài cảnh báo LF/CRLF.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-changelog-rule-verification",
+      "checkId": "check-changelog-rule",
+      "recordedAt": "2026-08-20T17:18:10.748Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh verification PASS: rule xác định rõ vị trí release mới, công thức SemVer MAJOR/MINOR/PATCH, đồng bộ package manifests, append-only và completion gate; snapshots khớp.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "e1443894b6c9e349fbca8a17030ebaf38aeca58ffcd236d47505848d6aa50a6e"
+    },
+    {
+      "id": "ev-final-review",
+      "recordedAt": "2026-08-20T17:18:10.749Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Compliance và quality review PASS: release 1.0.1 đứng đầu changelog, manifest đồng bộ; không sửa lịch sử cũ trong phạm vi task; không có dependency/runtime/security change; git diff --check sạch ngoài cảnh báo LF/CRLF.",
+      "artifactPaths": [
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-changelog-rule"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-20T17:15:44.4982536Z",
+  "updatedAt": "2026-08-20T17:18:29.557Z",
+  "completedAt": "2026-08-20T17:18:29.557Z"
+}

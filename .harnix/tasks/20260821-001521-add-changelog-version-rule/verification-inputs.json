@@ -1,0 +1,37 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260821-001521-add-changelog-version-rule",
+  "snapshots": [
+    {
+      "evidenceId": "ev-changelog-rule-final",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260821-001521-add-changelog-version-rule",
+      "checkId": "check-changelog-rule",
+      "taskContractHash": "1feaa3a2929c8fd809ab2bc7bb7b36d46ef5412508ada927599df58843951822",
+      "entries": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "df8a9cc0a146636b036d8554fa63775a0ec5ab6230b1ee4b875fffd663f557b5"
+        }
+      ],
+      "inputDigest": "d56da4ca60716e34ddabcf6a2d3a51b55f9c9e079c85ae476307458ee86235eb"
+    },
+    {
+      "evidenceId": "ev-changelog-rule-verification",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260821-001521-add-changelog-version-rule",
+      "checkId": "check-changelog-rule",
+      "taskContractHash": "1feaa3a2929c8fd809ab2bc7bb7b36d46ef5412508ada927599df58843951822",
+      "entries": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "15938efe0bcc9d58ee62e0c769eee292113e5bd63c2ef5e2b661c994317962fa"
+        }
+      ],
+      "inputDigest": "e1443894b6c9e349fbca8a17030ebaf38aeca58ffcd236d47505848d6aa50a6e"
+    }
+  ]
+}

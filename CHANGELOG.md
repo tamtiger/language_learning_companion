@@ -2,12 +2,19 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.0.1] - 2026-08-21
+
+### Changed
+
+- Bổ sung quy tắc release bắt buộc cập nhật changelog theo kiểu append-only và tăng
+  Semantic Versioning theo mức độ thay đổi sau mỗi lần implement.
+
 ## [Unreleased]
 
 ### Added
 
 - Hoàn thiện P0 pilot `Understand → Retrieve → Repair` cho meeting disagreement và
-  technical trade-off: Catalog có badge riêng, mission có stage navigator và
+  technical trade-off: Catalog nêu rõ Sentence chunks/Luyện phát âm, mission có stage navigator và
   recording phải qua playback + listener-oriented checklist trước khi tiếp tục.
 - Thêm transfer reason `listen-back-missing` và `interaction-incomplete` để
   timer-only fallback vẫn dùng được nhưng không tạo qualifying evidence giả.
@@ -49,6 +56,11 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Changed
 
+- Refactor spoken learning loop với tiến trình bốn bước hướng người học, trạng thái
+  pronunciation cá nhân hóa minh bạch và Guided Shadowing có chunk/step counter,
+  nút quay lại cùng controls thân thiện với keyboard và mobile.
+- Hoàn tất four-phase `practiceContexts` cho toàn bộ 12 mission v3; bổ sung
+  clarification contexts và focused-retry evidence packet còn thiếu cho issue update.
 - Nâng progress/backup lên v5 với `activeProcessEvidence` allowlist để perception,
   shadowing và interaction metadata sống qua reload; migrate v3/v4 không lưu hoặc
   suy diễn learner audio, transcript hay response.
@@ -97,5 +109,5 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 - Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
   ba evidence packet và phase isolation trong UI.
-- Regression suite hiện tại đạt 28 test files và 111 tests; lint và production build đều PASS.
+- Regression suite hiện tại đạt 28 test files và 112 tests; lint và production build đều PASS.
 - Manual QA desktop/mobile xác nhận bốn spoken mission mới vào đúng cold baseline và Daily Standup đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer. P2 cũng đi trọn technical read-once → extraction → application → performance, xác nhận source/model được khóa đúng lúc, ba tốc độ TTS hoạt động, requested locale/giới hạn synthetic hiển thị rõ và viewport 390px không tràn ngang. Console không có app-origin error; đây là QA chức năng synthetic, không phải evidence về efficacy.

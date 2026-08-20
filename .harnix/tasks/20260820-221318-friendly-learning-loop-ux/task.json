@@ -1,0 +1,384 @@
+{
+  "id": "20260820-221318-friendly-learning-loop-ux",
+  "schemaVersion": 2,
+  "generator": "harnix",
+  "nonGoals": [
+    "Không đổi content schema, progress storage hoặc evidence contract.",
+    "Không biến pronunciation thành khóa IPA độc lập hoặc thêm ASR/chấm phát âm.",
+    "Không thay đổi nội dung lesson, audio backend hoặc các thay đổi content chưa commit từ task trước."
+  ],
+  "evidence": [
+    {
+      "id": "ev-friendly-ux-red",
+      "summary": "RED: 3 focused files chạy 5 tests, 4 failures đúng contract còn thiếu: Catalog chưa có feature labels, learning loop chưa có semantic stepper/pronunciation status, Guided Shadowing chưa có chunk progress và nút quay lại.",
+      "exitCode": 1,
+      "recordedAt": "2026-08-20T15:14:55.7089917Z",
+      "artifactPaths": [
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx"
+      ],
+      "result": "fail"
+    },
+    {
+      "summary": "Catalog focused GREEN: 1 file, 1 test; feature labels bám learningLoop, không còn P0 pilot hướng người dùng và non-loop lesson không bị gắn nhãn; snapshots khớp.",
+      "recordedAt": "2026-08-20T15:18:05.7552451Z",
+      "id": "ev-catalog-ui-green",
+      "exitCode": 0,
+      "artifactPaths": [
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/catalog/CatalogPage.tsx"
+      ],
+      "inputDigest": "b3ef8e696665645a36086ff5874c976d48f2d8e0f7331c603d707ca49355d6a5",
+      "checkId": "check-catalog-ui",
+      "result": "pass"
+    },
+    {
+      "id": "ev-learning-loop-ui-green",
+      "checkId": "check-learning-loop-ui",
+      "recordedAt": "2026-08-20T15:18:52.0006815Z",
+      "inputDigest": "76ed4343a9f679f6717f1da1b9441c2f066516d203236897929d7fdcde672735",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/features/practice/PronunciationCueCard.tsx"
+      ],
+      "summary": "Learning-loop focused GREEN: 4 files, 17 tests; semantic journey, diagnostic pronunciation states, chunk/step counters, backward navigation và existing capability regressions pass; snapshots khớp.",
+      "result": "pass",
+      "exitCode": 0
+    },
+    {
+      "recordedAt": "2026-08-20T15:19:40.3201155Z",
+      "summary": "Static check tái hiện deterministic TS2353: fixture LearningLoopPractice.test dùng role/responseGoal/successCriteria, trong khi InteractionTurnSchema hiện yêu cầu kind/expectedFunction. Hypothesis: chỉ test fixture sai schema; schema lines 183-189 xác nhận.",
+      "result": "fail",
+      "exitCode": 2,
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/features/practice/LearningLoopPractice.test.tsx"
+      ],
+      "id": "ev-static-fixture-fail"
+    },
+    {
+      "artifactPaths": [
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "dist/index.html"
+      ],
+      "id": "ev-static-fixture-fixed",
+      "recordedAt": "2026-08-20T15:19:59.5320581Z",
+      "summary": "Hypothesis confirmed: replacing obsolete interaction fixture fields with kind/expectedFunction makes TypeScript và Vite build pass; production behavior unchanged.",
+      "result": "pass",
+      "exitCode": 0
+    },
+    {
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/catalog/CatalogPage.tsx"
+      ],
+      "summary": "Full suite: 28 files, 114/115 tests pass; App shell test còn tìm heading Catalog theo capability sau khi UI đổi có chủ đích thành Thư viện bài học. Hypothesis: assertion stale duy nhất; DOM failure xác nhận heading mới render đúng.",
+      "recordedAt": "2026-08-20T15:23:45.9649641Z",
+      "id": "ev-full-suite-stale-heading",
+      "result": "fail",
+      "exitCode": 1
+    },
+    {
+      "recordedAt": "2026-08-20T15:24:08.1208473Z",
+      "summary": "Hypothesis confirmed: App shell focused test 2/2 pass sau khi assertion dùng learner-facing heading Thư viện bài học.",
+      "exitCode": 0,
+      "result": "pass",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/catalog/CatalogPage.tsx"
+      ],
+      "id": "ev-app-heading-fixed"
+    },
+    {
+      "result": "pass",
+      "summary": "Browser QA sơ bộ ở 390x844 và 1440x900: Catalog có 6 cặp feature labels, learning-loop stepper/chunk counters đúng, pronunciation opt-out minh bạch, điều hướng tiến/lùi hoạt động, document scrollWidth bằng clientWidth; không có app-origin console warning/error.",
+      "id": "ev-browser-preliminary",
+      "recordedAt": "2026-08-20T15:24:49.5519040Z",
+      "artifactPaths": [
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.tsx"
+      ]
+    },
+    {
+      "id": "ev-catalog-ui-final",
+      "checkId": "check-catalog-ui",
+      "recordedAt": "2026-08-20T15:25:50.762Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh Catalog verification PASS: 1/1 test; feature labels và negative non-loop coverage pass; snapshots trước/sau khớp.",
+      "artifactPaths": [
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/catalog/CatalogPage.tsx"
+      ],
+      "inputDigest": "119d0b2fb1aff64b942ffc6d779003fadc5da23eb6d731a43a65b5be42ee2a63"
+    },
+    {
+      "id": "ev-learning-loop-ui-final",
+      "checkId": "check-learning-loop-ui",
+      "recordedAt": "2026-08-20T15:26:11.607Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh learning-loop verification PASS: 4 files, 18 tests; semantic stepper, pronunciation status, ready state, chunk counters/navigation và capability regressions pass; snapshots khớp.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/features/practice/PronunciationCueCard.tsx"
+      ],
+      "inputDigest": "d05dbfdd6df4a7e266fc5c4039a5b7dc2f6b9d7fa4ef30c1cd7328de6fe4c901"
+    },
+    {
+      "id": "ev-full-suite-final",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-20T15:26:42.225Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh full regression PASS: 28 test files, 115 tests; accessibility smoke, content, legacy và capability flows đều pass; snapshots khớp.",
+      "artifactPaths": [
+        "content",
+        "src"
+      ],
+      "inputDigest": "34c56aac0f3dac0d571a27a2322f3cffc5cf948f1e1bb0ec8c8877affd5fe8ef"
+    },
+    {
+      "id": "ev-static-build-final",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-20T15:27:44.418Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh static verification PASS: oxlint và tsc -b + vite build đều pass; snapshots trước/sau khớp.",
+      "artifactPaths": [
+        "package.json",
+        "src"
+      ],
+      "inputDigest": "e29e3a69710d83b5b4540b7ca866e79af20311b20b5ebb0051a8ddec7004fba0"
+    },
+    {
+      "id": "ev-responsive-qa-final",
+      "checkId": "check-responsive-qa",
+      "recordedAt": "2026-08-20T15:29:14.308Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh browser QA PASS ở 390x844 và 1440x900: Catalog có đúng 6 cặp nhãn Sentence chunks/Luyện phát âm, không có P0 pilot; learning loop hiển thị current/completed/skipped, Chunk 1/4 và Bước 1/5, điều hướng tiến/lùi hoạt động; document không overflow và không có app-origin warning/error; snapshots khớp.",
+      "artifactPaths": [
+        "src/app/App.tsx",
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/index.css"
+      ],
+      "inputDigest": "80fb94913d9020c2195be7c3ddbe2942c4c229b88ed1d30afc3e1281fcb6d168"
+    },
+    {
+      "id": "ev-final-review",
+      "recordedAt": "2026-08-20T15:29:50.363Z",
+      "result": "pass",
+      "summary": "Review cuối không phát hiện finding về compliance, correctness, accessibility, security hoặc maintainability trong phạm vi thay đổi; git diff --check sạch ngoài cảnh báo line-ending LF/CRLF. Không có check bị bỏ qua; residual risk thấp ở speech-synthesis phụ thuộc trình duyệt, không do refactor này thay đổi.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "src/app/App.test.tsx",
+        "src/features/catalog",
+        "src/features/practice"
+      ]
+    }
+  ],
+  "checkpoint": "finishing",
+  "title": "Làm rõ Sentence Chunks và Luyện phát âm",
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "src/features/catalog/CatalogPage.tsx",
+    "src/features/catalog/CatalogPage.test.tsx",
+    "src/features/practice/CapabilityTask.tsx",
+    "src/features/practice/CapabilityTask.test.tsx",
+    "src/features/practice/GuidedShadowing.tsx",
+    "src/features/practice/GuidedShadowing.test.tsx",
+    "src/features/practice/LearningLoopPractice.tsx",
+    "src/features/practice/LearningLoopPractice.test.tsx",
+    "src/features/practice/PronunciationCueCard.tsx",
+    "src/features/practice/PronunciationCueCard.test.tsx"
+  ],
+  "updatedAt": "2026-08-20T15:30:00.120Z",
+  "goal": "Refactor Catalog và spoken learning loop để người học tìm thấy Sentence Chunks, Luyện phát âm và luôn hiểu tiến trình mà không đổi logic sư phạm.",
+  "relevantSpecs": [
+    "PRODUCT.md",
+    "ARCHITECTURE.md",
+    "CONTENT.md"
+  ],
+  "acceptanceCriteria": [
+    {
+      "status": "met",
+      "evidenceIds": [
+        "ev-catalog-ui-final",
+        "ev-full-suite-final",
+        "ev-responsive-qa-final",
+        "ev-final-review"
+      ],
+      "id": "AC-1",
+      "text": "Catalog cho biết đúng lesson có Sentence chunks và Luyện phát âm bằng ngôn ngữ hướng người học, không dùng P0 pilot làm tín hiệu chính và không gắn nhãn sai lesson không có learning loop."
+    },
+    {
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-ui-final",
+        "ev-full-suite-final",
+        "ev-responsive-qa-final",
+        "ev-final-review"
+      ],
+      "id": "AC-2",
+      "text": "Input learning loop luôn hiển thị stepper semantic gồm Nghe nhận diện, Luyện phát âm, Sentence chunks và Lượt nói chính; current/completed/skipped pronunciation được thể hiện minh bạch."
+    },
+    {
+      "status": "met",
+      "evidenceIds": [
+        "ev-learning-loop-ui-final",
+        "ev-full-suite-final",
+        "ev-responsive-qa-final",
+        "ev-final-review"
+      ],
+      "id": "AC-3",
+      "text": "Guided Shadowing hiển thị chunk hiện tại/tổng chunk, bước hiện tại và có điều hướng quay lại/tiếp tục accessible mà không đổi process evidence."
+    },
+    {
+      "status": "met",
+      "evidenceIds": [
+        "ev-catalog-ui-final",
+        "ev-learning-loop-ui-final",
+        "ev-full-suite-final",
+        "ev-responsive-qa-final",
+        "ev-final-review"
+      ],
+      "id": "AC-4",
+      "text": "UI dùng được bằng keyboard/screen reader, không overflow hoặc chồng lấn ở desktop/mobile, giữ diagnostic-only pronunciation và không ảnh hưởng lesson không có learning loop."
+    },
+    {
+      "status": "met",
+      "evidenceIds": [
+        "ev-catalog-ui-final",
+        "ev-learning-loop-ui-final",
+        "ev-full-suite-final",
+        "ev-static-build-final",
+        "ev-responsive-qa-final",
+        "ev-final-review"
+      ],
+      "id": "AC-5",
+      "text": "Focused tests, full tests, lint, build và browser QA desktop/mobile pass trên trạng thái nguồn cuối cùng."
+    }
+  ],
+  "mode": "full",
+  "createdAt": "2026-08-20T15:13:18.6684586Z",
+  "validationPlan": [
+    {
+      "required": true,
+      "command": "npm test -- --run src/features/catalog/CatalogPage.test.tsx",
+      "description": "Focused test xác nhận feature discovery đúng theo learningLoop và không còn nhãn P0 pilot hướng người dùng.",
+      "id": "check-catalog-ui",
+      "scope": "focused",
+      "criterionIds": [
+        "AC-1",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/content/schema.ts",
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/catalog/CatalogPage.tsx"
+      ]
+    },
+    {
+      "required": true,
+      "command": "npm test -- --run src/features/practice/LearningLoopPractice.test.tsx src/features/practice/GuidedShadowing.test.tsx src/features/practice/PronunciationCueCard.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "description": "Focused component tests xác nhận stepper, pronunciation status, chunk progress và điều hướng.",
+      "id": "check-learning-loop-ui",
+      "scope": "focused",
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/GuidedShadowing.test.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/features/practice/PronunciationCueCard.test.tsx",
+        "src/features/practice/PronunciationCueCard.tsx"
+      ]
+    },
+    {
+      "required": true,
+      "command": "npm test",
+      "description": "Full regression xác nhận content, legacy lessons và capability flows không thoái lui.",
+      "id": "check-full-suite",
+      "scope": "full",
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "required": true,
+      "command": "npm run lint && npm run build",
+      "description": "Lint và production build xác nhận static, types và bundle.",
+      "id": "check-static-build",
+      "scope": "full",
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "required": true,
+      "description": "Browser QA desktop/mobile xác nhận discovery, progress states, keyboard surface, overflow, overlap và console.",
+      "id": "check-responsive-qa",
+      "scope": "focused",
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/app/App.tsx",
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/GuidedShadowing.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/index.css"
+      ]
+    }
+  ],
+  "status": "completed",
+  "completedAt": "2026-08-20T15:30:00.120Z"
+}

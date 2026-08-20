@@ -30,6 +30,31 @@ describe('new capability mission wave', () => {
       .not.toContain(contexts?.baseline.artifacts[0]?.content)
   })
 
+  it('loads distinct phase contexts for every bundled v3 capability mission', () => {
+    const missions = getBundledCatalog().lessons.filter((lesson) =>
+      lesson.sourceSchemaVersion === 'v3' && lesson.performanceTask
+    )
+
+    expect(missions).toHaveLength(12)
+    for (const mission of missions) {
+      const contexts = mission.performanceTask?.practiceContexts
+      expect(contexts, mission.lessonId).toBeTruthy()
+      if (!contexts) continue
+      expect(contexts.baseline.artifacts.length, mission.lessonId).toBeGreaterThan(0)
+      expect(contexts.retry?.artifacts.length, mission.lessonId).toBeGreaterThan(0)
+      expect(contexts.transfer.artifacts.length, mission.lessonId).toBeGreaterThan(0)
+      expect(contexts.review.artifacts.length, mission.lessonId).toBeGreaterThan(0)
+
+      const evidencePackets = [
+        contexts.baseline.artifacts.map((artifact) => artifact.content).join('\n'),
+        contexts.retry?.artifacts.map((artifact) => artifact.content).join('\n'),
+        contexts.transfer.artifacts.map((artifact) => artifact.content).join('\n'),
+        contexts.review.artifacts.map((artifact) => artifact.content).join('\n')
+      ]
+      expect(new Set(evidencePackets).size, mission.lessonId).toBe(4)
+    }
+  })
+
   it('loads a complete learning loop for every bundled spoken mission', () => {
     const pilots = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken'
       && lesson.performanceTask.learningLoop)

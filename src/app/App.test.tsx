@@ -21,7 +21,7 @@ describe('capability-first app shell', () => {
     const catalogButton = screen.getByRole('button', { name: /catalog/i })
     catalogButton.focus()
     await user.keyboard('{Enter}')
-    expect(screen.getByRole('heading', { name: /catalog theo capability/i })).toBeTruthy()
+    expect(screen.getByRole('heading', { name: /thư viện bài học/i })).toBeTruthy()
     expect(screen.getByRole('button', { name: /write an evidence-safe incident update/i })).toBeTruthy()
     expect(document.activeElement).toBe(screen.getByRole('main'))
     expect(focus).toHaveBeenCalledWith({ preventScroll: true })
