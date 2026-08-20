@@ -6,7 +6,7 @@ const bundledLessons = Object.values(
   import.meta.glob('../../content/**/*.json', { eager: true, import: 'default' })
 )
 
-function bundledLessonByVersion(schemaVersion: 'v1' | 'v2'): unknown {
+function bundledLessonByVersion(schemaVersion: 'v1'): unknown {
   const lesson = bundledLessons.find((candidate) =>
     typeof candidate === 'object'
     && candidate !== null
@@ -29,14 +29,19 @@ describe('parseLesson and normalizeLesson', () => {
     ])
   })
 
-  it('normalizes the v2 Daily Standup into a spoken canonical task', () => {
-    const lesson = normalizeLesson(parseLesson(bundledLessonByVersion('v2')))
+  it('keeps the migrated v3 Daily Standup as a spoken capability loop', () => {
+    const raw = bundledLessons.find((candidate) => typeof candidate === 'object' && candidate !== null
+      && 'lessonId' in candidate && candidate.lessonId === 'daily-standup-b1')
+    if (!raw) throw new Error('Missing migrated Daily Standup fixture')
+    const lesson = normalizeLesson(parseLesson(raw))
 
-    expect(lesson.sourceSchemaVersion).toBe('v2')
-    expect(lesson.completionMode).toBe('performance')
-    expect(lesson.performanceTask?.mode).toBe('spoken')
-    expect(lesson.performanceTask?.baselinePrompt).toBeTruthy()
-    expect(lesson.reviewPolicy.intervalDays).toEqual([1, 3, 7])
+    expect(lesson.sourceSchemaVersion).toBe('v3')
+    expect(lesson.completionMode).toBe('capability-loop')
+    const task = lesson.performanceTask
+    expect(task?.mode).toBe('spoken')
+    if (task?.mode !== 'spoken') throw new Error('Daily Standup must stay spoken')
+    expect(task.learningLoop).toBeTruthy()
+    expect(lesson.reviewPolicy.intervalDays).toEqual([2, 7])
   })
 
   it('keeps a valid v3 lesson data-driven', () => {

@@ -68,12 +68,12 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 - Mission `workplace-issue-update-b1` là pilot realism đầu tiên: baseline,
   transfer và review có evidence packet riêng để người học tổng hợp fact,
   uncertainty, impact, owner và request thay vì phải tự bịa dữ kiện.
-- Sáu pronunciation lesson schema v1 và Daily Standup schema v2 tiếp tục chạy qua content normalization.
+- Sáu pronunciation lesson schema v1 tiếp tục chạy qua content normalization;
+  Daily Standup đã được migrate sang spoken v3.
 - Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise progress.
-- Hai spoken mission `meeting-disagree-and-recap-b2` và
-  `technical-tradeoff-explanation-b2` pilot chuỗi perception → cue theo lỗi →
+- Cả 6 spoken missions chạy chuỗi perception → cue theo lỗi diagnostic →
   functional chunks → guided shadowing/delayed imitation/variation → listen-back
-  → scripted clarification/repair → retry/transfer/review.
+  → scripted clarification/interruption/repair → retry/transfer/review.
 - Pronunciation trong capability loop chỉ dạy tối đa hai cue làm thay đổi khả
   năng nghe hiểu hoặc ý nghĩa; IPA hỗ trợ cue, không phải syllabus bắt buộc độc lập.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
@@ -85,10 +85,11 @@ suy diễn rằng app đã cải thiện phát âm, phản xạ hay hiệu quả
 
 ## Rollout gate P0 → P1 → P2
 
-- **P0 (hiện tại):** hai spoken pilot, synthetic content, local TTS và process
+- **P0:** hai spoken pilot, synthetic content, local TTS và process
   metadata; gate là usability/flow/privacy, không phải efficacy.
-- **P1:** chỉ mở rộng learning loop sau khi audit pilot không lộ support và cho
-  thấy learner hoàn thành được retry/transfer; bổ sung context/interaction đa dạng.
+- **P1 (hiện tại):** 6 spoken missions có context/interaction đa dạng; cue chỉ
+  dựa trên lỗi pre/post diagnostic trong phiên. Listener protocol ghi
+  `evidence observed`, chưa có listener result hoặc efficacy claim.
 - **P2:** mở rộng technical-reading/listening ladder và thiết kế listener study;
   chỉ human calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
 

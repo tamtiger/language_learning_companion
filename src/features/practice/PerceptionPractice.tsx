@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { LearningLoopV1 } from '../../content/schema'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
+import { recordPerceptionMiss, type PerceptionPhase } from './learning_loop_diagnostics'
 import { availableVoiceCount } from './model_audio'
 
 export interface PerceptionResult {
@@ -9,19 +10,17 @@ export interface PerceptionResult {
   trainingCompleted: number
   posttestCorrect: number
   posttestTotal: number
-  missedItemIds: string[]
+  diagnosticMissedItemIds: string[]
   optedOut: boolean
   availableVariantCount: number
   variabilityQualified: boolean
 }
 
-type Phase = 'pretest' | 'training' | 'posttest'
-
 export function PerceptionPractice({ perception, onComplete }: {
   perception: LearningLoopV1['perception']
   onComplete: (result: PerceptionResult) => void
 }) {
-  const [phase, setPhase] = useState<Phase>('pretest')
+  const [phase, setPhase] = useState<PerceptionPhase>('pretest')
   const [index, setIndex] = useState(0)
   const [answer, setAnswer] = useState<string | null>(null)
   const [scores, setScores] = useState({ pretest: 0, posttest: 0 })
@@ -35,7 +34,7 @@ export function PerceptionPractice({ perception, onComplete }: {
     if (value === item.correctAnswer && phase !== 'training') {
       setScores((current) => ({ ...current, [phase]: current[phase] + 1 }))
     }
-    if (value !== item.correctAnswer) setMissed((current) => [...current, item.id])
+    if (value !== item.correctAnswer) setMissed((current) => recordPerceptionMiss(current, phase, item.id))
   }
   const next = () => {
     if (!last) {
@@ -60,7 +59,7 @@ export function PerceptionPractice({ perception, onComplete }: {
       trainingCompleted: perception.training.length,
       posttestCorrect: scores.posttest,
       posttestTotal: perception.posttest.length,
-      missedItemIds: [...new Set(missed)],
+      diagnosticMissedItemIds: [...new Set(missed)],
       optedOut: false,
       availableVariantCount,
       variabilityQualified: availableVariantCount >= 3
@@ -97,7 +96,7 @@ export function PerceptionPractice({ perception, onComplete }: {
           pretestCorrect: scores.pretest, pretestTotal: perception.pretest.length,
           trainingCompleted: phase === 'pretest' ? 0 : index,
           posttestCorrect: scores.posttest, posttestTotal: perception.posttest.length,
-          missedItemIds: [...new Set(missed)], optedOut: true,
+          diagnosticMissedItemIds: [...new Set(missed)], optedOut: true,
           availableVariantCount: 0, variabilityQualified: false
         })} className="rounded-lg border border-zinc-700 px-4 py-2">
           Bỏ qua vì audio không phù hợp

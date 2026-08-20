@@ -1,15 +1,17 @@
 import type { LearningLoopV1 } from '../../content/schema'
+import { getRelevantPronunciationCues } from './learning_loop_diagnostics'
 
 export function PronunciationCueCard({ cues, missedItemIds, onComplete }: {
   cues: LearningLoopV1['pronunciationCues']
   missedItemIds: string[]
   onComplete: () => void
 }) {
-  const relevant = cues.filter((cue) => cue.triggerItemIds.some((id) => missedItemIds.includes(id)))
+  const relevant = getRelevantPronunciationCues(cues, missedItemIds)
   return (
     <section className="space-y-4 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-5">
       <h3 className="text-xl font-black">Cue phát âm đúng lúc</h3>
-      {(relevant.length ? relevant : cues.slice(0, 1)).map((cue) => (
+      <p className="text-sm text-zinc-300">Đây là hỗ trợ tự kiểm theo lỗi nghe diagnostic, không phải chấm phát âm đúng/sai.</p>
+      {relevant.map((cue) => (
         <article key={cue.id} className="rounded-xl bg-zinc-950/60 p-4">
           <p className="font-bold">{cue.ipa ?? 'Speech cue'}</p>
           <p className="mt-2">{cue.articulatoryCue}</p>

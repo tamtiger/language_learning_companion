@@ -2,10 +2,10 @@
   "schemaVersion": "v3",
   "lessonId": "architecture-walkthrough-b2",
   "title": "Walk through a system architecture",
-  "summary": "Giải thích luồng hệ thống, ranh giới và trade-off bằng tiếng Anh dễ theo dõi.",
+  "summary": "Giải thích luồng hệ thống, ranh giới, failure path và trade-off bằng tiếng Anh dễ theo dõi.",
   "cefrLevel": "B2",
   "durationMinutes": 20,
-  "learningObjectives": ["Tổ chức explanation theo luồng", "Nêu component responsibility", "Giải thích trade-off"],
+  "learningObjectives": ["Tổ chức explanation theo luồng", "Nêu component responsibility", "Giải thích trade-off và failure"],
   "capabilities": ["technical-explanation"],
   "workflowTags": ["architecture", "walkthrough"],
   "sections": [
@@ -13,14 +13,20 @@
     { "id": "check", "type": "auto-check", "title": "Choose a clear transition", "exercises": [{ "id": "architecture-check", "type": "choice", "question": "Câu nào giúp người nghe theo dõi luồng tốt nhất?", "options": ["There are many services.", "Once the order service publishes the event, two consumers process inventory and payment independently.", "It is event-driven."], "correctAnswer": ["Once the order service publishes the event, two consumers process inventory and payment independently."], "explanation": "Transition chỉ rõ thời điểm, component và hành động." }] }
   ],
   "performanceTask": {
-    "id": "architecture-walkthrough", "mode": "spoken", "title": "Explain the order pipeline",
+    "id": "architecture-walkthrough", "mode": "spoken", "title": "Explain an architecture flow",
     "scenario": "Một kỹ sư mới cần hiểu request flow và cách hệ thống xử lý failure.",
-    "baselinePrompt": "Giải thích sơ đồ bằng tiếng Anh mà chưa xem model.",
+    "baselinePrompt": "Giải thích sơ đồ bằng tiếng Anh mà chưa xem model hoặc chunk.",
     "performancePrompt": "Trong 2 phút, đi từ entry point đến consumers, nêu responsibility, async trade-off và failure path.",
-    "modelResponse": "A request first enters the API gateway, which authenticates and routes it to the order service. The service validates the payload, stores the order and publishes an event. From that point, inventory and payment run independently. This reduces request latency and isolates consumers, but the client sees acceptance rather than final completion. Failed events move to the dead-letter queue for investigation and replay.",
-    "retryPrompt": "Giải thích lại với signposting rõ và sửa một tiêu chí chưa đạt.",
-    "transferPrompt": "Giải thích một pipeline upload file gồm gateway, object storage, queue và worker.",
-    "reviewPrompt": "Walk through một architecture khác, gồm happy path, trade-off và failure path.",
+    "modelResponse": "A request first enters the API gateway, which authenticates and routes it to the order service. The service stores the order and publishes an event. Inventory and payment then run independently. This reduces request latency, but the client sees acceptance rather than final completion. Failed events move to the dead-letter queue for investigation and replay.",
+    "retryPrompt": "Giải thích pipeline ảnh mới; dùng signposting rõ và ưu tiên criterion cần sửa.",
+    "transferPrompt": "Không xem model/chunks: giải thích pipeline upload file từ facts mới.",
+    "reviewPrompt": "Từ review brief mới, walk through happy path, trade-off và failure path.",
+    "practiceContexts": {
+      "baseline": { "title": "Order event pipeline", "brief": "Onboard engineer vào order flow.", "artifacts": [{ "id": "arch-order", "type": "source", "title": "Order flow", "format": "technical-doc", "content": "Client → gateway → order service → broker → inventory/payment; API returns accepted; failed events → DLQ." }] },
+      "retry": { "title": "Image processing pipeline", "brief": "Giữ function, đổi component và failure.", "artifacts": [{ "id": "arch-image", "type": "source", "title": "Image flow", "format": "technical-doc", "content": "Mobile app → upload API → object storage → queue → resize worker; worker retries twice; poison jobs → quarantine queue." }] },
+      "transfer": { "title": "File scanning pipeline", "brief": "Unseen flow, không dùng model.", "artifacts": [{ "id": "arch-file", "type": "source", "title": "Upload flow", "format": "technical-doc", "content": "Browser → signed upload → object storage → scan queue → antivirus worker; download locked until clean; timeout → manual review." }] },
+      "review": { "title": "Notification pipeline", "brief": "Delayed retrieval với topology mới.", "artifacts": [{ "id": "arch-notify", "type": "source", "title": "Notification flow", "format": "technical-doc", "content": "Service → notification topic → email/SMS consumers; per-channel rate limits; exhausted retries → DLQ and operator alert." }] }
+    },
     "outputContract": { "timeLimitSeconds": 180, "requiredElements": ["request flow", "responsibilities", "trade-off", "failure path"], "targetSeconds": 90 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
     "feedbackPriorities": ["structure", "accuracy", "trade-off"],
@@ -28,7 +34,48 @@
       { "id": "flow", "label": "Traceable flow", "description": "Uses transitions so the listener can follow the request end to end." },
       { "id": "responsibility", "label": "Component responsibilities", "description": "Explains what major components do, not only their names." },
       { "id": "tradeoff", "label": "Trade-off and failure", "description": "Names one benefit, one cost and the failure path." }
-    ]
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "arch-pre-1", "audio": { "kind": "speech-synthesis", "text": "Failed events move to the dead letter queue.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Where do failed events go?", "options": ["Dead-letter queue", "Payment consumer"], "correctAnswer": "Dead-letter queue" },
+          { "id": "arch-pre-2", "audio": { "kind": "speech-synthesis", "text": "The API returns before downstream processing finishes.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "When does the API return?", "options": ["Before downstream completion", "After every consumer finishes"], "correctAnswer": "Before downstream completion" },
+          { "id": "arch-pre-3", "audio": { "kind": "speech-synthesis", "text": "Inventory and payment run independently.", "locale": "en-US", "voiceHints": ["English"] }, "question": "How do the consumers run?", "options": ["Independently", "In one transaction"], "correctAnswer": "Independently" },
+          { "id": "arch-pre-4", "audio": { "kind": "speech-synthesis", "text": "The worker retries two times.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "How many retries?", "options": ["Two", "Ten"], "correctAnswer": "Two" }
+        ],
+        "training": [
+          { "id": "arch-train-1", "audio": { "kind": "speech-synthesis", "text": "A request first enters the gateway.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the entry point?", "options": ["Gateway", "Worker"], "correctAnswer": "Gateway", "feedback": "Listen for FIRST and GATEWAY as the flow anchor." },
+          { "id": "arch-train-2", "audio": { "kind": "speech-synthesis", "text": "Once validated, the service publishes an event.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What happens after validation?", "options": ["An event is published", "The client scans the file"], "correctAnswer": "An event is published", "feedback": "Once validated signals the next stage." },
+          { "id": "arch-train-3", "audio": { "kind": "speech-synthesis", "text": "This reduces latency, but completion becomes eventual.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What trade-off is stated?", "options": ["Lower latency versus eventual completion", "Higher cost versus encryption"], "correctAnswer": "Lower latency versus eventual completion", "feedback": "Stress REDUCES LATENCY and EVENTUAL to expose both sides." },
+          { "id": "arch-train-4", "audio": { "kind": "speech-synthesis", "text": "Failed jobs enter a quarantine queue.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What receives failed jobs?", "options": ["Quarantine queue", "Browser cache"], "correctAnswer": "Quarantine queue", "feedback": "Keep the final consonants in failed jobs audible." },
+          { "id": "arch-train-5", "audio": { "kind": "speech-synthesis", "text": "From that point, two consumers work in parallel.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What does from that point signal?", "options": ["A transition", "A rollback"], "correctAnswer": "A transition", "feedback": "Use transition phrases to make topology traceable." },
+          { "id": "arch-train-6", "audio": { "kind": "speech-synthesis", "text": "The main cost is operational complexity.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the cost?", "options": ["Operational complexity", "Request validation"], "correctAnswer": "Operational complexity", "feedback": "Stress MAIN COST before the consequence." }
+        ],
+        "posttest": [
+          { "id": "arch-post-1", "audio": { "kind": "speech-synthesis", "text": "Timed-out scans move to manual review.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "Where do timed-out scans go?", "options": ["Manual review", "Object storage only"], "correctAnswer": "Manual review" },
+          { "id": "arch-post-2", "audio": { "kind": "speech-synthesis", "text": "The benefit is isolation; the cost is delayed status.", "locale": "en-US", "voiceHints": ["English"] }, "question": "Which trade-off is stated?", "options": ["Isolation versus delayed status", "Security versus memory"], "correctAnswer": "Isolation versus delayed status" },
+          { "id": "arch-post-3", "audio": { "kind": "speech-synthesis", "text": "After storage, a worker scans the file.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What follows storage?", "options": ["A worker scans the file", "The client pays"], "correctAnswer": "A worker scans the file" },
+          { "id": "arch-post-4", "audio": { "kind": "speech-synthesis", "text": "The download remains locked until the scan is clean.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "When is download unlocked?", "options": ["After a clean scan", "Before upload"], "correctAnswer": "After a clean scan" }
+        ]
+      },
+      "pronunciationCues": [
+        { "id": "arch-cue-finals", "articulatoryCue": "Giữ âm cuối trong failed events, jobs và costs.", "meaningRisk": "Mất plural/final sounds làm số lượng và trạng thái khó hiểu.", "triggerItemIds": ["arch-pre-1", "arch-post-1"] },
+        { "id": "arch-cue-contrast", "articulatoryCue": "Chia thought groups: BENEFIT | BUT COST | FAILURE PATH.", "meaningRisk": "Trọng âm đều làm trade-off bị chìm.", "triggerItemIds": ["arch-pre-2", "arch-post-2"] }
+      ],
+      "chunks": [
+        { "id": "arch-chunk-1", "function": "start flow", "text": "A request first enters ___, which ___.", "meaning": "Nêu entry point và responsibility.", "slots": ["component", "action"], "stressPattern": "FIRST · ENTERS", "modelAudio": { "kind": "speech-synthesis", "text": "A request first enters the gateway, which authenticates it.", "locale": "en-US", "voiceHints": ["English US"] } },
+        { "id": "arch-chunk-2", "function": "transition", "text": "Once ___, the system ___.", "meaning": "Chuyển sang stage kế tiếp.", "slots": ["condition", "action"], "modelAudio": { "kind": "speech-synthesis", "text": "Once validated, the system publishes an event.", "locale": "en-GB", "voiceHints": ["English UK"] } },
+        { "id": "arch-chunk-3", "function": "trade-off", "text": "This improves ___, but it means ___.", "meaning": "Nêu benefit và cost.", "slots": ["benefit", "cost"], "stressPattern": "IMPROVES · BUT", "modelAudio": { "kind": "speech-synthesis", "text": "This improves latency, but it means completion is eventual.", "locale": "en-US", "voiceHints": ["English"] } },
+        { "id": "arch-chunk-4", "function": "failure", "text": "If ___ fails, it moves to ___.", "meaning": "Nêu failure path.", "slots": ["stage", "destination"], "modelAudio": { "kind": "speech-synthesis", "text": "If processing fails, it moves to the dead letter queue.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Flow có entry point và transitions rõ.", "Responsibilities không chỉ là tên component.", "Benefit, cost và failure path nghe rõ."],
+      "interactionTurns": [
+        { "id": "arch-turn-interrupt", "kind": "interruption", "prompt": "Sorry to interrupt—what does the client know at that point?", "expectedFunction": "answer one status question briefly" },
+        { "id": "arch-turn-clarify", "kind": "clarification", "prompt": "What happens if the worker keeps failing?", "expectedFunction": "clarify retries and final failure destination" }
+      ]
+    }
   },
-  "reviewPolicy": { "intervalDays": [1, 4, 10] }
+  "reviewPolicy": { "intervalDays": [2, 7] }
 }

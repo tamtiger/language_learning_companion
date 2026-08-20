@@ -1,179 +1,78 @@
 {
-  "schemaVersion": "v2",
-  "lessonId": "daily-standup-b1",
+  "schemaVersion": "v3", "lessonId": "daily-standup-b1",
   "title": "Daily Standup: Cập nhật tiến độ rõ ràng",
-  "cefrLevel": "B1",
-  "durationMinutes": 15,
-  "learningObjectives": [
-    "Trình bày cập nhật Daily Standup theo cấu trúc yesterday, today và blockers trong 60 giây",
-    "Nêu ít nhất một chi tiết kỹ thuật cụ thể thay vì báo cáo chung chung",
-    "Phản hồi blocker bằng một hành động hoặc yêu cầu hỗ trợ rõ ràng"
-  ],
-  "vocabulary": [
-    {
-      "word": "blocker",
-      "ipa": "/ˈblɑːkər/",
-      "definition": "Something that prevents progress.",
-      "technicalMeaning": "An issue or dependency that stops or delays engineering work.",
-      "collocations": ["raise a blocker", "current blocker", "remove a blocker"],
-      "example": "My current blocker is missing access to the staging environment.",
-      "commonMistake": "Do not call every small inconvenience a blocker; explain what work it prevents."
-    },
-    {
-      "word": "deploy",
-      "ipa": "/dɪˈplɔɪ/",
-      "definition": "To put something into use.",
-      "technicalMeaning": "To release an application or change to an environment.",
-      "collocations": ["deploy to staging", "deploy a fix", "deployment pipeline"],
-      "example": "Today, I will deploy the authentication fix to staging.",
-      "commonMistake": "Use deploy to an environment, not deploy on an environment."
-    },
-    {
-      "word": "investigate",
-      "ipa": "/ɪnˈvestɪɡeɪt/",
-      "definition": "To examine a problem carefully.",
-      "technicalMeaning": "To inspect logs, code and system behavior to find a cause.",
-      "collocations": ["investigate an issue", "investigate logs", "investigate the cause"],
-      "example": "I am investigating an intermittent timeout in the payment API.",
-      "commonMistake": "Say investigate the issue, not investigate about the issue."
-    },
-    {
-      "word": "dependency",
-      "ipa": "/dɪˈpendənsi/",
-      "definition": "Something that another thing relies on.",
-      "technicalMeaning": "A service, library or team deliverable required by current work.",
-      "collocations": ["external dependency", "blocked by a dependency", "update a dependency"],
-      "example": "The identity service is an external dependency for this ticket.",
-      "commonMistake": "Name the specific dependency and its effect instead of saying only that you are blocked."
-    },
-    {
-      "word": "estimate",
-      "ipa": "/ˈestɪmət/",
-      "definition": "An approximate calculation or judgment.",
-      "technicalMeaning": "An expected amount of effort or time for engineering work.",
-      "collocations": ["time estimate", "revise the estimate", "provide an estimate"],
-      "example": "I will revise the estimate after I reproduce the bug.",
-      "commonMistake": "An estimate is not a guarantee; state what new information could change it."
-    }
-  ],
-  "expressions": [
-    {
-      "phrase": "Yesterday, I completed...",
-      "meaning": "Nêu ngắn gọn kết quả đã hoàn thành từ lần cập nhật trước.",
-      "tone": "neutral",
-      "example": "Yesterday, I completed the validation logic for the signup form.",
-      "alternatives": ["Since our last standup, I finished...", "I wrapped up..."]
-    },
-    {
-      "phrase": "Today, I am going to...",
-      "meaning": "Nêu việc ưu tiên tiếp theo và kết quả mong đợi.",
-      "tone": "neutral",
-      "example": "Today, I am going to deploy the fix and monitor the error rate.",
-      "alternatives": ["My focus today is...", "Next, I will..."]
-    },
-    {
-      "phrase": "My current blocker is...",
-      "meaning": "Nêu trở ngại cụ thể cùng tác động hoặc hỗ trợ cần thiết.",
-      "tone": "neutral",
-      "example": "My current blocker is missing staging access, so I need help from the platform team.",
-      "alternatives": ["I am blocked by...", "I have no blockers at the moment."]
-    }
-  ],
-  "reading": {
-    "title": "A concise update from Minh",
-    "sourceType": "Daily Standup Transcript",
-    "content": "Good morning. Yesterday, I completed the input validation for the signup form and added unit tests for the main error cases. I also reviewed the logs from our staging environment. Today, I will deploy the validation change to staging and investigate an intermittent timeout in the payment API. My goal is to reproduce the timeout and identify whether it comes from our service or an external dependency. My current blocker is access to the payment dashboard. Without that access, I can inspect application logs, but I cannot compare them with the provider metrics. I have asked the platform team for permission. If access is not available before lunch, I will pair with Linh and use her screen to continue the investigation. The original estimate for this ticket was one day. I will revise the estimate after we confirm the cause. That is all from me. The update is short, but it gives the team concrete completed work, a clear plan, a specific blocker and a next action."
-  },
-  "exercises": [
-    {
-      "id": "daily-standup-choice-1",
-      "type": "choice",
-      "question": "Which update gives the team a specific blocker and next action?",
-      "options": [
-        "I have some problems, but I am working on them.",
-        "My current blocker is payment dashboard access, so I asked the platform team for permission.",
-        "Yesterday was busy and today will also be busy."
-      ],
-      "correctAnswer": ["My current blocker is payment dashboard access, so I asked the platform team for permission."],
-      "explanation": "A useful blocker names what is missing, its effect and the action already taken."
-    },
-    {
-      "id": "daily-standup-matching-1",
-      "type": "matching",
-      "question": "Match each Daily Standup section with its purpose.",
-      "matchingPairs": [
-        { "key": "Yesterday", "value": "Completed outcome" },
-        { "key": "Today", "value": "Next priority" },
-        { "key": "Blocker", "value": "Obstacle and requested action" }
-      ],
-      "correctAnswer": [
-        "Yesterday - Completed outcome",
-        "Today - Next priority",
-        "Blocker - Obstacle and requested action"
-      ],
-      "explanation": "The three-part structure lets the team understand progress and act on obstacles quickly."
-    },
-    {
-      "id": "daily-standup-ordering-1",
-      "type": "ordering",
-      "question": "Order this plan for investigating a delayed dependency.",
-      "options": [
-        "Today, I will investigate the timeout.",
-        "The payment dashboard dependency is blocking comparison.",
-        "I asked the platform team for access."
-      ],
-      "correctAnswer": [
-        "Today, I will investigate the timeout.",
-        "The payment dashboard dependency is blocking comparison.",
-        "I asked the platform team for access."
-      ],
-      "explanation": "State the plan, name the blocker, then make the requested or completed action explicit."
-    }
+  "summary": "Báo cáo outcome, priority và blocker có next action trong 60 giây.",
+  "cefrLevel": "B1", "durationMinutes": 15,
+  "learningObjectives": ["Nêu completed outcome", "Nêu priority cụ thể", "Nêu blocker cùng next action"],
+  "capabilities": ["international-meetings"], "workflowTags": ["standup", "status-update"],
+  "sections": [
+    { "id": "standup-source", "type": "source", "title": "A concise update", "format": "meeting-notes", "content": "Yesterday: completed signup validation and tests. Today: deploy to staging and investigate payment timeout. Blocker: payment dashboard access; platform team has the request; fallback is pairing with Linh." },
+    { "id": "standup-check", "type": "auto-check", "title": "Make the blocker actionable", "exercises": [{ "id": "standup-choice", "type": "choice", "question": "Which update names a blocker and next action?", "options": ["I have some problems.", "Payment dashboard access is blocking comparison, so I asked Platform for permission.", "Today is busy."], "correctAnswer": ["Payment dashboard access is blocking comparison, so I asked Platform for permission."], "explanation": "A useful blocker names what is missing, its effect and the action." }] }
   ],
   "performanceTask": {
-    "id": "daily-standup-spoken-task",
-    "mode": "spoken",
-    "title": "Deliver a concise Daily Standup",
-    "scenario": "Bạn tham gia cuộc Daily Standup trực tuyến với một nhóm kỹ sư quốc tế. Nhóm cần biết kết quả từ hôm qua, ưu tiên hôm nay và trở ngại cần hỗ trợ.",
-    "prompt": "Trong tối đa 60 giây, hãy báo cáo: việc đã hoàn thành, việc sẽ làm hôm nay và blocker hoặc xác nhận không có blocker. Thêm ít nhất một chi tiết kỹ thuật cụ thể.",
-    "modelResponse": "Yesterday, I completed the signup validation and added tests for the main error cases. Today, I will deploy the fix to staging and investigate a payment timeout. My current blocker is access to the payment dashboard, so I have asked the platform team for permission.",
-    "retryPrompt": "Nghe lại lượt nói. Thử lại bằng ba phần ngắn: Yesterday, Today, Blocker. Loại bỏ chi tiết không giúp nhóm hành động và thêm một next action rõ ràng.",
-    "transferPrompt": "Tình huống mới: dashboard đã truy cập được, nhưng external dependency trả lỗi 503 không ổn định. Hãy đưa ra một Daily Standup update mới, gồm kế hoạch điều tra, estimate hiện tại và người bạn cần phối hợp.",
-    "preparationSeconds": 30,
-    "performanceSeconds": 60,
-    "requirements": [
-      "Nêu một kết quả đã hoàn thành từ hôm qua",
-      "Nêu ưu tiên và kết quả mong đợi hôm nay",
-      "Nêu blocker hoặc xác nhận không có blocker",
-      "Đưa vào ít nhất một chi tiết kỹ thuật cụ thể",
-      "Nếu có blocker, nêu next action hoặc hỗ trợ cần thiết"
-    ],
-    "feedbackPriorities": [
-      "Cấu trúc yesterday–today–blocker dễ theo dõi",
-      "Chi tiết kỹ thuật cụ thể nhưng ngắn gọn",
-      "Blocker đi kèm tác động và hành động tiếp theo"
-    ],
+    "id": "daily-standup-spoken-task", "mode": "spoken", "title": "Deliver a concise Daily Standup",
+    "scenario": "Bạn cập nhật cho một distributed engineering team.",
+    "baselinePrompt": "Trong tối đa 60 giây, báo cáo yesterday, today và blocker mà chưa xem model/chunks.",
+    "performancePrompt": "Dùng facts chính: completed outcome, priority/expected result, blocker impact và next action.",
+    "modelResponse": "Yesterday, I completed signup validation and added tests for the main error cases. Today, I will deploy the fix to staging and investigate a payment timeout. My current blocker is payment dashboard access, so I have asked the platform team for permission. If access is delayed, I will pair with Linh to continue.",
+    "retryPrompt": "Dùng search-index case mới; giữ update dưới 60 giây và sửa criterion cần tập trung.",
+    "transferPrompt": "Không xem model/chunks: cập nhật incident 503 với plan, estimate và collaborator.",
+    "reviewPrompt": "Từ brief mới, deliver a concise standup with no blocker and one risk.",
+    "practiceContexts": {
+      "baseline": { "title": "Payment timeout", "brief": "Update sau khi hoàn thành validation.", "artifacts": [{ "id": "standup-payment", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Done: signup validation + tests. Today: deploy + reproduce payment timeout. Blocker: dashboard access. Asked Platform; pair with Linh if delayed." }] },
+      "retry": { "title": "Search indexing", "brief": "Giữ three-part structure, đổi facts.", "artifacts": [{ "id": "standup-search", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Done: backfill script. Today: verify 2M documents. Blocker: production snapshot approval. Asked Data owner; use anonymized staging sample meanwhile." }] },
+      "transfer": { "title": "Dependency 503", "brief": "Unseen status update với estimate.", "artifacts": [{ "id": "standup-503", "type": "source", "title": "Incident notes", "format": "meeting-notes", "content": "Done: reproduced intermittent 503. Today: compare provider/request IDs. Estimate: 1 day after logs arrive. Blocker: vendor logs. Coordinate with SRE Mina." }] },
+      "review": { "title": "Mobile release", "brief": "Delayed update, không có blocker.", "artifacts": [{ "id": "standup-mobile", "type": "source", "title": "Release notes", "format": "meeting-notes", "content": "Done: crash fix merged. Today: beta rollout to 10%. No blocker. Risk: store review may delay release; monitor approval by 15:00." }] }
+    },
+    "outputContract": { "timeLimitSeconds": 90, "requiredElements": ["completed outcome", "today priority", "blocker or no blocker", "next action"], "targetSeconds": 60 },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 30 },
+    "feedbackPriorities": ["structure", "specificity", "actionability"],
     "rubric": [
-      {
-        "id": "structure",
-        "criterion": "Cấu trúc ba phần",
-        "successDescription": "Người nghe phân biệt rõ việc đã làm, việc sắp làm và blocker."
+      { "id": "structure", "label": "Yesterday–today–blocker", "description": "The listener can separate completed work, next priority and blocker status." },
+      { "id": "specificity", "label": "Technical specificity", "description": "Names a concrete feature, service, test, environment or metric." },
+      { "id": "actionability", "label": "Actionable blocker", "description": "States impact and next action, or clearly confirms no blocker." }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "stand-pre-1", "audio": { "kind": "speech-synthesis", "text": "Yesterday, I completed the validation tests.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What was completed?", "options": ["Validation tests", "Dashboard access"], "correctAnswer": "Validation tests" },
+          { "id": "stand-pre-2", "audio": { "kind": "speech-synthesis", "text": "Today, I will reproduce the timeout.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is today's action?", "options": ["Reproduce the timeout", "Write a design"], "correctAnswer": "Reproduce the timeout" },
+          { "id": "stand-pre-3", "audio": { "kind": "speech-synthesis", "text": "My blocker is access to the payment dashboard.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What is blocked?", "options": ["Dashboard access", "Unit tests"], "correctAnswer": "Dashboard access" },
+          { "id": "stand-pre-4", "audio": { "kind": "speech-synthesis", "text": "If access is delayed, I will pair with Linh.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is the fallback?", "options": ["Pair with Linh", "Cancel the ticket"], "correctAnswer": "Pair with Linh" }
+        ],
+        "training": [
+          { "id": "stand-train-1", "audio": { "kind": "speech-synthesis", "text": "Yesterday, I fixed checkout validation.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Which section is this?", "options": ["Completed outcome", "Blocker"], "correctAnswer": "Completed outcome", "feedback": "Stress YESTERDAY and the completed result." },
+          { "id": "stand-train-2", "audio": { "kind": "speech-synthesis", "text": "Today, I will deploy and monitor error rates.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is included?", "options": ["Action and expected check", "Only background"], "correctAnswer": "Action and expected check", "feedback": "Keep deploy and monitor as clear action verbs." },
+          { "id": "stand-train-3", "audio": { "kind": "speech-synthesis", "text": "I am blocked by missing vendor logs.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What is the blocker?", "options": ["Missing vendor logs", "A code review"], "correctAnswer": "Missing vendor logs", "feedback": "Make BLOCKED and VENDOR LOGS prominent." },
+          { "id": "stand-train-4", "audio": { "kind": "speech-synthesis", "text": "I asked SRE for the logs and will use staging data meanwhile.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What makes this actionable?", "options": ["Request plus fallback", "A vague concern"], "correctAnswer": "Request plus fallback", "feedback": "Link request and fallback in separate thought groups." },
+          { "id": "stand-train-5", "audio": { "kind": "speech-synthesis", "text": "I have no blockers at the moment.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What status is reported?", "options": ["No blocker", "Unknown blocker"], "correctAnswer": "No blocker", "feedback": "Say no blockers explicitly when true." },
+          { "id": "stand-train-6", "audio": { "kind": "speech-synthesis", "text": "My estimate is one day after the logs arrive.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What condition affects the estimate?", "options": ["Logs arrive", "Lunch starts"], "correctAnswer": "Logs arrive", "feedback": "Keep the condition attached to the estimate." }
+        ],
+        "posttest": [
+          { "id": "stand-post-1", "audio": { "kind": "speech-synthesis", "text": "Yesterday, I finished the backfill script.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is complete?", "options": ["Backfill script", "Snapshot approval"], "correctAnswer": "Backfill script" },
+          { "id": "stand-post-2", "audio": { "kind": "speech-synthesis", "text": "Today, I will verify two million documents.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is today's target?", "options": ["Verify 2M documents", "Deploy checkout"], "correctAnswer": "Verify 2M documents" },
+          { "id": "stand-post-3", "audio": { "kind": "speech-synthesis", "text": "Production snapshot approval is blocking verification.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What blocks verification?", "options": ["Snapshot approval", "Search code"], "correctAnswer": "Snapshot approval" },
+          { "id": "stand-post-4", "audio": { "kind": "speech-synthesis", "text": "Meanwhile, I will use an anonymized staging sample.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the next action?", "options": ["Use staging sample", "Wait silently"], "correctAnswer": "Use staging sample" }
+        ]
       },
-      {
-        "id": "specificity",
-        "criterion": "Chi tiết kỹ thuật cụ thể",
-        "successDescription": "Update gọi tên ít nhất một feature, lỗi, service, test hoặc environment cụ thể."
-      },
-      {
-        "id": "actionability",
-        "criterion": "Thông tin có thể hành động",
-        "successDescription": "Blocker có tác động và next action/hỗ trợ cần thiết, hoặc người nói xác nhận rõ không có blocker."
-      },
-      {
-        "id": "clarity",
-        "criterion": "Diễn đạt rõ và vừa thời lượng",
-        "successDescription": "Các câu ngắn, ý nối tiếp hợp lý và toàn bộ update không vượt quá timebox."
-      }
-    ]
-  }
+      "pronunciationCues": [
+        { "id": "stand-cue-time", "articulatoryCue": "Nhấn YESTERDAY, TODAY, BLOCKER để người nghe định vị ba phần.", "meaningRisk": "Thiếu signpost khiến update ngắn vẫn khó theo dõi.", "triggerItemIds": ["stand-pre-1", "stand-post-1"] },
+        { "id": "stand-cue-actions", "articulatoryCue": "Giữ âm cuối trong tests, logs, blockers; nhấn action verb và object.", "meaningRisk": "Mất plural hoặc action làm scope/blocker không rõ.", "triggerItemIds": ["stand-pre-3", "stand-post-3"] }
+      ],
+      "chunks": [
+        { "id": "stand-chunk-1", "function": "completed outcome", "text": "Yesterday, I completed ___, which ___.", "meaning": "Nêu outcome thay vì activity.", "slots": ["work", "result"], "modelAudio": { "kind": "speech-synthesis", "text": "Yesterday, I completed validation, which closed the main error cases.", "locale": "en-US", "voiceHints": ["English US"] } },
+        { "id": "stand-chunk-2", "function": "today priority", "text": "Today, I will ___ so that ___.", "meaning": "Nêu priority và expected result.", "slots": ["action", "result"], "modelAudio": { "kind": "speech-synthesis", "text": "Today, I will reproduce the timeout so that we can identify the failing dependency.", "locale": "en-GB", "voiceHints": ["English UK"] } },
+        { "id": "stand-chunk-3", "function": "blocker", "text": "I am blocked by ___, which prevents ___.", "meaning": "Nêu blocker và impact.", "slots": ["dependency", "impact"], "modelAudio": { "kind": "speech-synthesis", "text": "I am blocked by dashboard access, which prevents provider comparison.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } },
+        { "id": "stand-chunk-4", "function": "next action", "text": "I have asked ___; meanwhile, I will ___.", "meaning": "Nêu request và fallback.", "slots": ["owner", "fallback"], "modelAudio": { "kind": "speech-synthesis", "text": "I have asked Platform; meanwhile, I will inspect staging logs.", "locale": "en-US", "voiceHints": ["English"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Ba phần có signpost rõ.", "Có technical detail nhưng không lan man.", "Blocker đi với impact và next action."],
+      "interactionTurns": [
+        { "id": "stand-turn-interrupt", "kind": "interruption", "prompt": "We are short on time—what is the single priority today?", "expectedFunction": "state one priority and expected result briefly" },
+        { "id": "stand-turn-clarify", "kind": "clarification", "prompt": "Who needs to act on the blocker, and what will you do meanwhile?", "expectedFunction": "name owner and fallback action" }
+      ]
+    }
+  },
+  "reviewPolicy": { "intervalDays": [2, 7] }
 }

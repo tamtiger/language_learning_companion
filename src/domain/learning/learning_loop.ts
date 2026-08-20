@@ -56,8 +56,7 @@ export function advanceLearningLoop(state: LearningLoopState, event: LearningLoo
     return {
       ...state,
       stage: 'perception-posttest',
-      trainingCompleted: event.completed,
-      missedItemIds: [...new Set([...state.missedItemIds, ...event.missedItemIds])]
+      trainingCompleted: event.completed
     }
   }
   if (state.stage === 'perception-posttest' && event.type === 'COMPLETE_POSTTEST') {

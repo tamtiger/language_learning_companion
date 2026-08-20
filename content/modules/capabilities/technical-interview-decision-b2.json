@@ -1,37 +1,79 @@
 {
-  "schemaVersion": "v3",
-  "lessonId": "technical-interview-decision-b2",
+  "schemaVersion": "v3", "lessonId": "technical-interview-decision-b2",
   "title": "Answer a technical interview with evidence",
-  "summary": "Explain a decision, your contribution and a measured result.",
-  "cefrLevel": "B2",
-  "durationMinutes": 12,
-  "learningObjectives": ["Give a structured technical interview answer without memorizing a script."],
-  "capabilities": ["international-interview"],
-  "workflowTags": ["interview", "behavioral", "technical-decision"],
+  "summary": "Giải thích một technical decision, contribution, trade-off và measured result.",
+  "cefrLevel": "B2", "durationMinutes": 18,
+  "learningObjectives": ["Cấu trúc decision story", "Làm rõ contribution", "Dùng evidence và reflection"],
+  "capabilities": ["international-interview"], "workflowTags": ["interview", "technical-decision"],
   "sections": [
     { "id": "brief", "type": "brief", "title": "Your mission", "body": "An interviewer asks about a production decision you personally influenced." },
-    { "id": "source", "type": "source", "title": "Candidate notes", "format": "meeting-notes", "content": "Situation: API latency reached 1.8 seconds during campaigns. Task: reduce p95 below 700 ms before the next launch. Action: I profiled queries, found an N+1 path, proposed batching, added load tests and coordinated rollout with SRE. Result: p95 fell to 520 ms and database load fell 28%. Reflection: I would add query-count alerts earlier." },
-    { "id": "check", "type": "auto-check", "title": "Find ownership evidence", "exercises": [{ "id": "interview-ownership", "type": "choice", "question": "Which phrase best proves personal contribution?", "options": ["The team improved latency.", "I profiled the queries, proposed batching and added load tests."], "correctAnswer": ["I profiled the queries, proposed batching and added load tests."], "explanation": "It names decisions and actions owned by the candidate." }] }
+    { "id": "source", "type": "source", "title": "Candidate notes", "format": "meeting-notes", "content": "API p95 1.8s; target below 700ms; you found N+1 queries, proposed batching, added load tests; p95 became 520ms and DB load fell 28%." },
+    { "id": "check", "type": "auto-check", "title": "Find ownership evidence", "exercises": [{ "id": "interview-ownership", "type": "choice", "question": "Which phrase proves personal contribution?", "options": ["The team improved latency.", "I profiled the queries, proposed batching and added load tests."], "correctAnswer": ["I profiled the queries, proposed batching and added load tests."], "explanation": "It names decisions and actions owned by the candidate." }] }
   ],
   "performanceTask": {
-    "id": "interview-decision-task",
-    "mode": "spoken",
-    "title": "Tell the decision story",
+    "id": "interview-decision-task", "mode": "spoken", "title": "Tell the decision story",
     "scenario": "Answer: Tell me about a technical decision you made under a deadline.",
-    "baselinePrompt": "Answer in English from the notes without opening the model response.",
-    "performancePrompt": "Speak for up to two minutes. Cover context, your decision/action, measured result and one reflection.",
-    "modelResponse": "Before a major campaign, our API p95 latency reached 1.8 seconds and I was responsible for getting it below 700 milliseconds. I profiled the request and found an N+1 query path. I proposed batching, added load tests and worked with SRE on a gradual rollout. The change reduced p95 to 520 milliseconds and database load by 28 percent. Looking back, I would add query-count alerts earlier so we detect this regression before peak traffic.",
-    "retryPrompt": "Answer again using I for your decisions, one measured result and a brief reflection instead of extra background.",
-    "transferPrompt": "Describe a time you reduced deployment failures under a deadline. Include your action, collaboration, measured result and lesson.",
-    "reviewPrompt": "Answer a new technical-decision question with context, ownership, evidence and reflection.",
-    "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["context", "personal action", "measured result", "reflection"], "targetSeconds": 120 },
+    "baselinePrompt": "Answer cold from the notes without model/chunks.",
+    "performancePrompt": "Speak for up to two minutes: context, options/constraint, your decision, result and reflection.",
+    "modelResponse": "Before a major campaign, API p95 latency reached 1.8 seconds. I profiled the request and found an N+1 query path. I chose batching over a cache because it removed the root cause and was safer before launch. I added load tests and coordinated a gradual rollout with SRE. P95 fell to 520 milliseconds and database load fell by 28 percent. Looking back, I would add query-count alerts earlier.",
+    "retryPrompt": "Dùng database migration case mới; làm rõ option, constraint và why.",
+    "transferPrompt": "Không xem model/chunks: explain a decision that reduced deployment failures.",
+    "reviewPrompt": "Answer a new technical-decision question about build performance.",
+    "practiceContexts": {
+      "baseline": { "title": "API latency", "brief": "Campaign deadline và N+1 query.", "artifacts": [{ "id": "dec-api", "type": "source", "title": "Decision facts", "format": "meeting-notes", "content": "p95 1.8s; target 700ms; options cache/batching; chose batching; result 520ms and DB load -28%." }] },
+      "retry": { "title": "Database migration", "brief": "Giữ decision function, đổi constraints.", "artifacts": [{ "id": "dec-db", "type": "source", "title": "Migration facts", "format": "meeting-notes", "content": "900GB table; 20-minute maintenance window; options big-bang/dual-write; chose dual-write; cutover downtime 90 seconds." }] },
+      "transfer": { "title": "Deployment safety", "brief": "Unseen decision under release pressure.", "artifacts": [{ "id": "dec-deploy", "type": "source", "title": "Release facts", "format": "meeting-notes", "content": "Failure rate 14%; options manual checklist/canary gate; chose automated canary; failures fell to 3%; rollout +8 minutes." }] },
+      "review": { "title": "Build performance", "brief": "Delayed retrieval với decision mới.", "artifacts": [{ "id": "dec-build", "type": "source", "title": "Build facts", "format": "meeting-notes", "content": "CI 24 min; options larger runners/test sharding; chose sharding; CI 11 min; flaky isolation cost increased." }] }
+    },
+    "outputContract": { "timeLimitSeconds": 180, "requiredElements": ["context", "options or constraint", "personal decision", "measured result", "reflection"], "targetSeconds": 120 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
-    "feedbackPriorities": ["Ownership", "Evidence", "Concise structure"],
+    "feedbackPriorities": ["ownership", "decision rationale", "evidence"],
     "rubric": [
-      { "id": "structure", "label": "Complete story", "description": "Connects context, action, result and reflection." },
-      { "id": "ownership", "label": "Personal ownership", "description": "Distinguishes personal decisions from team activity." },
-      { "id": "evidence", "label": "Measured evidence", "description": "Uses a concrete result and explains why it mattered." }
-    ]
+      { "id": "structure", "label": "Complete decision story", "description": "Connects context, options or constraint, decision, result and reflection." },
+      { "id": "rationale", "label": "Decision rationale", "description": "Explains why the chosen option fit the constraint." },
+      { "id": "evidence", "label": "Measured evidence", "description": "Uses a concrete result and names a cost or lesson." }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "dec-pre-1", "audio": { "kind": "speech-synthesis", "text": "I chose batching over caching.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Which option was chosen?", "options": ["Batching", "Caching"], "correctAnswer": "Batching" },
+          { "id": "dec-pre-2", "audio": { "kind": "speech-synthesis", "text": "P ninety-five fell to five hundred and twenty milliseconds.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What was the result?", "options": ["520 ms", "1.8 seconds"], "correctAnswer": "520 ms" },
+          { "id": "dec-pre-3", "audio": { "kind": "speech-synthesis", "text": "The trade-off was eight extra rollout minutes.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What cost is named?", "options": ["8 rollout minutes", "8 engineers"], "correctAnswer": "8 rollout minutes" },
+          { "id": "dec-pre-4", "audio": { "kind": "speech-synthesis", "text": "The deadline ruled out a full rewrite.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What constrained the choice?", "options": ["Deadline", "Team location"], "correctAnswer": "Deadline" }
+        ],
+        "training": [
+          { "id": "dec-train-1", "audio": { "kind": "speech-synthesis", "text": "Given the deadline, I compared caching with batching.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is compared?", "options": ["Two options", "Two incidents"], "correctAnswer": "Two options", "feedback": "Given the deadline makes the constraint explicit." },
+          { "id": "dec-train-2", "audio": { "kind": "speech-synthesis", "text": "I chose batching because it removed the root cause.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "Why batching?", "options": ["It removed the root cause", "It sounded modern"], "correctAnswer": "It removed the root cause", "feedback": "Stress CHOSE and BECAUSE." },
+          { "id": "dec-train-3", "audio": { "kind": "speech-synthesis", "text": "The result was lower latency and lower database load.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "How many outcomes?", "options": ["Two", "Zero"], "correctAnswer": "Two", "feedback": "Keep final sounds in results and costs." },
+          { "id": "dec-train-4", "audio": { "kind": "speech-synthesis", "text": "The benefit was safety, but rollout took longer.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What structure is used?", "options": ["Benefit plus cost", "Situation only"], "correctAnswer": "Benefit plus cost", "feedback": "Pause before but to expose the cost." },
+          { "id": "dec-train-5", "audio": { "kind": "speech-synthesis", "text": "I added load tests and coordinated the canary.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is this evidence?", "options": ["Personal action", "Generic context"], "correctAnswer": "Personal action", "feedback": "Use I plus specific action verbs." },
+          { "id": "dec-train-6", "audio": { "kind": "speech-synthesis", "text": "Looking back, I would add alerts earlier.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What function is this?", "options": ["Reflection", "Option"], "correctAnswer": "Reflection", "feedback": "Keep reflection brief and actionable." }
+        ],
+        "posttest": [
+          { "id": "dec-post-1", "audio": { "kind": "speech-synthesis", "text": "I selected an automated canary instead of a manual checklist.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "Which option won?", "options": ["Automated canary", "Manual checklist"], "correctAnswer": "Automated canary" },
+          { "id": "dec-post-2", "audio": { "kind": "speech-synthesis", "text": "Deployment failures fell from fourteen to three percent.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What result is stated?", "options": ["14% to 3%", "3% to 14%"], "correctAnswer": "14% to 3%" },
+          { "id": "dec-post-3", "audio": { "kind": "speech-synthesis", "text": "The canary added eight minutes to rollout.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What was the cost?", "options": ["8 minutes", "8 services"], "correctAnswer": "8 minutes" },
+          { "id": "dec-post-4", "audio": { "kind": "speech-synthesis", "text": "Release pressure limited our migration window.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the constraint?", "options": ["Migration window", "Database vendor"], "correctAnswer": "Migration window" }
+        ]
+      },
+      "pronunciationCues": [
+        { "id": "dec-cue-choice", "articulatoryCue": "Nhấn CHOSE/SELECTED và hai option; giảm nhẹ từ nối.", "meaningRisk": "Nếu option không nổi bật, interviewer không biết quyết định cụ thể là gì.", "triggerItemIds": ["dec-pre-1", "dec-post-1"] },
+        { "id": "dec-cue-numbers", "articulatoryCue": "Tách before | after và đọc rõ đơn vị milliseconds/percent.", "meaningRisk": "Mất đơn vị hoặc contrast làm measured evidence sai nghĩa.", "triggerItemIds": ["dec-pre-2", "dec-post-2"] }
+      ],
+      "chunks": [
+        { "id": "dec-chunk-1", "function": "constraint", "text": "Given ___, I compared ___ with ___.", "meaning": "Nêu constraint và options.", "slots": ["constraint", "option A", "option B"], "modelAudio": { "kind": "speech-synthesis", "text": "Given the deadline, I compared caching with batching.", "locale": "en-US", "voiceHints": ["English US"] } },
+        { "id": "dec-chunk-2", "function": "decision", "text": "I chose ___ because ___.", "meaning": "Nêu choice và rationale.", "slots": ["choice", "reason"], "stressPattern": "CHOSE · BECAUSE", "modelAudio": { "kind": "speech-synthesis", "text": "I chose batching because it removed the root cause.", "locale": "en-GB", "voiceHints": ["English UK"] } },
+        { "id": "dec-chunk-3", "function": "result", "text": "The change moved ___ from ___ to ___.", "meaning": "Nêu measured result.", "slots": ["metric", "before", "after"], "modelAudio": { "kind": "speech-synthesis", "text": "The change moved p ninety-five from 1.8 seconds to 520 milliseconds.", "locale": "en-US", "voiceHints": ["English"] } },
+        { "id": "dec-chunk-4", "function": "trade-off", "text": "The benefit was ___, but the cost was ___.", "meaning": "Thừa nhận cost.", "slots": ["benefit", "cost"], "modelAudio": { "kind": "speech-synthesis", "text": "The benefit was safety, but the cost was a longer rollout.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Constraint và options nghe rõ.", "I-decision đi cùng rationale.", "Result có before/after và cost."],
+      "interactionTurns": [
+        { "id": "dec-turn-interrupt", "kind": "interruption", "prompt": "Why did you reject the other option?", "expectedFunction": "compare the rejected option against the constraint" },
+        { "id": "dec-turn-recap", "kind": "recap", "prompt": "Give me the decision and result in one sentence.", "expectedFunction": "recap choice and measured outcome concisely" }
+      ]
+    }
   },
-  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+  "reviewPolicy": { "intervalDays": [2, 7] }
 }

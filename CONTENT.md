@@ -89,6 +89,10 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
   khả năng áp dụng quy trình vào ngữ cảnh mới.
 - Learning-loop pilot phải có context riêng cho baseline/retry/transfer/review;
   pre/post dùng item khác nhau và không lộ transcript trước khi learner trả lời.
+- Toàn bộ 6 spoken v3 missions phải có learning loop; training miss nhận feedback
+  ngay nhưng chỉ pre/post diagnostic miss mới kích hoạt pronunciation cue.
+- Mỗi spoken loop có 2–3 interaction turns và ít nhất một clarification,
+  misunderstanding, repair hoặc interruption.
 - Functional chunks mô tả chức năng, nghĩa, slot biến đổi và model audio; variation
   phải thay dữ kiện thay vì chỉ lặp nguyên câu.
 - Pronunciation lesson chỉ hoàn thành khi tất cả exercise trong auto-check đã đúng.
@@ -110,6 +114,7 @@ Mỗi baseline mission phải có authentic input, observable output, timebox, i
 packet độc lập cho checkout, upload và email-queue incident. Đây là rollout gate
 cho tính khả thi của contract, không phải bằng chứng efficacy.
 
-`meeting-disagree-and-recap-b2` và `technical-tradeoff-explanation-b2` là hai
-learning-loop pilot. TTS/metadata chỉ chứng minh flow có thể chạy; không được dùng
-làm bằng chứng learner phát âm đúng hoặc giao tiếp tốt hơn.
+Cả 6 spoken missions dùng learning loop P1. TTS/metadata chỉ chứng minh flow có
+thể chạy; human listener protocol ở `docs/EVALUATION_PROTOCOL.md` mới định nghĩa
+intent, critical-fact, comprehensibility và agreement evidence cần thu, nhưng hiện
+chưa có dữ liệu để kết luận learner phát âm đúng hoặc giao tiếp tốt hơn.

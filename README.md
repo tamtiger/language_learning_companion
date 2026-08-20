@@ -151,7 +151,7 @@ npm run preview  # xem production build ở local
 ## Kiến trúc ngắn gọn
 
 ```text
-content JSON v1/v2/v3
+content JSON v1/v3
   → parse + validate + normalize
   → Today / Catalog / Lesson / Progress
   → pure learning + progress domain
@@ -166,6 +166,7 @@ Library.
 - Product behavior và success evidence: [`PRODUCT.md`](./PRODUCT.md)
 - Content schema và authoring rules: [`CONTENT.md`](./CONTENT.md)
 - Architecture, storage và privacy: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- Listener/expert evaluation: [`docs/EVALUATION_PROTOCOL.md`](./docs/EVALUATION_PROTOCOL.md)
 - Hướng dẫn dành cho người học: [`START_HERE.md`](./START_HERE.md)
 - Lịch sử thay đổi: [`CHANGELOG.md`](./CHANGELOG.md)
 - Executable curriculum: [`content/`](./content)

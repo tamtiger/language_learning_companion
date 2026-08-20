@@ -159,7 +159,7 @@ describe('LessonV3Schema', () => {
       })),
       shadowingSteps: ['listen', 'chunk-shadow', 'full-shadow', 'delayed-imitation', 'variation'] as const,
       listenBackChecklist: ['The intent is clear.', 'Critical words are audible.'],
-      interactionTurns: [{ id: 'turn-1', kind: 'clarification' as const, prompt: 'Could you clarify?', expectedFunction: 'clarify' }]
+      interactionTurns: [{ id: 'turn-1', kind: 'interruption' as const, prompt: 'What is the priority?', expectedFunction: 'answer briefly' }]
     }
     const spoken = {
       ...validWrittenMission,

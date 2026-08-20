@@ -21,7 +21,7 @@ function spokenMission() {
   if (!lesson?.performanceTask || lesson.performanceTask.mode !== 'spoken') {
     throw new Error('Spoken mission fixture missing')
   }
-  return { lesson, task: lesson.performanceTask }
+  return { lesson, task: { ...lesson.performanceTask, learningLoop: undefined } }
 }
 
 function missionWithPracticeContexts() {

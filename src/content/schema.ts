@@ -182,7 +182,7 @@ const FunctionalChunkSchema = z.object({
 
 const InteractionTurnSchema = z.object({
   id: IdSchema,
-  kind: z.enum(['follow-up', 'clarification', 'misunderstanding', 'repair', 'recap']),
+  kind: z.enum(['follow-up', 'clarification', 'misunderstanding', 'interruption', 'repair', 'recap']),
   prompt: NonEmptyString,
   expectedFunction: NonEmptyString,
   audio: ModelAudioSourceSchema.optional()

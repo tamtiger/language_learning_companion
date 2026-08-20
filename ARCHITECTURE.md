@@ -115,3 +115,10 @@ Native semantics trước ARIA. Mọi action dùng button/link/form control; foc
 - Mỗi Harnix required check được snapshot trước/sau cùng input digest trước khi ghi evidence.
 
 Ứng dụng không commit, push, publish hoặc gửi network trong workflow này.
+
+## P1 spoken coverage
+
+Cả 6 spoken missions là v3 và dùng cùng generic `LearningLoopV1` renderer. Cue
+selection nhận diagnostic miss từ pre/post; training errors không trở thành learner
+profile. `interruption` là scripted turn local giống clarification/repair và mỗi
+turn remount `SpokenResponse`, nên không cần ASR, backend hoặc persistence mới.

@@ -52,6 +52,6 @@ describe('Content Database Validator', () => {
       expect(lesson.reviewPolicy.intervalDays.length).toBeGreaterThan(0)
     })
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')).toHaveLength(6)
-    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(1)
+    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(0)
   })
 })

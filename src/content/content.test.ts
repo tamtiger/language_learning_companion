@@ -30,12 +30,16 @@ describe('new capability mission wave', () => {
       .not.toContain(contexts?.baseline.artifacts[0]?.content)
   })
 
-  it('loads exactly two complete spoken learning-loop pilots', () => {
+  it('loads a complete learning loop for every bundled spoken mission', () => {
     const pilots = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken'
       && lesson.performanceTask.learningLoop)
 
     expect(pilots.map((lesson) => lesson.lessonId).sort()).toEqual([
+      'architecture-walkthrough-b2',
+      'behavioral-interview-ownership-b2',
+      'daily-standup-b1',
       'meeting-disagree-and-recap-b2',
+      'technical-interview-decision-b2',
       'technical-tradeoff-explanation-b2'
     ])
     for (const pilot of pilots) {
@@ -47,10 +51,16 @@ describe('new capability mission wave', () => {
       expect(task.learningLoop.pronunciationCues.length).toBeLessThanOrEqual(2)
       expect(task.learningLoop.chunks.length).toBeGreaterThanOrEqual(4)
       expect(task.learningLoop.chunks.length).toBeLessThanOrEqual(6)
+      expect(pilot.sourceSchemaVersion).toBe('v3')
       expect(task.practiceContexts?.retry?.artifacts.length).toBeGreaterThan(0)
       expect(task.practiceContexts?.baseline.artifacts[0]?.content)
         .not.toBe(task.practiceContexts?.transfer.artifacts[0]?.content)
-      expect(pilot.reviewPolicy.intervalDays).toEqual([2, 7])
+      expect(task.practiceContexts?.review.artifacts[0]?.content)
+        .not.toBe(task.practiceContexts?.transfer.artifacts[0]?.content)
+      expect(task.learningLoop.interactionTurns.length).toBeGreaterThanOrEqual(2)
+      expect(task.learningLoop.interactionTurns.some((turn) =>
+        ['clarification', 'misunderstanding', 'repair', 'interruption'].includes(turn.kind)
+      )).toBe(true)
     }
   })
 

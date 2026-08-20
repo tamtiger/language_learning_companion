@@ -6,6 +6,12 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ### Added
 
+- Mở rộng `LearningLoopV1` tới cả 6 spoken missions; bổ sung four-phase context
+  banks cho architecture walkthrough, ownership interview, technical decision và
+  Daily Standup.
+- Thêm scripted `interruption`, cue chỉ theo lỗi pre/post diagnostic và listener/
+  expert protocol cho intent, critical facts, comprehensibility và agreement.
+
 - Thêm `LearningLoopV1` optional cho spoken v3: perception pretest/training/posttest,
   pronunciation cue theo lỗi, 4–6 functional chunks, guided shadowing, delayed
   imitation, variation, listen-back và scripted clarification/repair.
@@ -31,6 +37,11 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 - Thêm test harness React, accessibility smoke, mission matrix, storage migration, privacy và spoken timer-only fallback.
 
 ### Changed
+
+- Migrate Daily Standup từ v2 sang v3 capability mission; giữ function
+  yesterday–today–blocker và thêm cold baseline, retry, unseen transfer, D2/D7.
+- Training mistakes vẫn nhận immediate feedback nhưng không tự tạo pronunciation
+  target nếu pre/post diagnostic không kích hoạt cue.
 
 - Nâng backup/progress contract lên `ProgressEnvelopeV4`; backup V3 được migrate
   an toàn với `process: null`, còn learner response/audio vẫn session-only.
@@ -70,5 +81,5 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 - Thêm regression test cho parse/validation `practiceContexts`, độ khác biệt giữa
   ba evidence packet và phase isolation trong UI.
-- Regression suite hiện tại đạt 22 test files và 94 tests; lint và production build đều PASS.
-- Manual QA desktop/mobile xác nhận hai pilot đi tới completion, transcript fading, timer-only/microphone fallback, reload privacy và lịch D2/D7; việc thực thi due-review được regression test bao phủ.
+- Regression suite hiện tại đạt 24 test files và 97 tests; lint và production build đều PASS.
+- Manual QA desktop/mobile xác nhận bốn spoken mission mới vào đúng cold baseline và Daily Standup đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer. Model/chunks vẫn khóa trước attempt, viewport 390px không tràn ngang, console không có app-origin error; đây là QA chức năng synthetic, không phải evidence về efficacy.

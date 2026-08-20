@@ -4,6 +4,15 @@ import { describe, expect, it, vi } from 'vitest'
 import { InteractionPractice } from './InteractionPractice'
 
 describe('InteractionPractice', () => {
+  it('renders an interruption turn as a scripted interaction', () => {
+    render(<InteractionPractice turns={[{
+      id: 'interrupt-1', kind: 'interruption', prompt: 'What is the priority?', expectedFunction: 'answer briefly'
+    }]} onComplete={vi.fn()} />)
+
+    expect(screen.getByText(/interaction · interruption/i)).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'What is the priority?' })).toBeTruthy()
+  })
+
   it('requires a fresh response to a scripted repair turn', async () => {
     const user = userEvent.setup()
     const onComplete = vi.fn()

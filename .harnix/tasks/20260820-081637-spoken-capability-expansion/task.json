@@ -1,0 +1,328 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260820-081637-spoken-capability-expansion",
+  "title": "Mở rộng learning loop cho toàn bộ spoken capability P1",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Mọi mission nói bundled đều có capability learning loop thực tế, cue theo lỗi diagnostic trong phiên, interaction nhiều lượt và context khác nhau cho baseline/retry/transfer/review, đồng thời có protocol đánh giá người nghe trung thực.",
+  "nonGoals": [
+    "Không thêm ASR/AI grading, cloud, analytics, account, upload hoặc dependency mới.",
+    "Không lưu audio, transcript, câu trả lời hoặc listener notes; không đổi ProgressEnvelopeV4.",
+    "Không triển khai technical reading/listening ladder P2 trong task này.",
+    "Không tuyên bố efficacy/mastery và không bịa participant/listener results.",
+    "Không xây full IPA course, native-accent score hoặc shadowing-only track.",
+    "Không sửa hoặc commit dirty artifacts ngoài task P1."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Toàn bộ 6 bundled spoken missions dùng schema v3 và có LearningLoopV1 hoàn chỉnh; 4 mission mới mở rộng có 4 phase contexts khác facts, 4–6 chunks có slot, tối đa 2 cue và 2–3 interaction turns.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-spoken-content",
+        "ev-p1-full-tests",
+        "ev-p1-manual-spoken"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Cue chỉ được chọn từ lỗi ở pretest/posttest diagnostic, không từ lỗi training đã sửa; nếu không có diagnostic miss thì learner đi thẳng sang shadowing, và UI nói rõ cue là hỗ trợ tự kiểm chứ không phải chấm phát âm.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-adaptive-loop",
+        "ev-p1-full-tests",
+        "ev-p1-manual-spoken"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Interaction contract hỗ trợ interruption bên cạnh follow-up/clarification/misunderstanding/repair/recap; mỗi mission mới có ít nhất hai lượt buộc tạo response mới và có repair hoặc clarification/interruption phù hợp tình huống.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-spoken-content",
+        "ev-p1-adaptive-loop",
+        "ev-p1-full-tests",
+        "ev-p1-manual-spoken"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Daily Standup được migrate từ v2 sang v3 mà vẫn giữ giá trị nội dung chính, có cold baseline, model lock, retry context, unseen transfer, delayed review và learning loop giống các spoken capability khác.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-spoken-content",
+        "ev-p1-full-tests",
+        "ev-p1-manual-spoken"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Protocol listener/expert định nghĩa consent, blinded phase labels, intent/critical-fact recovery, comprehensibility, interaction success, agreement và cách diễn giải; app/docs dùng evidence observed thay vì mastery và không ghi nhận kết quả chưa đo.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-protocol-docs"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Focused/full tests, lint, production build và desktop/mobile smoke QA cho bốn mission mới pass; không có app-origin error, model/chunks vẫn khóa trước baseline/transfer/review và privacy local-only không regress.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-p1-adaptive-loop",
+        "ev-p1-protocol-docs",
+        "ev-p1-full-tests",
+        "ev-p1-lint-build",
+        "ev-p1-manual-spoken"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md",
+    "content/modules/capabilities",
+    "content/modules/workplace-communication/daily_standup.json",
+    "docs/EVALUATION_PROTOCOL.md",
+    "src/content",
+    "src/domain/learning",
+    "src/features/practice"
+  ],
+  "relevantSpecs": [
+    "LEARNING_FEATURE_RESEARCH_PROMPT.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/feature-decision-roadmap.md",
+    ".harnix/tasks/20260820-001922-research-learning-features/research/evidence-synthesis.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-spoken-content",
+      "description": "Content/schema tests prove six spoken v3 loops, distinct contexts, bounded chunks/cues and required interaction coverage.",
+      "command": "npm test -- src/content/schema.test.ts src/content/content.test.ts src/shared/utils/validate_all_lessons.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/**/*.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    },
+    {
+      "id": "check-adaptive-loop",
+      "description": "Learning-loop and component tests prove diagnostic-only cue selection, honest wording, interruption rendering and fresh interaction responses.",
+      "command": "npm test -- src/domain/learning/learning_loop.test.ts src/features/practice/LearningLoopPractice.test.tsx src/features/practice/PronunciationCueCard.test.tsx src/features/practice/InteractionPractice.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/learning/**/*.ts",
+        "src/features/practice/**/*"
+      ]
+    },
+    {
+      "id": "check-protocol-docs",
+      "description": "Documentation inspection proves listener protocol fields, no-efficacy language, local-only boundary and P1 catalog coverage.",
+      "command": "rg -n \"blinded|intent|critical.fact|comprehensibility|agreement|evidence observed|local-only|6 spoken\" docs/EVALUATION_PROTOCOL.md PRODUCT.md CONTENT.md README.md CHANGELOG.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "README.md",
+        "docs/EVALUATION_PROTOCOL.md"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Full Vitest suite proves legacy content normalization and all existing learning/progress flows remain compatible.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*"
+      ]
+    },
+    {
+      "id": "check-lint-build",
+      "description": "Static analysis and production compilation pass.",
+      "command": "npm run lint; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*",
+        "tsconfig*.json",
+        "vite.config.*"
+      ]
+    },
+    {
+      "id": "check-manual-spoken",
+      "description": "Desktop and 390px mobile black-box smoke all four newly expanded spoken missions through loop entry and at least one complete flow; verify model isolation, cue/interaction behavior, console and local-only privacy.",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/capabilities/*.json",
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/practice/**/*"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-p1-red",
+      "recordedAt": "2026-08-20T08:32:53.7567460+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED xác nhận catalog chỉ có 2/6 learning loops, schema từ chối interruption, runtime chưa có diagnostic-only miss helper và cue card thiếu limitation copy.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "src/content/schema.test.ts",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/PronunciationCueCard.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-p1-debug-green",
+      "recordedAt": "2026-08-20T08:32:53.7567460+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Root cause regression sau Daily migration: capability phải giữ international-meetings, bundled-v2 assertions đã stale, phase-reset test phải isolate loop. 5 file/23 tests, lint và build pass sau fix.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/content/catalog.test.ts",
+        "src/content/normalization.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-p1-spoken-content",
+      "checkId": "check-spoken-content",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "3 test files/11 tests pass; xác nhận đúng 6 spoken v3 loops, 4 phase contexts, bounded cues/chunks và interaction coverage.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "src/content/schema.test.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ],
+      "inputDigest": "4126a20866277acafe9a51594234ab0553fdec8a48762cdcd572d4e22008e661"
+    },
+    {
+      "id": "ev-p1-adaptive-loop",
+      "checkId": "check-adaptive-loop",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "4 test files/6 tests pass; cue chỉ dùng diagnostic miss, copy trung thực và interruption yêu cầu response mới.",
+      "artifactPaths": [
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/PronunciationCueCard.test.tsx",
+        "src/features/practice/InteractionPractice.test.tsx"
+      ],
+      "inputDigest": "793282005005e0cf1a36c4571e28728e192f82fb42373ea55be84b982f6cce57"
+    },
+    {
+      "id": "ev-p1-protocol-docs",
+      "checkId": "check-protocol-docs",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Protocol/docs có consent, blinded labels, intent/critical facts, comprehensibility, interaction success, agreement, evidence observed và local-only boundary.",
+      "artifactPaths": [
+        "docs/EVALUATION_PROTOCOL.md",
+        "PRODUCT.md",
+        "CONTENT.md",
+        "README.md",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "8f248c25e1f94c02178ec6d552c11b3d1e92427950e2812651b66bda464ccd54"
+    },
+    {
+      "id": "ev-p1-full-tests",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Toàn bộ 24 test files/97 tests pass, gồm migration Daily Standup, phase isolation, progress và privacy regressions.",
+      "artifactPaths": [
+        "src",
+        "content"
+      ],
+      "inputDigest": "0c7cd097f3e84d86dc4929cea9fde19d98cf28199f90008d1bc19aa16773b6eb"
+    },
+    {
+      "id": "ev-p1-lint-build",
+      "checkId": "check-lint-build",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint và TypeScript/Vite production build pass; bundle chính 448.46 kB.",
+      "artifactPaths": [
+        "package.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "3cb67187a6db5e4e81ca2e059f7bd904f226343c7e37026e0412cfefc204e3de"
+    },
+    {
+      "id": "ev-p1-manual-spoken",
+      "checkId": "check-manual-spoken",
+      "recordedAt": "2026-08-20T08:45:37.5247862+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Chrome smoke: 4 mission mới vào cold baseline; Daily đi trọn perception/shadowing, interruption/clarification, retry và unseen transfer; model khóa trước attempt; 390px không tràn ngang; console sạch; static scan không có upload/network API. Đây là functional QA, không phải efficacy evidence.",
+      "artifactPaths": [
+        "content/modules/capabilities",
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/practice"
+      ],
+      "inputDigest": "49fd79741439d0b2bdbc66b681ad2e564e69259094be54fa2bca37ff28a25a91"
+    }
+  ],
+  "createdAt": "2026-08-20T08:16:37.0677206+07:00",
+  "updatedAt": "2026-08-20T01:45:46.272Z",
+  "completedAt": "2026-08-20T01:45:46.272Z"
+}

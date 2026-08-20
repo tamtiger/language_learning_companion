@@ -2,11 +2,11 @@ import { describe, expect, it } from 'vitest'
 import { buildCatalog, getBundledCatalog } from './catalog'
 
 describe('capability-first catalog', () => {
-  it('loads every bundled JSON and keeps all seven legacy lessons', () => {
+  it('loads every bundled JSON and keeps the six pronunciation legacy lessons', () => {
     const catalog = getBundledCatalog()
     expect(catalog.errors).toEqual([])
     expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')).toHaveLength(6)
-    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(1)
+    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(0)
   })
 
   it('contains two baseline missions for each of the six primary capabilities', () => {
