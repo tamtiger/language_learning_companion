@@ -2,6 +2,21 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.1.2] - 2026-08-27
+
+### Added
+
+- Bổ sung source registry/provenance opt-in cho lesson v3, validation fail-closed
+  và canonical source resolution trước UI; Daily Standup dẫn Scrum Guide 2020 và
+  CEFR Companion Volume 2020 với quyền, vị trí và adaptation note kiểm chứng được.
+
+### Changed
+
+- Ghi rõ dữ liệu Daily Standup là mô phỏng và khung ba phần là quy ước nhóm, không
+  phải yêu cầu Scrum hay chứng nhận CEFR.
+- Thay raw schema/mode/phase/source format bằng nhãn hướng người học và disclosure
+  nguồn dùng keyboard, không thêm runtime fetch hoặc thay progress/storage.
+
 ## [1.1.1] - 2026-08-27
 
 ### Fixed

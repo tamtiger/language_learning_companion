@@ -377,6 +377,9 @@ describe('CapabilityTask session evidence', () => {
     const { lesson, task } = spokenMission()
     render(<CapabilityTask lesson={lesson} task={task} />)
 
+    expect(screen.getByText(/Nhiệm vụ nói · Lượt đầu/i)).toBeTruthy()
+    expect(screen.queryByText(/spoken capability task/i)).toBeNull()
+
     await user.click(screen.getByRole('button', { name: /bắt đầu timer-only/i }))
     await waitFor(() => {
       expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
@@ -397,8 +400,10 @@ describe('CapabilityTask session evidence', () => {
     render(<CapabilityTask lesson={lesson} task={task} />)
 
     expect(screen.getByText(/TRANSFER_SIGNAL upload_failures=18%/i)).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'Transfer alert', level: 4 })).toBeTruthy()
     expect(screen.queryByText(/COLD_SIGNAL/i)).toBeNull()
     expect(screen.queryByText(task.modelResponse)).toBeNull()
+    expect(screen.getByText(/Bộ dữ kiện công việc · chỉ dùng cho lượt này/i)).toBeTruthy()
   })
 
   it('resumes the durable performance phase instead of inferring retry from attempts', () => {
@@ -406,14 +411,15 @@ describe('CapabilityTask session evidence', () => {
     useAppStore.getState().setActivePhase(lesson.lessonId, 'performance')
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    expect(screen.getByText(/written capability task · performance/i)).toBeTruthy()
+    expect(screen.getByText(/Nhiệm vụ viết · Lượt chính/i)).toBeTruthy()
+    expect(screen.queryByText(/(?:spoken|written) capability task/i)).toBeNull()
     expect(screen.getByRole('button', { name: /đối chiếu rubric/i })).toBeTruthy()
   })
 
   it.each([
-    ['input', /capability task · input/i],
-    ['retry', /capability task · retry/i],
-    ['transfer', /capability task · transfer/i]
+    ['input', /Nhiệm vụ viết · Học có hướng dẫn/i],
+    ['retry', /Nhiệm vụ viết · Làm lại có trọng tâm/i],
+    ['transfer', /Nhiệm vụ viết · Tình huống mới/i]
   ] as const)('resumes the durable %s checkpoint', (activePhase, label) => {
     const { lesson, task } = mission()
     useAppStore.setState({
@@ -438,7 +444,7 @@ describe('CapabilityTask session evidence', () => {
       }
     })
     render(<CapabilityTask lesson={lesson} task={task} />)
-    expect(screen.getByText(/capability task · review/i)).toBeTruthy()
+    expect(screen.getByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeTruthy()
   })
 
   it('resumes an active repeat cycle before an overdue review', () => {
@@ -456,8 +462,8 @@ describe('CapabilityTask session evidence', () => {
 
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    expect(screen.getByText(/capability task · input/i)).toBeTruthy()
-    expect(screen.queryByText(/capability task · review/i)).toBeNull()
+    expect(screen.getByText(/Nhiệm vụ viết · Học có hướng dẫn/i)).toBeTruthy()
+    expect(screen.queryByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeNull()
   })
 
   it('uses transfer-specific copy after completing a transfer attempt', async () => {
@@ -531,7 +537,7 @@ describe('CapabilityTask session evidence', () => {
     expect(screen.queryByText(/review đã được lưu/i)).toBeNull()
     await user.click(screen.getByRole('button', { name: /luyện lại mission/i }))
 
-    expect(screen.getByText(/written capability task · baseline/i)).toBeTruthy()
+    expect(screen.getByText(/Nhiệm vụ viết · Lượt đầu/i)).toBeTruthy()
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]).toMatchObject({
       status: 'in-progress',
       attemptCount: 4,

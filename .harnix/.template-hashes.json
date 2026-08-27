@@ -7,42 +7,42 @@
       "sourceId": "guide-common-engineering",
       "scope": "project",
       "generatedHash": "cb07c1bb7396b23466aac655be6c0cd827022ed8f4d5da48706e0565ec4fa361",
-      "generatorVersion": "1.0.10"
+      "generatorVersion": "1.0.17"
     },
     {
       "path": ".harnix/spec/guides/languages/javascript/engineering.md",
       "sourceId": "guide-language-javascript",
       "scope": "project",
       "generatedHash": "e2829b3fd6b9f2b97eeefed404a65954d76c4750fe50a9ffda21c36d761b1118",
-      "generatorVersion": "1.0.10"
+      "generatorVersion": "1.0.17"
     },
     {
       "path": ".harnix/spec/guides/languages/typescript/engineering.md",
       "sourceId": "guide-language-typescript",
       "scope": "project",
       "generatedHash": "4337166b036e79887d3c34b9cca5f70c661d47bcb0ceab383638a883301f4348",
-      "generatorVersion": "1.0.10"
+      "generatorVersion": "1.0.17"
     },
     {
       "path": ".harnix/spec/guides/technologies/library/react-web/engineering.md",
       "sourceId": "guide-technology-react-web",
       "scope": "project",
       "generatedHash": "aabe589b57c7ee6a3a8cd33adf0379bb44f6790cecc34f059cb0f2e057505c79",
-      "generatorVersion": "1.0.10"
+      "generatorVersion": "1.0.17"
     },
     {
       "path": ".harnix/workflow.md",
       "sourceId": "workflow",
       "scope": "project",
-      "generatedHash": "8c1028628dad704ffdb3aec033f12c7c9499af2c5602ba5fbd902a80ab387442",
-      "generatorVersion": "1.0.10"
+      "generatedHash": "ae0fbe847b760d2bf2cacc1781970e4e620d8dd2dc762647359be337eef044f1",
+      "generatorVersion": "1.0.17"
     },
     {
       "path": "AGENTS.md",
       "sourceId": "agents-bootstrap",
       "scope": "project",
-      "generatedHash": "dd51fb14b6a1d3b4279ebfbf0186610f3965b3d5745437917442870ba5b5b33f",
-      "generatorVersion": "1.0.10"
+      "generatedHash": "86a71d9e9c65d3905937d3e92b811609e67b1adf8c4e9c3d444f623837822292",
+      "generatorVersion": "1.0.17"
     }
   ]
 }

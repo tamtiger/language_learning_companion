@@ -2,6 +2,20 @@ import { z } from 'zod'
 
 const IdSchema = z.string().regex(/^[a-z0-9-_]+$/)
 const NonEmptyString = z.string().trim().min(1)
+const HttpsUrlSchema = z.string().url().refine((value) => {
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && !url.username && !url.password
+  } catch {
+    return false
+  }
+}, {
+  message: 'Expected an HTTPS URL'
+})
+const IsoDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((value) => {
+  const parsed = new Date(`${value}T00:00:00.000Z`)
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value
+}, { message: 'Expected a valid YYYY-MM-DD date' })
 
 export const CapabilityIdSchema = z.enum([
   'workplace-communication',
@@ -134,12 +148,49 @@ export const LanguageSupportSectionSchema = z.object({
   expressions: z.array(ExpressionItemSchema).default([])
 })
 
+export const AuthoritativeSourceSchema = z.object({
+  sourceId: IdSchema,
+  kind: z.enum(['standard', 'official-doc', 'dictionary', 'corpus', 'peer-reviewed']),
+  title: NonEmptyString,
+  publisher: NonEmptyString,
+  canonicalUrl: HttpsUrlSchema,
+  versionOrPublishedAt: NonEmptyString,
+  accessedAt: IsoDateSchema,
+  exactLocation: NonEmptyString,
+  licenseIdOrRightsUrl: HttpsUrlSchema,
+  reuseMode: z.enum(['reference-only', 'quoted', 'adapted', 'redistributed']),
+  requiredAttribution: NonEmptyString.optional()
+}).strict()
+
+export const SourceProvenanceSchema = z.object({
+  origin: z.enum(['original', 'adapted', 'synthetic']),
+  sourceIds: z.array(IdSchema).min(1).max(10),
+  adaptationNote: NonEmptyString.optional()
+}).strict().superRefine((provenance, context) => {
+  if (new Set(provenance.sourceIds).size !== provenance.sourceIds.length) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['sourceIds'],
+      message: 'Source provenance references must be unique'
+    })
+  }
+  if ((provenance.origin === 'synthetic' || provenance.origin === 'adapted')
+    && !provenance.adaptationNote) {
+    context.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['adaptationNote'],
+      message: `${provenance.origin} source provenance requires an adaptation note`
+    })
+  }
+})
+
 export const SourceSectionSchema = z.object({
   id: IdSchema,
   type: z.literal('source'),
   title: NonEmptyString,
   format: z.enum(['prose', 'dialogue', 'meeting-notes', 'technical-doc', 'code-snippet']),
-  content: NonEmptyString
+  content: NonEmptyString,
+  provenance: SourceProvenanceSchema.optional()
 })
 
 export const PracticeContextSchema = z.object({
@@ -393,10 +444,62 @@ export const LessonV3Schema = z.object({
   learningObjectives: z.array(NonEmptyString).min(1),
   capabilities: z.array(CapabilityIdSchema).length(1),
   workflowTags: z.array(IdSchema).min(1),
+  sourceRegistry: z.array(AuthoritativeSourceSchema).min(1).max(20).optional(),
   sections: z.array(LessonSectionSchema).min(2),
   performanceTask: PerformanceTaskV3Schema,
   reviewPolicy: ReviewPolicySchema
 }).superRefine((lesson, context) => {
+  const registryIds = new Set<string>()
+  lesson.sourceRegistry?.forEach((source, index) => {
+    if (registryIds.has(source.sourceId)) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['sourceRegistry', index, 'sourceId'],
+        message: 'Source registry ids must be unique'
+      })
+    }
+    registryIds.add(source.sourceId)
+  })
+
+  const referencedSources: Array<{ source: z.infer<typeof SourceSectionSchema>; path: Array<string | number> }> = []
+  lesson.sections.forEach((section, index) => {
+    if (section.type === 'source') referencedSources.push({ source: section, path: ['sections', index] })
+  })
+  if (lesson.performanceTask.practiceContexts) {
+    const contexts = lesson.performanceTask.practiceContexts
+    const entries = [
+      ['baseline', contexts.baseline],
+      ['retry', contexts.retry],
+      ['transfer', contexts.transfer],
+      ['review', contexts.review]
+    ] as const
+    entries.forEach(([phase, practiceContext]) => {
+      practiceContext?.artifacts.forEach((source, index) => {
+        referencedSources.push({
+          source,
+          path: ['performanceTask', 'practiceContexts', phase, 'artifacts', index]
+        })
+      })
+    })
+  }
+  if (lesson.performanceTask.mode === 'written' && lesson.performanceTask.readingLadder) {
+    referencedSources.push({
+      source: lesson.performanceTask.readingLadder.trainingSource,
+      path: ['performanceTask', 'readingLadder', 'trainingSource']
+    })
+  }
+  referencedSources.forEach(({ source, path }) => {
+    source.provenance?.sourceIds.forEach((sourceId, index) => {
+      if (!registryIds.has(sourceId)) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: [...path, 'provenance', 'sourceIds', index],
+          message: `Unknown sourceRegistry reference: ${sourceId}`
+        })
+      }
+    })
+  })
+
   const sectionIds = new Set<string>()
   const exerciseIds = new Set<string>()
   lesson.sections.forEach((section, index) => {
@@ -436,6 +539,9 @@ export type CapabilityId = z.infer<typeof CapabilityIdSchema>
 export type VocabularyItem = z.infer<typeof VocabularyItemSchema>
 export type ExpressionItem = z.infer<typeof ExpressionItemSchema>
 export type Exercise = z.infer<typeof ExerciseSchema>
+export type AuthoritativeSource = z.infer<typeof AuthoritativeSourceSchema>
+export type SourceProvenance = z.infer<typeof SourceProvenanceSchema>
+export type SourceSection = z.infer<typeof SourceSectionSchema>
 export type LessonSection = z.infer<typeof LessonSectionSchema>
 export type PracticeContext = z.infer<typeof PracticeContextSchema>
 export type ModelAudioSource = z.infer<typeof ModelAudioSourceSchema>
@@ -447,6 +553,43 @@ export type LessonV2 = z.infer<typeof LessonV2Schema>
 export type LessonV3 = z.infer<typeof LessonV3Schema>
 export type RawLesson = z.infer<typeof RawLessonSchema>
 
+type CanonicalUnannotatedSourceSection = Omit<SourceSection, 'provenance'> & {
+  provenance?: undefined
+  resolvedSources?: undefined
+}
+
+type CanonicalAnnotatedSourceSection = Omit<SourceSection, 'provenance'> & {
+  provenance: SourceProvenance
+  resolvedSources: [AuthoritativeSource, ...AuthoritativeSource[]]
+}
+
+export type CanonicalSourceSection = CanonicalUnannotatedSourceSection | CanonicalAnnotatedSourceSection
+export type CanonicalLessonSection = Exclude<LessonSection, SourceSection> | CanonicalSourceSection
+export type CanonicalPracticeContext = Omit<PracticeContext, 'artifacts'> & {
+  artifacts: CanonicalSourceSection[]
+}
+export interface CanonicalPracticeContexts {
+  baseline: CanonicalPracticeContext
+  retry?: CanonicalPracticeContext
+  transfer: CanonicalPracticeContext
+  review: CanonicalPracticeContext
+}
+export type CanonicalReadingLadderV1 = Omit<ReadingLadderV1, 'trainingSource'> & {
+  trainingSource: CanonicalSourceSection
+}
+
+type SpokenPerformanceTaskV3 = Extract<PerformanceTaskV3, { mode: 'spoken' }>
+type WrittenPerformanceTaskV3 = Extract<PerformanceTaskV3, { mode: 'written' }>
+
+export type CanonicalPerformanceTaskV3 =
+  | (Omit<SpokenPerformanceTaskV3, 'practiceContexts'> & {
+      practiceContexts?: CanonicalPracticeContexts
+    })
+  | (Omit<WrittenPerformanceTaskV3, 'practiceContexts' | 'readingLadder'> & {
+      practiceContexts?: CanonicalPracticeContexts
+      readingLadder?: CanonicalReadingLadderV1
+    })
+
 export interface CanonicalLesson {
   sourceSchemaVersion: 'v1' | 'v2' | 'v3'
   lessonId: string
@@ -457,8 +600,8 @@ export interface CanonicalLesson {
   learningObjectives: string[]
   capabilities: CapabilityId[]
   workflowTags: string[]
-  sections: LessonSection[]
-  performanceTask?: PerformanceTaskV3
+  sections: CanonicalLessonSection[]
+  performanceTask?: CanonicalPerformanceTaskV3
   reviewPolicy: z.infer<typeof ReviewPolicySchema>
   completionMode: 'legacy-quiz' | 'performance' | 'capability-loop'
 }

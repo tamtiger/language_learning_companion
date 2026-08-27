@@ -4,10 +4,16 @@ import {
   LessonV2Schema,
   LessonV3Schema,
   type CanonicalLesson,
-  type LessonSection,
+  type AuthoritativeSource,
+  type CanonicalLessonSection,
+  type CanonicalPerformanceTaskV3,
+  type CanonicalPracticeContexts,
+  type CanonicalSourceSection,
   type LessonV1,
   type LessonV2,
-  type RawLesson
+  type RawLesson,
+  type SourceSection,
+  type PerformanceTaskV3
 } from './schema'
 
 export class LessonParseError extends Error {
@@ -50,7 +56,7 @@ export function parseLesson(input: unknown): RawLesson {
   return RawLessonSchema.parse(result.data)
 }
 
-function legacySections(lesson: LessonV1 | LessonV2): LessonSection[] {
+function legacySections(lesson: LessonV1 | LessonV2): CanonicalLessonSection[] {
   return [
     {
       id: 'objectives',
@@ -115,8 +121,79 @@ function normalizeV2Task(lesson: LessonV2): NonNullable<CanonicalLesson['perform
   }
 }
 
+function resolveSource(
+  source: SourceSection,
+  sourceById: ReadonlyMap<string, AuthoritativeSource>
+): CanonicalSourceSection {
+  if (!source.provenance) {
+    return {
+      id: source.id,
+      type: 'source',
+      title: source.title,
+      format: source.format,
+      content: source.content
+    }
+  }
+  const resolvedSources = source.provenance.sourceIds.map((sourceId) => {
+    const resolved = sourceById.get(sourceId)
+    if (!resolved) throw new LessonParseError([`Unknown sourceRegistry reference: ${sourceId}`])
+    return resolved
+  })
+  if (!resolvedSources[0]) {
+    throw new LessonParseError([`Source provenance ${source.id} must resolve at least one source`])
+  }
+  return {
+    ...source,
+    provenance: source.provenance,
+    resolvedSources: [resolvedSources[0], ...resolvedSources.slice(1)]
+  }
+}
+
+function resolveV3TaskSources(
+  task: PerformanceTaskV3,
+  sourceById: ReadonlyMap<string, AuthoritativeSource>
+): CanonicalPerformanceTaskV3 {
+  const practiceContexts: CanonicalPracticeContexts | undefined = task.practiceContexts
+    ? {
+        baseline: {
+          ...task.practiceContexts.baseline,
+          artifacts: task.practiceContexts.baseline.artifacts.map((source) => resolveSource(source, sourceById))
+        },
+        ...(task.practiceContexts.retry ? {
+          retry: {
+            ...task.practiceContexts.retry,
+            artifacts: task.practiceContexts.retry.artifacts.map((source) => resolveSource(source, sourceById))
+          }
+        } : {}),
+        transfer: {
+          ...task.practiceContexts.transfer,
+          artifacts: task.practiceContexts.transfer.artifacts.map((source) => resolveSource(source, sourceById))
+        },
+        review: {
+          ...task.practiceContexts.review,
+          artifacts: task.practiceContexts.review.artifacts.map((source) => resolveSource(source, sourceById))
+        }
+      }
+    : undefined
+
+  if (task.mode === 'written') {
+    return {
+      ...task,
+      practiceContexts,
+      readingLadder: task.readingLadder
+        ? {
+          ...task.readingLadder,
+          trainingSource: resolveSource(task.readingLadder.trainingSource, sourceById)
+        }
+        : undefined
+    }
+  }
+  return { ...task, practiceContexts }
+}
+
 export function normalizeLesson(lesson: RawLesson): CanonicalLesson {
   if (lesson.schemaVersion === 'v3') {
+    const sourceById = new Map((lesson.sourceRegistry ?? []).map((source) => [source.sourceId, source]))
     return {
       sourceSchemaVersion: 'v3',
       lessonId: lesson.lessonId,
@@ -127,8 +204,10 @@ export function normalizeLesson(lesson: RawLesson): CanonicalLesson {
       learningObjectives: lesson.learningObjectives,
       capabilities: lesson.capabilities,
       workflowTags: lesson.workflowTags,
-      sections: lesson.sections,
-      performanceTask: lesson.performanceTask,
+      sections: lesson.sections.map((section) => section.type === 'source'
+        ? resolveSource(section, sourceById)
+        : section),
+      performanceTask: resolveV3TaskSources(lesson.performanceTask, sourceById),
       reviewPolicy: lesson.reviewPolicy,
       completionMode: 'capability-loop'
     }

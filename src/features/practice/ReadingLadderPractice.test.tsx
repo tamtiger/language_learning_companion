@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { ReadingLadderV1 } from '../../content/schema'
+import type { CanonicalReadingLadderV1 } from '../../content/schema'
 import { ReadingLadderPractice } from './ReadingLadderPractice'
 
-const ladder: ReadingLadderV1 = {
+const ladder: CanonicalReadingLadderV1 = {
   version: 'v1',
   trainingSource: { id: 'source', type: 'source', title: 'Worker docs', format: 'technical-doc', content: 'Set maxAttempts above one to enable retries.' },
   extractionItems: [
@@ -23,6 +23,7 @@ describe('ReadingLadderPractice', () => {
     render(<ReadingLadderPractice lessonId="worker-docs" ladder={ladder} onComplete={onComplete} />)
 
     expect(screen.getByText(/maxAttempts above one/i)).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'Worker docs', level: 4 })).toBeTruthy()
     await user.click(screen.getByRole('button', { name: /bắt đầu trích xuất/i }))
     expect(screen.queryByText(/maxAttempts above one/i)).toBeNull()
     expect(document.activeElement).toBe(screen.getByRole('heading', { name: /trích action/i }))

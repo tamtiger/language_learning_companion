@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getBundledCatalog } from './catalog'
 import { NEW_CAPABILITY_MISSIONS } from './content'
+import type { CanonicalSourceSection } from './schema'
 
 describe('new capability mission wave', () => {
   it('loads exactly one valid v3 mission for every capability', () => {
@@ -87,6 +88,43 @@ describe('new capability mission wave', () => {
         ['clarification', 'misunderstanding', 'repair', 'interruption'].includes(turn.kind)
       )).toBe(true)
     }
+  })
+
+  it('loads trustworthy provenance for every Daily Standup source artifact', () => {
+    const lesson = getBundledCatalog().lessons.find((item) => item.lessonId === 'daily-standup-b1')
+    const task = lesson?.performanceTask
+    if (!lesson || task?.mode !== 'spoken' || !task.practiceContexts) {
+      throw new Error('Daily Standup fixture missing')
+    }
+    const lessonSources = lesson.sections.filter(
+      (section): section is CanonicalSourceSection => section.type === 'source'
+    )
+    const contextSources = [
+      ...task.practiceContexts.baseline.artifacts,
+      ...(task.practiceContexts.retry?.artifacts ?? []),
+      ...task.practiceContexts.transfer.artifacts,
+      ...task.practiceContexts.review.artifacts
+    ]
+    const sources = [...lessonSources, ...contextSources]
+
+    expect(sources).toHaveLength(5)
+    for (const source of sources) {
+      expect(source.provenance?.origin, source.id).toBe('synthetic')
+      expect(source.provenance?.adaptationNote, source.id).toMatch(/fictional|mô phỏng/i)
+      expect(source.provenance?.adaptationNote, source.id).toMatch(/team convention|quy ước nhóm/i)
+      expect(source.resolvedSources?.map((item) => item.sourceId), source.id).toEqual([
+        'scrum-guide-2020',
+        'coe-cefr-companion-2020'
+      ])
+      expect(source.resolvedSources?.every((item) => item.reuseMode === 'reference-only'), source.id).toBe(true)
+    }
+    expect(sources.map((source) => source.content).length).toBe(new Set(sources.map((source) => source.content)).size)
+    expect(sources.every((source) => /Sprint Goal/i.test(source.content))).toBe(true)
+    expect(task.outputContract).toMatchObject({ timeLimitSeconds: 60, targetSeconds: 30 })
+    expect(task.outputContract.requiredElements).toContain('Sprint Goal progress')
+    expect(task.rubric[0]?.label).toMatch(/team convention/i)
+    expect(task.rubric[0]?.description).toMatch(/not a Scrum requirement/i)
+    expect(task.rubric[0]?.description).toMatch(/Sprint Goal/i)
   })
 
   it('shows a complete technical source before the read-from-memory baseline', () => {

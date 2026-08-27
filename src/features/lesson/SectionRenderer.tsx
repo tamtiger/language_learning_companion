@@ -1,7 +1,97 @@
 import { useEffect, useRef, useState } from 'react'
 import { Volume2 } from 'lucide-react'
-import type { Exercise, LessonSection } from '../../content/schema'
+import type {
+  CanonicalLessonSection,
+  CanonicalSourceSection,
+  Exercise,
+  SourceProvenance
+} from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/use_app_store'
+
+const SOURCE_FORMAT_LABELS: Record<CanonicalSourceSection['format'], string> = {
+  prose: 'Văn bản',
+  dialogue: 'Hội thoại',
+  'meeting-notes': 'Ghi chú cuộc họp',
+  'technical-doc': 'Tài liệu kỹ thuật',
+  'code-snippet': 'Đoạn mã hoặc log'
+}
+
+const SOURCE_ORIGIN_LABELS: Record<SourceProvenance['origin'], string> = {
+  original: 'Nội dung nguyên bản',
+  adapted: 'Nội dung đã điều chỉnh',
+  synthetic: 'Tình huống mô phỏng'
+}
+
+const REUSE_MODE_LABELS: Record<NonNullable<CanonicalSourceSection['resolvedSources']>[number]['reuseMode'], string> = {
+  'reference-only': 'Chỉ dùng làm tài liệu tham khảo',
+  quoted: 'Có trích dẫn từ nguồn',
+  adapted: 'Có nội dung điều chỉnh từ nguồn',
+  redistributed: 'Được phép phân phối lại theo điều khoản nguồn'
+}
+
+function displayDate(value: string): string {
+  const [year, month, day] = value.split('-')
+  return `${day}/${month}/${year}`
+}
+
+function SourceTrustDisclosure({ section, headingTag }: {
+  section: CanonicalSourceSection
+  headingTag: 'h3' | 'h4' | 'h5'
+}) {
+  if (!section.provenance || !section.resolvedSources?.length) return null
+  const SourceHeading = headingTag
+  return (
+    <div className="mt-4 space-y-3">
+      <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-4">
+        <p className="text-xs font-bold uppercase tracking-wider text-cyan-200">
+          {SOURCE_ORIGIN_LABELS[section.provenance.origin]}
+        </p>
+        {section.provenance.adaptationNote && (
+          <p className="mt-2 text-sm leading-6 text-zinc-300">{section.provenance.adaptationNote}</p>
+        )}
+      </div>
+      <details className="rounded-xl border border-zinc-700 bg-zinc-950/50 open:border-purple-500/50">
+        <summary className="min-h-11 cursor-pointer px-4 py-3 font-bold text-purple-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400">
+          Nguồn và quyền sử dụng
+        </summary>
+        <div className="space-y-4 border-t border-zinc-800 p-4">
+          {section.resolvedSources.map((source) => (
+            <article key={source.sourceId} className="min-w-0 rounded-lg border border-zinc-800 p-4">
+              <SourceHeading className="break-words font-bold text-zinc-100">{source.title}</SourceHeading>
+              <dl className="mt-3 grid gap-2 text-sm text-zinc-300 sm:grid-cols-[max-content_minmax(0,1fr)]">
+                <dt className="font-semibold text-zinc-400">Đơn vị phát hành</dt>
+                <dd className="break-words">{source.publisher}</dd>
+                <dt className="font-semibold text-zinc-400">Phiên bản</dt>
+                <dd className="break-words">{source.versionOrPublishedAt}</dd>
+                <dt className="font-semibold text-zinc-400">Vị trí tham chiếu</dt>
+                <dd className="break-words">{source.exactLocation}</dd>
+                <dt className="font-semibold text-zinc-400">Ngày truy cập</dt>
+                <dd>{displayDate(source.accessedAt)}</dd>
+                <dt className="font-semibold text-zinc-400">Cách sử dụng</dt>
+                <dd>{REUSE_MODE_LABELS[source.reuseMode]}</dd>
+              </dl>
+              {source.requiredAttribution && (
+                <p className="mt-3 break-words text-xs leading-5 text-zinc-400">
+                  Ghi nguồn: {source.requiredAttribution}
+                </p>
+              )}
+              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold">
+                <a href={source.canonicalUrl} target="_blank" rel="noreferrer"
+                  className="break-words text-cyan-300 underline decoration-cyan-500/50 underline-offset-4">
+                  Mở nguồn tham khảo — cần Internet
+                </a>
+                <a href={source.licenseIdOrRightsUrl} target="_blank" rel="noreferrer"
+                  className="break-words text-zinc-300 underline decoration-zinc-600 underline-offset-4">
+                  Xem quyền và điều khoản sử dụng — cần Internet
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </details>
+    </div>
+  )
+}
 
 function isExerciseCorrect(exercise: Exercise, answers: string[], matches: Record<string, string>): boolean {
   if (exercise.type === 'fill') {
@@ -137,12 +227,16 @@ function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
   })}</div>
 }
 
-export function SectionRenderer({ lessonId, section, onExerciseCorrect }: {
+export function SectionRenderer({ lessonId, section, onExerciseCorrect, headingLevel = 2 }: {
   lessonId: string
-  section: LessonSection
+  section: CanonicalLessonSection
   onExerciseCorrect?: (exerciseId: string) => void
+  headingLevel?: 2 | 3 | 4
 }) {
   const activeUtterance = useRef<SpeechSynthesisUtterance | null>(null)
+  const Heading = headingLevel === 2 ? 'h2' : headingLevel === 3 ? 'h3' : 'h4'
+  const ItemHeading = headingLevel === 2 ? 'h3' : headingLevel === 3 ? 'h4' : 'h5'
+  const headingClass = headingLevel === 2 ? 'text-2xl' : headingLevel === 3 ? 'text-xl' : 'text-lg'
 
   useEffect(() => () => {
     if (activeUtterance.current && 'speechSynthesis' in window) {
@@ -165,8 +259,17 @@ export function SectionRenderer({ lessonId, section, onExerciseCorrect }: {
     window.speechSynthesis.speak(utterance)
   }
 
-  if (section.type === 'brief') return <section><h2 className="text-2xl font-bold">{section.title}</h2><p className="mt-4 whitespace-pre-line leading-relaxed text-zinc-300">{section.body}</p></section>
-  if (section.type === 'source') return <section><p className="text-xs font-bold uppercase tracking-wider text-purple-400">{section.format}</p><h2 className="mt-2 text-2xl font-bold">{section.title}</h2><div className="mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 leading-7 text-zinc-300">{section.content}</div></section>
-  if (section.type === 'auto-check') return <section><h2 className="text-2xl font-bold">{section.title}</h2><div className="mt-4"><AutoCheck lessonId={lessonId} exercises={section.exercises} onExerciseCorrect={onExerciseCorrect} /></div></section>
-  return <section><h2 className="text-2xl font-bold">{section.title}</h2>{section.vocabulary.length > 0 && <div className="mt-4 grid gap-3 sm:grid-cols-2">{section.vocabulary.map((item) => <article key={item.word} className="rounded-xl border border-zinc-800 p-4"><div className="flex items-center justify-between"><h3 className="font-bold">{item.word} <span className="font-normal text-purple-300">{item.ipa}</span></h3><button type="button" aria-label={`Phát âm ${item.word}`} onClick={() => speakWord(item.word)} className="rounded-lg p-2 hover:bg-zinc-800"><Volume2 aria-hidden="true" className="h-4 w-4" /></button></div><p className="mt-2 text-sm text-zinc-400">{item.technicalMeaning}</p><p className="mt-2 text-sm">{item.example}</p></article>)}</div>}{section.expressions.length > 0 && <div className="mt-5 space-y-3">{section.expressions.map((item) => <article key={item.phrase} className="rounded-xl border border-zinc-800 p-4"><h3 className="font-bold">{item.phrase}</h3><p className="mt-1 text-sm text-zinc-400">{item.meaning}</p><p className="mt-2 text-sm">{item.example}</p></article>)}</div>}</section>
+  if (section.type === 'brief') return <section><Heading className={`${headingClass} font-bold`}>{section.title}</Heading><p className="mt-4 whitespace-pre-line leading-relaxed text-zinc-300">{section.body}</p></section>
+  if (section.type === 'source') return <section>
+    <p className="text-xs font-bold uppercase tracking-wider text-purple-400">
+      {SOURCE_FORMAT_LABELS[section.format]}
+    </p>
+    <Heading className={`mt-2 ${headingClass} font-bold`}>{section.title}</Heading>
+    <div className="mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 leading-7 text-zinc-300">
+      {section.content}
+    </div>
+    <SourceTrustDisclosure section={section} headingTag={ItemHeading} />
+  </section>
+  if (section.type === 'auto-check') return <section><Heading className={`${headingClass} font-bold`}>{section.title}</Heading><div className="mt-4"><AutoCheck lessonId={lessonId} exercises={section.exercises} onExerciseCorrect={onExerciseCorrect} /></div></section>
+  return <section><Heading className={`${headingClass} font-bold`}>{section.title}</Heading>{section.vocabulary.length > 0 && <div className="mt-4 grid gap-3 sm:grid-cols-2">{section.vocabulary.map((item) => <article key={item.word} className="rounded-xl border border-zinc-800 p-4"><div className="flex items-center justify-between"><ItemHeading className="font-bold">{item.word} <span className="font-normal text-purple-300">{item.ipa}</span></ItemHeading><button type="button" aria-label={`Phát âm ${item.word}`} onClick={() => speakWord(item.word)} className="rounded-lg p-2 hover:bg-zinc-800"><Volume2 aria-hidden="true" className="h-4 w-4" /></button></div><p className="mt-2 text-sm text-zinc-400">{item.technicalMeaning}</p><p className="mt-2 text-sm">{item.example}</p></article>)}</div>}{section.expressions.length > 0 && <div className="mt-5 space-y-3">{section.expressions.map((item) => <article key={item.phrase} className="rounded-xl border border-zinc-800 p-4"><ItemHeading className="font-bold">{item.phrase}</ItemHeading><p className="mt-1 text-sm text-zinc-400">{item.meaning}</p><p className="mt-2 text-sm">{item.example}</p></article>)}</div>}</section>
 }

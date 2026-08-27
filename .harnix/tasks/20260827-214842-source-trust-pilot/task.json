@@ -1,0 +1,304 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260827-214842-source-trust-pilot",
+  "title": "Pilot nguồn đáng tin cậy cho Daily Standup",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Bổ sung provenance có thể kiểm chứng cho một mission thực tế và refactor UI/content boundary để người học hiểu nguồn cùng bước học mà không phá offline, privacy hay compatibility.",
+  "nonGoals": [
+    "Không rollout provenance sang toàn bộ lesson.",
+    "Không cải tổ pronunciation v1.",
+    "Không redesign toàn bộ app hoặc thêm runtime network/AI/cloud.",
+    "Không thay progress/storage contract hay persist learner output."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Content layer validate provenance/source registry của pilot, fail closed khi reference sai và vẫn load lesson legacy không provenance.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-contract-20260827-final",
+        "ev-check-full-suite-20260827-final",
+        "ev-check-build-20260827-final"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "UI pilot hiển thị provenance accessible và nhãn learner-facing, không lộ raw schema/mode/phase.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-ui-trust-20260827-final",
+        "ev-check-full-suite-20260827-final",
+        "ev-check-build-20260827-final",
+        "ev-check-browser-journey-20260827-final"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Daily Standup dùng source chính thức với origin/adaptation/license trung thực và giữ variation baseline/retry/transfer/review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-contract-20260827-final",
+        "ev-check-full-suite-20260827-final",
+        "ev-check-build-20260827-final",
+        "ev-check-browser-journey-20260827-final"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Content boundary, offline/privacy và v1/v2/v3 compatibility được giữ với focused/full/static/browser evidence mới.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-contract-20260827-final",
+        "ev-check-ui-trust-20260827-final",
+        "ev-check-full-suite-20260827-final",
+        "ev-check-lint-20260827-final",
+        "ev-check-build-20260827-final",
+        "ev-check-browser-journey-20260827-final"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "content/modules/workplace-communication/daily_standup.json",
+    "src/content/catalog.ts",
+    "src/content/normalization.ts",
+    "src/content/schema.ts",
+    "src/features/lesson/LessonFlow.tsx",
+    "src/features/lesson/SectionRenderer.tsx",
+    "src/features/practice/CapabilityTask.tsx"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "PRODUCT.md",
+    "UX_RESEARCH_REFACTOR_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-content-contract",
+      "description": "Chạy schema, normalization, catalog và all-lessons tests cho provenance/reference và compatibility.",
+      "command": "npx vitest run src/content/schema.test.ts src/content/normalization.test.ts src/content/catalog.test.ts src/content/content.test.ts src/shared/utils/validate_all_lessons.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CONTENT.md",
+        "content/**/*.json",
+        "src/content/**/*.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    },
+    {
+      "id": "check-ui-trust",
+      "description": "Chạy DOM tests cho source disclosure, learner-facing labels và lesson compatibility.",
+      "command": "npx vitest run src/features/lesson/SectionRenderer.test.tsx src/features/lesson/LessonFlow.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "check-full-suite",
+      "description": "Chạy toàn bộ Vitest để bắt regression xuyên content/domain/storage/UI.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "vitest.config.ts"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy oxlint trên source cuối.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript project build và Vite production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-browser-journey",
+      "description": "Browser QA Daily Standup trên 390x844 và 1440x900, gồm provenance disclosure, learner labels, keyboard focus và overflow.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-content-contract-20260827-final",
+      "checkId": "check-content-contract",
+      "recordedAt": "2026-08-27T15:13:05.4254575Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content contract PASS: 5 test files, 89 tests; registry/provenance, malformed URL, canonical resolution, Daily Standup facts và legacy compatibility đều xanh.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/content",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ],
+      "inputDigest": "d6dbaf5f6e21db54dafcfb8143a1d00ded4193b1895a1890840c139a82c0511b"
+    },
+    {
+      "id": "ev-check-ui-trust-20260827-final",
+      "checkId": "check-ui-trust",
+      "recordedAt": "2026-08-27T15:13:39.3758990Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused UI trust PASS: 3 test files, 35 tests; disclosure accessible, heading level, learner-facing mode/phase/format labels và lesson flows đều xanh.",
+      "artifactPaths": [
+        "src/features/lesson",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "5c1198492202ee7154485633c986b4484a52a31e36606a0b65be786988f53363"
+    },
+    {
+      "id": "ev-check-full-suite-20260827-final",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-27T15:14:53.4651280Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest PASS: 29 test files, 242 tests. Chỉ có cảnh báo môi trường jsdom/localStorage và canvas đã biết; không có test fail.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "package.json",
+        "vitest.config.ts"
+      ],
+      "inputDigest": "8ce2671fa6a675c352b8412dfad48c1347488b09c177a4656fca52a5ee815995"
+    },
+    {
+      "id": "ev-check-lint-20260827-final",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T15:15:07.1767687Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint PASS, không có finding.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "package.json"
+      ],
+      "inputDigest": "1baf23af7259d41d1da69c0a1a62e002eaed86b17cb12e89491bc1ee6d64d810"
+    },
+    {
+      "id": "ev-check-build-20260827-final",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T15:15:23.9109357Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript project build và Vite production build PASS. Bundle JS 517.69 kB (147.43 kB gzip); Vite còn cảnh báo chunk >500 kB không blocking.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "package.json",
+        "package-lock.json",
+        "tsconfig.json",
+        "vite.config.ts"
+      ],
+      "inputDigest": "c0786a6f0f6ffb9b5bb0665158bc8daefe538d49b971b7209eae75c3abfbb72f"
+    },
+    {
+      "id": "ev-check-browser-journey-20260827-final",
+      "checkId": "check-browser-journey",
+      "recordedAt": "2026-08-27T15:16:03.6035533Z",
+      "result": "pass",
+      "summary": "Browser QA PASS tại 390x844 và 1440x900: không overflow ngang; disclosure đóng mặc định và mở bằng Enter; focus outline 2px; heading h1→h5; nguồn/quyền/link Internet đúng; không lộ v3/spoken/baseline/meeting-notes. Viewport đã reset.",
+      "artifactPaths": [
+        "content/modules/workplace-communication/daily_standup.json",
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "inputDigest": "e17d4b2965685d593c2595b95c90494f7323b04f1c4c28da57174d7dc86d1629"
+    }
+  ],
+  "createdAt": "2026-08-27T14:48:42.6838992Z",
+  "updatedAt": "2026-08-27T15:17:05.640Z",
+  "completedAt": "2026-08-27T15:17:05.640Z"
+}

@@ -73,6 +73,156 @@ describe('LessonV3Schema', () => {
     expect(LessonV3Schema.parse(validWrittenMission)).toEqual(validWrittenMission)
   })
 
+  it('preserves a valid source registry and provenance across every source surface', () => {
+    const mission = structuredClone(validWrittenMission) as any
+    mission.sourceRegistry = [{
+      sourceId: 'official-standard',
+      kind: 'standard',
+      title: 'Official standard',
+      publisher: 'Standards body',
+      canonicalUrl: 'https://example.org/standard.pdf',
+      versionOrPublishedAt: '2026 edition',
+      accessedAt: '2026-08-27',
+      exactLocation: 'Section 4, page 12',
+      licenseIdOrRightsUrl: 'https://example.org/rights',
+      reuseMode: 'reference-only',
+      requiredAttribution: 'Standards body (2026). Official standard.'
+    }]
+    const provenance = {
+      origin: 'synthetic',
+      sourceIds: ['official-standard'],
+      adaptationNote: 'The scenario and metrics are fictional training data.'
+    }
+    mission.sections[1].provenance = provenance
+    mission.performanceTask.practiceContexts = {
+      baseline: {
+        title: 'Baseline evidence', brief: 'Use only this evidence.',
+        artifacts: [{
+          id: 'baseline-source', type: 'source', title: 'Baseline notes',
+          format: 'meeting-notes', content: 'A synthetic status note.', provenance
+        }]
+      },
+      transfer: {
+        title: 'Transfer evidence', brief: 'Use a new evidence packet.',
+        artifacts: [{
+          id: 'transfer-source', type: 'source', title: 'Transfer notes',
+          format: 'meeting-notes', content: 'A different synthetic note.', provenance
+        }]
+      },
+      review: {
+        title: 'Review evidence', brief: 'Return to a fresh packet.',
+        artifacts: [{
+          id: 'review-source', type: 'source', title: 'Review notes',
+          format: 'meeting-notes', content: 'A delayed synthetic note.', provenance
+        }]
+      }
+    }
+    mission.performanceTask.readingLadder = {
+      version: 'v1',
+      trainingSource: {
+        id: 'ladder-source', type: 'source', title: 'Training source',
+        format: 'technical-doc', content: 'A synthetic reference example.', provenance
+      },
+      extractionItems: [
+        { id: 'rule', question: 'What is the rule?', options: ['A', 'B'], correctAnswer: 'A', feedback: 'A is stated.' },
+        { id: 'signal', question: 'What is the signal?', options: ['C', 'D'], correctAnswer: 'C', feedback: 'C is stated.' },
+        { id: 'limit', question: 'What is the limit?', options: ['E', 'F'], correctAnswer: 'E', feedback: 'E is stated.' }
+      ],
+      applicationPrompt: 'Apply the rule to a new case.',
+      applicationChecklist: ['I named the rule.', 'I separated fact from inference.']
+    }
+
+    const parsed = LessonV3Schema.parse(mission) as any
+    expect(parsed.sourceRegistry).toEqual(mission.sourceRegistry)
+    expect(parsed.sections[1].provenance).toEqual(provenance)
+    expect(parsed.performanceTask.practiceContexts.baseline.artifacts[0].provenance).toEqual(provenance)
+    expect(parsed.performanceTask.readingLadder.trainingSource.provenance).toEqual(provenance)
+  })
+
+  it.each([
+    ['duplicate registry id', (mission: any) => mission.sourceRegistry.push(structuredClone(mission.sourceRegistry[0]))],
+    ['missing source reference', (mission: any) => { mission.sections[1].provenance.sourceIds = ['missing-source'] }],
+    ['duplicate source reference', (mission: any) => { mission.sections[1].provenance.sourceIds = ['official-standard', 'official-standard'] }],
+    ['insecure canonical URL', (mission: any) => { mission.sourceRegistry[0].canonicalUrl = 'http://example.org/standard.pdf' }],
+    ['malformed canonical URL', (mission: any) => { mission.sourceRegistry[0].canonicalUrl = 'not-a-url' }],
+    ['malformed rights URL', (mission: any) => { mission.sourceRegistry[0].licenseIdOrRightsUrl = 'not-a-url' }],
+    ['invalid access date', (mission: any) => { mission.sourceRegistry[0].accessedAt = '2026-02-30' }],
+    ['missing synthetic note', (mission: any) => { delete mission.sections[1].provenance.adaptationNote }]
+  ])('rejects a provenance contract with %s', (_caseName, mutate) => {
+    const mission = structuredClone(validWrittenMission) as any
+    mission.sourceRegistry = [{
+      sourceId: 'official-standard', kind: 'standard', title: 'Official standard',
+      publisher: 'Standards body', canonicalUrl: 'https://example.org/standard.pdf',
+      versionOrPublishedAt: '2026 edition', accessedAt: '2026-08-27',
+      exactLocation: 'Section 4, page 12',
+      licenseIdOrRightsUrl: 'https://example.org/rights', reuseMode: 'reference-only'
+    }]
+    mission.sections[1].provenance = {
+      origin: 'synthetic', sourceIds: ['official-standard'],
+      adaptationNote: 'The scenario and metrics are fictional training data.'
+    }
+    mutate(mission)
+
+    expect(LessonV3Schema.safeParse(mission).success).toBe(false)
+  })
+
+  it.each([
+    ['lesson section', (mission: any) => mission.sections[1]],
+    ['practice artifact', (mission: any) => mission.performanceTask.practiceContexts.baseline.artifacts[0]],
+    ['reading ladder', (mission: any) => mission.performanceTask.readingLadder.trainingSource]
+  ])('rejects an unresolved reference in a %s', (_surface, selectSource) => {
+    const mission = structuredClone(validWrittenMission) as any
+    mission.sourceRegistry = [{
+      sourceId: 'official-standard', kind: 'standard', title: 'Official standard',
+      publisher: 'Standards body', canonicalUrl: 'https://example.org/standard.pdf',
+      versionOrPublishedAt: '2026 edition', accessedAt: '2026-08-27',
+      exactLocation: 'Section 4, page 12',
+      licenseIdOrRightsUrl: 'https://example.org/rights', reuseMode: 'reference-only'
+    }]
+    const provenance = {
+      origin: 'synthetic', sourceIds: ['official-standard'],
+      adaptationNote: 'The scenario is fictional training data.'
+    }
+    mission.sections[1].provenance = structuredClone(provenance)
+    mission.performanceTask.practiceContexts = {
+      baseline: {
+        title: 'Baseline', brief: 'Use this packet.', artifacts: [{
+          id: 'baseline-source', type: 'source', title: 'Baseline source',
+          format: 'meeting-notes', content: 'Baseline facts.', provenance: structuredClone(provenance)
+        }]
+      },
+      transfer: {
+        title: 'Transfer', brief: 'Use this packet.', artifacts: [{
+          id: 'transfer-source', type: 'source', title: 'Transfer source',
+          format: 'meeting-notes', content: 'Transfer facts.'
+        }]
+      },
+      review: {
+        title: 'Review', brief: 'Use this packet.', artifacts: [{
+          id: 'review-source', type: 'source', title: 'Review source',
+          format: 'meeting-notes', content: 'Review facts.'
+        }]
+      }
+    }
+    mission.performanceTask.readingLadder = {
+      version: 'v1',
+      trainingSource: {
+        id: 'ladder-source', type: 'source', title: 'Training source',
+        format: 'technical-doc', content: 'Training facts.', provenance: structuredClone(provenance)
+      },
+      extractionItems: [
+        { id: 'first', question: 'First?', options: ['A', 'B'], correctAnswer: 'A', feedback: 'A.' },
+        { id: 'second', question: 'Second?', options: ['C', 'D'], correctAnswer: 'C', feedback: 'C.' },
+        { id: 'third', question: 'Third?', options: ['E', 'F'], correctAnswer: 'E', feedback: 'E.' }
+      ],
+      applicationPrompt: 'Apply the facts.',
+      applicationChecklist: ['Name the fact.', 'Name the action.']
+    }
+    selectSource(mission).provenance.sourceIds = ['missing-source']
+
+    expect(LessonV3Schema.safeParse(mission).success).toBe(false)
+  })
+
   it('rejects mode-specific output constraints and duplicate ids', () => {
     const invalid = structuredClone(validWrittenMission) as Record<string, unknown>
     const task = invalid.performanceTask as Record<string, unknown>

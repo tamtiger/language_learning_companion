@@ -54,6 +54,7 @@ describe('generic capability lesson flow', () => {
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     expect(screen.queryByText(/model response — chỉ mở sau attempt/i)).toBeNull()
+    expect(screen.queryByText(/schema\s+v[123]/i)).toBeNull()
 
     await user.type(screen.getByRole('textbox'), 'Initial issue update in English.')
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
@@ -196,7 +197,7 @@ describe('generic capability lesson flow', () => {
     }, lesson.reviewPolicy.intervalDays)
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
-    expect(screen.getByText(/capability task · review/i)).toBeTruthy()
+    expect(screen.getByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeTruthy()
     await user.type(screen.getByRole('textbox'), 'A fresh review response in a changed incident context.')
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))

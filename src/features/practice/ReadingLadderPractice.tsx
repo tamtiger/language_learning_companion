@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ReadingLadderV1 } from '../../content/schema'
+import type { CanonicalReadingLadderV1 } from '../../content/schema'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 
 type Stage = 'read' | 'extract' | 'apply'
 
 export function ReadingLadderPractice({ lessonId, ladder, onComplete }: {
   lessonId: string
-  ladder: ReadingLadderV1
+  ladder: CanonicalReadingLadderV1
   onComplete: () => void
 }) {
   const [stage, setStage] = useState<Stage>('read')
@@ -32,7 +32,7 @@ export function ReadingLadderPractice({ lessonId, ladder, onComplete }: {
           <p className="mt-2 text-sm text-zinc-300">Tìm constraint, action, evidence và recovery. Source sẽ ẩn khi bạn tiếp tục.</p>
         </div>
         <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
-          <SectionRenderer lessonId={lessonId} section={ladder.trainingSource} />
+          <SectionRenderer lessonId={lessonId} section={ladder.trainingSource} headingLevel={4} />
         </div>
         <button type="button" onClick={() => setStage('extract')} className="rounded-xl bg-cyan-500 px-5 py-3 font-bold text-zinc-950">
           Đã đọc một lần — bắt đầu trích xuất

@@ -45,7 +45,9 @@ thể dùng cadence khác ở từng lesson.
 
 - `brief`: `id`, `type`, `title`, `body`.
 - `language-support`: `id`, `type`, `title`, `vocabulary`, `expressions`.
-- `source`: `id`, `type`, `title`, `format`, `content`; format là `prose | dialogue | meeting-notes | technical-doc | code-snippet`.
+- `source`: `id`, `type`, `title`, `format`, `content`, cùng optional
+  `provenance`; format là `prose | dialogue | meeting-notes | technical-doc |
+  code-snippet`.
 - `auto-check`: `id`, `type`, `title`, `exercises`; exercise hỗ trợ `choice | fill | matching | ordering`.
 
 `performanceTask` bắt buộc với mission v3:
@@ -86,6 +88,32 @@ không được thấy input giảng dạy, model response hoặc artifact của
 Contract này phù hợp với nhiệm vụ cần tổng hợp nhiều bằng chứng; mission cũ không
 bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ kiện.
 
+## Source registry và provenance
+
+Lesson v3 có thể khai báo `sourceRegistry` opt-in. Mỗi record bắt buộc có
+`sourceId`, `kind`, `title`, `publisher`, HTTPS `canonicalUrl`,
+`versionOrPublishedAt`, ngày `accessedAt` dạng `YYYY-MM-DD`, `exactLocation`,
+HTTPS `licenseIdOrRightsUrl`, `reuseMode` và optional `requiredAttribution`.
+Registry ID phải duy nhất.
+
+Một source artifact có thể khai báo `provenance` gồm `origin: original | adapted |
+synthetic`, một hoặc nhiều `sourceIds` duy nhất và optional `adaptationNote`.
+Reference phải tồn tại trong registry; `synthetic` và `adapted` bắt buộc giải thích
+phần dự án biên soạn hoặc thay đổi. Validation áp dụng đồng nhất cho source trong
+`sections`, mọi `practiceContexts.*.artifacts` và
+`readingLadder.trainingSource`.
+
+Normalization resolve reference thành canonical `resolvedSources` trước khi dữ
+liệu tới feature UI. Renderer không đọc registry, không suy luận license và không
+fetch metadata. Link canonical/quyền chỉ mở khi người học chủ động chọn; lesson
+vẫn hoạt động offline khi không mở link. Lesson legacy hoặc v3 chưa opt-in không
+bị ép metadata và không hiển thị disclosure rỗng.
+
+Pilot `daily-standup-b1` dùng Scrum Guide 2020 và CEFR Companion Volume 2020 ở
+chế độ `reference-only`. Tên, metric, ticket và sự cố là mô phỏng. Khung
+`yesterday–today–blocker` được ghi đúng là quy ước nhóm, không phải yêu cầu của
+Scrum; B1 là rationale tham chiếu descriptor, không phải chứng nhận hay endorsement.
+
 ## Invariants
 
 - Lesson, section và rubric IDs duy nhất trong scope tương ứng; exercise ID phải duy nhất trên toàn lesson, kể cả giữa nhiều section `auto-check`.
@@ -114,7 +142,8 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
 - `reviewPolicy.intervalDays` là dãy số nguyên dương tăng dần do từng lesson sở
   hữu; runtime phải dùng đúng policy của lesson thay vì áp một cadence toàn cục.
 - Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
-- Không đưa secret, personal data hoặc URL yêu cầu network vào lesson.
+- Không đưa secret, personal data, remote runtime asset hoặc URL bắt buộc network
+  vào lesson. HTTPS canonical reference được phép nếu chỉ là link người dùng chủ động mở.
 
 ## Legacy policy
 

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { buildCatalog, getBundledCatalog } from './catalog'
+import { validWrittenMission } from './schema.test'
 
 describe('capability-first catalog', () => {
   it('loads every bundled JSON and keeps the six pronunciation legacy lessons', () => {
@@ -44,5 +45,27 @@ describe('capability-first catalog', () => {
 
     expect(catalog.errors.map((error) => error.kind)).toEqual(['validation', 'duplicate-id'])
     expect(catalog.lessons).toHaveLength(1)
+  })
+
+  it('returns a structured validation error for a broken provenance reference', () => {
+    const mission = structuredClone(validWrittenMission) as any
+    mission.sourceRegistry = [{
+      sourceId: 'official-standard', kind: 'standard', title: 'Official standard',
+      publisher: 'Standards body', canonicalUrl: 'https://example.org/standard.pdf',
+      versionOrPublishedAt: '2026 edition', accessedAt: '2026-08-27',
+      exactLocation: 'Section 4, page 12',
+      licenseIdOrRightsUrl: 'https://example.org/rights', reuseMode: 'reference-only'
+    }]
+    mission.sections[1].provenance = {
+      origin: 'synthetic', sourceIds: ['not-in-registry'],
+      adaptationNote: 'The scenario is fictional training data.'
+    }
+
+    const catalog = buildCatalog([['broken-provenance.json', mission]])
+
+    expect(catalog.lessons).toEqual([])
+    expect(catalog.errors).toHaveLength(1)
+    expect(catalog.errors[0]).toMatchObject({ kind: 'validation', path: 'broken-provenance.json' })
+    expect(catalog.errors[0]?.message).toMatch(/source|provenance|registry/i)
   })
 })

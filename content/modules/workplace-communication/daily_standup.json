@@ -1,34 +1,62 @@
 {
   "schemaVersion": "v3", "lessonId": "daily-standup-b1",
   "title": "Daily Standup: Cập nhật tiến độ rõ ràng",
-  "summary": "Báo cáo outcome, priority và blocker có next action trong 60 giây.",
+  "summary": "Luyện một quy ước nhóm để báo cáo tiến độ hướng tới Sprint Goal, priority và blocker có next action trong 60 giây.",
   "cefrLevel": "B1", "durationMinutes": 15,
-  "learningObjectives": ["Nêu completed outcome", "Nêu priority cụ thể", "Nêu blocker cùng next action"],
+  "learningObjectives": ["Nêu tiến độ liên quan tới Sprint Goal", "Nêu priority và expected result", "Nêu blocker hoặc risk cùng next action"],
   "capabilities": ["international-meetings"], "workflowTags": ["standup", "status-update"],
+  "sourceRegistry": [
+    {
+      "sourceId": "scrum-guide-2020",
+      "kind": "official-doc",
+      "title": "The 2020 Scrum Guide",
+      "publisher": "Ken Schwaber and Jeff Sutherland",
+      "canonicalUrl": "https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-US.pdf",
+      "versionOrPublishedAt": "November 2020",
+      "accessedAt": "2026-08-27",
+      "exactLocation": "Daily Scrum, p. 9; copyright and license notices, pp. 1 and 13",
+      "licenseIdOrRightsUrl": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "reuseMode": "reference-only",
+      "requiredAttribution": "Ken Schwaber and Jeff Sutherland, The Scrum Guide, November 2020, CC BY-SA 4.0."
+    },
+    {
+      "sourceId": "coe-cefr-companion-2020",
+      "kind": "standard",
+      "title": "Common European Framework of Reference for Languages: Learning, teaching, assessment — Companion volume",
+      "publisher": "Council of Europe Publishing",
+      "canonicalUrl": "https://rm.coe.int/cefr-companion-volume-with-new-descriptors-2020/16809ea0d4",
+      "versionOrPublishedAt": "April 2020",
+      "accessedAt": "2026-08-27",
+      "exactLocation": "Overall oral production, p. 62; Sustained monologue: giving information, p. 63; oral interaction scales, pp. 72, 76–77 and 79",
+      "licenseIdOrRightsUrl": "https://www.coe.int/en/web/portal/copyright-licensing-permissions",
+      "reuseMode": "reference-only",
+      "requiredAttribution": "© Council of Europe 2020. Common European Framework of Reference for Languages: Learning, teaching, assessment — Companion volume, Council of Europe Publishing, Strasbourg."
+    }
+  ],
   "sections": [
-    { "id": "standup-source", "type": "source", "title": "A concise update", "format": "meeting-notes", "content": "Yesterday: completed signup validation and tests. Today: deploy to staging and investigate payment timeout. Blocker: payment dashboard access; platform team has the request; fallback is pairing with Linh." },
+    { "id": "standup-source", "type": "source", "title": "A concise team update", "format": "meeting-notes", "content": "Sprint Goal: make signup and payment ready for partner beta. Yesterday: completed signup validation and tests. Today: deploy to staging and investigate payment timeout. Blocker: payment dashboard access; platform team has the request; fallback is pairing with Linh.", "provenance": { "origin": "synthetic", "sourceIds": ["scrum-guide-2020", "coe-cefr-companion-2020"], "adaptationNote": "Names, metrics, tickets and incidents are fictional training data. The three-part update is a team convention, not a Scrum requirement." } },
     { "id": "standup-check", "type": "auto-check", "title": "Make the blocker actionable", "exercises": [{ "id": "standup-choice", "type": "choice", "question": "Which update names a blocker and next action?", "options": ["I have some problems.", "Payment dashboard access is blocking comparison, so I asked Platform for permission.", "Today is busy."], "correctAnswer": ["Payment dashboard access is blocking comparison, so I asked Platform for permission."], "explanation": "A useful blocker names what is missing, its effect and the action." }] }
   ],
   "performanceTask": {
     "id": "daily-standup-spoken-task", "mode": "spoken", "title": "Deliver a concise Daily Standup",
-    "scenario": "Bạn cập nhật cho một distributed engineering team.",
-    "baselinePrompt": "Trong tối đa 60 giây, báo cáo yesterday, today và blocker mà chưa xem model/chunks.",
-    "performancePrompt": "Dùng facts chính: completed outcome, priority/expected result, blocker impact và next action.",
-    "modelResponse": "Yesterday, I completed signup validation and added tests for the main error cases. Today, I will deploy the fix to staging and investigate a payment timeout. My current blocker is payment dashboard access, so I have asked the platform team for permission. If access is delayed, I will pair with Linh to continue.",
+    "scenario": "Tình huống mô phỏng: bạn cập nhật cho một distributed engineering team bằng quy ước ba phần của nhóm.",
+    "baselinePrompt": "Trong tối đa 60 giây, dùng quy ước nhóm yesterday, today và blocker mà chưa xem model/chunks.",
+    "performancePrompt": "Dùng facts chính: Sprint Goal progress, completed outcome, priority/expected result, blocker impact và next action.",
+    "modelResponse": "We are moving toward the partner-beta Sprint Goal: yesterday, I completed signup validation and added tests for the main error cases. Today, I will deploy the fix to staging and investigate a payment timeout. Payment dashboard access is blocking the comparison, so I asked Platform for permission and will pair with Linh if access is delayed.",
     "retryPrompt": "Dùng search-index case mới; giữ update dưới 60 giây và sửa criterion cần tập trung.",
     "transferPrompt": "Không xem model/chunks: cập nhật incident 503 với plan, estimate và collaborator.",
-    "reviewPrompt": "Từ brief mới, deliver a concise standup with no blocker and one risk.",
+    "reviewPrompt": "Từ brief mới, deliver a concise standup linked to the Sprint Goal, with no blocker and one risk.",
     "practiceContexts": {
-      "baseline": { "title": "Payment timeout", "brief": "Update sau khi hoàn thành validation.", "artifacts": [{ "id": "standup-payment", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Done: signup validation + tests. Today: deploy + reproduce payment timeout. Blocker: dashboard access. Asked Platform; pair with Linh if delayed." }] },
-      "retry": { "title": "Search indexing", "brief": "Giữ three-part structure, đổi facts.", "artifacts": [{ "id": "standup-search", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Done: backfill script. Today: verify 2M documents. Blocker: production snapshot approval. Asked Data owner; use anonymized staging sample meanwhile." }] },
-      "transfer": { "title": "Dependency 503", "brief": "Unseen status update với estimate.", "artifacts": [{ "id": "standup-503", "type": "source", "title": "Incident notes", "format": "meeting-notes", "content": "Done: reproduced intermittent 503. Today: compare provider/request IDs. Estimate: 1 day after logs arrive. Blocker: vendor logs. Coordinate with SRE Mina." }] },
-      "review": { "title": "Mobile release", "brief": "Delayed update, không có blocker.", "artifacts": [{ "id": "standup-mobile", "type": "source", "title": "Release notes", "format": "meeting-notes", "content": "Done: crash fix merged. Today: beta rollout to 10%. No blocker. Risk: store review may delay release; monitor approval by 15:00." }] }
+      "baseline": { "title": "Payment timeout", "brief": "Update mô phỏng sau khi hoàn thành validation.", "artifacts": [{ "id": "standup-payment", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Sprint Goal: make signup and payment ready for partner beta. Done: signup validation + tests. Today: deploy + reproduce payment timeout. Blocker: dashboard access. Asked Platform; pair with Linh if delayed.", "provenance": { "origin": "synthetic", "sourceIds": ["scrum-guide-2020", "coe-cefr-companion-2020"], "adaptationNote": "Names, metrics, tickets and incidents are fictional training data. The three-part update is a team convention, not a Scrum requirement." } }] },
+      "retry": { "title": "Search indexing", "brief": "Giữ quy ước ba phần của nhóm, đổi facts.", "artifacts": [{ "id": "standup-search", "type": "source", "title": "Work notes", "format": "meeting-notes", "content": "Sprint Goal: validate the search migration before cutover. Done: backfill script. Today: verify 2M documents. Blocker: production snapshot approval. Asked Data owner; use anonymized staging sample meanwhile.", "provenance": { "origin": "synthetic", "sourceIds": ["scrum-guide-2020", "coe-cefr-companion-2020"], "adaptationNote": "Names, metrics, tickets and incidents are fictional training data. The three-part update is a team convention, not a Scrum requirement." } }] },
+      "transfer": { "title": "Dependency 503", "brief": "Unseen status update mô phỏng với estimate.", "artifacts": [{ "id": "standup-503", "type": "source", "title": "Incident notes", "format": "meeting-notes", "content": "Sprint Goal: stabilize the provider integration for launch traffic. Done: reproduced intermittent 503. Today: compare provider/request IDs. Estimate: 1 day after logs arrive. Blocker: vendor logs. Coordinate with SRE Mina.", "provenance": { "origin": "synthetic", "sourceIds": ["scrum-guide-2020", "coe-cefr-companion-2020"], "adaptationNote": "Names, metrics, tickets and incidents are fictional training data. The three-part update is a team convention, not a Scrum requirement." } }] },
+      "review": { "title": "Mobile release", "brief": "Delayed update mô phỏng, không có blocker.", "artifacts": [{ "id": "standup-mobile", "type": "source", "title": "Release notes", "format": "meeting-notes", "content": "Sprint Goal: release the crash fix safely to beta users. Done: crash fix merged. Today: beta rollout to 10%. No blocker. Risk: store review may delay release; monitor approval by 15:00.", "provenance": { "origin": "synthetic", "sourceIds": ["scrum-guide-2020", "coe-cefr-companion-2020"], "adaptationNote": "Names, metrics, tickets and incidents are fictional training data. The three-part update is a team convention, not a Scrum requirement." } }] }
     },
-    "outputContract": { "timeLimitSeconds": 90, "requiredElements": ["completed outcome", "today priority", "blocker or no blocker", "next action"], "targetSeconds": 60 },
+    "outputContract": { "timeLimitSeconds": 60, "requiredElements": ["Sprint Goal progress", "today priority", "blocker or no blocker", "next action"], "targetSeconds": 30 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 30 },
     "feedbackPriorities": ["structure", "specificity", "actionability"],
     "rubric": [
-      { "id": "structure", "label": "Yesterday–today–blocker", "description": "The listener can separate completed work, next priority and blocker status." },
+      { "id": "structure", "label": "Three-part team convention", "description": "The listener can connect the update to the Sprint Goal and separate completed work, next priority and blocker status. This scaffold is not a Scrum requirement." },
       { "id": "specificity", "label": "Technical specificity", "description": "Names a concrete feature, service, test, environment or metric." },
       { "id": "actionability", "label": "Actionable blocker", "description": "States impact and next action, or clearly confirms no blocker." }
     ],

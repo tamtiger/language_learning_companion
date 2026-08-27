@@ -1,11 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { LessonSection } from '../../content/schema'
+import type { CanonicalLessonSection, CanonicalSourceSection } from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/use_app_store'
 import { SectionRenderer } from './SectionRenderer'
 
-const section: LessonSection = {
+const section: Extract<CanonicalLessonSection, { type: 'auto-check' }> = {
   id: 'check',
   type: 'auto-check',
   title: 'Kiểm tra phát âm',
@@ -36,8 +36,73 @@ describe('SectionRenderer pronunciation evidence', () => {
     expect(useAppStore.getState().lessonProgress.pronunciation?.completedExerciseIds).toEqual(['sound-1'])
   })
 
+  it('renders canonical provenance as an accessible learner-facing disclosure', async () => {
+    const user = userEvent.setup()
+    const trustedSource: CanonicalSourceSection = {
+      id: 'standup-source',
+      type: 'source',
+      title: 'A concise team update',
+      format: 'meeting-notes',
+      content: 'Yesterday: completed validation. Today: deploy to staging.',
+      provenance: {
+        origin: 'synthetic',
+        sourceIds: ['scrum-guide-2020'],
+        adaptationNote: 'Tên, số liệu và tình huống do dự án biên soạn theo quy ước nhóm.'
+      },
+      resolvedSources: [{
+        sourceId: 'scrum-guide-2020',
+        kind: 'official-doc',
+        title: 'The 2020 Scrum Guide',
+        publisher: 'Ken Schwaber and Jeff Sutherland',
+        canonicalUrl: 'https://scrumguides.org/docs/scrumguide/v2020/2020-Scrum-Guide-US.pdf',
+        versionOrPublishedAt: 'November 2020',
+        accessedAt: '2026-08-27',
+        exactLocation: 'Daily Scrum, p. 9',
+        licenseIdOrRightsUrl: 'https://creativecommons.org/licenses/by-sa/4.0/',
+        reuseMode: 'reference-only',
+        requiredAttribution: 'The Scrum Guide, November 2020, CC BY-SA 4.0.'
+      }]
+    }
+
+    render(<SectionRenderer lessonId="daily-standup-b1" section={trustedSource} headingLevel={4} />)
+
+    expect(screen.getByText('Ghi chú cuộc họp')).toBeTruthy()
+    expect(screen.queryByText('meeting-notes')).toBeNull()
+    expect(screen.getByRole('heading', { name: 'A concise team update', level: 4 })).toBeTruthy()
+    expect(screen.getByText('Tình huống mô phỏng')).toBeTruthy()
+    expect(screen.getByText(trustedSource.provenance?.adaptationNote ?? '')).toBeTruthy()
+    const summary = screen.getByText('Nguồn và quyền sử dụng')
+    expect(summary.tagName).toBe('SUMMARY')
+    await user.click(summary)
+    expect((summary.closest('details') as HTMLDetailsElement).open).toBe(true)
+    expect(screen.getByText('The 2020 Scrum Guide')).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'The 2020 Scrum Guide', level: 5 })).toBeTruthy()
+    expect(screen.getByText(/Ken Schwaber and Jeff Sutherland/i)).toBeTruthy()
+    expect(screen.getByText('November 2020')).toBeTruthy()
+    expect(screen.getByText(/Daily Scrum, p\. 9/i)).toBeTruthy()
+    expect(screen.getByText(/27\/08\/2026/i)).toBeTruthy()
+    expect(screen.getByText(/Chỉ dùng làm tài liệu tham khảo/i)).toBeTruthy()
+    const sourceLink = screen.getByRole('link', { name: /mở nguồn tham khảo.*cần Internet/i })
+    expect(sourceLink.getAttribute('href')).toBe(trustedSource.resolvedSources?.[0]?.canonicalUrl)
+    expect(sourceLink.getAttribute('target')).toBe('_blank')
+    expect(sourceLink.getAttribute('rel')).toContain('noreferrer')
+  })
+
+  it('keeps an unannotated legacy source simple without fabricating trust metadata', () => {
+    const legacySource: CanonicalSourceSection = {
+      id: 'legacy-source', type: 'source', title: 'Legacy reading',
+      format: 'prose', content: 'A local lesson reading.'
+    }
+
+    render(<SectionRenderer lessonId="legacy" section={legacySource} />)
+
+    expect(screen.getByText('Văn bản')).toBeTruthy()
+    expect(screen.queryByText('Nguồn và quyền sử dụng')).toBeNull()
+    expect(screen.queryByText('Tình huống mô phỏng')).toBeNull()
+  })
+
   it('uses radios for one choice and checkboxes for multiple choices', () => {
-    const choiceSection: LessonSection = {
+    const choiceSection: Extract<CanonicalLessonSection, { type: 'auto-check' }> = {
       ...section,
       exercises: [
         section.exercises[0],
@@ -59,7 +124,7 @@ describe('SectionRenderer pronunciation evidence', () => {
 
   it('checks a fill answer through a text input', async () => {
     const user = userEvent.setup()
-    const fillSection: LessonSection = {
+    const fillSection: Extract<CanonicalLessonSection, { type: 'auto-check' }> = {
       ...section,
       exercises: [{
         id: 'fill-1',
@@ -81,7 +146,7 @@ describe('SectionRenderer pronunciation evidence', () => {
 
   it('matches every key to a value with labelled selects', async () => {
     const user = userEvent.setup()
-    const matchingSection: LessonSection = {
+    const matchingSection: CanonicalLessonSection = {
       ...section,
       exercises: [{
         id: 'matching-1',
@@ -105,7 +170,7 @@ describe('SectionRenderer pronunciation evidence', () => {
 
   it('builds and compares an exact ordering', async () => {
     const user = userEvent.setup()
-    const orderingSection: LessonSection = {
+    const orderingSection: CanonicalLessonSection = {
       ...section,
       exercises: [{
         id: 'ordering-1',
@@ -145,7 +210,7 @@ describe('SectionRenderer pronunciation evidence', () => {
       }
     })
     vi.stubGlobal('speechSynthesis', { speak, cancel })
-    const languageSection: LessonSection = {
+    const languageSection: CanonicalLessonSection = {
       id: 'language',
       type: 'language-support',
       title: 'Từ vựng',

@@ -16,7 +16,8 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
 
 ## Boundaries
 
-- `src/content`: Zod raw schemas, `CanonicalLesson`, migration/normalization và catalog validation.
+- `src/content`: Zod raw schemas, source-registry validation, `CanonicalLesson`,
+  migration/normalization và catalog validation.
 - `src/domain/learning`: phase transitions, rubric và completion rules.
 - `src/domain/progress`: attempt evidence, capability aggregation, review scheduling và Today selectors.
 - `src/infrastructure/storage`: `ProgressEnvelope` với `storageVersion: 5`, validated
@@ -34,6 +35,10 @@ Zustand là adapter mỏng: compose state/actions và persist allowlisted progre
 - V1 normalize thành canonical sections và `completionMode: "legacy-quiz"`.
 - V2 normalize thành canonical sections + spoken task và `completionMode: "performance"`.
 - V3 đã có sections + spoken/written task và `completionMode: "capability-loop"`.
+- V3 có thể khai báo lesson-local `sourceRegistry` và reference provenance trên
+  source artifact. Parser fail closed với reference/HTTPS/date/note sai;
+  normalization resolve metadata thành `resolvedSources` trên section, practice
+  context và reading ladder trước khi canonical lesson tới UI.
 - V3 performance task có thể khai báo `practiceContexts` cho baseline, optional retry, transfer
   và review. Mỗi context chứa 1–4 source artifact; parser validate ID duy nhất
   trong context và canonical task giữ nguyên dữ liệu đã parse.
@@ -67,6 +72,11 @@ Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn
 Practice renderer chọn context bằng phase hiện tại và chỉ mount artifacts của
 context đó. Đây là content-driven behavior, không có branch theo lesson ID và
 không thay đổi progress/storage contract.
+
+Source renderer chỉ nhận canonical source. Origin luôn nhìn thấy khi metadata có
+mặt; publisher/version/location/reuse/right nằm trong native disclosure. UI không
+đọc raw registry, không fetch/iframe nguồn và không tạo claim khi lesson chưa opt-in.
+External reference chỉ phát sinh network sau thao tác mở link của người dùng.
 
 Với written reading ladder, `input` chỉ mở performance sau khi extraction đúng và
 application checklist hoàn tất. Read-once là instructional constraint: source ẩn
@@ -124,7 +134,7 @@ overdue review → active loop → capability baseline chưa có evidence → ne
 
 ## Accessibility
 
-Native semantics trước ARIA. Mọi action dùng button/link/form control; focus order có nghĩa, focus visible, heading target sau navigation và live region cho timer/save/error/completion. Recording luôn có textual state và unsupported/permission-denied fallback.
+Native semantics trước ARIA. Mọi action dùng button/link/form control; focus order có nghĩa, focus visible, heading target sau navigation và live region cho timer/save/error/completion. Source trust dùng `details/summary` keyboard-native; raw schema/mode/phase không xuất hiện trong learner-facing header. Recording luôn có textual state và unsupported/permission-denied fallback.
 
 ## Verification
 

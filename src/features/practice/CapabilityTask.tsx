@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Ear, Mic2, RefreshCw } from 'lucide-react'
-import type { CanonicalLesson, PerformanceTaskV3, PracticeContext } from '../../content/schema'
+import type {
+  CanonicalLesson,
+  CanonicalPerformanceTaskV3,
+  CanonicalPracticeContext
+} from '../../content/schema'
 import {
   advancePhase,
   type CapabilityPhase,
@@ -67,6 +71,37 @@ const TRANSFER_REASON_LABELS: Record<TransferReason, string> = {
   'interaction-incomplete': 'chưa hoàn thành đủ lượt clarification/repair'
 }
 
+const MODE_LABELS: Record<CanonicalPerformanceTaskV3['mode'], string> = {
+  spoken: 'Nhiệm vụ nói',
+  written: 'Nhiệm vụ viết'
+}
+
+const PHASE_LABELS: Record<CapabilityPhase, string> = {
+  baseline: 'Lượt đầu',
+  input: 'Học có hướng dẫn',
+  'auto-check': 'Kiểm tra hiểu bài',
+  performance: 'Lượt chính',
+  interaction: 'Tương tác',
+  'self-feedback': 'Tự đánh giá',
+  retry: 'Làm lại có trọng tâm',
+  transfer: 'Tình huống mới',
+  review: 'Ôn lại theo lịch',
+  completed: 'Đã hoàn thành'
+}
+
+const PHASE_DESCRIPTIONS: Record<CapabilityPhase, string> = {
+  baseline: 'Tự làm trước khi xem hướng dẫn hoặc bài mẫu.',
+  input: 'Đọc hoặc nghe đầu vào, rồi hoàn thành phần luyện tập.',
+  'auto-check': 'Kiểm tra các dữ kiện cần hiểu trước lượt chính.',
+  performance: 'Tạo một câu trả lời mới cho nhiệm vụ.',
+  interaction: 'Xử lý câu hỏi hoặc hiểu nhầm từ lượt nói.',
+  'self-feedback': 'Đối chiếu bài làm và chấm từng tiêu chí.',
+  retry: 'Diễn đạt lại, tập trung vào tiêu chí cần sửa.',
+  transfer: 'Áp dụng cùng kỹ năng với dữ kiện chưa gặp.',
+  review: 'Nhớ và áp dụng lại kỹ năng với dữ kiện mới.',
+  completed: 'Nhiệm vụ đã được ghi nhận.'
+}
+
 function initialSession(progress: LessonProgress | undefined, now = Date.now()): CapabilitySession {
   const completed: CapabilitySession = {
     phase: 'completed', baselineAttempted: true, rubricRated: true, transferCompleted: true
@@ -96,7 +131,7 @@ function countWords(value: string): number {
 }
 
 function RubricEditor({ task, answers, setAnswers }: {
-  task: PerformanceTaskV3
+  task: CanonicalPerformanceTaskV3
   answers: Record<string, RubricState>
   setAnswers: (answers: Record<string, RubricState>) => void
 }) {
@@ -177,17 +212,17 @@ function LearnerOutput({ snapshot }: { snapshot: SessionAttemptSnapshot }) {
   )
 }
 
-function PracticeContextPanel({ lessonId, context }: { lessonId: string; context: PracticeContext }) {
+function PracticeContextPanel({ lessonId, context }: { lessonId: string; context: CanonicalPracticeContext }) {
   return (
     <section aria-label={context.title} className="space-y-4 rounded-2xl border border-sky-500/30 bg-sky-500/5 p-5">
       <div>
-        <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Job evidence · chỉ dành cho lượt này</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Bộ dữ kiện công việc · chỉ dùng cho lượt này</p>
         <h3 className="mt-2 text-xl font-black">{context.title}</h3>
       </div>
       <div className="grid gap-4 lg:grid-cols-2">
         {context.artifacts.map((artifact) => (
           <div key={artifact.id} className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-4">
-            <SectionRenderer lessonId={lessonId} section={artifact} />
+            <SectionRenderer lessonId={lessonId} section={artifact} headingLevel={4} />
           </div>
         ))}
       </div>
@@ -225,7 +260,7 @@ function PilotJourney({ phase }: { phase: CapabilityPhase }) {
   )
 }
 
-export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task: PerformanceTaskV3 }) {
+export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task: CanonicalPerformanceTaskV3 }) {
   const capabilityId = lesson.capabilities[0]
   if (!capabilityId) throw new Error(`Capability task lesson ${lesson.lessonId} must declare a capability`)
   const progress = useAppStore((state) => state.lessonProgress[lesson.lessonId])
@@ -446,16 +481,19 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
       <section aria-labelledby="task-title" className="space-y-6">
       {isPilot && <PilotJourney phase={phase} />}
       <div className="rounded-2xl border border-purple-500/30 bg-purple-500/10 p-5">
-        <p className="text-xs font-bold uppercase tracking-widest text-purple-300">{task.mode} capability task · {phase}</p>
+        <p id="task-phase-label" className="text-xs font-bold uppercase tracking-widest text-purple-300">
+          {MODE_LABELS[task.mode]} · {PHASE_LABELS[phase]}
+        </p>
         <h2 ref={taskTitleRef} tabIndex={-1} id="task-title" className="mt-2 text-2xl font-black">{task.title}</h2>
         <p className="mt-3 text-zinc-300">{practiceContext?.brief ?? task.scenario}</p>
+        <p className="mt-2 text-sm text-purple-100">{PHASE_DESCRIPTIONS[phase]}</p>
       </div>
 
       {phase === 'input' ? (
         <div className="space-y-8">
           {lesson.sections.map((section) => (
             <div key={section.id} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
-              <SectionRenderer lessonId={lesson.lessonId} section={section} />
+              <SectionRenderer lessonId={lesson.lessonId} section={section} headingLevel={3} />
             </div>
           ))}
           {task.mode === 'spoken' && task.learningLoop && !inputPracticeReady && (
