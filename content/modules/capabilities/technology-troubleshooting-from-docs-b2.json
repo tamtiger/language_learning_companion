@@ -4,12 +4,12 @@
   "title": "Troubleshoot a new technology from English docs",
   "summary": "Đọc documentation, tạo hypothesis và thử nghiệm an toàn mà không cần bản dịch.",
   "cefrLevel": "B2",
-  "durationMinutes": 25,
+  "durationMinutes": 30,
   "learningObjectives": ["Đọc điều kiện trong docs", "Tạo hypothesis kiểm chứng được", "Viết safe experiment"],
   "capabilities": ["technology-learning"],
   "workflowTags": ["documentation", "troubleshooting"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Worker retry documentation", "format": "technical-doc", "content": "Retries are scheduled only when the handler returns an error. Uncaught exceptions are recorded as failed attempts. A job moves to the dead-letter queue after maxAttempts. Setting maxAttempts to 1 disables retries." },
+    { "id": "source", "type": "source", "title": "Worker retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Retries are scheduled only when the handler returns an error. Uncaught exceptions are recorded as failed attempts. A job moves to the dead-letter queue after maxAttempts. Setting maxAttempts to 1 disables retries." },
     { "id": "check", "type": "auto-check", "title": "Read the condition precisely", "exercises": [{ "id": "docs-troubleshoot-check", "type": "choice", "question": "Vì sao job có thể không retry?", "options": ["The queue is asynchronous.", "maxAttempts may be set to 1.", "The handler uses English."], "correctAnswer": ["maxAttempts may be set to 1."], "explanation": "Docs nói rõ giá trị 1 sẽ tắt retry." }] }
   ],
   "performanceTask": {
@@ -17,7 +17,7 @@
     "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn chỉ có đoạn documentation và config.",
     "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan without the model.",
     "performancePrompt": "Tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal và rollback.",
-    "modelResponse": "The docs say retries require maxAttempts above one and an error result from the handler. My first hypothesis is that maxAttempts is set to one in this environment. I would inspect the effective config, then enqueue one synthetic failing job in staging with maxAttempts set to three. The expected signal is three recorded attempts before dead-lettering. I would revert the test config and remove the synthetic job afterwards.",
+    "modelResponse": "The documentation says retries require the handler to return an error and maxAttempts to be greater than one; maxAttempts=1 disables retries. My first hypothesis is that this environment has an effective maxAttempts value of one, but the documentation alone does not prove the current setting. I would inspect the effective staging configuration before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic failing job with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect how the handler reports failure.",
     "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
     "transferPrompt": "Docs của một cache nói TTL=0 means no expiry. Viết kế hoạch kiểm tra an toàn cho bug stale data.",
     "reviewPrompt": "Từ unseen docs đã đọc một lần, tạo hypothesis và safe experiment có expected signal.",
@@ -25,22 +25,22 @@
       "baseline": {
         "title": "Worker retry behavior",
         "brief": "Read once and derive a safe test from the documented condition.",
-        "artifacts": [{ "id": "trouble-baseline-worker", "type": "source", "title": "Retry documentation", "format": "technical-doc", "content": "Retries are scheduled only when the handler returns an error. A job moves to dead-letter after maxAttempts. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment." }]
+        "artifacts": [{ "id": "trouble-baseline-worker", "type": "source", "title": "Retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Retries are scheduled only when the handler returns an error. A job moves to dead-letter after maxAttempts. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment." }]
       },
       "retry": {
         "title": "Worker effective configuration",
         "brief": "Use focused facts to repair hypothesis, expected signal or cleanup.",
-        "artifacts": [{ "id": "trouble-retry-worker", "type": "source", "title": "Staging configuration", "format": "code-snippet", "content": "environment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true" }]
+        "artifacts": [{ "id": "trouble-retry-worker", "type": "source", "title": "Staging configuration and relevant rule", "format": "code-snippet", "content": "Synthetic training artifact — non-production. Documented rule: an uncaught exception is recorded as a failed attempt, and maxAttempts=1 disables retries.\nenvironment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true" }]
       },
       "transfer": {
         "title": "Cache expiry behavior",
         "brief": "Unseen documentation: design a safe stale-data experiment.",
-        "artifacts": [{ "id": "trouble-transfer-cache", "type": "source", "title": "Cache TTL documentation", "format": "technical-doc", "content": "TTL is measured in seconds. TTL=0 means entries do not expire automatically. cache.invalidate(key) removes one entry. The effective TTL can be inspected with cachectl describe --key KEY." }]
+        "artifacts": [{ "id": "trouble-transfer-cache", "type": "source", "title": "Cache TTL documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. TTL is measured in seconds. TTL=0 means entries do not expire automatically. cache.invalidate(key) removes one entry. The effective TTL can be inspected with cachectl describe --key KEY." }]
       },
       "review": {
         "title": "Circuit breaker recovery",
         "brief": "Delayed retrieval with a different technology rule.",
-        "artifacts": [{ "id": "trouble-review-breaker", "type": "source", "title": "Circuit breaker documentation", "format": "technical-doc", "content": "The breaker opens after five failures in thirty seconds. It remains open for coolDownSeconds, then permits one probe request. A successful probe closes the breaker; a failed probe reopens it." }]
+        "artifacts": [{ "id": "trouble-review-breaker", "type": "source", "title": "Circuit breaker documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. The breaker opens after five failures in thirty seconds. It remains open for coolDownSeconds, then permits one probe request. A successful probe closes the breaker; a failed probe reopens it." }]
       }
     },
     "readingLadder": {
@@ -50,7 +50,7 @@
         "type": "source",
         "title": "Batch concurrency documentation",
         "format": "technical-doc",
-        "content": "concurrency controls simultaneous jobs. A value of zero pauses dispatch without deleting queued jobs. Changes apply to new dispatches only. Use scheduler status to confirm active and queued counts."
+        "content": "Synthetic training artifact — non-production. concurrency controls simultaneous jobs. A value of zero pauses dispatch without deleting queued jobs. Changes apply to new dispatches only. Use scheduler status to confirm active and queued counts."
       },
       "extractionItems": [
         { "id": "batch-rule", "question": "What does concurrency zero do?", "options": ["Pauses new dispatch", "Deletes queued jobs"], "correctAnswer": "Pauses new dispatch", "feedback": "The docs separate dispatch from queue retention." },
@@ -60,7 +60,7 @@
       "applicationPrompt": "State the documented rule, form one hypothesis for a stalled batch, and design a reversible staging experiment with an expected signal.",
       "applicationChecklist": ["I quoted no more than the necessary rule.", "My hypothesis is testable.", "The experiment has an expected signal and cleanup."]
     },
-    "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "cleanup"], "minWords": 100, "maxWords": 180 },
+    "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "cleanup"], "minWords": 100, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["doc accuracy", "testability", "safety"],
     "rubric": [

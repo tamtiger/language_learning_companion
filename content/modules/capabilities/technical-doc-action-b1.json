@@ -4,13 +4,13 @@
   "title": "Turn technical documentation into actions",
   "summary": "Read an English runbook and extract executable steps without translation.",
   "cefrLevel": "B1",
-  "durationMinutes": 12,
+  "durationMinutes": 25,
   "learningObjectives": ["Identify prerequisites, commands, success signals and recovery steps directly in English."],
   "capabilities": ["technical-reading"],
   "workflowTags": ["documentation", "runbook"],
   "sections": [
     { "id": "brief", "type": "brief", "title": "Your mission", "body": "A teammate asks you to perform a safe cache migration using only the English runbook." },
-    { "id": "source", "type": "source", "title": "Cache migration runbook", "format": "technical-doc", "content": "Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it." },
+    { "id": "source", "type": "source", "title": "Cache migration runbook", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it." },
     { "id": "check", "type": "auto-check", "title": "Confirm the safety condition", "exercises": [{ "id": "runbook-prerequisite", "type": "choice", "question": "What must happen before the migration command?", "options": ["Confirm queue depth and create a snapshot.", "Notify the incident owner after retrying."], "correctAnswer": ["Confirm queue depth and create a snapshot."], "explanation": "Both conditions appear before the migration steps." }] }
   ],
   "performanceTask": {
@@ -34,7 +34,7 @@
             "type": "source",
             "title": "Complete migration procedure",
             "format": "technical-doc",
-            "content": "Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
+            "content": "Synthetic training artifact — non-production. Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
           }
         ]
       },
@@ -47,7 +47,7 @@
             "type": "source",
             "title": "Safety-critical details",
             "format": "technical-doc",
-            "content": "Prerequisites: queue depth below 100 and a configuration snapshot. Success: MIGRATION_COMPLETE plus healthy status within two minutes. Recovery: rollback latest, disable read-only mode, notify on-call, and wait for incident-owner approval before retrying."
+            "content": "Synthetic training artifact — non-production. Prerequisites: queue depth below 100 and a configuration snapshot. Success: MIGRATION_COMPLETE plus healthy status within two minutes. Recovery: rollback latest, disable read-only mode, notify on-call, and wait for incident-owner approval before retrying."
           }
         ]
       },
@@ -60,7 +60,7 @@
             "type": "source",
             "title": "Schema upgrade procedure",
             "format": "technical-doc",
-            "content": "Confirm replica lag is below five seconds and back up the schema. Run dbctl upgrade --target 14. Success is reported as SCHEMA_OK after validation. If validation fails, restore the backup, keep writes disabled and page the database owner."
+            "content": "Synthetic training artifact — non-production. Confirm replica lag is below five seconds and back up the schema. Run dbctl upgrade --target 14. Success is reported as SCHEMA_OK after validation. If validation fails, restore the backup, keep writes disabled and page the database owner."
           }
         ]
       },
@@ -73,7 +73,7 @@
             "type": "source",
             "title": "Certificate rotation procedure",
             "format": "technical-doc",
-            "content": "Verify the replacement certificate has at least 90 days remaining and save the current thumbprint. Run certctl rotate --service api. Confirm TLS_CHECK_OK from every region. If any region fails, restore the previous thumbprint and alert security operations."
+            "content": "Synthetic training artifact — non-production. Verify the replacement certificate has at least 90 days remaining and save the current thumbprint. Run certctl rotate --service api. Confirm TLS_CHECK_OK from every region. If any region fails, restore the previous thumbprint and alert security operations."
           }
         ]
       }
@@ -85,22 +85,22 @@
         "type": "source",
         "title": "Feature flag rollout procedure",
         "format": "technical-doc",
-        "content": "Confirm the error budget is green and save the current flag allocation. Run flagctl set checkout-v2 --percent 10. Success requires error_rate below 1% for fifteen minutes. If the threshold is exceeded, restore the saved allocation and notify the release owner."
+        "content": "Synthetic training artifact — non-production. Confirm the error budget is green and save the current flag allocation. Run flagctl set checkout-v2 --percent 10. Success requires error_rate below 1% for fifteen minutes. If the threshold is exceeded, restore the saved allocation and notify the release owner."
       },
       "extractionItems": [
         { "id": "flag-prerequisite", "question": "What must be true before rollout?", "options": ["The error budget is green", "The flag is at 100%"], "correctAnswer": "The error budget is green", "feedback": "The prerequisite appears before the command." },
         { "id": "flag-success", "question": "What proves success?", "options": ["Error rate stays below 1% for fifteen minutes", "The command exits immediately"], "correctAnswer": "Error rate stays below 1% for fifteen minutes", "feedback": "A command exit is not the operational success signal." },
         { "id": "flag-recovery", "question": "What is the recovery action?", "options": ["Restore the saved allocation and notify the release owner", "Increase traffic and retry"], "correctAnswer": "Restore the saved allocation and notify the release owner", "feedback": "Recovery combines rollback and escalation." }
       ],
-      "applicationPrompt": "Explain the rollout as prerequisite → action → success signal → recovery, then apply that structure to a database migration.",
+      "applicationPrompt": "Explain the displayed feature-flag rollout as prerequisite → action → success signal → recovery.",
       "applicationChecklist": ["I preserved the safety sequence.", "I named a measurable success signal.", "I included rollback and owner notification."]
     },
-    "outputContract": { "timeLimitSeconds": 600, "requiredElements": ["prerequisite", "command", "success signal", "recovery"], "minWords": 45, "maxWords": 100 },
+    "outputContract": { "timeLimitSeconds": 240, "requiredElements": ["prerequisite", "command", "success signal", "recovery"], "minWords": 45, "maxWords": 100 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
     "feedbackPriorities": ["Accuracy", "Safety sequence", "Paraphrasing"],
     "rubric": [
       { "id": "sequence", "label": "Correct sequence", "description": "Keeps prerequisite, action, verification and recovery in order." },
-      { "id": "safety", "label": "Safety conditions", "description": "Includes snapshot, rollback and approval constraints." },
+      { "id": "safety", "label": "Safety conditions", "description": "Includes the prerequisite, success condition and recovery or escalation supplied by the displayed procedure." },
       { "id": "independence", "label": "English processing", "description": "Paraphrases actions without a Vietnamese translation step." }
     ]
   },

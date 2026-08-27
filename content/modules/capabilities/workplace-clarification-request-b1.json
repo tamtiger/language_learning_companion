@@ -4,20 +4,20 @@
   "title": "Ask for clarification without blocking work",
   "summary": "Viết câu hỏi làm rõ ngắn, lịch sự và có thể hành động trong công việc.",
   "cefrLevel": "B1",
-  "durationMinutes": 15,
+  "durationMinutes": 20,
   "learningObjectives": ["Nêu điều chưa rõ", "Xác nhận cách hiểu hiện tại", "Đề xuất bước tiếp theo"],
   "capabilities": ["workplace-communication"],
   "workflowTags": ["clarification", "async-message"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Ambiguous ticket", "format": "technical-doc", "content": "Ticket: Make the export faster and ready for enterprise customers by Friday. No target latency, data size or owner is specified." },
-    { "id": "check", "type": "auto-check", "title": "Choose an actionable question", "exercises": [{ "id": "clarify-check", "type": "choice", "question": "Câu nào giúp nhóm ra quyết định nhanh nhất?", "options": ["Can you explain more?", "For the Friday release, should we optimize the 10k-row CSV export to finish under 5 seconds, and is Mai the approver?", "This ticket is unclear."], "correctAnswer": ["For the Friday release, should we optimize the 10k-row CSV export to finish under 5 seconds, and is Mai the approver?"], "explanation": "Câu hỏi tốt xác nhận scope, success signal và owner." }] }
+    { "id": "source", "type": "source", "title": "Ambiguous ticket", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Ticket: Make the customer export faster and enterprise-ready by Friday. Current CSV exports contain up to 10,000 rows. The ticket does not specify a target duration, whether XLSX is in scope or who approves the benchmark." },
+    { "id": "check", "type": "auto-check", "title": "Choose an actionable question", "exercises": [{ "id": "clarify-check", "type": "choice", "question": "Câu nào giúp nhóm ra quyết định nhanh nhất?", "options": ["Can you explain more?", "For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?", "This ticket is unclear."], "correctAnswer": ["For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?"], "explanation": "Câu hỏi dùng 10,000 rows như current evidence và để target, scope cùng owner ở dạng cần xác nhận." }] }
   ],
   "performanceTask": {
     "id": "clarification-request", "mode": "written", "title": "Send a clarification request",
     "scenario": "Bạn cần bắt đầu ticket nhưng acceptance criteria còn mơ hồ.",
     "baselinePrompt": "Viết tin nhắn hỏi lại mà chưa xem mẫu.",
-    "performancePrompt": "Viết tin nhắn gồm cách hiểu hiện tại, hai điểm cần xác nhận và bước bạn sẽ làm sau khi nhận câu trả lời.",
-    "modelResponse": "My current understanding is that we need the 10k-row CSV export under five seconds for Friday. Could you confirm whether XLSX is in scope and whether Mai approves the benchmark? Once confirmed, I’ll add the performance test and share the result today.",
+    "performancePrompt": "Viết tin nhắn gồm cách hiểu hiện tại, hai câu hỏi cụ thể để xác nhận success metric, scope và owner, cùng bước bạn sẽ làm sau khi nhận câu trả lời.",
+    "modelResponse": "My current understanding is that the Friday request covers customer exports, with CSV files currently reaching 10,000 rows. Could you confirm the target completion time and whether XLSX is in scope? Who should approve the benchmark? Once those points are confirmed, I’ll define the performance test and share an estimate.",
     "retryPrompt": "Viết lại, tập trung vào tiêu chí chưa đạt và giữ tin nhắn dưới 100 từ.",
     "transferPrompt": "Một API ticket nói 'improve reliability'. Hãy hỏi làm rõ success metric, phạm vi và owner.",
     "reviewPrompt": "Viết câu hỏi làm rõ cho một yêu cầu mới mà không xem lại model.",
@@ -31,14 +31,14 @@
             "type": "source",
             "title": "Ticket EXP-214",
             "format": "technical-doc",
-            "content": "Make the customer export faster and enterprise-ready by Friday. Current CSV exports contain up to 10,000 rows. The ticket does not specify a target duration, whether XLSX is in scope or who approves the benchmark."
+            "content": "Synthetic training artifact — non-production. Make the customer export faster and enterprise-ready by Friday. Current CSV exports contain up to 10,000 rows. The ticket does not specify a target duration, whether XLSX is in scope or who approves the benchmark."
           },
           {
             "id": "export-baseline-thread",
             "type": "source",
             "title": "Planning thread",
             "format": "dialogue",
-            "content": "Product: Enterprise customers mentioned exports in two calls.\nEngineering: We can add a benchmark once the expected format and latency are confirmed.\nDelivery lead: Friday is the requested date, but no approver is named."
+            "content": "Synthetic training artifact — non-production. Product: Enterprise customers mentioned exports in two calls.\nEngineering: We can add a benchmark once the expected format and latency are confirmed.\nDelivery lead: Friday is the requested date, but no approver is named."
           }
         ]
       },
@@ -51,14 +51,14 @@
             "type": "source",
             "title": "Ticket WEB-88",
             "format": "technical-doc",
-            "content": "Fix flaky webhook delivery before Tuesday's partner demo. The dashboard shows retries, but the request has no acceptable success rate, event types in scope or decision owner. The demo environment currently uses the standard retry policy."
+            "content": "Synthetic training artifact — non-production. Fix flaky webhook delivery before Tuesday's partner demo. The dashboard shows retries, but the request has no acceptable success rate, event types in scope or decision owner. The demo environment currently uses the standard retry policy."
           },
           {
             "id": "webhook-retry-note",
             "type": "source",
             "title": "Team note",
             "format": "meeting-notes",
-            "content": "Known deadline: Tuesday demo. Known environment: partner demo. Missing: reliability threshold, event scope, approver. Engineering can run a replay test after those points are confirmed."
+            "content": "Synthetic training artifact — non-production. Known deadline: Tuesday demo. Known environment: partner demo. Missing: reliability threshold, event scope, approver. Engineering can run a replay test after those points are confirmed."
           }
         ]
       },
@@ -71,14 +71,14 @@
             "type": "source",
             "title": "Ticket API-431",
             "format": "technical-doc",
-            "content": "Improve API reliability for the mobile launch next week. Recent alerts cover both authentication and profile endpoints, but the ticket does not define an error-rate target, launch-critical endpoints or the person who accepts the result."
+            "content": "Synthetic training artifact — non-production. Improve API reliability for the mobile launch next week. Recent alerts cover both authentication and profile endpoints, but the ticket does not define an error-rate target, launch-critical endpoints or the person who accepts the result."
           },
           {
             "id": "api-transfer-channel",
             "type": "source",
             "title": "Launch channel",
             "format": "dialogue",
-            "content": "Mobile lead: We need a go/no-go signal by Thursday.\nAPI team: We can compare the last seven days once the endpoint scope and acceptable failure rate are agreed.\nRelease coordinator: Acceptance owner is still open."
+            "content": "Synthetic training artifact — non-production. Mobile lead: We need a go/no-go signal by Thursday.\nAPI team: We can compare the last seven days once the endpoint scope and acceptable failure rate are agreed.\nRelease coordinator: Acceptance owner is still open."
           }
         ]
       },
@@ -91,19 +91,19 @@
             "type": "source",
             "title": "Compliance request",
             "format": "technical-doc",
-            "content": "Make audit-log retention ready for regulated customers next sprint. Current retention is 30 days in the primary region. The request does not name the required retention period, whether replicas are included or who signs off on compliance."
+            "content": "Synthetic training artifact — non-production. Make audit-log retention ready for regulated customers next sprint. Current retention is 30 days in the primary region. The request does not name the required retention period, whether replicas are included or who signs off on compliance."
           },
           {
             "id": "audit-review-handoff",
             "type": "source",
             "title": "Security handoff",
             "format": "meeting-notes",
-            "content": "Target window: next sprint. Current state: 30-day primary-region retention. Missing decisions: duration, regional scope, compliance approver. Platform can estimate storage cost after scope confirmation."
+            "content": "Synthetic training artifact — non-production. Target window: next sprint. Current state: 30-day primary-region retention. Missing decisions: duration, regional scope, compliance approver. Platform can estimate storage cost after scope confirmation."
           }
         ]
       }
     },
-    "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["current understanding", "specific questions", "next action"], "minWords": 45, "maxWords": 100 },
+    "outputContract": { "timeLimitSeconds": 240, "requiredElements": ["current understanding", "specific questions", "next action"], "minWords": 45, "maxWords": 100 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
     "feedbackPriorities": ["specificity", "polite directness", "actionability"],
     "rubric": [

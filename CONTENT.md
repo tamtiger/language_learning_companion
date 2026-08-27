@@ -88,6 +88,12 @@ không được thấy input giảng dạy, model response hoặc artifact của
 Contract này phù hợp với nhiệm vụ cần tổng hợp nhiều bằng chứng; mission cũ không
 bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ kiện.
 
+UI phải render một learner-facing summary trực tiếp từ `outputContract` trước khi
+chấm output: time limit, target duration hoặc word range, và toàn bộ
+`requiredElements`. Summary này không được hardcode hay thay đổi ngưỡng qualifying
+transfer. Với reading ladder, retry là read-once phase giống baseline/transfer/review:
+source phải được ẩn trước khi editor mở.
+
 ## Source registry và provenance
 
 Lesson v3 có thể khai báo `sourceRegistry` opt-in. Mỗi record bắt buộc có
@@ -106,13 +112,21 @@ phần dự án biên soạn hoặc thay đổi. Validation áp dụng đồng n
 Normalization resolve reference thành canonical `resolvedSources` trước khi dữ
 liệu tới feature UI. Renderer không đọc registry, không suy luận license và không
 fetch metadata. Link canonical/quyền chỉ mở khi người học chủ động chọn; lesson
-vẫn hoạt động offline khi không mở link. Lesson legacy hoặc v3 chưa opt-in không
-bị ép metadata và không hiển thị disclosure rỗng.
+vẫn hoạt động offline khi không mở link. Source-backed v3 dùng provenance; artifact
+synthetic độc lập không được gắn nguồn trang trí và phải tự ghi learner-visible
+`Synthetic training artifact — non-production.` trong content. Legacy không bị ép
+metadata mà schema không biểu đạt, nhưng reading phải ghi rõ tình huống mô phỏng
+hoặc hướng dẫn do sản phẩm biên soạn.
 
 Pilot `daily-standup-b1` dùng Scrum Guide 2020 và CEFR Companion Volume 2020 ở
 chế độ `reference-only`. Tên, metric, ticket và sự cố là mô phỏng. Khung
 `yesterday–today–blocker` được ghi đúng là quy ước nhóm, không phải yêu cầu của
 Scrum; B1 là rationale tham chiếu descriptor, không phải chứng nhận hay endorsement.
+
+`learn-api-from-docs-b2` dùng RFC 9110 cho 202/503/`Retry-After` và RFC 6585 cho
+429 ở chế độ `reference-only`. Pulse/Jobs/Exports/Quanta, endpoint, request token,
+metric và implementation plan vẫn là fictional training data; RFC không bảo chứng
+các chi tiết sản phẩm đó.
 
 ## Invariants
 
@@ -120,6 +134,8 @@ Scrum; B1 là rationale tham chiếu descriptor, không phải chứng nhận ha
 - V3 có 1 primary capability, ít nhất 1 source/input section và đúng 1 performance task.
 - Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
 - Baseline không hiển thị `modelResponse` trước attempt đầu.
+- Mọi câu factual trong model response phải trace tới evidence packet hiện tại;
+  phần chưa được chứng minh phải được viết thành hypothesis, proposal hoặc question.
 - Transfer thay content/context nhưng giữ workflow để kiểm tra procedural transfer.
 - Evidence-based prompt phải cung cấp đủ artifact ngay tại phase làm bài; không
   yêu cầu người học bịa log, tài liệu, meeting note hoặc chi tiết sự cố.
@@ -128,7 +144,8 @@ Scrum; B1 là rationale tham chiếu descriptor, không phải chứng nhận ha
 - Toàn bộ mission v3 có context riêng cho baseline/retry/transfer/review; retry
   giữ communicative function nhưng dùng evidence packet cập nhật hoặc khác ngữ cảnh.
 - Learning-loop pilot phải có context riêng cho baseline/retry/transfer/review;
-  pre/post dùng item khác nhau và không lộ transcript trước khi learner trả lời.
+  pre/post dùng item khác nhau, không lộ transcript trước khi learner trả lời và
+  không dùng tên, số, quyết định hoặc consequence distinctive của phase sau.
 - Bốn technical docs missions có reading ladder và context riêng cho
   baseline/retry/transfer/review. Baseline, transfer và delayed retrieval review
   dùng unseen source; UI ẩn source trước khi learner nhập output từ trí nhớ.
@@ -138,16 +155,21 @@ Scrum; B1 là rationale tham chiếu descriptor, không phải chứng nhận ha
   misunderstanding, repair hoặc interruption.
 - Functional chunks mô tả chức năng, nghĩa, slot biến đổi và model audio; variation
   phải thay dữ kiện thay vì chỉ lặp nguyên câu.
-- Pronunciation lesson chỉ hoàn thành khi tất cả exercise trong auto-check đã đúng.
+- Pronunciation lesson v1 chỉ hoàn thành knowledge quiz khi tất cả exercise trong
+  auto-check đã đúng; completion này không đo spoken production, accent accuracy
+  hoặc learning efficacy.
 - `reviewPolicy.intervalDays` là dãy số nguyên dương tăng dần do từng lesson sở
   hữu; runtime phải dùng đúng policy của lesson thay vì áp một cadence toàn cục.
-- Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
+- Mọi source surface phải có provenance/reference thật hoặc disclosure synthetic
+  rõ; không tạo fake registry và không copy proprietary docs.
 - Không đưa secret, personal data, remote runtime asset hoặc URL bắt buộc network
   vào lesson. HTTPS canonical reference được phép nếu chỉ là link người dùng chủ động mở.
 
 ## Legacy policy
 
-- V1: vocabulary/expressions/reading/exercises, completion theo quiz để giữ compatibility.
+- V1: vocabulary/expressions/reading/exercises, completion theo quiz để giữ
+  compatibility. Objective chỉ tuyên bố knowledge/awareness có thể kiểm tra bằng
+  quiz; General American là reference dialect, còn device TTS không phải authority.
 - V2: cùng base fields và spoken performance task hiện hành; được normalize sang canonical spoken task.
 - Legacy lesson không bị ép có evidence giả. `sourceSchemaVersion` được giữ cho diagnostics và completion rule.
 

@@ -4,20 +4,20 @@
   "title": "Diagnose an incident from logs",
   "summary": "Đọc log tiếng Anh, tách signal khỏi noise và viết chẩn đoán có bằng chứng.",
   "cefrLevel": "B1",
-  "durationMinutes": 20,
-  "learningObjectives": ["Định vị lỗi gốc", "Trích bằng chứng kỹ thuật", "Đề xuất kiểm tra tiếp theo"],
+  "durationMinutes": 25,
+  "learningObjectives": ["Xác định symptom và tín hiệu quan sát được", "Phân biệt fact với hypothesis", "Đề xuất kiểm tra có thể bác bỏ hypothesis"],
   "capabilities": ["technical-reading"],
   "workflowTags": ["logs", "incident"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Checkout logs", "format": "code-snippet", "content": "10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" },
-    { "id": "check", "type": "auto-check", "title": "Find the strongest signal", "exercises": [{ "id": "log-check", "type": "choice", "question": "Dòng nào là bằng chứng mạnh nhất cho nguyên nhân gần?", "options": ["request started", "retry attempt=2", "connection pool exhausted active=50 max=50"], "correctAnswer": ["connection pool exhausted active=50 max=50"], "explanation": "Dòng này nêu resource đã chạm giới hạn, liên hệ trực tiếp với lỗi 503." }] }
+    { "id": "source", "type": "source", "title": "Checkout logs", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" },
+    { "id": "check", "type": "auto-check", "title": "Find the strongest signal", "exercises": [{ "id": "log-check", "type": "choice", "question": "Dòng nào là tín hiệu trực tiếp mạnh nhất cần điều tra?", "options": ["request started", "retry attempt=2", "connection pool exhausted active=50 max=50"], "correctAnswer": ["connection pool exhausted active=50 max=50"], "explanation": "Dòng này cho thấy một pool chưa xác định đã chạm giới hạn ngay trước lỗi 503; nó hỗ trợ hypothesis về pool exhaustion nhưng chưa xác định pool type hoặc root cause." }] }
   ],
   "performanceTask": {
     "id": "log-diagnosis", "mode": "written", "title": "Write an evidence-based diagnosis",
     "scenario": "Checkout trả 503 và bạn cần gửi chẩn đoán ban đầu cho on-call engineer.",
     "baselinePrompt": "Read the log once, hide it, then write the initial diagnosis in English from memory.",
     "performancePrompt": "Viết symptom, probable cause, evidence và next verification step. Phân biệt fact với hypothesis.",
-    "modelResponse": "Checkout request 91 returned HTTP 503. The strongest signal is that all 50 database connections were active immediately before the failure. This suggests pool exhaustion, although the logs do not yet prove why connections were retained. Next, compare pool wait time and connection release metrics before and after the latest deploy.",
+    "modelResponse": "Checkout request 91 returned HTTP 503 at 10:03. Immediately beforehand, an unnamed pool reported active=50 and max=50. My hypothesis is that pool exhaustion contributed to the failure, but the excerpt does not identify the pool type or explain why capacity was exhausted. Next, inspect wait time and connection-release metrics for the same request window, then compare them with a healthy window. If those signals stay normal, reject the pool-exhaustion hypothesis and investigate the payment-provider retries instead.",
     "retryPrompt": "Sửa chẩn đoán để mỗi hypothesis có evidence và một bước kiểm chứng.",
     "transferPrompt": "Log khác cho thấy memory tăng rồi pod bị OOMKilled. Viết chẩn đoán và bước xác minh tiếp theo.",
     "reviewPrompt": "Từ một unseen log mới, tóm tắt fact, hypothesis và verification step sau khi source đã ẩn.",
@@ -25,22 +25,22 @@
       "baseline": {
         "title": "Checkout 503 logs",
         "brief": "Read once, then separate symptom, evidence and hypothesis from memory.",
-        "artifacts": [{ "id": "log-baseline-checkout", "type": "source", "title": "Checkout log excerpt", "format": "code-snippet", "content": "10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" }]
+        "artifacts": [{ "id": "log-baseline-checkout", "type": "source", "title": "Checkout log excerpt", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" }]
       },
       "retry": {
         "title": "Connection-release evidence",
         "brief": "Use the focused evidence to repair one unsupported claim.",
-        "artifacts": [{ "id": "log-retry-pool", "type": "source", "title": "Pool metrics", "format": "code-snippet", "content": "09:58 deploy=checkout-7f2\n10:01 pool_wait_p95=840ms\n10:03 active=50 idle=0\n10:04 release_count_per_min=4 baseline=170" }]
+        "artifacts": [{ "id": "log-retry-pool", "type": "source", "title": "Pool metrics", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 09:58 deploy=checkout-7f2\n10:01 pool_wait_p95=840ms\n10:03 active=50 idle=0\n10:04 release_count_per_min=4 baseline=170" }]
       },
       "transfer": {
         "title": "Worker memory failure",
         "brief": "Unseen logs: diagnose the symptom and propose one falsifiable next check.",
-        "artifacts": [{ "id": "log-transfer-oom", "type": "source", "title": "Worker log excerpt", "format": "code-snippet", "content": "14:20 INFO batch started items=8000\n14:22 WARN memory_rss_mb=1840 limit_mb=2048\n14:23 ERROR container terminated reason=OOMKilled\n14:24 INFO job requeued attempt=2" }]
+        "artifacts": [{ "id": "log-transfer-oom", "type": "source", "title": "Worker log excerpt", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 14:20 INFO batch started items=8000\n14:22 WARN memory_rss_mb=1840 limit_mb=2048\n14:23 ERROR container terminated reason=OOMKilled\n14:24 INFO job requeued attempt=2" }]
       },
       "review": {
         "title": "Partner API throttling",
         "brief": "Delayed retrieval with a new failure pattern.",
-        "artifacts": [{ "id": "log-review-rate", "type": "source", "title": "Gateway log excerpt", "format": "code-snippet", "content": "16:40 INFO partner_request route=/quote\n16:40 WARN response=429 retry_after=30\n16:40 WARN immediate_retry attempt=4\n16:41 ERROR quote request failed" }]
+        "artifacts": [{ "id": "log-review-rate", "type": "source", "title": "Gateway log excerpt", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 16:40 INFO partner_request route=/quote\n16:40 WARN response=429 retry_after=30\n16:40 WARN immediate_retry attempt=4\n16:41 ERROR quote request failed" }]
       }
     },
     "readingLadder": {
@@ -50,17 +50,17 @@
         "type": "source",
         "title": "Queue latency logs",
         "format": "code-snippet",
-        "content": "11:00 INFO queue_depth=120 baseline=90\n11:05 WARN queue_depth=2400 oldest_age=14m\n11:05 INFO consumers=2 baseline=12\n11:06 ERROR sla_breached threshold=5m"
+        "content": "Synthetic training artifact — non-production. 11:00 INFO queue_depth=120 baseline=90\n11:05 WARN queue_depth=2400 oldest_age=14m\n11:05 INFO consumers=2 baseline=12\n11:06 ERROR sla_breached threshold=5m"
       },
       "extractionItems": [
         { "id": "queue-symptom", "question": "What is the observed symptom?", "options": ["Oldest message age breached five minutes", "The queue has twelve consumers"], "correctAnswer": "Oldest message age breached five minutes", "feedback": "The SLA line and oldest age are observations." },
         { "id": "queue-signal", "question": "Which signal supports the nearest hypothesis?", "options": ["Consumers dropped from twelve to two", "Baseline depth was ninety"], "correctAnswer": "Consumers dropped from twelve to two", "feedback": "Reduced consumer capacity can explain the growing queue." },
         { "id": "queue-check", "question": "What should be checked next?", "options": ["Why ten consumers stopped", "Whether English logs are enabled"], "correctAnswer": "Why ten consumers stopped", "feedback": "This check can confirm or reject the capacity hypothesis." }
       ],
-      "applicationPrompt": "Explain fact → cautious hypothesis → falsifiable check, then apply it to an unfamiliar timeout log.",
+      "applicationPrompt": "Apply fact → cautious hypothesis → falsifiable check to the displayed queue latency logs.",
       "applicationChecklist": ["I kept facts separate from hypotheses.", "I cited the strongest signal.", "I proposed a check that could disprove the hypothesis."]
     },
-    "outputContract": { "timeLimitSeconds": 480, "requiredElements": ["symptom", "evidence", "hypothesis", "verification"], "minWords": 70, "maxWords": 130 },
+    "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["symptom", "evidence", "hypothesis", "verification"], "minWords": 70, "maxWords": 130 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
     "feedbackPriorities": ["evidence", "uncertainty", "next step"],
     "rubric": [

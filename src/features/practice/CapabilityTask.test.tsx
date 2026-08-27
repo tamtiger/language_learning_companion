@@ -372,6 +372,44 @@ describe('CapabilityTask session evidence', () => {
     expect((screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement).disabled).toBe(true)
   })
 
+  it('shows the machine-enforced written output contract before an attempt', () => {
+    const { lesson, task } = mission()
+    render(<CapabilityTask lesson={lesson} task={task} />)
+
+    const contract = screen.getByRole('region', { name: /hợp đồng đầu ra/i })
+    expect(within(contract).getByText(/70–110 từ/i)).toBeTruthy()
+    expect(within(contract).getByText(/tối đa 300 giây/i)).toBeTruthy()
+    const requiredElements = within(contract).getAllByRole('listitem').map((item) => item.textContent ?? '')
+    for (const element of task.outputContract.requiredElements) {
+      expect(requiredElements.some((text) => text.includes(element))).toBe(true)
+    }
+  })
+
+  it('shows the machine-enforced spoken duration contract before an attempt', () => {
+    const { lesson, task } = spokenMissionWithLoop()
+    render(<CapabilityTask lesson={lesson} task={task} />)
+
+    const contract = screen.getByRole('region', { name: /hợp đồng đầu ra/i })
+    expect(within(contract).getByText(/tối thiểu 90 giây/i)).toBeTruthy()
+    expect(within(contract).getByText(/tối đa 120 giây/i)).toBeTruthy()
+  })
+
+  it('requires closing retry evidence before writing a reading-ladder retry', async () => {
+    const user = userEvent.setup()
+    const lesson = getBundledCatalog().lessons.find((item) => item.lessonId === 'technical-doc-action-b1')
+    if (!lesson?.performanceTask) throw new Error('Technical reading fixture missing')
+    useAppStore.getState().setActivePhase(lesson.lessonId, 'retry')
+
+    render(<CapabilityTask lesson={lesson} task={lesson.performanceTask} />)
+
+    expect(screen.getByText(/Prerequisites: queue depth below 100/i)).toBeTruthy()
+    expect((screen.getByRole('textbox') as HTMLTextAreaElement).disabled).toBe(true)
+    await user.click(screen.getByRole('button', { name: /đã đọc một lần.*ẩn tài liệu/i }))
+    expect(screen.queryByText(/Prerequisites: queue depth below 100/i)).toBeNull()
+    expect((screen.getByRole('textbox') as HTMLTextAreaElement).disabled).toBe(false)
+    expect(document.activeElement).toBe(screen.getByRole('textbox'))
+  })
+
   it('resets spoken capture when baseline changes to the performance phase', async () => {
     const user = userEvent.setup()
     const { lesson, task } = spokenMission()

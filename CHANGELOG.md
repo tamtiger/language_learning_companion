@@ -2,6 +2,28 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.1.3] - 2026-08-27
+
+### Fixed
+
+- Hoàn thiện audit và sửa toàn bộ 18 lesson: evidence packet/model/rubric có thể
+  truy vết, learning loop không đọc trước phase sau, reading ladder chỉ dùng input
+  đang hiển thị và prompt khớp machine timebox.
+- Hiển thị trực tiếp timebox, độ dài và các thành phần bắt buộc từ
+  `outputContract` trước khi người học tạo đầu ra; retry reading ladder dùng đúng
+  evidence packet của retry thay vì mở editor song song với source.
+- Sửa sáu pronunciation lesson v1 thành knowledge-only theo General American
+  reference, bỏ claim production/mastery không được quiz đo và sửa terminology,
+  intonation, sentence stress cùng shadowing duration.
+
+### Changed
+
+- Phân loại mọi source artifact bằng provenance thật hoặc disclosure dữ liệu mô
+  phỏng; API lesson tham chiếu RFC 9110/6585 đúng ranh giới, không coi endpoint,
+  header custom, metric hay scenario hư cấu là fact từ standard.
+- Bổ sung corpus quality gate cho inventory, source trust, phase isolation,
+  fact–hypothesis boundary, timing và objective–assessment consistency.
+
 ## [1.1.2] - 2026-08-27
 
 ### Added

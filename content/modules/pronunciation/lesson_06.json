@@ -1,96 +1,112 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-shadowing-routine",
-  "title": "Shadowing & Speaking Routine",
+  "title": "Tổng quan quy trình shadowing ngắn và an toàn",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
-    "Hiểu phương pháp luyện nói Shadowing và cách áp dụng hiệu quả",
-    "Thiết lập quy trình tự luyện nói hàng ngày (Speaking Routine) trong 30 phút",
-    "Kết hợp tất cả kỹ năng phát âm (âm cuối, trọng âm, nối âm) vào bài giới thiệu bản thân"
+    "Nhận biết sáu bước trong một optional 10-minute shadowing routine",
+    "Chọn input không chứa confidential data và phù hợp cho local practice",
+    "Phân biệt process evidence với pronunciation accuracy, mastery hoặc learning efficacy"
   ],
   "vocabulary": [
     {
       "word": "shadowing",
-      "ipa": "/ˈʃædoʊɪŋ/",
-      "definition": "An advanced speaking technique where you repeat speech immediately after hearing it.",
-      "technicalMeaning": "A training technique used to improve pronunciation, rhythm, and intonation by copying a native speaker synchronously.",
+      "ipa": "/ˈʃæd.oʊ.ɪŋ/",
+      "definition": "A practice activity in which a learner follows a spoken model with a short lag.",
+      "technicalMeaning": "A bounded rehearsal activity; this app records quiz answers only. Correct quiz answers are knowledge evidence, not proof that the routine was performed.",
       "collocations": ["practice shadowing", "shadowing technique"],
-      "example": "He practices shadowing for ten minutes every morning.",
-      "commonMistake": "Do not focus too much on spelling. Focus entirely on mimicking sound and rhythm."
+      "example": "She uses one short status update for a ten-minute shadowing routine.",
+      "commonMistake": "Do not equate copying one model with mastery or a native accent. Understand the message first and focus on one cue."
     },
     {
       "word": "routine",
       "ipa": "/ruːˈtiːn/",
       "definition": "A sequence of actions regularly followed.",
-      "technicalMeaning": "A daily training schedule or sequence of execution tasks.",
+      "technicalMeaning": "A bounded and repeatable practice plan with a clear start, stop, and privacy rule.",
       "collocations": ["daily routine", "establish a routine"],
-      "example": "Establishing a daily routine is key to language fluency.",
-      "commonMistake": "Do not stress the first syllable. The stress falls on the second syllable: /ruːˈtiːn/."
+      "example": "Her routine uses one short model and ends with a local listen-back.",
+      "commonMistake": "Longer practice is not automatically better. Keep the routine short enough to repeat and review."
     }
   ],
   "expressions": [
     {
-      "phrase": "Practice shadowing daily",
-      "meaning": "Luyện tập shadowing hàng ngày.",
+      "phrase": "Run a ten-minute shadowing routine",
+      "meaning": "Thực hiện một routine ngắn, có giới hạn và không chứa dữ liệu mật.",
       "tone": "neutral",
-      "example": "You should practice shadowing daily to build muscle memory.",
-      "alternatives": ["Do shadowing exercises every day", "Incorporate shadowing into your routine"]
+      "example": "After work, she runs a ten-minute shadowing routine with a fictional standup update.",
+      "alternatives": ["Practice with one short model", "Repeat a short listen-and-review cycle"]
     }
   ],
   "reading": {
-    "title": "Kế hoạch Luyện tập nói của Kỹ sư Phần mềm",
-    "sourceType": "Giáo trình nội bộ",
-    "content": "To master English speaking, a software engineer should build a consistent routine. By practicing the shadowing technique for ten minutes daily, you train your vocal muscles to naturally use correct word stress and linking patterns without translation in your head."
+    "title": "[Hướng dẫn do sản phẩm biên soạn] Optional 10-minute shadowing routine",
+    "sourceType": "Hướng dẫn do sản phẩm biên soạn",
+    "content": "This 15-minute knowledge lesson explains an optional 10-minute routine; completing the quiz does not verify that you performed it. A model may use a General American reference, but the goal is not to copy an accent.\n\n0–2 min: Listen for meaning. Do not speak yet.\n2–3 min: Read the transcript and mark one focus word.\n3–5 min: Shadow short chunks.\n5–7 min: Shadow the full sentence with a short lag.\n7–9 min: Record one delayed imitation locally, then listen back.\n9–10 min: Change one fact and say the new version.\n\nUse fictional or public material and never include company secrets. Quiz completion is knowledge evidence only: it can show that you identified the routine and safety rules, but the app does not observe whether you performed the steps. Separately observed completed steps would be process evidence. Neither kind of evidence proves accent accuracy or mastery, and neither establishes learning efficacy."
   },
   "exercises": [
     {
       "id": "e6-1",
       "type": "choice",
-      "question": "Mục tiêu chính của phương pháp Shadowing là gì?",
+      "question": "Hoàn thành quiz của bài shadowing này có thể chứng minh điều gì?",
       "options": [
-        "Học thuộc lòng từ vựng và ngữ pháp của bài",
-        "Bắt chước phát âm, trọng âm, nhịp điệu và ngữ điệu của người nói gần như đồng thời",
-        "Dịch bài nói sang tiếng mẹ đẻ để hiểu sâu nghĩa"
+        "Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules",
+        "Người học đã đạt pronunciation mastery",
+        "Người học có native accent"
       ],
-      "correctAnswer": ["Bắt chước phát âm, trọng âm, nhịp điệu và ngữ điệu của người nói gần như đồng thời"],
-      "explanation": "Shadowing là kỹ thuật nghe và bắt chước lặp lại đồng thời để rèn luyện cơ miệng và nhịp điệu tự nhiên."
+      "correctAnswer": ["Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules"],
+      "explanation": "Quiz completion là knowledge evidence only; app không quan sát learner có thực hiện routine hay không. Pronunciation accuracy và efficacy cần observer evidence phù hợp."
     },
     {
       "id": "e6-2",
       "type": "choice",
-      "question": "Trọng âm chính của từ 'routine' rơi vào âm tiết thứ mấy?",
+      "question": "Input nào an toàn nhất cho local shadowing practice?",
       "options": [
-        "Âm tiết thứ nhất (rou-)",
-        "Âm tiết thứ hai (-tine)"
+        "Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data",
+        "Một production incident transcript có customer data",
+        "Một đoạn proprietary audio được sao chép khi chưa rõ quyền sử dụng"
       ],
-      "correctAnswer": ["Âm tiết thứ hai (-tine)"],
-      "explanation": "/ruːˈtiːn/ có trọng âm nhấn ở âm tiết thứ hai."
+      "correctAnswer": ["Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data"],
+      "explanation": "Practice input phải đủ ngắn, hiểu được, không chứa secret/PII và có quyền sử dụng rõ."
     },
     {
       "id": "e6-3",
       "type": "matching",
-      "question": "Nối các bước sau đây với thứ tự chuẩn trong quy trình Shadowing 6 bước:",
+      "question": "Nối từng bước với hành động trong optional 10-minute routine:",
       "matchingPairs": [
         {
           "key": "Bước 1",
-          "value": "Nghe hiểu (không nhìn transcript)"
+          "value": "Listen for meaning"
+        },
+        {
+          "key": "Bước 2",
+          "value": "Read the transcript and mark one focus word"
         },
         {
           "key": "Bước 3",
-          "value": "Shadowing chậm (ngắt từng câu)"
+          "value": "Shadow short chunks"
+        },
+        {
+          "key": "Bước 4",
+          "value": "Shadow the full sentence with a short lag"
         },
         {
           "key": "Bước 5",
-          "value": "Ghi âm lại toàn bộ"
+          "value": "Record a delayed imitation and listen back locally"
+        },
+        {
+          "key": "Bước 6",
+          "value": "Change one fact and produce a variation"
         }
       ],
       "correctAnswer": [
-        "Bước 1 - Nghe hiểu (không nhìn transcript)",
-        "Bước 3 - Shadowing chậm (ngắt từng câu)",
-        "Bước 5 - Ghi âm lại toàn bộ"
+        "Bước 1 - Listen for meaning",
+        "Bước 2 - Read the transcript and mark one focus word",
+        "Bước 3 - Shadow short chunks",
+        "Bước 4 - Shadow the full sentence with a short lag",
+        "Bước 5 - Record a delayed imitation and listen back locally",
+        "Bước 6 - Change one fact and produce a variation"
       ],
-      "explanation": "Quy trình chuẩn gồm nghe hiểu (bước 1), shadowing chậm (bước 3), và ghi âm (bước 5) bên cạnh các bước đọc transcript và đối chiếu."
+      "explanation": "Routine đi từ hiểu nghĩa đến rehearsal, delayed imitation, listen-back và variation; không có bước nào tự chứng minh mastery."
     }
   ]
 }

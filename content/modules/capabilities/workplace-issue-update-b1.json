@@ -4,7 +4,7 @@
   "title": "Write an evidence-safe incident update",
   "summary": "Select changing incident signals and write a concise update for the next owner without overstating the cause.",
   "cefrLevel": "B1",
-  "durationMinutes": 20,
+  "durationMinutes": 25,
   "learningObjectives": [
     "Select relevant incident facts from monitoring, team messages and ownership notes.",
     "Separate observed impact from an unconfirmed cause.",
@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Worked signal map from a notification incident",
       "format": "technical-doc",
-      "content": "Observed fact: push delivery fell to 72% at 14:06 after release 5.8.\nImpact: password-reset notifications may arrive late.\nHypothesis: the new batch size may be exhausting worker memory; this is not confirmed.\nAction/owner: Jo is comparing worker memory before and after 5.8.\nRequest: Release lead, decide by 14:25 whether to pause the rollout.\nNoise to omit: the dashboard theme changed this morning."
+      "content": "Synthetic training artifact — non-production. Observed fact: push delivery fell to 72% at 14:06 after release 5.8.\nImpact: password-reset notifications may arrive late.\nHypothesis: the new batch size may be exhausting worker memory; this is not confirmed.\nAction/owner: Jo is comparing worker memory before and after 5.8.\nRequest: Release lead, decide by 14:25 whether to pause the rollout.\nNoise to omit: the dashboard theme changed this morning."
     },
     {
       "id": "signal-check",
@@ -63,7 +63,7 @@
     "scenario": "You are the communication lead for a distributed engineering incident.",
     "baselinePrompt": "Cold attempt: use only the job evidence above. Write the update you would post now. Do not invent a confirmed root cause.",
     "performancePrompt": "Write a 70–110 word update using F-I-A-R. Keep observed facts separate from the connection-pool hypothesis, name the current owner and ask the platform lead for one decision before handover.",
-    "modelResponse": "Checkout 503s rose to 31% of attempts at 22:08, six minutes after release 2.4 began. We have not confirmed the cause; the connection-pool warning is the strongest lead, and Lan is comparing pool metrics with the release diff. Lan owns diagnosis, but rollback access is still unassigned. Platform lead, could you confirm the rollback owner by 22:30, before the 22:35 handover? Until then, support should route affected customers to retry once while we monitor the error rate.",
+    "modelResponse": "Checkout 503s rose to 31% of attempts at 22:08, six minutes after release 2.4 began. The pool warning is the strongest lead, but it does not confirm the root cause; Lan is comparing pool metrics with the release diff. Lan owns diagnosis, while rollback access remains unassigned. Platform lead, could you name the rollback owner by 22:30, before the 22:35 handover? I propose that support ask affected customers to retry once while the team monitors the error rate; four of six reported customers succeeded after one retry.",
     "retryPrompt": "Rewrite your update using the selected retry focus. Keep every fact traceable to an artifact and preserve any uncertainty that is not resolved.",
     "transferPrompt": "Unseen transfer: write a 70–110 word update for the storage on-call using only this new evidence. Include observed impact, one cautious hypothesis, current action/owner and one decision request.",
     "reviewPrompt": "Delayed retrieval: write a fresh 70–110 word update for the messaging handover. Do not look for or reconstruct your earlier checkout response.",
@@ -77,21 +77,21 @@
             "type": "source",
             "title": "Monitoring alert",
             "format": "code-snippet",
-            "content": "22:02 deploy checkout-api v2.4 started\n22:08 ALERT http_503_rate=31% baseline=0.7%\n22:09 checkout_success_rate=68%\n22:10 WARN db_pool active=50 max=50 wait_p95=820ms"
+            "content": "Synthetic training artifact — non-production. 22:02 deploy checkout-api v2.4 started\n22:08 ALERT http_503_rate=31% baseline=0.7%\n22:09 checkout_success_rate=68%\n22:10 WARN db_pool active=50 max=50 wait_p95=820ms"
           },
           {
             "id": "checkout-channel",
             "type": "source",
             "title": "Incident channel excerpts",
             "format": "dialogue",
-            "content": "22:11 Lan (checkout): I own diagnosis. Comparing pool metrics with the 2.4 diff now. No root cause confirmed.\n22:12 Support: Six customer chats report failed checkout; retry worked for four.\n22:13 Design bot: New checkout icon approved."
+            "content": "Synthetic training artifact — non-production. 22:11 Lan (checkout): I own diagnosis. Comparing pool metrics with the 2.4 diff now. No root cause confirmed.\n22:12 Support: Six customer chats report failed checkout; retry worked for four.\n22:13 Design bot: New checkout icon approved."
           },
           {
             "id": "checkout-handoff",
             "type": "source",
             "title": "Ownership and handoff note",
             "format": "meeting-notes",
-            "content": "Current diagnosis owner: Lan\nRollback access: unassigned; platform lead must assign\nAPAC handover: 22:35 UTC\nDecision needed before handover: name rollback owner or continue diagnosis"
+            "content": "Synthetic training artifact — non-production. Current diagnosis owner: Lan\nRollback access: unassigned; platform lead must assign\nAPAC handover: 22:35 UTC\nDecision needed before handover: name rollback owner or continue diagnosis"
           }
         ]
       },
@@ -104,14 +104,14 @@
             "type": "source",
             "title": "Updated monitoring snapshot",
             "format": "code-snippet",
-            "content": "22:16 http_503_rate=24% previous=31% baseline=0.7%\n22:17 db_pool active=50 max=50 wait_p95=690ms\n22:18 checkout_success_rate=75%\n22:19 rollback_owner=unassigned"
+            "content": "Synthetic training artifact — non-production. 22:16 http_503_rate=24% previous=31% baseline=0.7%\n22:17 db_pool active=50 max=50 wait_p95=690ms\n22:18 checkout_success_rate=75%\n22:19 rollback_owner=unassigned"
           },
           {
             "id": "checkout-retry-channel",
             "type": "source",
             "title": "Latest incident messages",
             "format": "dialogue",
-            "content": "22:17 Lan (checkout): The 2.4 diff changed the pool timeout, but this is still a hypothesis. I am testing it now.\n22:18 Support: Two new failures; both customers completed checkout after one retry.\n22:19 Platform lead: I need the current risk and owner request before assigning rollback access."
+            "content": "Synthetic training artifact — non-production. 22:17 Lan (checkout): The 2.4 diff changed the pool timeout, but this is still a hypothesis. I am testing it now.\n22:18 Support: Two new failures; both customers completed checkout after one retry.\n22:19 Platform lead: I need the current risk and owner request before assigning rollback access."
           }
         ]
       },
@@ -124,21 +124,21 @@
             "type": "source",
             "title": "Upload service dashboard",
             "format": "code-snippet",
-            "content": "09:12 mobile release 8.7 reached 50%\n09:14 upload_failure_rate=18% baseline=1.2%\n09:15 object_store_latency_p95=210ms normal<250ms\n09:16 worker_memory=91% normal<75%"
+            "content": "Synthetic training artifact — non-production. 09:12 mobile release 8.7 reached 50%\n09:14 upload_failure_rate=18% baseline=1.2%\n09:15 object_store_latency_p95=210ms normal<250ms\n09:16 worker_memory=91% normal<75%"
           },
           {
             "id": "upload-channel",
             "type": "source",
             "title": "Triage messages",
             "format": "dialogue",
-            "content": "09:17 Kim (mobile): Pausing further rollout. I own the client diff.\n09:18 Arun (storage): Object store looks healthy; checking worker restarts.\n09:19 Support: Verification uploads fail, but existing profile images still load."
+            "content": "Synthetic training artifact — non-production. 09:17 Kim (mobile): Pausing further rollout. I own the client diff.\n09:18 Arun (storage): Object store looks healthy; checking worker restarts.\n09:19 Support: Verification uploads fail, but existing profile images still load."
           },
           {
             "id": "upload-handoff",
             "type": "source",
             "title": "Decision note",
             "format": "meeting-notes",
-            "content": "Mobile handover: 09:40 UTC\nRollback owner: release lead, not yet paged\nDecision requested: page release lead now or wait for worker restart evidence"
+            "content": "Synthetic training artifact — non-production. Mobile handover: 09:40 UTC\nRollback owner: release lead, not yet paged\nDecision requested: page release lead now or wait for worker restart evidence"
           }
         ]
       },
@@ -151,27 +151,27 @@
             "type": "source",
             "title": "Queue metrics",
             "format": "code-snippet",
-            "content": "16:38 queue_depth=4800 baseline<300\n16:39 oldest_message_age=17m\n16:41 send_error_rate=0.4% normal<1%\n16:44 consumer_count=3 expected=12"
+            "content": "Synthetic training artifact — non-production. 16:38 queue_depth=4800 baseline<300\n16:39 oldest_message_age=17m\n16:41 send_error_rate=0.4% normal<1%\n16:44 consumer_count=3 expected=12"
           },
           {
             "id": "email-channel",
             "type": "source",
             "title": "Messaging channel",
             "format": "dialogue",
-            "content": "16:45 Mei: I own consumer recovery; checking why nine consumers stopped.\n16:46 Customer Ops: Password-reset emails are delayed; marketing email can wait.\n16:47 Scheduler bot: Maintenance window begins at 17:15."
+            "content": "Synthetic training artifact — non-production. 16:45 Mei: I own consumer recovery; checking why nine consumers stopped.\n16:46 Customer Ops: Password-reset emails are delayed; marketing email can wait.\n16:47 Scheduler bot: Maintenance window begins at 17:15."
           },
           {
             "id": "email-handoff",
             "type": "source",
             "title": "Shift note",
             "format": "meeting-notes",
-            "content": "EU support shift ends: 17:10 UTC\nRecovery owner: Mei\nCustomer message owner: unassigned\nDecision needed: assign customer-message owner before shift end"
+            "content": "Synthetic training artifact — non-production. EU support shift ends: 17:10 UTC\nRecovery owner: Mei\nCustomer message owner: unassigned\nDecision needed: assign customer-message owner before shift end"
           }
         ]
       }
     },
     "outputContract": {
-      "timeLimitSeconds": 480,
+      "timeLimitSeconds": 300,
       "requiredElements": ["observed fact", "impact", "cautious hypothesis", "action and owner", "decision request"],
       "minWords": 70,
       "maxWords": 110

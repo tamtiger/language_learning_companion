@@ -9,23 +9,23 @@
   "capabilities": ["technical-explanation"],
   "workflowTags": ["architecture", "tradeoff", "learning-loop", "p0-pilot"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synchronous validation gives an immediate answer but adds up to 900 ms at peak. A queued worker keeps requests fast and retries transient failures, but final status may take two minutes. The release needs predictable request latency; compliance requires validation before publication." },
+    { "id": "source", "type": "source", "title": "Decision context", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Synchronous validation gives an immediate answer but adds up to 900 ms at peak. A queued worker keeps requests fast and retries transient failures, but final status may take two minutes. The release needs predictable request latency; compliance requires validation before publication." },
     { "id": "check", "type": "auto-check", "title": "Locate the deciding constraint", "exercises": [{ "id": "tradeoff-constraint", "type": "choice", "question": "Which requirement favors the queued worker?", "options": ["Immediate final status", "Predictable request latency"], "correctAnswer": ["Predictable request latency"], "explanation": "The queue moves validation latency out of the request path." }] }
   ],
   "performanceTask": {
     "id": "tradeoff-task", "mode": "spoken", "title": "Recommend and defend one design",
     "scenario": "Explain an architecture recommendation to engineers and a product manager.",
-    "baselinePrompt": "Use the decision evidence shown here. State the constraint, recommendation, cost and mitigation before support appears.",
+    "baselinePrompt": "In 60–90 seconds, use the decision evidence shown here and state the constraint, recommendation, cost and mitigation before support appears.",
     "performancePrompt": "In 60–90 seconds, frame the decision, recommend one option, connect the benefit and cost to constraints, then mitigate the main risk.",
-    "modelResponse": "I recommend the queued worker because predictable request latency is the release constraint. It also gives us retries for transient failures. The cost is delayed final status, which may take two minutes. We can mitigate that by showing a pending state and blocking publication until validation succeeds.",
-    "retryPrompt": "Use the retry context. Lead with one recommendation and connect each consequence to a named constraint.",
-    "transferPrompt": "Use the database context and make a new recommendation without model/chunks.",
-    "reviewPrompt": "Use the build-versus-buy context and explain a fresh decision without model/chunks.",
+    "modelResponse": "I recommend the queued worker because predictable request latency is the deciding release constraint. The synchronous option gives immediate status, but it adds nine hundred milliseconds at peak. By contrast, the queue keeps the request fast and supports retries for transient failures. The main cost is that the final result can remain pending for up to two minutes, so acceptance must not look like completion. I would mitigate that cost by showing a clear pending state and blocking publication until validation succeeds. For this release, that balance protects latency and the validation requirement; if immediate final status became the deciding constraint, we would need to revisit the choice.",
+    "retryPrompt": "In 60–90 seconds, use the retry context, lead with one recommendation and connect each consequence to a named constraint.",
+    "transferPrompt": "In 60–90 seconds, use the database context and make a new recommendation without model/chunks.",
+    "reviewPrompt": "In 60–90 seconds, use the build-versus-buy context and explain a fresh decision without model/chunks.",
     "practiceContexts": {
-      "baseline": { "title": "Validation architecture", "brief": "Audience includes an engineer and product manager.", "artifacts": [{ "id": "validation-data", "type": "source", "title": "Latency and compliance", "format": "technical-doc", "content": "Sync: immediate status, +900 ms peak. Queue: fast request, retries, up to two-minute result. Constraint: predictable latency and validation before publication." }] },
-      "retry": { "title": "Image processing architecture", "brief": "Same explanation function, different engineering facts.", "artifacts": [{ "id": "image-data", "type": "source", "title": "Processing options", "format": "technical-doc", "content": "Inline resize: immediate image, +1.4 s request time. Background resize: 120 ms request, up to 30 s pending. Constraint: mobile upload reliability; preview may be delayed." }] },
-      "transfer": { "title": "Database ownership", "brief": "Unseen transfer for a two-person team.", "artifacts": [{ "id": "database-data", "type": "source", "title": "Managed versus self-hosted", "format": "technical-doc", "content": "Managed database costs $900/month and includes backups/on-call support. Self-hosted costs $250/month but needs about 12 engineer-hours/month. Constraint: two-person team and 24/7 recovery." }] },
-      "review": { "title": "Build versus buy", "brief": "Delayed retrieval with new constraints.", "artifacts": [{ "id": "vendor-data", "type": "source", "title": "Authentication options", "format": "technical-doc", "content": "Vendor: four-week integration, recurring fee, compliance reports included. Build: twelve weeks, full control, team owns audits. Constraint: launch in six weeks." }] }
+      "baseline": { "title": "Validation architecture", "brief": "Audience includes an engineer and product manager.", "artifacts": [{ "id": "validation-data", "type": "source", "title": "Latency and compliance", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Sync: immediate status, +900 ms peak. Queue: fast request, retries, up to two-minute result. Constraint: predictable latency and validation before publication." }] },
+      "retry": { "title": "Image processing architecture", "brief": "Same explanation function, different engineering facts.", "artifacts": [{ "id": "image-data", "type": "source", "title": "Processing options", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Inline resize: immediate image, +1.4 s request time. Background resize: 120 ms request, up to 30 s pending. Constraint: mobile upload reliability; preview may be delayed." }] },
+      "transfer": { "title": "Database ownership", "brief": "Unseen transfer for a two-person team.", "artifacts": [{ "id": "database-data", "type": "source", "title": "Managed versus self-hosted", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Managed database costs $900/month and includes backups/on-call support. Self-hosted costs $250/month but needs about 12 engineer-hours/month. Constraint: two-person team and 24/7 recovery." }] },
+      "review": { "title": "Build versus buy", "brief": "Delayed retrieval with new constraints.", "artifacts": [{ "id": "vendor-data", "type": "source", "title": "Authentication options", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Vendor: four-week integration, recurring fee, compliance reports included. Build: twelve weeks, full control, team owns audits. Constraint: launch in six weeks." }] }
     },
     "learningLoop": {
       "version": "v1",
@@ -45,10 +45,10 @@
           { "id": "trade-train-6", "audio": { "kind": "speech-synthesis", "text": "Let me put that more clearly: speed matters more than immediate status.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đang làm gì?", "options": ["Repairing an explanation", "Adding a new option"], "correctAnswer": "Repairing an explanation", "feedback": "Let me put that more clearly signals repair." }
         ],
         "posttest": [
-          { "id": "trade-post-1", "audio": { "kind": "speech-synthesis", "text": "Managed backups reduce operational work, but the fee is higher.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Trade-off là gì?", "options": ["Lower operations, higher fee", "Higher operations, lower fee"], "correctAnswer": "Lower operations, higher fee" },
-          { "id": "trade-post-2", "audio": { "kind": "speech-synthesis", "text": "The deciding constraint is a two-person team.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Constraint là gì?", "options": ["Team capacity", "Database size"], "correctAnswer": "Team capacity" },
-          { "id": "trade-post-3", "audio": { "kind": "speech-synthesis", "text": "I would choose managed service and cap costs with reserved capacity.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Mitigation là gì?", "options": ["Reserved capacity", "More on-call work"], "correctAnswer": "Reserved capacity" },
-          { "id": "trade-post-4", "audio": { "kind": "speech-synthesis", "text": "Let me rephrase: we are buying recovery capacity, not only a database.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "Function là gì?", "options": ["Repair and clarify", "Reject both options"], "correctAnswer": "Repair and clarify" }
+          { "id": "trade-post-1", "audio": { "kind": "speech-synthesis", "text": "Sampling reduces storage costs, but rare events may be missed.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Trade-off là gì?", "options": ["Lower storage, less rare-event visibility", "Higher storage, more latency"], "correctAnswer": "Lower storage, less rare-event visibility" },
+          { "id": "trade-post-2", "audio": { "kind": "speech-synthesis", "text": "The deciding constraint is incident visibility.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Constraint là gì?", "options": ["Incident visibility", "Database size"], "correctAnswer": "Incident visibility" },
+          { "id": "trade-post-3", "audio": { "kind": "speech-synthesis", "text": "I would capture all errors and sample successful requests.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Mitigation là gì?", "options": ["Keep critical evidence while limiting volume", "Remove all logs"], "correctAnswer": "Keep critical evidence while limiting volume" },
+          { "id": "trade-post-4", "audio": { "kind": "speech-synthesis", "text": "Let me rephrase: we keep critical evidence while limiting volume.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "Function là gì?", "options": ["Repair and clarify", "Reject both options"], "correctAnswer": "Repair and clarify" }
         ]
       },
       "pronunciationCues": [
@@ -68,13 +68,13 @@
         { "id": "trade-turn-repair", "kind": "misunderstanding", "prompt": "So the queued worker has no downside?", "expectedFunction": "repair the misunderstanding and restate cost plus mitigation", "audio": { "kind": "speech-synthesis", "text": "So the queued worker has no downside?", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } }
       ]
     },
-    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["constraint", "recommendation", "trade-off", "mitigation"], "targetSeconds": 45 },
+    "outputContract": { "timeLimitSeconds": 90, "requiredElements": ["constraint", "recommendation", "trade-off", "mitigation"], "targetSeconds": 60 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
     "feedbackPriorities": ["Decision-first structure", "Cause and effect", "Audience clarity"],
     "rubric": [
       { "id": "decision", "label": "Clear recommendation", "description": "States one option and the deciding constraint early." },
       { "id": "tradeoff", "label": "Balanced trade-off", "description": "Explains both a benefit and a meaningful cost." },
-      { "id": "mitigation", "label": "Risk mitigation", "description": "Offers a realistic way to reduce the main downside." }
+      { "id": "mitigation", "label": "Risk mitigation", "description": "Offers a plausible mitigation and frames it as a recommendation unless the current packet states it as an agreed action." }
     ]
   },
   "reviewPolicy": { "intervalDays": [2, 7] }

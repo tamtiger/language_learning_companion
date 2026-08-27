@@ -4,13 +4,52 @@
   "title": "Learn a new API in English",
   "summary": "Build a mental model and implementation plan directly from English API documentation.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 30,
   "learningObjectives": ["Explain an unfamiliar API and plan a safe first implementation without translation."],
   "capabilities": ["technology-learning"],
   "workflowTags": ["api-learning", "documentation", "implementation-plan"],
+  "sourceRegistry": [
+    {
+      "sourceId": "rfc-9110",
+      "kind": "standard",
+      "title": "HTTP Semantics",
+      "publisher": "Internet Engineering Task Force (IETF)",
+      "canonicalUrl": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "versionOrPublishedAt": "RFC 9110, June 2022",
+      "accessedAt": "2026-08-27",
+      "exactLocation": "Sections 10.2.3 (Retry-After), 15.3.3 (202 Accepted) and 15.6.4 (503 Service Unavailable); copyright notice",
+      "licenseIdOrRightsUrl": "https://trustee.ietf.org/documents/trust-legal-provisions/",
+      "reuseMode": "reference-only",
+      "requiredAttribution": "RFC 9110, HTTP Semantics, IETF, June 2022."
+    },
+    {
+      "sourceId": "rfc-6585",
+      "kind": "standard",
+      "title": "Additional HTTP Status Codes",
+      "publisher": "Internet Engineering Task Force (IETF)",
+      "canonicalUrl": "https://www.rfc-editor.org/rfc/rfc6585.html",
+      "versionOrPublishedAt": "RFC 6585, April 2012",
+      "accessedAt": "2026-08-27",
+      "exactLocation": "Section 4 (429 Too Many Requests); copyright notice",
+      "licenseIdOrRightsUrl": "https://trustee.ietf.org/documents/trust-legal-provisions/",
+      "reuseMode": "reference-only",
+      "requiredAttribution": "RFC 6585, Additional HTTP Status Codes, IETF, April 2012."
+    }
+  ],
   "sections": [
     { "id": "brief", "type": "brief", "title": "Your mission", "body": "Learn the fictional Pulse API well enough to plan a reliable integration." },
-    { "id": "source", "type": "source", "title": "Pulse API quickstart", "format": "technical-doc", "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Reusing an idempotency key returns the original event rather than creating a duplicate." },
+    {
+      "id": "source",
+      "type": "source",
+      "title": "Pulse API quickstart",
+      "format": "technical-doc",
+      "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous and is not complete at acceptance. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Temporary unavailability returns 503 and may also include Retry-After; that response does not by itself mean the client exceeded a rate limit. A Retry-After value uses either delay seconds or an HTTP-date. Reusing an idempotency key returns the original event rather than creating a duplicate.",
+      "provenance": {
+        "origin": "synthetic",
+        "sourceIds": ["rfc-9110", "rfc-6585"],
+        "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+      }
+    },
     { "id": "check", "type": "auto-check", "title": "Check the mental model", "exercises": [{ "id": "api-async", "type": "choice", "question": "Why must the client query event status?", "options": ["A 202 response means processing is asynchronous.", "The bearer token expires immediately."], "correctAnswer": ["A 202 response means processing is asynchronous."], "explanation": "Acceptance and final processing are separate states." }] }
   ],
   "performanceTask": {
@@ -20,30 +59,30 @@
     "scenario": "A teammate will implement Pulse tomorrow and needs your English mental model and plan.",
     "baselinePrompt": "Read the quickstart once, hide it, then explain how the API works and outline implementation without translating it.",
     "performancePrompt": "Write 120–180 words: request lifecycle, idempotency, rate-limit behavior and a four-step implementation/test plan.",
-    "modelResponse": "Pulse accepts an authenticated event and returns 202 because processing continues asynchronously. The client should generate one idempotency key per logical event, store the returned event_id and poll status until processed or failed. Reusing the same key prevents duplicate creation. I would first wrap POST and GET calls, then persist both identifiers. Next I would add bounded polling and handle 429 using Retry-After. Finally I would test duplicate submissions, failed processing and rate limiting before enabling the integration for real traffic.",
+    "modelResponse": "Pulse accepts an authenticated event and returns 202, which means the request was accepted but processing is not complete. The client should generate one idempotency key per logical event, store that key with the returned event_id and poll status until processed or failed. Reusing the same key returns the existing event instead of creating a duplicate. I would wrap the POST and GET calls first, then add bounded polling. A 429 indicates rate limiting, so the client should wait for Retry-After before another attempt. A 503 indicates temporary unavailability rather than proof of rate limiting; if Retry-After is present, the client should respect it. Finally, I would test duplicate submissions, failed processing, 429 backoff and 503 recovery before enabling real traffic.",
     "retryPrompt": "Rewrite the mental model in your own words and connect every implementation step to a behavior in the docs.",
-    "transferPrompt": "A new Jobs API also returns 202, exposes job status and uses request tokens for deduplication. Produce a fresh mental model and implementation plan.",
+    "transferPrompt": "A new Jobs API returns 202, exposes job status and uses request tokens for deduplication. Produce a fresh mental model and plan that separates acceptance, rate limiting and temporary unavailability.",
     "reviewPrompt": "Read an unseen API quickstart once and explain lifecycle, safety mechanism, failure handling and first implementation plan from memory.",
     "practiceContexts": {
       "baseline": {
         "title": "Pulse Events API",
         "brief": "Read once and build the request lifecycle from memory.",
-        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. Reusing a key returns the original event." }]
+        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous and is not complete at acceptance. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. A 503 indicates temporary unavailability and may also include Retry-After. Reusing a key returns the original event.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
       },
       "retry": {
         "title": "Pulse reliability notes",
         "brief": "Repair the weakest part of your mental model with focused evidence.",
-        "artifacts": [{ "id": "api-retry-pulse", "type": "source", "title": "Reliability contract", "format": "technical-doc", "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. Respect Retry-After and do not create a new key for the same logical event." }]
+        "artifacts": [{ "id": "api-retry-pulse", "type": "source", "title": "Reliability contract", "format": "technical-doc", "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. When a 429 response includes Retry-After, wait for that interval and do not create a new key for the same logical event.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
       },
       "transfer": {
         "title": "Jobs API",
         "brief": "Unseen API with the same asynchronous function but different fields.",
-        "artifacts": [{ "id": "api-transfer-jobs", "type": "source", "title": "Jobs quickstart", "format": "technical-doc", "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. A 503 response includes Retry-In seconds." }]
+        "artifacts": [{ "id": "api-transfer-jobs", "type": "source", "title": "Jobs quickstart", "format": "technical-doc", "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref; acceptance is not completion. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. Rate limiting returns 429 with Retry-After. Temporary unavailability returns 503 and may also include Retry-After; a 503 is not proof that the caller exceeded a rate limit.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
       },
       "review": {
         "title": "Exports API",
         "brief": "Delayed retrieval from a new asynchronous API.",
-        "artifacts": [{ "id": "api-review-exports", "type": "source", "title": "Exports quickstart", "format": "technical-doc", "content": "POST /exports accepts a report request and returns 202 with export_id. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again." }]
+        "artifacts": [{ "id": "api-review-exports", "type": "source", "title": "Exports quickstart", "format": "technical-doc", "content": "POST /exports accepts a report request and returns 202 with export_id; acceptance is not completion. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
       }
     },
     "readingLadder": {
@@ -53,7 +92,12 @@
         "type": "source",
         "title": "Quanta Tasks API",
         "format": "technical-doc",
-        "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After."
+        "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id; acceptance is not completion. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After.",
+        "provenance": {
+          "origin": "synthetic",
+          "sourceIds": ["rfc-9110", "rfc-6585"],
+          "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+        }
       },
       "extractionItems": [
         { "id": "quanta-lifecycle", "question": "What does 202 mean here?", "options": ["The task was accepted for asynchronous processing", "The task is already complete"], "correctAnswer": "The task was accepted for asynchronous processing", "feedback": "Acceptance and final completion are separate states." },
@@ -63,7 +107,7 @@
       "applicationPrompt": "Explain the lifecycle in plain English and turn each documented behavior into one implementation or test step.",
       "applicationChecklist": ["I separated acceptance from completion.", "I connected idempotency to retries.", "I included bounded polling and rate-limit handling."]
     },
-    "outputContract": { "timeLimitSeconds": 720, "requiredElements": ["request lifecycle", "idempotency", "rate limit", "implementation plan"], "minWords": 120, "maxWords": 180 },
+    "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["request lifecycle", "idempotency", "rate limit", "implementation plan"], "minWords": 120, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["Mental model", "Traceability to docs", "Implementation safety"],
     "rubric": [

@@ -1,0 +1,37 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 1,
+  "taskId": "20260827-222420-realistic-content-completion-prompt",
+  "snapshots": [
+    {
+      "evidenceId": "check-prompt-contract-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260827-222420-realistic-content-completion-prompt",
+      "checkId": "check-prompt-contract",
+      "taskContractHash": "1c010a94a5d164f6fd42dcec044d20ff2cacd1b05898985a80852ca20e656e23",
+      "entries": [
+        {
+          "path": "CURRICULUM_RESEARCH_PROMPT.md",
+          "sha256": "ce36b5a376879f57166dcafbefb919bd90665e50bb54b7fe03fcef234ff5856a"
+        }
+      ],
+      "inputDigest": "58b2a6a1fbcbd161f1dc0a1ee5c584ba93c3d5a2a5403b27df96b726cf0f35d5"
+    },
+    {
+      "evidenceId": "check-prompt-diff-pass",
+      "generator": "harnix",
+      "schemaVersion": 1,
+      "taskId": "20260827-222420-realistic-content-completion-prompt",
+      "checkId": "check-prompt-diff",
+      "taskContractHash": "1c010a94a5d164f6fd42dcec044d20ff2cacd1b05898985a80852ca20e656e23",
+      "entries": [
+        {
+          "path": "CURRICULUM_RESEARCH_PROMPT.md",
+          "sha256": "ce36b5a376879f57166dcafbefb919bd90665e50bb54b7fe03fcef234ff5856a"
+        }
+      ],
+      "inputDigest": "e768b777530a1a6ba577e5ede4648d6725f9c22aecf23566bf30a64fb57ad321"
+    }
+  ]
+}

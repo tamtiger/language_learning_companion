@@ -17,7 +17,8 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 4. Đọc input/scaffold, làm auto-check nếu có.
 5. Với learning-loop pilot: nghe pretest, học cue cần thiết, luyện functional
    chunks bằng shadowing → delayed imitation → variation.
-6. Nói hoặc viết trong timebox; nếu ghi âm, nghe lại trước khi tiếp tục.
+6. Đọc hợp đồng đầu ra, rồi nói hoặc viết trong timebox; nếu ghi âm, nghe lại
+   trước khi tiếp tục.
 7. Trả lời clarification/repair turn, rồi tự đánh giá rubric trung thực.
 8. Chọn một ưu tiên để retry và làm transfer với evidence mới.
 9. Quay lại Today khi review đến hạn.
@@ -47,7 +48,10 @@ App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiê
   transfer và review; hãy phản hồi nếu dữ kiện thiếu, thừa hoặc khó hiểu.
 - `Disagree and recap` và `Technical trade-off` là hai pilot có perception,
   pronunciation cue, guided shadowing, listen-back và interaction/repair.
-- Daily Standup và sáu lesson pronunciation vẫn chạy qua normalization; bài phát âm chỉ hoàn tất sau khi mọi auto-check đúng.
+- Daily Standup và sáu lesson pronunciation vẫn chạy qua normalization; các bài
+  pronunciation v1 là knowledge/reference quiz, không phải đánh giá phát âm khi nói.
+- Artifact có nguồn thật hiển thị provenance; scenario độc lập ghi rõ là dữ liệu
+  mô phỏng/non-production và không cần network để học.
 - Catalog có thể lọc theo capability, workflow và CEFR.
 
 Chi tiết product xem `PRODUCT.md`; content schema v3 xem `CONTENT.md`; kiến trúc và migration xem `ARCHITECTURE.md`.

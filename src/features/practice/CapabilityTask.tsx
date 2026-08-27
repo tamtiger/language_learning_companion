@@ -230,6 +230,27 @@ function PracticeContextPanel({ lessonId, context }: { lessonId: string; context
   )
 }
 
+function OutputContractPanel({ task }: { task: CanonicalPerformanceTaskV3 }) {
+  return (
+    <section aria-label="Hợp đồng đầu ra" className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5">
+      <p className="text-xs font-bold uppercase tracking-wider text-emerald-300">Hợp đồng đầu ra · hiển thị trước khi làm</p>
+      <div className="mt-3 flex flex-wrap gap-2 text-sm font-semibold text-emerald-100">
+        {task.mode === 'written' ? (
+          <span className="rounded-full bg-emerald-500/10 px-3 py-1">{task.outputContract.minWords}–{task.outputContract.maxWords} từ</span>
+        ) : (
+          <span className="rounded-full bg-emerald-500/10 px-3 py-1">Tối thiểu {task.outputContract.targetSeconds} giây</span>
+        )}
+        <span className="rounded-full bg-emerald-500/10 px-3 py-1">Tối đa {task.outputContract.timeLimitSeconds} giây</span>
+      </div>
+      <p className="mt-4 text-sm font-bold text-zinc-200">Thành phần bắt buộc</p>
+      <ul className="mt-2 grid gap-1 text-sm text-zinc-300 sm:grid-cols-2">
+        {task.outputContract.requiredElements.map((element) => <li key={element}>• {element}</li>)}
+      </ul>
+      <p className="mt-3 text-xs text-zinc-400">App dùng các mốc này để xét qualifying ở lượt transfer; nội dung câu trả lời vẫn chỉ ở phiên hiện tại.</p>
+    </section>
+  )
+}
+
 function attemptId(): string {
   return typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
     ? crypto.randomUUID()
@@ -298,6 +319,8 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const phase = session.phase
   const taskTitleRef = useRef<HTMLHeadingElement | null>(null)
   const mainAttemptButtonRef = useRef<HTMLButtonElement | null>(null)
+  const writtenResponseRef = useRef<HTMLTextAreaElement | null>(null)
+  const focusWrittenResponseWhenReady = useRef(false)
   const previousPhase = useRef(phase)
   const isPilot = lesson.workflowTags.includes('p0-pilot')
   const learningLoop = task.mode === 'spoken' ? task.learningLoop : undefined
@@ -342,8 +365,13 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
       : phase === 'transfer' ? task.practiceContexts?.transfer
         : phase === 'review' ? task.practiceContexts?.review : undefined
   const requiresReadOnce = task.mode === 'written' && !!task.readingLadder
-    && !!practiceContext && (phase === 'baseline' || phase === 'transfer' || phase === 'review')
+    && !!practiceContext && (phase === 'baseline' || phase === 'retry' || phase === 'transfer' || phase === 'review')
   const readOnceReady = !requiresReadOnce || readOnceClosedPhase === phase
+  useEffect(() => {
+    if (!readOnceReady || !focusWrittenResponseWhenReady.current) return
+    focusWrittenResponseWhenReady.current = false
+    writtenResponseRef.current?.focus()
+  }, [readOnceReady])
   const responseReady = task.mode === 'spoken'
     ? spokenSnapshot !== null && (
         !learningLoop
@@ -489,6 +517,8 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
         <p className="mt-2 text-sm text-purple-100">{PHASE_DESCRIPTIONS[phase]}</p>
       </div>
 
+      <OutputContractPanel task={task} />
+
       {phase === 'input' ? (
         <div className="space-y-8">
           {lesson.sections.map((section) => (
@@ -576,7 +606,10 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             <PracticeContextPanel lessonId={lesson.lessonId} context={practiceContext} />
           )}
           {requiresReadOnce && !readOnceReady && (
-            <button type="button" onClick={() => setReadOnceClosedPhase(phase)}
+            <button type="button" onClick={() => {
+              focusWrittenResponseWhenReady.current = true
+              setReadOnceClosedPhase(phase)
+            }}
               className="rounded-xl border border-cyan-400 px-5 py-3 font-bold text-cyan-200">
               Đã đọc một lần — ẩn tài liệu
             </button>
@@ -616,7 +649,7 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
           ) : (
             <div>
               <label className="block font-semibold">Bản nháp tiếng Anh
-                <textarea value={response} onChange={(event) => {
+                <textarea ref={writtenResponseRef} value={response} onChange={(event) => {
                   if (event.target.value.trim()) startOutput()
                   setResponse(event.target.value)
                 }} disabled={!readOnceReady} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7 disabled:cursor-not-allowed disabled:opacity-40" />

@@ -22,6 +22,7 @@ Người dùng chính là lập trình viên Việt Nam tự học, có ít th�
 Một phiên học tốt phải:
 
 - bắt đầu bằng nhiệm vụ nghề nghiệp rõ ràng;
+- thấy trước hợp đồng đầu ra gồm timebox, độ dài mục tiêu và các thành phần bắt buộc;
 - tạo spoken hoặc written output trong timebox;
 - cho người học tự đối chiếu rubric có cấu trúc;
 - khi rubric còn gap, chọn đúng một `retry focus` rồi chấm lại toàn bộ rubric sau retry;
@@ -68,9 +69,10 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 - Mission `workplace-issue-update-b1` là pilot realism đầu tiên: baseline,
   transfer và review có evidence packet riêng để người học tổng hợp fact,
   uncertainty, impact, owner và request thay vì phải tự bịa dữ kiện.
-- Sáu pronunciation lesson schema v1 tiếp tục chạy qua content normalization;
-  Daily Standup đã được migrate sang spoken v3.
-- Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise progress.
+- Sáu pronunciation lesson schema v1 tiếp tục chạy qua content normalization như
+  bài knowledge/reference; Daily Standup đã được migrate sang spoken v3.
+- Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise
+  progress. Kết quả này không đánh giá spoken production, accent accuracy hoặc efficacy.
 - Cả 6 spoken missions chạy chuỗi perception → cue theo lỗi diagnostic →
   functional chunks → guided shadowing/delayed imitation/variation → listen-back
   → scripted clarification/interruption/repair → retry/transfer/review.
@@ -83,6 +85,9 @@ Completion count và streak chỉ là metadata phụ. App không suy diễn prof
 - Pronunciation trong capability loop chỉ dạy tối đa hai cue làm thay đổi khả
   năng nghe hiểu hoặc ý nghĩa; IPA hỗ trợ cue, không phải syllabus bắt buộc độc lập.
 - Schema v3 là authoring contract mới; JSON dưới `content/**/*.json` là executable source of truth.
+- Mọi source artifact được phân loại: source-backed v3 resolve provenance thật,
+  còn scenario độc lập ghi rõ synthetic/non-production. Standard không bảo chứng
+  endpoint, metric, command hoặc incident hư cấu.
 - Markdown curriculum legacy đã được loại bỏ; curriculum executable chỉ nằm trong `content/**/*.json`.
 
 Các pilot chỉ xác nhận content contract và learning flow có thể chạy với evidence

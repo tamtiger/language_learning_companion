@@ -1,18 +1,18 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-sentence-stress",
-  "title": "Trọng âm câu (Sentence Stress)",
+  "title": "Nhận diện trọng âm câu và contrastive focus",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
-    "Phân biệt giữa Từ mang thông tin (Content Words) và Từ chức năng (Function Words)",
-    "Xác định và nhấn mạnh các từ khóa chính trong câu kỹ thuật",
-    "Hiểu cách thay đổi trọng âm câu để thay đổi ý nghĩa nhấn mạnh"
+    "Giải thích xu hướng content words và function words trong neutral General American speech",
+    "Chọn từ có khả năng mang prominence khi ngữ cảnh và ý đối chiếu đã được nêu rõ",
+    "Nhận biết contrastive focus có thể làm một function word hoặc auxiliary được nhấn"
   ],
   "vocabulary": [
     {
       "word": "content",
-      "ipa": "/ˈkɑːntent/",
+      "ipa": "/ˈkɑːn.tent/",
       "definition": "The information or matter contained in something.",
       "technicalMeaning": "Data or curriculum resources managed within an application.",
       "collocations": ["content creator", "static content"],
@@ -21,46 +21,46 @@
     },
     {
       "word": "function",
-      "ipa": "/ˈfʌŋkʃn/",
+      "ipa": "/ˈfʌŋk.ʃən/",
       "definition": "An activity or purpose natural to or intended for a person or thing.",
       "technicalMeaning": "A block of organized, reusable code that is used to perform a single, related action.",
       "collocations": ["call a function", "function declaration"],
-      "example": "Function words like 'the' or 'to' are rarely stressed in English.",
-      "commonMistake": "Pronounce /fʌŋkʃn/ clearly, paying attention to the /ŋk/ sound combination."
+      "example": "Function words like 'the' or infinitival 'to' are often reduced in neutral speech but can carry contrastive focus.",
+      "commonMistake": "The second syllable is reduced in this broad transcription. Do not use spelling alone to decide either word stress or sentence focus."
     }
   ],
   "expressions": [
     {
-      "phrase": "I fixed the bug",
-      "meaning": "Tôi đã sửa lỗi đó (Nhấn mạnh hành động hoặc đối tượng tùy vị trí nhấn).",
+      "phrase": "I fixed the bug.",
+      "meaning": "Vị trí focus phụ thuộc thông tin đang được sửa hoặc đối chiếu.",
       "tone": "neutral",
-      "example": "I FIXED the bug yesterday (emphasizing that it's already done).",
-      "alternatives": ["The bug was resolved by me", "I resolved the issue"]
+      "example": "I FIXED the bug—I did not merely report it.",
+      "alternatives": ["I fixed THE bug, not the timeout.", "I fixed the bug YESTERDAY, not today."]
     }
   ],
   "reading": {
-    "title": "Báo cáo cuộc họp hàng ngày (Standup Report)",
-    "sourceType": "Daily Standup Transcript",
-    "content": "Today, we finished the authentication service. We deployed the update to the staging environment and completed all integration tests. Tomorrow, we will start working on the database replication modules."
+    "title": "[Tình huống mô phỏng] Focus trong standup",
+    "sourceType": "Tình huống mô phỏng",
+    "content": "Context: A teammate thinks the authentication bug was only reported.\nUpdate: “I FIXED the authentication bug yesterday. Today I’m monitoring staging.”\nIn a neutral update, nouns and main verbs often carry prominence while articles and infinitival to are commonly reduced. Contrast can override that default: “I said TO staging, not FROM staging.” The intended contrast—not word class alone—determines focus."
   },
   "exercises": [
     {
       "id": "e4-1",
       "type": "choice",
-      "question": "Loại từ nào sau đây thuộc nhóm Từ mang thông tin (Content Words) thường được nhấn mạnh trong câu?",
+      "question": "Trong một neutral update không có contrast đặc biệt, nhóm nào thường mang prominence?",
       "options": [
-        "Giới từ (in, at, on)",
-        "Mạo từ (a, an, the)",
-        "Danh từ và Động từ chính",
-        "Trợ động từ chỉ chức năng"
+        "Mọi giới từ và mạo từ",
+        "Danh từ và động từ chính",
+        "Mọi auxiliary",
+        "Mọi từ có nhiều hơn một syllable"
       ],
-      "correctAnswer": ["Danh từ và Động từ chính"],
-      "explanation": "Content Words bao gồm danh từ, động từ chính, tính từ, trạng từ là những từ mang thông tin chính nên được nhấn mạnh."
+      "correctAnswer": ["Danh từ và động từ chính"],
+      "explanation": "Đây là xu hướng mặc định, không phải quy tắc bắt buộc; discourse contrast có thể thay đổi focus."
     },
     {
       "id": "e4-2",
       "type": "choice",
-      "question": "Trong câu 'I need to check the database', từ nào là từ chức năng (Function Word) KHÔNG nên nhấn mạnh?",
+      "question": "Trong câu neutral 'I need to check the database', phần nào thường được reduced nếu không có contrast?",
       "options": [
         "need",
         "check",
@@ -68,32 +68,32 @@
         "database"
       ],
       "correctAnswer": ["to / the"],
-      "explanation": "'to' (giới từ chỉ hướng) và 'the' (mạo từ) là các từ chức năng, thường được đọc nhẹ/lướt."
+      "explanation": "To là infinitival marker và the là article trong câu này. Chúng thường được reduced khi không mang contrastive focus."
     },
     {
       "id": "e4-3",
       "type": "matching",
-      "question": "Nối các từ sau với nhóm phân loại trọng âm câu của chúng:",
+      "question": "Nối mỗi item trong ngữ cảnh đã cho với mô tả prominence phù hợp nhất:",
       "matchingPairs": [
         {
-          "key": "application",
-          "value": "Content Word"
+          "key": "database in a neutral update",
+          "value": "Likely content-word prominence"
         },
         {
-          "key": "deploy",
-          "value": "Content Word"
+          "key": "the in 'check the database' with no contrast",
+          "value": "Usually reduced function word"
         },
         {
-          "key": "should / for",
-          "value": "Function Word"
+          "key": "TO in 'TO staging, not FROM staging'",
+          "value": "Contrastive prominence"
         }
       ],
       "correctAnswer": [
-        "application - Content Word",
-        "deploy - Content Word",
-        "should / for - Function Word"
+        "database in a neutral update - Likely content-word prominence",
+        "the in 'check the database' with no contrast - Usually reduced function word",
+        "TO in 'TO staging, not FROM staging' - Contrastive prominence"
       ],
-      "explanation": "Danh từ (application) và động từ (deploy) là Content Words, còn động từ khuyết thiếu và giới từ (should/for) là Function Words."
+      "explanation": "Word class tạo xu hướng mặc định; ngữ cảnh đối chiếu quyết định contrastive prominence."
     }
   ]
 }

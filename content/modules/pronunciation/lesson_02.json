@@ -1,13 +1,13 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-ending-sounds",
-  "title": "Âm cuối (Ending Sounds)",
+  "title": "Nhận diện cách đọc đuôi -ed trong General American",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
-    "Hiểu tầm quan trọng của âm cuối (Ending Sounds) trong tiếng Anh giao tiếp kỹ thuật",
-    "Phát âm chính xác các âm cuối phổ biến: /t/, /d/, /k/, /s/, /z/",
-    "Phát âm chính xác đuôi -ed trong các thì quá khứ (fixed, deployed, tested)"
+    "Phân loại ba cách đọc phổ biến của regular -ed: /t/, /d/ và /ɪd/",
+    "Dùng âm cuối của base verb để giải thích cách phân loại fixed, deployed và tested",
+    "Nhận biết khi -ed tạo thêm một âm tiết thay vì suy luận trực tiếp từ spelling"
   ],
   "vocabulary": [
     {
@@ -17,16 +17,25 @@
       "technicalMeaning": "Resolved a software bug or issue in the codebase.",
       "collocations": ["fixed a bug", "fixed the crash"],
       "example": "He fixed the memory leak in the production build.",
-      "commonMistake": "Do not read it as 'fix-xơ'. Pronounce the final /t/ sound clearly: /fɪkst/."
+      "commonMistake": "The regular -ed ending is /t/ after the voiceless /s/ in fix. Do not add a separate vowel after it."
     },
     {
       "word": "deployed",
       "ipa": "/dɪˈplɔɪd/",
       "definition": "Moved software components to a working environment.",
-      "technicalMeaning": "Released software updates to server, cloud, or app store.",
+      "technicalMeaning": "Released software updates to a server, cloud environment, or app store.",
       "collocations": ["deployed to production", "deployed successfully"],
       "example": "We deployed the new API updates yesterday afternoon.",
-      "commonMistake": "Do not skip the final /d/ sound. It should be pronounced /dɪˈplɔɪd/."
+      "commonMistake": "Deploy ends in a voiced sound, so regular -ed is /d/ in this reference form; it is not a separate /ɪd/ syllable."
+    },
+    {
+      "word": "tested",
+      "ipa": "/ˈtes.tɪd/",
+      "definition": "Checked whether something worked as intended.",
+      "technicalMeaning": "Ran one or more checks against software behavior or a release candidate.",
+      "collocations": ["tested the patch", "tested in staging"],
+      "example": "We tested the patch in Chrome and Firefox.",
+      "commonMistake": "Because test ends in /t/, regular -ed adds the syllable /ɪd/ in this reference form."
     }
   ],
   "expressions": [
@@ -35,43 +44,43 @@
       "meaning": "Sửa một lỗi nghiêm trọng trong chương trình.",
       "tone": "neutral",
       "example": "Last night, the backend team fixed a critical bug in the auth service.",
-      "alternatives": ["Resolved an emergency issue", "Patched a major vulnerability"]
+      "alternatives": ["Resolved a release-blocking issue", "Corrected a critical defect"]
     }
   ],
   "reading": {
-    "title": "Báo cáo tiến trình kiểm thử và deploy",
-    "sourceType": "Slack Thread",
-    "content": "Last week, our backend team fixed several critical bugs. We tested the new user auth feature, deployed it to staging successfully, and monitored the performance metrics carefully. Everything worked as expected without any memory leaks."
+    "title": "[Tình huống mô phỏng] Release update",
+    "sourceType": "Tình huống mô phỏng",
+    "content": "Release update — 16:30\nFixed: the login redirect loop.\nTested: the patch in Chrome and Firefox.\nDeployed: build 2.4.1 to staging.\nNext: monitor authentication errors for 30 minutes."
   },
   "exercises": [
     {
       "id": "e2-1",
       "type": "choice",
-      "question": "Từ 'fixed' kết thúc bằng âm đuôi -ed phát âm là gì?",
+      "question": "Trong broad General American, regular -ed trong fixed được phân loại thành allomorph nào?",
       "options": [
-        "Phát âm là /ɪd/",
-        "Phát âm là /t/",
-        "Phát âm là /d/"
+        "/ɪd/",
+        "/t/",
+        "/d/"
       ],
-      "correctAnswer": ["Phát âm là /t/"],
-      "explanation": "Động từ 'fix' kết thúc bằng âm /s/ (vô thanh), do đó khi thêm -ed sẽ phát âm là /t/."
+      "correctAnswer": ["/t/"],
+      "explanation": "Base verb fix kết thúc bằng âm vô thanh /s/, nên regular -ed được phân loại là /t/."
     },
     {
       "id": "e2-2",
       "type": "choice",
-      "question": "Từ 'deployed' kết thúc bằng âm đuôi -ed phát âm là gì?",
+      "question": "Trong broad General American, regular -ed trong deployed được phân loại thành allomorph nào?",
       "options": [
-        "Phát âm là /ɪd/",
-        "Phát âm là /t/",
-        "Phát âm là /d/"
+        "/ɪd/",
+        "/t/",
+        "/d/"
       ],
-      "correctAnswer": ["Phát âm là /d/"],
-      "explanation": "Động từ 'deploy' kết thúc bằng nguyên âm hữu thanh, do đó khi thêm -ed sẽ phát âm là /d/."
+      "correctAnswer": ["/d/"],
+      "explanation": "Deploy kết thúc bằng một âm hữu thanh, nên regular -ed được phân loại là /d/."
     },
     {
       "id": "e2-3",
       "type": "matching",
-      "question": "Nối các từ quá khứ sau đây với cách phát âm đuôi -ed tương ứng của chúng:",
+      "question": "Nối mỗi regular form với cách đọc -ed tham chiếu:",
       "matchingPairs": [
         {
           "key": "fixed",
@@ -91,7 +100,7 @@
         "deployed - /d/",
         "tested - /ɪd/"
       ],
-      "explanation": "fixed đi với /t/, deployed đi với /d/, và tested đi với /ɪd/."
+      "explanation": "Chỉ tested có thêm syllable /ɪd/ trong ba ví dụ này vì test kết thúc bằng /t/."
     }
   ]
 }

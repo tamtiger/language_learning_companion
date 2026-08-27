@@ -1,0 +1,144 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260827-222420-realistic-content-completion-prompt",
+  "title": "Nâng cấp prompt hoàn thiện nội dung thực tế",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Nâng cấp prompt curriculum hiện có thành quy trình research và hoàn thiện content thực tế theo từng wave, có provenance, factual coherence và verification đủ để một agent khác chạy end-to-end.",
+  "nonGoals": [
+    "Không chạy external research hoặc sửa executable curriculum trong task viết prompt này.",
+    "Không tạo prompt root mới cạnh tranh với CURRICULUM_RESEARCH_PROMPT.md hoặc sao chép owner contract.",
+    "Không mặc định thay schema, UI, storage hay privacy khi content-only có thể giải quyết.",
+    "Không commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Prompt buộc inventory toàn bộ lesson và source artifact, phát hiện content thiếu, mâu thuẫn, placeholder, near-copy và phase evidence không thực tế bằng evidence cụ thể.",
+      "status": "met",
+      "evidenceIds": [
+        "check-prompt-contract-pass"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Prompt quy định research nguồn chính thức/primary, source log, fact-inference boundary, provenance, license và synthetic/adapted disclosure trước khi sửa content.",
+      "status": "met",
+      "evidenceIds": [
+        "check-prompt-contract-pass"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Prompt yêu cầu triển khai content theo wave đến khi mọi finding blocker/high trong phạm vi được xử lý, thay vì dừng ở một pilot hoặc kế hoạch.",
+      "status": "met",
+      "evidenceIds": [
+        "check-prompt-contract-pass"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Prompt có completion matrix, content quality gates, focused/full/static/browser verification, privacy/offline guardrails và báo cáo measured result tách khỏi hypothesis.",
+      "status": "met",
+      "evidenceIds": [
+        "check-prompt-contract-pass",
+        "check-prompt-diff-pass"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CURRICULUM_RESEARCH_PROMPT.md"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-prompt-contract",
+      "description": "Kiểm tra prompt có inventory, research/provenance, wave completion, verification và guardrail bắt buộc.",
+      "command": "$p='CURRICULUM_RESEARCH_PROMPT.md';$t=Get-Content -LiteralPath $p -Raw;$terms=@('completion matrix','sourceRegistry','provenance','license','fact','inference','wave','blocker','full tests','offline');foreach($term in $terms){if($t -notmatch [regex]::Escape($term)){Write-Error \"Missing $term\";exit 1}}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ]
+    },
+    {
+      "id": "check-prompt-diff",
+      "description": "Kiểm tra Markdown diff không có whitespace error.",
+      "command": "git diff --check -- CURRICULUM_RESEARCH_PROMPT.md",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "review-provenance-contract-conflict",
+      "recordedAt": "2026-08-27T15:32:57.2331474Z",
+      "result": "fail",
+      "summary": "Review contract phát hiện completion gate ép provenance cho mọi source surface, trái cơ chế opt-in và legacy policy; adaptationNote bị mô tả sai cấp, review human thiếu fallback.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "CURRICULUM_RESEARCH_PROMPT.md",
+        "src/content/schema.ts"
+      ]
+    },
+    {
+      "id": "review-provenance-contract-fix",
+      "recordedAt": "2026-08-27T15:33:57.0619861Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contract fix pass: provenance phân loại đúng external/synthetic/legacy, adaptationNote ở artifact, reviewer fallback rõ và retirement cần user authority.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "CURRICULUM_RESEARCH_PROMPT.md",
+        "src/content/schema.ts"
+      ]
+    },
+    {
+      "id": "check-prompt-contract-pass",
+      "checkId": "check-prompt-contract",
+      "recordedAt": "2026-08-27T15:34:34.7873124Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Prompt contract pass trên bản cuối: inventory, source/provenance, wave completion, verification và offline guardrail đều hiện diện.",
+      "artifactPaths": [
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "58b2a6a1fbcbd161f1dc0a1ee5c584ba93c3d5a2a5403b27df96b726cf0f35d5"
+    },
+    {
+      "id": "check-prompt-diff-pass",
+      "checkId": "check-prompt-diff",
+      "recordedAt": "2026-08-27T15:34:34.7873124Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "git diff --check pass; chỉ có cảnh báo chuyển LF sang CRLF của Git, không có whitespace error.",
+      "artifactPaths": [
+        "CURRICULUM_RESEARCH_PROMPT.md"
+      ],
+      "inputDigest": "e768b777530a1a6ba577e5ede4648d6725f9c22aecf23566bf30a64fb57ad321"
+    }
+  ],
+  "createdAt": "2026-08-27T15:24:40.4090766Z",
+  "updatedAt": "2026-08-27T15:35:31.018Z",
+  "completedAt": "2026-08-27T15:35:31.018Z"
+}

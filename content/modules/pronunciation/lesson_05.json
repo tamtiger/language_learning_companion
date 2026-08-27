@@ -1,97 +1,97 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-linking-intonation",
-  "title": "Nối âm và ngữ điệu (Linking & Intonation)",
+  "title": "Nhận diện nối âm và ngữ điệu theo ngữ cảnh",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
-    "Hiểu bản chất của Nối âm (Linking / Connected Speech) trong giao tiếp",
-    "Sử dụng đúng Ngữ điệu lên (Rising) và Ngữ điệu xuống (Falling) ở cuối câu",
-    "Đọc liền mạch cụm từ kỹ thuật phổ biến (check it, work on, deploy to)"
+    "Nhận biết consonant-to-vowel, vowel-to-vowel và repeated-consonant boundaries trong General American reference",
+    "Giải thích rising và falling contours là lựa chọn thường gặp chứ không phải quy tắc cố định theo sentence type",
+    "Dùng ngữ cảnh để diễn giải một annotated intonation contour mà không suy diễn accent hoặc thái độ tuyệt đối"
   ],
   "vocabulary": [
     {
       "word": "intonation",
-      "ipa": "/ˌɪntəˈneɪʃn/",
+      "ipa": "/ˌɪn.təˈneɪ.ʃən/",
       "definition": "The rise and fall of the voice in speaking.",
-      "technicalMeaning": "The vocal pitch variations used to signal statement completion or query type.",
+      "technicalMeaning": "Pitch movement that can organize information, signal continuation or completion, and express stance; it does not map one-to-one to sentence type.",
       "collocations": ["rising intonation", "falling intonation"],
-      "example": "Use rising intonation for yes/no questions.",
-      "commonMistake": "Do not read everything in a flat tone. Vary your pitch to express meaning."
+      "example": "A rising contour is one common option for a yes/no question in a checking context.",
+      "commonMistake": "Do not assume every yes/no question must rise or every statement must fall. Interpret the contour with the speaker's purpose and context."
     },
     {
       "word": "linking",
-      "ipa": "/ˈlɪŋkɪŋ/",
+      "ipa": "/ˈlɪŋ.kɪŋ/",
       "definition": "The act of joining things together.",
-      "technicalMeaning": "Connecting final sounds of words with initial sounds of following words.",
+      "technicalMeaning": "Coordination across word boundaries in connected speech; the exact realization can vary by speaker, rate, and dialect.",
       "collocations": ["consonant-to-vowel linking", "connected speech"],
-      "example": "Linking words together makes your speech sound much more natural.",
-      "commonMistake": "Do not pause between every word; try to make it sound like a continuous flow."
+      "example": "Coordinating sounds across word boundaries can support fluent, intelligible delivery.",
+      "commonMistake": "Do not pause only because spelling shows a space. Prioritize intelligibility rather than imitating one accent."
     }
   ],
   "expressions": [
     {
-      "phrase": "Can you review my pull request",
-      "meaning": "Bạn có thể xem qua pull request của tôi không? (Lên giọng ở cuối câu)",
+      "phrase": "Can you review my pull request?",
+      "meaning": "Một request có thể dùng nhiều contour; rising là một lựa chọn thường gặp nhưng không bắt buộc.",
       "tone": "neutral",
-      "example": "Can you review my pull request? (Rising pitch on 'request')",
-      "alternatives": ["Would you mind checking my PR?", "Could you look at my code changes?"]
+      "example": "Can you review my pull request before 2 p.m.? ↑",
+      "alternatives": ["Could you review my PR before 2 p.m.?", "Would you have time to check this change today?"]
     }
   ],
   "reading": {
-    "title": "Cập nhật tiến độ dự án (Status Pitch)",
-    "sourceType": "Daily Standup Transcript",
-    "content": "Good morning, everyone. Yesterday, I finished the authentication service. Today, I'm working on the payment API. I also need to review two pull requests before lunch."
+    "title": "[Tình huống mô phỏng] PR review handoff",
+    "sourceType": "Tình huống mô phỏng",
+    "content": "10:10 — Linh: “Can you review my pull request before 2 p.m.? ↑”\n10:12 — Omar: “Yes. I’ll check it after standup. ↓”\nThe arrows show one plausible delivery, not a universal rule. In connected speech, check it can coordinate the final /k/ with the following /ɪ/. The priority is that the review request, deadline, and response remain easy to understand."
   },
   "exercises": [
     {
       "id": "e5-1",
       "type": "choice",
-      "question": "Kiểu ngữ điệu nào thường dùng cho câu hỏi Yes/No (ví dụ: 'Are you ready?')?",
+      "question": "Phát biểu nào bảo vệ được về yes/no question trong ngữ cảnh checking?",
       "options": [
-        "Ngữ điệu xuống (Falling Intonation)",
-        "Ngữ điệu lên (Rising Intonation)",
-        "Ngữ điệu phẳng đều (Flat Intonation)"
+        "Rising contour là một lựa chọn thường gặp nhưng không bắt buộc",
+        "Mọi yes/no question bắt buộc phải rising",
+        "Mọi workplace request bắt buộc phải falling"
       ],
-      "correctAnswer": ["Ngữ điệu lên (Rising Intonation)"],
-      "explanation": "Câu hỏi Yes/No thường sử dụng ngữ điệu lên giọng (rising intonation) ở cuối câu để xác nhận thông tin."
+      "correctAnswer": ["Rising contour là một lựa chọn thường gặp nhưng không bắt buộc"],
+      "explanation": "Sentence type không quyết định duy nhất contour; speaker purpose, stance và discourse context cũng ảnh hưởng."
     },
     {
       "id": "e5-2",
       "type": "choice",
-      "question": "Cách đọc liền 'check it' (/tʃek ɪt/) thành /tʃekɪt/ là ví dụ của hiện tượng nào?",
+      "question": "Boundary trong check it là loại nào?",
       "options": [
-        "Intonation (Ngữ điệu)",
-        "Stress (Trọng âm)",
-        "Linking (Nối âm giữa Phụ âm và Nguyên âm)"
+        "Vowel-to-vowel boundary",
+        "Repeated-consonant boundary",
+        "Consonant-to-vowel boundary"
       ],
-      "correctAnswer": ["Linking (Nối âm giữa Phụ âm và Nguyên âm)"],
-      "explanation": "Nối phụ âm cuối /k/ của 'check' với nguyên âm đầu /ɪ/ của 'it' tạo thành /tʃekɪt/ là hiện tượng nối âm."
+      "correctAnswer": ["Consonant-to-vowel boundary"],
+      "explanation": "Final /k/ của check đứng trước initial /ɪ/ của it; realization cụ thể vẫn có thể thay đổi theo speaker và tốc độ."
     },
     {
       "id": "e5-3",
       "type": "matching",
-      "question": "Nối các cụm từ sau với hiện tượng nối âm (Linking) tương ứng của chúng:",
+      "question": "Nối cụm từ với loại sound boundary được minh họa:",
       "matchingPairs": [
         {
           "key": "check it",
-          "value": "Phụ âm + Nguyên âm"
+          "value": "Consonant-to-vowel boundary"
         },
         {
           "key": "go out",
-          "value": "Nguyên âm + Nguyên âm"
+          "value": "Vowel-to-vowel boundary"
         },
         {
           "key": "good day",
-          "value": "Phụ âm giống nhau"
+          "value": "Repeated /d/ boundary"
         }
       ],
       "correctAnswer": [
-        "check it - Phụ âm + Nguyên âm",
-        "go out - Nguyên âm + Nguyên âm",
-        "good day - Phụ âm giống nhau"
+        "check it - Consonant-to-vowel boundary",
+        "go out - Vowel-to-vowel boundary",
+        "good day - Repeated /d/ boundary"
       ],
-      "explanation": "'check it' là phụ âm + nguyên âm, 'go out' là nguyên âm + nguyên âm, 'good day' là phụ âm giống nhau đứng liền nhau."
+      "explanation": "Các label mô tả boundary, không cam kết mọi speaker tạo cùng một acoustic realization."
     }
   ]
 }

@@ -7,31 +7,31 @@
   "learningObjectives": ["Dùng STAR ngắn gọn", "Phân biệt I và we", "Nêu kết quả đo được"],
   "capabilities": ["international-interview"], "workflowTags": ["interview", "ownership"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Weak interview answer", "format": "prose", "content": "We had a production problem. We worked hard and fixed it. Everyone was happy and I learned a lot." },
+    { "id": "source", "type": "source", "title": "Weak interview answer", "format": "prose", "content": "Synthetic training artifact — non-production. We had a production problem. We worked hard and fixed it. Everyone was happy and I learned a lot." },
     { "id": "check", "type": "auto-check", "title": "Make ownership visible", "exercises": [{ "id": "ownership-check", "type": "choice", "question": "Chi tiết nào cải thiện câu trả lời nhiều nhất?", "options": ["It was very difficult.", "I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes.", "My team is excellent."], "correctAnswer": ["I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes."], "explanation": "Câu này nêu hành động cá nhân và kết quả đo được." }] }
   ],
   "performanceTask": {
     "id": "ownership-interview", "mode": "spoken", "title": "Tell an ownership story",
     "scenario": "Interviewer hỏi về lúc bạn chủ động xử lý một production problem.",
-    "baselinePrompt": "Trả lời cold question mà chưa xem model/chunks.",
-    "performancePrompt": "Trong 2 phút, giữ situation/task ngắn, làm rõ hành động của bạn, result đo được và lesson.",
-    "modelResponse": "During a payment incident, rollback took forty minutes because ownership was unclear. I coordinated recovery and ran the rollback. Afterwards, I created a checklist and named a rollback owner for every release. The next incident recovered in twelve minutes. I learned that ownership includes improving the system after the immediate fix.",
-    "retryPrompt": "Kể incident queue backlog mới; rút gọn context và làm rõ I-action/result.",
-    "transferPrompt": "Không xem model/chunks: kể lúc bạn chủ động ngăn certificate expiry thành incident.",
-    "reviewPrompt": "Kể một ownership story mới về data-quality risk bằng STAR và evidence.",
+    "baselinePrompt": "Trong 90–120 giây, trả lời cold question mà chưa xem model/chunks.",
+    "performancePrompt": "Trong 90–120 giây, giữ situation/task ngắn, làm rõ hành động của bạn, result đo được và lesson.",
+    "modelResponse": "During a payment rollback, recovery took forty minutes because ownership was unclear. My immediate responsibility was to coordinate the recovery, but I also treated the unclear ownership as a process problem that needed a follow-up action. After the incident, I created a rollback checklist and named a rollback owner so the next response would have an explicit path. The result was measurable: the next recovery took twelve minutes instead of forty. That comparison matters because it shows the effect of the change, not just that the team worked hard. Looking back, I learned that ownership has two parts: helping resolve the immediate incident and improving the process that made recovery slow. I would keep both the action and the measured result clear in the interview answer.",
+    "retryPrompt": "Trong 90–120 giây, kể incident queue backlog mới; rút gọn context và làm rõ I-action/result.",
+    "transferPrompt": "Trong 90–120 giây và không xem model/chunks, kể lúc bạn chủ động ngăn certificate expiry thành incident.",
+    "reviewPrompt": "Trong 90–120 giây, kể một ownership story mới về data-quality risk bằng STAR và evidence.",
     "practiceContexts": {
-      "baseline": { "title": "Payment rollback", "brief": "Recovery chậm vì ownership không rõ.", "artifacts": [{ "id": "own-payment", "type": "source", "title": "Incident facts", "format": "meeting-notes", "content": "Rollback: 40 min; you coordinated recovery; you created checklist + named owner; next recovery: 12 min." }] },
-      "retry": { "title": "Queue backlog", "brief": "Dùng story khác nhưng giữ ownership function.", "artifacts": [{ "id": "own-queue", "type": "source", "title": "Backlog facts", "format": "meeting-notes", "content": "Queue delay: 55 min; you proposed autoscaling guardrail and dashboard; later peak delay: 8 min." }] },
-      "transfer": { "title": "Certificate expiry", "brief": "Unseen preventive ownership story.", "artifacts": [{ "id": "own-cert", "type": "source", "title": "Risk facts", "format": "meeting-notes", "content": "Certificate expired in 9 days; no owner; you added rotation job + alert + runbook; renewal completed 6 days early." }] },
-      "review": { "title": "Data quality risk", "brief": "Delayed retrieval với evidence mới.", "artifacts": [{ "id": "own-data", "type": "source", "title": "Quality facts", "format": "meeting-notes", "content": "Duplicate events affected 3% reports; you added idempotency key and audit query; duplicates fell below 0.1%." }] }
+      "baseline": { "title": "Payment rollback", "brief": "Recovery chậm vì ownership không rõ.", "artifacts": [{ "id": "own-payment", "type": "source", "title": "Incident facts", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Rollback recovery: 40 minutes; ownership was unclear; you coordinated recovery; you created a checklist and named an owner; the next recovery took 12 minutes." }] },
+      "retry": { "title": "Queue backlog", "brief": "Dùng story khác nhưng giữ ownership function.", "artifacts": [{ "id": "own-queue", "type": "source", "title": "Backlog facts", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Queue delay: 55 minutes; you proposed an autoscaling guardrail and dashboard; the later peak delay was 8 minutes." }] },
+      "transfer": { "title": "Certificate expiry", "brief": "Unseen preventive ownership story.", "artifacts": [{ "id": "own-cert", "type": "source", "title": "Risk facts", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. The certificate was due to expire in nine days; no owner was assigned; you added a rotation job, alert and runbook; renewal completed with six days remaining." }] },
+      "review": { "title": "Data quality risk", "brief": "Delayed retrieval với evidence mới.", "artifacts": [{ "id": "own-data", "type": "source", "title": "Quality facts", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Duplicate events affected 3% of reports; you added an idempotency key and audit query; duplicates fell below 0.1%." }] }
     },
-    "outputContract": { "timeLimitSeconds": 180, "requiredElements": ["situation", "personal action", "measured result", "lesson"], "targetSeconds": 90 },
+    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["situation", "personal action", "measured result", "lesson"], "targetSeconds": 90 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["ownership", "evidence", "reflection"],
     "rubric": [
       { "id": "structure", "label": "Concise STAR structure", "description": "Keeps situation and task brief enough to foreground action." },
       { "id": "ownership", "label": "Personal ownership", "description": "Uses specific I-statements for decisions and actions." },
-      { "id": "result", "label": "Result and learning", "description": "Provides a measurable outcome and a credible lesson." }
+      { "id": "result", "label": "Result and learning", "description": "Uses the measured result from the current evidence packet and clearly frames the lesson as personal reflection." }
     ],
     "learningLoop": {
       "version": "v1",
@@ -51,10 +51,10 @@
           { "id": "own-train-6", "audio": { "kind": "speech-synthesis", "text": "The change reduced failures by twenty-eight percent.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Why is this evidence strong?", "options": ["It is measurable", "It is emotional"], "correctAnswer": "It is measurable", "feedback": "Stress REDUCED and the number." }
         ],
         "posttest": [
-          { "id": "own-post-1", "audio": { "kind": "speech-synthesis", "text": "I added a rotation job and wrote the runbook.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is visible?", "options": ["Personal action", "Only team activity"], "correctAnswer": "Personal action" },
-          { "id": "own-post-2", "audio": { "kind": "speech-synthesis", "text": "Duplicate reports fell below zero point one percent.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is this?", "options": ["Measured result", "Generic lesson"], "correctAnswer": "Measured result" },
-          { "id": "own-post-3", "audio": { "kind": "speech-synthesis", "text": "Next time, I would validate ownership during planning.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What function is stated?", "options": ["Reflection", "Impact"], "correctAnswer": "Reflection" },
-          { "id": "own-post-4", "audio": { "kind": "speech-synthesis", "text": "The outage lasted fifteen minutes.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Which fact is critical?", "options": ["15-minute duration", "Team size"], "correctAnswer": "15-minute duration" }
+          { "id": "own-post-1", "audio": { "kind": "speech-synthesis", "text": "I introduced a release checklist and named an owner.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is visible?", "options": ["Personal action", "Only team activity"], "correctAnswer": "Personal action" },
+          { "id": "own-post-2", "audio": { "kind": "speech-synthesis", "text": "Recovery time fell from thirty to ten minutes.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is this?", "options": ["Measured result", "Generic lesson"], "correctAnswer": "Measured result" },
+          { "id": "own-post-3", "audio": { "kind": "speech-synthesis", "text": "Next time, I would confirm ownership during planning.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What function is stated?", "options": ["Reflection", "Impact"], "correctAnswer": "Reflection" },
+          { "id": "own-post-4", "audio": { "kind": "speech-synthesis", "text": "The search incident lasted fifteen minutes.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Which fact is critical?", "options": ["15-minute duration", "Team size"], "correctAnswer": "15-minute duration" }
         ]
       },
       "pronunciationCues": [

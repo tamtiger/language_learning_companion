@@ -1,92 +1,92 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-sounds",
-  "title": "Hệ thống âm tiếng Anh (English Sounds)",
+  "title": "Đọc phiên âm General American trong từ điển",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
-    "Hiểu bảng ký âm quốc tế IPA là gì",
-    "Phân biệt được nguyên âm ngắn /ɪ/ và nguyên âm dài /iː/",
-    "Tra cứu phiên âm IPA của thuật ngữ công nghệ chính xác"
+    "Nhận biết dấu trọng âm chính ˈ trong phiên âm broad General American",
+    "Đối chiếu một thuật ngữ kỹ thuật với headword và phiên âm trong mục từ điển",
+    "Giải thích vì sao phiên âm tham chiếu không phải là cách phát âm tiếng Anh hợp lệ duy nhất"
   ],
   "vocabulary": [
     {
       "word": "developer",
-      "ipa": "/dɪˈveləpər/",
+      "ipa": "/dɪˈvel.ə.pɚ/",
       "definition": "A person who writes computer software code.",
       "technicalMeaning": "A software engineer who builds applications, services, or tools.",
       "collocations": ["frontend developer", "backend developer", "lead developer"],
       "example": "He works as a backend developer at a tech company.",
-      "commonMistake": "Do not pronounce it as 'đờ-ve-lóp-pờ'. Pronounce it with the stress on the second syllable: /dɪˈveləpər/."
+      "commonMistake": "Do not assign stress from spelling alone. Check the U.S. dictionary entry and locate the primary-stress mark before using the word."
     },
     {
       "word": "database",
-      "ipa": "/ˈdeɪtəbeɪs/",
+      "ipa": "/ˈdeɪ.t̬ə.beɪs/",
       "definition": "A structured set of data held in a computer.",
       "technicalMeaning": "A storage system (SQL or NoSQL) that organizes and manages data.",
       "collocations": ["relational database", "query a database", "database administrator"],
       "example": "The application queries the database for user profile details.",
-      "commonMistake": "Do not drop the ending /s/ sound. Pronounce the /s/ clearly at the end."
+      "commonMistake": "In this reference form, the word ends in /s/. Do not add a vowel after the final consonant."
     }
   ],
   "expressions": [
     {
-      "phrase": "Tra cứu phiên âm",
-      "meaning": "Look up the pronunciation in the dictionary.",
+      "phrase": "Check the dictionary entry",
+      "meaning": "Kiểm tra headword, nhãn U.S. và phiên âm tham chiếu trước khi dùng từ.",
       "tone": "neutral",
-      "example": "Always look up the IPA phonetic spelling when learning a new word.",
-      "alternatives": ["Check the dictionary pronunciation"]
+      "example": "Before the demo, check the dictionary entry for architecture.",
+      "alternatives": ["Look up a U.S. dictionary entry", "Verify the stress pattern"]
     }
   ],
   "reading": {
-    "title": "Tầm quan trọng của IPA đối với Lập trình viên",
-    "sourceType": "Giáo trình nội bộ",
-    "content": "Nhiều kỹ sư phần mềm Việt Nam thường phát âm tiếng Anh theo kiểu 'word-by-word' hoặc đoán mò. Ví dụ, từ 'developer' hay bị đọc sai thành 'đờ-ve-lóp-pờ'. Việc học bảng ký âm quốc tế IPA giúp bạn biết chính xác cách phát âm chuẩn của từng từ như /dɪˈveləpər/. Khi học từ mới, hãy luôn ưu tiên nhìn phiên âm và nghe phát âm mẫu để rèn luyện thói quen tự sửa đổi khẩu hình môi và đặt lưỡi."
+    "title": "[Tình huống mô phỏng] Kiểm tra cách đọc trước buổi demo",
+    "sourceType": "Tình huống mô phỏng",
+    "content": "Before a cross-team demo, Linh sees the words developer and database in the agenda. Instead of guessing from spelling, she opens a trusted dictionary, selects the U.S. entry, and checks the primary-stress mark. She treats the device voice as a synthetic aid, not as a human accent sample. The broad General American transcription is a reference for this lesson, not the only acceptable English pronunciation."
   },
   "exercises": [
     {
       "id": "q1",
       "type": "choice",
-      "question": "Từ 'developer' được nhấn trọng âm ở âm tiết thứ mấy?",
+      "question": "Trong phiên âm từ điển, dấu ˈ cho biết điều gì?",
       "options": [
-        "Âm tiết thứ nhất (de-)",
-        "Âm tiết thứ hai (-ve-)",
-        "Âm tiết thứ ba (-lo-)",
-        "Âm tiết thứ tư (-per)"
+        "Âm tiết ngay sau dấu mang trọng âm chính",
+        "Âm tiết ngay trước dấu luôn được đọc dài",
+        "Từ chỉ có một cách phát âm hợp lệ",
+        "Mọi âm sau dấu phải được đọc to như nhau"
       ],
-      "correctAnswer": ["Âm tiết thứ hai (-ve-)"],
-      "explanation": "Từ /dɪˈveləpər/ có dấu trọng âm ở trước âm tiết thứ hai. Do đó, trọng âm rơi vào '-ve-'."
+      "correctAnswer": ["Âm tiết ngay sau dấu mang trọng âm chính"],
+      "explanation": "Dấu ˈ được đặt trước âm tiết mang trọng âm chính trong transcription."
     },
     {
       "id": "q2",
       "type": "matching",
-      "question": "Nối các từ sau với phiên âm IPA đúng của chúng:",
+      "question": "Nối headword với phiên âm General American tham chiếu được dùng trong lesson:",
       "matchingPairs": [
         {
           "key": "developer",
-          "value": "/dɪˈveləpər/"
+          "value": "/dɪˈvel.ə.pɚ/"
         },
         {
           "key": "database",
-          "value": "/ˈdeɪtəbeɪs/"
+          "value": "/ˈdeɪ.t̬ə.beɪs/"
         }
       ],
       "correctAnswer": [
-        "developer - /dɪˈveləpər/",
-        "database - /ˈdeɪtəbeɪs/"
+        "developer - /dɪˈvel.ə.pɚ/",
+        "database - /ˈdeɪ.t̬ə.beɪs/"
       ],
-      "explanation": "developer nối với /dɪˈveləpər/ và database nối với /ˈdeɪtəbeɪs/."
+      "explanation": "Lesson dùng hai transcription này làm reference; một dictionary hoặc dialect khác có thể ghi biến thể hợp lệ khác."
     },
     {
       "id": "q3",
       "type": "fill",
-      "question": "Điền từ thích hợp vào chỗ trống: 'A structured set of data held in a computer is a ______.'",
+      "question": "Điền ký hiệu đặt trước âm tiết mang trọng âm chính: ___",
       "options": [
-        "developer",
-        "database"
+        "ˈ",
+        "ˌ"
       ],
-      "correctAnswer": ["database"],
-      "explanation": "Database (cơ sở dữ liệu) là tập hợp dữ liệu có cấu trúc được lưu trên máy tính."
+      "correctAnswer": ["ˈ"],
+      "explanation": "ˈ đánh dấu primary stress; ˌ thường đánh dấu secondary stress."
     }
   ]
 }

@@ -26,6 +26,8 @@ baseline → input → auto-check → performance → self-feedback
 ```
 
 - Làm baseline trước khi được xem model response.
+- Xem hợp đồng đầu ra lấy trực tiếp từ lesson: timebox, độ dài mục tiêu và các
+  thành phần bắt buộc trước khi bắt đầu nói/viết.
 - Nhiệm vụ dựa trên bằng chứng có thể đưa log, channel note hoặc handoff riêng
   cho từng phase, để người học viết từ dữ kiện thay vì tự bịa tình huống.
 - Tạo spoken hoặc written output trong timebox.
@@ -63,7 +65,7 @@ read once rồi ẩn source → extract action/constraint/evidence
 → explain/apply → retry → unseen transfer → delayed retrieval
 ```
 
-- Textarea baseline/transfer/review chỉ mở sau khi source đã ẩn.
+- Textarea baseline/retry/transfer/review chỉ mở sau khi source đã ẩn.
 - Extraction có feedback tức thời; explain/apply draft và đáp án chỉ ở session.
 - Transfer/review dùng source mới cùng workflow để tránh học thuộc một passage.
 
@@ -114,10 +116,15 @@ Có 12 capability mission v3 — hai mission cho mỗi mục tiêu:
 | Phỏng vấn quốc tế | Technical decision; behavioral ownership | Spoken |
 | Học công nghệ bằng tiếng Anh | API learning plan; troubleshooting from docs | Written |
 
-Ngoài 12 mission trên, sáu pronunciation lesson vẫn chạy được và chỉ hoàn thành
-khi mọi auto-check đều đúng. Content
+Ngoài 12 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
+và chỉ hoàn thành khi mọi auto-check đều đúng; kết quả quiz không đánh giá phát âm
+khi nói. Content
 engine đọc và normalize an toàn lesson schema v1, v2 và v3; executable
 curriculum nằm trong `content/**/*.json`.
+
+Mọi source artifact trong curriculum được phân loại bằng provenance chuẩn hoặc
+disclosure synthetic/non-production ngay trong nội dung. Link nguồn chỉ mở khi
+người học chủ động chọn; lesson vẫn chạy offline nếu không mở link.
 
 `Actionable issue update` là realism pilot. Sáu spoken loops và bốn reading
 ladders giúp kiểm

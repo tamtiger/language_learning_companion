@@ -1,0 +1,1108 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260827-224143-complete-realistic-curriculum",
+  "title": "Hoàn thiện curriculum thực tế và có nguồn",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Research và hoàn thiện toàn bộ 18 lesson hiện hành theo content quality gate, provenance trung thực và verification toàn corpus.",
+  "nonGoals": [
+    "Không thêm cloud, account, analytics, AI grading, remote asset hoặc persistence dữ liệu học tập.",
+    "Không tuyên bố efficacy/mastery/CEFR certification khi chưa có dữ liệu người học hoặc listener.",
+    "Không ép migrate/xóa legacy, thêm hàng loạt lesson hoặc đổi schema/UI khi content-only đủ giải quyết.",
+    "Không sao chép proprietary content hoặc tạo fake provenance.",
+    "Không commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Completion matrix và source log bao phủ đủ 18 lesson, mọi claim/source material, evidence, severity, disposition, fact-inference boundary, rights và verification.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-research-integrity-post-s6",
+        "evidence-check-research-matrix-post-s6",
+        "evidence-check-research-package-detailed-post-s6"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Mọi blocker/high trong 12 mission v3 về factual coherence, answerability, phase isolation, realism và timing được sửa bằng evidence packet tự đủ.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-browser-representative-post-s6",
+        "evidence-check-content-focused-post-s6",
+        "evidence-check-runtime-focused-post-s6"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Sáu pronunciation lesson v1 được fact-check theo dialect policy, có objective-duration-assessment nhất quán và không tuyên bố production performance từ quiz-only evidence.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-browser-representative-post-s6",
+        "evidence-check-content-focused-post-s6",
+        "evidence-check-legacy-completion-copy-post-s6",
+        "evidence-check-runtime-focused-post-s6"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Mọi source surface được phân loại; provenance/disclosure đúng contract, không fake source và legacy có disposition/research trace.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-content-focused-post-s6",
+        "evidence-check-research-integrity-post-s6",
+        "evidence-check-research-matrix-post-s6",
+        "evidence-check-research-package-detailed-post-s6"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Regression tests bảo vệ inventory, traceability, phase isolation, timing, provenance/disclosure và objective-assessment invariants.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-content-focused-post-s6",
+        "evidence-check-full-tests-post-s6",
+        "evidence-check-legacy-completion-copy-post-s6",
+        "evidence-check-runtime-focused-post-s6"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Focused/full tests, lint, build và browser walkthrough đại diện pass; offline/privacy giữ nguyên và measured evidence tách khỏi hypothesis.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-browser-representative-post-s6",
+        "evidence-check-build-post-s6",
+        "evidence-check-full-tests-post-s6",
+        "evidence-check-lint-post-s6-clean"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Owner docs, CHANGELOG và package manifests phản ánh production content cuối cùng ở patch version 1.1.3.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-release-portable-file-post-s6",
+        "evidence-check-release-portable-post-s6",
+        "evidence-check-release-post-s6"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "text": "Research package thực thi đầy đủ prompt: item-level matrix, trace hai chiều, source detail và claim-source map, capability/coverage map, wave log, verification report và residual ledger đều machine-checkable, không còn blocker/high.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-research-package-detailed-post-s6"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "text": "Learner luôn thấy output/time contract trước khi bị chấm; retry reading-ladder hiển thị evidence đúng phase; model duration, meeting assignment và legacy quiz semantics nhất quán với runtime và rubric.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-legacy-completion-copy-post-s6",
+        "evidence-check-runtime-focused-post-s6"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/*.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "content/**/*.json",
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "package-lock.json",
+    "package.json",
+    "PRODUCT.md",
+    "README.md",
+    "scripts/check-curriculum-research.mjs",
+    "src/content/catalog.test.ts",
+    "src/content/content_quality.test.ts",
+    "src/content/content.test.ts",
+    "src/content/normalization.test.ts",
+    "src/content/schema.test.ts",
+    "src/features/lesson/LessonFlow.test.tsx",
+    "src/features/lesson/LessonFlow.tsx",
+    "src/features/practice/CapabilityTask.test.tsx",
+    "src/features/practice/CapabilityTask.tsx",
+    "START_HERE.md",
+    "scripts/check-release.mjs"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "CURRICULUM_RESEARCH_PROMPT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-research-matrix",
+      "description": "Xác minh audit/source package bao phủ 18 lesson và source fields bắt buộc.",
+      "command": "$audit='.harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md';$sources='.harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md';$files=@(rg --files content | Where-Object { $_ -match '\\.json$' });if($files.Count -ne 18){Write-Error 'Expected 18 lessons';exit 1};$text=Get-Content -LiteralPath $audit -Raw;foreach($f in $files){$lessonId=(Get-Content -LiteralPath $f -Raw | ConvertFrom-Json).lessonId;if($text -notmatch [regex]::Escape($lessonId)){Write-Error \"Missing lesson $lessonId\";exit 1}};$s=Get-Content -LiteralPath $sources -Raw;foreach($term in @('canonical','exact location','license','fact','inference','reuse')){if($s -notmatch [regex]::Escape($term)){Write-Error \"Missing source field $term\";exit 1}}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-4"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md",
+        "@task-contract",
+        "content/**/*.json"
+      ]
+    },
+    {
+      "id": "check-content-focused",
+      "description": "Chạy content/schema/catalog/normalization quality tests.",
+      "command": "npx vitest run src/content/catalog.test.ts src/content/content.test.ts src/content/content_quality.test.ts src/content/normalization.test.ts src/content/schema.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/catalog.test.ts",
+        "src/content/content.test.ts",
+        "src/content/content_quality.test.ts",
+        "src/content/normalization.test.ts",
+        "src/content/schema.test.ts"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Chạy toàn bộ test suite.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy static lint toàn repository.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-browser-representative",
+      "description": "Browser walkthrough đại diện spoken, written reading-ladder và pronunciation trên desktop/mobile, gồm offline/privacy disclosure.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-release",
+      "description": "Xác minh version 1.1.3 đồng bộ và changelog append-only có release mới.",
+      "command": "$p=Get-Content -LiteralPath 'package.json' -Raw|ConvertFrom-Json;$l=Get-Content -LiteralPath 'package-lock.json' -Raw|ConvertFrom-Json;$c=Get-Content -LiteralPath 'CHANGELOG.md' -Raw;if($p.version -ne '1.1.3' -or $l.version -ne '1.1.3' -or $l.packages.''.version -ne '1.1.3'){Write-Error 'Version mismatch';exit 1};if($c -notmatch '(?m)^## \\[1\\.1\\.3\\] - 2026-08-27$'){Write-Error 'Missing 1.1.3 changelog';exit 1}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    {
+      "id": "check-research-integrity",
+      "description": "Xác minh row grammar, exact corpus coverage và source records đã được kiểm chứng.",
+      "command": "$audit='.harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md';$sources='.harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md';$expected=@(Get-ChildItem -Recurse -File -LiteralPath 'content' -Filter '*.json'|ForEach-Object{(Get-Content -Raw -LiteralPath $_.FullName|ConvertFrom-Json).lessonId}|Sort-Object -Unique);$rows=@(Get-Content -LiteralPath $audit|Where-Object{$_ -match '^LESSON\\|'});if($rows.Count -ne 18){Write-Error 'Expected exactly 18 LESSON rows';exit 1};$ids=@();foreach($row in $rows){$p=$row -split '\\|';if($p.Count -ne 9 -or $p[2] -notmatch '^schema=v[13]$' -or $p[3] -notmatch '^surfaces=\\d+$' -or $p[4] -notmatch '^claimClass=.+' -or $p[5] -notmatch '^baseline=(high|medium|low|none)$' -or $p[6] -notmatch '^action=.+' -or $p[7] -notmatch '^verification=.+' -or $p[8] -notin @('status=closed','status=documented-residual')){Write-Error \"Invalid LESSON row: $row\";exit 1};$ids+=$p[1]};if((@($ids|Sort-Object -Unique)).Count -ne 18 -or @(Compare-Object ($expected|Sort-Object) ($ids|Sort-Object)).Count -ne 0){Write-Error 'LESSON IDs do not exactly match corpus';exit 1};$sourceRows=@(Get-Content -LiteralPath $sources|Where-Object{$_ -match '^SOURCE\\|'});if($sourceRows.Count -lt 12){Write-Error 'Expected at least 12 verified SOURCE rows';exit 1};foreach($row in $sourceRows){$p=$row -split '\\|';if($p.Count -ne 11 -or $p[2] -notmatch '^canonical=https://' -or $p[3] -notmatch '^exactLocation=.+' -or $p[4] -notmatch '^version=.+' -or $p[5] -notmatch '^accessedAt=\\d{4}-\\d{2}-\\d{2}$' -or $p[6] -notmatch '^license=https://' -or $p[7] -notmatch '^reuse=(reference-only|quoted|adapted|redistributed)$' -or $p[8] -notmatch '^fact=.+' -or $p[9] -notmatch '^inference=.+' -or $p[10] -ne 'status=verified' -or $row -match 'example\\.(com|org|net)|\\.invalid|localhost|TBD|TODO|unknown'){Write-Error \"Invalid SOURCE row: $row\";exit 1}}",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-4"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md",
+        "@task-contract",
+        "content/**/*.json"
+      ]
+    },
+    {
+      "id": "check-research-package-detailed",
+      "description": "Xác minh item-level inventory, trace hai chiều, source detail/claim map, capability coverage, wave/verification/residual package và zero blocker/high.",
+      "command": "node scripts/check-curriculum-research.mjs .harnix/tasks/20260827-224143-complete-realistic-curriculum/research",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-4",
+        "AC-8"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/*.md",
+        "@task-contract",
+        "content/**/*.json",
+        "scripts/check-curriculum-research.mjs"
+      ]
+    },
+    {
+      "id": "check-runtime-focused",
+      "description": "Khóa contract hiển thị, retry context, model-duration plausibility, meeting proposal và knowledge-only assessment bằng test focused.",
+      "command": "npx vitest run src/content/content_quality.test.ts src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-5",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/content_quality.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "check-release-portable",
+      "description": "Xác minh version và changelog bằng Node để hỗ trợ package-lock có khóa packages rỗng trên mọi PowerShell được hỗ trợ.",
+      "command": "node -e \"const fs=require('node:fs');const p=JSON.parse(fs.readFileSync('package.json','utf8'));const l=JSON.parse(fs.readFileSync('package-lock.json','utf8'));const c=fs.readFileSync('CHANGELOG.md','utf8');if(p.version!=='1.1.3'||l.version!=='1.1.3'||l.packages?.['']?.version!=='1.1.3'||!/^## \\\\[1\\\\.1\\\\.3\\\\] - 2026-08-27$/m.test(c))process.exit(1)\"",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "package-lock.json",
+        "package.json"
+      ]
+    },
+    {
+      "id": "check-legacy-completion-copy",
+      "description": "Xác minh legacy completion chỉ tuyên bố đúng knowledge evidence từ quiz và không gọi đó là đánh giá pronunciation performance.",
+      "command": "npx vitest run src/features/lesson/LessonFlow.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5",
+        "AC-9"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/pronunciation/*.json",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/LessonFlow.tsx"
+      ]
+    },
+    {
+      "id": "check-release-portable-file",
+      "description": "Xác minh version/changelog bằng file Node độc lập để không phụ thuộc quoting hoặc JSON parser của shell.",
+      "command": "node scripts/check-release.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-release.mjs"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence-content-focused-green",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T16:05:37.5945760Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Năm test file content/schema/catalog/normalization pass 96/96, gồm 10 content quality regression mới.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "f4ef04738070bf8b8a5a929c400b2699d5186d727f6b4b0baf0fdb48d9d900f4"
+    },
+    {
+      "id": "evidence-research-matrix-pass",
+      "checkId": "check-research-matrix",
+      "recordedAt": "2026-08-27T16:07:57.8423311Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Completion matrix bao phủ đủ 18 lesson và source log có đầy đủ trường canonical, exact location, license, fact, inference, reuse.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "ce20750c95f8ffd52d17054a49560445087d967fced34e9def089da2f6b2a634"
+    },
+    {
+      "id": "evidence-research-integrity-pass",
+      "checkId": "check-research-integrity",
+      "recordedAt": "2026-08-27T16:07:58.8423311Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Đúng 18 LESSON row đã đóng, ID khớp corpus và 17 SOURCE row đã verified, không có placeholder hoặc nguồn giả.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "85fac1012022c3e9ad973fc6fdcef750abaf39a8f43464041db7ba1e75b70d7a"
+    },
+    {
+      "id": "evidence-release-parser-failure",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T16:07:59.8423311Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Lần chạy đầu thất bại do ConvertFrom-Json mặc định từ chối khóa rỗng hợp lệ của package-lock.json; không phải version mismatch thực tế.",
+      "artifactPaths": [
+        "package-lock.json"
+      ],
+      "inputDigest": "65f637ddc59f52d345cd49fd4a97c9b6d0f4391784f6ed31bc148609b7ec0293"
+    },
+    {
+      "id": "evidence-release-pass",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T16:08:00.8423311Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Lệnh release pass khi bật AsHashtable mặc định cho ConvertFrom-Json: package manifests đồng bộ 1.1.3 và CHANGELOG có entry 2026-08-27.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md"
+      ],
+      "inputDigest": "65f637ddc59f52d345cd49fd4a97c9b6d0f4391784f6ed31bc148609b7ec0293"
+    },
+    {
+      "id": "evidence-content-focused-verifying",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T16:08:59.9107480Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused verification pass 96/96 cho catalog, content, quality, normalization và schema.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "5fe88b399f64ab442c7b1b6818fda4a0ed466993ae36a0bd6758b80d772656ff"
+    },
+    {
+      "id": "evidence-full-tests-verifying",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T16:09:39.7599950Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest pass 30 file, 252 test. Chỉ có warning môi trường jsdom/localStorage và canvas đã biết; không có test failure.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json"
+      ],
+      "inputDigest": "0b4755c138cc5cf889b5c98067f04d52c1cf10991fb4cd94ac0228818e9266a7"
+    },
+    {
+      "id": "evidence-lint-verifying",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T16:10:09.5777049Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint pass không có diagnostic.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "422ac63d40aeb314873f36c339c017f637027856ddd60847dfd0000a7377cea8"
+    },
+    {
+      "id": "evidence-build-verifying",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T16:10:10.5777049Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript và Vite production build pass; còn warning bundle hiện hữu 533.74 kB vượt ngưỡng 500 kB, không do dependency/code mới.",
+      "artifactPaths": [
+        "dist/index.html",
+        "package.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "4e1174b8334016f2adb7b6354ffe012fed2fcab82722046be9f0ffb7a4c3a247"
+    },
+    {
+      "id": "evidence-compliance-review-gap",
+      "recordedAt": "2026-08-27T16:13:44.5998255Z",
+      "result": "fail",
+      "summary": "Independent compliance review: matrix/source log chưa đạt granularity và field contract của prompt; lesson shadowing còn mô tả quiz completion như process evidence; release check mặc định không portable với khóa rỗng của package-lock.",
+      "artifactPaths": [
+        "CURRICULUM_RESEARCH_PROMPT.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md",
+        "content/modules/pronunciation/lesson_06.json",
+        "src/content/content_quality.test.ts",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "evidence-debug-red-contract-gaps",
+      "recordedAt": "2026-08-27T16:23:16.0586581+00:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED 42 test: 9 fail đúng giả thuyết. UI không render outputContract; retry bị loại khỏi read-once; 5 spoken model dưới floor authoring 75 wpm; meeting/lesson06/IPA/completion copy mâu thuẫn với source và evidence thực đo; HTTP 429 wording chưa explicit.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "content/modules"
+      ]
+    },
+    {
+      "id": "evidence-debug-green-contract-gaps",
+      "recordedAt": "2026-08-27T16:26:33.1390239+00:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "GREEN focused 42/42: learner-facing output contract, retry read-once, model-duration floor, meeting proposal, lesson06 knowledge-only, exact IPA fixture, HTTP semantics và legacy completion copy đều pass.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "content/modules"
+      ]
+    },
+    {
+      "id": "evidence-release-portable-shell-red",
+      "checkId": "check-release-portable",
+      "recordedAt": "2026-08-27T16:45:30.143Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED: command inline Node dùng regex escape theo POSIX nên PowerShell truyền dư backslash và trả exit 1, dù ba version đều là 1.1.3 và heading tồn tại.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "050bfa66d43ba607045f059139c0fd531218901595e6721b6bb6a44de0105b8e"
+    },
+    {
+      "id": "evidence-independent-research-review-gap-2",
+      "recordedAt": "2026-08-27T16:49:01.758Z",
+      "result": "fail",
+      "summary": "Independent research review: matrix gộp nested content, 688 evidenceIds không resolve, trace all-to-all, synthetic bị xếp factual, claim-source reverse chưa kiểm và self-validating tạo bypass.",
+      "artifactPaths": [
+        "CURRICULUM_RESEARCH_PROMPT.md",
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ]
+    },
+    {
+      "id": "evidence-independent-source-review-gap-2",
+      "recordedAt": "2026-08-27T16:49:01.760Z",
+      "result": "fail",
+      "summary": "Independent source review: SOURCE_JSON.supportedClaims không dùng exact claim IDs, Cepeda exact location quá rộng và hai frozen inline release command phụ thuộc shell.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-release.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ]
+    },
+    {
+      "id": "evidence-runtime-review-focus-gap",
+      "recordedAt": "2026-08-27T16:49:01.761Z",
+      "result": "fail",
+      "summary": "Independent runtime review: zero blocker/high; Medium accessibility vì focus rơi về body sau khi đóng read-once source thay vì chuyển vào textbox.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-debug-focus-red",
+      "recordedAt": "2026-08-27T17:27:34.059Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED accessibility: sau khi đóng read-once source ở retry, document.activeElement là BODY thay vì TEXTAREA.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "evidence-debug-focus-green",
+      "recordedAt": "2026-08-27T17:27:34.059Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "GREEN: one-shot focus chuyển vào textarea sau read-once, không focus-steal khi resume/typing; CapabilityTask pass 25/25 và desktop/mobile không overflow.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "evidence-independent-research-review-ready",
+      "recordedAt": "2026-08-27T17:27:34.059Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Independent package review: zero blocker/high; manifest 86/86 digest-locked, 2.903 ITEM, source graph 29/46/50, phase structural basis và anti-self-validation đều sạch; chỉ W6/verification pending.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ]
+    },
+    {
+      "id": "evidence-independent-release-disposition-ready",
+      "recordedAt": "2026-08-27T17:27:34.059Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Independent release disposition review: file-based validator là portability authority; hai frozen inline checks chỉ compatibility evidence và interpreter dependency được ghi residual low.",
+      "artifactPaths": [
+        "scripts/check-release.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/prioritized-backlog.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/execution-wave-log.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/residual-ledger.md"
+      ]
+    },
+    {
+      "id": "evidence-final-research-matrix",
+      "checkId": "check-research-matrix",
+      "recordedAt": "2026-08-27T17:28:05.587Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Đủ 18 lesson trong completion matrix; source log có canonical, exact location, license, fact, inference và reuse.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "48375f110e1af8a233a827a340a3f80bcb97187514dee22b161a29c1879231df"
+    },
+    {
+      "id": "evidence-final-content-focused",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T17:28:29.917Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content/schema/catalog/normalization verification pass: 5 files, 98 tests.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "710a37a012c8d18b2cdd6605f91d6184b7965182f325c4c0e0773a78cce995ed"
+    },
+    {
+      "id": "evidence-final-full-tests",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T17:29:12.811Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest pass: 30 files, 257 tests. Chỉ có warning jsdom localStorage/canvas đã biết, không có failure.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json"
+      ],
+      "inputDigest": "ac7d634756fb838fa5de2b21c7b2e6e9035d8a28586bdd2704d6489b771aee4d"
+    },
+    {
+      "id": "evidence-final-lint",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T17:29:31.263Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint pass toàn repository, không có diagnostic.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "d89345c5a9961746d29be3a5153b0e348dd52a82f464bdd192b30767f3c5bdcf"
+    },
+    {
+      "id": "evidence-final-build-red",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T17:29:58.370Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED build: content_quality.test.ts truy cập audio.text trên union trước khi narrow kind; tsc báo TS2339 tại các assertion model duration.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "fcd4bcdb82c323329a02e7f21ba9d9c3deb6bf01bf3e79d6fbf6bb09e3941419"
+    },
+    {
+      "id": "evidence-final-build-green",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T17:30:32.205Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "GREEN build: TypeScript và Vite production build pass sau khi narrow audio union; còn warning chunk 537.92 kB đã ghi residual.",
+      "artifactPaths": [
+        "dist/index.html",
+        "src/content/content_quality.test.ts",
+        "src",
+        "content"
+      ],
+      "inputDigest": "a0ce74648704f4478819246a81f1656b6a1d7caacfe70729dff257441e850d76"
+    },
+    {
+      "id": "evidence-final-release-compat-powershell",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T17:31:15.925Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Frozen PowerShell release command pass khi interpreter bật ConvertFrom-Json:AsHashtable; manifests là 1.1.3 và CHANGELOG có entry 2026-08-27. Đây là compatibility evidence, không phải portability authority.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "PRODUCT.md"
+      ],
+      "inputDigest": "67775c9b1c9f45ca5c1a6e5437f95a6b2294bac2b9f34c225f1933b94f85c27f"
+    },
+    {
+      "id": "evidence-final-research-integrity",
+      "checkId": "check-research-integrity",
+      "recordedAt": "2026-08-27T17:31:47.609Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "18 LESSON rows khớp exact corpus; SOURCE rows đúng grammar, HTTPS, version/access/license/reuse/fact/inference và không có placeholder.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "32d57cf031bf31540ac73b68236f63a1b7f668ba3474ecf8c48124866dd6aa34"
+    },
+    {
+      "id": "evidence-final-release-portable-compat-gitbash",
+      "checkId": "check-release-portable",
+      "recordedAt": "2026-08-27T17:32:14.247Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Frozen inline Node command pass nguyên văn trong Git Bash. Đây là compatibility evidence; scripts/check-release.mjs mới là cross-shell portability authority.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "d09538c2b55d116af65113a98313a5efe1e9ec79315c6ee31ae21fe8e451d895"
+    },
+    {
+      "id": "evidence-final-release-portable-file",
+      "checkId": "check-release-portable-file",
+      "recordedAt": "2026-08-27T17:32:31.981Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Cross-shell file validator pass: package/package-lock 1.1.3 và exact CHANGELOG heading 2026-08-27.",
+      "artifactPaths": [
+        "scripts/check-release.mjs",
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "e5cf005c09839860ba1ebdf6e182223f95a00d7ccd1a8ff31141297849e5df27"
+    },
+    {
+      "id": "evidence-final-legacy-completion-copy",
+      "checkId": "check-legacy-completion-copy",
+      "recordedAt": "2026-08-27T17:34:10.087Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "LessonFlow legacy pass 5/5; completion copy của bài pronunciation mô tả quiz là bằng chứng kiến thức, không suy diễn năng lực nói.",
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "content/modules/pronunciation"
+      ],
+      "inputDigest": "3c5c000afe0831fed190700598207fe10fe8471f2c77a67a48092cf345b60cd3"
+    },
+    {
+      "id": "evidence-final-runtime-focused",
+      "checkId": "check-runtime-focused",
+      "recordedAt": "2026-08-27T17:34:43.782Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Runtime/content focused pass: 2 files, 37 tests; output contract, read-once/retry focus, phase isolation và content invariants đều pass.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "a8e85830bb8d2673ad34682cc7ff107ed45d130e1d28cf11dab40766cf95bc49"
+    },
+    {
+      "id": "evidence-final-content-focused-refresh",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T17:35:13.911Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content/schema/catalog/normalization verification pass sau type narrowing: 5 files, 98 tests.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "5b664747ab78f867de4305097cc104cd03484daa234bd597a7d1632f51e5b713"
+    },
+    {
+      "id": "evidence-final-full-tests-refresh",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T17:35:51.663Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest pass sau type narrowing: 30 files, 257 tests; chỉ warning jsdom localStorage/canvas đã biết.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json"
+      ],
+      "inputDigest": "acc9c9da273f67fed6507879935eb6c59675f48d81b354d8066b20c7b8af411e"
+    },
+    {
+      "id": "evidence-final-lint-refresh",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T17:36:07.780Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint pass toàn repository sau type narrowing, không có diagnostic.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "b934cfb9a33d382879f6fbac385f9ba42780ddfcc9a0af092b0888f60e254f77"
+    },
+    {
+      "id": "evidence-final-browser-representative",
+      "checkId": "check-browser-representative",
+      "recordedAt": "2026-08-27T17:41:10.953Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Browser walkthrough pass: spoken contract 30–60s + provenance; written contract 45–100 từ/240s, read-once khóa rồi focus TEXTAREA, reading ladder và draft mất sau reload; pronunciation exact IPA + synthetic disclaimer + knowledge-only completion; mobile 390×844 không overflow; production vẫn chạy sau khi dừng server, chỉ tải JS/CSS cùng origin; Settings/footer xác nhận local-only và không persist audio/transcript/answer; console không có error.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "content/modules",
+        "dist"
+      ],
+      "inputDigest": "376c738b4ec9437ba49865ac2b05c0876ccecfc850110901c53ac1cc9d6a085f"
+    },
+    {
+      "id": "evidence-final-research-package-detailed",
+      "checkId": "check-research-package-detailed",
+      "recordedAt": "2026-08-27T17:44:59.780Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Detailed package validator pass: 18 lessons, 2.903 items, 81 source surfaces, 86 required traces, 72 model traces, 50 objective traces, 46 claims, 29 sources, 6 capabilities, 18 coverage rows và 10 residuals; không còn blocker/high.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ],
+      "inputDigest": "2dbfd9da79c45b7770ee7e37580caf426fa7e6a5a1ed1b1b5569197f1b36794c"
+    },
+    {
+      "id": "evidence-independent-final-research-review-ready",
+      "recordedAt": "2026-08-27T17:48:41.310Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Independent final review READY: zero blocker/high; W6 13/13, verification report không self-validate, 2.903 ITEM không duplicate/missing/gap, 10 residual chỉ medium/low và claim không nguồn duy nhất được ghi rõ hypothesis.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research",
+        "scripts/check-curriculum-research.mjs"
+      ]
+    },
+    {
+      "id": "evidence-check-research-matrix-post-s6",
+      "checkId": "check-research-matrix",
+      "recordedAt": "2026-08-27T17:49:32.158Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Completion/source matrix vẫn bao phủ đủ 18 lesson và các trường nguồn bắt buộc sau khi đóng S6.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "07a4e0531e0379e9629e37244a2e199011a886149aba25eca79c46c676d39708"
+    },
+    {
+      "id": "evidence-check-content-focused-post-s6",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T17:49:40.926Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content/schema/catalog/normalization pass: 5 files, 98 tests sau khi đóng S6.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ],
+      "inputDigest": "97ed3b5bc03a24f99247e2d0c70ea95b4667a515d221fd923361139efc972e95"
+    },
+    {
+      "id": "evidence-check-full-tests-post-s6-timeout",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T17:50:38.480Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED sau khi đóng S6: npm test đạt 256/257 nhưng test binds listen-back evidence to the current recording after redo chạm timeout 5s; cùng test đã pass ở các lượt trước. Giả thuyết: tải song song làm test async vượt budget, không phải regression logic; chạy riêng test là discriminating check.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "9754aed1b96111ee7e3a940235a9865aa65b2d5df4b4b4020451636b0b1014eb"
+    },
+    {
+      "id": "evidence-debug-full-suite-timeout-isolated-green",
+      "recordedAt": "2026-08-27T17:51:02.255Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Discriminating check pass: test listen-back/redo chạy riêng 1/1 trong 2,93s dưới timeout 5s. Không đổi production/test code; failure full-suite được phân loại intermittent load-related và cần xác nhận lại bằng npm test nguyên lệnh.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-check-full-tests-post-s6",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T17:51:44.480Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest retry pass: 30 files, 257 tests; test listen-back/redo hoàn tất trong 3,96s. Timeout trước được giữ như intermittent load evidence; không sửa code.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json"
+      ],
+      "inputDigest": "9754aed1b96111ee7e3a940235a9865aa65b2d5df4b4b4020451636b0b1014eb"
+    },
+    {
+      "id": "evidence-check-lint-post-s6",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T17:51:54.578Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint pass toàn repository sau khi đóng S6.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "0b96eb49d448acc50a9e228b8af16a42f88793e1bd4b03b8f1d42464c68c25f5"
+    },
+    {
+      "id": "evidence-check-build-post-s6",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T17:52:02.172Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript và Vite production build pass sau khi đóng S6; bundle warning được giữ trong residual R-10.",
+      "artifactPaths": [
+        "dist/index.html",
+        "src",
+        "content"
+      ],
+      "inputDigest": "a18eb35e9c078cad3300535033427553314d5b18fb0dea34efb1c9360cf0c901"
+    },
+    {
+      "id": "evidence-check-release-post-s6",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T17:52:03.793Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Frozen PowerShell compatibility check pass với ConvertFrom-Json AsHashtable; manifests 1.1.3 và CHANGELOG đúng.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "9ab7017f20b912e0fd931efb01360d2dadcd520a6529aed6684c8b7cf599680f"
+    },
+    {
+      "id": "evidence-check-research-integrity-post-s6",
+      "checkId": "check-research-integrity",
+      "recordedAt": "2026-08-27T17:52:05.138Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Research integrity pass: exact 18 lesson và verified SOURCE grammar sau khi đóng S6.",
+      "artifactPaths": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/content-audit.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/source-log.md"
+      ],
+      "inputDigest": "e3da316053b4198dd613bd14520bbbb98398cedea8795c6e9b55fd117a6d6c3c"
+    },
+    {
+      "id": "evidence-check-runtime-focused-post-s6",
+      "checkId": "check-runtime-focused",
+      "recordedAt": "2026-08-27T17:52:23.158Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Runtime/content focused pass: 2 files, 37 tests sau khi đóng S6.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "eff6ecc99ec8bb0978f5729be1be8e3973290fadf77c6b6c7d015db00afb06e9"
+    },
+    {
+      "id": "evidence-check-release-portable-post-s6",
+      "checkId": "check-release-portable",
+      "recordedAt": "2026-08-27T17:52:25.103Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Frozen inline Node compatibility command pass nguyên văn trong Git Bash sau khi đóng S6.",
+      "artifactPaths": [
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "49872120b80d6ca769817ab38b9da52a85137fba63dd6c3610d9ccbb306fc735"
+    },
+    {
+      "id": "evidence-check-legacy-completion-copy-post-s6",
+      "checkId": "check-legacy-completion-copy",
+      "recordedAt": "2026-08-27T17:52:41.461Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "LessonFlow legacy pass: 1 file, 5 tests; completion vẫn knowledge-only.",
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.tsx",
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "abca7fe010ce3a79ec323f0169422d42be24a38018d6a7f2f2bc8892a03b0ce5"
+    },
+    {
+      "id": "evidence-check-release-portable-file-post-s6",
+      "checkId": "check-release-portable-file",
+      "recordedAt": "2026-08-27T17:52:42.784Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Cross-shell file validator pass cho version/changelog 1.1.3 sau khi đóng S6.",
+      "artifactPaths": [
+        "scripts/check-release.mjs",
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md"
+      ],
+      "inputDigest": "db721a1e6ce768c612662fe294fd42fc718a914755a32331457d71d81b95dc48"
+    },
+    {
+      "id": "evidence-check-browser-representative-post-s6",
+      "checkId": "check-browser-representative",
+      "recordedAt": "2026-08-27T17:54:37.979Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Browser production recheck sau S6 pass: spoken contract/provenance; written 45–100 từ/240s và read-once disabled→enabled focus TEXTAREA trên origin sạch; exact IPA + synthetic/non-exclusive boundary; mobile 390×844 không overflow; sau khi dừng server app vẫn render và Settings xác nhận metadata-only/no audio-transcript-answer; console 0 error.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/lesson/LessonFlow.tsx",
+        "content/modules",
+        "dist"
+      ],
+      "inputDigest": "eb8769f4f932954d03e19be18d9332b1b74c6c87d40179df13590dab4580cfe7"
+    },
+    {
+      "id": "evidence-check-research-package-detailed-post-s6",
+      "checkId": "check-research-package-detailed",
+      "recordedAt": "2026-08-27T17:59:55.885Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Detailed final validator sau S6 pass: 18 lesson, 2.903 item, 81 source surfaces, 86/72/50 trace, 46 claim, 29 source, 6 capability, 18 coverage row, 10 residual; zero blocker/high.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ],
+      "inputDigest": "2c758a432a903e1cc1bd0615cd5015ad1ff4655013de2edffcf87f7051336240"
+    },
+    {
+      "id": "evidence-check-lint-post-s6-clean",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T18:00:19.428Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "oxlint pass sạch toàn repository sau khi xóa helper tạm; không có diagnostic hoặc warning.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "src",
+        "content"
+      ],
+      "inputDigest": "0b96eb49d448acc50a9e228b8af16a42f88793e1bd4b03b8f1d42464c68c25f5"
+    }
+  ],
+  "createdAt": "2026-08-27T15:45:16.316Z",
+  "updatedAt": "2026-08-27T18:00:57.231Z",
+  "completedAt": "2026-08-27T18:00:57.231Z"
+}

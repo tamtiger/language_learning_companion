@@ -164,6 +164,8 @@ describe('generic capability lesson flow', () => {
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     expect(screen.getByRole('heading', { name: /bài pronunciation đã hoàn thành/i })).toBeTruthy()
+    expect(screen.getByText(/câu hỏi kiến thức/i)).toBeTruthy()
+    expect(screen.getByText(/không phải đánh giá pronunciation performance/i)).toBeTruthy()
     await user.click(screen.getByRole('button', { name: /học lại từ đầu/i }))
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]?.completedExerciseIds).toEqual([])
   })
