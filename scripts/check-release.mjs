@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 
-const expectedVersion = '1.1.3'
-const expectedHeading = `## [${expectedVersion}] - 2026-08-27`
+const expectedVersion = '1.1.4'
+const expectedHeading = `## [${expectedVersion}] - 2026-08-28`
 const packageJson = JSON.parse(readFileSync('package.json', 'utf8'))
 const packageLock = JSON.parse(readFileSync('package-lock.json', 'utf8'))
 const changelog = readFileSync('CHANGELOG.md', 'utf8')

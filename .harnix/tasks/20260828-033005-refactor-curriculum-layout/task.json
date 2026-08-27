@@ -1,0 +1,733 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260828-033005-refactor-curriculum-layout",
+  "title": "Refactor cấu trúc curriculum theo capability",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Tổ chức lại 18 lesson thành mission theo capability và pronunciation reference, giữ nguyên toàn bộ payload/runtime, đồng thời duy trì khả năng xác minh research archive mà không sửa lịch sử đã hoàn tất.",
+  "nonGoals": [
+    "Không thay đổi lessonId, schema, capability, mode, nội dung học, completion semantics hoặc hành vi UI.",
+    "Không thêm lesson, dependency, network, storage, analytics hoặc phạm vi sản phẩm mới.",
+    "Không sửa bất kỳ task/research Harnix đã hoàn tất nào.",
+    "Không commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Mười hai mission v3 nằm tại content/missions/<primary-capability>/<lesson-id>.json, sáu pronunciation v1 nằm tại content/reference/pronunciation/<lesson-id>.json, không còn content/modules và cả 18 file là rename 100% không đổi payload.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-content-focused-post-plan",
+        "evidence-check-preservation-post-plan"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Catalog và runtime vẫn nạp đúng 18 lesson gồm 12 v3, 6 v1, 6 spoken, 6 written và 6 quiz; toàn bộ lessonId, capability và completion behavior được giữ nguyên.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-content-focused-post-plan",
+        "evidence-check-full-tests-post-plan",
+        "evidence-check-build-post-plan"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Validator research chi tiết vẫn xác minh task 20260827-224143-complete-realistic-curriculum trên corpus đã chuyển đường dẫn bằng projection giới hạn theo task ID và lessonId, vẫn kiểm digest/JSON pointer, đồng thời mọi artifact lịch sử giữ nguyên byte.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-validator-unit-post-plan",
+        "evidence-check-archive-research-post-plan",
+        "evidence-check-preservation-post-plan"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "CONTENT.md, ARCHITECTURE.md và README.md mô tả taxonomy authoring mới; patch version 1.1.4 được đồng bộ trong package manifests, CHANGELOG và release validator.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-docs-post-plan",
+        "evidence-check-release-post-plan"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Focused/full tests, validator unit/integration, lint, build, release và preservation checks đều pass; không có thay đổi ngoài phạm vi.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-check-archive-research-post-plan",
+        "evidence-check-build-post-plan",
+        "evidence-check-content-focused-post-plan",
+        "evidence-check-full-tests-post-plan",
+        "evidence-check-lint-post-plan",
+        "evidence-check-preservation-post-plan",
+        "evidence-check-release-post-plan",
+        "evidence-check-validator-unit-post-plan"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/*.md",
+    ".harnix/tasks/20260827-224143-complete-realistic-curriculum/task.json",
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "README.md",
+    "content/**/*.json",
+    "package-lock.json",
+    "package.json",
+    "scripts/check-curriculum-research.mjs",
+    "scripts/check-curriculum-research.test.mjs",
+    "scripts/check-release.mjs",
+    "src/content/catalog.test.ts",
+    "src/content/catalog.ts",
+    "src/content/content.test.ts",
+    "src/content/content_quality.test.ts",
+    "src/content/normalization.test.ts",
+    "src/content/schema.test.ts"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-archive-research",
+      "description": "Chạy validator research chi tiết trên task lịch sử với corpus ở layout mới.",
+      "command": "node scripts/check-curriculum-research.mjs .harnix/tasks/20260827-224143-complete-realistic-curriculum/research",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/*.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/task.json",
+        "@task-contract",
+        "content/**/*.json",
+        "scripts/check-curriculum-research.mjs"
+      ]
+    },
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và production build.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-content-focused",
+      "description": "Chạy toàn bộ test content/schema/catalog/normalization sau migration.",
+      "command": "npx vitest run src/content/catalog.test.ts src/content/content.test.ts src/content/content_quality.test.ts src/content/normalization.test.ts src/content/schema.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/catalog.test.ts",
+        "src/content/catalog.ts",
+        "src/content/content.test.ts",
+        "src/content/content_quality.test.ts",
+        "src/content/normalization.test.ts",
+        "src/content/schema.test.ts"
+      ]
+    },
+    {
+      "id": "check-docs",
+      "description": "Đối chiếu owner docs với taxonomy missions/reference và nguyên tắc field quyết định semantics.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Chạy toàn bộ test suite.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "scripts/**/*.mjs",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy static lint toàn repository.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        ".oxlintrc.json",
+        "@task-contract",
+        "scripts/**/*.mjs",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-preservation",
+      "description": "Xác minh diff sạch, 18 rename 100% và task/research lịch sử không bị sửa.",
+      "command": "git diff --check; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; git diff --exit-code -- .harnix/tasks/20260827-224143-complete-realistic-curriculum",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research/*.md",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/task.json",
+        "@task-contract",
+        "content/**/*.json"
+      ]
+    },
+    {
+      "id": "check-release",
+      "description": "Xác minh version 1.1.4 đồng bộ và changelog có release ngày 2026-08-28.",
+      "command": "node scripts/check-release.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-release.mjs"
+      ]
+    },
+    {
+      "id": "check-validator-unit",
+      "description": "Khóa projection task-specific, no-op cho task khác và lỗi mapping thiếu/trùng.",
+      "command": "node --test scripts/check-curriculum-research.test.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence-layout-red",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T20:38:28.5854165Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng contract: layout test fail vì lesson v3 đầu tiên vẫn ở content/modules/capabilities thay vì content/missions/<primary-capability>.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/modules"
+      ]
+    },
+    {
+      "id": "evidence-layout-narrow-green",
+      "recordedAt": "2026-08-27T20:40:11.0093575Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Narrow taxonomy regression pass 1/1 sau khi di chuyển đủ 18 JSON; pre/post SHA-256 của từng file giống nhau.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts",
+        "content/missions",
+        "content/reference/pronunciation"
+      ]
+    },
+    {
+      "id": "evidence-archive-path-red",
+      "checkId": "check-archive-research",
+      "recordedAt": "2026-08-27T20:40:11.0093575Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng compatibility gap: validator báo 12.436 location/unknown-corpus-path errors vì research archive dùng content/modules trong khi live corpus đã chuyển; digest nội dung không đổi.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research",
+        "content"
+      ]
+    },
+    {
+      "id": "evidence-content-implementation-green",
+      "recordedAt": "2026-08-27T20:40:57.0922056Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Implementation GREEN: 5 content/schema/catalog/normalization test files pass 99/99 với layout mới.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-validator-implementation-green",
+      "recordedAt": "2026-08-27T20:44:55.3327206Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Validator GREEN: unit 5/5 và archive integration pass đủ 18 lesson, 2.903 item, 81 source surface, 86/72/50 traces; map chỉ cho exact historical task.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs"
+      ]
+    },
+    {
+      "id": "evidence-docs-release-implementation-green",
+      "recordedAt": "2026-08-27T20:44:55.3327206Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Ba owner docs mô tả missions/reference và field-owned semantics; release validator pass version 1.1.4 với heading 2026-08-28.",
+      "artifactPaths": [
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ]
+    },
+    {
+      "id": "evidence-check-content-focused-final",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T20:46:20.2952928Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh focused content gate pass: 5 files, 99 tests; inventory/layout/schema/catalog/normalization đều xanh.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "7ba795b1cb3e6d92ec4e3e0d1b383bf003ebb6486ff4541a1d79db1b3f321929"
+    },
+    {
+      "id": "evidence-check-validator-unit-final",
+      "checkId": "check-validator-unit",
+      "recordedAt": "2026-08-27T20:46:33.6897372Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh validator unit gate pass 5/5: exact-task projection, unknown-task no-op, missing mapping, duplicate path và unsafe path.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "56a3ecdd823fcbc0f18156dd13c1f3b78dede2377ff306dd31d9de16c86c54c2"
+    },
+    {
+      "id": "evidence-check-archive-research-final",
+      "checkId": "check-archive-research",
+      "recordedAt": "2026-08-27T20:46:57.3095587Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh archive validator pass: 18 lesson, 2.903 item, 81 source surface, 86 required, 72 model, 50 objective, 46 claim, 29 source, 6 capability, 18 coverage, 10 residual.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ],
+      "inputDigest": "1be87780ee5a6ae436c4d3d5259e9fe956989d9ffdb0e774ffa87dbc07ea3325"
+    },
+    {
+      "id": "evidence-check-docs-literal-probe-fail",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-27T20:47:30.3973660Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Probe exact-string quá chặt: CONTENT.md biểu diễn taxonomy bằng cây nhiều dòng nên không chứa path phẳng nguyên văn; corpus inventory vẫn đúng. Cần rerun bằng structural/semantic inspection.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "README.md"
+      ]
+    },
+    {
+      "id": "evidence-check-docs-final",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-27T20:48:33.1121347Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh structural/semantic docs inspection pass: 12 v3 mission, 6 v1 reference đúng path; 3 owner docs mô tả taxonomy và schema/field-owned runtime semantics.",
+      "artifactPaths": [
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md"
+      ],
+      "inputDigest": "b4250ca240a2ac7cb85db36a2e8e5b62cd1b0115d4f83f3aa4e2e4ba818f6011"
+    },
+    {
+      "id": "evidence-check-release-final",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T20:48:49.2632608Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh release gate pass: package.json, package-lock root/package và CHANGELOG đồng bộ version 1.1.4, ngày 2026-08-28.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "f5bc9ebd100ecfd4e099952683763cce0c92cf7e126a12503faf0f005d354c46"
+    },
+    {
+      "id": "evidence-check-preservation-final",
+      "checkId": "check-preservation",
+      "recordedAt": "2026-08-27T20:49:54.0070220Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh preservation gate pass: git diff --check sạch, completed historical task bất biến; 18 old/new lesson ID khớp và 18/18 Git blob byte-identical.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum"
+      ],
+      "inputDigest": "8f7c1052e8b6387e9fbe9f8d84d34c49d66c798f42b61e8c0238dfe0e65dfa38"
+    },
+    {
+      "id": "evidence-check-full-tests-collection-fail",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T20:50:59.3118210Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Fresh full suite fail: Vitest thu thập node:test file và báo No test suite found; đồng thời hai UI test timeout dưới run lỗi. Kết quả 28/31 files, 256/258 tests pass; pre/post digest 27d476... khớp.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.test.mjs",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-debug-runner-hypothesis-confirmed",
+      "recordedAt": "2026-08-27T20:51:48.7968815Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Hypothesis confirmed: targeted Vitest exits 1 No test suite found, while node --test passes 5/5 on the same file; suffix collection plus wrong runner registration is root cause.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.test.mjs"
+      ]
+    },
+    {
+      "id": "evidence-debug-dual-runner-green",
+      "recordedAt": "2026-08-27T20:52:43.3532711Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Contained recovery pass: validator regression chạy được 5/5 dưới cả Vitest và node:test; hai UI test timeout trước đó pass riêng 1/1 trong khoảng 2–3 giây, không cần nới timeout.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.test.mjs",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-check-validator-unit-post-debug",
+      "checkId": "check-validator-unit",
+      "recordedAt": "2026-08-27T20:52:58.5056236Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh post-debug validator unit gate pass 5/5 dưới node:test; dual-runner registration giữ Vitest collection hợp lệ.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "7cde595b7cbc4e44445d5b08a261a745f125bc23ee3c05eb04ab107332015c09"
+    },
+    {
+      "id": "evidence-check-full-tests-timeout-fail",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T20:54:35.6728238Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Post-runner-fix full suite vẫn fail do 3 UI tests chạm đúng 5s dưới parallel load; 28/31 files và 260/263 tests pass. Validator file được Vitest collect đúng 5/5.",
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-debug-worker-contention-confirmed",
+      "recordedAt": "2026-08-27T20:55:43.3241296Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Worker-contention hypothesis confirmed: full Vitest suite với --maxWorkers=4 pass 31/31 files, 263/263 tests; ba test từng timeout hoàn tất khoảng 2.0–3.1 giây.",
+      "artifactPaths": [
+        "package.json",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-check-full-tests-final",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T20:56:41.0940846Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh exact npm test pass sau cap 4 worker: 31 test files, 263 tests; validator dual-runner và toàn bộ UI suite đều xanh.",
+      "artifactPaths": [
+        "package.json",
+        "scripts/check-curriculum-research.test.mjs",
+        "src",
+        "content"
+      ],
+      "inputDigest": "f719260677291acd37689879972d5498d5f7dd425970ae1448f6bbfe20585dac"
+    },
+    {
+      "id": "evidence-check-release-post-debug",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T20:56:55.8988010Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh post-debug release gate pass: version 1.1.4 và changelog 2026-08-28 đồng bộ, gồm test-runner stability note.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "858d253c552bd6bdf6b8b40e69e9baa83cd25d1d84907046bae7547264afbc4a"
+    },
+    {
+      "id": "evidence-check-lint-final",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T20:57:09.2076202Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh repository lint pass sạch; không có oxlint warning hoặc error.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "scripts",
+        "src"
+      ],
+      "inputDigest": "4034cb3eb0cd4b1777cb45d69e707bb81d2455af0c29fe7d311117844d4eca80"
+    },
+    {
+      "id": "evidence-check-build-final",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T20:57:38.5641265Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Fresh TypeScript và Vite production build pass; chỉ còn warning bundle-size hiện hữu, không có build error.",
+      "artifactPaths": [
+        "dist",
+        "src",
+        "content",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "2a8c43e7a1117b84e9bfd0e1bd5137cdda74e2639ca8b12d77d2ff8283e2c945"
+    },
+    {
+      "id": "evidence-independent-review-final",
+      "recordedAt": "2026-08-27T20:59:29.7624040Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Independent re-review không còn finding; verdict ready. Runner dual-mode, cap worker và task-specific path projection đều đúng scope/fail-closed.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs",
+        "package.json",
+        "content"
+      ]
+    },
+    {
+      "id": "evidence-check-content-focused-post-plan",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-27T20:59:56.7573077Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: 5 focused content files pass 99/99.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "b8749cc01931b89810c4635b98f7710436a8c6ed93d5c4c32712a37f71bb1151"
+    },
+    {
+      "id": "evidence-check-validator-unit-post-plan",
+      "checkId": "check-validator-unit",
+      "recordedAt": "2026-08-27T21:00:09.1584881Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: validator unit pass 5/5 dưới node:test.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "2a9fd8e8d7bd033a6bcefd483af6d8bba1b8882c95c9273dcd540dbcc66fada9"
+    },
+    {
+      "id": "evidence-check-archive-research-post-plan",
+      "checkId": "check-archive-research",
+      "recordedAt": "2026-08-27T21:00:36.3439551Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: archive validator pass 18 lesson, 2.903 item và toàn bộ trace/source/coverage counts.",
+      "artifactPaths": [
+        "scripts/check-curriculum-research.mjs",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum/research"
+      ],
+      "inputDigest": "46db3c7c5a312b95fbaf4cd91fab61c64aca723dcc9a6f9dd2e093e94777afe8"
+    },
+    {
+      "id": "evidence-check-docs-post-plan",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-27T21:00:52.7853953Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: docs/corpus structural inspection pass 12 mission, 6 reference, 3 owner docs.",
+      "artifactPaths": [
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md"
+      ],
+      "inputDigest": "cefccaf9efb5790b214a9769fd9ca144e0b354af8ded0bb4bc5a1a511bb494d2"
+    },
+    {
+      "id": "evidence-check-release-post-plan",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-27T21:01:02.6865947Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: release 1.1.4 và heading 2026-08-28 đồng bộ.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "01631d5c815935a123e194ae0e2c34c99f49933cefef472a794c8d8cf8d41141"
+    },
+    {
+      "id": "evidence-check-preservation-post-plan",
+      "checkId": "check-preservation",
+      "recordedAt": "2026-08-27T21:01:24.5779645Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: diff check sạch, completed archive bất biến và 18/18 lesson Git blob byte-identical.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        ".harnix/tasks/20260827-224143-complete-realistic-curriculum"
+      ],
+      "inputDigest": "86ce833265dac46e66eab88aaec85eccef0fc27025377ab17e9d71683de20a0d"
+    },
+    {
+      "id": "evidence-check-full-tests-post-plan",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-27T21:02:13.7854188Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: exact npm test pass 31/31 files, 263/263 tests với cap 4 worker.",
+      "artifactPaths": [
+        "package.json",
+        "scripts/check-curriculum-research.test.mjs",
+        "src",
+        "content"
+      ],
+      "inputDigest": "7af36947f5417baacac26fe7c2a011ca0fe23690219a6af1591a0440003b6efc"
+    },
+    {
+      "id": "evidence-check-lint-post-plan",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-27T21:02:31.0703936Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: full oxlint pass sạch.",
+      "artifactPaths": [
+        ".oxlintrc.json",
+        "scripts",
+        "src"
+      ],
+      "inputDigest": "3096ef9c2a64f441fec1efb3e0f7e735d26c6bd27aa1c3230deabb4d197afafa"
+    },
+    {
+      "id": "evidence-check-build-post-plan",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-27T21:02:55.7275942Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Post-plan freshness: TypeScript và Vite production build pass; chỉ còn bundle-size warning hiện hữu.",
+      "artifactPaths": [
+        "dist",
+        "src",
+        "content",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "c2e9c4ea76d5d43598d714189aed22507baf435f1ee456d47d9682e341c2c049"
+    },
+    {
+      "id": "evidence-final-state-review",
+      "recordedAt": "2026-08-27T21:04:43.0198949Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final state review: 5/5 tiêu chí đạt, 9/9 required check fresh/pass; không waiver, không omitted check, không blocker. Diff đúng phạm vi content/docs/validator/release và task Harnix. Residual duy nhất là warning bundle Vite trên 500 kB đã tồn tại, không chặn build; thay đổi Git được giữ uncommitted theo non-goal.",
+      "artifactPaths": [
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "README.md",
+        "content/missions",
+        "content/reference/pronunciation",
+        "package.json",
+        "scripts/check-curriculum-research.mjs",
+        "src/content/content_quality.test.ts"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-28T03:30:55.12+07:00",
+  "updatedAt": "2026-08-27T21:04:57.331Z",
+  "completedAt": "2026-08-27T21:04:57.331Z"
+}

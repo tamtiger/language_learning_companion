@@ -6,6 +6,24 @@ JSON dưới `content/**/*.json` là executable curriculum và source of truth c
 
 Authoring contract mới dùng `schemaVersion: "v3"`. Parser vẫn đọc `v1` và `v2`, sau đó migration/normalization sang `CanonicalLesson`; không rewrite source legacy tại chỗ.
 
+Taxonomy authoring hiện tại:
+
+```text
+content/
+├── missions/
+│   └── <primary-capability>/
+│       └── <lesson-id>.json       # 12 mission schema v3
+└── reference/
+    └── pronunciation/
+        └── <lesson-id>.json       # 6 knowledge/reference lesson schema v1
+```
+
+Với mission, `<primary-capability>` khớp `capabilities[0]`; tên file
+`<lesson-id>.json` khớp field `lessonId`. Thư mục chỉ là taxonomy để biên soạn và
+tìm nội dung, không quyết định schema, capability, mode, completion semantics
+hoặc runtime behavior. Schema và các field trong JSON vẫn quyết định semantics;
+catalog tiếp tục khám phá toàn bộ corpus bằng glob `content/**/*.json`.
+
 ## Sáu capability ID
 
 - `workplace-communication`

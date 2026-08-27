@@ -2,6 +2,19 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.1.4] - 2026-08-28
+
+### Changed
+
+- Tổ chức lại 12 mission theo capability tại `content/missions` và sáu
+  pronunciation reference tại `content/reference/pronunciation`, giữ nguyên
+  payload và hành vi runtime.
+- Giữ validator research tương thích ngược với đường dẫn archive bằng projection
+  task-specific, không sửa artifact lịch sử.
+- Bổ sung test khóa taxonomy authoring mới và phân bố 18 lesson.
+- Giới hạn full Vitest runner ở tối đa bốn worker để các interaction test jsdom
+  giữ thời hạn ổn định khi chạy đồng thời.
+
 ## [1.1.3] - 2026-08-27
 
 ### Fixed

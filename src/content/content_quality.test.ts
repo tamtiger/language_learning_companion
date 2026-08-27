@@ -62,6 +62,37 @@ function countWords(value: string): number {
 }
 
 describe('curriculum content quality gate', () => {
+  it('organizes missions by primary capability and pronunciation as reference content', () => {
+    expect(Object.keys(rawFiles)).toHaveLength(18)
+
+    for (const [path, moduleValue] of Object.entries(rawFiles)) {
+      const raw = unwrapModule(moduleValue)
+      if (!isRecord(raw) || typeof raw.lessonId !== 'string') {
+        throw new Error(`Invalid raw lesson fixture: ${path}`)
+      }
+
+      if (raw.schemaVersion === 'v3') {
+        const primaryCapability = Array.isArray(raw.capabilities) ? raw.capabilities[0] : null
+        if (typeof primaryCapability !== 'string') {
+          throw new Error(`Missing primary capability: ${raw.lessonId}`)
+        }
+        expect(path, raw.lessonId)
+          .toBe(`../../content/missions/${primaryCapability}/${raw.lessonId}.json`)
+        continue
+      }
+
+      if (raw.schemaVersion === 'v1') {
+        expect(path, raw.lessonId)
+          .toBe(`../../content/reference/pronunciation/${raw.lessonId}.json`)
+        continue
+      }
+
+      throw new Error(`Unsupported source schema in curriculum layout: ${raw.lessonId}`)
+    }
+
+    expect(Object.keys(rawFiles).every((path) => !path.includes('/content/modules/'))).toBe(true)
+  })
+
   it('keeps the complete 18-lesson inventory and traverses every source surface', () => {
     const lessons = getBundledCatalog().lessons
     const v3 = lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v3')

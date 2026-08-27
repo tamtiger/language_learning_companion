@@ -5,6 +5,92 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
+const HISTORICAL_TASK_ID = '20260827-224143-complete-realistic-curriculum'
+
+const HISTORICAL_LOCATION_ENTRIES = [
+  ['architecture-walkthrough-b2', 'content/modules/capabilities/architecture-walkthrough-b2.json'],
+  ['behavioral-interview-ownership-b2', 'content/modules/capabilities/behavioral-interview-ownership-b2.json'],
+  ['daily-standup-b1', 'content/modules/workplace-communication/daily_standup.json'],
+  ['learn-api-from-docs-b2', 'content/modules/capabilities/learn-api-from-docs-b2.json'],
+  ['meeting-disagree-and-recap-b2', 'content/modules/capabilities/meeting-disagree-and-recap-b2.json'],
+  ['pronunciation-ending-sounds', 'content/modules/pronunciation/lesson_02.json'],
+  ['pronunciation-linking-intonation', 'content/modules/pronunciation/lesson_05.json'],
+  ['pronunciation-sentence-stress', 'content/modules/pronunciation/lesson_04.json'],
+  ['pronunciation-shadowing-routine', 'content/modules/pronunciation/lesson_06.json'],
+  ['pronunciation-sounds', 'content/modules/pronunciation/lesson_01.json'],
+  ['pronunciation-word-stress', 'content/modules/pronunciation/lesson_03.json'],
+  ['technical-doc-action-b1', 'content/modules/capabilities/technical-doc-action-b1.json'],
+  ['technical-interview-decision-b2', 'content/modules/capabilities/technical-interview-decision-b2.json'],
+  ['technical-log-diagnosis-b1', 'content/modules/capabilities/technical-log-diagnosis-b1.json'],
+  ['technical-tradeoff-explanation-b2', 'content/modules/capabilities/technical-tradeoff-explanation-b2.json'],
+  ['technology-troubleshooting-from-docs-b2', 'content/modules/capabilities/technology-troubleshooting-from-docs-b2.json'],
+  ['workplace-clarification-request-b1', 'content/modules/capabilities/workplace-clarification-request-b1.json'],
+  ['workplace-issue-update-b1', 'content/modules/capabilities/workplace-issue-update-b1.json']
+]
+
+function isSafeHistoricalLocationPath(value) {
+  if (typeof value !== 'string' || value.includes('\\') || value.includes('#') || path.posix.isAbsolute(value)) return false
+  if (path.posix.normalize(value) !== value) return false
+  const segments = value.split('/')
+  return segments.length >= 2
+    && segments[0] === 'content'
+    && segments.every((segment) => /^[A-Za-z0-9][A-Za-z0-9._-]*$/u.test(segment))
+    && value.endsWith('.json')
+}
+
+export function createHistoricalLocationMap(entries) {
+  const locations = new Map()
+  const lessonIdByPath = new Map()
+  for (const entry of entries) {
+    if (!Array.isArray(entry) || entry.length !== 2) throw new Error('historical location mapping entry must be [lessonId, path]')
+    const [lessonId, historicalPath] = entry
+    if (typeof lessonId !== 'string' || !/^[a-z0-9][a-z0-9-]*$/u.test(lessonId)) {
+      throw new Error(`invalid historical lesson ID ${lessonId}`)
+    }
+    if (!isSafeHistoricalLocationPath(historicalPath)) {
+      throw new Error(`unsafe historical location path ${historicalPath}`)
+    }
+    if (locations.has(lessonId)) throw new Error(`duplicate historical lesson ID ${lessonId}`)
+    if (lessonIdByPath.has(historicalPath)) {
+      throw new Error(`duplicate historical location path ${historicalPath}`)
+    }
+    locations.set(lessonId, historicalPath)
+    lessonIdByPath.set(historicalPath, lessonId)
+  }
+  return locations
+}
+
+const HISTORICAL_LOCATIONS_BY_TASK = new Map([
+  [HISTORICAL_TASK_ID, createHistoricalLocationMap(HISTORICAL_LOCATION_ENTRIES)]
+])
+
+export function projectCorpusLocations(corpus, taskId) {
+  const historicalLocations = HISTORICAL_LOCATIONS_BY_TASK.get(taskId)
+  if (!historicalLocations) return corpus
+
+  const corpusLessonIds = new Set()
+  for (const entry of corpus) {
+    const lessonId = entry.lesson?.lessonId
+    if (corpusLessonIds.has(lessonId)) throw new Error(`duplicate corpus lesson ID ${lessonId}`)
+    corpusLessonIds.add(lessonId)
+    if (!historicalLocations.has(lessonId)) {
+      throw new Error(`missing historical location mapping for ${lessonId}`)
+    }
+  }
+  for (const lessonId of historicalLocations.keys()) {
+    if (!corpusLessonIds.has(lessonId)) throw new Error(`historical location mapping references missing lesson ${lessonId}`)
+  }
+
+  return corpus.map((entry) => ({
+    ...entry,
+    locationPath: historicalLocations.get(entry.lesson.lessonId)
+  }))
+}
+
+function corpusLocationPath(entry) {
+  return entry.locationPath ?? entry.filePath
+}
+
 const REQUIRED_ITEM_FIELDS = [
   'id', 'lessonId', 'generation', 'capability', 'phase', 'artifactOrClaim', 'location',
   'surfaceId', 'parentLocation', 'componentPointer', 'componentRole', 'componentLocations',
@@ -185,11 +271,15 @@ function itemRecord({ lesson, generation, filePath, kind, stableId, parentPointe
 }
 
 export function loadCorpus(root = ROOT) {
-  return walkJsonFiles(path.join(root, 'content')).map((absolutePath) => ({
-    absolutePath,
-    filePath: path.relative(root, absolutePath).replaceAll('\\', '/'),
-    lesson: JSON.parse(readFileSync(absolutePath, 'utf8'))
-  })).sort((a, b) => a.lesson.lessonId.localeCompare(b.lesson.lessonId))
+  return walkJsonFiles(path.join(root, 'content')).map((absolutePath) => {
+    const filePath = path.relative(root, absolutePath).replaceAll('\\', '/')
+    return {
+      absolutePath,
+      filePath,
+      locationPath: filePath,
+      lesson: JSON.parse(readFileSync(absolutePath, 'utf8'))
+    }
+  }).sort((a, b) => a.lesson.lessonId.localeCompare(b.lesson.lessonId))
 }
 
 export function enumerateItems(corpus) {
@@ -200,7 +290,7 @@ export function enumerateItems(corpus) {
       items.push(itemRecord({
         lesson: entry.lesson,
         generation: entry.lesson.schemaVersion,
-        filePath: entry.filePath,
+        filePath: corpusLocationPath(entry),
         kind,
         stableId,
         parentPointer: pointer,
@@ -549,7 +639,7 @@ function itemMapForCorpus(corpus) {
   return {
     items,
     byId: new Map(items.map((item) => [item.id, item])),
-    corpusByPath: new Map(corpus.map((entry) => [entry.filePath, entry]))
+    corpusByPath: new Map(corpus.map((entry) => [corpusLocationPath(entry), entry]))
   }
 }
 
@@ -562,7 +652,9 @@ function artifactContentItems(items, lessonId, phase) {
 
 export function enumerateRequiredTraces(corpus) {
   const { items, corpusByPath } = itemMapForCorpus(corpus)
-  const traces = corpus.flatMap(({ lesson, filePath }) => {
+  const traces = corpus.flatMap((entry) => {
+    const { lesson } = entry
+    const filePath = corpusLocationPath(entry)
     if (lesson.schemaVersion !== 'v3') return []
     const task = lesson.performanceTask
     const auditedResponseDigest = AUDITED_MODEL_RESPONSE_DIGESTS[lesson.lessonId]
@@ -658,7 +750,9 @@ function sentenceBasis(sentence) {
 
 export function enumerateModelTraces(corpus) {
   const { items, corpusByPath } = itemMapForCorpus(corpus)
-  return corpus.flatMap(({ lesson, filePath }) => {
+  return corpus.flatMap((entry) => {
+    const { lesson } = entry
+    const filePath = corpusLocationPath(entry)
     if (lesson.schemaVersion !== 'v3') return []
     const task = lesson.performanceTask
     const baselineItems = artifactContentItems(items, lesson.lessonId, 'baseline')
@@ -697,27 +791,31 @@ export function enumerateModelTraces(corpus) {
 
 export function enumerateObjectiveTraces(corpus) {
   const { items, corpusByPath } = itemMapForCorpus(corpus)
-  return corpus.flatMap(({ lesson, filePath }) => lesson.learningObjectives.map((objective, index) => {
-    const allowedKinds = lesson.schemaVersion === 'v1'
-      ? new Set(['exercise'])
-      : new Set(['exercise', 'rubric', 'output-contract', 'prompt-performance', 'learning-perception', 'learning-interaction'])
-    const candidates = items.filter((item) => item.lessonId === lesson.lessonId
-      && allowedKinds.has(item.artifactOrClaim)
-      && !['id', 'type'].includes(item.componentRole))
-    const selected = selectSemanticSubset(objective, candidates, corpusByPath, { composite: true })
-    if (selected.length === 0) throw new Error(`${lesson.lessonId} objective ${index + 1} thiếu semantic assessment support`)
-    return {
-      id: `${lesson.lessonId}::objective::${index + 1}`,
-      lessonId: lesson.lessonId,
-      objective,
-      exactLocation: location(filePath, `/learningObjectives/${index}`),
-      evidenceKind: lesson.schemaVersion === 'v1' ? 'knowledge-only' : 'performance-and-knowledge',
-      assessmentItemIds: selected.map((item) => item.id),
-      assessmentLocations: selected.map((item) => item.location),
-      verificationIds: ['check-content-focused'],
-      status: 'closed'
-    }
-  }))
+  return corpus.flatMap((entry) => {
+    const { lesson } = entry
+    const filePath = corpusLocationPath(entry)
+    return lesson.learningObjectives.map((objective, index) => {
+      const allowedKinds = lesson.schemaVersion === 'v1'
+        ? new Set(['exercise'])
+        : new Set(['exercise', 'rubric', 'output-contract', 'prompt-performance', 'learning-perception', 'learning-interaction'])
+      const candidates = items.filter((item) => item.lessonId === lesson.lessonId
+        && allowedKinds.has(item.artifactOrClaim)
+        && !['id', 'type'].includes(item.componentRole))
+      const selected = selectSemanticSubset(objective, candidates, corpusByPath, { composite: true })
+      if (selected.length === 0) throw new Error(`${lesson.lessonId} objective ${index + 1} thiếu semantic assessment support`)
+      return {
+        id: `${lesson.lessonId}::objective::${index + 1}`,
+        lessonId: lesson.lessonId,
+        objective,
+        exactLocation: location(filePath, `/learningObjectives/${index}`),
+        evidenceKind: lesson.schemaVersion === 'v1' ? 'knowledge-only' : 'performance-and-knowledge',
+        assessmentItemIds: selected.map((item) => item.id),
+        assessmentLocations: selected.map((item) => item.location),
+        verificationIds: ['check-content-focused'],
+        status: 'closed'
+      }
+    })
+  })
 }
 
 function parseResearchRecords(researchDirectory) {
@@ -813,12 +911,12 @@ function validate() {
   if (!existsSync(researchDirectory) || !statSync(researchDirectory).isDirectory()) {
     throw new Error('Usage: node scripts/check-curriculum-research.mjs <research-directory>')
   }
-  const corpus = loadCorpus()
-  const corpusByPath = new Map(corpus.map((entry) => [entry.filePath, entry]))
-  const records = parseResearchRecords(researchDirectory)
-  const errors = []
   const taskPath = path.resolve(researchDirectory, '..', 'task.json')
   const task = JSON.parse(readFileSync(taskPath, 'utf8'))
+  const corpus = projectCorpusLocations(loadCorpus(), task.id)
+  const corpusByPath = new Map(corpus.map((entry) => [corpusLocationPath(entry), entry]))
+  const records = parseResearchRecords(researchDirectory)
+  const errors = []
   const taskEvidence = task.evidence ?? []
   const evidenceById = new Map(taskEvidence.map((evidence) => [evidence.id, evidence]))
   if (evidenceById.size !== taskEvidence.length) errors.push('Task evidence contains duplicate IDs')
@@ -1044,7 +1142,7 @@ function validate() {
     if (claim.id.endsWith('::cefr-rationale')) {
       const entry = corpus.find(({ lesson }) => lesson.lessonId === claim.lessonId)
       const row = coverageByLesson.get(claim.lessonId)
-      const expectedLocation = entry ? location(entry.filePath, '/cefrLevel') : null
+      const expectedLocation = entry ? location(corpusLocationPath(entry), '/cefrLevel') : null
       if (claim.location !== expectedLocation || claim.contentDigest !== digest(entry?.lesson.cefrLevel)) errors.push(`CLAIM_JSON ${claim.id} CEFR corpus trace drift`)
       if (claim.basis !== 'inference') errors.push(`CLAIM_JSON ${claim.id} CEFR basis must be inference`)
       if (claim.sourceLinks?.length !== 1 || claim.sourceLinks[0]?.sourceId !== 'coe-cefr-companion-2020') errors.push(`CLAIM_JSON ${claim.id} must use the CEFR source exactly once`)

@@ -118,9 +118,12 @@ Có 12 capability mission v3 — hai mission cho mỗi mục tiêu:
 
 Ngoài 12 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
 và chỉ hoàn thành khi mọi auto-check đều đúng; kết quả quiz không đánh giá phát âm
-khi nói. Content
-engine đọc và normalize an toàn lesson schema v1, v2 và v3; executable
-curriculum nằm trong `content/**/*.json`.
+khi nói. Taxonomy authoring đặt 12 mission v3 tại
+`content/missions/<primary-capability>/<lesson-id>.json` và 6 pronunciation lesson
+v1 tại `content/reference/pronunciation/<lesson-id>.json`. Cấu trúc thư mục giúp
+tổ chức biên soạn, không quyết định semantics hoặc runtime behavior; content
+engine vẫn khám phá `content/**/*.json`, rồi đọc schema và các field để validate,
+normalize lesson v1, v2 và v3.
 
 Mọi source artifact trong curriculum được phân loại bằng provenance chuẩn hoặc
 disclosure synthetic/non-production ngay trong nội dung. Link nguồn chỉ mở khi

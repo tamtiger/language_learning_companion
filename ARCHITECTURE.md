@@ -28,6 +28,16 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
 
 Zustand là adapter mỏng: compose state/actions và persist allowlisted progress. Catalog loading, migration logic và completion logic không nằm trong store.
 
+## Content discovery và taxonomy authoring
+
+Mười hai mission v3 được biên soạn tại
+`content/missions/<primary-capability>/<lesson-id>.json`; sáu pronunciation lesson
+v1 dạng knowledge/reference nằm tại
+`content/reference/pronunciation/<lesson-id>.json`. Các segment thư mục chỉ tổ
+chức taxonomy authoring. Catalog vẫn khám phá JSON bằng glob
+`content/**/*.json`, rồi parser/schema và các field trong từng lesson mới quyết
+định schema version, capability, mode, completion semantics và runtime behavior.
+
 ## Canonical content và migration
 
 `parseLesson(raw)` chọn `LessonV1Schema | LessonV2Schema | LessonV3Schema`; `normalizeLesson` trả cùng một `CanonicalLesson`.
