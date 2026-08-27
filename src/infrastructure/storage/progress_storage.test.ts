@@ -3,6 +3,7 @@ import { createEmptyLessonProgress } from '../../domain/progress/progress'
 import {
   ProgressEnvelopeSchema,
   createBackup,
+  migrateProgressEnvelope,
   parseBackup,
   serializeBackup
 } from './progress_storage'
@@ -180,5 +181,54 @@ describe('progress storage v5', () => {
       expect(migrated.data.lessonProgress.mission.activeProcessEvidence).toBeNull()
       expect(migrated.data.lessonProgress.mission.recentAttempts[0].process?.listenBackChecklistCompleted).toBe(false)
     }
+  })
+
+  it('uses the same strict envelope migration for persisted state and rejects malformed or future data', () => {
+    const legacyProcess = {
+      perceptionPretestCorrect: 1,
+      perceptionPretestTotal: 2,
+      perceptionPosttestCorrect: 2,
+      perceptionPosttestTotal: 2,
+      perceptionTrainingCompleted: 3,
+      availableVariantCount: 1,
+      variabilityQualified: false,
+      shadowingStepIds: ['listen'],
+      listenedBack: true,
+      cueToSpeechStartMs: null,
+      interactionTurnIds: [],
+      optedOut: false
+    }
+    const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
+    delete legacyProgress.activeProcessEvidence
+
+    const migrated = migrateProgressEnvelope({
+      storageVersion: 4,
+      lessonProgress: {
+        mission: {
+          ...legacyProgress,
+          attemptCount: 1,
+          recentAttempts: [{ ...measuredAttempt(), process: legacyProcess }]
+        }
+      },
+      settings: { theme: 'light' }
+    })
+
+    expect(migrated.success).toBe(true)
+    if (migrated.success) {
+      expect(migrated.data.lessonProgress.mission.activeProcessEvidence).toBeNull()
+      expect(migrated.data.lessonProgress.mission.recentAttempts[0].process?.listenBackChecklistCompleted).toBe(false)
+      expect(() => createBackup(migrated.data, '2026-08-18T10:00:00.000Z')).not.toThrow()
+    }
+
+    expect(migrateProgressEnvelope({
+      storageVersion: 5,
+      lessonProgress: { mission: { status: 'completed' } },
+      settings: { theme: 'dark' }
+    }).success).toBe(false)
+    expect(migrateProgressEnvelope({
+      storageVersion: 6,
+      lessonProgress: {},
+      settings: { theme: 'dark' }
+    }).success).toBe(false)
   })
 })

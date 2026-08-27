@@ -33,7 +33,7 @@ baseline → input → auto-check → performance → self-feedback
 - Tự đánh giá từng tiêu chí bằng rubric `met/not-met`.
 - Khi còn gap, chọn một `retry focus`, làm lại và chấm lại toàn bộ rubric.
 - Làm transfer task trong ngữ cảnh mới.
-- Quay lại delayed review theo lịch content-owned 1–3–7 ngày.
+- Quay lại delayed review theo `reviewPolicy.intervalDays` do từng lesson sở hữu.
 
 ### Today, Catalog và Progress
 
@@ -89,8 +89,8 @@ perception pretest → training có feedback → posttest
 - Resume section hoặc learning phase an toàn sau khi reload; output session-only không được phục dựng giả.
 - Lưu tối đa 50 attempt metadata gần nhất cho mỗi lesson.
 - Tự đưa review đến hạn vào Today queue.
-- Export/import backup v4 bằng allowlisted metadata; backup v3 được migrate bằng
-  cách thêm process metadata rỗng, còn v1/v2 bị từ chối.
+- Export/import backup v5 bằng allowlisted metadata; backup v3/v4 được migrate
+  sang v5 qua cùng canonical migration, còn v1/v2 và future version bị từ chối.
 - Import có schema validation, preview và xác nhận trước khi thay state.
 - Dữ liệu malformed hoặc sai version bị từ chối theo cơ chế fail-closed.
 
@@ -168,7 +168,7 @@ content JSON v1/v3
   → parse + validate + normalize
   → Today / Catalog / Lesson / Progress
   → pure learning + progress domain
-  → local storage v4 + validated backup/migration v3
+  → local storage v5 + validated backup/migration v3/v4
 ```
 
 Stack chính: React 19, TypeScript, Vite, Zustand, Zod, Vitest và Testing

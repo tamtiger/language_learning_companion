@@ -52,7 +52,7 @@ export default function App() {
             <span aria-hidden="true" className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 font-black">E</span>
             <span className="text-left">
               <span className="block font-bold">English Companion</span>
-              <span className="block text-xs text-zinc-500">Capability-first · local-only</span>
+              <span className="block text-xs text-zinc-400">Capability-first · local-only</span>
             </span>
           </button>
           <nav aria-label="Điều hướng chính" className="no-scrollbar flex max-w-full gap-1 overflow-x-auto rounded-xl border border-zinc-800 bg-zinc-900/70 p-1">
@@ -62,7 +62,7 @@ export default function App() {
                 type="button"
                 aria-current={!activeLesson && page === id ? 'page' : undefined}
                 onClick={() => navigate(id)}
-                className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400 ${!activeLesson && page === id ? 'bg-purple-500 text-white' : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'}`}
+                className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400 ${!activeLesson && page === id ? 'bg-purple-700 text-white' : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'}`}
               >
                 <Icon aria-hidden="true" className="h-4 w-4" />{label}
               </button>
@@ -89,7 +89,7 @@ export default function App() {
           <Settings />
         )}
       </main>
-      <footer className="border-t border-zinc-900 px-4 py-6 text-center text-xs text-zinc-500">
+      <footer className="border-t border-zinc-900 px-4 py-6 text-center text-xs text-zinc-400">
         Dữ liệu học tập được giữ local. Audio và nội dung trả lời không được persist hoặc upload.
       </footer>
     </div>

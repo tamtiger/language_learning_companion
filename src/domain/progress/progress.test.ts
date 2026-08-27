@@ -80,7 +80,15 @@ describe('progress evidence and scheduling', () => {
     }
 
     expect(assessTransfer(transfer, {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'task',
+      expectedCapabilityId: 'workplace-communication',
+      forbidVietnamese: true,
+      forbidTranslation: true,
+      forbidModelAnswer: true,
       maxHints: 1,
+      maxPreparationSeconds: 60,
+      requiredRubricIds: ['clarity'],
       timeLimitSeconds: 120,
       minWords: 80,
       maxWords: 120
@@ -88,6 +96,56 @@ describe('progress evidence and scheduling', () => {
       qualifies: false,
       reasons: ['rubric-gap', 'used-translation', 'too-many-hints', 'overtime', 'too-short']
     })
+  })
+
+  it('does not qualify a transfer that exceeds the preparation allowance', () => {
+    const transfer = {
+      ...attempt(1),
+      phase: 'transfer' as const,
+      independence: { ...attempt(1).independence, preparationSeconds: 61 }
+    }
+
+    expect(assessTransfer(transfer, {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'task',
+      expectedCapabilityId: 'workplace-communication',
+      forbidVietnamese: true,
+      forbidTranslation: true,
+      forbidModelAnswer: true,
+      maxHints: 0,
+      maxPreparationSeconds: 60,
+      requiredRubricIds: ['clarity'],
+      timeLimitSeconds: 120
+    })).toEqual({
+      qualifies: false,
+      reasons: ['preparation-overtime']
+    })
+  })
+
+  it('allows declared assistance when the task independence contract permits it', () => {
+    const transfer = {
+      ...attempt(1),
+      phase: 'transfer' as const,
+      independence: {
+        ...attempt(1).independence,
+        usedVietnamese: true,
+        usedTranslation: true,
+        usedModelAnswer: true
+      }
+    }
+
+    expect(assessTransfer(transfer, {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'task',
+      expectedCapabilityId: 'workplace-communication',
+      forbidVietnamese: false,
+      forbidTranslation: false,
+      forbidModelAnswer: false,
+      maxHints: 0,
+      maxPreparationSeconds: 60,
+      requiredRubricIds: ['clarity'],
+      timeLimitSeconds: 120
+    })).toEqual({ qualifies: true, reasons: [] })
   })
 
   it('does not qualify a pilot transfer without listen-back and scripted interaction evidence', () => {
@@ -112,13 +170,74 @@ describe('progress evidence and scheduling', () => {
     }
 
     expect(assessTransfer(transfer, {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'task',
+      expectedCapabilityId: 'workplace-communication',
+      forbidVietnamese: true,
+      forbidTranslation: true,
+      forbidModelAnswer: true,
       maxHints: 0,
+      maxPreparationSeconds: 60,
+      requiredRubricIds: ['clarity'],
       timeLimitSeconds: 120,
       requireListenBack: true,
       requiredInteractionTurnIds: ['clarify', 'repair']
     })).toEqual({
       qualifies: false,
       reasons: ['listen-back-missing', 'interaction-incomplete']
+    })
+  })
+
+  it('fails closed when a transfer belongs to another task or uses a different rubric shape', () => {
+    const transfer = { ...attempt(1), phase: 'transfer' as const }
+    const contract = {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'expected-task',
+      expectedCapabilityId: 'workplace-communication' as const,
+      forbidVietnamese: true,
+      forbidTranslation: true,
+      forbidModelAnswer: true,
+      requiredRubricIds: ['action', 'clarity'],
+      maxHints: 0,
+      maxPreparationSeconds: 60,
+      timeLimitSeconds: 120
+    }
+
+    expect(assessTransfer(transfer, contract)).toEqual({
+      qualifies: false,
+      reasons: ['task-mismatch', 'rubric-mismatch']
+    })
+    expect(assessTransfer({
+      ...transfer,
+      taskId: 'expected-task',
+      rubric: { action: 'met', clarity: 'met', unexpected: 'met' }
+    }, contract)).toEqual({
+      qualifies: false,
+      reasons: ['rubric-mismatch']
+    })
+  })
+
+  it('fails closed when a transfer claims a different capability', () => {
+    const transfer = {
+      ...attempt(1),
+      phase: 'transfer' as const,
+      capabilityId: 'technical-reading' as const
+    }
+
+    expect(assessTransfer(transfer, {
+      expectedLessonId: 'mission',
+      expectedTaskId: 'task',
+      expectedCapabilityId: 'workplace-communication',
+      forbidVietnamese: true,
+      forbidTranslation: true,
+      forbidModelAnswer: true,
+      requiredRubricIds: ['clarity'],
+      maxHints: 0,
+      maxPreparationSeconds: 60,
+      timeLimitSeconds: 120
+    })).toEqual({
+      qualifies: false,
+      reasons: ['capability-mismatch']
     })
   })
 
@@ -151,6 +270,21 @@ describe('progress evidence and scheduling', () => {
     expect(items.map((item) => item.kind)).toEqual(['review', 'resume', 'baseline', 'baseline'])
     expect(items[0].lessonId).toBe('overdue')
     expect(items[1].lessonId).toBe('active')
+  })
+
+  it('resumes an active repeat cycle before an overdue review', () => {
+    const items = buildTodayQueue([
+      { lessonId: 'repeat', capabilityId: 'workplace-communication', hasPerformanceTask: true }
+    ], {
+      repeat: {
+        ...createEmptyLessonProgress(),
+        status: 'in-progress',
+        activePhase: 'input',
+        nextReviewAt: '2026-08-17T00:00:00.000Z'
+      }
+    }, new Date('2026-08-18T08:00:00.000Z'))
+
+    expect(items).toEqual([expect.objectContaining({ lessonId: 'repeat', kind: 'resume' })])
   })
 
   it('keeps completed missions out of Today until their review is due', () => {

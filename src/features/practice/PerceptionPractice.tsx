@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { LearningLoopV1 } from '../../content/schema'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
 import { recordPerceptionMiss, type PerceptionPhase } from './learning_loop_diagnostics'
@@ -25,9 +25,22 @@ export function PerceptionPractice({ perception, onComplete }: {
   const [answer, setAnswer] = useState<string | null>(null)
   const [scores, setScores] = useState({ pretest: 0, posttest: 0 })
   const [missed, setMissed] = useState<string[]>([])
+  const phaseHeading = useRef<HTMLHeadingElement>(null)
+  const previousPhase = useRef(phase)
   const items = perception[phase]
   const item = items[index]
   const last = index === items.length - 1
+  const trainingCompleted = phase === 'pretest'
+    ? 0
+    : phase === 'training'
+      ? Math.min(index + (answer ? 1 : 0), perception.training.length)
+      : perception.training.length
+
+  useEffect(() => {
+    if (previousPhase.current !== phase) phaseHeading.current?.focus()
+    previousPhase.current = phase
+  }, [phase])
+
   const answerItem = (value: string) => {
     if (answer) return
     setAnswer(value)
@@ -70,7 +83,7 @@ export function PerceptionPractice({ perception, onComplete }: {
     <section aria-labelledby="perception-title" className="space-y-4 rounded-2xl border border-sky-500/30 bg-sky-500/5 p-5">
       <div>
         <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Perception · {phase} · {index + 1}/{items.length}</p>
-        <h3 id="perception-title" className="mt-2 text-xl font-black">Nghe trước khi nói</h3>
+        <h3 ref={phaseHeading} tabIndex={-1} id="perception-title" className="mt-2 text-xl font-black">Nghe trước khi nói</h3>
       </div>
       <ModelAudioPlayer source={item.audio} transcriptVisible={Boolean(answer)} />
       <fieldset className="space-y-2">
@@ -89,12 +102,12 @@ export function PerceptionPractice({ perception, onComplete }: {
         </div>
       )}
       <div className="flex flex-wrap gap-2">
-        <button type="button" disabled={!answer} onClick={next} className="rounded-lg bg-purple-500 px-4 py-2 font-bold disabled:opacity-40">
+        <button type="button" disabled={!answer} onClick={next} className="rounded-lg bg-purple-700 px-4 py-2 font-bold disabled:opacity-40">
           {last ? (phase === 'posttest' ? 'Hoàn thành perception' : 'Sang phần tiếp theo') : 'Câu tiếp'}
         </button>
         <button type="button" onClick={() => onComplete({
           pretestCorrect: scores.pretest, pretestTotal: perception.pretest.length,
-          trainingCompleted: phase === 'pretest' ? 0 : index,
+          trainingCompleted,
           posttestCorrect: scores.posttest, posttestTotal: perception.posttest.length,
           diagnosticMissedItemIds: [...new Set(missed)], optedOut: true,
           availableVariantCount: 0, variabilityQualified: false

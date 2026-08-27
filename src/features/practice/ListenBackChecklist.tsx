@@ -19,7 +19,7 @@ export function ListenBackChecklist({ items, checked, playbackCompleted, onChang
       <p className="mb-3 text-xs text-zinc-400">Phát lại bản ghi, rồi xác nhận từng tín hiệu người nghe cần nhận được.</p>
       <div className="grid gap-2">
         {items.map((item, index) => (
-          <label key={`${index}:${item}`} className={`flex items-start gap-3 text-sm ${playbackCompleted ? 'cursor-pointer text-zinc-200' : 'cursor-not-allowed text-zinc-500'}`}>
+          <label key={`${index}:${item}`} className={`flex items-start gap-3 text-sm ${playbackCompleted ? 'cursor-pointer text-zinc-200' : 'cursor-not-allowed text-zinc-400'}`}>
             <input type="checkbox" disabled={!playbackCompleted} checked={checked[index] ?? false}
               onChange={(event) => {
                 const next = [...checked]
@@ -30,7 +30,7 @@ export function ListenBackChecklist({ items, checked, playbackCompleted, onChang
           </label>
         ))}
       </div>
-      <p role="status" className={`mt-3 flex items-center gap-2 text-xs ${complete ? 'text-green-300' : 'text-zinc-500'}`}>
+      <p role="status" className={`mt-3 flex items-center gap-2 text-xs ${complete ? 'text-green-300' : 'text-zinc-400'}`}>
         <CheckCircle2 aria-hidden="true" className="h-4 w-4" />
         {complete ? 'Listen-back đã đủ evidence.' : playbackCompleted ? 'Xác nhận đủ checklist để tiếp tục.' : 'Checklist mở sau khi audio bắt đầu phát.'}
       </p>

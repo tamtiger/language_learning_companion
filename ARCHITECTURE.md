@@ -19,7 +19,8 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
 - `src/content`: Zod raw schemas, `CanonicalLesson`, migration/normalization và catalog validation.
 - `src/domain/learning`: phase transitions, rubric và completion rules.
 - `src/domain/progress`: attempt evidence, capability aggregation, review scheduling và Today selectors.
-- `src/infrastructure/storage`: `ProgressEnvelopeV4`, validated import/export/reset và migration backup V3 → V4.
+- `src/infrastructure/storage`: `ProgressEnvelope` với `storageVersion: 5`, validated
+  import/export/reset và canonical migration V3/V4 → V5.
 - `src/app`: semantic app shell và typed in-memory navigation.
 - `src/features/catalog`, `today`, `lesson`, `practice`, `progress`: UI orchestration.
 - `src/shared`: UI primitives, media adapters và generic hooks; không chứa business rules.
@@ -54,12 +55,12 @@ network fetch hoặc human-accent claim.
 
 ## Learning state machine
 
-Capability loop: `baseline → input → auto-check → performance → self-feedback → retry → transfer → completed`, sau đó có thể vào `review` khi đến hạn.
+Capability loop: `baseline → input` (content và auto-check) `→ performance → self-feedback → retry → transfer → completed`, sau đó có thể vào `review` khi đến hạn. Spoken task có learning loop đi qua `interaction` giữa performance và self-feedback.
 
-Với learning-loop pilot, phase `input` chứa state machine thuần
-`perception-pretest → perception-training → perception-posttest → pronunciation-cue
-→ guided-shadowing → ready-for-performance`; sau spoken performance có
-`interaction` trước self-feedback. Illegal transition bị từ chối trong domain.
+Với learning-loop pilot, phase `input` chứa domain state machine thuần
+`perception → pronunciation-cue? → guided-shadowing → ready-for-performance`.
+Riêng `PerceptionPractice` triển khai chuỗi nội bộ `pretest → training → posttest`
+trước khi trả evidence cho domain reducer. Illegal transition bị từ chối trong domain.
 
 Pure transition guards ngăn model answer xuất hiện trước baseline, ngăn mission hoàn thành khi chưa self-rate rubric hoặc transfer. UI chỉ dispatch events và render phase.
 
@@ -78,17 +79,20 @@ lưu bằng ID có cấu trúc, không dùng free-text feedback.
 
 ## Progress và privacy
 
-`ProgressEnvelopeV4` lưu status/current section, `activePhase`, các exercise đã đúng,
+`ProgressEnvelope` V5 lưu status/current section, `activePhase`, các exercise đã đúng,
 aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`,
-transfer flag, review stage/`nextReviewAt` và settings. Mỗi attempt bắt buộc có
-duration dương, `wordCount` nullable và preparation time đo từ phiên.
+transfer flag, review stage/`nextReviewAt`, `activeProcessEvidence` và settings.
+Mỗi attempt bắt buộc có duration dương, `wordCount` nullable và preparation time
+đo từ phiên.
 
-Attempt V4 có optional process metadata đã allowlist: perception counts,
-training/shadowing/interaction completion IDs, listen-back, cue latency, audio
-variant count/qualification và opt-out. Không lưu answer, transcript, response,
-audio URL/blob hoặc pronunciation score. Backup V3 hợp lệ được migrate với
-`process: null`; local persist giữ cùng storage key và nâng middleware version để
-không bỏ rơi state V3.
+Attempt V5 có optional process metadata đã allowlist: perception counts,
+training/shadowing/interaction completion IDs, listen-back cùng trạng thái hoàn tất
+checklist nghe lại, cue latency, audio variant count/qualification và opt-out. Không
+lưu answer, transcript, response, audio URL/blob hoặc pronunciation score. Backup
+V3 hợp lệ được migrate với `process: null`; backup V4 được bổ sung
+`listenBackChecklistCompleted: false`; cả hai được thêm
+`activeProcessEvidence: null`. Local persist giữ cùng storage key và dùng middleware
+version 5.
 
 Pure progress selectors định nghĩa `qualifying transfer` là completed transfer có
 rubric không rỗng và toàn bộ `met`, không dùng tiếng Việt, translation, model answer
@@ -96,9 +100,10 @@ và không vượt content-owned `maxHints`, time limit hoặc output length. Pr
 hiển thị riêng attempts, transfer attempts, qualifying transfers và reason codes;
 không đếm một independent baseline/retry như transfer đạt.
 
-Không lưu audio/blob URL, transcript, written response hoặc free-text. Import flow là
-parse v4 hoặc migrate v3 → validate → preview → explicit confirm → atomic replace. Invalid/v1/v2
-import giữ nguyên state và trả recoverable error; không reset ngầm.
+Không lưu audio/blob URL, transcript, written response hoặc free-text. Backup import
+và Zustand hydration cùng đi qua canonical migration: parse v5 hoặc migrate v3/v4
+→ validate → preview → explicit confirm → atomic replace. Import malformed,
+v1/v2/future version giữ nguyên state và trả recoverable error; không reset ngầm.
 
 Vì app chưa phát hành, state v1/v2 bị bỏ và khởi tạo rỗng; không có
 `legacy-unknown` hoặc evidence giả.
@@ -112,7 +117,10 @@ restart tạo progress rỗng.
 
 ## Review scheduling
 
-Scheduler là pure function nhận clock. Transfer thành công đặt review theo content policy `[1,3,7]`; review đạt tăng stage, review chưa đạt lặp sau một ngày. Today queue có thứ tự deterministic: overdue review → active loop → capability baseline chưa có evidence → next new lesson.
+Scheduler là pure function nhận clock. Transfer thành công đặt review theo
+`reviewPolicy.intervalDays` content-owned của lesson; review đạt tăng stage theo
+policy đó, review chưa đạt lặp sau một ngày. Today queue có thứ tự deterministic:
+overdue review → active loop → capability baseline chưa có evidence → next new lesson.
 
 ## Accessibility
 

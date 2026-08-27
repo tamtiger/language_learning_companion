@@ -22,6 +22,15 @@ vi.mock('./PerceptionPractice', () => ({
   )
 }))
 
+vi.mock('./GuidedShadowing', () => ({
+  GuidedShadowing: ({ steps, onComplete }: { steps: string[]; onComplete: (stepIds: string[]) => void }) => (
+    <div>
+      <button type="button" onClick={() => onComplete([...steps])}>Hoàn tất đúng Sentence chunks</button>
+      <button type="button" onClick={() => onComplete(['unexpected-step'])}>Báo sai bước Sentence chunks</button>
+    </div>
+  )
+}))
+
 const audio = { kind: 'speech-synthesis' as const, text: 'Could you clarify?', locale: 'en-US', voiceHints: ['English'] }
 const loop: LearningLoopV1 = {
   version: 'v1',
@@ -58,7 +67,9 @@ describe('diagnostic-only pronunciation cue selection', () => {
 
     await user.click(screen.getByRole('button', { name: /hoàn tất không lỗi/i }))
 
-    expect(screen.getByText('Sentence chunks').getAttribute('aria-current')).toBe('step')
+    const currentStep = screen.getByText('Sentence chunks')
+    expect(currentStep.getAttribute('aria-current')).toBe('step')
+    expect(document.activeElement).toBe(currentStep)
     expect(screen.getByText(/không cần luyện bổ sung/i)).toBeTruthy()
   })
 
@@ -70,6 +81,32 @@ describe('diagnostic-only pronunciation cue selection', () => {
 
     expect(screen.getByText('Luyện phát âm').getAttribute('aria-current')).toBe('step')
     expect(screen.getByText('Release final s.')).toBeTruthy()
+  })
+
+  it('fails closed when the shadowing component reports steps outside the configured sequence', async () => {
+    const user = userEvent.setup()
+    const onComplete = vi.fn()
+    render(<LearningLoopPractice loop={loop} onComplete={onComplete} />)
+
+    await user.click(screen.getByRole('button', { name: /hoàn tất không lỗi/i }))
+    await user.click(screen.getByRole('button', { name: /báo sai bước sentence chunks/i }))
+
+    expect(onComplete).not.toHaveBeenCalled()
+    expect(screen.getByRole('alert').textContent).toMatch(/đúng thứ tự/i)
+  })
+
+  it('emits process evidence after the reducer accepts the configured shadowing sequence', async () => {
+    const user = userEvent.setup()
+    const onComplete = vi.fn()
+    render(<LearningLoopPractice loop={loop} onComplete={onComplete} />)
+
+    await user.click(screen.getByRole('button', { name: /hoàn tất không lỗi/i }))
+    await user.click(screen.getByRole('button', { name: /hoàn tất đúng sentence chunks/i }))
+
+    expect(onComplete).toHaveBeenCalledWith(
+      expect.objectContaining({ shadowingStepIds: ['listen'], optedOut: false }),
+      { pronunciationStatus: 'not-needed' }
+    )
   })
 
   it('keeps pronunciation outcome visible when the main speaking attempt becomes ready', () => {

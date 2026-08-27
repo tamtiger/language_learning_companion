@@ -1,0 +1,363 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260821-084719-gameful-daily-mission",
+  "title": "Bổ sung động lực game cho daily mission",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Research và implement một vertical slice gameful giúp người học có hứng thú bắt đầu và tiếp tục daily mission mà không biến điểm thưởng thành bằng chứng năng lực.",
+  "nonGoals": [
+    "Không thêm leaderboard, social competition, lives/energy, currency hoặc cơ chế phạt khiến người học mất quyền luyện.",
+    "Không dùng XP, streak hoặc completion để suy diễn proficiency hay qualifying transfer.",
+    "Không thêm account, cloud, analytics, dependency lớn hoặc thay đổi storage schema nếu progress hiện có đủ.",
+    "Không redesign toàn bộ lesson flow, catalog hoặc progress.",
+    "Không commit, push hoặc publish."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Benchmark ít nhất năm app học ngôn ngữ bằng nguồn chính thức, tách fact/inference và chọn mechanic theo motivation, fit, integrity, accessibility cùng implementation risk.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-final-research"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Today có một daily mission gameful với goal, tiến trình và reward/feedback dễ hiểu; trạng thái được suy ra từ evidence hiện có và không tạo proficiency claim giả.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-final-today-gameplay",
+        "ev-final-browser-qa"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Daily mission giữ đúng ưu tiên review → resume → baseline → new, mở đúng lesson content-driven và không làm yếu baseline, retry, transfer hoặc delayed review.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-final-today-gameplay",
+        "ev-final-full-suite",
+        "ev-final-browser-qa"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Critical path dùng được bằng keyboard, có semantic progress/status, không phụ thuộc animation và không overflow ở 390x844 cùng 1440x900.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-final-today-gameplay",
+        "ev-final-browser-qa"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Focused tests, full tests, lint, build, browser QA và release/version check pass trên source cuối.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-final-today-gameplay",
+        "ev-final-full-suite",
+        "ev-final-static-build",
+        "ev-final-browser-qa",
+        "ev-final-release"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "AGENTS.md",
+    "CHANGELOG.md",
+    "PRODUCT.md",
+    "package-lock.json",
+    "package.json",
+    "src/domain/progress/progress.ts",
+    "src/features/today/TodayPage.test.tsx",
+    "src/features/today/TodayPage.tsx",
+    "src/index.css"
+  ],
+  "relevantSpecs": [
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "UX_RESEARCH_REFACTOR_PROMPT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-browser-qa",
+      "description": "Browser QA xác nhận daily mission gameful, keyboard, responsive, không overflow và không có app console error.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/today/TodayPage.tsx",
+        "src/index.css"
+      ]
+    },
+    {
+      "id": "check-full-suite",
+      "description": "Full regression xác nhận learning flow, progress, storage và non-slice behavior không thoái lui.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-release",
+      "description": "Xác nhận version mới đồng bộ và changelog append-only cho production feature.",
+      "command": "node scripts/check-changelog-rule",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-changelog-rule"
+      ]
+    },
+    {
+      "id": "check-research",
+      "description": "Xác nhận research có benchmark, fact/inference, rejected mechanics và quyết định phù hợp product boundary.",
+      "command": "node -e \"const s=require('fs').readFileSync('.harnix/tasks/20260821-084719-gameful-daily-mission/research/gameful-learning-benchmark.md','utf8');const h=['## Câu hỏi quyết định','## Benchmark','## Fact','## Inference','## Quyết định','## Pattern không chọn','## Giới hạn'];if(!h.every(x=>s.includes(x))||(s.match(/https:\\/\\//g)||[]).length<5)process.exit(1)\"",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "PRODUCT.md",
+        "src/features/today/TodayPage.tsx"
+      ]
+    },
+    {
+      "id": "check-static-build",
+      "description": "Lint, TypeScript và production bundle pass.",
+      "command": "npm run lint && npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-today-gameplay",
+      "description": "Focused tests xác nhận goal, progress, feedback và queue priority của daily mission.",
+      "command": "npm test -- --run src/features/today/TodayPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.ts",
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/today/TodayPage.tsx"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-gameful-benchmark",
+      "checkId": "check-research",
+      "recordedAt": "2026-08-21T01:50:52.9687552Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Benchmark 6 app và một meta-analysis PASS; chọn daily mission ba chặng evidence-linked, loại XP, streak, leaderboard, lives và proficiency badge.",
+      "artifactPaths": [
+        ".harnix/tasks/20260821-084719-gameful-daily-mission/research/gameful-learning-benchmark.md"
+      ],
+      "inputDigest": "0abd9259f911aac75815adb7dec4f81860132f45251106924ec75fb8ab83e06b"
+    },
+    {
+      "id": "ev-today-gameplay-red",
+      "checkId": "check-today-gameplay",
+      "recordedAt": "2026-08-21T01:52:26.6388497Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng lý do: 2 test mới fail vì Today chưa có heading Nhiệm vụ hôm nay và chưa có semantic progressbar; 3 test job-first cũ vẫn pass.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/today/TodayPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-today-gameplay-green",
+      "checkId": "check-today-gameplay",
+      "recordedAt": "2026-08-21T01:53:30.8471840Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused GREEN: 1 file, 5 tests pass; mission hiển thị ba chặng, progress 0/3 và suy ra 2/3 từ baseline + retry; ba test job-first cũ vẫn pass.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "c94821ab0fc459e2e3f695f43ea466f6e7ba89c983b5f46cf83b6f4a3c71d918"
+    },
+    {
+      "id": "ev-browser-gameful-preliminary",
+      "recordedAt": "2026-08-21T01:55:17.644Z",
+      "result": "pass",
+      "summary": "Browser pass đầu: 1440x900 và 390x844 không horizontal overflow; mission/progress hiển thị; Enter mở đúng lesson; 0 app-origin console error.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/index.css"
+      ]
+    },
+    {
+      "id": "ev-preliminary-regression",
+      "recordedAt": "2026-08-21T01:56:34.810Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Preliminary full regression PASS: 29 files, 120 tests; lint, TypeScript và Vite build PASS với 1635 modules.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "package.json",
+        "package-lock.json"
+      ]
+    },
+    {
+      "id": "ev-preliminary-release-diff",
+      "recordedAt": "2026-08-21T01:56:34.810Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release checker và git diff --check PASS; version 1.1.0 đồng bộ, changelog release mới ở đầu và không sửa release cũ.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "src/features/today/TodayPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-final-research",
+      "checkId": "check-research",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Research check PASS: benchmark 6 app chính thức, fact/inference, rejected mechanics, quyết định và giới hạn đầy đủ.",
+      "artifactPaths": [
+        ".harnix/tasks/20260821-084719-gameful-daily-mission/research/gameful-learning-benchmark.md"
+      ],
+      "inputDigest": "c91a276190d40a53d3135cacce4115f324b0dc4f957f3966a0f7d9c4244eabac"
+    },
+    {
+      "id": "ev-final-today-gameplay",
+      "checkId": "check-today-gameplay",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 1 file, 6 tests; khóa mission 0/3, progress 2/3, review 0/1 và job-first priority.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "1dca3c89a945e53c5ea29f0aefc50b1a969b2419af5adf8a49c65f7e5e73e5a4"
+    },
+    {
+      "id": "ev-final-full-suite",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression final PASS: 29 files, 121 tests.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ],
+      "inputDigest": "12820abf892d2f09dd594ef985f516b3eab7e9c94ef76488b29401ef7b5a7964"
+    },
+    {
+      "id": "ev-final-static-build",
+      "checkId": "check-static-build",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Static final PASS: oxlint, TypeScript và Vite production build; 1635 modules transformed.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "377853e0223bd235a24ffa10f77778dcd41458445e4ca2cd83c66ebe97a280aa"
+    },
+    {
+      "id": "ev-final-release",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release final PASS: version 1.1.0 đồng bộ và changelog append-only hợp lệ.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "82b56e287fb96689535037ed68696b6102826c431f5045d37b8c4c4fc971fe0e"
+    },
+    {
+      "id": "ev-final-browser-qa",
+      "checkId": "check-browser-qa",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "summary": "Browser final PASS: desktop 1440x900 và mobile 390x844 không horizontal overflow; progress semantic; Enter mở lesson; 0 app error.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/index.css"
+      ],
+      "inputDigest": "ccce8ed32b2715124698dfdb73af84ca348e5d1392791c78f33e4655fa04d7f2"
+    },
+    {
+      "id": "ev-final-diff-review",
+      "recordedAt": "2026-08-21T02:00:37.335Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Compliance và quality review PASS; git diff --check sạch ngoài cảnh báo LF/CRLF; không thêm storage, network, dependency hoặc proficiency claim.",
+      "artifactPaths": [
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ]
+    }
+  ],
+  "createdAt": "2026-08-21T01:47:19.154Z",
+  "updatedAt": "2026-08-21T02:01:39.314Z",
+  "completedAt": "2026-08-21T02:01:39.314Z"
+}

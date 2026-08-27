@@ -25,11 +25,13 @@ describe('ReadingLadderPractice', () => {
     expect(screen.getByText(/maxAttempts above one/i)).toBeTruthy()
     await user.click(screen.getByRole('button', { name: /bắt đầu trích xuất/i }))
     expect(screen.queryByText(/maxAttempts above one/i)).toBeNull()
+    expect(document.activeElement).toBe(screen.getByRole('heading', { name: /trích action/i }))
     await user.click(screen.getByLabelText('B'))
     expect(screen.getByText(/chưa đúng.*choose a/i)).toBeTruthy()
     expect((screen.getByRole('button', { name: /sang explain/i }) as HTMLButtonElement).disabled).toBe(true)
     for (const answer of ['A', 'C', 'E']) await user.click(screen.getByLabelText(answer))
     await user.click(screen.getByRole('button', { name: /sang explain/i }))
+    expect(document.activeElement).toBe(screen.getByRole('heading', { name: /explain và apply/i }))
 
     const finish = screen.getByRole('button', { name: /hoàn thành reading ladder/i }) as HTMLButtonElement
     expect(finish.disabled).toBe(true)

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { LessonV3Schema, type LessonV3 } from './schema'
+import { ExerciseSchema, LessonV3Schema, type LessonV3 } from './schema'
 
 export const validWrittenMission: LessonV3 = {
   schemaVersion: 'v3',
@@ -85,6 +85,45 @@ describe('LessonV3Schema', () => {
 
     const result = LessonV3Schema.safeParse(invalid)
     expect(result.success).toBe(false)
+  })
+
+  it('rejects spoken targets that exceed the task time limit', () => {
+    const spoken = structuredClone(validWrittenMission) as any
+    spoken.performanceTask.mode = 'spoken'
+    spoken.performanceTask.outputContract = {
+      timeLimitSeconds: 120,
+      requiredElements: ['intent'],
+      targetSeconds: 121
+    }
+
+    expect(LessonV3Schema.safeParse(spoken).success).toBe(false)
+  })
+
+  it('rejects duplicate exercise ids within one auto-check section', () => {
+    const duplicateWithinSection = structuredClone(validWrittenMission)
+    const firstAutoCheck = duplicateWithinSection.sections.find((section) => section.type === 'auto-check')
+    if (!firstAutoCheck || firstAutoCheck.type !== 'auto-check') throw new Error('Auto-check fixture missing')
+    firstAutoCheck.exercises.push(structuredClone(firstAutoCheck.exercises[0]))
+
+    expect(LessonV3Schema.safeParse(duplicateWithinSection).success).toBe(false)
+  })
+
+  it('rejects duplicate exercise ids across auto-check sections', () => {
+    const duplicateAcrossSections = structuredClone(validWrittenMission)
+    duplicateAcrossSections.sections.push({
+      id: 'second-check',
+      type: 'auto-check',
+      title: 'Check the next action',
+      exercises: [{
+        id: 'impact',
+        type: 'choice',
+        question: 'What happens next?',
+        options: ['Check the release diff', 'Ignore the incident'],
+        correctAnswer: ['Check the release diff']
+      }]
+    })
+
+    expect(LessonV3Schema.safeParse(duplicateAcrossSections).success).toBe(false)
   })
 
   it('keeps complete phase-specific practice contexts and rejects duplicate artifact ids', () => {
@@ -213,5 +252,95 @@ describe('LessonV3Schema', () => {
       timeLimitSeconds: 120, requiredElements: ['intent'], targetSeconds: 45
     }
     expect(LessonV3Schema.safeParse(spokenWithLadder).success).toBe(false)
+  })
+})
+
+describe('ExerciseSchema', () => {
+  it('rejects duplicate options, correct answers and matching keys', () => {
+    expect(ExerciseSchema.safeParse({
+      id: 'duplicate-options',
+      type: 'choice',
+      question: 'Choose one.',
+      options: ['same', 'same'],
+      correctAnswer: ['same']
+    }).success).toBe(false)
+
+    expect(ExerciseSchema.safeParse({
+      id: 'duplicate-answers',
+      type: 'choice',
+      question: 'Choose all that apply.',
+      options: ['first', 'second'],
+      correctAnswer: ['first', 'first']
+    }).success).toBe(false)
+
+    expect(ExerciseSchema.safeParse({
+      id: 'duplicate-keys',
+      type: 'matching',
+      question: 'Match each key.',
+      matchingPairs: [
+        { key: 'status', value: 'open' },
+        { key: 'status', value: 'closed' }
+      ],
+      correctAnswer: ['status - open', 'status - closed']
+    }).success).toBe(false)
+  })
+
+  it('rejects answers that the choice, matching and ordering controls cannot produce', () => {
+    expect(ExerciseSchema.safeParse({
+      id: 'unreachable-choice',
+      type: 'choice',
+      question: 'Choose one.',
+      options: ['reachable', 'also reachable'],
+      correctAnswer: ['not rendered']
+    }).success).toBe(false)
+
+    expect(ExerciseSchema.safeParse({
+      id: 'unreachable-match',
+      type: 'matching',
+      question: 'Match each key.',
+      matchingPairs: [
+        { key: 'first', value: 'one' },
+        { key: 'second', value: 'two' }
+      ],
+      correctAnswer: ['first - two', 'second - one']
+    }).success).toBe(false)
+
+    expect(ExerciseSchema.safeParse({
+      id: 'unreachable-order',
+      type: 'ordering',
+      question: 'Build the exact order.',
+      options: ['first', 'second', 'third'],
+      correctAnswer: ['first', 'missing', 'third']
+    }).success).toBe(false)
+  })
+
+  it('accepts reachable contracts for every rendered exercise type', () => {
+    const exercises = [
+      {
+        id: 'choice', type: 'choice', question: 'Choose both.',
+        options: ['one', 'two', 'three'], correctAnswer: ['one', 'three']
+      },
+      {
+        id: 'fill', type: 'fill', question: 'Fill the blank.',
+        options: ['database'], correctAnswer: ['database']
+      },
+      {
+        id: 'matching', type: 'matching', question: 'Match each key.',
+        matchingPairs: [
+          { key: 'first', value: 'shared' },
+          { key: 'second', value: 'shared' },
+          { key: 'third', value: 'different' }
+        ],
+        correctAnswer: ['first - shared', 'second - shared', 'third - different']
+      },
+      {
+        id: 'ordering', type: 'ordering', question: 'Build the order.',
+        options: ['third', 'first', 'second'], correctAnswer: ['first', 'second', 'third']
+      }
+    ]
+
+    for (const exercise of exercises) {
+      expect(ExerciseSchema.safeParse(exercise).success, exercise.id).toBe(true)
+    }
   })
 })

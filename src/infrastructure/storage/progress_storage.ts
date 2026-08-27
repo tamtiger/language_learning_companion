@@ -92,6 +92,14 @@ const ProgressEnvelopeV4Schema = z.object({
   settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
 }).strict()
 
+const ProgressBackupV3Schema = ProgressEnvelopeV3Schema.extend({
+  exportedAt: z.string().datetime()
+}).strict()
+
+const ProgressBackupV4Schema = ProgressEnvelopeV4Schema.extend({
+  exportedAt: z.string().datetime()
+}).strict()
+
 export const ProgressEnvelopeSchema = z.object({
   storageVersion: z.literal(5),
   lessonProgress: z.record(LessonProgressSchema),
@@ -107,6 +115,93 @@ export type ProgressBackup = z.infer<typeof ProgressBackupSchema>
 export type BackupParseResult =
   | { success: true; data: ProgressBackup }
   | { success: false; error: string }
+export type EnvelopeMigrationResult =
+  | { success: true; data: ProgressEnvelope }
+  | { success: false; error: string }
+
+function formatZodError(error: z.ZodError): string {
+  return error.errors
+    .map((issue) => `${issue.path.join('.')}: ${issue.message}`)
+    .join('\n')
+}
+
+function migrateV3Envelope(legacy: z.infer<typeof ProgressEnvelopeV3Schema>): ProgressEnvelope {
+  return ProgressEnvelopeSchema.parse({
+    storageVersion: 5,
+    settings: legacy.settings,
+    lessonProgress: Object.fromEntries(
+      Object.entries(legacy.lessonProgress).map(([lessonId, progress]) => [
+        lessonId,
+        {
+          ...progress,
+          activeProcessEvidence: null,
+          recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null }))
+        }
+      ])
+    )
+  })
+}
+
+function migrateV4Envelope(legacy: z.infer<typeof ProgressEnvelopeV4Schema>): ProgressEnvelope {
+  return ProgressEnvelopeSchema.parse({
+    storageVersion: 5,
+    settings: legacy.settings,
+    lessonProgress: Object.fromEntries(
+      Object.entries(legacy.lessonProgress).map(([lessonId, progress]) => [
+        lessonId,
+        {
+          ...progress,
+          activeProcessEvidence: null,
+          recentAttempts: progress.recentAttempts.map((attempt) => ({
+            ...attempt,
+            process: attempt.process
+              ? { ...attempt.process, listenBackChecklistCompleted: false }
+              : null
+          }))
+        }
+      ])
+    )
+  })
+}
+
+/**
+ * Canonical, strict migration entry point for both backup files and Zustand state.
+ * Unsupported, future, and malformed envelopes are rejected without partial recovery.
+ */
+export function migrateProgressEnvelope(input: unknown): EnvelopeMigrationResult {
+  try {
+    const versionResult = z.object({ storageVersion: z.number().int() }).passthrough().safeParse(input)
+    if (!versionResult.success) {
+      return { success: false, error: formatZodError(versionResult.error) }
+    }
+
+    if (versionResult.data.storageVersion === 5) {
+      const result = ProgressEnvelopeSchema.safeParse(input)
+      return result.success
+        ? { success: true, data: result.data }
+        : { success: false, error: formatZodError(result.error) }
+    }
+    if (versionResult.data.storageVersion === 4) {
+      const result = ProgressEnvelopeV4Schema.safeParse(input)
+      return result.success
+        ? { success: true, data: migrateV4Envelope(result.data) }
+        : { success: false, error: formatZodError(result.error) }
+    }
+    if (versionResult.data.storageVersion === 3) {
+      const result = ProgressEnvelopeV3Schema.safeParse(input)
+      return result.success
+        ? { success: true, data: migrateV3Envelope(result.data) }
+        : { success: false, error: formatZodError(result.error) }
+    }
+
+    return {
+      success: false,
+      error: `storageVersion: Unsupported storage version ${versionResult.data.storageVersion}`
+    }
+  } catch (error) {
+    return { success: false, error: error instanceof Error ? error.message : String(error) }
+  }
+}
 
 export function createBackup(
   envelope: ProgressEnvelope,
@@ -122,53 +217,33 @@ export function serializeBackup(backup: ProgressBackup): string {
 export function parseBackup(input: unknown): BackupParseResult {
   try {
     const candidate: unknown = typeof input === 'string' ? JSON.parse(input) : input
-    const result = ProgressBackupSchema.safeParse(candidate)
-    if (!result.success) {
-      const legacyV4 = ProgressEnvelopeV4Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
-      if (legacyV4.success) {
-        const migrated: ProgressBackup = {
-          storageVersion: 5,
-          exportedAt: legacyV4.data.exportedAt,
-          settings: legacyV4.data.settings,
-          lessonProgress: Object.fromEntries(Object.entries(legacyV4.data.lessonProgress).map(([lessonId, progress]) => [
-            lessonId,
-            {
-              ...progress,
-              activeProcessEvidence: null,
-              recentAttempts: progress.recentAttempts.map((attempt) => ({
-                ...attempt,
-                process: attempt.process
-                  ? { ...attempt.process, listenBackChecklistCompleted: false }
-                  : null
-              }))
-            }
-          ]))
-        }
-        return { success: true, data: ProgressBackupSchema.parse(migrated) }
-      }
-      const legacyV3 = ProgressEnvelopeV3Schema.extend({ exportedAt: z.string().datetime() }).strict().safeParse(candidate)
-      if (legacyV3.success) {
-        const migrated: ProgressBackup = {
-          storageVersion: 5,
-          exportedAt: legacyV3.data.exportedAt,
-          settings: legacyV3.data.settings,
-          lessonProgress: Object.fromEntries(Object.entries(legacyV3.data.lessonProgress).map(([lessonId, progress]) => [
-            lessonId,
-            { ...progress, activeProcessEvidence: null, recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null })) }
-          ]))
-        }
-        return { success: true, data: ProgressBackupSchema.parse(migrated) }
-      }
-    }
-    if (!result.success) {
+    const versionResult = z.object({ storageVersion: z.number().int() }).passthrough().safeParse(candidate)
+    if (!versionResult.success) return { success: false, error: formatZodError(versionResult.error) }
+
+    const backupResult = versionResult.data.storageVersion === 5
+      ? ProgressBackupSchema.safeParse(candidate)
+      : versionResult.data.storageVersion === 4
+        ? ProgressBackupV4Schema.safeParse(candidate)
+        : versionResult.data.storageVersion === 3
+          ? ProgressBackupV3Schema.safeParse(candidate)
+          : null
+    if (!backupResult) {
       return {
         success: false,
-        error: result.error.errors
-          .map((issue) => `${issue.path.join('.')}: ${issue.message}`)
-          .join('\n')
+        error: `storageVersion: Unsupported storage version ${versionResult.data.storageVersion}`
       }
     }
-    return { success: true, data: result.data }
+    if (!backupResult.success) {
+      return { success: false, error: formatZodError(backupResult.error) }
+    }
+
+    const { exportedAt, ...envelope } = backupResult.data
+    const migrated = migrateProgressEnvelope(envelope)
+    if (!migrated.success) return migrated
+    return {
+      success: true,
+      data: ProgressBackupSchema.parse({ ...migrated.data, exportedAt })
+    }
   } catch (error) {
     return { success: false, error: error instanceof Error ? error.message : String(error) }
   }

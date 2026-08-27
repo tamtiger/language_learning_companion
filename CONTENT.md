@@ -21,6 +21,9 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 
 ## Lesson v3
 
+Ví dụ dưới đây minh họa một policy hợp lệ; `intervalDays` là content-owned và có
+thể dùng cadence khác ở từng lesson.
+
 ```json
 {
   "schemaVersion": "v3",
@@ -43,7 +46,7 @@ mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-updat
 - `brief`: `id`, `type`, `title`, `body`.
 - `language-support`: `id`, `type`, `title`, `vocabulary`, `expressions`.
 - `source`: `id`, `type`, `title`, `format`, `content`; format là `prose | dialogue | meeting-notes | technical-doc | code-snippet`.
-- `auto-check`: `id`, `type`, `title`, `exercises`; exercise hỗ trợ `choice | matching | ordering`.
+- `auto-check`: `id`, `type`, `title`, `exercises`; exercise hỗ trợ `choice | fill | matching | ordering`.
 
 `performanceTask` bắt buộc với mission v3:
 
@@ -85,7 +88,7 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
 
 ## Invariants
 
-- Lesson, section, exercise và rubric IDs duy nhất trong scope tương ứng.
+- Lesson, section và rubric IDs duy nhất trong scope tương ứng; exercise ID phải duy nhất trên toàn lesson, kể cả giữa nhiều section `auto-check`.
 - V3 có 1 primary capability, ít nhất 1 source/input section và đúng 1 performance task.
 - Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
 - Baseline không hiển thị `modelResponse` trước attempt đầu.
@@ -108,7 +111,8 @@ bị ép migration nếu một prompt độc lập đã cung cấp đủ dữ ki
 - Functional chunks mô tả chức năng, nghĩa, slot biến đổi và model audio; variation
   phải thay dữ kiện thay vì chỉ lặp nguyên câu.
 - Pronunciation lesson chỉ hoàn thành khi tất cả exercise trong auto-check đã đúng.
-- `reviewPolicy.intervalDays` là số nguyên dương tăng dần; policy đầu tiên dùng `[1,3,7]`.
+- `reviewPolicy.intervalDays` là dãy số nguyên dương tăng dần do từng lesson sở
+  hữu; runtime phải dùng đúng policy của lesson thay vì áp một cadence toàn cục.
 - Content nguyên bản hoặc có provenance/license rõ; không copy proprietary docs.
 - Không đưa secret, personal data hoặc URL yêu cầu network vào lesson.
 

@@ -1,5 +1,11 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist, type StateStorage } from 'zustand/middleware'
+import {
+  createJSONStorage,
+  persist,
+  type PersistStorage,
+  type StateStorage
+} from 'zustand/middleware'
+import { z } from 'zod'
 import { getBundledCatalog } from '../../content/catalog'
 import type { CanonicalLesson } from '../../content/schema'
 import {
@@ -14,6 +20,7 @@ import {
 } from '../../domain/progress/progress'
 import {
   createBackup,
+  migrateProgressEnvelope,
   parseBackup,
   type ProgressBackup,
   type ProgressEnvelope
@@ -53,7 +60,81 @@ export interface AppState {
   recordCapabilityAttempt: (attempt: AttemptEvidence, reviewIntervals: number[]) => void
   restoreEnvelope: (envelope: ProgressEnvelope) => void
   restartLesson: (lessonId: string) => void
+  startLessonRepeat: (lessonId: string) => void
   resetProgress: () => void
+}
+
+export type PersistedAppState = Pick<
+  AppState,
+  'theme' | 'currentCefrLevel' | 'activeLessonId' | 'lessonProgress'
+>
+
+let persistenceQuarantined = false
+let persistenceRecoveryEpoch = 0
+let activeHydrationRecoveryEpoch = 0
+let migrationWriteAuthorized = false
+const validatedMigrationStates = new WeakSet<object>()
+
+function allowPersistenceRecovery(): void {
+  persistenceRecoveryEpoch += 1
+  migrationWriteAuthorized = false
+  persistenceQuarantined = false
+}
+
+/**
+ * Blocks automatic writes after hydration rejects stored data. Recovery actions
+ * explicitly clear the quarantine before replacing that data with validated state.
+ */
+export function withPersistenceQuarantine(
+  storage: PersistStorage<PersistedAppState | null>
+): PersistStorage<PersistedAppState | null> {
+  return {
+    getItem: (name) => storage.getItem(name),
+    setItem: (name, value) => {
+      if (persistenceQuarantined) {
+        if (!migrationWriteAuthorized) return undefined
+        migrationWriteAuthorized = false
+      }
+      return storage.setItem(name, value)
+    },
+    removeItem: (name) => storage.removeItem(name)
+  }
+}
+
+function createAppPersistStorage(): PersistStorage<PersistedAppState | null> | undefined {
+  const storage = createJSONStorage<PersistedAppState | null>(getSafeStorage)
+  return storage ? withPersistenceQuarantine(storage) : undefined
+}
+
+const PersistedAppStateMetadataSchema = z.object({
+  theme: z.enum(['dark', 'light']),
+  currentCefrLevel: z.enum(['B1', 'B2', 'C1']).nullable().default(null),
+  activeLessonId: z.string().nullable().default(null),
+  lessonProgress: z.record(z.unknown())
+}).strict()
+
+/** Returns null when persisted data is unsupported or cannot be validated safely. */
+export function migratePersistedAppState(
+  persisted: unknown,
+  version: number
+): PersistedAppState | null {
+  if (version !== 3 && version !== 4 && version !== 5) return null
+  const metadata = PersistedAppStateMetadataSchema.safeParse(persisted)
+  if (!metadata.success) return null
+
+  const migrated = migrateProgressEnvelope({
+    storageVersion: version,
+    lessonProgress: metadata.data.lessonProgress,
+    settings: { theme: metadata.data.theme }
+  })
+  if (!migrated.success) return null
+
+  return {
+    theme: migrated.data.settings.theme,
+    currentCefrLevel: metadata.data.currentCefrLevel,
+    activeLessonId: metadata.data.activeLessonId,
+    lessonProgress: migrated.data.lessonProgress
+  }
 }
 
 export function createCapabilityBackup(
@@ -82,7 +163,7 @@ export function createCapabilityBackup(
 export const parseCapabilityBackup = parseBackup
 
 export const useAppStore = create<AppState>()(
-  persist(
+  persist<AppState, [], [], PersistedAppState | null>(
     (set) => ({
       theme: 'dark',
       currentCefrLevel: null,
@@ -162,6 +243,7 @@ export const useAppStore = create<AppState>()(
       }),
       recordCapabilityAttempt: (attempt, reviewIntervals) => set((state) => {
         const current = state.lessonProgress[attempt.lessonId] ?? createEmptyLessonProgress()
+        const preserveActiveCycle = attempt.phase === 'review' && current.status === 'in-progress'
         let next = appendAttempt(current, attempt)
         const nextPhase: DurableCapabilityPhase | null = attempt.phase === 'baseline'
           ? 'input'
@@ -172,10 +254,12 @@ export const useAppStore = create<AppState>()(
               : null
         next = {
           ...next,
-          activePhase: nextPhase,
-          activeProcessEvidence: nextPhase === null
-            ? null
-            : attempt.process ?? current.activeProcessEvidence
+          activePhase: preserveActiveCycle ? current.activePhase : nextPhase,
+          activeProcessEvidence: preserveActiveCycle
+            ? current.activeProcessEvidence
+            : nextPhase === null
+              ? null
+              : attempt.process ?? current.activeProcessEvidence
         }
         if (attempt.phase === 'transfer') {
           next = {
@@ -187,43 +271,85 @@ export const useAppStore = create<AppState>()(
           const passed = Object.values(attempt.rubric).every((rating) => rating === 'met')
           next = {
             ...applyReviewResult(next, passed, reviewIntervals, new Date(attempt.attemptedAt)),
-            status: 'completed',
-            activePhase: null
+            status: preserveActiveCycle ? 'in-progress' : 'completed',
+            activePhase: preserveActiveCycle ? current.activePhase : null
           }
         }
         return { lessonProgress: { ...state.lessonProgress, [attempt.lessonId]: next } }
       }),
-      restoreEnvelope: (envelope) => set({
-        theme: envelope.settings.theme,
-        lessonProgress: envelope.lessonProgress,
-        activeLessonId: null
-      }),
+      restoreEnvelope: (envelope) => {
+        allowPersistenceRecovery()
+        set({
+          theme: envelope.settings.theme,
+          lessonProgress: envelope.lessonProgress,
+          activeLessonId: null
+        })
+      },
       restartLesson: (lessonId) => set((state) => ({
         lessonProgress: {
           ...state.lessonProgress,
           [lessonId]: createEmptyLessonProgress()
         }
       })),
-      resetProgress: () => set({
-        currentCefrLevel: null,
-        activeLessonId: null,
-        lessonProgress: {}
-      })
+      startLessonRepeat: (lessonId) => set((state) => {
+        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        return {
+          lessonProgress: {
+            ...state.lessonProgress,
+            [lessonId]: {
+              ...current,
+              status: 'in-progress',
+              currentSectionId: null,
+              completedSectionIds: [],
+              activePhase: null,
+              completedExerciseIds: [],
+              activeProcessEvidence: null,
+              transferCompleted: false,
+              lastActivityAt: new Date().toISOString()
+            }
+          }
+        }
+      }),
+      resetProgress: () => {
+        allowPersistenceRecovery()
+        set({
+          currentCefrLevel: null,
+          activeLessonId: null,
+          lessonProgress: {}
+        })
+      }
     }),
     {
       name: 'language-learning-companion-storage-v3',
       version: 5,
-      storage: createJSONStorage(getSafeStorage),
-      migrate: (persisted, version) => {
-        if (version >= 5) return persisted as AppState
-        const state = persisted as AppState
-        return {
-          ...state,
-          lessonProgress: Object.fromEntries(Object.entries(state.lessonProgress ?? {}).map(([lessonId, progress]) => [
-            lessonId,
-            { ...progress, activeProcessEvidence: null }
-          ]))
+      storage: createAppPersistStorage(),
+      onRehydrateStorage: () => {
+        const recoveryEpoch = persistenceRecoveryEpoch
+        activeHydrationRecoveryEpoch = recoveryEpoch
+        migrationWriteAuthorized = false
+        persistenceQuarantined = true
+        return (_state, error) => {
+          if (recoveryEpoch !== persistenceRecoveryEpoch) return
+          migrationWriteAuthorized = false
+          persistenceQuarantined = error !== undefined
         }
+      },
+      migrate: (persisted, version) => {
+        const migrated = migratePersistedAppState(persisted, version)
+        if (!migrated) throw new Error('Persisted app state is unsupported or invalid')
+        validatedMigrationStates.add(migrated)
+        return migrated
+      },
+      merge: (persisted, current) => {
+        const migrated = typeof persisted === 'object'
+          && persisted !== null
+          && validatedMigrationStates.delete(persisted)
+        if (activeHydrationRecoveryEpoch !== persistenceRecoveryEpoch) return current
+        if (persisted === undefined) return current
+        const validated = migratePersistedAppState(persisted, 5)
+        if (!validated) throw new Error('Persisted app state is unsupported or invalid')
+        migrationWriteAuthorized = migrated
+        return { ...current, ...validated }
       },
       partialize: (state) => ({
         theme: state.theme,

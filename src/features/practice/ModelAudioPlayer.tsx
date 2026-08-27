@@ -9,7 +9,14 @@ export function ModelAudioPlayer({ source, transcriptVisible = false }: {
   const [status, setStatus] = useState('Sẵn sàng phát mẫu.')
   const [rate, setRate] = useState<ModelAudioRate>(1)
   const stop = useRef<(() => void) | null>(null)
-  useEffect(() => () => stop.current?.(), [])
+  useEffect(() => {
+    setStatus('Sẵn sàng phát mẫu.')
+    return () => {
+      const stopPlayback = stop.current
+      stop.current = null
+      stopPlayback?.()
+    }
+  }, [source])
   const count = availableVoiceCount(source)
   return (
     <div className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-4">
@@ -37,7 +44,7 @@ export function ModelAudioPlayer({ source, transcriptVisible = false }: {
         ))}
       </div>
       {source.kind === 'speech-synthesis' && (
-        <p className="mt-2 text-xs text-zinc-500">
+        <p className="mt-2 text-xs text-zinc-400">
           Synthetic device voice: requested locale phụ thuộc voice có trên máy và không thay thế human accent sample.
         </p>
       )}

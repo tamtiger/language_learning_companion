@@ -59,12 +59,17 @@ export function isIndependentAttempt(attempt: AttemptEvidence, maxHints = 0): bo
 
 export type TransferReason =
   | 'incomplete'
+  | 'lesson-mismatch'
+  | 'task-mismatch'
+  | 'capability-mismatch'
+  | 'rubric-mismatch'
   | 'rubric-not-rated'
   | 'rubric-gap'
   | 'used-vietnamese'
   | 'used-translation'
   | 'used-model-answer'
   | 'too-many-hints'
+  | 'preparation-overtime'
   | 'too-short'
   | 'too-long'
   | 'overtime'
@@ -72,7 +77,15 @@ export type TransferReason =
   | 'interaction-incomplete'
 
 export interface EvidenceContract {
+  expectedLessonId: string
+  expectedTaskId: string
+  expectedCapabilityId: CapabilityId | null
+  forbidVietnamese: boolean
+  forbidTranslation: boolean
+  forbidModelAnswer: boolean
   maxHints: number
+  maxPreparationSeconds: number
+  requiredRubricIds: string[]
   timeLimitSeconds: number
   targetSeconds?: number
   minWords?: number
@@ -92,16 +105,28 @@ export function assessTransfer(
 ): TransferAssessment {
   const reasons: TransferReason[] = []
   if (attempt.phase !== 'transfer' || !attempt.completed) reasons.push('incomplete')
+  if (attempt.lessonId !== contract.expectedLessonId) reasons.push('lesson-mismatch')
+  if (attempt.taskId !== contract.expectedTaskId) reasons.push('task-mismatch')
+  if (attempt.capabilityId !== contract.expectedCapabilityId) reasons.push('capability-mismatch')
+  const actualRubricIds = Object.keys(attempt.rubric).sort()
+  const requiredRubricIds = [...contract.requiredRubricIds].sort()
+  if (actualRubricIds.length !== requiredRubricIds.length
+    || actualRubricIds.some((id, index) => id !== requiredRubricIds[index])) {
+    reasons.push('rubric-mismatch')
+  }
   const ratings = Object.values(attempt.rubric)
   if (ratings.length === 0 || ratings.some((rating) => rating === 'not-rated')) {
     reasons.push('rubric-not-rated')
   } else if (ratings.some((rating) => rating === 'not-met')) {
     reasons.push('rubric-gap')
   }
-  if (attempt.independence.usedVietnamese) reasons.push('used-vietnamese')
-  if (attempt.independence.usedTranslation) reasons.push('used-translation')
-  if (attempt.independence.usedModelAnswer) reasons.push('used-model-answer')
+  if (contract.forbidVietnamese && attempt.independence.usedVietnamese) reasons.push('used-vietnamese')
+  if (contract.forbidTranslation && attempt.independence.usedTranslation) reasons.push('used-translation')
+  if (contract.forbidModelAnswer && attempt.independence.usedModelAnswer) reasons.push('used-model-answer')
   if (attempt.independence.hintCount > contract.maxHints) reasons.push('too-many-hints')
+  if (attempt.independence.preparationSeconds > contract.maxPreparationSeconds) {
+    reasons.push('preparation-overtime')
+  }
   if (attempt.durationSeconds > contract.timeLimitSeconds) reasons.push('overtime')
   if (contract.targetSeconds !== undefined && attempt.durationSeconds < contract.targetSeconds) {
     reasons.push('too-short')
@@ -245,10 +270,10 @@ export function buildTodayQueue(
     return progress?.status !== 'completed' || reviewIsDue
   }).map((lesson): TodayQueueItem => {
     const progress = progressByLesson[lesson.lessonId]
+    if (progress?.status === 'in-progress') return { ...lesson, kind: 'resume' }
     if (progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= nowValue) {
       return { ...lesson, kind: 'review', dueAt: progress.nextReviewAt }
     }
-    if (progress?.status === 'in-progress') return { ...lesson, kind: 'resume' }
     if (lesson.hasPerformanceTask && !progress?.attemptCount) return { ...lesson, kind: 'baseline' }
     return { ...lesson, kind: 'new' }
   })

@@ -93,6 +93,7 @@ export function SpokenResponse({
       session.current = nextSession
       setStatus('Đang ghi âm cục bộ. Không có audio nào được upload.')
     } catch (error) {
+      if (requestGeneration.current !== generation) return
       setStatus(error instanceof LocalMediaError && error.kind === 'denied'
         ? 'Microphone bị từ chối. Timer vẫn đang chạy.'
         : 'Ghi âm không khả dụng. Timer vẫn đang chạy.')
@@ -102,22 +103,29 @@ export function SpokenResponse({
   const finish = async () => {
     if (captureState !== 'running' || seconds < 1) return
     const durationSeconds = Math.max(1, Math.ceil((Date.now() - (startedAt.current ?? Date.now())) / 1_000))
-    requestGeneration.current += 1
+    const generation = requestGeneration.current + 1
+    requestGeneration.current = generation
+    const ownedSession = session.current
     setCaptureState('ready')
     let nextAudioUrl: string | null = null
-    if (session.current) {
+    if (ownedSession) {
       try {
-        nextAudioUrl = await session.current.stop()
+        nextAudioUrl = await ownedSession.stop()
+        if (requestGeneration.current !== generation || session.current !== ownedSession) {
+          ownedSession.dispose()
+          return
+        }
         setAudioUrl(nextAudioUrl)
         setStatus('Đã ghi xong. Audio chỉ ở phiên này.')
       } catch {
+        if (requestGeneration.current !== generation || session.current !== ownedSession) return
         setStatus('Không tạo được audio; attempt dùng số đo timer.')
       }
     } else {
       setStatus('Đã hoàn tất bằng timer-only.')
     }
 
-    const ownedSession = session.current
+    if (requestGeneration.current !== generation) return
     transferred.current = Boolean(ownedSession)
     onReady({
       kind: 'spoken',
@@ -135,7 +143,7 @@ export function SpokenResponse({
       <div className="mt-4 flex flex-wrap gap-2">
         {captureState === 'idle' && (
           <>
-            <button type="button" onClick={() => void startRecording()} className="rounded-lg bg-red-600 px-4 py-2 font-bold">
+            <button type="button" onClick={() => void startRecording()} className="rounded-lg bg-red-700 px-4 py-2 font-bold text-white">
               Bắt đầu ghi âm
             </button>
             <button type="button" onClick={startTimerOnly} className="rounded-lg border border-zinc-700 px-4 py-2 font-semibold">
@@ -154,7 +162,7 @@ export function SpokenResponse({
           </button>
         )}
       </div>
-      {audioUrl && <audio className="mt-4 w-full" controls src={audioUrl} onPlay={onListenedBack} aria-label="Bản ghi cục bộ của attempt" />}
+      {audioUrl && <audio className="mt-4 w-full" controls src={audioUrl} onEnded={onListenedBack} aria-label="Bản ghi cục bộ của attempt" />}
     </div>
   )
 }

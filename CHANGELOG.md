@@ -2,6 +2,37 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.1.1] - 2026-08-27
+
+### Fixed
+
+- Ràng buộc transfer evidence theo lesson, task, rubric, ngân sách chuẩn bị và các
+  cờ độc lập; chặn audio async cũ quay lại sau reset và chỉ tính listen-back khi
+  playback kết thúc.
+- Dùng chung migration backup/hydration V3/V4 → V5 theo cơ chế fail-closed; dữ
+  liệu version tương lai được quarantine khỏi write thường cho đến khi người dùng
+  import hợp lệ hoặc xác nhận reset.
+- Khóa capability flow bằng auto-check và transition hợp lệ; repeat không bị
+  review cũ chiếm luồng, process evidence khôi phục với nhãn trung thực và Progress
+  dùng tổng `attemptCount` thực.
+- Từ chối exercise/task contract không thể hoàn thành, đồng thời sửa semantics
+  choice, fill, matching và ordering.
+- Cleanup media khi source đổi hoặc component unmount; bổ sung focus cho phase,
+  turn và import confirmation, contrast, document language cùng Catalog empty state.
+
+### Changed
+
+- Phân biệt thông báo hoàn tất transfer, review và mission đã hoàn tất; tài liệu
+  phản ánh backup V5 cùng lịch review do content của từng lesson sở hữu.
+
+## [1.1.0] - 2026-08-21
+
+### Added
+
+- Bổ sung Daily Mission ba chặng trên Today, dùng baseline, retry và transfer thật
+  để hiển thị tiến trình cùng đích mở lịch ôn; không thêm XP, streak hoặc
+  leaderboard có thể bị hiểu nhầm thành năng lực.
+
 ## [1.0.2] - 2026-08-21
 
 ### Changed

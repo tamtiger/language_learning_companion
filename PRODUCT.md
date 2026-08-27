@@ -102,7 +102,7 @@ suy diễn rằng app đã cải thiện phát âm, phản xạ hay hiệu quả
   calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
 
 Rollback theo content flag: bỏ `learningLoop` khỏi spoken task sẽ trả mission về
-capability flow chuẩn mà không làm mất progress V4.
+capability flow chuẩn mà không làm mất progress V5.
 
 ## Non-goals
 

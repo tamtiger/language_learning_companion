@@ -1,9 +1,46 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { render, screen, within } from '@testing-library/react'
+import { act, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { getBundledCatalog } from '../../content/catalog'
+import type { CanonicalLesson, Exercise } from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/use_app_store'
 import { LessonFlow } from './LessonFlow'
+
+function completeRequiredAutoChecks(lesson: CanonicalLesson) {
+  act(() => {
+    lesson.sections.forEach((section) => {
+      if (section.type !== 'auto-check') return
+      section.exercises.forEach((exercise) => {
+        useAppStore.getState().markExerciseCorrect(lesson.lessonId, exercise.id)
+      })
+    })
+  })
+}
+
+async function answerExercise(
+  user: ReturnType<typeof userEvent.setup>,
+  fieldset: HTMLElement,
+  exercise: Exercise
+) {
+  const scope = within(fieldset)
+  if (exercise.type === 'choice') {
+    for (const answer of exercise.correctAnswer) await user.click(scope.getByLabelText(answer))
+    return
+  }
+  if (exercise.type === 'fill') {
+    await user.type(scope.getByRole('textbox'), exercise.correctAnswer[0])
+    return
+  }
+  if (exercise.type === 'matching') {
+    for (const pair of exercise.matchingPairs ?? []) {
+      await user.selectOptions(scope.getByRole('combobox', { name: pair.key }), pair.value)
+    }
+    return
+  }
+  for (const answer of exercise.correctAnswer) {
+    await user.click(scope.getByRole('button', { name: `Thêm ${answer}` }))
+  }
+}
 
 describe('generic capability lesson flow', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
@@ -20,6 +57,7 @@ describe('generic capability lesson flow', () => {
 
     await user.type(screen.getByRole('textbox'), 'Initial issue update in English.')
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
+    completeRequiredAutoChecks(lesson)
     await user.click(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))
     await user.type(screen.getByRole('textbox'), 'A clearer issue update with impact and a request.')
     await user.click(screen.getByRole('button', { name: /đối chiếu rubric/i }))
@@ -52,6 +90,7 @@ describe('generic capability lesson flow', () => {
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     await user.type(screen.getByRole('textbox'), 'Initial issue update.')
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
+    completeRequiredAutoChecks(lesson)
     await user.click(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))
     await user.type(screen.getByRole('textbox'), 'Main issue update.')
     await user.click(screen.getByRole('button', { name: /đối chiếu rubric/i }))
@@ -114,7 +153,7 @@ describe('generic capability lesson flow', () => {
     for (const exercise of lastSection.exercises) {
       const fieldset = screen.getByText(exercise.question).closest('fieldset')
       if (!fieldset) throw new Error('Exercise fieldset missing')
-      for (const answer of exercise.correctAnswer) await user.click(within(fieldset).getByLabelText(answer))
+      await answerExercise(user, fieldset, exercise)
       await user.click(within(fieldset).getByRole('button', { name: /kiểm tra/i }))
     }
     expect(finish.disabled).toBe(false)

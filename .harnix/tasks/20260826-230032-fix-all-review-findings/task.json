@@ -1,0 +1,1157 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260826-230032-fix-all-review-findings",
+  "title": "Sửa toàn bộ finding của đợt review",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Sửa toàn bộ finding đã xác nhận để evidence học tập chính xác, migration an toàn, mission không bị bypass/dead end, media-accessibility đúng contract và release nhất quán.",
+  "nonGoals": [
+    "Không thêm backend, account, cloud sync, analytics, AI grading, dependency hoặc E2E framework mới.",
+    "Không sửa Browser/kernel của môi trường và không coi browser QA là completion gate khi công cụ không khởi động.",
+    "Không xóa evidence hợp lệ, sửa release cũ hoặc thay đổi privacy contract không persist learner output.",
+    "Không commit, branch, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Transfer assessment ràng buộc đúng lesson/task/tập rubric và listen-back chỉ hoàn tất sau ended của audio hiện tại; mọi mismatch fail closed với reason actionable.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-transfer",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Hydration và backup import dùng chung migration v3/v4→v5, malformed/future state fail closed; Settings không confirm stale candidate và export vẫn hợp lệ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-storage",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Capability mission bắt buộc hoàn tất auto-check, chỉ đi qua transition hợp lệ và khôi phục spoken readiness từ persisted process evidence.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-learning",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "Repeat mở được từ Today và màn hoàn tất, reset vòng luyện mới nhưng bảo toàn attempt history, total count và review evidence.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-repeat",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Progress dùng attemptCount cho tổng attempts, ghi rõ recent metrics và đánh giá transfer bằng expected-task contract.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-progress",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "text": "Exercise schema từ chối duplicate/unreachable answers, renderer hỗ trợ đúng semantics bốn type và perception opt-out ghi đúng trainingCompleted.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-content",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "text": "Media resources được cleanup khi source đổi/unmount; focus, contrast, axe, document language và Catalog empty state đạt kiểm tra accessibility.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-a11y",
+        "ev-completion-static",
+        "ev-completion-full-suite"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "text": "Copy/docs phản ánh completion kind, backup v5 và content-owned review policy; version 1.1.1, package-lock và changelog release mới đồng bộ append-only.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-completion-docs-release",
+        "ev-completion-static",
+        "ev-completion-full-suite"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "ARCHITECTURE.md",
+    "CHANGELOG.md",
+    "README.md",
+    "content/modules",
+    "index.html",
+    "package-lock.json",
+    "package.json",
+    "scripts/check-changelog-rule",
+    "src/app",
+    "src/content",
+    "src/domain/learning",
+    "src/domain/progress",
+    "src/features/catalog",
+    "src/features/lesson",
+    "src/features/practice",
+    "src/features/progress",
+    "src/features/settings",
+    "src/features/today",
+    "src/index.css",
+    "src/infrastructure/storage",
+    "src/shared/hooks",
+    "src/types"
+  ],
+  "relevantSpecs": [
+    "AGENTS.md",
+    "ARCHITECTURE.md",
+    "CONTENT.md",
+    "PRODUCT.md",
+    "README.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-transfer-integrity",
+      "description": "Transfer task/rubric contract và listen-back ended gate.",
+      "command": "npx vitest run src/domain/progress/progress.test.ts src/features/practice/SpokenResponse.test.tsx src/features/practice/CapabilityTask.test.tsx src/features/progress/ProgressPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "check-storage-settings",
+      "description": "Canonical v3/v4→v5 migration, fail-closed hydration và stale-import protection.",
+      "command": "npx vitest run src/infrastructure/storage/progress_storage.test.ts src/shared/hooks/use_app_store.test.ts src/features/settings/Settings.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-2"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/settings/Settings.test.tsx",
+        "src/features/settings/Settings.tsx",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "check-learning-flow",
+      "description": "Auto-check gate, legal phase transitions và spoken resume.",
+      "command": "npx vitest run src/domain/learning/flow.test.ts src/features/practice/LearningLoopPractice.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/learning/flow.test.ts",
+        "src/domain/learning/flow.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/LearningLoopPractice.tsx"
+      ]
+    },
+    {
+      "id": "check-repeat-flow",
+      "description": "Repeat entry points và history-preserving cycle reset.",
+      "command": "npx vitest run src/shared/hooks/use_app_store.test.ts src/features/today/TodayPage.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/today/TodayPage.tsx",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "check-progress-aggregation",
+      "description": "Total attemptCount, recent labels và expected-task assessment trên Progress.",
+      "command": "npx vitest run src/domain/progress/progress.test.ts src/features/progress/ProgressPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "check-content-exercises",
+      "description": "Reachable exercise schema/renderer và perception completion count.",
+      "command": "npx vitest run src/content/schema.test.ts src/content/content.test.ts src/features/lesson/SectionRenderer.test.tsx src/features/practice/PerceptionPractice.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-6"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/modules/**/*.json",
+        "src/content/content.test.ts",
+        "src/content/schema.test.ts",
+        "src/content/schema.ts",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/PerceptionPractice.test.tsx",
+        "src/features/practice/PerceptionPractice.tsx"
+      ]
+    },
+    {
+      "id": "check-a11y-media",
+      "description": "Media ownership cleanup, phase focus, WCAG contrast, lang và Catalog empty state.",
+      "command": "npx vitest run src/app/App.test.tsx src/features/catalog/CatalogPage.test.tsx src/features/lesson/SectionRenderer.test.tsx src/features/practice/ModelAudioPlayer.test.tsx src/features/practice/InteractionPractice.test.tsx src/features/practice/CapabilityTask.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-7"
+      ],
+      "inputs": [
+        "@task-contract",
+        "index.html",
+        "src/app/App.test.tsx",
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/InteractionPractice.test.tsx",
+        "src/features/practice/InteractionPractice.tsx",
+        "src/features/practice/ModelAudioPlayer.test.tsx",
+        "src/features/practice/ModelAudioPlayer.tsx",
+        "src/index.css"
+      ]
+    },
+    {
+      "id": "check-docs-release",
+      "description": "Manual diff inspection xác nhận copy/docs, version 1.1.1 và changelog append-only trên baseline user-owned.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "README.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-changelog-rule",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/settings/Settings.tsx"
+      ]
+    },
+    {
+      "id": "check-full-suite",
+      "description": "Toàn bộ automated regression suite trên source cuối.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-7",
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-static-quality",
+      "description": "Lint, production build, release rule và whitespace diff đều pass.",
+      "command": "npm run lint && npm run build && node scripts/check-changelog-rule && git diff --check",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-7",
+        "AC-8"
+      ],
+      "inputs": [
+        "@task-contract",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "content/**/*.json",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-changelog-rule",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-s1-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:04:40.112Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng nguyên nhân: wrong task/rubric vẫn qualifying, Progress đếm transfer sai task là đạt và sự kiện play đã đánh dấu listen-back trước khi audio ended.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/progress/ProgressPage.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-s1-green",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:06:21.992Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "24 focused tests pass: transfer ràng buộc lesson/task/rubric, Progress không qualifying evidence sai contract và listen-back chỉ hoàn tất sau playback ended.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "inputDigest": "045c8e169f22814ac572380664751df2cc8f6630af1dfb09aa70169514195c04"
+    },
+    {
+      "id": "ev-s3-red",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T16:07:49.411Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng nguyên nhân: reducer chấp nhận transition sai phase và thiếu interaction event; main attempt chưa khóa theo auto-check; spoken process đã persist vẫn bị bắt lặp learning loop.",
+      "artifactPaths": [
+        "src/domain/learning/flow.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-s2-green",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T16:11:05.496Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "19 focused tests pass: backup và hydration dùng canonical migration v3/v4→v5, malformed/future state fail closed, Settings chặn stale candidate và xử lý lỗi đọc.",
+      "artifactPaths": [
+        "src/features/settings/Settings.test.tsx",
+        "src/features/settings/Settings.tsx",
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ],
+      "inputDigest": "1c1d6f1353b481d4ce86ae3a77fe0ba5f60135a4796ef8dcda6284b4fe4f08e2"
+    },
+    {
+      "id": "ev-s3-green",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T16:11:05.496Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "23 focused tests pass: reducer từ chối event sai phase, interaction là transition rõ ràng, auto-check khóa main attempt và spoken process evidence khôi phục readiness.",
+      "artifactPaths": [
+        "src/domain/learning/flow.test.ts",
+        "src/domain/learning/flow.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/LearningLoopPractice.tsx"
+      ],
+      "inputDigest": "b6b654894b733dbedf02a99c8fe5c4ad9049ac0ed9980c0f5112498f65f44cb4"
+    },
+    {
+      "id": "ev-s6-green",
+      "checkId": "check-content-exercises",
+      "recordedAt": "2026-08-26T16:11:05.496Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "23 focused tests pass: schema chặn đáp án duplicate/unreachable, renderer hỗ trợ đúng choice/fill/matching/ordering và perception opt-out đếm training chính xác.",
+      "artifactPaths": [
+        "src/content/content.test.ts",
+        "src/content/schema.test.ts",
+        "src/content/schema.ts",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/PerceptionPractice.test.tsx",
+        "src/features/practice/PerceptionPractice.tsx"
+      ],
+      "inputDigest": "feed60e891e6ea9c9d7192c01f0503a1e533c479ad1960c100f1f2f073599254"
+    },
+    {
+      "id": "ev-s4-red",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T16:12:21.529Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng nguyên nhân: store chưa có history-preserving repeat, Today chỉ mở lesson completed và màn hoàn tất không có action quay về baseline.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-s4-green",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T16:13:19.958Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "31 focused tests pass: repeat từ Today và màn hoàn tất reset cycle state, quay về baseline và giữ attempt history, total count cùng review schedule.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/today/TodayPage.tsx",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ],
+      "inputDigest": "1dfcdafe0fed59f945d434218fe6ce60e449480f7985b07c5f68d86ae916c45d"
+    },
+    {
+      "id": "ev-s5-red",
+      "checkId": "check-progress-aggregation",
+      "recordedAt": "2026-08-26T16:13:53.225Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng nguyên nhân: Progress hiển thị 4 retained records thay vì aggregate attemptCount 75 và chưa ghi rõ transfer metrics là gần đây.",
+      "artifactPaths": [
+        "src/features/progress/ProgressPage.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-s5-green",
+      "checkId": "check-progress-aggregation",
+      "recordedAt": "2026-08-26T16:14:27.234Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "9 focused tests pass: Attempts dùng aggregate attemptCount=75 trong khi transfer counters và lịch sử được ghi rõ là dữ liệu gần đây từ retained buffer.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "inputDigest": "87416e86d3936576ca4a258310743e5a84063a028b39d9ff7c8c94b7a4b13399"
+    },
+    {
+      "id": "ev-s7-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:17:28.6445548Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng nguyên nhân: chuyển phase/stage chưa chuyển focus tới nội dung mới, Settings status chưa nhận focus và SectionRenderer không hủy speech synthesis khi unmount.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/ReadingLadderPractice.test.tsx",
+        "src/features/settings/Settings.test.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-full-red",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-26T16:26:24.1134058Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Full suite bắt 3 test tích hợp LessonFlow còn dùng contract cũ: chưa hoàn tất auto-check trước main attempt và thao tác matching như checkbox thay vì select.",
+      "artifactPaths": [
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "21ab5d251b196a432700e870697b408256564ca598f994f78b702b527a3bbe64"
+    },
+    {
+      "id": "ev-final-transfer",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 4 files, 29 tests; transfer đúng lesson/task/rubric và listen-back chỉ sau audio ended.",
+      "artifactPaths": [
+        "src/domain/progress/progress.ts",
+        "src/features/practice/SpokenResponse.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "inputDigest": "ae9453135d716090de44dbf5efd2fb65eacbb05bd09d9da18402d2469a3dbcf7"
+    },
+    {
+      "id": "ev-final-storage",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 3 files, 20 tests; canonical v3/v4→v5 migration, strict hydration và stale/error import protection.",
+      "artifactPaths": [
+        "src/infrastructure/storage/progress_storage.ts",
+        "src/shared/hooks/use_app_store.ts",
+        "src/features/settings/Settings.tsx"
+      ],
+      "inputDigest": "58269e4b09997b260e40f2d7021d33a33f9c098fea1362332dbfa5de4cd0c77c"
+    },
+    {
+      "id": "ev-final-learning",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 3 files, 28 tests; legal phase transitions, auto-check gate, persisted spoken readiness và reducer-backed loop UI.",
+      "artifactPaths": [
+        "src/domain/learning/flow.ts",
+        "src/domain/learning/learning_loop.ts",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "inputDigest": "f530a8dd20430a10f6aeadd82fd92f3d1a96416ee35249a0aa8ead92a443840a"
+    },
+    {
+      "id": "ev-final-repeat",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 3 files, 33 tests; repeat từ Today/completion reset cycle và giữ attempts cùng review history.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.ts",
+        "src/features/today/TodayPage.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "inputDigest": "8d28663cc32bba792d5c697556fa8a5ff877d4b4c775ed998c06b36c8ad6f7a0"
+    },
+    {
+      "id": "ev-final-progress",
+      "checkId": "check-progress-aggregation",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 2 files, 9 tests; total Attempts dùng attemptCount và retained metrics được ghi rõ là recent.",
+      "artifactPaths": [
+        "src/domain/progress/progress.ts",
+        "src/features/progress/ProgressPage.tsx"
+      ],
+      "inputDigest": "81c5e68f8bdba0ce62e5dcf8967db216351445340f9fbc94601332ace3552a4f"
+    },
+    {
+      "id": "ev-final-content",
+      "checkId": "check-content-exercises",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 4 files, 24 tests; schema/renderer choice, fill, matching, ordering và perception opt-out chính xác.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/PerceptionPractice.tsx"
+      ],
+      "inputDigest": "69ebee9deb761290bf18149aef00a9b321e64710842657f3a9512d72759b71db"
+    },
+    {
+      "id": "ev-final-a11y",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused final PASS: 6 files, 33 tests; media ownership cleanup, focus, contrast-enabled axe, lang vi và Catalog recovery state.",
+      "artifactPaths": [
+        "index.html",
+        "src/app/App.test.tsx",
+        "src/features/catalog/CatalogPage.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/practice/ModelAudioPlayer.tsx",
+        "src/features/practice/InteractionPractice.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ],
+      "inputDigest": "f7727aef9c0150d6183863d4ba56672f443ed1cedea17059b31cefe47cb0e333"
+    },
+    {
+      "id": "ev-final-docs-release",
+      "checkId": "check-docs-release",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Manual release check PASS: completion copy đúng kind, docs backup v5/content-owned review, version 1.1.1 đồng bộ và changelog prepend append-only.",
+      "artifactPaths": [
+        "README.md",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "PRODUCT.md",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "19a21397598656d7c0a35f07ff6f06c30551338fe4759afddd126d1d844b23ae"
+    },
+    {
+      "id": "ev-final-full-suite",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression final PASS: 29 files, 160 tests.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "cd6759064ba51d9cec4ade3e2560d7dae13bbafb3f1b1255760bed8401c6223e"
+    },
+    {
+      "id": "ev-final-static",
+      "checkId": "check-static-quality",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Static final PASS: oxlint, TypeScript, Vite production build, changelog rule và git diff --check.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "1f40bf67c4cd7610211c6564ccffeffe257ae53bc596b98b2bd95eaab3ba7705"
+    },
+    {
+      "id": "ev-browser-retry-unavailable",
+      "recordedAt": "2026-08-26T16:29:07.0105084Z",
+      "result": "fail",
+      "summary": "Browser QA bổ sung không khởi tạo được vì runtime không tìm thấy kernel assets dù filesystem full access; đây không phải required completion check và không thay thế automated evidence.",
+      "artifactPaths": []
+    },
+    {
+      "id": "ev-review-storage-future-overwrite",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T16:34:25.4928520Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: expected hydration version 99 fail closed và giữ nguyên raw storage; actual Zustand nhận null từ migrate rồi ghi state mặc định version 5 đè dữ liệu tương lai.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.ts",
+        "src/shared/hooks/use_app_store.test.ts"
+      ]
+    },
+    {
+      "id": "ev-review-repeat-cycle-leak",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T16:34:25.4928520Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: expected repeat mới hiển thị 0/3; actual Today dùng recentAttempts được bảo toàn nên có thể hiển thị baseline/retry của vòng cũ là 2/3.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.ts",
+        "src/features/today/TodayPage.tsx",
+        "src/features/today/TodayPage.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-review-stale-listenback",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: recording B sau Làm lại kế thừa listenedBack/checklist của recording A, nên evidence B có thể qualify dù B chưa phát đến ended.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/SpokenResponse.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-review-flow-bypass",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: OPEN_INPUT → COMPLETE_AUTO_CHECK → SUBMIT_PERFORMANCE từ initial state tới self-feedback với baselineAttempted=false; reducer mới chỉ khóa phase, chưa khóa invariant.",
+      "artifactPaths": [
+        "src/domain/learning/flow.ts",
+        "src/domain/learning/flow.test.ts"
+      ]
+    },
+    {
+      "id": "ev-review-duplicate-exercise-id",
+      "checkId": "check-content-exercises",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: LessonV3Schema chấp nhận duplicate auto-check exercise id; completion theo id khiến một kết quả có thể thỏa nhiều bài.",
+      "artifactPaths": [
+        "src/content/schema.ts",
+        "src/content/schema.test.ts",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "ev-review-practice-focus-boundary",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review tái hiện: hoàn tất learning loop/reading ladder unmount control đang focus; parent không chuyển focus tới CTA mới nên activeElement rơi về body.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/LearningLoopPractice.tsx",
+        "src/features/practice/ReadingLadderPractice.tsx"
+      ]
+    },
+    {
+      "id": "ev-review-contrast-incomplete",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review xác nhận axe/jsdom trả color-contrast ở incomplete vì canvas không khả dụng; violations=[] hiện không chứng minh contrast và test không nạp compiled CSS.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/index.css"
+      ]
+    },
+    {
+      "id": "ev-review-doc-contract-drift",
+      "checkId": "check-docs-release",
+      "recordedAt": "2026-08-26T16:37:25.5445572Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Review xác nhận CONTENT thiếu type fill và ARCHITECTURE mô tả domain learning-loop stages cũ, lệch schema/reducer hiện tại.",
+      "artifactPaths": [
+        "CONTENT.md",
+        "ARCHITECTURE.md",
+        "src/content/schema.ts",
+        "src/domain/learning/learning_loop.ts"
+      ]
+    },
+    {
+      "id": "ev-debug-listenback-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:43:17.1824921Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: recording B sau redo vẫn có checklist enabled/checked từ recording A; focused test fail đúng stale listen-back.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-focus-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:43:17.1824921Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: learning loop và reading ladder completion đều làm activeElement rơi về body thay vì CTA main attempt.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-contrast-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:43:17.1824921Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Deterministic contrast RED phát hiện solid purple-500 với foreground sáng dưới 4.5:1; axe/jsdom contrast được tách khỏi non-visual rules.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/app/App.tsx",
+        "src/features/practice/CapabilityTask.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-stop-race-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:50:08.3531481Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: reset thắng trong khi stop() còn pending nhưng promise cũ vẫn publish blob audio và snapshot stale sau khi capture đã bị vô hiệu hóa.",
+      "artifactPaths": [
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-start-race-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:52:03.9570828Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: microphone request cũ reject sau khi timer fallback đã hoàn tất và ghi đè status ready bằng thông báo timer vẫn đang chạy.",
+      "artifactPaths": [
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/practice/SpokenResponse.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-preparation-budget-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:53:18.5337279Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: transfer vượt preparationSeconds của content vẫn qualify trong domain và Progress; 2 test fail đúng giới hạn 61/60 và 91/90.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-internal-focus-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:53:52.3527518Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: chuyển perception phase và interaction turn giữ focus ở action vừa bị disable thay vì heading/prompt mới; 2 test fail đúng boundary.",
+      "artifactPaths": [
+        "src/features/practice/PerceptionPractice.test.tsx",
+        "src/features/practice/PerceptionPractice.tsx",
+        "src/features/practice/InteractionPractice.test.tsx",
+        "src/features/practice/InteractionPractice.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-settings-import-focus-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T16:55:42.1915499Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: import hợp lệ unmount status đang focus nhưng pending panel không nhận focus; activeElement quay về file input thay vì CTA xác nhận.",
+      "artifactPaths": [
+        "src/features/settings/Settings.test.tsx",
+        "src/features/settings/Settings.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-repeat-review-preemption-red",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T16:57:48.0301557Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: overdue review được ưu tiên trước repeat in-progress và stale review save xóa activePhase/process của vòng đang active; 3 boundary test fail đúng.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "ev-debug-independence-flags-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T16:57:48.0301557Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: assessor luôn reject Vietnamese/translation/model answer dù content independenceContract đặt ba cờ no* là false.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-spoken-time-contract-red",
+      "checkId": "check-content-exercises",
+      "recordedAt": "2026-08-26T16:57:56.7927358Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Schema RED: spoken task targetSeconds 121 vượt timeLimitSeconds 120 vẫn parse thành công, tạo contract không attempt nào có thể qualifying.",
+      "artifactPaths": [
+        "src/content/schema.test.ts",
+        "src/content/schema.ts"
+      ]
+    },
+    {
+      "id": "ev-debug-resumed-pronunciation-copy-red",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T17:00:25.2288842Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: reload process optedOut/unknown gắn nhầm nhãn “Đã luyện bổ sung”; 2 test fail đúng evidence/copy drift.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/practice/LearningLoopPractice.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-future-storage-quarantine-red",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T17:02:19.7585126Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: hydrate v99 giữ raw ngay lúc lỗi nhưng action setCefrLevel kế tiếp vẫn phát một write v5 và đè dữ liệu forward-version.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "ev-debug-settings-focus-flake-red",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T17:03:50.4366697Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Full-suite RED: 186/187 pass nhưng valid-import focus đôi lúc còn ở file input; passive effect thua native upload focus dưới tải.",
+      "artifactPaths": [
+        "src/features/settings/Settings.test.tsx",
+        "src/features/settings/Settings.tsx"
+      ]
+    },
+    {
+      "id": "ev-debug-storage-recovery-race-red",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T17:10:18.8465351Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: pending v99 hydrate có thể tái-quarantine sau explicit reset, và migration v4 hợp lệ bị quarantine làm mất write nâng cấp v5; 2 test fail đúng race/authorization.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/shared/hooks/use_app_store.ts"
+      ]
+    },
+    {
+      "id": "ev-debug-capability-binding-red",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T17:12:01.0342879Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Regression RED: transfer đúng lesson/task/rubric nhưng capabilityId giả vẫn qualify và được Progress tính vào card capability sai; 2 test fail đúng attribution gap.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/domain/progress/progress.ts",
+        "src/features/practice/CapabilityTask.tsx",
+        "src/features/progress/ProgressPage.test.tsx",
+        "src/features/progress/ProgressPage.tsx"
+      ]
+    },
+    {
+      "id": "ev-final-docs-verifier-error",
+      "checkId": "check-docs-release",
+      "recordedAt": "2026-08-26T17:14:52.4080904Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Manual verifier dừng vì ConvertFrom-Json dạng object không hỗ trợ key rỗng packages[\"\"] của package-lock; changelog rule đã pass trước lỗi tooling này.",
+      "artifactPaths": [
+        "package-lock.json",
+        "scripts/check-changelog-rule"
+      ]
+    },
+    {
+      "id": "ev-completion-transfer",
+      "checkId": "check-transfer-integrity",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "4 test files, 41 tests pass: transfer contract, capability attribution, preparation budget, listen-back ended gate và microphone race guards.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/features/practice/CapabilityTask.test.tsx",
+        "src/features/practice/SpokenResponse.test.tsx",
+        "src/features/progress/ProgressPage.test.tsx"
+      ],
+      "inputDigest": "da1a9e380645c6c7d95b74c6209185f707b503d81fef878ef114ef08e32f15ad"
+    },
+    {
+      "id": "ev-completion-storage",
+      "checkId": "check-storage-settings",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "3 test files, 27 tests pass: canonical v3/v4→v5 migration, fail-closed quarantine, explicit recovery và stale-import race protection.",
+      "artifactPaths": [
+        "src/infrastructure/storage/progress_storage.test.ts",
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/features/settings/Settings.test.tsx"
+      ],
+      "inputDigest": "a807e94d9e5eb90f2c1a813eb40595b5d9bec98a931dba6f44e5f10d2ae26fa7"
+    },
+    {
+      "id": "ev-completion-learning",
+      "checkId": "check-learning-flow",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "3 test files, 35 tests pass: auto-check gates, legal transitions, process evidence resume và honest pronunciation copy.",
+      "artifactPaths": [
+        "src/domain/learning/flow.test.ts",
+        "src/features/practice/LearningLoopPractice.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "b8ee3d88af899ecec73c18f5ab909570ed42b6a56054f7f028ba115c06d38702"
+    },
+    {
+      "id": "ev-completion-repeat",
+      "checkId": "check-repeat-flow",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "3 test files, 45 tests pass: repeat entry points, active-cycle isolation, history/review preservation và aggregate counts.",
+      "artifactPaths": [
+        "src/shared/hooks/use_app_store.test.ts",
+        "src/features/today/TodayPage.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "bed4219b1339b8b1b5b16bd7138ce01ecb2345da45ffae70a61b2d106cba81ab"
+    },
+    {
+      "id": "ev-completion-progress",
+      "checkId": "check-progress-aggregation",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "2 test files, 14 tests pass: attemptCount aggregation, recent labels và expected-task/capability assessment.",
+      "artifactPaths": [
+        "src/domain/progress/progress.test.ts",
+        "src/features/progress/ProgressPage.test.tsx"
+      ],
+      "inputDigest": "169636667fb1e134081ae3ee5f2c853fdf033cb319e9b004431b79282909513d"
+    },
+    {
+      "id": "ev-completion-content",
+      "checkId": "check-content-exercises",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "4 test files, 28 tests pass: duplicate/unreachable schema rejection, four renderer semantics, spoken time contract và perception opt-out counting.",
+      "artifactPaths": [
+        "src/content/schema.test.ts",
+        "src/content/content.test.ts",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/practice/PerceptionPractice.test.tsx"
+      ],
+      "inputDigest": "00045307ceb7df0ffdef81ad1cb0287116e9a5852fab7b3e60adf4dd6ab58467"
+    },
+    {
+      "id": "ev-completion-a11y",
+      "checkId": "check-a11y-media",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "6 test files, 40 tests pass: media cleanup, deterministic WCAG palette gate, focus transitions, axe setup, document lang và Catalog empty state.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/catalog/CatalogPage.test.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/practice/ModelAudioPlayer.test.tsx",
+        "src/features/practice/InteractionPractice.test.tsx",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "0d7d681213ef7258d8217899d1ba97a45a877ed9c3663672b66d78b552f33c53"
+    },
+    {
+      "id": "ev-completion-docs-release",
+      "checkId": "check-docs-release",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Manual release verifier pass: root package/package-lock 1.1.1, đúng một release 2026-08-27 ở đầu lịch sử, lịch sử từ 1.0.2 trở xuống byte-equivalent với HEAD và docs contracts khớp.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "ARCHITECTURE.md",
+        "CONTENT.md",
+        "README.md",
+        "scripts/check-changelog-rule"
+      ],
+      "inputDigest": "df1e1331e85e2742da849c1a8ab663697753f85583d16a6dcb2a78270565cb44"
+    },
+    {
+      "id": "ev-completion-full-suite",
+      "checkId": "check-full-suite",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full regression suite pass: 29 test files, 190 tests.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "c01227107eeb379e63d943f6ef3bb57aa9c081ba7102c660bf0da84773a552bc"
+    },
+    {
+      "id": "ev-completion-static",
+      "checkId": "check-static-quality",
+      "recordedAt": "2026-08-26T17:17:22.7645582Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Lint, production build, changelog rule và git diff --check đều pass; chỉ còn cảnh báo kích thước chunk Vite không chặn release.",
+      "artifactPaths": [
+        "src",
+        "content",
+        "package.json",
+        "package-lock.json",
+        "CHANGELOG.md",
+        "scripts/check-changelog-rule",
+        "vite.config.ts"
+      ],
+      "inputDigest": "2b8058c38994e7e966fb1f8c8ca3484be7eef83099e46c8e461e829ffebb8c4c"
+    }
+  ],
+  "createdAt": "2026-08-26T16:00:32.1322603Z",
+  "updatedAt": "2026-08-26T17:17:52.499Z",
+  "completedAt": "2026-08-26T17:17:52.499Z"
+}

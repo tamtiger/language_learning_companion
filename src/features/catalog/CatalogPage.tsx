@@ -22,6 +22,11 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
     (capability === 'all' || lesson.capabilities.includes(capability))
     && (level === 'all' || lesson.cefrLevel === level)
   ), [capability, lessons, level])
+  const hasActiveFilters = capability !== 'all' || level !== 'all'
+  const clearFilters = () => {
+    setCapability('all')
+    setLevel('all')
+  }
 
   return (
     <section aria-labelledby="catalog-title" className="space-y-6">
@@ -44,6 +49,18 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
         </label>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
+        {filtered.length === 0 && (
+          <div className="rounded-2xl border border-zinc-700 bg-zinc-900/40 p-6 text-center md:col-span-2">
+            <p role="status" className="font-bold text-zinc-100">
+              {hasActiveFilters ? 'Không có bài học phù hợp với bộ lọc này.' : 'Chưa có bài học trong thư viện.'}
+            </p>
+            {hasActiveFilters && (
+              <button type="button" onClick={clearFilters} className="mt-4 rounded-lg border border-cyan-400 px-4 py-2 font-bold text-cyan-100">
+                Xóa bộ lọc
+              </button>
+            )}
+          </div>
+        )}
         {filtered.map((lesson) => {
           const completed = lessonProgress[lesson.lessonId]?.status === 'completed'
           const hasSpeakingLoop = lesson.performanceTask?.mode === 'spoken'
@@ -69,7 +86,7 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
                   </span>
                 </span>
               )}
-              <span className="mt-4 flex items-center justify-between text-xs text-zinc-500">
+              <span className="mt-4 flex items-center justify-between text-xs text-zinc-400">
                 <span className="flex items-center gap-1"><Clock3 aria-hidden="true" className="h-4 w-4" />{lesson.durationMinutes} phút · {lesson.cefrLevel}</span>
                 <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>

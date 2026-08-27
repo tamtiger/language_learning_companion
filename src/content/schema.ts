@@ -39,11 +39,39 @@ export const ExerciseSchema = z.object({
   correctAnswer: z.array(NonEmptyString).min(1),
   explanation: NonEmptyString.optional()
 }).superRefine((exercise, context) => {
+  const options = exercise.options ?? []
+  if (new Set(options).size !== options.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['options'], message: 'Options must be unique' })
+  }
+  if (new Set(exercise.correctAnswer).size !== exercise.correctAnswer.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'Correct answers must be unique' })
+  }
+
   if ((exercise.type === 'choice' || exercise.type === 'ordering') && (exercise.options?.length ?? 0) < 2) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['options'], message: 'At least two options are required' })
   }
+  if (exercise.type === 'choice' && exercise.correctAnswer.some((answer) => !options.includes(answer))) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'Correct answers must be available options' })
+  }
+  if (exercise.type === 'ordering'
+    && (exercise.correctAnswer.length !== options.length
+      || exercise.correctAnswer.some((answer) => !options.includes(answer)))) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'Correct answer must order every option exactly once' })
+  }
   if (exercise.type === 'matching' && (exercise.matchingPairs?.length ?? 0) < 1) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['matchingPairs'], message: 'Matching pairs are required' })
+  }
+  if (exercise.type === 'matching' && exercise.matchingPairs) {
+    const keys = exercise.matchingPairs.map((pair) => pair.key)
+    if (new Set(keys).size !== keys.length) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['matchingPairs'], message: 'Matching keys must be unique' })
+    }
+
+    const reachableAnswers = exercise.matchingPairs.map((pair) => `${pair.key} - ${pair.value}`)
+    if (exercise.correctAnswer.length !== reachableAnswers.length
+      || exercise.correctAnswer.some((answer) => !reachableAnswers.includes(answer))) {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['correctAnswer'], message: 'Correct answers must match every configured pair' })
+    }
   }
 })
 
@@ -315,7 +343,10 @@ const SpokenPerformanceTaskSchema = z.object({
     timeLimitSeconds: z.number().int().min(30).max(1800),
     requiredElements: z.array(NonEmptyString).min(1).max(8),
     targetSeconds: z.number().int().min(30).max(600)
-  }).strict()
+  }).strict().refine((contract) => contract.targetSeconds <= contract.timeLimitSeconds, {
+    message: 'targetSeconds must be less than or equal to timeLimitSeconds',
+    path: ['targetSeconds']
+  })
 }).strict()
 
 const WrittenPerformanceTaskSchema = z.object({
@@ -367,11 +398,24 @@ export const LessonV3Schema = z.object({
   reviewPolicy: ReviewPolicySchema
 }).superRefine((lesson, context) => {
   const sectionIds = new Set<string>()
+  const exerciseIds = new Set<string>()
   lesson.sections.forEach((section, index) => {
     if (sectionIds.has(section.id)) {
       context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections', index, 'id'], message: 'Section ids must be unique' })
     }
     sectionIds.add(section.id)
+    if (section.type === 'auto-check') {
+      section.exercises.forEach((exercise, exerciseIndex) => {
+        if (exerciseIds.has(exercise.id)) {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['sections', index, 'exercises', exerciseIndex, 'id'],
+            message: 'Exercise ids must be unique across the lesson'
+          })
+        }
+        exerciseIds.add(exercise.id)
+      })
+    }
   })
   if (!lesson.sections.some((section) => section.type === 'source')) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections'], message: 'At least one source section is required' })
