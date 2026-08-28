@@ -2,6 +2,23 @@
 
 Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
 
+## [1.1.5] - 2026-08-28
+
+### Fixed
+
+- Sửa các lệch source–prompt–contract–rubric trong runbook, log diagnosis,
+  standup, technical decision, architecture, meeting recap, troubleshooting và
+  API learning; giữ fact, hypothesis, proposal và unknown behavior đúng ranh giới.
+- Sửa ví dụ contrastive stress, bổ sung quy tắc regular `-ed` cùng secondary
+  stress knowledge check và hiển thị các field language-support trước đây bị ẩn.
+
+### Changed
+
+- Bổ sung language scaffold và tối thiểu ba auto-check thực tế cho cả 12 mission,
+  với output tiếng Anh được yêu cầu rõ và source count/provenance không đổi.
+- Khóa quality floor mới bằng regression content/renderer, đồng thời giữ sáu bài
+  pronunciation ở chế độ knowledge/reference thay vì suy diễn spoken evidence.
+
 ## [1.1.4] - 2026-08-28
 
 ### Changed

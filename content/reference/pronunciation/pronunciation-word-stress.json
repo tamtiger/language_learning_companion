@@ -103,6 +103,18 @@
         "engineer - Âm tiết cuối"
       ],
       "explanation": "Các vị trí này dùng những U.S. dictionary entries được lesson chọn làm reference."
+    },
+    {
+      "id": "e3-4",
+      "type": "choice",
+      "question": "Trong phiên âm /ˌen.dʒɪˈnɪr/, ký hiệu ˌ trước âm tiết đầu cho biết điều gì?",
+      "options": [
+        "Âm tiết đầu mang secondary stress (trọng âm phụ)",
+        "Âm tiết đầu mang primary stress (trọng âm chính)",
+        "Âm tiết đầu không được phát âm"
+      ],
+      "correctAnswer": ["Âm tiết đầu mang secondary stress (trọng âm phụ)"],
+      "explanation": "Ký hiệu ˌ đánh dấu secondary stress (trọng âm phụ); ký hiệu ˈ trước âm tiết cuối đánh dấu primary stress (trọng âm chính)."
     }
   ]
 }

@@ -8,14 +8,29 @@
   "capabilities": ["international-interview"], "workflowTags": ["interview", "ownership"],
   "sections": [
     { "id": "source", "type": "source", "title": "Weak interview answer", "format": "prose", "content": "Synthetic training artifact — non-production. We had a production problem. We worked hard and fixed it. Everyone was happy and I learned a lot." },
-    { "id": "check", "type": "auto-check", "title": "Make ownership visible", "exercises": [{ "id": "ownership-check", "type": "choice", "question": "Chi tiết nào cải thiện câu trả lời nhiều nhất?", "options": ["It was very difficult.", "I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes.", "My team is excellent."], "correctAnswer": ["I introduced a rollback checklist that reduced recovery time from 40 to 12 minutes."], "explanation": "Câu này nêu hành động cá nhân và kết quả đo được." }] }
+    {
+      "id": "language",
+      "type": "language-support",
+      "title": "Ownership-story language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "My responsibility was to ___.", "meaning": "Define personal scope without erasing the team’s contribution.", "tone": "neutral", "example": "My responsibility was to coordinate the rollback and keep each recovery step visible.", "alternatives": ["I was responsible for ___."] },
+        { "phrase": "I decided to ___ because ___.", "meaning": "Make a personal decision and its reason explicit.", "tone": "neutral", "example": "I decided to create a checklist because ownership had been unclear.", "alternatives": ["I took ownership of ___ by ___."] },
+        { "phrase": "After the change, ___ fell from ___ to ___.", "meaning": "Report a measured sequence without claiming an unsupported guarantee.", "tone": "neutral", "example": "After the change, recovery time fell from forty to twelve minutes.", "alternatives": ["In the next incident, ___ improved from ___ to ___."] }
+      ]
+    },
+    { "id": "check", "type": "auto-check", "title": "Make ownership visible and credible", "exercises": [
+      { "id": "ownership-check", "type": "choice", "question": "Chi tiết nào cải thiện câu trả lời nhiều nhất?", "options": ["It was very difficult.", "I introduced a rollback checklist; in the next incident, recovery time fell from 40 to 12 minutes.", "My team is excellent."], "correctAnswer": ["I introduced a rollback checklist; in the next incident, recovery time fell from 40 to 12 minutes."], "explanation": "Câu này nêu hành động cá nhân và kết quả đo được mà không biến một lần cải thiện thành guarantee." },
+      { "id": "ownership-team-boundary", "type": "choice", "question": "Which answer shows ownership without claiming the whole team’s work?", "options": ["The team restored service; I coordinated the rollback steps and created the follow-up checklist.", "I fixed every part of the incident entirely by myself.", "We all helped, but I cannot name my contribution."], "correctAnswer": ["The team restored service; I coordinated the rollback steps and created the follow-up checklist."], "explanation": "It separates the team outcome from the candidate’s specific contribution." },
+      { "id": "ownership-reflection", "type": "choice", "question": "Which reflection is specific enough for this story?", "options": ["Next time, I would confirm recovery and rollback ownership before release.", "I learned that incidents are difficult.", "Next time, I would avoid discussing the result."], "correctAnswer": ["Next time, I would confirm recovery and rollback ownership before release."], "explanation": "A useful reflection turns the lesson into a concrete future action tied to the ownership problem." }
+    ] }
   ],
   "performanceTask": {
     "id": "ownership-interview", "mode": "spoken", "title": "Tell an ownership story",
     "scenario": "Interviewer hỏi về lúc bạn chủ động xử lý một production problem.",
     "baselinePrompt": "Trong 90–120 giây, trả lời cold question mà chưa xem model/chunks.",
-    "performancePrompt": "Trong 90–120 giây, giữ situation/task ngắn, làm rõ hành động của bạn, result đo được và lesson.",
-    "modelResponse": "During a payment rollback, recovery took forty minutes because ownership was unclear. My immediate responsibility was to coordinate the recovery, but I also treated the unclear ownership as a process problem that needed a follow-up action. After the incident, I created a rollback checklist and named a rollback owner so the next response would have an explicit path. The result was measurable: the next recovery took twelve minutes instead of forty. That comparison matters because it shows the effect of the change, not just that the team worked hard. Looking back, I learned that ownership has two parts: helping resolve the immediate incident and improving the process that made recovery slow. I would keep both the action and the measured result clear in the interview answer.",
+    "performancePrompt": "Trong 90–120 giây bằng tiếng Anh, giữ situation/task ngắn, làm rõ hành động cá nhân mà không xóa vai trò của team, nêu result đo được và lesson.",
+    "modelResponse": "During a payment rollback, recovery took forty minutes because ownership was unclear. My responsibility was to coordinate the recovery, but I also treated the unclear ownership as a process problem that needed follow-up. After the incident, I created a rollback checklist and named a rollback owner so the next response would have an explicit path. In the next incident, recovery took twelve minutes instead of forty. That comparison gives concrete evidence after the change without suggesting that I resolved the incident alone. Looking back, I learned that ownership has two parts: helping the team resolve the immediate problem and improving the process that made recovery slow. Next time, I would confirm both recovery and rollback ownership before release.",
     "retryPrompt": "Trong 90–120 giây, kể incident queue backlog mới; rút gọn context và làm rõ I-action/result.",
     "transferPrompt": "Trong 90–120 giây và không xem model/chunks, kể lúc bạn chủ động ngăn certificate expiry thành incident.",
     "reviewPrompt": "Trong 90–120 giây, kể một ownership story mới về data-quality risk bằng STAR và evidence.",
@@ -30,14 +45,14 @@
     "feedbackPriorities": ["ownership", "evidence", "reflection"],
     "rubric": [
       { "id": "structure", "label": "Concise STAR structure", "description": "Keeps situation and task brief enough to foreground action." },
-      { "id": "ownership", "label": "Personal ownership", "description": "Uses specific I-statements for decisions and actions." },
+      { "id": "ownership", "label": "Personal ownership", "description": "Uses specific I-statements for decisions and actions without claiming work owned by the wider team." },
       { "id": "result", "label": "Result and learning", "description": "Uses the measured result from the current evidence packet and clearly frames the lesson as personal reflection." }
     ],
     "learningLoop": {
       "version": "v1",
       "perception": {
         "pretest": [
-          { "id": "own-pre-1", "audio": { "kind": "speech-synthesis", "text": "I coordinated the rollback myself.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Who owned the action?", "options": ["The speaker", "An unnamed team"], "correctAnswer": "The speaker" },
+          { "id": "own-pre-1", "audio": { "kind": "speech-synthesis", "text": "I coordinated the rollback steps.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Who owned the coordination?", "options": ["The speaker", "An unnamed team"], "correctAnswer": "The speaker" },
           { "id": "own-pre-2", "audio": { "kind": "speech-synthesis", "text": "Recovery time fell from forty to twelve minutes.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What result is stated?", "options": ["40 to 12 minutes", "12 to 40 hours"], "correctAnswer": "40 to 12 minutes" },
           { "id": "own-pre-3", "audio": { "kind": "speech-synthesis", "text": "Looking back, I would add the alert earlier.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What function is this?", "options": ["Reflection", "Situation"], "correctAnswer": "Reflection" },
           { "id": "own-pre-4", "audio": { "kind": "speech-synthesis", "text": "The incident affected checkout for twenty minutes.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is the impact?", "options": ["Checkout for 20 minutes", "Email for two days"], "correctAnswer": "Checkout for 20 minutes" }
@@ -58,13 +73,13 @@
         ]
       },
       "pronunciationCues": [
-        { "id": "own-cue-actions", "articulatoryCue": "Nhấn I + action verb; giữ âm cuối trong profiled, proposed, alerts, tested.", "meaningRisk": "Mờ chủ thể/action khiến ownership nghe như công sức chung không xác định.", "triggerItemIds": ["own-pre-1", "own-post-1"] },
+        { "id": "own-cue-actions", "articulatoryCue": "Nhấn I + action verb; giữ âm cuối trong coordinated, introduced, checklist và named.", "meaningRisk": "Mờ chủ thể/action khiến ownership nghe như công sức chung không xác định.", "triggerItemIds": ["own-pre-1", "own-post-1"] },
         { "id": "own-cue-results", "articulatoryCue": "Tạo một thought group riêng cho AS A RESULT + con số.", "meaningRisk": "Con số chìm làm evidence khó được interviewer bắt kịp.", "triggerItemIds": ["own-pre-2", "own-post-2"] }
       ],
       "chunks": [
         { "id": "own-chunk-1", "function": "situation", "text": "During ___, we faced ___.", "meaning": "Nêu context ngắn.", "slots": ["event", "problem"], "modelAudio": { "kind": "speech-synthesis", "text": "During a payment incident, we faced a slow rollback.", "locale": "en-US", "voiceHints": ["English US"] } },
         { "id": "own-chunk-2", "function": "ownership", "text": "I decided to ___ because ___.", "meaning": "Làm rõ quyết định cá nhân.", "slots": ["action", "reason"], "stressPattern": "I · DECIDED", "modelAudio": { "kind": "speech-synthesis", "text": "I decided to coordinate the rollback because ownership was unclear.", "locale": "en-GB", "voiceHints": ["English UK"] } },
-        { "id": "own-chunk-3", "function": "result", "text": "As a result, ___ changed from ___ to ___.", "meaning": "Nêu evidence đo được.", "slots": ["metric", "before", "after"], "modelAudio": { "kind": "speech-synthesis", "text": "As a result, recovery changed from forty to twelve minutes.", "locale": "en-US", "voiceHints": ["English"] } },
+        { "id": "own-chunk-3", "function": "result", "text": "After the change, ___ fell from ___ to ___.", "meaning": "Nêu evidence đo được theo trình tự quan sát, không biến correlation thành guarantee.", "slots": ["metric", "before", "after"], "modelAudio": { "kind": "speech-synthesis", "text": "After the change, recovery time fell from forty to twelve minutes.", "locale": "en-US", "voiceHints": ["English"] } },
         { "id": "own-chunk-4", "function": "reflection", "text": "What I learned was ___; next time, I would ___.", "meaning": "Nêu lesson có hành động.", "slots": ["lesson", "future action"], "modelAudio": { "kind": "speech-synthesis", "text": "What I learned was to assign ownership early; next time, I would verify it during planning.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } }
       ],
       "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],

@@ -107,6 +107,101 @@ describe('curriculum content quality gate', () => {
     expect(legacySources).toHaveLength(6)
   })
 
+  it('gives every capability mission reusable language support and deliberate comprehension checks', () => {
+    const missions = getBundledCatalog().lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v3')
+
+    for (const lesson of missions) {
+      const support = lesson.sections.filter((section) => section.type === 'language-support')
+      const exercises = lesson.sections.flatMap((section) =>
+        section.type === 'auto-check' ? section.exercises : []
+      )
+      const task = lesson.performanceTask
+
+      expect(support, lesson.lessonId).toHaveLength(1)
+      expect(support[0]?.expressions.length, lesson.lessonId).toBeGreaterThanOrEqual(3)
+      expect(exercises.length, lesson.lessonId).toBeGreaterThanOrEqual(3)
+      expect(exercises.every((exercise) => Boolean(exercise.explanation?.trim())), lesson.lessonId)
+        .toBe(true)
+      expect(task?.performancePrompt, lesson.lessonId).toMatch(/English|tiếng Anh/i)
+    }
+  })
+
+  it('keeps practical mission decisions aligned from evidence through assessment', () => {
+    const technicalDoc = lessonById('technical-doc-action-b1')
+    const technicalDocTask = technicalDoc.performanceTask
+    const technicalDocText = JSON.stringify(technicalDoc)
+    expect(technicalDocText).toMatch(/read-only[^.]*before[^.]*migrat|before[^.]*migrat[^.]*read-only/is)
+    expect(technicalDocTask?.modelResponse).toMatch(/rollback[^.]*verify[^.]*healthy[^.]*disable read-only/is)
+
+    const logTask = lessonById('technical-log-diagnosis-b1').performanceTask
+    if (logTask?.mode !== 'written') throw new Error('Log diagnosis written task missing')
+    expect(logTask?.transferPrompt).not.toMatch(/memory (?:increased|rose|grew)/i)
+    expect(logTask.readingLadder?.applicationPrompt).toMatch(/backlog|throughput|processing rate/i)
+
+    const standupTask = lessonById('daily-standup-b1').performanceTask
+    expect(standupTask?.outputContract.requiredElements.join(' ')).toMatch(/expected result/i)
+    expect(standupTask?.modelResponse).toMatch(/so (?:we|the team|I) can/i)
+    expect(JSON.stringify(standupTask?.rubric)).toMatch(/expected result/i)
+
+    const decision = lessonById('technical-interview-decision-b2')
+    const decisionTask = decision.performanceTask
+    const decisionSource = decision.sections.find((section) => section.type === 'source')
+    expect(decisionSource?.content).toMatch(/batch[^.]*delay|partial[- ]failure/is)
+    expect(decisionTask?.performancePrompt).toMatch(/cost[^.]*mitigat|mitigat[^.]*cost/i)
+    expect(decisionTask?.outputContract.requiredElements.join(' ')).toMatch(/mitigat/i)
+    expect(JSON.stringify(decisionTask?.rubric)).toMatch(/mitigat|map[^.]*partial[- ]failure/i)
+    expect(decisionTask?.modelResponse).toMatch(/mitigat[^.]*partial[- ]failure/i)
+
+    const architecture = lessonById('architecture-walkthrough-b2')
+    const architectureTask = architecture.performanceTask
+    if (architectureTask?.mode !== 'spoken') throw new Error('Architecture spoken task missing')
+    const architectureSource = architecture.sections.find((section) => section.type === 'source')
+    expect(architectureSource?.content).toMatch(/outbox/i)
+    expect(architectureSource?.content).toMatch(/at-least-once/i)
+    expect(architectureSource?.content).toMatch(/idempotent/i)
+    expect(architectureTask.performancePrompt).toMatch(/outbox/i)
+    expect(architectureTask.performancePrompt)
+      .toMatch(/at[- ]least[- ]once.*idempoten|idempoten.*at[- ]least[- ]once/i)
+    const architectureLoop = JSON.stringify(architectureTask.learningLoop)
+    expect(architectureLoop).not.toMatch(/processing fails[^.]*dead[- ]letter/i)
+    expect(architectureLoop).not.toMatch(/failed (?:events?|report jobs?|jobs?)[^.]*dead[- ]letter/i)
+    expect(architectureLoop).not.toMatch(/worker keeps failing/i)
+    expect(architectureLoop).toMatch(/delivery[^.]*dead[- ]letter/i)
+
+    const meetingTask = lessonById('meeting-disagree-and-recap-b2').performanceTask
+    expect(meetingTask?.outputContract.requiredElements.join(' '))
+      .toMatch(/owner.*deadline.*confirm|confirm.*owner.*deadline/i)
+    expect(meetingTask?.modelResponse).toMatch(/propos|pending confirmation|subject to agreement/i)
+    expect(meetingTask?.modelResponse)
+      .toMatch(/Lan (?:is|remains)[^.]*release owner[^.]*will lead[^.]*4:15/i)
+    expect(meetingTask?.modelResponse).not.toMatch(/Lan could lead/i)
+
+    const troubleshooting = lessonById('technology-troubleshooting-from-docs-b2')
+    const troubleshootingSource = troubleshooting.sections.find((section) => section.type === 'source')
+    expect(troubleshootingSource?.content).toMatch(/returns an error or throws/i)
+    expect(troubleshootingSource?.content).toMatch(/total (?:number of )?attempts|includes the initial attempt/i)
+
+    const apiTask = lessonById('learn-api-from-docs-b2').performanceTask
+    expect(apiTask?.performancePrompt).toMatch(/429.*503|503.*429/i)
+    expect(apiTask?.performancePrompt).toMatch(/open question|unknown/i)
+    expect(apiTask?.performancePrompt).toMatch(/four-step/i)
+    expect(apiTask?.modelResponse).toMatch(/not define|confirm.*before production|open question/i)
+    expect(apiTask?.modelResponse).toMatch(/First,[\s\S]*Second,[\s\S]*Third,[\s\S]*Fourth,/i)
+    if (apiTask?.mode !== 'written') throw new Error('API written task missing')
+    expect(apiTask.readingLadder?.trainingSource.content)
+      .toMatch(/polling[^.]*not (?:define|specif)|polling[^.]*open question/i)
+    expect(apiTask.readingLadder?.applicationChecklist.join(' ')).not.toMatch(/included bounded polling/i)
+    expect(apiTask.readingLadder?.applicationChecklist.join(' '))
+      .toMatch(/polling[^.]*open question|confirm[^.]*polling/i)
+
+    const tradeoffTask = lessonById('technical-tradeoff-explanation-b2').performanceTask
+    expect(tradeoffTask?.modelResponse).toMatch(/up to nine hundred milliseconds/i)
+    expect(tradeoffTask?.practiceContexts?.baseline.artifacts[0]?.content)
+      .toMatch(/up to 900 ms/i)
+    expect(tradeoffTask?.practiceContexts?.baseline.artifacts[0]?.content)
+      .not.toMatch(/\+900 ms/i)
+  })
+
   it('classifies every v3 source as resolved provenance or explicit synthetic training data', () => {
     const lessons = getBundledCatalog().lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v3')
 
@@ -180,6 +275,44 @@ describe('curriculum content quality gate', () => {
       if (task?.mode !== 'spoken' || !task.learningLoop) throw new Error(`Missing spoken loop: ${lessonId}`)
       expect(JSON.stringify(task.learningLoop), lessonId).not.toMatch(forbidden)
     }
+  })
+
+  it('keeps shared contracts attainable from every phase evidence packet', () => {
+    const sharedContractText = (lessonId: string) => {
+      const task = lessonById(lessonId).performanceTask
+      if (!task) throw new Error(`Missing performance task: ${lessonId}`)
+      return `${task.outputContract.requiredElements.join(' ')} ${JSON.stringify(task.rubric)}`
+    }
+
+    const decision = lessonById('technical-interview-decision-b2').performanceTask
+    if (decision?.mode !== 'spoken' || !decision.practiceContexts) {
+      throw new Error('Technical decision phase contexts missing')
+    }
+    expect(sharedContractText('technical-interview-decision-b2'))
+      .not.toMatch(/batch|partial[- ]failure|item-level/i)
+    for (const [phase, context] of Object.entries(decision.practiceContexts)) {
+      if (!context) continue
+      const evidence = context.artifacts
+        .map((artifact: CanonicalSourceSection) => artifact.content)
+        .join(' ')
+      expect(evidence, `technical decision ${phase}: cost`).toMatch(/\bCost:/i)
+      expect(evidence, `technical decision ${phase}: mitigation`).toMatch(/\bMitigation:/i)
+    }
+
+    expect(sharedContractText('architecture-walkthrough-b2'))
+      .not.toMatch(/outbox|idempot|partial status|message-delivery/i)
+    expect(sharedContractText('architecture-walkthrough-b2'))
+      .toMatch(/current evidence packet|current packet/i)
+
+    expect(sharedContractText('learn-api-from-docs-b2'))
+      .not.toMatch(/429[^.]*503|503[^.]*429|four[- ]step|polling|retention|same-key/i)
+    expect(sharedContractText('learn-api-from-docs-b2'))
+      .toMatch(/current evidence packet|current packet/i)
+
+    expect(sharedContractText('meeting-disagree-and-recap-b2'))
+      .not.toMatch(/go\/no-go threshold/i)
+    expect(sharedContractText('meeting-disagree-and-recap-b2'))
+      .toMatch(/current evidence packet|current packet/i)
   })
 
   it('aligns every executable output contract with the learner-facing timebox', () => {
@@ -324,6 +457,22 @@ describe('curriculum content quality gate', () => {
     expect(sentenceStressText).toMatch(/infinitival marker/i)
     expect(sentenceStressText).toMatch(/contrastive/i)
     expect(sentenceStressText).not.toMatch(/giới từ chỉ hướng/i)
+    expect(sentenceStressText).toMatch(/BUG[^.]*TIMEOUT/i)
+    expect(sentenceStressText).not.toMatch(/fixed THE bug/)
+
+    const endingSounds = lessonById('pronunciation-ending-sounds')
+    const endingSoundsText = JSON.stringify(endingSounds)
+    expect(endingSoundsText).toMatch(/\/ɪd\/[^.]*\/t\/[^.]*\/d\/|\/t\/[^.]*\/d\/[^.]*\/ɪd\//i)
+    expect(endingSoundsText).toMatch(/voiceless|vô thanh/i)
+    expect(endingSoundsText).toMatch(/voiced|hữu thanh/i)
+
+    const wordStress = lessonById('pronunciation-word-stress')
+    const wordStressChecks = wordStress.sections.flatMap((section) =>
+      section.type === 'auto-check' ? section.exercises : []
+    )
+    expect(wordStressChecks.some((exercise) =>
+      /secondary stress|trọng âm phụ|ˌ/i.test(`${exercise.question} ${exercise.explanation ?? ''}`)
+    )).toBe(true)
   })
 
   it('keeps unconfirmed meeting assignments inside an explicit proposal boundary', () => {

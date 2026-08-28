@@ -50,7 +50,7 @@
   "reading": {
     "title": "[Tình huống mô phỏng] Release update",
     "sourceType": "Tình huống mô phỏng",
-    "content": "Release update — 16:30\nFixed: the login redirect loop.\nTested: the patch in Chrome and Firefox.\nDeployed: build 2.4.1 to staging.\nNext: monitor authentication errors for 30 minutes."
+    "content": "Reference rule (use the base verb's final sound, not its spelling): /ɪd/ after /t/ or /d/; /t/ after a voiceless sound except /t/; /d/ after a voiced sound except /d/, including vowels.\n\nRelease update — 16:30\nFixed: the login redirect loop.\nTested: the patch in Chrome and Firefox.\nDeployed: build 2.4.1 to staging.\nNext: monitor authentication errors for 30 minutes."
   },
   "exercises": [
     {

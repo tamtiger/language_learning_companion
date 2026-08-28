@@ -195,6 +195,18 @@ các chi tiết sản phẩm đó.
 
 Mỗi baseline mission phải có authentic input, observable output, timebox, independence conditions, rubric, retry, transfer và delayed review. Auto-check chỉ hỗ trợ comprehension; capability completion cần performance + self-rubric + transfer.
 
+Mỗi mission v3 có đúng một `language-support` section với ít nhất ba expression
+có thể tái sử dụng trong nhiệm vụ, tối thiểu ba auto-check exercise có explanation
+và `performancePrompt` nói rõ đầu ra bằng tiếng Anh. Scaffold và auto-check giúp
+người học hiểu input trước lượt chính; chúng không thay thế performance, rubric,
+transfer hoặc chứng minh năng lực.
+
+Renderer hiển thị đầy đủ `definition`, `technicalMeaning`, `collocations`,
+`example`, `commonMistake`, `tone` và `alternatives` đã được authoring. Sáu lesson
+pronunciation v1 vẫn là knowledge/reference: rule, dictionary notation và quiz
+không phải audio perception, spoken production hay evidence về pronunciation
+accuracy.
+
 `practiceContexts` đã được rollout tới toàn bộ 12 mission v3 với evidence packet
 riêng cho baseline/retry/transfer/review. Đây là coverage của content contract và
 generic flow, không phải bằng chứng efficacy.

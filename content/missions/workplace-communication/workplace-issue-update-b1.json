@@ -20,6 +20,19 @@
       "body": "FACT — What is directly observed?\nIMPACT — Who or what is affected, and how much?\nACTION — What is happening next, and who owns it?\nREQUEST — What decision or help is needed, and by when?\n\nKeep a suspected cause explicitly uncertain until evidence confirms it."
     },
     {
+      "id": "issue-update-language",
+      "type": "language-support",
+      "title": "Reusable incident-update language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "At ___, ___ rose from ___ to ___.", "meaning": "Nêu fact có timestamp và phân biệt giá trị ban đầu với giá trị mới.", "tone": "neutral", "example": "At 22:08, the checkout 503 rate rose from 0.7% to 31%.", "alternatives": ["At ___, monitoring showed ___."] },
+        { "phrase": "This is affecting ___ by ___.", "meaning": "Nối technical signal với impact hữu ích cho audience.", "tone": "neutral", "example": "This is affecting checkout by reducing the success rate to 68%.", "alternatives": ["The current impact is ___."] },
+        { "phrase": "We are checking whether ___; this is not confirmed.", "meaning": "Nêu hypothesis nhưng giữ ranh giới bằng chứng.", "tone": "neutral", "example": "We are checking whether the timeout change exhausted the pool; this is not confirmed.", "alternatives": ["The strongest lead is ___, but the cause is not confirmed."] },
+        { "phrase": "___ owns ___ and is currently ___.", "meaning": "Nêu owner cùng action đang diễn ra.", "tone": "neutral", "example": "Lan owns diagnosis and is currently comparing pool metrics with the release diff.", "alternatives": ["Current owner: ___; next action: ___."] },
+        { "phrase": "___, please decide by ___ whether ___.", "meaning": "Đưa ra một request có owner, decision và deadline.", "tone": "formal", "example": "Platform lead, please decide by 22:30 whether to assign rollback access.", "alternatives": ["Could ___ confirm by ___ whether ___?"] }
+      ]
+    },
+    {
       "id": "worked-signal-map",
       "type": "source",
       "title": "Worked signal map from a notification incident",
@@ -52,6 +65,18 @@
           ],
           "correctAnswer": ["Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."],
           "explanation": "It names the decision owner, requested decision and useful deadline."
+        },
+        {
+          "id": "relevant-impact",
+          "type": "choice",
+          "question": "Which sentence reports the relevant impact without adding an unsupported cause?",
+          "options": [
+            "Push delivery is at 72%, so password-reset notifications may arrive late.",
+            "Push delivery fell after release 5.8, so the new batch size caused delayed password resets.",
+            "Push delivery is at 72%; the team is investigating, but customer impact is not yet known."
+          ],
+          "correctAnswer": ["Push delivery is at 72%, so password-reset notifications may arrive late."],
+          "explanation": "It connects the observed delivery rate to the supplied customer impact without turning the batch-size hypothesis into a cause or hiding known impact."
         }
       ]
     }
@@ -62,7 +87,7 @@
     "title": "Post the incident handoff update",
     "scenario": "You are the communication lead for a distributed engineering incident.",
     "baselinePrompt": "Cold attempt: use only the job evidence above. Write the update you would post now. Do not invent a confirmed root cause.",
-    "performancePrompt": "Write a 70–110 word update using F-I-A-R. Keep observed facts separate from the connection-pool hypothesis, name the current owner and ask the platform lead for one decision before handover.",
+    "performancePrompt": "Write a 70–110 word update in English using F-I-A-R. Keep observed facts separate from the connection-pool hypothesis, name the current owner and ask the platform lead for one decision before handover.",
     "modelResponse": "Checkout 503s rose to 31% of attempts at 22:08, six minutes after release 2.4 began. The pool warning is the strongest lead, but it does not confirm the root cause; Lan is comparing pool metrics with the release diff. Lan owns diagnosis, while rollback access remains unassigned. Platform lead, could you name the rollback owner by 22:30, before the 22:35 handover? I propose that support ask affected customers to retry once while the team monitors the error rate; four of six reported customers succeeded after one retry.",
     "retryPrompt": "Rewrite your update using the selected retry focus. Keep every fact traceable to an artifact and preserve any uncertainty that is not resolved.",
     "transferPrompt": "Unseen transfer: write a 70–110 word update for the storage on-call using only this new evidence. Include observed impact, one cautious hypothesis, current action/owner and one decision request.",

@@ -35,7 +35,7 @@
       "meaning": "Vị trí focus phụ thuộc thông tin đang được sửa hoặc đối chiếu.",
       "tone": "neutral",
       "example": "I FIXED the bug—I did not merely report it.",
-      "alternatives": ["I fixed THE bug, not the timeout.", "I fixed the bug YESTERDAY, not today."]
+      "alternatives": ["I fixed the BUG, not the TIMEOUT.", "I fixed the bug YESTERDAY, not today."]
     }
   ],
   "reading": {

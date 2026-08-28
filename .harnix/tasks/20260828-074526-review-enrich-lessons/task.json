@@ -1,0 +1,864 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 2,
+  "id": "20260828-074526-review-enrich-lessons",
+  "title": "Rà soát và bổ sung nội dung bài học thực tế",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Nâng chất lượng toàn bộ 18 bài học bằng cách sửa các mâu thuẫn kỹ thuật và sư phạm đã xác định, bổ sung scaffold thực hành cho 12 mission, đồng thời giữ sáu bài pronunciation trung thực ở vai trò knowledge/reference.",
+  "nonGoals": [
+    "Không migrate sáu bài pronunciation v1 sang audio, performance task hoặc capability mới.",
+    "Không thêm dependency, nguồn mạng, remote audio, dữ liệu thật, secret, PII hoặc claim về learning efficacy.",
+    "Không thay đổi inventory 18 lesson, taxonomy, source count 75, progress/storage contract hoặc bốn phase context.",
+    "Không sửa task, research hoặc journal Harnix đã hoàn tất.",
+    "Không commit, push, publish hoặc tạo pull request."
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-1",
+      "text": "Các lỗi material đã phát hiện trong mission được sửa nhất quán từ source/context qua prompt, model, outputContract và rubric: runbook có recovery an toàn; log chỉ kết luận theo evidence; standup có expected result; B2 nêu đúng trade-off, delivery failure, trạng thái quyết định, retry-attempt semantics và ranh giới 429/503 hoặc unknown API behavior.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-finishing-content-pass",
+        "evidence-finishing-full-tests-pass",
+        "evidence-debug-cross-phase-contracts",
+        "evidence-debug-architecture-baseline-prompt"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "text": "Cả 12 mission v3 có đúng một language-support section với ít nhất ba expression tái sử dụng, ít nhất ba auto-check exercise có distractor hợp lý, và performancePrompt yêu cầu đầu ra bằng tiếng Anh; scaffold khớp CEFR, evidence packet và nhiệm vụ của từng lesson.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-finishing-content-pass",
+        "evidence-finishing-full-tests-pass"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "text": "Sáu bài pronunciation v1 được rà soát ở chế độ knowledge-only; ví dụ contrastive stress sai được sửa, quy tắc -ed và primary/secondary stress còn thiếu được bổ sung, đồng thời UI hiển thị definition, collocations, commonMistake, tone và alternatives đã có mà không tuyên bố spoken performance.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-finishing-content-pass",
+        "evidence-finishing-renderer-pass",
+        "evidence-finishing-build-pass",
+        "evidence-finishing-full-tests-pass"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "text": "CONTENT.md mô tả quality floor mới và giới hạn pronunciation knowledge-only; patch release 1.1.5 được thêm ở đầu CHANGELOG và đồng bộ trong package.json, package-lock.json cùng scripts/check-release.mjs mà không sửa lịch sử cũ.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-finishing-docs-pass",
+        "evidence-finishing-release-pass"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "text": "Focused content/renderer tests, full test suite, lint, build, release validator và git diff check đều pass với evidence fresh; inventory, provenance, phase isolation, model-evidence boundary và unrelated user work được giữ nguyên.",
+      "status": "met",
+      "evidenceIds": [
+        "evidence-finishing-build-pass",
+        "evidence-finishing-content-pass",
+        "evidence-finishing-diff-pass",
+        "evidence-finishing-docs-pass",
+        "evidence-finishing-full-tests-pass",
+        "evidence-finishing-lint-pass",
+        "evidence-finishing-release-pass",
+        "evidence-finishing-renderer-pass",
+        "evidence-independent-review-ready"
+      ]
+    }
+  ],
+  "relevantPaths": [
+    "CHANGELOG.md",
+    "CONTENT.md",
+    "content/missions/**/*.json",
+    "content/reference/pronunciation/*.json",
+    "package-lock.json",
+    "package.json",
+    "scripts/check-release.mjs",
+    "src/content/catalog.test.ts",
+    "src/content/content.test.ts",
+    "src/content/content_quality.test.ts",
+    "src/content/schema.test.ts",
+    "src/features/lesson/LessonFlow.test.tsx",
+    "src/features/lesson/SectionRenderer.test.tsx",
+    "src/features/lesson/SectionRenderer.tsx",
+    "src/shared/utils/validate_all_lessons.test.ts"
+  ],
+  "relevantSpecs": [
+    "CONTENT.md",
+    "PRODUCT.md"
+  ],
+  "validationPlan": [
+    {
+      "id": "check-build",
+      "description": "Chạy TypeScript và production build để xác nhận content canonical cùng renderer vẫn tích hợp.",
+      "command": "npm run build",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "tsconfig*.json",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-content-focused",
+      "description": "Chạy focused gate cho inventory, schema, provenance, mission scaffold, alignment và pronunciation knowledge content.",
+      "command": "npx vitest run src/content/content_quality.test.ts src/content/content.test.ts src/content/schema.test.ts src/content/catalog.test.ts src/shared/utils/validate_all_lessons.test.ts --maxWorkers=4",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "src/content/catalog.test.ts",
+        "src/content/content.test.ts",
+        "src/content/content_quality.test.ts",
+        "src/content/schema.test.ts",
+        "src/shared/utils/validate_all_lessons.test.ts"
+      ]
+    },
+    {
+      "id": "check-diff",
+      "description": "Kiểm tra whitespace/error marker trong diff và xác nhận không có thay đổi ngoài phạm vi.",
+      "command": "git diff --check",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-release.mjs",
+        "src/content/content_quality.test.ts",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx"
+      ]
+    },
+    {
+      "id": "check-docs",
+      "description": "Đối chiếu CONTENT.md và CHANGELOG với quality floor, giới hạn pronunciation và phạm vi diff thực tế.",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "CONTENT.md"
+      ]
+    },
+    {
+      "id": "check-full-tests",
+      "description": "Chạy toàn bộ Vitest suite với cấu hình tối đa bốn worker.",
+      "command": "npm test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/**/*.json",
+        "package-lock.json",
+        "package.json",
+        "scripts/**/*.mjs",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-lint",
+      "description": "Chạy oxlint trên toàn repository.",
+      "command": "npm run lint",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "scripts/**/*.mjs",
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    },
+    {
+      "id": "check-release",
+      "description": "Xác minh patch version 1.1.5 và release heading ngày 2026-08-28 đồng bộ.",
+      "command": "node scripts/check-release.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-4",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/check-release.mjs"
+      ]
+    },
+    {
+      "id": "check-renderer-focused",
+      "description": "Chạy regression cho full language-support rendering và completion semantics của lesson.",
+      "command": "npx vitest run src/features/lesson/SectionRenderer.test.tsx src/features/lesson/LessonFlow.test.tsx --maxWorkers=4",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "AC-3",
+        "AC-5"
+      ],
+      "inputs": [
+        "@task-contract",
+        "content/reference/pronunciation/*.json",
+        "src/features/lesson/LessonFlow.test.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "evidence-red-content-scaffold",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T00:53:19.687Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng contract: content quality test fail vì 12 mission chưa có language-support/ba auto-check, các alignment fix chưa tồn tại và sentence-stress vẫn chứa ví dụ fixed THE bug.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-red-renderer-details",
+      "checkId": "check-renderer-focused",
+      "recordedAt": "2026-08-28T00:53:19.687Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "RED đúng behavior: SectionRenderer không hiển thị definition, collocations, commonMistake, tone hoặc alternatives đã có trong language-support.",
+      "artifactPaths": [
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx"
+      ]
+    },
+    {
+      "id": "evidence-content-focused-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:01:24.8992584Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content integration GREEN: 5 test files và 76 tests pass, gồm schema, catalog, inventory, provenance, mission scaffold/alignment và pronunciation knowledge content.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "043d2cd4cc1e670b03ccc691cd148d3eef1608975356320c71ed385dc4a93084"
+    },
+    {
+      "id": "evidence-renderer-focused-pass",
+      "checkId": "check-renderer-focused",
+      "recordedAt": "2026-08-28T01:01:24.8992584Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused renderer/flow GREEN: 2 test files và 14 tests pass, gồm full language-support metadata, accessibility, pronunciation completion và capability flow.",
+      "artifactPaths": [
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "41e5bb1c1bff6c15f32fad0016ba70d09a8bcd190256deea512fd751f507f7ef"
+    },
+    {
+      "id": "evidence-release-pass",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-28T01:01:24.8992584Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release validator xác nhận package.json, package-lock.json, script expectation và changelog heading đồng bộ ở 1.1.5 ngày 2026-08-28.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "6c8d0ff73b6ce9eafb60f8930db031c4a27cdda5228921126f3177ba8145a167"
+    },
+    {
+      "id": "evidence-docs-pass",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-28T01:01:24.8992584Z",
+      "result": "pass",
+      "summary": "Đối chiếu diff xác nhận CONTENT.md mô tả quality floor và giới hạn knowledge-only; CHANGELOG 1.1.5 đứng trước lịch sử 1.1.4 và phản ánh đúng phạm vi.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "CONTENT.md"
+      ],
+      "inputDigest": "53ad00b8a51833f2ffa93b87ebf6a2510e918962406054cf5294e9cf0568bd6c"
+    },
+    {
+      "id": "evidence-app-palette-fail",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-28T01:05:38.2509215Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Focused App slice của full suite fail 1/4: WCAG AA palette gate cấm bốn class text-zinc-500 mới trong SectionRenderer; cần đổi sang palette đã được duyệt rồi rerun.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx"
+      ],
+      "inputDigest": "38a1bef266d5afb8ecbc8420673ad25404d127a29a730ce7dec75d0f8be3dddf"
+    },
+    {
+      "id": "evidence-debug-palette-confirmed",
+      "recordedAt": "2026-08-28T01:06:54.0850160Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Hypothesis xác nhận: bốn class text-zinc-500 mới là toàn bộ root cause của palette failure. Đổi đúng bốn class sang text-zinc-400; rg không còn match và App + SectionRenderer focused pass 13/13.",
+      "artifactPaths": [
+        "src/app/App.test.tsx",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-debug-architecture-delivery",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận perception/interaction còn nhập worker/event failure với DLQ. Đã đổi toàn learning loop sang failed message delivery sau retry; targeted alignment test GREEN.",
+      "artifactPaths": [
+        "content/missions/technical-explanation/architecture-walkthrough-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-api-polling",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận Quanta ladder yêu cầu bounded polling dù source không định nghĩa bounds. Đã nêu cadence/timeout là open questions trong source, prompt và checklist; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/technology-learning/learn-api-from-docs-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-meeting-status",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận model biến vai trò release owner/decision time đã xác nhận của Lan thành proposal. Đã tách confirmed fact khỏi Minh/rollback assignments còn pending; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/international-meetings/meeting-disagree-and-recap-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-interview-mitigation",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận technical interview chỉ bắt batching cost mà không bắt mitigation. Đã đồng bộ prompt, model, output contract và rubric với item-level partial-failure mapping; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/international-interview/technical-interview-decision-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-tradeoff-bound",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận baseline packet ghi +900 ms như exact value. Đã giữ qualifier up to 900 ms nhất quán với source/model; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/technical-explanation/technical-tradeoff-explanation-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-standup-rubric",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận expected result có trong output contract nhưng không được rubric chấm. Đã đưa expected result vào structure criterion; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/international-meetings/daily-standup-b1.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-api-four-step",
+      "recordedAt": "2026-08-28T01:13:24.768Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận API model/output/rubric không thực thi yêu cầu four-step plan. Đã thêm bốn bước có thứ tự, giữ polling bounds là open questions và model 136 từ nằm trong contract 120–180; targeted test GREEN.",
+      "artifactPaths": [
+        "content/missions/technology-learning/learn-api-from-docs-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-content-focused-after-review-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:14:33.804Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Sau independent review và debug, focused content gate pass 5 files/76 tests; khóa delivery-only DLQ, API unknowns/four-step plan, confirmed-vs-proposed meeting state, batching mitigation, upper bound và standup expected-result rubric.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "f26e852f3c7a11c7273a2413616b2b17bd7442c7f52424719f7ef56a1dd828aa"
+    },
+    {
+      "id": "evidence-renderer-focused-after-palette-pass",
+      "checkId": "check-renderer-focused",
+      "recordedAt": "2026-08-28T01:14:33.804Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Sau palette fix, focused renderer/flow gate pass 2 files/14 tests; full metadata rendering và lesson completion behavior giữ nguyên.",
+      "artifactPaths": [
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "e1f63ac424b7f8675d345667567f4af4e9c0c0e478236370250dde1dc99eb6ee"
+    },
+    {
+      "id": "evidence-cross-phase-contract-review-fail",
+      "recordedAt": "2026-08-28T01:17:11.185Z",
+      "result": "fail",
+      "summary": "Fresh compliance inspection xác nhận CapabilityTask dùng chung outputContract/rubric cho baseline, retry, transfer và review; four mission còn hardcode baseline facts, khiến phase sau phải mượn facts hoặc không thể đạt rubric.",
+      "artifactPaths": [
+        "src/features/practice/CapabilityTask.tsx",
+        "content/missions/international-interview/technical-interview-decision-b2.json",
+        "content/missions/international-meetings/meeting-disagree-and-recap-b2.json",
+        "content/missions/technical-explanation/architecture-walkthrough-b2.json",
+        "content/missions/technology-learning/learn-api-from-docs-b2.json"
+      ]
+    },
+    {
+      "id": "evidence-debug-cross-phase-contracts",
+      "recordedAt": "2026-08-28T01:21:04.192Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận bốn rubric/output contract dùng chung hardcode facts của baseline dù CapabilityTask đổi evidence packet theo phase. Đã làm contract phase-generic theo packet hiện tại, bổ sung Cost/Mitigation cho cả bốn technical-decision contexts và targeted regression test GREEN 1/1.",
+      "artifactPaths": [
+        "content/missions/international-interview/technical-interview-decision-b2.json",
+        "content/missions/international-meetings/meeting-disagree-and-recap-b2.json",
+        "content/missions/technical-explanation/architecture-walkthrough-b2.json",
+        "content/missions/technology-learning/learn-api-from-docs-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-content-focused-final-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:21:41.686Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content gate cuối pass 5 files/77 tests, gồm regression mới bảo đảm shared contract khả đạt từ evidence packet của cả baseline, retry, transfer và review.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "c8adfa8cf3d40bd855e11dbd0f58d9368e6e3e08cbb08fbf86066bd7cf5f49c4"
+    },
+    {
+      "id": "evidence-renderer-focused-final-pass",
+      "checkId": "check-renderer-focused",
+      "recordedAt": "2026-08-28T01:22:13.436Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused renderer và lesson-flow gate cuối pass 2 files/14 tests; metadata language-support, pronunciation completion, persistence và capability phases hoạt động đúng.",
+      "artifactPaths": [
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "e1f63ac424b7f8675d345667567f4af4e9c0c0e478236370250dde1dc99eb6ee"
+    },
+    {
+      "id": "evidence-full-tests-stale-copy-fail",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-28T01:23:20.872Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Full suite fail 1/267 tại CapabilityTask test: assertion còn tìm copy cũ “write the actions” trong khi baseline prompt đã đổi có chủ đích thành “draft the actions” để phân biệt bản nháp chưa xác minh; DOM xác nhận source visibility và input lock vẫn đúng.",
+      "artifactPaths": [
+        "content/missions/technical-reading/technical-doc-action-b1.json",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ],
+      "inputDigest": "e79e4ddf3b54ea2dd1f297f66eac7a3e4de17a165c5a876a1cca93117b1d0ae9"
+    },
+    {
+      "id": "evidence-debug-read-once-copy",
+      "recordedAt": "2026-08-28T01:24:33.257Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Root cause xác nhận là baseline prompt mất cụm copy mà test hành vi đã khóa. Đã giữ nguyên test, sửa prompt thành “write ... as an unverified draft, not an execution checklist”; targeted CapabilityTask test GREEN 1/1 và test file không có net diff.",
+      "artifactPaths": [
+        "content/missions/technical-reading/technical-doc-action-b1.json",
+        "src/features/practice/CapabilityTask.test.tsx"
+      ]
+    },
+    {
+      "id": "evidence-architecture-prompt-review-fail",
+      "recordedAt": "2026-08-28T01:25:18.293Z",
+      "result": "fail",
+      "summary": "Independent re-review xác nhận shared contracts đã phase-generic, nhưng architecture baseline prompt chưa bắt outbox handoff và at-least-once/idempotent handling; learner có thể bỏ hai cơ chế cốt lõi dù source/model có.",
+      "artifactPaths": [
+        "content/missions/technical-explanation/architecture-walkthrough-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-debug-architecture-baseline-prompt",
+      "recordedAt": "2026-08-28T01:26:00.543Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "RED xác nhận architecture baseline prompt chưa bắt outbox và at-least-once/idempotent handling. Đã bổ sung hai cơ chế vào prompt, giữ shared rubric phase-generic; targeted practical-alignment và cross-phase tests GREEN 2/2.",
+      "artifactPaths": [
+        "content/missions/technical-explanation/architecture-walkthrough-b2.json",
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-content-focused-final2-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:26:32.866Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Focused content gate sau mọi review fix pass 5 files/77 tests; bao phủ mission scaffold, baseline-specific enforcement, cross-phase attainability, provenance, inventory và pronunciation knowledge content.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "40b4664f5675c0306dd484f55e4bdda8e52cb669dd2531ee0f98925c048cdb70"
+    },
+    {
+      "id": "evidence-full-tests-final-pass",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-28T01:27:37.524Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Full Vitest suite sau mọi content/review fix pass 31 files/267 tests; accessibility gate, capability phases, persistence, media, catalog, schema và content đều GREEN.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "835f086bc35157097b4528fdbfb1cdc0ec1a042042e70e142d9b05d3ede9bd97"
+    },
+    {
+      "id": "evidence-lint-final-pass",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-28T01:28:02.800Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Oxlint hoàn tất không có lỗi.",
+      "artifactPaths": [
+        "src",
+        "scripts"
+      ],
+      "inputDigest": "e53b565a2702e8a00399b636f58b30a191aa6e507e57a3967d363dd0653dc268"
+    },
+    {
+      "id": "evidence-build-implicit-any-fail",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-28T01:28:44.116Z",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "Production build fail tại TS7006: callback artifact trong regression cross-phase mới thiếu annotation dưới noImplicitAny; runtime/content tests vẫn pass.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "c57e61257595f0a443e80500703ea82cad50fae38b952ffb9fb4fb7b9cac8671"
+    },
+    {
+      "id": "evidence-debug-test-artifact-type",
+      "recordedAt": "2026-08-28T01:29:14.188Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Đã annotation callback bằng CanonicalSourceSection; targeted tsc -b pass và cross-phase regression pass 1/1, không thay đổi behavior.",
+      "artifactPaths": [
+        "src/content/content_quality.test.ts"
+      ]
+    },
+    {
+      "id": "evidence-build-final-pass",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-28T01:29:40.119Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "TypeScript project build và Vite production build pass; chỉ còn cảnh báo informational về main chunk trên 500 kB.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "73760061c112569ed74f6fb0a3480259ae676bcb1f86f7f7521d00c2db751805"
+    },
+    {
+      "id": "evidence-content-focused-fresh-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:30:14.686Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final fresh focused content gate pass 5 files/77 tests sau TypeScript annotation; tất cả content contracts và inventory checks GREEN.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "ad578bf2f9dd9f12441926bd0423c009a932fad574d12e672b675a4e6011acdc"
+    },
+    {
+      "id": "evidence-lint-fresh-pass",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-28T01:30:14.686Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final fresh oxlint pass sau TypeScript annotation.",
+      "artifactPaths": [
+        "src",
+        "scripts"
+      ],
+      "inputDigest": "481de77aba4b10896c8dcc80071b70a78f750b637e11cf2542ce409ab48b92cc"
+    },
+    {
+      "id": "evidence-full-tests-fresh-pass",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-28T01:31:06.005Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Final fresh full Vitest suite pass 31 files/267 tests sau TypeScript fix; pre/post input digest trùng khớp.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "6b522f0a2d6a564449a0cd70d69766ad4b84e2cef8806c51e2d0280dcd25a48e"
+    },
+    {
+      "id": "evidence-release-final-pass",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-28T01:32:08.229Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Release validator xác nhận version 1.1.5 và heading ngày 2026-08-28 đồng bộ.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "50e2a5120deda3d4ad25d737e90ce13ae865398962978dc6f2566f2d12bca17d"
+    },
+    {
+      "id": "evidence-diff-final-pass",
+      "checkId": "check-diff",
+      "recordedAt": "2026-08-28T01:32:08.229Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "git diff --check exit 0; không có whitespace error hoặc conflict marker. PowerShell chỉ báo informational LF→CRLF cho working copy.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "content",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs",
+        "src/content/content_quality.test.ts",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ],
+      "inputDigest": "1d32de564ff402aa9df469bf0ba763c829c5591b2cb442004ced5482f833d0ed"
+    },
+    {
+      "id": "evidence-docs-final-pass",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-28T01:32:27.034Z",
+      "result": "pass",
+      "summary": "Manual diff review xác nhận CONTENT.md ghi đúng quality floor 12 mission và giới hạn pronunciation knowledge/reference; CHANGELOG 1.1.5 đứng trước 1.1.4, mô tả đúng content/renderer fixes và không sửa lịch sử.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "CONTENT.md"
+      ],
+      "inputDigest": "5fe6eddbb9d37462b8915cd6e62b01d33fa2f34e8aaa9e622b662112f5de3b82"
+    },
+    {
+      "id": "evidence-independent-review-ready",
+      "recordedAt": "2026-08-28T01:33:22.596Z",
+      "result": "pass",
+      "summary": "Hai vòng review read-only độc lập kết luận READY: content contracts khả đạt ở bốn phase và baseline architecture khóa đủ outbox/idempotency; UI accessibility/palette, renderer và release không còn finding. Không thêm dependency, network, secret hoặc dữ liệu production.",
+      "artifactPaths": [
+        "content/missions",
+        "src/content/content_quality.test.ts",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "CHANGELOG.md",
+        "package.json"
+      ]
+    },
+    {
+      "id": "evidence-finishing-build-pass",
+      "checkId": "check-build",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state TypeScript + Vite production build pass; only informational bundle-size warning.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "package.json",
+        "package-lock.json"
+      ],
+      "inputDigest": "59f37d960bcdf2b89a0f078429ddafb369152201549324e7fba95690beed6834"
+    },
+    {
+      "id": "evidence-finishing-content-pass",
+      "checkId": "check-content-focused",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state focused content gate pass 5 files/77 tests.",
+      "artifactPaths": [
+        "content/missions",
+        "content/reference/pronunciation",
+        "src/content/content_quality.test.ts"
+      ],
+      "inputDigest": "c76ce54f50bb193a927efb4bc6caba41d3fac6e5fc4cbb300d2b7882b2eeb658"
+    },
+    {
+      "id": "evidence-finishing-diff-pass",
+      "checkId": "check-diff",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state git diff --check exit 0; LF→CRLF notices are informational.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "CONTENT.md",
+        "content",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs",
+        "src/content/content_quality.test.ts",
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx"
+      ],
+      "inputDigest": "a507bf92eac48e27218be6a37fa7c7e431edea07eba7a994697eaf75aacccd8a"
+    },
+    {
+      "id": "evidence-finishing-docs-pass",
+      "checkId": "check-docs",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "summary": "Finishing-state manual docs review xác nhận quality floor, pronunciation knowledge-only và release 1.1.5 đúng phạm vi, lịch sử cũ nguyên vẹn.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "CONTENT.md"
+      ],
+      "inputDigest": "5ebd84596678438e351d404b2dedbf4a91fa305165ecc94cc5220ba7f100371a"
+    },
+    {
+      "id": "evidence-finishing-full-tests-pass",
+      "checkId": "check-full-tests",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state full Vitest suite pass 31 files/267 tests.",
+      "artifactPaths": [
+        "content",
+        "src",
+        "scripts/check-curriculum-research.test.mjs"
+      ],
+      "inputDigest": "913219e4a648452264e5816829afde19ad04ff7cb7f86ecbf91f4158447e2867"
+    },
+    {
+      "id": "evidence-finishing-lint-pass",
+      "checkId": "check-lint",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state oxlint pass.",
+      "artifactPaths": [
+        "src",
+        "scripts"
+      ],
+      "inputDigest": "61d6506410a1f7a68ce0ba5d9b8c85c2051262f889406ff87a72f9a7d19b0c73"
+    },
+    {
+      "id": "evidence-finishing-release-pass",
+      "checkId": "check-release",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state release validator pass cho 1.1.5 ngày 2026-08-28.",
+      "artifactPaths": [
+        "CHANGELOG.md",
+        "package.json",
+        "package-lock.json",
+        "scripts/check-release.mjs"
+      ],
+      "inputDigest": "bfb45ad3280bdd9b1a7f19f0778a57594c5c4bf54cb57c7712edca126280db54"
+    },
+    {
+      "id": "evidence-finishing-renderer-pass",
+      "checkId": "check-renderer-focused",
+      "recordedAt": "2026-08-28T01:35:52.862Z",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "Finishing-state renderer/lesson-flow gate pass 2 files/14 tests.",
+      "artifactPaths": [
+        "src/features/lesson/SectionRenderer.tsx",
+        "src/features/lesson/SectionRenderer.test.tsx",
+        "src/features/lesson/LessonFlow.test.tsx"
+      ],
+      "inputDigest": "ff86c29ea60d7e61a483d875797e32fec051fa93e63f6db1c6535b52c8d69deb"
+    }
+  ],
+  "createdAt": "2026-08-28T00:50:54.78Z",
+  "updatedAt": "2026-08-28T01:36:14.872Z",
+  "completedAt": "2026-08-28T01:36:14.872Z"
+}

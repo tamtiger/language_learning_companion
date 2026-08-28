@@ -10,31 +10,51 @@
   "workflowTags": ["documentation", "runbook"],
   "sections": [
     { "id": "brief", "type": "brief", "title": "Your mission", "body": "A teammate asks you to perform a safe cache migration using only the English runbook." },
-    { "id": "source", "type": "source", "title": "Cache migration runbook", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it." },
-    { "id": "check", "type": "auto-check", "title": "Confirm the safety condition", "exercises": [{ "id": "runbook-prerequisite", "type": "choice", "question": "What must happen before the migration command?", "options": ["Confirm queue depth and create a snapshot.", "Notify the incident owner after retrying."], "correctAnswer": ["Confirm queue depth and create a snapshot."], "explanation": "Both conditions appear before the migration steps." }] }
+    { "id": "source", "type": "source", "title": "Cache migration runbook", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Before running the migration, confirm that the queue depth is below 100, create a configuration snapshot and enable read-only mode. Run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, verify that the restored cache reports healthy, then disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it." },
+    {
+      "id": "runbook-language",
+      "type": "language-support",
+      "title": "Reusable runbook language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "Before running ___, confirm ___, save ___ and enable ___.", "meaning": "Gom mọi prerequisite cần hoàn tất trước command.", "tone": "neutral", "example": "Before running the migration, confirm queue depth, save a snapshot and enable read-only mode.", "alternatives": ["Prerequisites: ___, ___ and ___."] },
+        { "phrase": "Success requires ___ and ___ within ___.", "meaning": "Nêu đầy đủ các tín hiệu thành công cùng time limit.", "tone": "neutral", "example": "Success requires MIGRATION_COMPLETE and healthy status within two minutes.", "alternatives": ["Verify both ___ and ___ before continuing."] },
+        { "phrase": "If ___ remains degraded, roll back ___; verify ___ before disabling ___.", "meaning": "Giữ đúng thứ tự recovery trước khi mở lại write traffic.", "tone": "formal", "example": "If health remains degraded, roll back the snapshot; verify the restored cache is healthy before disabling read-only mode.", "alternatives": ["On failure, restore ___ and confirm ___ before ___."] }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Confirm the safety sequence",
+      "exercises": [
+        { "id": "runbook-prerequisite", "type": "choice", "question": "What must happen before the migration command?", "options": ["Confirm queue depth below 100, create a snapshot and enable read-only mode.", "Create a snapshot, run the migration and enable read-only mode afterward.", "Notify the incident owner and retry until the cache is healthy."], "correctAnswer": ["Confirm queue depth below 100, create a snapshot and enable read-only mode."], "explanation": "All three prerequisites must be complete before cachectl migrate runs." },
+        { "id": "runbook-success", "type": "choice", "question": "Which evidence proves that the migration succeeded?", "options": ["MIGRATION_COMPLETE plus healthy cache status within two minutes.", "The command starts and queue depth remains below 100.", "Read-only mode is enabled and the on-call engineer is notified."], "correctAnswer": ["MIGRATION_COMPLETE plus healthy cache status within two minutes."], "explanation": "The runbook requires both the completion message and healthy status inside the stated time window." },
+        { "id": "runbook-recovery-order", "type": "ordering", "question": "Put the degraded-health recovery steps in the documented safe order.", "options": ["Run cachectl rollback --snapshot latest.", "Verify that the restored cache reports healthy.", "Disable read-only mode.", "Notify the on-call engineer and wait for approval before retrying."], "correctAnswer": ["Run cachectl rollback --snapshot latest.", "Verify that the restored cache reports healthy.", "Disable read-only mode.", "Notify the on-call engineer and wait for approval before retrying."], "explanation": "Health is verified after rollback and before read-only mode is disabled; notification and approval protect any later retry." }
+      ]
+    }
   ],
   "performanceTask": {
     "id": "runbook-action-task",
     "mode": "written",
     "title": "Produce an execution checklist",
     "scenario": "You must hand a safe four-step checklist to the engineer running the migration.",
-    "baselinePrompt": "Read once and write the actions from memory without translating the runbook.",
-    "performancePrompt": "Write four English bullets covering prerequisite, command, success signal and rollback/escalation.",
-    "modelResponse": "• Confirm queue depth is below 100 and save a configuration snapshot. • Enable read-only mode and run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, rollback the latest snapshot, disable read-only mode and notify on-call; do not retry without approval.",
+    "baselinePrompt": "Language-only cold attempt: read once and write the actions from memory without translating; treat the result as an unverified draft, not an execution checklist.",
+    "performancePrompt": "Using the displayed runbook, write four bullets in English covering all three prerequisites, command, success signal and rollback/escalation. Verify every step against the source before submitting.",
+    "modelResponse": "• Confirm queue depth is below 100, save a configuration snapshot and enable read-only mode. • Run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, rollback the latest snapshot; verify the restored cache is healthy; only then disable read-only mode, notify on-call and wait for approval before retrying.",
     "retryPrompt": "Return to the source, correct one omitted safety condition, then rewrite without copying full sentences.",
-    "transferPrompt": "A second runbook says to back up the schema, run dbctl upgrade, verify SCHEMA_OK, and restore the backup if validation fails. Produce the same four-part checklist.",
+    "transferPrompt": "Read the displayed database upgrade runbook and write a new four-part checklist in English. Extract every condition from that source without reusing cache-specific details.",
     "reviewPrompt": "Read a new short runbook and extract prerequisite, action, success signal and recovery without translation.",
     "practiceContexts": {
       "baseline": {
         "title": "Cache migration runbook",
-        "brief": "Cold attempt: read the complete English runbook once, then produce the checklist from memory.",
+        "brief": "Language-only cold attempt: read the complete English runbook once, then draft from memory. This unverified draft is not an execution checklist.",
         "artifacts": [
           {
             "id": "cache-baseline-runbook",
             "type": "source",
             "title": "Complete migration procedure",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Before starting, confirm that the queue depth is below 100 and create a configuration snapshot. Enable read-only mode, then run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
+            "content": "Synthetic training artifact — non-production. Before running the migration, confirm that the queue depth is below 100, create a configuration snapshot and enable read-only mode. Run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, verify that the restored cache reports healthy, then disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
           }
         ]
       },
@@ -47,7 +67,7 @@
             "type": "source",
             "title": "Safety-critical details",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Prerequisites: queue depth below 100 and a configuration snapshot. Success: MIGRATION_COMPLETE plus healthy status within two minutes. Recovery: rollback latest, disable read-only mode, notify on-call, and wait for incident-owner approval before retrying."
+            "content": "Synthetic training artifact — non-production. Prerequisites: queue depth below 100, a configuration snapshot and read-only mode enabled. Success: MIGRATION_COMPLETE plus healthy status within two minutes. Recovery: rollback latest, verify that the restored cache is healthy, then disable read-only mode, notify on-call and wait for incident-owner approval before retrying."
           }
         ]
       },
@@ -60,7 +80,7 @@
             "type": "source",
             "title": "Schema upgrade procedure",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Confirm replica lag is below five seconds and back up the schema. Run dbctl upgrade --target 14. Success is reported as SCHEMA_OK after validation. If validation fails, restore the backup, keep writes disabled and page the database owner."
+            "content": "Synthetic training artifact — non-production. Confirm replica lag is below five seconds, back up the schema and disable writes. Run dbctl upgrade --target 14. Success is reported as SCHEMA_OK after validation. If validation fails, restore the backup, verify that the previous schema reports healthy and page the database owner. Keep writes disabled until the database owner approves re-enabling them."
           }
         ]
       },

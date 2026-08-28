@@ -9,15 +9,30 @@
   "capabilities": ["technology-learning"],
   "workflowTags": ["documentation", "troubleshooting"],
   "sections": [
-    { "id": "source", "type": "source", "title": "Worker retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Retries are scheduled only when the handler returns an error. Uncaught exceptions are recorded as failed attempts. A job moves to the dead-letter queue after maxAttempts. Setting maxAttempts to 1 disables retries." },
-    { "id": "check", "type": "auto-check", "title": "Read the condition precisely", "exercises": [{ "id": "docs-troubleshoot-check", "type": "choice", "question": "Vì sao job có thể không retry?", "options": ["The queue is asynchronous.", "maxAttempts may be set to 1.", "The handler uses English."], "correctAnswer": ["maxAttempts may be set to 1."], "explanation": "Docs nói rõ giá trị 1 sẽ tắt retry." }] }
+    { "id": "source", "type": "source", "title": "Worker retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. A failed attempt occurs when the handler returns an error or throws an uncaught exception, and either outcome is eligible for retry. maxAttempts is the total number of attempts and includes the initial attempt. A job moves to the dead-letter queue after all configured attempts fail. Setting maxAttempts to 1 allows only the initial attempt and therefore disables retries. Effective configuration may differ by environment." },
+    {
+      "id": "language",
+      "type": "language-support",
+      "title": "Evidence-led troubleshooting language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "The documentation establishes that ___.", "meaning": "Separate a documented rule from a hypothesis about the current system.", "tone": "neutral", "example": "The documentation establishes that maxAttempts includes the initial attempt.", "alternatives": ["The documented rule is ___."] },
+        { "phrase": "One testable hypothesis is ___.", "meaning": "Frame a possible cause without presenting it as confirmed.", "tone": "neutral", "example": "One testable hypothesis is that staging has maxAttempts set to one.", "alternatives": ["A plausible explanation to test is ___."] },
+        { "phrase": "This hypothesis would be supported if ___ and rejected if ___.", "meaning": "Define observable evidence for both outcomes.", "tone": "formal", "example": "This hypothesis would be supported if the effective value is one and rejected if it is already above one.", "alternatives": ["The expected signal is ___; otherwise I would investigate ___."] }
+      ]
+    },
+    { "id": "check", "type": "auto-check", "title": "Read the retry contract precisely", "exercises": [
+      { "id": "docs-troubleshoot-check", "type": "choice", "question": "Vì sao job có thể không retry?", "options": ["The queue is asynchronous.", "maxAttempts may be set to 1.", "The handler throws instead of returning an error."], "correctAnswer": ["maxAttempts may be set to 1."], "explanation": "Giá trị 1 chỉ cho phép initial attempt; cả returned error và uncaught exception đều đủ điều kiện retry." },
+      { "id": "docs-failure-signal", "type": "choice", "question": "Which handler outcome counts as a failed attempt?", "options": ["Either returning an error or throwing an uncaught exception.", "Only returning an error; thrown exceptions are ignored.", "Returning a success value with an error message in a log."], "correctAnswer": ["Either returning an error or throwing an uncaught exception."], "explanation": "The documentation explicitly gives return-or-throw semantics; a success return is not a failed attempt merely because a log contains an error." },
+      { "id": "docs-attempt-count", "type": "choice", "question": "With maxAttempts=3, how many total attempts are allowed?", "options": ["Three, including the initial attempt.", "Four: one initial attempt plus three retries.", "One, because maxAttempts disables retries."], "correctAnswer": ["Three, including the initial attempt."], "explanation": "maxAttempts is defined as the total number of attempts, not the number of retries after the initial attempt." }
+    ] }
   ],
   "performanceTask": {
     "id": "docs-troubleshooting", "mode": "written", "title": "Plan a safe troubleshooting experiment",
-    "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn chỉ có đoạn documentation và config.",
+    "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn có documentation và symptom, nhưng effective config chưa được xác nhận.",
     "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan without the model.",
-    "performancePrompt": "Tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal và rollback.",
-    "modelResponse": "The documentation says retries require the handler to return an error and maxAttempts to be greater than one; maxAttempts=1 disables retries. My first hypothesis is that this environment has an effective maxAttempts value of one, but the documentation alone does not prove the current setting. I would inspect the effective staging configuration before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic failing job with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect how the handler reports failure.",
+    "performancePrompt": "Viết bằng tiếng Anh: tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal, rejection signal và rollback.",
+    "modelResponse": "The documentation says a handler that returns an error or throws an uncaught exception creates a failed attempt. maxAttempts is the total attempt count, including the initial attempt, so a value of one disables retries. My first hypothesis is that this environment has an effective value of one, but the documentation alone does not prove the current setting. I would inspect the effective staging configuration before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic job whose handler throws, with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect the handler’s observed return-or-throw behavior.",
     "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
     "transferPrompt": "Docs của một cache nói TTL=0 means no expiry. Viết kế hoạch kiểm tra an toàn cho bug stale data.",
     "reviewPrompt": "Từ unseen docs đã đọc một lần, tạo hypothesis và safe experiment có expected signal.",
@@ -25,12 +40,12 @@
       "baseline": {
         "title": "Worker retry behavior",
         "brief": "Read once and derive a safe test from the documented condition.",
-        "artifacts": [{ "id": "trouble-baseline-worker", "type": "source", "title": "Retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Retries are scheduled only when the handler returns an error. A job moves to dead-letter after maxAttempts. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment." }]
+        "artifacts": [{ "id": "trouble-baseline-worker", "type": "source", "title": "Retry documentation", "format": "technical-doc", "content": "Synthetic training artifact — non-production. A failed attempt occurs when the handler returns an error or throws an uncaught exception, and either outcome is eligible for retry. maxAttempts is the total number of attempts, including the initial attempt. After all configured attempts fail, the job moves to dead-letter. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment." }]
       },
       "retry": {
         "title": "Worker effective configuration",
         "brief": "Use focused facts to repair hypothesis, expected signal or cleanup.",
-        "artifacts": [{ "id": "trouble-retry-worker", "type": "source", "title": "Staging configuration and relevant rule", "format": "code-snippet", "content": "Synthetic training artifact — non-production. Documented rule: an uncaught exception is recorded as a failed attempt, and maxAttempts=1 disables retries.\nenvironment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true" }]
+        "artifacts": [{ "id": "trouble-retry-worker", "type": "source", "title": "Staging configuration and relevant rule", "format": "code-snippet", "content": "Synthetic training artifact — non-production. Documented rule: returning an error or throwing an uncaught exception creates a failed attempt; maxAttempts is the total attempt count including the initial attempt.\nenvironment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true" }]
       },
       "transfer": {
         "title": "Cache expiry behavior",
@@ -60,13 +75,13 @@
       "applicationPrompt": "State the documented rule, form one hypothesis for a stalled batch, and design a reversible staging experiment with an expected signal.",
       "applicationChecklist": ["I quoted no more than the necessary rule.", "My hypothesis is testable.", "The experiment has an expected signal and cleanup."]
     },
-    "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "cleanup"], "minWords": 100, "maxWords": 180 },
+    "outputContract": { "timeLimitSeconds": 360, "requiredElements": ["documentation rule", "hypothesis", "experiment", "expected signal", "rejection signal", "cleanup"], "minWords": 100, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["doc accuracy", "testability", "safety"],
     "rubric": [
       { "id": "rule", "label": "Documentation rule", "description": "Restates the relevant condition accurately in plain English." },
       { "id": "hypothesis", "label": "Testable hypothesis", "description": "Connects the symptom to a condition that can be checked." },
-      { "id": "experiment", "label": "Safe experiment", "description": "Defines action, expected signal and cleanup or rollback." }
+      { "id": "experiment", "label": "Safe experiment", "description": "Defines action, expected and rejection signals, plus cleanup or rollback." }
     ]
   },
   "reviewPolicy": { "intervalDays": [1, 4, 10] }

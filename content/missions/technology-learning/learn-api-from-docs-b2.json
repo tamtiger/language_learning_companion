@@ -43,14 +43,29 @@
       "type": "source",
       "title": "Pulse API quickstart",
       "format": "technical-doc",
-      "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous and is not complete at acceptance. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Temporary unavailability returns 503 and may also include Retry-After; that response does not by itself mean the client exceeded a rate limit. A Retry-After value uses either delay seconds or an HTTP-date. Reusing an idempotency key returns the original event rather than creating a duplicate.",
+      "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous and is not complete at acceptance. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Temporary unavailability returns 503 and may also include Retry-After; that response does not by itself mean the client exceeded a rate limit. A Retry-After value uses either delay seconds or an HTTP-date. Reusing an idempotency key returns the original event rather than creating a duplicate. This quickstart does not define a polling interval, maximum polling duration, idempotency-key retention period or same-key/different-payload behavior; these are open questions to confirm before production rather than defaults to invent.",
       "provenance": {
         "origin": "synthetic",
         "sourceIds": ["rfc-9110", "rfc-6585"],
         "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
       }
     },
-    { "id": "check", "type": "auto-check", "title": "Check the mental model", "exercises": [{ "id": "api-async", "type": "choice", "question": "Why must the client query event status?", "options": ["A 202 response means processing is asynchronous.", "The bearer token expires immediately."], "correctAnswer": ["A 202 response means processing is asynchronous."], "explanation": "Acceptance and final processing are separate states." }] }
+    {
+      "id": "language",
+      "type": "language-support",
+      "title": "Documentation-to-plan language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "The documentation guarantees ___, but it does not define ___.", "meaning": "Separate an explicit API contract from an unresolved detail.", "tone": "neutral", "example": "The documentation guarantees asynchronous acceptance, but it does not define the polling interval.", "alternatives": ["The documented behavior is ___; ___ remains an open question."] },
+        { "phrase": "A ___ response indicates ___, whereas ___ indicates ___.", "meaning": "Contrast two response classes without merging their causes.", "tone": "formal", "example": "A 429 response indicates rate limiting, whereas 503 indicates temporary unavailability.", "alternatives": ["Unlike ___, ___ means ___."] },
+        { "phrase": "Before production, I would confirm ___.", "meaning": "Turn an undocumented behavior into a concrete follow-up instead of an invented default.", "tone": "neutral", "example": "Before production, I would confirm the polling limits and idempotency-key retention period.", "alternatives": ["I would treat ___ as an open question and verify it with the API owner."] }
+      ]
+    },
+    { "id": "check", "type": "auto-check", "title": "Check the mental model", "exercises": [
+      { "id": "api-async", "type": "choice", "question": "Why must the client query event status?", "options": ["A 202 response means the event was accepted but processing is not complete.", "The bearer token expires immediately.", "Every 202 response is a rate-limit warning."], "correctAnswer": ["A 202 response means the event was accepted but processing is not complete."], "explanation": "Acceptance and final processing are separate states." },
+      { "id": "api-retry-class", "type": "choice", "question": "Which statement distinguishes 429 from 503 correctly?", "options": ["429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting.", "Both codes prove that the caller exceeded 60 requests per minute.", "503 means the event was processed successfully."], "correctAnswer": ["429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting."], "explanation": "The quickstart assigns different causes to the two statuses even though either response can carry Retry-After." },
+      { "id": "api-open-question", "type": "choice", "question": "Which implementation detail remains an open question?", "options": ["The polling interval and maximum polling duration.", "Whether 202 means processing is complete.", "Whether POST /v1/events requires authentication."], "correctAnswer": ["The polling interval and maximum polling duration."], "explanation": "The quickstart states the 202 and authentication behavior but explicitly leaves polling bounds undefined." }
+    ] }
   ],
   "performanceTask": {
     "id": "api-learning-task",
@@ -58,8 +73,8 @@
     "title": "Explain and plan the integration",
     "scenario": "A teammate will implement Pulse tomorrow and needs your English mental model and plan.",
     "baselinePrompt": "Read the quickstart once, hide it, then explain how the API works and outline implementation without translating it.",
-    "performancePrompt": "Write 120–180 words: request lifecycle, idempotency, rate-limit behavior and a four-step implementation/test plan.",
-    "modelResponse": "Pulse accepts an authenticated event and returns 202, which means the request was accepted but processing is not complete. The client should generate one idempotency key per logical event, store that key with the returned event_id and poll status until processed or failed. Reusing the same key returns the existing event instead of creating a duplicate. I would wrap the POST and GET calls first, then add bounded polling. A 429 indicates rate limiting, so the client should wait for Retry-After before another attempt. A 503 indicates temporary unavailability rather than proof of rate limiting; if Retry-After is present, the client should respect it. Finally, I would test duplicate submissions, failed processing, 429 backoff and 503 recovery before enabling real traffic.",
+    "performancePrompt": "Write 120–180 words in English: explain the request lifecycle and idempotency, distinguish 429 from 503, identify open questions, and give a four-step implementation/test plan.",
+    "modelResponse": "Pulse accepts an authenticated event and returns 202, so acceptance is not completion. The client generates one idempotency key per logical event, stores it with the event_id and queries status until processed or failed; reusing the key returns the original event. A 429 means rate limiting, while a 503 means temporary unavailability, and the client respects Retry-After when present. The implementation plan has four steps. First, wrap POST and GET while preserving the key-to-event mapping. Second, test duplicate submissions and failed processing. Third, add status polling only after the API owner confirms cadence and timeout, then test both terminal states. Fourth, handle and test 429 and 503 separately, including Retry-After recovery. The quickstart does not define polling bounds, idempotency-key retention or same-key/different-payload behavior, so I would record those as open questions and confirm them before production.",
     "retryPrompt": "Rewrite the mental model in your own words and connect every implementation step to a behavior in the docs.",
     "transferPrompt": "A new Jobs API returns 202, exposes job status and uses request tokens for deduplication. Produce a fresh mental model and plan that separates acceptance, rate limiting and temporary unavailability.",
     "reviewPrompt": "Read an unseen API quickstart once and explain lifecycle, safety mechanism, failure handling and first implementation plan from memory.",
@@ -67,7 +82,7 @@
       "baseline": {
         "title": "Pulse Events API",
         "brief": "Read once and build the request lifecycle from memory.",
-        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous and is not complete at acceptance. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. A 503 indicates temporary unavailability and may also include Retry-After. Reusing a key returns the original event.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
+        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous and is not complete at acceptance. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. A 503 indicates temporary unavailability and may also include Retry-After; it is not proof of rate limiting. Reusing a key returns the original event. Polling cadence and timeout, key retention, and same-key/different-payload behavior are not defined and must be confirmed before production.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
       },
       "retry": {
         "title": "Pulse reliability notes",
@@ -92,7 +107,7 @@
         "type": "source",
         "title": "Quanta Tasks API",
         "format": "technical-doc",
-        "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id; acceptance is not completion. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After.",
+        "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id; acceptance is not completion. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After. The polling interval and maximum polling duration are not defined; confirm both before production.",
         "provenance": {
           "origin": "synthetic",
           "sourceIds": ["rfc-9110", "rfc-6585"],
@@ -104,16 +119,17 @@
         { "id": "quanta-safety", "question": "What prevents duplicates?", "options": ["Reuse Request-Key for the same logical task", "Generate a new key for every retry"], "correctAnswer": "Reuse Request-Key for the same logical task", "feedback": "The request key identifies one logical operation." },
         { "id": "quanta-limit", "question": "How should 429 be handled?", "options": ["Wait for Retry-After", "Poll faster"], "correctAnswer": "Wait for Retry-After", "feedback": "The server supplies the backoff interval." }
       ],
-      "applicationPrompt": "Explain the lifecycle in plain English and turn each documented behavior into one implementation or test step.",
-      "applicationChecklist": ["I separated acceptance from completion.", "I connected idempotency to retries.", "I included bounded polling and rate-limit handling."]
+      "applicationPrompt": "Explain the lifecycle in plain English, turn each documented behavior into an implementation or test step, and record undocumented polling bounds as open questions.",
+      "applicationChecklist": ["I separated acceptance from completion.", "I connected idempotency to retries.", "I recorded the polling interval and maximum duration as open questions instead of inventing defaults, and I handled the documented rate limit."]
     },
-    "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["request lifecycle", "idempotency", "rate limit", "implementation plan"], "minWords": 120, "maxWords": 180 },
+    "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["request lifecycle", "idempotency or deduplication", "documented response distinctions", "documented behavior versus unsupported assumptions", "ordered implementation and test plan"], "minWords": 120, "maxWords": 180 },
     "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
     "feedbackPriorities": ["Mental model", "Traceability to docs", "Implementation safety"],
     "rubric": [
-      { "id": "model", "label": "Accurate mental model", "description": "Explains asynchronous acceptance and final status correctly." },
-      { "id": "safety", "label": "Reliability controls", "description": "Covers idempotency and rate-limit handling." },
-      { "id": "application", "label": "Executable plan", "description": "Turns documentation into ordered implementation and test steps." }
+      { "id": "model", "label": "Accurate mental model", "description": "Explains the current evidence packet's request lifecycle and final state correctly." },
+      { "id": "safety", "label": "Reliability controls", "description": "Covers the current packet's deduplication control and distinguishes its documented response classes." },
+      { "id": "unknowns", "label": "Open questions", "description": "Separates documented behavior from unsupported assumptions and names explicit open questions when the current packet provides them." },
+      { "id": "application", "label": "Executable plan", "description": "Turns the current evidence packet into ordered implementation and test steps without inventing undocumented API defaults." }
     ]
   },
   "reviewPolicy": { "intervalDays": [1, 3, 7] }

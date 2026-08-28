@@ -232,4 +232,38 @@ describe('SectionRenderer pronunciation evidence', () => {
     view.unmount()
     expect(cancel).toHaveBeenCalledOnce()
   })
+
+  it('renders every authored vocabulary and expression detail', () => {
+    const languageSection: CanonicalLessonSection = {
+      id: 'language-details',
+      type: 'language-support',
+      title: 'Language details',
+      vocabulary: [{
+        word: 'rollback',
+        ipa: '/ˈroʊl.bæk/',
+        definition: 'A return to an earlier state.',
+        technicalMeaning: 'Restore the last known-good release.',
+        collocations: ['rollback plan', 'trigger a rollback'],
+        example: 'Trigger a rollback if health remains degraded.',
+        commonMistake: 'Verify restored health before reopening writes.'
+      }],
+      expressions: [{
+        phrase: 'Could you confirm the target?',
+        meaning: 'Yêu cầu xác nhận một tiêu chí đo được.',
+        tone: 'neutral',
+        example: 'Could you confirm the target latency?',
+        alternatives: ['What result should pass?', 'Which threshold should we use?']
+      }]
+    }
+
+    render(<SectionRenderer lessonId="language-details" section={languageSection} />)
+
+    expect(screen.getByText('A return to an earlier state.')).toBeTruthy()
+    expect(screen.getByText('rollback plan')).toBeTruthy()
+    expect(screen.getByText('trigger a rollback')).toBeTruthy()
+    expect(screen.getByText('Verify restored health before reopening writes.')).toBeTruthy()
+    expect(screen.getByText(/neutral/i)).toBeTruthy()
+    expect(screen.getByText('What result should pass?')).toBeTruthy()
+    expect(screen.getByText('Which threshold should we use?')).toBeTruthy()
+  })
 })

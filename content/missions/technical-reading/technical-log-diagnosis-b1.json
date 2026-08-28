@@ -10,16 +10,36 @@
   "workflowTags": ["logs", "incident"],
   "sections": [
     { "id": "source", "type": "source", "title": "Checkout logs", "format": "code-snippet", "content": "Synthetic training artifact — non-production. 10:02 INFO request started id=91\n10:02 WARN retry payment-provider attempt=2\n10:03 ERROR connection pool exhausted active=50 max=50\n10:03 ERROR checkout failed id=91 status=503" },
-    { "id": "check", "type": "auto-check", "title": "Find the strongest signal", "exercises": [{ "id": "log-check", "type": "choice", "question": "Dòng nào là tín hiệu trực tiếp mạnh nhất cần điều tra?", "options": ["request started", "retry attempt=2", "connection pool exhausted active=50 max=50"], "correctAnswer": ["connection pool exhausted active=50 max=50"], "explanation": "Dòng này cho thấy một pool chưa xác định đã chạm giới hạn ngay trước lỗi 503; nó hỗ trợ hypothesis về pool exhaustion nhưng chưa xác định pool type hoặc root cause." }] }
+    {
+      "id": "log-language",
+      "type": "language-support",
+      "title": "Reusable evidence language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "The log shows ___ at ___.", "meaning": "Nêu observation có thể truy ngược trực tiếp về log.", "tone": "neutral", "example": "The log shows request 91 returning HTTP 503 at 10:03.", "alternatives": ["The observed symptom is ___."] },
+        { "phrase": "This may indicate ___, but it does not prove ___.", "meaning": "Nối evidence với hypothesis mà không khẳng định root cause.", "tone": "neutral", "example": "This may indicate that pool exhaustion contributed to the failure, but it does not prove the pool type or root cause.", "alternatives": ["One possible explanation is ___; the evidence does not yet confirm it."] },
+        { "phrase": "To test this, compare ___ with ___; if ___, reject the hypothesis.", "meaning": "Đề xuất một kiểm tra có kết quả đủ để làm yếu hoặc bác bỏ hypothesis.", "tone": "formal", "example": "To test this, compare wait and release metrics with a healthy window; if they remain normal, reject the pool hypothesis.", "alternatives": ["Check ___ next; normal results would point away from ___."] }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Find the strongest signal",
+      "exercises": [
+        { "id": "log-check", "type": "choice", "question": "Dòng nào là tín hiệu trực tiếp mạnh nhất cần điều tra?", "options": ["request started id=91", "retry payment-provider attempt=2", "connection pool exhausted active=50 max=50"], "correctAnswer": ["connection pool exhausted active=50 max=50"], "explanation": "Dòng này cho thấy một pool chưa xác định đã chạm giới hạn ngay trước lỗi 503; nó hỗ trợ hypothesis về pool exhaustion nhưng chưa xác định pool type hoặc root cause." },
+        { "id": "log-fact-boundary", "type": "choice", "question": "Câu nào chỉ nêu fact có trong log, không thêm root cause?", "options": ["Checkout request 91 returned HTTP 503 at 10:03.", "The payment provider caused the checkout failure.", "A database leak exhausted the connection pool."], "correctAnswer": ["Checkout request 91 returned HTTP 503 at 10:03."], "explanation": "Request id, status và timestamp xuất hiện trực tiếp; payment-provider cause, database pool type và leak đều chưa được xác nhận." },
+        { "id": "log-falsifiable-check", "type": "choice", "question": "Bước nào có thể làm yếu pool-exhaustion hypothesis nếu kết quả bình thường?", "options": ["Compare pool wait and release metrics with a healthy window.", "Repeat that the pool was exhausted in the incident channel.", "Assume the unnamed pool is the database pool and restart it."], "correctAnswer": ["Compare pool wait and release metrics with a healthy window."], "explanation": "Normal wait and release metrics would point away from pool exhaustion; repeating or assuming the cause cannot test the hypothesis." }
+      ]
+    }
   ],
   "performanceTask": {
     "id": "log-diagnosis", "mode": "written", "title": "Write an evidence-based diagnosis",
     "scenario": "Checkout trả 503 và bạn cần gửi chẩn đoán ban đầu cho on-call engineer.",
     "baselinePrompt": "Read the log once, hide it, then write the initial diagnosis in English from memory.",
-    "performancePrompt": "Viết symptom, probable cause, evidence và next verification step. Phân biệt fact với hypothesis.",
+    "performancePrompt": "Viết bằng tiếng Anh symptom, probable cause, evidence và next verification step. Phân biệt fact với hypothesis.",
     "modelResponse": "Checkout request 91 returned HTTP 503 at 10:03. Immediately beforehand, an unnamed pool reported active=50 and max=50. My hypothesis is that pool exhaustion contributed to the failure, but the excerpt does not identify the pool type or explain why capacity was exhausted. Next, inspect wait time and connection-release metrics for the same request window, then compare them with a healthy window. If those signals stay normal, reject the pool-exhaustion hypothesis and investigate the payment-provider retries instead.",
     "retryPrompt": "Sửa chẩn đoán để mỗi hypothesis có evidence và một bước kiểm chứng.",
-    "transferPrompt": "Log khác cho thấy memory tăng rồi pod bị OOMKilled. Viết chẩn đoán và bước xác minh tiếp theo.",
+    "transferPrompt": "Đọc unseen worker log được hiển thị rồi viết bằng tiếng Anh fact, một cautious hypothesis và verification step. Không suy ra một memory trend từ chỉ một sample.",
     "reviewPrompt": "Từ một unseen log mới, tóm tắt fact, hypothesis và verification step sau khi source đã ẩn.",
     "practiceContexts": {
       "baseline": {
@@ -53,11 +73,11 @@
         "content": "Synthetic training artifact — non-production. 11:00 INFO queue_depth=120 baseline=90\n11:05 WARN queue_depth=2400 oldest_age=14m\n11:05 INFO consumers=2 baseline=12\n11:06 ERROR sla_breached threshold=5m"
       },
       "extractionItems": [
-        { "id": "queue-symptom", "question": "What is the observed symptom?", "options": ["Oldest message age breached five minutes", "The queue has twelve consumers"], "correctAnswer": "Oldest message age breached five minutes", "feedback": "The SLA line and oldest age are observations." },
+        { "id": "queue-symptom", "question": "What is the observed symptom?", "options": ["The oldest message is 14 minutes old, above the five-minute SLA", "The queue currently has twelve consumers"], "correctAnswer": "The oldest message is 14 minutes old, above the five-minute SLA", "feedback": "The oldest age and SLA threshold are observed; twelve consumers is the baseline, not the current count." },
         { "id": "queue-signal", "question": "Which signal supports the nearest hypothesis?", "options": ["Consumers dropped from twelve to two", "Baseline depth was ninety"], "correctAnswer": "Consumers dropped from twelve to two", "feedback": "Reduced consumer capacity can explain the growing queue." },
-        { "id": "queue-check", "question": "What should be checked next?", "options": ["Why ten consumers stopped", "Whether English logs are enabled"], "correctAnswer": "Why ten consumers stopped", "feedback": "This check can confirm or reject the capacity hypothesis." }
+        { "id": "queue-check", "question": "What observation would best test whether reduced consumer capacity caused the backlog?", "options": ["Restore consumer capacity and check whether processing throughput rises while backlog and oldest age fall", "Ask only why ten consumers stopped"], "correctAnswer": "Restore consumer capacity and check whether processing throughput rises while backlog and oldest age fall", "feedback": "A throughput increase together with a falling backlog tests the proposed cause; asking why consumers stopped investigates a different question." }
       ],
-      "applicationPrompt": "Apply fact → cautious hypothesis → falsifiable check to the displayed queue latency logs.",
+      "applicationPrompt": "Apply fact → cautious hypothesis → falsifiable check to the displayed queue latency logs. Compare processing throughput with message arrivals, then check whether the backlog and oldest age fall after consumer capacity is restored.",
       "applicationChecklist": ["I kept facts separate from hypotheses.", "I cited the strongest signal.", "I proposed a check that could disprove the hypothesis."]
     },
     "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["symptom", "evidence", "hypothesis", "verification"], "minWords": 70, "maxWords": 130 },

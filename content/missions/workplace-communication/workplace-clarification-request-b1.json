@@ -10,13 +10,34 @@
   "workflowTags": ["clarification", "async-message"],
   "sections": [
     { "id": "source", "type": "source", "title": "Ambiguous ticket", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Ticket: Make the customer export faster and enterprise-ready by Friday. Current CSV exports contain up to 10,000 rows. The ticket does not specify a target duration, whether XLSX is in scope or who approves the benchmark." },
-    { "id": "check", "type": "auto-check", "title": "Choose an actionable question", "exercises": [{ "id": "clarify-check", "type": "choice", "question": "Câu nào giúp nhóm ra quyết định nhanh nhất?", "options": ["Can you explain more?", "For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?", "This ticket is unclear."], "correctAnswer": ["For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?"], "explanation": "Câu hỏi dùng 10,000 rows như current evidence và để target, scope cùng owner ở dạng cần xác nhận." }] }
+    {
+      "id": "clarification-language",
+      "type": "language-support",
+      "title": "Reusable clarification language",
+      "vocabulary": [],
+      "expressions": [
+        { "phrase": "My current understanding is that ___.", "meaning": "Nêu cách hiểu hiện tại nhưng không biến nó thành sự thật đã được xác nhận.", "tone": "neutral", "example": "My current understanding is that the Friday request covers CSV exports up to 10,000 rows.", "alternatives": ["As I understand it, ___."] },
+        { "phrase": "Could you confirm the target ___?", "meaning": "Hỏi một success metric cụ thể và có thể đo được.", "tone": "formal", "example": "Could you confirm the target completion time for a 10,000-row CSV?", "alternatives": ["What result should count as successful?"] },
+        { "phrase": "Does the scope include ___?", "meaning": "Kiểm tra một ranh giới phạm vi thay vì tự suy đoán.", "tone": "neutral", "example": "Does the scope include XLSX exports, or CSV only?", "alternatives": ["Is ___ in scope?"] },
+        { "phrase": "Once these points are confirmed, I’ll ___.", "meaning": "Chốt bước tiếp theo để câu hỏi dẫn tới hành động.", "tone": "neutral", "example": "Once these points are confirmed, I’ll define the benchmark and share an estimate.", "alternatives": ["After confirmation, I’ll ___."] }
+      ]
+    },
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Choose an actionable question",
+      "exercises": [
+        { "id": "clarify-check", "type": "choice", "question": "Câu nào giúp nhóm ra quyết định nhanh nhất?", "options": ["Can you explain more?", "For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?", "Could you send the final requirements when they are ready?"], "correctAnswer": ["For the Friday release, should the benchmark use a 10,000-row CSV, what completion time should pass, and who approves the result?"], "explanation": "Câu hỏi dùng dữ kiện 10,000 rows hiện có và yêu cầu xác nhận target, scope cùng owner thay vì chỉ nói yêu cầu chưa rõ." },
+        { "id": "clarify-understanding", "type": "choice", "question": "Câu mở đầu nào xác nhận cách hiểu mà không biến assumption thành fact?", "options": ["My current understanding is that Friday covers CSV exports up to 10,000 rows; could you confirm?", "The Friday scope is a 10,000-row CSV, so I will treat that as the approved benchmark.", "I understand that the export needs work; please add anything important that I missed."], "correctAnswer": ["My current understanding is that Friday covers CSV exports up to 10,000 rows; could you confirm?"], "explanation": "My current understanding báo hiệu đây là cách hiểu tạm thời và mời owner sửa nếu cần; hai lựa chọn còn lại hoặc khẳng định quá mức, hoặc quá mơ hồ để xác nhận." },
+        { "id": "clarify-next-action", "type": "choice", "question": "Câu kết nào biến clarification thành một next action rõ ràng?", "options": ["Once these points are confirmed, I’ll define the benchmark and share an estimate.", "Once I hear back, I’ll review the ticket again and decide what to do.", "I’ll begin implementation now and adjust later if the scope changes."], "correctAnswer": ["Once these points are confirmed, I’ll define the benchmark and share an estimate."], "explanation": "Câu trả lời nêu chính xác việc người viết sẽ làm sau khi nhận xác nhận; hai lựa chọn còn lại thiếu deliverable hoặc bắt đầu trước khi scope rõ." }
+      ]
+    }
   ],
   "performanceTask": {
     "id": "clarification-request", "mode": "written", "title": "Send a clarification request",
     "scenario": "Bạn cần bắt đầu ticket nhưng acceptance criteria còn mơ hồ.",
     "baselinePrompt": "Viết tin nhắn hỏi lại mà chưa xem mẫu.",
-    "performancePrompt": "Viết tin nhắn gồm cách hiểu hiện tại, hai câu hỏi cụ thể để xác nhận success metric, scope và owner, cùng bước bạn sẽ làm sau khi nhận câu trả lời.",
+    "performancePrompt": "Viết bằng tiếng Anh một tin nhắn gồm cách hiểu hiện tại, hai câu hỏi cụ thể để xác nhận success metric, scope và owner, cùng bước bạn sẽ làm sau khi nhận câu trả lời.",
     "modelResponse": "My current understanding is that the Friday request covers customer exports, with CSV files currently reaching 10,000 rows. Could you confirm the target completion time and whether XLSX is in scope? Who should approve the benchmark? Once those points are confirmed, I’ll define the performance test and share an estimate.",
     "retryPrompt": "Viết lại, tập trung vào tiêu chí chưa đạt và giữ tin nhắn dưới 100 từ.",
     "transferPrompt": "Một API ticket nói 'improve reliability'. Hãy hỏi làm rõ success metric, phạm vi và owner.",
