@@ -131,7 +131,7 @@ describe('curriculum content quality gate', () => {
     const technicalDocTask = technicalDoc.performanceTask
     const technicalDocText = JSON.stringify(technicalDoc)
     expect(technicalDocText).toMatch(/read-only[^.]*before[^.]*migrat|before[^.]*migrat[^.]*read-only/is)
-    expect(technicalDocTask?.modelResponse).toMatch(/rollback[^.]*verify[^.]*healthy[^.]*disable read-only/is)
+    expect(technicalDocTask?.modelResponse).toMatch(/roll ?back[^.]*verify[^.]*healthy[^.]*disable read-only/is)
 
     const logTask = lessonById('technical-log-diagnosis-b1').performanceTask
     if (logTask?.mode !== 'written') throw new Error('Log diagnosis written task missing')
@@ -345,11 +345,11 @@ describe('curriculum content quality gate', () => {
       const task = lesson.performanceTask
       if (task?.mode !== 'spoken') throw new Error(`Missing spoken task: ${lesson.lessonId}`)
       const words = countWords(task.modelResponse)
-      const minimumWords = Math.ceil(task.outputContract.targetSeconds * 1.25)
-      const maximumWords = Math.floor(task.outputContract.timeLimitSeconds * 1.25)
+      const minimumWords = Math.ceil(task.outputContract.targetSeconds * 110 / 60)
+      const maximumWords = Math.floor(task.outputContract.timeLimitSeconds * 160 / 60)
 
-      expect(words, `${lesson.lessonId}: editorial floor of 75 wpm`).toBeGreaterThanOrEqual(minimumWords)
-      expect(words, `${lesson.lessonId}: executable upper bound at 75 wpm`).toBeLessThanOrEqual(maximumWords)
+      expect(words, `${lesson.lessonId}: learner pace floor of 110 wpm`).toBeGreaterThanOrEqual(minimumWords)
+      expect(words, `${lesson.lessonId}: fluent pace ceiling of 160 wpm`).toBeLessThanOrEqual(maximumWords)
     }
   })
 
@@ -491,5 +491,181 @@ describe('curriculum content quality gate', () => {
     expect(recap.slots).toHaveLength((recap.text.match(/___/g) ?? []).length)
     expect(`${pretest.audio.text} ${recap.modelAudio?.text ?? ''}`)
       .not.toMatch(/(?:Minh owns|Lan owns rollback)(?![^.]*proposal|[^.]*confirm)/i)
+  })
+})
+
+/** Pronouns and demonstratives are excluded on purpose: contrastive stress on I or this is legitimate (ownership stories). */
+const FUNCTION_WORDS = new Set((
+  'a an the and but or because if of to by from for with in on at as is are was were be been '
+  + 'could can would will should may might shall do does did'
+).split(' '))
+
+interface StressChunk { id: string, text: string, stressPattern?: string }
+
+export function findStressViolations(chunks: StressChunk[]): string[] {
+  const violations: string[] = []
+  for (const chunk of chunks) {
+    if (!chunk.stressPattern) continue
+    const sentenceWords = chunk.text.toLowerCase().replace(/’/g, "'").replace(/___/g, ' ').match(/[a-z']+/g) ?? []
+    for (const token of chunk.stressPattern.toLowerCase().split(/[\s·]+/).filter(Boolean)) {
+      if (FUNCTION_WORDS.has(token)) violations.push(`${chunk.id}: ${token.toUpperCase()} is a function word`)
+      else if (!sentenceWords.some((word) => word.startsWith(token))) {
+        violations.push(`${chunk.id}: ${token.toUpperCase()} is not a word of the sentence frame`)
+      }
+    }
+  }
+  return violations
+}
+
+interface CueTriggerInput { id: string, ipa?: string, articulatoryCue: string, triggerItemIds: string[] }
+
+export function findCueTriggerViolations(cues: CueTriggerInput[], audioById: Map<string, string>): string[] {
+  const violations: string[] = []
+  for (const cue of cues) {
+    if (!cue.ipa) continue
+    const cueWords = new Set(cue.articulatoryCue.match(/[A-Za-z]{4,}/g)?.map((word) => word.toLowerCase()) ?? [])
+    for (const itemId of cue.triggerItemIds) {
+      const audio = audioById.get(itemId)
+      if (audio === undefined) violations.push(`${cue.id}: trigger ${itemId} does not exist`)
+      else if (!(audio.toLowerCase().match(/[a-z]+/g) ?? []).some((word) => cueWords.has(word))) {
+        violations.push(`${cue.id}: trigger ${itemId} has none of the cue words in its audio`)
+      }
+    }
+  }
+  return violations
+}
+
+describe('stress and cue rules catch flaws', () => {
+  it('accepts content words of the sentence frame', () => {
+    expect(findStressViolations([
+      { id: 'ok-1', text: 'I see the ___ concern, but I’m concerned about ___.', stressPattern: 'CONCERN · CONCERNED' },
+      { id: 'ok-2', text: 'Let me put that more clearly: ___.', stressPattern: 'MORE CLEARLY' },
+      { id: 'ok-3', text: 'The benefit is ___; the cost is ___.', stressPattern: 'BENEFIT · COST' }
+    ])).toEqual([])
+  })
+
+  it('rejects function words and words missing from the frame', () => {
+    expect(findStressViolations([{ id: 'bad-1', text: 'I chose ___ because ___.', stressPattern: 'CHOSE · BECAUSE' }]))
+      .toEqual(['bad-1: BECAUSE is a function word'])
+    expect(findStressViolations([{ id: 'bad-2', text: 'We can mitigate ___ by ___.', stressPattern: 'MITIGATE · ACTION' }]))
+      .toEqual(['bad-2: ACTION is not a word of the sentence frame'])
+  })
+
+  it('rejects an ending-sound cue triggered by audio without any of its words', () => {
+    const cues = [{ id: 'cue', ipa: '/s/', articulatoryCue: 'Keep the ending of requests and costs.', triggerItemIds: ['a', 'b', 'c'] }]
+    const audio = new Map([['a', 'The costs rose.'], ['b', 'The request stays fast.']])
+    expect(findCueTriggerViolations(cues, audio)).toEqual([
+      'cue: trigger b has none of the cue words in its audio',
+      'cue: trigger c does not exist'
+    ])
+  })
+})
+
+function loopOf(lessonId: string) {
+  const task = lessonById(lessonId).performanceTask
+  if (task?.mode !== 'spoken' || !task.learningLoop) throw new Error(`Missing spoken loop: ${lessonId}`)
+  return task.learningLoop
+}
+
+function perceptionItem(lessonId: string, itemId: string) {
+  const { pretest, training, posttest } = loopOf(lessonId).perception
+  const item = [...pretest, ...training, ...posttest].find((candidate) => candidate.id === itemId)
+  if (!item) throw new Error(`Missing perception item ${lessonId}/${itemId}`)
+  return item
+}
+
+const SPOKEN_LESSONS = [
+  'architecture-walkthrough-b2', 'behavioral-interview-ownership-b2', 'daily-standup-b1',
+  'meeting-disagree-and-recap-b2', 'technical-interview-decision-b2', 'technical-tradeoff-explanation-b2'
+]
+
+describe('content accuracy', () => {
+  it('stresses only content words that appear in each chunk frame', () => {
+    const chunks = SPOKEN_LESSONS.flatMap((lessonId) => loopOf(lessonId).chunks)
+    expect(chunks.length).toBeGreaterThan(10)
+    expect(findStressViolations(chunks)).toEqual([])
+  })
+
+  it('triggers ending-sound cues only with audio that contains a cue word', () => {
+    for (const lessonId of SPOKEN_LESSONS) {
+      const loop = loopOf(lessonId)
+      const audio = new Map<string, string>()
+      for (const item of [...loop.perception.pretest, ...loop.perception.training, ...loop.perception.posttest]) {
+        audio.set(item.id, item.audio.kind === 'speech-synthesis' ? item.audio.text : item.audio.transcript)
+      }
+      expect(findCueTriggerViolations(loop.pronunciationCues as CueTriggerInput[], audio), lessonId).toEqual([])
+    }
+  })
+
+  it('keeps questions and feedback consistent with the audio they describe', () => {
+    expect(perceptionItem('daily-standup-b1', 'stand-pre-3').question).toMatch(/blocker/i)
+    expect(perceptionItem('daily-standup-b1', 'stand-pre-3').question).not.toMatch(/what is blocked/i)
+    expect(perceptionItem('meeting-disagree-and-recap-b2', 'meet-train-3').question).toMatch(/sau chữ but/i)
+    expect(perceptionItem('meeting-disagree-and-recap-b2', 'meet-train-1').feedback).not.toMatch(/failed/i)
+    expect(perceptionItem('technical-interview-decision-b2', 'dec-train-2').feedback).not.toMatch(/stress chose and because/i)
+    expect(perceptionItem('technical-interview-decision-b2', 'dec-train-3').feedback).not.toMatch(/results|costs/i)
+    expect(perceptionItem('technical-tradeoff-explanation-b2', 'trade-train-2').question).not.toMatch(/từ nào/i)
+    expect(perceptionItem('architecture-walkthrough-b2', 'arch-post-1').question).toMatch(/two retries/i)
+  })
+
+  it('has no known grammar or usage errors in any learner-facing text', () => {
+    const everything = JSON.stringify(getBundledCatalog().lessons)
+    const forbidden = [
+      /rollback the latest snapshot/i, /roll back the snapshot/i, /completion time should pass/i,
+      /event ID idempotently/i, /could own the test/i, /Report event deliveries that still fail/i,
+      /without suggesting that I resolved/i, /automate the canary gate/i
+    ]
+    for (const pattern of forbidden) expect(everything, String(pattern)).not.toMatch(pattern)
+  })
+
+  it('keeps model responses consistent with their prompts and sequences', () => {
+    const api = lessonById('learn-api-from-docs-b2').performanceTask
+    const update = lessonById('workplace-issue-update-b1').performanceTask
+    if (!api || !update) throw new Error('Model response fixtures missing')
+    const polling = api.modelResponse.search(/status polling/i)
+    expect(polling).toBeGreaterThan(-1)
+    expect(api.modelResponse.search(/failed processing/i), 'failed processing needs polling first').toBeGreaterThan(polling)
+    expect((update.modelResponse.match(/\?/g) ?? []).length, 'one decision requested').toBe(1)
+    expect(update.modelResponse).not.toMatch(/I propose/i)
+  })
+
+  it('does not copy dictionary or tutorial definitions into pronunciation lessons', () => {
+    const copied = [
+      'An activity or purpose natural to or intended for a person or thing',
+      'A structured set of data held in a computer',
+      'The rise and fall of the voice in speaking',
+      'A sequence of actions regularly followed',
+      'A block of organized, reusable code that is used to perform a single, related action'
+    ]
+    const pronunciation = JSON.stringify(getBundledCatalog().lessons.filter((lesson) => lesson.lessonId.startsWith('pronunciation-')))
+    for (const text of copied) expect(pronunciation.toLowerCase(), text).not.toContain(text.toLowerCase())
+  })
+
+  it('discloses adapted synthetic artifacts through their adaptation note', () => {
+    for (const lesson of getBundledCatalog().lessons) {
+      for (const source of collectV3Sources(lesson)) {
+        const provenance = source.provenance
+        if (provenance?.origin === 'synthetic' && (provenance.sourceIds?.length ?? 0) > 0) {
+          expect(provenance.adaptationNote?.length ?? 0, `${lesson.lessonId}/${source.id}`).toBeGreaterThan(0)
+        }
+      }
+    }
+  })
+
+  it('writes every B2 prompt and brief in English', () => {
+    const vietnamese = /[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]/i
+    for (const lesson of getBundledCatalog().lessons) {
+      const task = lesson.performanceTask
+      if (lesson.cefrLevel !== 'B2' || !task) continue
+      const fields: Record<string, string> = {
+        performancePrompt: task.performancePrompt,
+        reviewPrompt: task.reviewPrompt,
+        transferPrompt: task.transferPrompt
+      }
+      for (const [phase, context] of Object.entries(task.practiceContexts ?? {})) fields[`${phase} brief`] = context.brief
+      for (const [name, text] of Object.entries(fields)) {
+        expect(text ?? '', `${lesson.lessonId}: ${name}`).not.toMatch(vietnamese)
+      }
+    }
   })
 })

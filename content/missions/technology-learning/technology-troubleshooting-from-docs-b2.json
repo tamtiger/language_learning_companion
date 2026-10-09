@@ -31,11 +31,11 @@
     "id": "docs-troubleshooting", "mode": "written", "title": "Plan a safe troubleshooting experiment",
     "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn có documentation và symptom, nhưng effective config chưa được xác nhận.",
     "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan without the model.",
-    "performancePrompt": "Viết bằng tiếng Anh: tóm tắt rule từ docs, nêu hypothesis, cách kiểm tra an toàn, expected signal, rejection signal và rollback.",
+    "performancePrompt": "Write in English: summarize the rule from the docs, state a hypothesis, a safe way to test it, the expected signal, the rejection signal and the rollback.",
     "modelResponse": "The documentation says a handler that returns an error or throws an uncaught exception creates a failed attempt. maxAttempts is the total attempt count, including the initial attempt, so a value of one disables retries. My first hypothesis is that this environment has an effective value of one, but the documentation alone does not prove the current setting. I would inspect the effective staging configuration before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic job whose handler throws, with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect the handler’s observed return-or-throw behavior.",
     "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
-    "transferPrompt": "Docs của một cache nói TTL=0 means no expiry. Viết kế hoạch kiểm tra an toàn cho bug stale data.",
-    "reviewPrompt": "Từ unseen docs đã đọc một lần, tạo hypothesis và safe experiment có expected signal.",
+    "transferPrompt": "A cache’s docs say TTL=0 means no expiry. Write a safe test plan for a stale-data bug.",
+    "reviewPrompt": "From unseen docs read once, form a hypothesis and a safe experiment with an expected signal.",
     "practiceContexts": {
       "baseline": {
         "title": "Worker retry behavior",

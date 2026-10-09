@@ -19,7 +19,7 @@
       "expressions": [
         { "phrase": "Before running ___, confirm ___, save ___ and enable ___.", "meaning": "Gom mọi prerequisite cần hoàn tất trước command.", "tone": "neutral", "example": "Before running the migration, confirm queue depth, save a snapshot and enable read-only mode.", "alternatives": ["Prerequisites: ___, ___ and ___."] },
         { "phrase": "Success requires ___ and ___ within ___.", "meaning": "Nêu đầy đủ các tín hiệu thành công cùng time limit.", "tone": "neutral", "example": "Success requires MIGRATION_COMPLETE and healthy status within two minutes.", "alternatives": ["Verify both ___ and ___ before continuing."] },
-        { "phrase": "If ___ remains degraded, roll back ___; verify ___ before disabling ___.", "meaning": "Giữ đúng thứ tự recovery trước khi mở lại write traffic.", "tone": "formal", "example": "If health remains degraded, roll back the snapshot; verify the restored cache is healthy before disabling read-only mode.", "alternatives": ["On failure, restore ___ and confirm ___ before ___."] }
+        { "phrase": "If ___ remains degraded, roll back to ___; verify ___ before disabling ___.", "meaning": "Giữ đúng thứ tự recovery trước khi mở lại write traffic.", "tone": "formal", "example": "If health remains degraded, roll back to the snapshot; verify the restored cache is healthy before disabling read-only mode.", "alternatives": ["On failure, restore ___ and confirm ___ before ___."] }
       ]
     },
     {
@@ -40,7 +40,7 @@
     "scenario": "You must hand a safe four-step checklist to the engineer running the migration.",
     "baselinePrompt": "Language-only cold attempt: read once and write the actions from memory without translating; treat the result as an unverified draft, not an execution checklist.",
     "performancePrompt": "Using the displayed runbook, write four bullets in English covering all three prerequisites, command, success signal and rollback/escalation. Verify every step against the source before submitting.",
-    "modelResponse": "• Confirm queue depth is below 100, save a configuration snapshot and enable read-only mode. • Run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, rollback the latest snapshot; verify the restored cache is healthy; only then disable read-only mode, notify on-call and wait for approval before retrying.",
+    "modelResponse": "• Confirm queue depth is below 100, save a configuration snapshot and enable read-only mode. • Run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, roll back to the latest snapshot; verify the restored cache is healthy; only then disable read-only mode, notify on-call and wait for approval before retrying.",
     "retryPrompt": "Return to the source, correct one omitted safety condition, then rewrite without copying full sentences.",
     "transferPrompt": "Read the displayed database upgrade runbook and write a new four-part checklist in English. Extract every condition from that source without reusing cache-specific details.",
     "reviewPrompt": "Read a new short runbook and extract prerequisite, action, success signal and recovery without translation.",

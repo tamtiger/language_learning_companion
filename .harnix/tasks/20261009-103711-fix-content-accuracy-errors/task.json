@@ -4,8 +4,8 @@
   "id": "20261009-103711-fix-content-accuracy-errors",
   "title": "Sửa lỗi chính xác nội dung đã phát hiện khi review",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Mọi lỗi trọng âm, câu hỏi, ngữ pháp, model response và provenance đã liệt kê được sửa và có test chặn tái diễn.",
   "nonGoals": [
     "Không thêm mission mới",
@@ -15,32 +15,47 @@
     {
       "id": "ac-1",
       "text": "Cue trọng âm nhấn đúng từ nội dung, không nhấn hư từ (meeting-disagree-and-recap-b2 dòng 74-77, architecture-walkthrough-b2:84, technical-interview-decision-b2:63,82, technical-tradeoff-explanation-b2:76) và có test kiểm.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-fixes-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Câu hỏi sai nghĩa hoặc mơ hồ được sửa (daily-standup-b1 stand-pre-3, meeting-disagree-and-recap-b2 meet-train-3); feedback và cue khớp với audio (interview:64, meeting:55, tradeoff:70).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-fixes-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Lỗi ngữ pháp và cách dùng từ được sửa (rollback/roll back, clarification:30, architecture:35,71, meeting:35); model response lệch được sửa (behavioral-interview-ownership:33, learn-api:77, interview:40, issue-update:91).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-fixes-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Thời lượng spoken khớp prompt ở tốc độ nói thực tế (130 wpm) hoặc prompt được đổi; test không còn dùng sàn 75 wpm.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-fixes-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-5",
       "text": "Định nghĩa pronunciation giống nguồn ngoài được tự viết lại; nhãn synthetic artifact nhất quán theo CONTENT.md; ngôn ngữ hướng dẫn nhất quán và prompt tiếng Việt giảm dần từ B2.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-content-fixes-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -81,7 +96,28 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-content-fixes-1",
+      "checkId": "check-content-fixes",
+      "recordedAt": "2026-10-09T11:54:09.085+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/contentQuality.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "567032fc80fe2a9370fc2c6cc456a53e2c4ba271331b9650c123dbda6fc36bb3"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T11:54:37.014+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "f6a10bc4b5a13cc1f3658b31cf641f109f11cbff01a6a18ba62b517bfb3696cb"
+    }
+  ],
   "relevantPaths": [
     "CONTENT.md",
     "content",
@@ -90,5 +126,35 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:03.553+07:00"
+  "updatedAt": "2026-10-09T11:55:16.389+07:00",
+  "decisions": [
+    {
+      "id": "dec-lengthen-model-not-shorten-target",
+      "text": "Giữ targetSeconds và timeLimitSeconds, kéo dài model response để nằm trong [target*110/60, limit*160/60] từ.",
+      "rationale": "Giảm thời lượng làm nới điều kiện transfer đạt; model response ngắn hơn yêu cầu dạy người học nói thiếu thời lượng."
+    },
+    {
+      "id": "dec-synthetic-sourced-note",
+      "text": "Artifact synthetic có sourceIds dùng adaptationNote làm ghi nguồn hiển thị; nhãn Synthetic training artifact chỉ bắt buộc với synthetic độc lập.",
+      "rationale": "Đúng câu chữ hiện có trong CONTENT.md; tránh gắn nhãn kép gây nhiễu cho người học."
+    },
+    {
+      "id": "dec-keep-recreate",
+      "text": "Giữ đáp án stand-pre-2 là Recreate the timeout, bỏ yêu cầu khôi phục Reproduce.",
+      "rationale": "Cổng keyword-parity không cho phép giữ nguyên văn mà vẫn có distractor hợp lý; audio vẫn nói reproduce nên người học vẫn nghe thuật ngữ."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "risk-stress-rule-heuristic",
+      "text": "Test trọng âm dùng danh sách function word cố định và khớp tiền tố; nó bắt hư từ và từ ngoài câu mẫu nhưng không đánh giá được trọng âm contrastive hợp lý. Đại từ như I được cố ý cho phép.",
+      "severity": "low"
+    },
+    {
+      "id": "risk-model-expansion-unverified",
+      "text": "Các câu mới trong 5 model response (thời lượng) được viết dựa trên dữ kiện của source nhưng chưa được người bản ngữ rà soát; nên review ngôn ngữ tự nhiên trước khi dùng cho người học thật.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T11:55:16.389+07:00"
 }

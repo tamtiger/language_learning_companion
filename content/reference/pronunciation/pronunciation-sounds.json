@@ -22,7 +22,7 @@
     {
       "word": "database",
       "ipa": "/ˈdeɪ.t̬ə.beɪs/",
-      "definition": "A structured set of data held in a computer.",
+      "definition": "An organized collection of information that a computer stores and searches.",
       "technicalMeaning": "A storage system (SQL or NoSQL) that organizes and manages data.",
       "collocations": ["relational database", "query a database", "database administrator"],
       "example": "The application queries the database for user profile details.",

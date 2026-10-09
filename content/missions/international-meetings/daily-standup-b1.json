@@ -63,7 +63,7 @@
     "scenario": "Tình huống mô phỏng: bạn cập nhật cho một distributed engineering team bằng quy ước ba phần của nhóm.",
     "baselinePrompt": "Trong 30–60 giây, dùng quy ước nhóm yesterday, today và blocker mà chưa xem model/chunks.",
     "performancePrompt": "Trong 30–60 giây, nói bằng tiếng Anh và dùng facts chính: Sprint Goal progress, completed outcome, priority/expected result, blocker impact và next action.",
-    "modelResponse": "Signup validation and tests are complete, moving us toward the partner-beta Sprint Goal. Today, I will deploy to staging and reproduce the payment timeout so we can identify the failing dependency. Dashboard access is blocking the comparison, so I asked Platform and will pair with Linh if access is delayed.",
+    "modelResponse": "Signup validation and tests are complete, moving us toward the partner-beta Sprint Goal. Today, I will deploy to staging and reproduce the payment timeout so we can identify the failing dependency. Dashboard access is blocking the comparison, so I asked Platform and will pair with Linh if access is delayed. I have no other blockers right now.",
     "retryPrompt": "Trong 30–60 giây, dùng search-index case mới và sửa criterion cần tập trung.",
     "transferPrompt": "Trong 30–60 giây, không xem model/chunks: cập nhật incident 503 với plan, estimate và collaborator.",
     "reviewPrompt": "Trong 30–60 giây, từ brief mới, deliver a concise standup linked to the Sprint Goal, with no blocker and one risk.",
@@ -87,7 +87,7 @@
         "pretest": [
           { "id": "stand-pre-1", "audio": { "kind": "speech-synthesis", "text": "Yesterday, I completed the validation tests.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What was completed?", "options": ["Planned validation tests for today", "Dashboard access", "Finished validation tests"], "correctAnswer": "Finished validation tests" },
           { "id": "stand-pre-2", "audio": { "kind": "speech-synthesis", "text": "Today, I will reproduce the timeout.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is today's action?", "options": ["Recreate the timeout", "Report the timeout to support", "Remove the timeout setting"], "correctAnswer": "Recreate the timeout" },
-          { "id": "stand-pre-3", "audio": { "kind": "speech-synthesis", "text": "My blocker is access to the payment dashboard.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What is blocked?", "options": ["Dashboard access", "Unit test coverage", "Payment API documentation"], "correctAnswer": "Dashboard access" },
+          { "id": "stand-pre-3", "audio": { "kind": "speech-synthesis", "text": "My blocker is access to the payment dashboard.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What is the blocker?", "options": ["Dashboard access", "Unit test coverage", "Payment API documentation"], "correctAnswer": "Dashboard access" },
           { "id": "stand-pre-4", "audio": { "kind": "speech-synthesis", "text": "If access is delayed, I will pair with Linh.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What is the fallback?", "options": ["Ask Linh to approve access", "Pair with Linh", "Access is delayed"], "correctAnswer": "Pair with Linh" }
         ],
         "training": [

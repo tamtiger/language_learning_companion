@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103711-fix-content-accuracy-errors` — Sửa lỗi chính xác nội dung đã phát hiện khi review (`planning`)
+- `20261009-103712-fix-learning-state-logic` — Sửa logic hoàn thành, ôn tập và bền vững dữ liệu (`planning`)
 
 ## Members (16 tasks)
 
@@ -20,7 +20,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 1 | `20261009-103709-stabilize-test-environment` | Ổn định môi trường test và ghim phiên bản Node | `lite` | `completed` |
 | 2 | `20261009-103710-harden-assessment-integrity` | Siết toàn vẹn bài kiểm tra: xáo trộn, chấm điểm, cổng chất lượng đáp án | `full` | `completed` |
 | 3 | `20261009-112609-standardize-file-naming-and-test-layout` | Thống nhất quy ước tên file, đuôi file và gom test vào thư mục tests | `full` | `completed` |
-| 4 | `20261009-103711-fix-content-accuracy-errors` | Sửa lỗi chính xác nội dung đã phát hiện khi review | `full` | `planning` |
+| 4 | `20261009-103711-fix-content-accuracy-errors` | Sửa lỗi chính xác nội dung đã phát hiện khi review | `full` | `completed` |
 | 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `planning` |
 | 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `planning` |
 | 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `planning` |
@@ -56,7 +56,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 4. `20261009-103711-fix-content-accuracy-errors` — Sửa lỗi chính xác nội dung đã phát hiện khi review
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Mọi lỗi trọng âm, câu hỏi, ngữ pháp, model response và provenance đã liệt kê được sửa và có test chặn tái diễn.
 - **Tiêu chí nghiệm thu:** 5 tiêu chí
 

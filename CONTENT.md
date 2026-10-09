@@ -132,7 +132,10 @@ liệu tới feature UI. Renderer không đọc registry, không suy luận lice
 fetch metadata. Link canonical/quyền chỉ mở khi người học chủ động chọn; lesson
 vẫn hoạt động offline khi không mở link. Source-backed v3 dùng provenance; artifact
 synthetic độc lập không được gắn nguồn trang trí và phải tự ghi learner-visible
-`Synthetic training artifact — non-production.` trong content. Legacy không bị ép
+`Synthetic training artifact — non-production.` trong content. Artifact synthetic
+có `sourceIds` (đã điều chỉnh từ nguồn có thật) dùng `adaptationNote` làm phần ghi
+nguồn hiển thị cho người học, nên không cần thêm dòng nhãn trên; `adaptationNote`
+phải không rỗng và được khóa bằng test. Legacy không bị ép
 metadata mà schema không biểu đạt, nhưng reading phải ghi rõ tình huống mô phỏng
 hoặc hướng dẫn do sản phẩm biên soạn.
 
