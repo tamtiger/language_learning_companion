@@ -10,6 +10,7 @@ import {
   type CanonicalPracticeContexts,
   type CanonicalSourceSection,
   type LessonV1,
+  type LessonSection,
   type LessonV2,
   type RawLesson,
   type SourceSection,
@@ -121,6 +122,34 @@ function normalizeV2Task(lesson: LessonV2): NonNullable<CanonicalLesson['perform
   }
 }
 
+function resolveProvenance(
+  provenance: NonNullable<SourceSection['provenance']>,
+  ownerId: string,
+  sourceById: ReadonlyMap<string, AuthoritativeSource>
+): [AuthoritativeSource, ...AuthoritativeSource[]] {
+  const resolvedSources = provenance.sourceIds.map((sourceId) => {
+    const resolved = sourceById.get(sourceId)
+    if (!resolved) throw new LessonParseError([`Unknown sourceRegistry reference: ${sourceId}`])
+    return resolved
+  })
+  if (!resolvedSources[0]) {
+    throw new LessonParseError([`Source provenance ${ownerId} must resolve at least one source`])
+  }
+  return [resolvedSources[0], ...resolvedSources.slice(1)]
+}
+
+/** Resolves provenance on the listening and long-reading sections; other sections pass through. */
+function resolveSection(
+  section: LessonSection,
+  sourceById: ReadonlyMap<string, AuthoritativeSource>
+): CanonicalLessonSection {
+  if (section.type === 'source') return resolveSource(section, sourceById)
+  if ((section.type === 'listening-source' || section.type === 'long-reading') && section.provenance) {
+    return { ...section, resolvedSources: resolveProvenance(section.provenance, section.id, sourceById) }
+  }
+  return section
+}
+
 function resolveSource(
   source: SourceSection,
   sourceById: ReadonlyMap<string, AuthoritativeSource>
@@ -134,18 +163,10 @@ function resolveSource(
       content: source.content
     }
   }
-  const resolvedSources = source.provenance.sourceIds.map((sourceId) => {
-    const resolved = sourceById.get(sourceId)
-    if (!resolved) throw new LessonParseError([`Unknown sourceRegistry reference: ${sourceId}`])
-    return resolved
-  })
-  if (!resolvedSources[0]) {
-    throw new LessonParseError([`Source provenance ${source.id} must resolve at least one source`])
-  }
   return {
     ...source,
     provenance: source.provenance,
-    resolvedSources: [resolvedSources[0], ...resolvedSources.slice(1)]
+    resolvedSources: resolveProvenance(source.provenance, source.id, sourceById)
   }
 }
 
@@ -196,6 +217,8 @@ export function normalizeLesson(lesson: RawLesson): CanonicalLesson {
     const sourceById = new Map((lesson.sourceRegistry ?? []).map((source) => [source.sourceId, source]))
     return {
       sourceSchemaVersion: 'v3',
+      contentRevision: lesson.contentRevision,
+      ...(lesson.storyBank ? { storyBank: lesson.storyBank } : {}),
       lessonId: lesson.lessonId,
       title: lesson.title,
       summary: lesson.summary,
@@ -204,9 +227,7 @@ export function normalizeLesson(lesson: RawLesson): CanonicalLesson {
       learningObjectives: lesson.learningObjectives,
       capabilities: lesson.capabilities,
       workflowTags: lesson.workflowTags,
-      sections: lesson.sections.map((section) => section.type === 'source'
-        ? resolveSource(section, sourceById)
-        : section),
+      sections: lesson.sections.map((section) => resolveSection(section, sourceById)),
       performanceTask: resolveV3TaskSources(lesson.performanceTask, sourceById),
       reviewPolicy: lesson.reviewPolicy,
       completionMode: 'capability-loop'
@@ -215,6 +236,7 @@ export function normalizeLesson(lesson: RawLesson): CanonicalLesson {
 
   const common: Omit<CanonicalLesson, 'capabilities' | 'performanceTask' | 'completionMode'> = {
     sourceSchemaVersion: lesson.schemaVersion,
+    contentRevision: 1,
     lessonId: lesson.lessonId,
     title: lesson.title,
     summary: lesson.learningObjectives[0],

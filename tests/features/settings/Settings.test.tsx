@@ -39,7 +39,7 @@ describe('Settings data safety flows', () => {
     })], 'backup.json', { type: 'application/json' })
     await user.upload(screen.getByLabelText(/chọn file import/i), valid)
 
-    expect(await screen.findByText(/đã validate backup v5/i)).toBeTruthy()
+    expect(await screen.findByText(/đã validate backup v6/i)).toBeTruthy()
     const confirmImport = screen.getByRole('button', { name: /xác nhận import/i })
     expect(document.activeElement).toBe(confirmImport)
     expect(useAppStore.getState().lessonProgress['old-progress']).toBeTruthy()
@@ -83,9 +83,10 @@ describe('Settings data safety flows', () => {
     await user.upload(input, new File(['first'], 'first.json', { type: 'application/json' }))
     const firstReader = DeferredFileReader.instances[0]
     firstReader.result = JSON.stringify({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: { first: createEmptyProgress() },
       settings: { theme: 'light' },
+      storyBank: [],
       exportedAt: '2026-08-19T00:00:00.000Z'
     })
     await act(() => firstReader.onload?.())
@@ -97,17 +98,19 @@ describe('Settings data safety flows', () => {
 
     const secondReader = DeferredFileReader.instances[1]
     secondReader.result = JSON.stringify({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: { second: createEmptyProgress() },
       settings: { theme: 'dark' },
+      storyBank: [],
       exportedAt: '2026-08-20T00:00:00.000Z'
     })
     await act(() => secondReader.onload?.())
 
     firstReader.result = JSON.stringify({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: { stale: createEmptyProgress() },
       settings: { theme: 'light' },
+      storyBank: [],
       exportedAt: '2026-08-21T00:00:00.000Z'
     })
     await act(() => firstReader.onload?.())
@@ -228,6 +231,7 @@ function createEmptyProgress() {
     transferCompleted: false,
     reviewStage: 0,
     nextReviewAt: null,
-    lastActivityAt: null
+    lastActivityAt: null,
+    contentRevision: 1
   }
 }

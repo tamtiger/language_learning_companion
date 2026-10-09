@@ -10,6 +10,14 @@ import { fileURLToPath } from 'node:url'
 
 import { checkDocsLayout } from '../../scripts/check-docs-layout.mjs'
 
+const ADDING_LESSONS = [
+  '# Thêm bài học',
+  '1. Chọn capability và level.',
+  '2. Tạo file đúng đường dẫn content/missions/<capability>/<lessonId>.json.',
+  '3. Ghi provenance và sourceRegistry cho mọi nguồn.',
+  '4. Chạy npx vitest run tests/content rồi npm test.'
+].join('\n')
+
 const OFFLINE_TOPICS = [
   'Service worker lưu sẵn app để mở lại khi offline.',
   'Lần mở đầu tiên cần có mạng.',
@@ -20,16 +28,17 @@ const OFFLINE_TOPICS = [
 function fixture(overrides = {}) {
   const root = mkdtempSync(join(tmpdir(), 'docs-layout-'))
   const files = {
-    'README.md': '# App\n\n[Kiến trúc](./docs/ARCHITECTURE.md) · [Phát hành](./docs/RELEASE.md)\n\nCó 2 mission. ' + OFFLINE_TOPICS,
+    'README.md': '# App\n\n[Kiến trúc](./docs/ARCHITECTURE.md) · [Phát hành](./docs/RELEASE.md) · [Thêm bài](./docs/ADDING_LESSONS.md)\n\nCó 2 mission. ' + OFFLINE_TOPICS,
     'CHANGELOG.md': '# Changelog\n\n## [Unreleased]\n\n## [1.0.0] - 2026-01-01\n',
     'AGENTS.md': '# Agents\n',
     'docs/ARCHITECTURE.md': '# Kiến trúc\n\nXem [nội dung](./CONTENT.md).\n',
-    'docs/CONTENT.md': '# Nội dung\n\nHai mission.\n',
+    'docs/CONTENT.md': '# Nội dung\n\nHai mission. Xem [thêm bài](./ADDING_LESSONS.md).\n',
     'docs/PRODUCT.md': '# Sản phẩm\n\n' + OFFLINE_TOPICS + '\n',
     'docs/START_HERE.md': '# Bắt đầu\n',
     'docs/CONVENTIONS.md': '# Quy ước\n',
     'docs/EVALUATION_PROTOCOL.md': '# Đánh giá\n',
     'docs/RELEASE.md': '# Release\n\nChạy `scripts/check-changelog-rule.mjs`.\n',
+    'docs/ADDING_LESSONS.md': ADDING_LESSONS + '\n',
     'docs/prompts/LEARNER_AUDIT_PROMPT.md': '# Audit\n',
     'content/missions/a/one.json': '{}',
     'content/missions/b/two.json': '{}',
@@ -117,4 +126,21 @@ test('README và PRODUCT phải nêu đúng phạm vi offline, bền dữ liệu
     assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: backup định kỳ'))
     assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: giọng TTS của máy'))
   }
+})
+
+test('hướng dẫn thêm bài phải tồn tại, đủ các bước và được README và CONTENT liên kết', () => {
+  const missing = errorsFor({ 'docs/ADDING_LESSONS.md': null })
+  assert.match(missing, /Thiếu docs\/ADDING_LESSONS\.md/)
+
+  const thin = errorsFor({ 'docs/ADDING_LESSONS.md': '# Thêm bài học\n\nLàm đi.\n' })
+  assert.match(thin, /ADDING_LESSONS\.md thiếu bước: đường dẫn file/)
+  assert.match(thin, /ADDING_LESSONS\.md thiếu bước: provenance/)
+  assert.match(thin, /ADDING_LESSONS\.md thiếu bước: lệnh kiểm/)
+
+  const unlinked = errorsFor({
+    'README.md': '# App\n\n[Phát hành](./docs/RELEASE.md)\n\nCó 2 mission. ' + OFFLINE_TOPICS,
+    'docs/CONTENT.md': '# Nội dung\n\nHai mission.\n'
+  })
+  assert.match(unlinked, /README\.md không liên kết tới docs\/ADDING_LESSONS\.md/)
+  assert.match(unlinked, /docs\/CONTENT\.md không liên kết tới ADDING_LESSONS\.md/)
 })

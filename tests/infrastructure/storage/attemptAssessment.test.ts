@@ -28,11 +28,12 @@ function attempt(extra: Record<string, unknown> = {}) {
 
 function envelope(attempts: unknown[]) {
   return {
-    storageVersion: 5,
+    storageVersion: 6,
     lessonProgress: {
       mission: { ...createEmptyLessonProgress(), attemptCount: attempts.length, recentAttempts: attempts }
     },
-    settings: { theme: 'dark' }
+    settings: { theme: 'dark' },
+    storyBank: []
   }
 }
 
@@ -75,7 +76,7 @@ describe('stored attempt assessment', () => {
       storageVersion: 4,
       lessonProgress: {
         mission: {
-          ...(({ activeProcessEvidence: _ignored, ...rest }) => rest)(createEmptyLessonProgress()),
+          ...(({ activeProcessEvidence: _ignored, contentRevision: _revision, ...rest }) => rest)(createEmptyLessonProgress()),
           attemptCount: 1,
           recentAttempts: [v4Attempt]
         }

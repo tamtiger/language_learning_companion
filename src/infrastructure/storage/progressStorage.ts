@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { CAPABILITY_IDS } from '../../content/schema'
+import { CAPABILITY_IDS, STORY_COMPETENCIES } from '../../content/schema'
 
 const RubricStateSchema = z.enum(['met', 'not-met', 'not-rated'])
 
@@ -130,11 +130,30 @@ const InputProgressSchema = z.object({
   }).strict().optional()
 }).strict()
 
-export const LessonProgressSchema = LessonProgressV4Schema.extend({
+/** Lesson progress as stored by version 5 (before contentRevision). */
+const LessonProgressV5Schema = LessonProgressV4Schema.extend({
   recentAttempts: z.array(AttemptEvidenceSchema).max(50),
   activeProcessEvidence: AttemptProcessEvidenceSchema.nullable(),
   inputProgress: InputProgressSchema.optional()
 }).strict()
+
+export const LessonProgressSchema = LessonProgressV5Schema.extend({
+  contentRevision: z.number().int().positive()
+}).strict()
+
+const StoryEntrySchema = z.object({
+  id: z.string().min(1).max(64),
+  label: z.string().trim().min(1).max(60),
+  competencyIds: z.array(z.enum(STORY_COMPETENCIES)).min(1).max(4),
+  createdAt: z.string().datetime(),
+  lastPracticedAt: z.string().datetime().nullable()
+}).strict()
+
+const StoryBankSchema = z.array(StoryEntrySchema).max(30).superRefine((stories, context) => {
+  if (new Set(stories.map((story) => story.id)).size !== stories.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: 'Story ids must be unique' })
+  }
+})
 
 const ProgressEnvelopeV3Schema = z.object({
   storageVersion: z.literal(3),
@@ -148,6 +167,12 @@ const ProgressEnvelopeV4Schema = z.object({
   settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
 }).strict()
 
+const ProgressEnvelopeV5Schema = z.object({
+  storageVersion: z.literal(5),
+  lessonProgress: z.record(LessonProgressV5Schema),
+  settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
+}).strict()
+
 const ProgressBackupV3Schema = ProgressEnvelopeV3Schema.extend({
   exportedAt: z.string().datetime()
 }).strict()
@@ -156,10 +181,17 @@ const ProgressBackupV4Schema = ProgressEnvelopeV4Schema.extend({
   exportedAt: z.string().datetime()
 }).strict()
 
+const ProgressBackupV5Schema = ProgressEnvelopeV5Schema.extend({
+  exportedAt: z.string().datetime()
+}).strict()
+
+export const CURRENT_STORAGE_VERSION = 6
+
 export const ProgressEnvelopeSchema = z.object({
-  storageVersion: z.literal(5),
+  storageVersion: z.literal(CURRENT_STORAGE_VERSION),
   lessonProgress: z.record(LessonProgressSchema),
-  settings: z.object({ theme: z.enum(['dark', 'light']) }).strict()
+  settings: z.object({ theme: z.enum(['dark', 'light']) }).strict(),
+  storyBank: StoryBankSchema
 }).strict()
 
 export const ProgressBackupSchema = ProgressEnvelopeSchema.extend({
@@ -181,25 +213,20 @@ function formatZodError(error: z.ZodError): string {
     .join('\n')
 }
 
-function migrateV3Envelope(legacy: z.infer<typeof ProgressEnvelopeV3Schema>): ProgressEnvelope {
+/** Version 6 adds a content revision to every lesson progress and an empty story bank. */
+function migrateV5Envelope(legacy: z.infer<typeof ProgressEnvelopeV5Schema>): ProgressEnvelope {
   return ProgressEnvelopeSchema.parse({
-    storageVersion: 5,
+    storageVersion: CURRENT_STORAGE_VERSION,
     settings: legacy.settings,
+    storyBank: [],
     lessonProgress: Object.fromEntries(
-      Object.entries(legacy.lessonProgress).map(([lessonId, progress]) => [
-        lessonId,
-        {
-          ...progress,
-          activeProcessEvidence: null,
-          recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null }))
-        }
-      ])
+      Object.entries(legacy.lessonProgress).map(([lessonId, progress]) => [lessonId, { ...progress, contentRevision: 1 }])
     )
   })
 }
 
 function migrateV4Envelope(legacy: z.infer<typeof ProgressEnvelopeV4Schema>): ProgressEnvelope {
-  return ProgressEnvelopeSchema.parse({
+  return migrateV5Envelope(ProgressEnvelopeV5Schema.parse({
     storageVersion: 5,
     settings: legacy.settings,
     lessonProgress: Object.fromEntries(
@@ -217,7 +244,24 @@ function migrateV4Envelope(legacy: z.infer<typeof ProgressEnvelopeV4Schema>): Pr
         }
       ])
     )
-  })
+  }))
+}
+
+function migrateV3Envelope(legacy: z.infer<typeof ProgressEnvelopeV3Schema>): ProgressEnvelope {
+  return migrateV5Envelope(ProgressEnvelopeV5Schema.parse({
+    storageVersion: 5,
+    settings: legacy.settings,
+    lessonProgress: Object.fromEntries(
+      Object.entries(legacy.lessonProgress).map(([lessonId, progress]) => [
+        lessonId,
+        {
+          ...progress,
+          activeProcessEvidence: null,
+          recentAttempts: progress.recentAttempts.map((attempt) => ({ ...attempt, process: null }))
+        }
+      ])
+    )
+  }))
 }
 
 /**
@@ -231,10 +275,16 @@ export function migrateProgressEnvelope(input: unknown): EnvelopeMigrationResult
       return { success: false, error: formatZodError(versionResult.error) }
     }
 
-    if (versionResult.data.storageVersion === 5) {
+    if (versionResult.data.storageVersion === 6) {
       const result = ProgressEnvelopeSchema.safeParse(input)
       return result.success
         ? { success: true, data: result.data }
+        : { success: false, error: formatZodError(result.error) }
+    }
+    if (versionResult.data.storageVersion === 5) {
+      const result = ProgressEnvelopeV5Schema.safeParse(input)
+      return result.success
+        ? { success: true, data: migrateV5Envelope(result.data) }
         : { success: false, error: formatZodError(result.error) }
     }
     if (versionResult.data.storageVersion === 4) {
@@ -276,13 +326,15 @@ export function parseBackup(input: unknown): BackupParseResult {
     const versionResult = z.object({ storageVersion: z.number().int() }).passthrough().safeParse(candidate)
     if (!versionResult.success) return { success: false, error: formatZodError(versionResult.error) }
 
-    const backupResult = versionResult.data.storageVersion === 5
+    const backupResult = versionResult.data.storageVersion === CURRENT_STORAGE_VERSION
       ? ProgressBackupSchema.safeParse(candidate)
-      : versionResult.data.storageVersion === 4
-        ? ProgressBackupV4Schema.safeParse(candidate)
-        : versionResult.data.storageVersion === 3
-          ? ProgressBackupV3Schema.safeParse(candidate)
-          : null
+      : versionResult.data.storageVersion === 5
+        ? ProgressBackupV5Schema.safeParse(candidate)
+        : versionResult.data.storageVersion === 4
+          ? ProgressBackupV4Schema.safeParse(candidate)
+          : versionResult.data.storageVersion === 3
+            ? ProgressBackupV3Schema.safeParse(candidate)
+            : null
     if (!backupResult) {
       return {
         success: false,

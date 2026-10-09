@@ -10,6 +10,7 @@ import {
   assessTransfer,
   buildTodayQueue,
   createEmptyLessonProgress,
+  isLessonProgressStale,
   scheduleTransferReview,
   type AttemptEvidence,
   type EvidenceContract
@@ -233,5 +234,62 @@ describe('evidence contract', () => {
     expect(contractRevision(reordered)).toBe(contractRevision(contract))
     expect(contractRevision({ ...contract, requiredRubricIds: ['clarity', 'tone'] })).not.toBe(contractRevision(contract))
     expect(contractRevision({ ...contract, timeLimitSeconds: 90 })).not.toBe(contractRevision(contract))
+  })
+})
+
+describe('interleaved reviews in Today', () => {
+  const due = (id: string, capabilityId: 'technical-reading' | 'international-meetings', day: number, interleave?: boolean) => ({
+    item: { lessonId: id, capabilityId, hasPerformanceTask: true, ...(interleave === undefined ? {} : { interleave }) },
+    progress: { ...createEmptyLessonProgress(), status: 'completed' as const, transferCompleted: true, nextReviewAt: `2026-08-0${day}T00:00:00.000Z` }
+  })
+  const now = new Date('2026-08-18T08:00:00.000Z')
+
+  function queue(entries: ReturnType<typeof due>[]) {
+    return buildTodayQueue(
+      entries.map((entry) => entry.item),
+      Object.fromEntries(entries.map((entry) => [entry.item.lessonId, entry.progress])),
+      now
+    ).map((item) => item.lessonId)
+  }
+
+  it('alternates capabilities when lessons opt in, keeping due order within a capability', () => {
+    expect(queue([
+      due('read-1', 'technical-reading', 1, true),
+      due('read-2', 'technical-reading', 2, true),
+      due('meet-1', 'international-meetings', 3, true)
+    ])).toEqual(['read-1', 'meet-1', 'read-2'])
+  })
+
+  it('keeps the plain due-date order when the lessons do not opt in', () => {
+    expect(queue([
+      due('read-1', 'technical-reading', 1),
+      due('read-2', 'technical-reading', 2),
+      due('meet-1', 'international-meetings', 3)
+    ])).toEqual(['read-1', 'read-2', 'meet-1'])
+  })
+
+  it('only reorders the opted-in reviews and leaves the other items in place', () => {
+    const items = queue([
+      due('read-1', 'technical-reading', 1, true),
+      due('read-2', 'technical-reading', 2, true),
+      due('meet-1', 'international-meetings', 3, true),
+      { item: { lessonId: 'fresh', capabilityId: 'international-meetings' as const, hasPerformanceTask: true }, progress: createEmptyLessonProgress() } as unknown as ReturnType<typeof due>
+    ])
+    expect(items.at(-1)).toBe('fresh')
+    expect(items.slice(0, 3)).toEqual(['read-1', 'meet-1', 'read-2'])
+  })
+})
+
+describe('content revision of a lesson progress', () => {
+  it('starts on revision 1 unless the lesson says otherwise', () => {
+    expect(createEmptyLessonProgress().contentRevision).toBe(1)
+    expect(createEmptyLessonProgress(3).contentRevision).toBe(3)
+  })
+
+  it('is stale only when the lesson has moved past the revision the cycle started on', () => {
+    const progress = createEmptyLessonProgress(2)
+    expect(isLessonProgressStale(progress, { contentRevision: 2 })).toBe(false)
+    expect(isLessonProgressStale(progress, { contentRevision: 3 })).toBe(true)
+    expect(isLessonProgressStale(progress, { contentRevision: 1 })).toBe(false)
   })
 })

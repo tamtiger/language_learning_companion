@@ -18,7 +18,7 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
   const lessons = useAppStore((state) => state.lessons)
   const lessonProgress = useAppStore((state) => state.lessonProgress)
   const [capability, setCapability] = useState<CapabilityId | 'all'>('all')
-  const [level, setLevel] = useState<'all' | 'B1' | 'B2' | 'C1'>('all')
+  const [level, setLevel] = useState<'all' | 'A2' | 'B1' | 'B2' | 'C1'>('all')
   const filtered = useMemo(() => lessons.filter((lesson) =>
     (capability === 'all' || lesson.capabilities.includes(capability))
     && (level === 'all' || lesson.cefrLevel === level)
@@ -45,7 +45,7 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
         </label>
         <label className="text-sm font-semibold">CEFR
           <select value={level} onChange={(event) => setLevel(event.target.value as typeof level)} className="mt-2 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2">
-            <option value="all">Tất cả level</option><option>B1</option><option>B2</option><option>C1</option>
+            <option value="all">Tất cả level</option><option>A2</option><option>B1</option><option>B2</option><option>C1</option>
           </select>
         </label>
       </div>

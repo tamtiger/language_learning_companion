@@ -107,8 +107,8 @@ perception pretest → training có feedback → posttest
 - Resume section hoặc learning phase an toàn sau khi reload; output session-only không được phục dựng giả.
 - Lưu tối đa 50 attempt metadata gần nhất cho mỗi lesson.
 - Tự đưa review đến hạn vào Today queue.
-- Export/import backup v5 bằng allowlisted metadata; backup v3/v4 được migrate
-  sang v5 qua cùng canonical migration, còn v1/v2 và future version bị từ chối.
+- Export/import backup v6 bằng allowlisted metadata; backup v3/v4/v5 được migrate
+  sang v6 qua cùng canonical migration, còn v1/v2 và future version bị từ chối.
 - Import có schema validation, preview và xác nhận trước khi thay state.
 - Dữ liệu malformed hoặc sai version bị từ chối theo cơ chế fail-closed.
 
@@ -195,7 +195,7 @@ content JSON v1/v3
   → parse + validate + normalize
   → Today / Catalog / Lesson / Progress
   → pure learning + progress domain
-  → local storage v5 + validated backup/migration v3/v4
+  → local storage v6 + validated backup/migration v3/v4/v5
 ```
 
 Stack chính: React 19, TypeScript, Vite, Zustand, Zod, Vitest và Testing
@@ -208,6 +208,7 @@ Library.
 - Architecture, storage và privacy: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 - Listener/expert evaluation: [`docs/EVALUATION_PROTOCOL.md`](./docs/EVALUATION_PROTOCOL.md)
 - Hướng dẫn dành cho người học: [`docs/START_HERE.md`](./docs/START_HERE.md)
+- Thêm một bài học mới (checklist từng bước): [`docs/ADDING_LESSONS.md`](./docs/ADDING_LESSONS.md)
 - Quy tắc release và changelog: [`docs/RELEASE.md`](./docs/RELEASE.md)
 - Quy ước đặt tên file và vị trí test: [`docs/CONVENTIONS.md`](./docs/CONVENTIONS.md)
 - Prompt audit người học: [`docs/prompts/LEARNER_AUDIT_PROMPT.md`](./docs/prompts/LEARNER_AUDIT_PROMPT.md)

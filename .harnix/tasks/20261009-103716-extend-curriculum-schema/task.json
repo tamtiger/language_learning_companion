@@ -4,8 +4,8 @@
   "id": "20261009-103716-extend-curriculum-schema",
   "title": "Mở rộng schema chương trình để nhận nội dung mới",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Schema, rubric và lịch ôn đủ biểu đạt các loại nội dung của đợt mở rộng và thêm bài mới không cần sửa test.",
   "nonGoals": [
     "Chưa viết bài học mới (các task sau)",
@@ -14,34 +14,47 @@
   "acceptanceCriteria": [
     {
       "id": "ac-1",
-      "text": "Schema hỗ trợ CEFR A2, vocabulary có collocation và ôn lại, nguồn nghe hội thoại nhiều người (transcript, giọng, gist/detail), bài đọc dài có mục lục và câu hỏi định vị, story bank của người học (chỉ metadata).",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "Schema hỗ trợ CEFR A2; phần ôn từ vựng (vocabulary-review) tham chiếu từ đã học; nguồn nghe nhiều người (listening-source: người nói, giọng, transcript ẩn, gist/detail, ghi chú khi nghe); bài đọc dài (long-reading: mục lục, câu hỏi định vị skim/scan); story bank (năng lực khai báo ở lesson, metadata câu chuyện ở progress, không lưu nội dung); SectionRenderer có nhánh riêng cho mọi loại section.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-migration-revision-1",
+        "ev-check-schema-extension-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
-      "text": "contentRevision được thêm kèm migration không phá progress cũ.",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "contentRevision của lesson và của progress được thêm kèm migration storageVersion 5 lên 6; backup và dữ liệu v3, v4, v5 đều nhập được và giữ nguyên các trường cũ.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-migration-revision-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Số bài không còn hard-code trong test; có docs/ADDING_LESSONS.md checklist từng bước; validator trùng lặp được gộp.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-catalog-counts-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
-      "text": "Rubric có tiêu chí ngôn ngữ (accuracy, range, register) và mẫu neo đạt/chưa đạt; reviewPolicy hỗ trợ khoảng ôn dài đến 21/45 ngày và interleaving.",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "Rubric có dimension (task, accuracy, range, register) và mẫu neo đạt/chưa đạt, lesson A2 bắt buộc có tiêu chí ngôn ngữ kèm anchors; reviewPolicy hỗ trợ khoảng ôn đến 45 ngày (cận trên 180) và interleave; Today xen kẽ review theo capability khi lesson bật interleave.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-schema-extension-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
     {
       "id": "check-schema-extension",
-      "description": "Schema mới và rubric ngôn ngữ",
-      "command": "npx vitest run tests/content/schema.test.ts",
+      "description": "Schema mở rộng: A2, section mới, rubric, reviewPolicy, interleaving, render",
+      "command": "npx vitest run tests/content/schema.test.ts tests/content/schemaExtensions.test.ts tests/domain tests/features/lesson tests/features/practice tests/features/catalog tests/features/today",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -51,27 +64,33 @@
       "inputs": [
         "content/**",
         "src/content/**",
+        "src/domain/**",
+        "src/features/**",
         "tests/**"
       ]
     },
     {
       "id": "check-migration-revision",
-      "description": "Migration contentRevision",
-      "command": "npx vitest run tests/infrastructure/storage",
+      "description": "Migration v6, contentRevision, story bank, backup",
+      "command": "npx vitest run tests/infrastructure/storage tests/shared tests/domain/progress tests/features/settings tests/app",
       "scope": "focused",
       "required": true,
       "criterionIds": [
+        "ac-1",
         "ac-2"
       ],
       "inputs": [
+        "src/content/**",
         "src/domain/**",
+        "src/features/settings/**",
         "src/infrastructure/**",
+        "src/shared/**",
         "tests/**"
       ]
     },
     {
       "id": "check-catalog-counts",
-      "description": "Catalog không hard-code số bài",
+      "description": "Không hard-code số bài, validator gộp, tài liệu thêm bài",
       "command": "npx vitest run tests/content",
       "scope": "focused",
       "required": true,
@@ -79,7 +98,8 @@
         "ac-3"
       ],
       "inputs": [
-        "CONTENT.md",
+        "README.md",
+        "content/**",
         "docs/**",
         "src/content/**",
         "tests/**"
@@ -102,16 +122,124 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-schema-extension-1",
+      "checkId": "check-schema-extension",
+      "recordedAt": "2026-10-09T15:57:01.269+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/schema.test.ts tests/content/schemaExtensions.test.ts tests/domain tests/features/lesson tests/features/practice tests/features/catalog tests/features/today — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "d695ca812eeeba7fcc01cf1c5fc3ec90d24c2b8e63c06960ae31ee2f944fcd1c"
+    },
+    {
+      "id": "ev-check-migration-revision-1",
+      "checkId": "check-migration-revision",
+      "recordedAt": "2026-10-09T15:57:12.071+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/infrastructure/storage tests/shared tests/domain/progress tests/features/settings tests/app — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "61a9253f200ee3a0f111525a9dce6142bc83f6245266aeb07708fce6c5743c66"
+    },
+    {
+      "id": "ev-check-catalog-counts-1",
+      "checkId": "check-catalog-counts",
+      "recordedAt": "2026-10-09T15:57:16.352+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "a044e1622c40c0552afb4937308ab6315cb2eb58b5000e7d256fadafe5a6388e"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T15:58:06.185+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "8d3d3e9b5bc3f62d283126b7cd813d335e64bc20542a516459093ef3380b678c"
+    }
+  ],
   "relevantPaths": [
-    "src/content/schema.ts",
-    "src/content",
+    "README.md",
     "docs",
-    "CONTENT.md",
-    "src/infrastructure/storage"
+    "scripts",
+    "src/content",
+    "src/domain/progress",
+    "src/features/catalog",
+    "src/features/lesson",
+    "src/features/practice",
+    "src/features/today",
+    "src/infrastructure/storage",
+    "src/shared/hooks",
+    "tests"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:07.104+07:00"
+  "updatedAt": "2026-10-09T15:58:13.518+07:00",
+  "decisions": [
+    {
+      "id": "d-additive-lesson-fields",
+      "text": "Mọi trường mới của lesson là tùy chọn hoặc có mặc định; 12 mission và 6 bài pronunciation hiện có không đổi.",
+      "rationale": "Không làm vỡ nội dung và test hiện có; chỉ A2 bị ràng buộc rubric ngôn ngữ."
+    },
+    {
+      "id": "d-minimal-renderers",
+      "text": "Ba loại section mới có bộ render tối thiểu trong task này; giao diện phong phú để task 11 và 12.",
+      "rationale": "Nhánh cuối của SectionRenderer giả định language-support nên section lạ sẽ làm vỡ trang."
+    },
+    {
+      "id": "d-storage-v6",
+      "text": "Nâng storageVersion lên 6: contentRevision bắt buộc ở lesson progress và storyBank ở envelope; migration từ v3, v4, v5.",
+      "rationale": "Tiêu chí ac-2 yêu cầu migration; các thay đổi trước dùng trường tùy chọn không bump."
+    },
+    {
+      "id": "d-story-bank-metadata",
+      "text": "Story bank trong progress chỉ lưu nhãn ngắn (≤ 60 ký tự), năng lực và thời điểm; không lưu nội dung câu chuyện.",
+      "rationale": "Giữ chính sách privacy: không lưu free-text dài; nhãn được xem là metadata."
+    },
+    {
+      "id": "d-interleave-optin",
+      "text": "interleave là tùy chọn, mặc định tắt; chỉ lesson bật mới được xen kẽ trong hàng ôn.",
+      "rationale": "Không đổi thứ tự Today hiện có."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "r-v6-test-churn",
+      "text": "Nâng storageVersion lên 6 chạm nhiều test kiểm 5 và tài liệu kiến trúc; sửa cùng slice.",
+      "severity": "low"
+    },
+    {
+      "id": "r-story-label-privacy",
+      "text": "Nhãn câu chuyện do người học đặt có thể chứa thông tin nhạy cảm và nằm trong backup; giới hạn 60 ký tự và ghi rõ trong tài liệu.",
+      "severity": "low"
+    },
+    {
+      "id": "r-validator-merge",
+      "text": "Gộp validateAllLessons.test.ts có thể làm mất khẳng định chỉ nằm ở đó; rà từng khẳng định trước khi xóa.",
+      "severity": "low"
+    },
+    {
+      "id": "r-listening-tts",
+      "text": "listening-source dựa vào TTS thiết bị; locale và voiceHints theo người nói chỉ là yêu cầu, giọng thực tế khác nhau giữa máy.",
+      "severity": "low"
+    },
+    {
+      "id": "r-renderers-minimal",
+      "text": "Ba section mới chỉ có bộ render tối thiểu (đủ dùng, kiểm thử bằng test); giao diện nghe và đọc dài phong phú, tiến độ trong Progress và editor story bank để task 11 và 12.",
+      "severity": "low"
+    },
+    {
+      "id": "r-no-content-yet",
+      "text": "Chưa có bài nào dùng A2, listening-source, long-reading, vocabulary-review hay storyBank; các test mới dùng fixture tổng hợp nên chất lượng nội dung thật chỉ được kiểm ở task 10 đến 13.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T15:58:13.518+07:00"
 }

@@ -35,7 +35,8 @@ describe('new capability mission wave', () => {
       lesson.sourceSchemaVersion === 'v3' && lesson.performanceTask
     )
 
-    expect(missions).toHaveLength(12)
+    expect(missions).toHaveLength(getBundledCatalog().baselineMissions.filter((lesson) => lesson.sourceSchemaVersion === 'v3').length)
+    expect(missions.length).toBeGreaterThan(0)
     for (const mission of missions) {
       const contexts = mission.performanceTask?.practiceContexts
       expect(contexts, mission.lessonId).toBeTruthy()
@@ -59,14 +60,10 @@ describe('new capability mission wave', () => {
     const pilots = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken'
       && lesson.performanceTask.learningLoop)
 
-    expect(pilots.map((lesson) => lesson.lessonId).sort()).toEqual([
-      'architecture-walkthrough-b2',
-      'behavioral-interview-ownership-b2',
-      'daily-standup-b1',
-      'meeting-disagree-and-recap-b2',
-      'technical-interview-decision-b2',
-      'technical-tradeoff-explanation-b2'
-    ])
+    const spokenMissions = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken')
+    // Every spoken mission must ship a complete learning loop; which missions exist is up to the content.
+    expect(pilots.map((lesson) => lesson.lessonId).sort()).toEqual(spokenMissions.map((lesson) => lesson.lessonId).sort())
+    expect(pilots.length).toBeGreaterThan(0)
     for (const pilot of pilots) {
       const task = pilot.performanceTask
       if (task?.mode !== 'spoken' || !task.learningLoop) throw new Error('Spoken pilot fixture missing')
@@ -163,7 +160,7 @@ describe('new capability mission wave', () => {
 
   it('requests at least three synthetic English locales in every spoken loop', () => {
     const spokenLoops = getBundledCatalog().lessons.filter((lesson) => lesson.performanceTask?.mode === 'spoken')
-    expect(spokenLoops).toHaveLength(6)
+    expect(spokenLoops.length).toBeGreaterThan(0)
     for (const lesson of spokenLoops) {
       const task = lesson.performanceTask
       if (task?.mode !== 'spoken' || !task.learningLoop) throw new Error('Spoken loop missing')

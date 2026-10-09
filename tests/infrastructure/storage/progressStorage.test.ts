@@ -32,7 +32,7 @@ function measuredAttempt() {
   }
 }
 
-describe('progress storage v5', () => {
+describe('progress storage', () => {
   it('rejects v2 and migrates a valid v3 backup without learner output', () => {
     expect(ProgressEnvelopeSchema.safeParse({
       storageVersion: 2,
@@ -44,6 +44,7 @@ describe('progress storage v5', () => {
     delete legacyAttempt.process
     const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
     delete legacyProgress.activeProcessEvidence
+    delete legacyProgress.contentRevision
     const legacy = {
       storageVersion: 3,
       exportedAt: '2026-08-18T10:00:00.000Z',
@@ -55,7 +56,7 @@ describe('progress storage v5', () => {
     const migrated = parseBackup(legacy)
     expect(migrated.success).toBe(true)
     if (migrated.success) {
-      expect(migrated.data.storageVersion).toBe(5)
+      expect(migrated.data.storageVersion).toBe(6)
       expect(migrated.data.lessonProgress.mission.recentAttempts[0].process).toBeNull()
     }
   })
@@ -70,9 +71,10 @@ describe('progress storage v5', () => {
       recentAttempts: [measuredAttempt()]
     }
     const result = ProgressEnvelopeSchema.safeParse({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: { mission: progress },
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     })
 
     expect(result.success).toBe(true)
@@ -88,7 +90,7 @@ describe('progress storage v5', () => {
 
   it('exports only strict allowlisted metadata', () => {
     const envelope = ProgressEnvelopeSchema.parse({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: {
         mission: {
           ...createEmptyLessonProgress(),
@@ -96,7 +98,8 @@ describe('progress storage v5', () => {
           recentAttempts: [measuredAttempt()]
         }
       },
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     })
     const backup = createBackup(envelope, '2026-08-18T10:00:00.000Z')
     const serialized = serializeBackup(backup)
@@ -126,22 +129,24 @@ describe('progress storage v5', () => {
     }
     const attempt = { ...measuredAttempt(), process }
     const valid = ProgressEnvelopeSchema.safeParse({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: {
         mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [attempt] }
       },
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     })
     expect(valid.success).toBe(true)
 
     const unsafe = structuredClone(attempt) as Record<string, unknown>
     unsafe.audioUrl = 'blob:private-recording'
     expect(ProgressEnvelopeSchema.safeParse({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: {
         mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [unsafe] }
       },
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     }).success).toBe(false)
   })
 
@@ -162,6 +167,7 @@ describe('progress storage v5', () => {
     }
     const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
     delete legacyProgress.activeProcessEvidence
+    delete legacyProgress.contentRevision
     const legacy = {
       storageVersion: 4,
       exportedAt: '2026-08-18T10:00:00.000Z',
@@ -177,7 +183,7 @@ describe('progress storage v5', () => {
     const migrated = parseBackup(legacy)
     expect(migrated.success).toBe(true)
     if (migrated.success) {
-      expect(migrated.data.storageVersion).toBe(5)
+      expect(migrated.data.storageVersion).toBe(6)
       expect(migrated.data.lessonProgress.mission.activeProcessEvidence).toBeNull()
       expect(migrated.data.lessonProgress.mission.recentAttempts[0].process?.listenBackChecklistCompleted).toBe(false)
     }
@@ -200,6 +206,7 @@ describe('progress storage v5', () => {
     }
     const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
     delete legacyProgress.activeProcessEvidence
+    delete legacyProgress.contentRevision
 
     const migrated = migrateProgressEnvelope({
       storageVersion: 4,
@@ -221,14 +228,16 @@ describe('progress storage v5', () => {
     }
 
     expect(migrateProgressEnvelope({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: { mission: { status: 'completed' } },
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     }).success).toBe(false)
     expect(migrateProgressEnvelope({
-      storageVersion: 6,
+      storageVersion: 7,
       lessonProgress: {},
-      settings: { theme: 'dark' }
+      settings: { theme: 'dark' },
+      storyBank: []
     }).success).toBe(false)
   })
 })

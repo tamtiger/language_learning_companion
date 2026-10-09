@@ -188,11 +188,13 @@ export interface LessonProgress {
   reviewStage: number
   nextReviewAt: string | null
   lastActivityAt: string | null
+  /** Revision of the lesson content this cycle started on (see CanonicalLesson.contentRevision). */
+  contentRevision: number
 }
 
 export type ProgressByLesson = Record<string, LessonProgress>
 
-export function createEmptyLessonProgress(): LessonProgress {
+export function createEmptyLessonProgress(contentRevision = 1): LessonProgress {
   return {
     status: 'not-started',
     currentSectionId: null,
@@ -205,8 +207,14 @@ export function createEmptyLessonProgress(): LessonProgress {
     transferCompleted: false,
     reviewStage: 0,
     nextReviewAt: null,
-    lastActivityAt: null
+    lastActivityAt: null,
+    contentRevision
   }
+}
+
+/** True when the lesson has changed since the learner's current cycle began. */
+export function isLessonProgressStale(progress: Pick<LessonProgress, 'contentRevision'>, lesson: { contentRevision: number }): boolean {
+  return lesson.contentRevision > progress.contentRevision
 }
 
 export function appendAttempt(progress: LessonProgress, attempt: AttemptEvidence): LessonProgress {
@@ -282,6 +290,8 @@ export interface CatalogProgressItem {
   lessonId: string
   capabilityId?: CapabilityId
   hasPerformanceTask: boolean
+  /** Opt in to alternating this lesson's due review with other capabilities. */
+  interleave?: boolean
 }
 
 export interface TodayQueueItem extends CatalogProgressItem {
@@ -312,7 +322,7 @@ export function buildTodayQueue(
   })
 
   const rank = { review: 0, resume: 1, baseline: 2, new: 3 } as const
-  return items.sort((left, right) => {
+  const sorted = items.sort((left, right) => {
     const rankDifference = rank[left.kind] - rank[right.kind]
     if (rankDifference !== 0) return rankDifference
     if (left.kind === 'review' && right.kind === 'review') {
@@ -323,4 +333,32 @@ export function buildTodayQueue(
     const rightCapability = right.capabilityId ? CAPABILITY_ORDER.indexOf(right.capabilityId) : 999
     return leftCapability - rightCapability || left.lessonId.localeCompare(right.lessonId)
   })
+  return interleaveReviews(sorted)
+}
+
+/**
+ * Alternates the opted-in due reviews between capabilities (round-robin, keeping due order within a
+ * capability). They only reuse the slots those reviews already occupied, so no other item moves.
+ */
+function interleaveReviews(queue: TodayQueueItem[]): TodayQueueItem[] {
+  const slots = queue.flatMap((item, index) => item.kind === 'review' && item.interleave ? [index] : [])
+  if (slots.length < 2) return queue
+
+  const byCapability = new Map<string, TodayQueueItem[]>()
+  for (const index of slots) {
+    const item = queue[index]
+    const key = item.capabilityId ?? 'none'
+    byCapability.set(key, [...(byCapability.get(key) ?? []), item])
+  }
+  const lanes = [...byCapability.values()]
+  const alternated: TodayQueueItem[] = []
+  while (alternated.length < slots.length) {
+    for (const lane of lanes) {
+      const next = lane.shift()
+      if (next) alternated.push(next)
+    }
+  }
+  const result = [...queue]
+  slots.forEach((slot, position) => { result[slot] = alternated[position] })
+  return result
 }

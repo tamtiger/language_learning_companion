@@ -77,7 +77,8 @@ describe('v5 app store', () => {
       theme: 'dark',
       currentCefrLevel: null,
       activeLessonId: null,
-      lessonProgress: {}
+      lessonProgress: {},
+      storyBank: []
     })
     persistedWrites = []
   })
@@ -140,7 +141,7 @@ describe('v5 app store', () => {
       lessonProgress: { mission: { ...createEmptyLessonProgress(), activePhase: 'performance' } }
     })
     const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
-    expect(backup.storageVersion).toBe(5)
+    expect(backup.storageVersion).toBe(6)
     expect(parseCapabilityBackup(JSON.stringify(backup))).toEqual({ success: true, data: backup })
     expect(parseCapabilityBackup({ ...backup, storageVersion: 2 }).success).toBe(false)
     expect(useAppStore.getState().lessonProgress.mission.activePhase).toBe('performance')
@@ -257,6 +258,7 @@ describe('v5 app store', () => {
   it('hydrates v4 process metadata through the canonical migration and can export it as v5', async () => {
     const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
     delete legacyProgress.activeProcessEvidence
+    delete legacyProgress.contentRevision
     const process = {
       perceptionPretestCorrect: 1,
       perceptionPretestTotal: 2,
@@ -295,7 +297,7 @@ describe('v5 app store', () => {
     expect(() => createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')).not.toThrow()
     expect(persistedWrites).toHaveLength(1)
     expect(persistedValue).toMatchObject({
-      version: 5,
+      version: 6,
       state: {
         theme: 'light',
         currentCefrLevel: 'B1',
@@ -306,7 +308,7 @@ describe('v5 app store', () => {
 
   it('keeps current defaults when malformed v5 state is hydrated', async () => {
     persistedValue = {
-      version: 5,
+      version: 6,
       state: {
         theme: 'light',
         currentCefrLevel: 'B2',
@@ -320,7 +322,8 @@ describe('v5 app store', () => {
       theme: 'dark',
       currentCefrLevel: null,
       activeLessonId: null,
-      lessonProgress: {}
+      lessonProgress: {},
+      storyBank: []
     })
   })
 
@@ -331,7 +334,8 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     } as unknown as StorageValue<PersistedAppState | null>
     persistedValue = futureValue
@@ -342,7 +346,8 @@ describe('v5 app store', () => {
       theme: 'dark',
       currentCefrLevel: null,
       activeLessonId: null,
-      lessonProgress: {}
+      lessonProgress: {},
+      storyBank: []
     })
     expect(persistedWrites).toEqual([])
     expect(persistedValue).toBe(futureValue)
@@ -361,22 +366,24 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     } as unknown as StorageValue<PersistedAppState | null>
     persistedValue = futureValue
     await useAppStore.persist.rehydrate()
 
     useAppStore.getState().restoreEnvelope({
-      storageVersion: 5,
+      storageVersion: 6,
       lessonProgress: {},
-      settings: { theme: 'light' }
+      settings: { theme: 'light' },
+      storyBank: []
     })
 
     expect(persistedWrites).toHaveLength(1)
     expect(persistedValue).not.toBe(futureValue)
     expect(persistedValue).toMatchObject({
-      version: 5,
+      version: 6,
       state: { theme: 'light', activeLessonId: null, lessonProgress: {} }
     })
   })
@@ -388,7 +395,8 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     } as unknown as StorageValue<PersistedAppState | null>
     await useAppStore.persist.rehydrate()
@@ -398,12 +406,13 @@ describe('v5 app store', () => {
 
     expect(persistedWrites).toHaveLength(2)
     expect(persistedValue).toMatchObject({
-      version: 5,
+      version: 6,
       state: {
         theme: 'light',
         currentCefrLevel: null,
         activeLessonId: null,
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     })
   })
@@ -415,7 +424,8 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     } as unknown as StorageValue<PersistedAppState | null>
     let storedValue = futureValue
@@ -453,7 +463,8 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     } as unknown as StorageValue<PersistedAppState | null>
     let resolveRead: ((value: StorageValue<PersistedAppState | null>) => void) | undefined
@@ -475,7 +486,7 @@ describe('v5 app store', () => {
     useAppStore.setState({ theme: 'light' })
 
     expect(asyncWrites).toHaveLength(2)
-    expect(asyncWrites[1]).toMatchObject({ version: 5, state: { theme: 'light' } })
+    expect(asyncWrites[1]).toMatchObject({ version: 6, state: { theme: 'light' } })
   })
 
   it('ignores a stale async hydration failure after a newer valid hydration succeeds', async () => {
@@ -491,12 +502,13 @@ describe('v5 app store', () => {
           return new Promise((resolve) => { staleRequest.resolve = resolve })
         }
         return {
-          version: 5,
+          version: 6,
           state: {
             theme: 'dark',
             currentCefrLevel: null,
             activeLessonId: null,
-            lessonProgress: {}
+            lessonProgress: {},
+            storyBank: []
           }
         }
       },
@@ -515,7 +527,8 @@ describe('v5 app store', () => {
         theme: 'light',
         currentCefrLevel: 'C1',
         activeLessonId: 'future',
-        lessonProgress: {}
+        lessonProgress: {},
+        storyBank: []
       }
     })
     await staleHydration
@@ -523,7 +536,7 @@ describe('v5 app store', () => {
     useAppStore.setState({ theme: 'light' })
 
     expect(asyncWrites).toHaveLength(1)
-    expect(asyncWrites[0]).toMatchObject({ version: 5, state: { theme: 'light' } })
+    expect(asyncWrites[0]).toMatchObject({ version: 6, state: { theme: 'light' } })
   })
 
   describe('assessed completion', () => {
@@ -621,7 +634,7 @@ describe('v5 app store', () => {
       await useAppStore.persist.rehydrate()
       expect(useAppStore.getState().persistence.status).toBe('quarantined')
 
-      useAppStore.getState().restoreEnvelope({ storageVersion: 5, lessonProgress: {}, settings: { theme: 'light' } })
+      useAppStore.getState().restoreEnvelope({ storageVersion: 6, lessonProgress: {}, settings: { theme: 'light' }, storyBank: [] })
       expect(useAppStore.getState().persistence.status).toBe('ok')
     })
 
@@ -634,8 +647,8 @@ describe('v5 app store', () => {
 
     it('rehydrates when another tab changes the stored state', async () => {
       persistedValue = {
-        version: 5,
-        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+        version: 6,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {}, storyBank: [] }
       }
       await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
 
@@ -644,8 +657,8 @@ describe('v5 app store', () => {
 
     it('ignores unrelated keys and never rehydrates over quarantined data', async () => {
       persistedValue = {
-        version: 5,
-        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+        version: 6,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {}, storyBank: [] }
       }
       await handleStorageEvent(new StorageEvent('storage', { key: 'something-else' }))
       expect(useAppStore.getState().theme).toBe('dark')
@@ -653,8 +666,8 @@ describe('v5 app store', () => {
       persistedValue = futureValue
       await useAppStore.persist.rehydrate()
       persistedValue = {
-        version: 5,
-        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+        version: 6,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {}, storyBank: [] }
       }
       await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
       expect(useAppStore.getState().theme).toBe('dark')
@@ -699,4 +712,77 @@ describe('v5 app store', () => {
       expect(parseCapabilityBackup(JSON.stringify(backup))).toEqual({ success: true, data: backup })
       expect(backup.lessonProgress[lessonId].inputProgress?.perception?.phase).toBe('training')
     })
+  })
+  describe('story bank', () => {
+    it('adds, updates, marks practiced and removes stories', () => {
+      const id = useAppStore.getState().addStory({ label: 'Fixed the outage', competencyIds: ['ownership'] })
+      expect(id).toBeTruthy()
+      expect(useAppStore.getState().storyBank).toHaveLength(1)
+
+      expect(useAppStore.getState().updateStory(id as string, { competencyIds: ['ownership', 'delivery'] })).toBe(true)
+      expect(useAppStore.getState().storyBank[0].competencyIds).toEqual(['ownership', 'delivery'])
+
+      useAppStore.getState().markStoryPracticed(id as string)
+      expect(useAppStore.getState().storyBank[0].lastPracticedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+
+      useAppStore.getState().removeStory(id as string)
+      expect(useAppStore.getState().storyBank).toEqual([])
+    })
+
+    it('refuses invalid stories and a full bank without changing the state', () => {
+      expect(useAppStore.getState().addStory({ label: '  ', competencyIds: ['ownership'] })).toBeNull()
+      expect(useAppStore.getState().addStory({ label: 'ok', competencyIds: [] })).toBeNull()
+      for (let index = 0; index < 30; index += 1) {
+        useAppStore.getState().addStory({ label: `Story ${index}`, competencyIds: ['delivery'] })
+      }
+      expect(useAppStore.getState().storyBank).toHaveLength(30)
+      expect(useAppStore.getState().addStory({ label: 'One too many', competencyIds: ['delivery'] })).toBeNull()
+      expect(useAppStore.getState().storyBank).toHaveLength(30)
+      expect(useAppStore.getState().updateStory('missing', { label: 'x' })).toBe(false)
+    })
+
+    it('is saved with the rest of the state and cleared by a reset', () => {
+      useAppStore.getState().addStory({ label: 'Fixed the outage', competencyIds: ['ownership'] })
+      expect(persistedWrites.at(-1)?.state?.storyBank).toHaveLength(1)
+
+      useAppStore.getState().resetProgress()
+      expect(useAppStore.getState().storyBank).toEqual([])
+    })
+
+    it('travels through backup export and import', () => {
+      useAppStore.getState().addStory({ label: 'Fixed the outage', competencyIds: ['ownership'] })
+      const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
+      expect(backup.storageVersion).toBe(6)
+      expect(backup.storyBank).toHaveLength(1)
+
+      const parsed = parseCapabilityBackup(JSON.stringify(backup))
+      expect(parsed.success).toBe(true)
+      if (!parsed.success) return
+      useAppStore.getState().resetProgress()
+      const { exportedAt: _exportedAt, ...envelope } = parsed.data
+      useAppStore.getState().restoreEnvelope(envelope)
+      expect(useAppStore.getState().storyBank.map((story) => story.label)).toEqual(['Fixed the outage'])
+    })
+  })
+
+  it('hydrates storage written by version 5 and brings it to version 6 without losing progress', async () => {
+    const legacyProgress = structuredClone(createEmptyLessonProgress()) as unknown as Record<string, unknown>
+    delete legacyProgress.contentRevision
+    persistedValue = {
+      version: 5,
+      state: {
+        theme: 'light',
+        currentCefrLevel: null,
+        activeLessonId: null,
+        lessonProgress: { mission: { ...legacyProgress, status: 'in-progress', completedExerciseIds: ['e1'] } }
+      }
+    } as unknown as StorageValue<PersistedAppState | null>
+
+    await useAppStore.persist.rehydrate()
+
+    const state = useAppStore.getState()
+    expect(state.theme).toBe('light')
+    expect(state.storyBank).toEqual([])
+    expect(state.lessonProgress.mission).toMatchObject({ status: 'in-progress', completedExerciseIds: ['e1'], contentRevision: 1 })
+    expect(persistedValue).toMatchObject({ version: 6 })
   })})

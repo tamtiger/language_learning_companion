@@ -40,11 +40,12 @@ function attemptFor(capabilityId: string) {
 
 function envelopeWith(capabilityId: string) {
   return {
-    storageVersion: 5,
+    storageVersion: 6,
     lessonProgress: {
       mission: { ...createEmptyLessonProgress(), attemptCount: 1, recentAttempts: [attemptFor(capabilityId)] }
     },
-    settings: { theme: 'dark' }
+    settings: { theme: 'dark' },
+    storyBank: []
   }
 }
 

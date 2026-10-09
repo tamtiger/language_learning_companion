@@ -1,5 +1,7 @@
 # Content Contract — Schema v3
 
+> Muốn thêm một bài mới? Làm theo [ADDING_LESSONS.md](./ADDING_LESSONS.md).
+
 ## Mục tiêu
 
 JSON dưới `content/**/*.json` là executable curriculum và source of truth cho lesson. UI chỉ hiểu canonical content, không hardcode lesson ID, topic hoặc capability.
@@ -111,6 +113,32 @@ chấm output: time limit, target duration hoặc word range, và toàn bộ
 `requiredElements`. Summary này không được hardcode hay thay đổi ngưỡng qualifying
 transfer. Với reading ladder, retry là read-once phase giống baseline/transfer/review:
 source phải được ẩn trước khi editor mở.
+
+## Mở rộng schema (A2, nghe, đọc dài, ôn từ vựng)
+
+Các trường dưới đây đều tùy chọn hoặc có mặc định, nên bài cũ không đổi.
+
+- **CEFR A2.** `cefrLevel` nhận `A2`. Bài A2 bắt buộc có ít nhất một tiêu chí rubric ngôn ngữ
+  (`dimension` là `accuracy`, `range` hoặc `register`) và mọi tiêu chí có `anchors`.
+- **Rubric.** Mỗi tiêu chí có thể có `dimension` (`task`, `accuracy`, `range`, `register`) và
+  `anchors: { met, notMet }` mô tả đạt và chưa đạt trông như thế nào; tối đa 6 tiêu chí.
+- **`vocabulary-review`.** Section ôn từ đã dạy: `wordRefs` (≥ 3, phải có trong `language-support`
+  của cùng bài) và `exercises` (≥ 3).
+- **`listening-source`.** Hội thoại 2 đến 4 người nói: `speakers` (`id`, `label`, `locale`,
+  `voiceHints`), `turns` (≥ 4), `durationSeconds` 30 đến 600, `gist` (≥ 1) và `detail` (≥ 2) câu
+  hỏi, `listeningNotes` tùy chọn (ghi chú không lưu). Transcript ẩn cho đến khi người học trả lời hết
+  câu hỏi hoặc bấm hiện. Giọng đọc là TTS của máy theo `locale` và `voiceHints` của người nói.
+- **`long-reading`.** Bài đọc dài 300 đến 2000 từ chia thành `parts` (≥ 3, có mục lục), `skim` (≥ 1 câu
+  ý chính) và `scan` (≥ 2 câu, mỗi câu có `locatePartId` trỏ tới một phần). `format` là `rfc`,
+  `api-reference`, `changelog`, `log`, `issue`, `tutorial` hoặc `prose`.
+- **`reviewPolicy`.** `intervalDays` tăng dần, mỗi giá trị ≤ 180 (ví dụ `[1, 3, 7, 14, 21, 45]`);
+  `interleave: true` cho phép Today xen kẽ review của bài này với capability khác.
+- **`contentRevision`** (mặc định 1): tăng khi bài đổi theo cách người đã học dở cần biết;
+  progress ghi phiên bản lúc vòng học bắt đầu.
+- **`storyBank`.** Bài phỏng vấn khai báo `competencies` (`ownership`, `conflict`, `failure`, `leadership`,
+  `ambiguity`, `influence`, `mentoring`, `delivery`) và `minStories` (1 đến 5) mà người học cần có.
+
+Nguồn trong `listening-source` và `long-reading` đi qua cùng kiểm tra provenance như `source`.
 
 ## Source registry và provenance
 

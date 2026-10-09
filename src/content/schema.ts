@@ -30,6 +30,30 @@ export const CAPABILITY_IDS = [
 
 export const CapabilityIdSchema = z.enum(CAPABILITY_IDS)
 
+/** Competencies a behavioral story can be filed under (also what interview missions draw on). */
+export const STORY_COMPETENCIES = [
+  'ownership',
+  'conflict',
+  'failure',
+  'leadership',
+  'ambiguity',
+  'influence',
+  'mentoring',
+  'delivery'
+] as const
+
+export const StoryCompetencySchema = z.enum(STORY_COMPETENCIES)
+
+/** Declares that a lesson asks the learner to bring their own stories for these competencies. */
+export const StoryBankRequirementSchema = z.object({
+  competencies: z.array(StoryCompetencySchema).min(1).max(6),
+  minStories: z.number().int().min(1).max(5)
+}).strict().superRefine((requirement, context) => {
+  if (new Set(requirement.competencies).size !== requirement.competencies.length) {
+    context.addIssue({ code: z.ZodIssueCode.custom, path: ['competencies'], message: 'Story bank competencies must be unique' })
+  }
+})
+
 export const VocabularyItemSchema = z.object({
   word: NonEmptyString,
   ipa: NonEmptyString,
@@ -364,17 +388,92 @@ export const AutoCheckSectionSchema = z.object({
   exercises: z.array(ExerciseSchema).min(1)
 })
 
+/** Review of words the same lesson already teaches in its language-support section. */
+export const VocabularyReviewSectionSchema = z.object({
+  id: IdSchema,
+  type: z.literal('vocabulary-review'),
+  title: NonEmptyString,
+  wordRefs: z.array(NonEmptyString).min(3).max(15),
+  exercises: z.array(ExerciseSchema).min(3)
+})
+
+const ListeningSpeakerSchema = z.object({
+  id: IdSchema,
+  label: NonEmptyString,
+  locale: z.string().regex(/^[a-z]{2,3}(?:-[A-Z]{2})?$/),
+  voiceHints: z.array(NonEmptyString).min(1).max(5)
+}).strict()
+
+const ListeningTurnSchema = z.object({
+  speakerId: IdSchema,
+  text: NonEmptyString
+}).strict()
+
+/** A multi-speaker conversation played turn by turn with a transcript that stays hidden at first. */
+export const ListeningSourceSectionSchema = z.object({
+  id: IdSchema,
+  type: z.literal('listening-source'),
+  title: NonEmptyString,
+  durationSeconds: z.number().int().min(30).max(600),
+  speakers: z.array(ListeningSpeakerSchema).min(2).max(4),
+  turns: z.array(ListeningTurnSchema).min(4).max(60),
+  gist: z.array(ExerciseSchema).min(1).max(3),
+  detail: z.array(ExerciseSchema).min(2).max(8),
+  /** Prompts for notes taken while listening; the notes themselves are never stored. */
+  listeningNotes: z.object({
+    prompt: NonEmptyString,
+    fields: z.array(NonEmptyString).min(1).max(5)
+  }).strict().optional(),
+  provenance: SourceProvenanceSchema.optional()
+}).strict()
+
+export const LONG_READING_FORMATS = ['rfc', 'api-reference', 'changelog', 'log', 'issue', 'tutorial', 'prose'] as const
+export const LONG_READING_MIN_WORDS = 300
+export const LONG_READING_MAX_WORDS = 2000
+
+const LongReadingPartSchema = z.object({
+  id: IdSchema,
+  heading: NonEmptyString,
+  content: NonEmptyString
+}).strict()
+
+/** A long document split into headed parts, read by skimming first and then scanning for answers. */
+export const LongReadingSectionSchema = z.object({
+  id: IdSchema,
+  type: z.literal('long-reading'),
+  title: NonEmptyString,
+  format: z.enum(LONG_READING_FORMATS),
+  parts: z.array(LongReadingPartSchema).min(3).max(20),
+  skim: z.array(ExerciseSchema).min(1).max(3),
+  scan: z.array(z.object({ locatePartId: IdSchema, exercise: ExerciseSchema }).strict()).min(2).max(10),
+  provenance: SourceProvenanceSchema.optional()
+}).strict()
+
 export const LessonSectionSchema = z.discriminatedUnion('type', [
   BriefSectionSchema,
   LanguageSupportSectionSchema,
   SourceSectionSchema,
-  AutoCheckSectionSchema
+  AutoCheckSectionSchema,
+  VocabularyReviewSectionSchema,
+  ListeningSourceSectionSchema,
+  LongReadingSectionSchema
 ])
+
+function countWords(text: string): number {
+  return text.trim().split(/\s+/u).filter(Boolean).length
+}
+
+/** What a rubric criterion measures: the task itself or one aspect of the language used. */
+export const RUBRIC_DIMENSIONS = ['task', 'accuracy', 'range', 'register'] as const
+const LANGUAGE_DIMENSIONS: ReadonlyArray<(typeof RUBRIC_DIMENSIONS)[number]> = ['accuracy', 'range', 'register']
 
 export const RubricItemSchema = z.object({
   id: IdSchema,
   label: NonEmptyString,
-  description: NonEmptyString
+  description: NonEmptyString,
+  dimension: z.enum(RUBRIC_DIMENSIONS).optional(),
+  /** Short descriptions of what meeting and missing the criterion look like, to calibrate self-rating. */
+  anchors: z.object({ met: NonEmptyString, notMet: NonEmptyString }).strict().optional()
 })
 
 const PerformanceBaseShape = {
@@ -401,7 +500,7 @@ const PerformanceBaseShape = {
     preparationSeconds: z.number().int().min(0).max(600)
   }),
   feedbackPriorities: z.array(NonEmptyString).min(1).max(4),
-  rubric: z.array(RubricItemSchema).min(3).max(5)
+  rubric: z.array(RubricItemSchema).min(3).max(6)
 }
 
 const SpokenPerformanceTaskSchema = z.object({
@@ -439,7 +538,9 @@ export const PerformanceTaskV3Schema = z.discriminatedUnion('mode', [
 ])
 
 export const ReviewPolicySchema = z.object({
-  intervalDays: z.array(z.number().int().positive()).min(1).max(8)
+  intervalDays: z.array(z.number().int().positive().max(180)).min(1).max(8),
+  /** Opt in to alternating this lesson's due reviews with other capabilities in the Today queue. */
+  interleave: z.boolean().optional()
 }).superRefine((policy, context) => {
   policy.intervalDays.forEach((day, index) => {
     if (index > 0 && day <= policy.intervalDays[index - 1]) {
@@ -457,11 +558,14 @@ export const LessonV3Schema = z.object({
   lessonId: IdSchema,
   title: NonEmptyString,
   summary: NonEmptyString,
-  cefrLevel: z.enum(['B1', 'B2', 'C1']),
+  cefrLevel: z.enum(['A2', 'B1', 'B2', 'C1']),
   durationMinutes: z.number().int().min(5).max(30),
   learningObjectives: z.array(NonEmptyString).min(1),
   capabilities: z.array(CapabilityIdSchema).length(1),
   workflowTags: z.array(IdSchema).min(1),
+  /** Bump when the lesson changes in a way learners who already started it should be told about. */
+  contentRevision: z.number().int().positive().default(1),
+  storyBank: StoryBankRequirementSchema.optional(),
   sourceRegistry: z.array(AuthoritativeSourceSchema).min(1).max(20).optional(),
   sections: z.array(LessonSectionSchema).min(2),
   performanceTask: PerformanceTaskV3Schema,
@@ -479,9 +583,11 @@ export const LessonV3Schema = z.object({
     registryIds.add(source.sourceId)
   })
 
-  const referencedSources: Array<{ source: z.infer<typeof SourceSectionSchema>; path: Array<string | number> }> = []
+  const referencedSources: Array<{ source: { provenance?: z.infer<typeof SourceProvenanceSchema> }; path: Array<string | number> }> = []
   lesson.sections.forEach((section, index) => {
-    if (section.type === 'source') referencedSources.push({ source: section, path: ['sections', index] })
+    if (section.type === 'source' || section.type === 'listening-source' || section.type === 'long-reading') {
+      referencedSources.push({ source: section, path: ['sections', index] })
+    }
   })
   if (lesson.performanceTask.practiceContexts) {
     const contexts = lesson.performanceTask.practiceContexts
@@ -525,25 +631,107 @@ export const LessonV3Schema = z.object({
       context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections', index, 'id'], message: 'Section ids must be unique' })
     }
     sectionIds.add(section.id)
-    if (section.type === 'auto-check') {
-      section.exercises.forEach((exercise, exerciseIndex) => {
+    const groups: Array<{ key: string; exercises: z.infer<typeof ExerciseSchema>[] }> = section.type === 'auto-check' || section.type === 'vocabulary-review'
+      ? [{ key: 'exercises', exercises: section.exercises }]
+      : section.type === 'listening-source'
+        ? [{ key: 'gist', exercises: section.gist }, { key: 'detail', exercises: section.detail }]
+        : section.type === 'long-reading'
+          ? [{ key: 'skim', exercises: section.skim }, { key: 'scan', exercises: section.scan.map((item) => item.exercise) }]
+          : []
+    groups.forEach(({ key, exercises }) => {
+      exercises.forEach((exercise, exerciseIndex) => {
         if (exerciseIds.has(exercise.id)) {
           context.addIssue({
             code: z.ZodIssueCode.custom,
-            path: ['sections', index, 'exercises', exerciseIndex, 'id'],
+            path: ['sections', index, key, exerciseIndex, 'id'],
             message: 'Exercise ids must be unique across the lesson'
           })
         }
         exerciseIds.add(exercise.id)
       })
+    })
+
+    if (section.type === 'vocabulary-review') {
+      const taught = new Set(lesson.sections.flatMap((candidate) =>
+        candidate.type === 'language-support' ? candidate.vocabulary.map((item) => item.word.trim().toLowerCase()) : []
+      ))
+      section.wordRefs.forEach((word, wordIndex) => {
+        if (!taught.has(word.trim().toLowerCase())) {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['sections', index, 'wordRefs', wordIndex],
+            message: `Review word "${word}" is not taught in this lesson's language-support section`
+          })
+        }
+      })
+    }
+    if (section.type === 'listening-source') {
+      const speakerIds = new Set(section.speakers.map((speaker) => speaker.id))
+      if (speakerIds.size !== section.speakers.length) {
+        context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections', index, 'speakers'], message: 'Speaker ids must be unique' })
+      }
+      section.turns.forEach((turn, turnIndex) => {
+        if (!speakerIds.has(turn.speakerId)) {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['sections', index, 'turns', turnIndex, 'speakerId'],
+            message: `Unknown speaker: ${turn.speakerId}`
+          })
+        }
+      })
+      if (new Set(section.turns.map((turn) => turn.speakerId)).size < 2) {
+        context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections', index, 'turns'], message: 'At least two speakers must take part in the conversation' })
+      }
+    }
+    if (section.type === 'long-reading') {
+      const partIds = new Set(section.parts.map((part) => part.id))
+      if (partIds.size !== section.parts.length) {
+        context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections', index, 'parts'], message: 'Part ids must be unique' })
+      }
+      section.scan.forEach((item, scanIndex) => {
+        if (!partIds.has(item.locatePartId)) {
+          context.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: ['sections', index, 'scan', scanIndex, 'locatePartId'],
+            message: `locatePartId must name a part of the reading: ${item.locatePartId}`
+          })
+        }
+      })
+      const totalWords = section.parts.reduce((total, part) => total + countWords(part.content), 0)
+      if (totalWords < LONG_READING_MIN_WORDS || totalWords > LONG_READING_MAX_WORDS) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['sections', index, 'parts'],
+          message: `A long reading needs ${LONG_READING_MIN_WORDS} to ${LONG_READING_MAX_WORDS} words in total, found ${totalWords}`
+        })
+      }
     }
   })
-  if (!lesson.sections.some((section) => section.type === 'source')) {
+  if (!lesson.sections.some((section) => section.type === 'source' || section.type === 'listening-source' || section.type === 'long-reading')) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['sections'], message: 'At least one source section is required' })
   }
   const rubricIds = lesson.performanceTask.rubric.map((item) => item.id)
   if (new Set(rubricIds).size !== rubricIds.length) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['performanceTask', 'rubric'], message: 'Rubric ids must be unique' })
+  }
+  if (lesson.cefrLevel === 'A2') {
+    const rubric = lesson.performanceTask.rubric
+    if (!rubric.some((item) => item.dimension && LANGUAGE_DIMENSIONS.includes(item.dimension))) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['performanceTask', 'rubric'],
+        message: 'A2 lessons need at least one language criterion (accuracy, range or register)'
+      })
+    }
+    rubric.forEach((item, index) => {
+      if (!item.anchors) {
+        context.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ['performanceTask', 'rubric', index, 'anchors'],
+          message: 'A2 rubric criteria need anchors describing met and not-met'
+        })
+      }
+    })
   }
 })
 
@@ -560,6 +748,9 @@ export type Exercise = z.infer<typeof ExerciseSchema>
 export type AuthoritativeSource = z.infer<typeof AuthoritativeSourceSchema>
 export type SourceProvenance = z.infer<typeof SourceProvenanceSchema>
 export type SourceSection = z.infer<typeof SourceSectionSchema>
+export type VocabularyReviewSection = z.infer<typeof VocabularyReviewSectionSchema>
+export type ListeningSourceSection = z.infer<typeof ListeningSourceSectionSchema>
+export type LongReadingSection = z.infer<typeof LongReadingSectionSchema>
 export type LessonSection = z.infer<typeof LessonSectionSchema>
 export type PracticeContext = z.infer<typeof PracticeContextSchema>
 export type ModelAudioSource = z.infer<typeof ModelAudioSourceSchema>
@@ -582,7 +773,19 @@ type CanonicalAnnotatedSourceSection = Omit<SourceSection, 'provenance'> & {
 }
 
 export type CanonicalSourceSection = CanonicalUnannotatedSourceSection | CanonicalAnnotatedSourceSection
-export type CanonicalLessonSection = Exclude<LessonSection, SourceSection> | CanonicalSourceSection
+
+type WithResolvedSources<T extends { provenance?: SourceProvenance }> = Omit<T, 'provenance'> & {
+  provenance?: SourceProvenance
+  resolvedSources?: [AuthoritativeSource, ...AuthoritativeSource[]]
+}
+export type CanonicalListeningSourceSection = WithResolvedSources<ListeningSourceSection>
+export type CanonicalLongReadingSection = WithResolvedSources<LongReadingSection>
+
+export type CanonicalLessonSection =
+  | Exclude<LessonSection, SourceSection | ListeningSourceSection | LongReadingSection>
+  | CanonicalSourceSection
+  | CanonicalListeningSourceSection
+  | CanonicalLongReadingSection
 export type CanonicalPracticeContext = Omit<PracticeContext, 'artifacts'> & {
   artifacts: CanonicalSourceSection[]
 }
@@ -610,10 +813,12 @@ export type CanonicalPerformanceTaskV3 =
 
 export interface CanonicalLesson {
   sourceSchemaVersion: 'v1' | 'v2' | 'v3'
+  contentRevision: number
+  storyBank?: z.infer<typeof StoryBankRequirementSchema>
   lessonId: string
   title: string
   summary: string
-  cefrLevel: 'B1' | 'B2' | 'C1'
+  cefrLevel: 'A2' | 'B1' | 'B2' | 'C1'
   durationMinutes: number
   learningObjectives: string[]
   capabilities: CapabilityId[]

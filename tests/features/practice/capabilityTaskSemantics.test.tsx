@@ -1,12 +1,13 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { getBundledCatalog } from '@/content/catalog'
+import { buildCatalog, getBundledCatalog } from '@/content/catalog'
 import { createEmptyLessonProgress, type DurableCapabilityPhase } from '@/domain/progress/progress'
 import { CapabilityTask } from '@/features/practice/CapabilityTask'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 
 import { isBlocked } from '../../helpers/aria'
+import { validWrittenMission } from '../../helpers/lessonFixtures'
 
 function mission(lessonId: string) {
   const lesson = getBundledCatalog().lessons.find((item) => item.lessonId === lessonId)
@@ -117,4 +118,37 @@ describe('CapabilityTask semantics', () => {
     await user.type(screen.getByRole('textbox'), 'Retry text in English.')
     expect(reasonOf(screen.getByRole('button', { name: /sang transfer/i }))).toMatch(/chấm|rubric/i)
   })
-})
+
+  it('shows what meeting and missing each criterion look like when the rubric has anchors', async () => {
+    const user = userEvent.setup()
+    const raw = structuredClone(validWrittenMission) as Record<string, any>
+    raw.cefrLevel = 'A2'
+    raw.performanceTask.rubric = [
+      { id: 'task', label: 'Task', description: 'Does what was asked.', dimension: 'task', anchors: { met: 'Names the issue and the next step.', notMet: 'Only describes the issue.' } },
+      { id: 'accuracy', label: 'Accuracy', description: 'Basic grammar.', dimension: 'accuracy', anchors: { met: 'Short sentences, mostly correct.', notMet: 'Errors hide the meaning.' } },
+      { id: 'range', label: 'Range', description: 'Varied words.', dimension: 'range', anchors: { met: 'Uses useful chunks.', notMet: 'Repeats one word.' } }
+    ]
+    const lesson = buildCatalog([['a2.json', raw]]).lessons[0]
+    const task = lesson.performanceTask
+    if (!task) throw new Error('A2 fixture failed to load')
+    resumeAt(lesson.lessonId, 'transfer')
+    render(<CapabilityTask lesson={lesson} task={task} />)
+    await user.type(screen.getByRole('textbox'), 'A draft to lock.')
+    await user.click(screen.getByRole('button', { name: /chốt bản nháp/i }))
+
+    const group = screen.getByRole('group', { name: 'Accuracy' })
+    expect(within(group).getByText('Short sentences, mostly correct.')).toBeTruthy()
+    expect(within(group).getByText('Errors hide the meaning.')).toBeTruthy()
+    expect(within(group).getByText('Đạt trông như')).toBeTruthy()
+  })
+
+  it('shows no anchor block for criteria without anchors', async () => {
+    const user = userEvent.setup()
+    const { lesson, task } = mission('workplace-issue-update-b1')
+    resumeAt(lesson.lessonId, 'transfer')
+    render(<CapabilityTask lesson={lesson} task={task} />)
+    await user.type(screen.getByRole('textbox'), 'A draft to lock.')
+    await user.click(screen.getByRole('button', { name: /chốt bản nháp/i }))
+
+    expect(screen.queryByText(/đạt trông như/i)).toBeNull()
+  })})

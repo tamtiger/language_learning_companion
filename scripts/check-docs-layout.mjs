@@ -11,6 +11,7 @@ const REQUIRED_DOCS = [
   'docs/CONVENTIONS.md',
   'docs/EVALUATION_PROTOCOL.md',
   'docs/RELEASE.md',
+  'docs/ADDING_LESSONS.md',
   'docs/prompts/LEARNER_AUDIT_PROMPT.md'
 ]
 const REMOVED_PROMPTS = [
@@ -28,6 +29,13 @@ const OFFLINE_TOPICS = [
   ['giọng TTS của máy', /(TTS|Web Speech)[^.]*(giọng|voice)[^.]*(máy|thiết bị)/i]
 ]
 const OFFLINE_DOCS = ['README.md', 'docs/PRODUCT.md']
+
+/** Steps the guide for adding a lesson must spell out. */
+const ADDING_LESSON_STEPS = [
+  ['đường dẫn file', /content\/missions\/<capability>\/<lessonId>\.json/],
+  ['provenance', /provenance/i],
+  ['lệnh kiểm', /npx vitest run tests\/content[\s\S]*npm test/]
+]
 
 const LINK_PATTERN = /\[[^\]]*\]\(([^)\s]+)\)/g
 
@@ -101,6 +109,18 @@ export function checkDocsLayout(root) {
       if (!pattern.test(text)) errors.push(file + ' thiếu chủ đề offline: ' + label)
     }
   }
+
+  const guidePath = join(root, 'docs/ADDING_LESSONS.md')
+  if (existsSync(guidePath)) {
+    const guide = readFileSync(guidePath, 'utf8')
+    for (const [label, pattern] of ADDING_LESSON_STEPS) {
+      if (!pattern.test(guide)) errors.push('docs/ADDING_LESSONS.md thiếu bước: ' + label)
+    }
+  }
+  const readme = existsSync(join(root, 'README.md')) ? readFileSync(join(root, 'README.md'), 'utf8') : ''
+  if (!readme.includes('docs/ADDING_LESSONS.md')) errors.push('README.md không liên kết tới docs/ADDING_LESSONS.md')
+  const contentDoc = existsSync(join(root, 'docs/CONTENT.md')) ? readFileSync(join(root, 'docs/CONTENT.md'), 'utf8') : ''
+  if (!contentDoc.includes('ADDING_LESSONS.md')) errors.push('docs/CONTENT.md không liên kết tới ADDING_LESSONS.md')
 
   const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
   const changelogScript = manifest.scripts?.['check:changelog']

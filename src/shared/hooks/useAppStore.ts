@@ -25,6 +25,15 @@ import {
   type ProgressByLesson
 } from '../../domain/progress/progress'
 import {
+  addStoryEntry,
+  markStoryPracticedEntry,
+  removeStoryEntry,
+  updateStoryEntry,
+  type StoryEntry,
+  type StoryInput
+} from '../../domain/progress/storyBank'
+import {
+  CURRENT_STORAGE_VERSION,
   createBackup,
   migrateProgressEnvelope,
   parseBackup,
@@ -33,6 +42,15 @@ import {
 } from '../../infrastructure/storage/progressStorage'
 
 const catalog = getBundledCatalog()
+
+function revisionOf(lessonId: string): number {
+  return catalog.lessons.find((lesson) => lesson.lessonId === lessonId)?.contentRevision ?? 1
+}
+
+/** Fresh progress for a lesson, stamped with the lesson's current content revision. */
+function emptyProgress(lessonId: string) {
+  return createEmptyLessonProgress(revisionOf(lessonId))
+}
 const memoryValues = new Map<string, string>()
 const memoryStorage: StateStorage = {
   getItem: (name) => memoryValues.get(name) ?? null,
@@ -101,6 +119,12 @@ export interface AppState {
   markLessonComplete: (lessonId: string, completed: boolean) => void
   /** Saves the attempt and returns the stored assessment (transfer and review only). */
   recordCapabilityAttempt: (attempt: AttemptEvidence, policy: AttemptPolicy) => AttemptAssessment | null
+  /** Stories the learner can tell in interviews: short labels and competencies only. */
+  storyBank: StoryEntry[]
+  addStory: (story: StoryInput) => string | null
+  updateStory: (id: string, patch: Partial<StoryInput>) => boolean
+  removeStory: (id: string) => void
+  markStoryPracticed: (id: string) => void
   restoreEnvelope: (envelope: ProgressEnvelope) => void
   restartLesson: (lessonId: string) => void
   startLessonRepeat: (lessonId: string) => void
@@ -109,7 +133,7 @@ export interface AppState {
 
 export type PersistedAppState = Pick<
   AppState,
-  'theme' | 'currentCefrLevel' | 'activeLessonId' | 'lessonProgress'
+  'theme' | 'currentCefrLevel' | 'activeLessonId' | 'lessonProgress' | 'storyBank'
 >
 
 let persistenceQuarantined = false
@@ -189,7 +213,8 @@ const PersistedAppStateMetadataSchema = z.object({
   theme: z.enum(['dark', 'light']),
   currentCefrLevel: z.enum(['B1', 'B2', 'C1']).nullable().default(null),
   activeLessonId: z.string().nullable().default(null),
-  lessonProgress: z.record(z.unknown())
+  lessonProgress: z.record(z.unknown()),
+  storyBank: z.array(z.unknown()).optional()
 }).strict()
 
 /** Returns null when persisted data is unsupported or cannot be validated safely. */
@@ -197,14 +222,15 @@ export function migratePersistedAppState(
   persisted: unknown,
   version: number
 ): PersistedAppState | null {
-  if (version !== 3 && version !== 4 && version !== 5) return null
+  if (version !== 3 && version !== 4 && version !== 5 && version !== CURRENT_STORAGE_VERSION) return null
   const metadata = PersistedAppStateMetadataSchema.safeParse(persisted)
   if (!metadata.success) return null
 
   const migrated = migrateProgressEnvelope({
     storageVersion: version,
     lessonProgress: metadata.data.lessonProgress,
-    settings: { theme: metadata.data.theme }
+    settings: { theme: metadata.data.theme },
+    ...(version === CURRENT_STORAGE_VERSION ? { storyBank: metadata.data.storyBank ?? [] } : {})
   })
   if (!migrated.success) return null
 
@@ -212,12 +238,13 @@ export function migratePersistedAppState(
     theme: migrated.data.settings.theme,
     currentCefrLevel: metadata.data.currentCefrLevel,
     activeLessonId: metadata.data.activeLessonId,
-    lessonProgress: migrated.data.lessonProgress
+    lessonProgress: migrated.data.lessonProgress,
+    storyBank: migrated.data.storyBank
   }
 }
 
 export function createCapabilityBackup(
-  source: Pick<AppState, 'theme' | 'lessonProgress'>,
+  source: Pick<AppState, 'theme' | 'lessonProgress' | 'storyBank'>,
   exportedAt = new Date().toISOString()
 ): ProgressBackup {
   const lessonProgress = Object.fromEntries(
@@ -233,9 +260,10 @@ export function createCapabilityBackup(
     ])
   )
   return createBackup({
-    storageVersion: 5,
+    storageVersion: CURRENT_STORAGE_VERSION,
     lessonProgress,
-    settings: { theme: source.theme }
+    settings: { theme: source.theme },
+    storyBank: source.storyBank
   }, exportedAt)
 }
 
@@ -250,11 +278,13 @@ export const useAppStore = create<AppState>()(
       lessons: catalog.lessons,
       contentErrors: catalog.errors,
       lessonProgress: {},
+      storyBank: [],
       persistence: { status: baselinePersistenceStatus },
+
 
       setActiveLessonId: (activeLessonId) => set({ activeLessonId }),
       setCurrentSection: (lessonId, currentSectionId) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         return {
           lessonProgress: {
             ...state.lessonProgress,
@@ -268,7 +298,7 @@ export const useAppStore = create<AppState>()(
         }
       }),
       setActivePhase: (lessonId, activePhase) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         return {
           lessonProgress: {
             ...state.lessonProgress,
@@ -282,7 +312,7 @@ export const useAppStore = create<AppState>()(
         }
       }),
       setActiveProcessEvidence: (lessonId, activeProcessEvidence) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         return {
           lessonProgress: {
             ...state.lessonProgress,
@@ -291,7 +321,7 @@ export const useAppStore = create<AppState>()(
         }
       }),
       setInputProgress: (lessonId, inputProgress) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         const { inputProgress: _previous, ...rest } = current
         return {
           lessonProgress: {
@@ -301,7 +331,7 @@ export const useAppStore = create<AppState>()(
         }
       }),
       markExerciseCorrect: (lessonId, exerciseId) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         if (current.completedExerciseIds.includes(exerciseId)) return {}
         return {
           lessonProgress: {
@@ -316,7 +346,7 @@ export const useAppStore = create<AppState>()(
         }
       }),
       markLessonComplete: (lessonId, completed) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const current = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         return {
           lessonProgress: {
             ...state.lessonProgress,
@@ -332,7 +362,7 @@ export const useAppStore = create<AppState>()(
       recordCapabilityAttempt: (rawAttempt, policy) => {
         let assessment: AttemptAssessment | null = null
         set((state) => {
-          const current = state.lessonProgress[rawAttempt.lessonId] ?? createEmptyLessonProgress()
+          const current = state.lessonProgress[rawAttempt.lessonId] ?? emptyProgress(rawAttempt.lessonId)
           const preserveActiveCycle = rawAttempt.phase === 'review' && current.status === 'in-progress'
           assessment = rawAttempt.phase === 'transfer'
             ? assessTransfer(rawAttempt, policy.contract)
@@ -374,22 +404,40 @@ export const useAppStore = create<AppState>()(
         })
         return assessment
       },
+      addStory: (story) => {
+        const id = typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
+          ? crypto.randomUUID()
+          : `story-${Date.now()}`
+        const result = addStoryEntry(useAppStore.getState().storyBank, story, new Date(), id)
+        if (!result.ok) return null
+        set({ storyBank: result.stories })
+        return id
+      },
+      updateStory: (id, patch) => {
+        const result = updateStoryEntry(useAppStore.getState().storyBank, id, patch)
+        if (!result.ok) return false
+        set({ storyBank: result.stories })
+        return true
+      },
+      removeStory: (id) => set((state) => ({ storyBank: removeStoryEntry(state.storyBank, id) })),
+      markStoryPracticed: (id) => set((state) => ({ storyBank: markStoryPracticedEntry(state.storyBank, id, new Date()) })),
       restoreEnvelope: (envelope) => {
         allowPersistenceRecovery()
         set({
           theme: envelope.settings.theme,
           lessonProgress: envelope.lessonProgress,
+          storyBank: envelope.storyBank,
           activeLessonId: null
         })
       },
       restartLesson: (lessonId) => set((state) => ({
         lessonProgress: {
           ...state.lessonProgress,
-          [lessonId]: createEmptyLessonProgress()
+          [lessonId]: emptyProgress(lessonId)
         }
       })),
       startLessonRepeat: (lessonId) => set((state) => {
-        const { inputProgress: _previous, ...current } = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const { inputProgress: _previous, ...current } = state.lessonProgress[lessonId] ?? emptyProgress(lessonId)
         return {
           lessonProgress: {
             ...state.lessonProgress,
@@ -402,6 +450,7 @@ export const useAppStore = create<AppState>()(
               completedExerciseIds: [],
               activeProcessEvidence: null,
               transferCompleted: false,
+              contentRevision: revisionOf(lessonId),
               lastActivityAt: new Date().toISOString()
             }
           }
@@ -412,13 +461,14 @@ export const useAppStore = create<AppState>()(
         set({
           currentCefrLevel: null,
           activeLessonId: null,
-          lessonProgress: {}
+          lessonProgress: {},
+          storyBank: []
         })
       }
     }),
     {
       name: PERSIST_KEY,
-      version: 5,
+      version: CURRENT_STORAGE_VERSION,
       storage: createAppPersistStorage(),
       onRehydrateStorage: () => {
         const recoveryEpoch = persistenceRecoveryEpoch
@@ -444,7 +494,7 @@ export const useAppStore = create<AppState>()(
           && validatedMigrationStates.delete(persisted)
         if (activeHydrationRecoveryEpoch !== persistenceRecoveryEpoch) return current
         if (persisted === undefined) return current
-        const validated = migratePersistedAppState(persisted, 5)
+        const validated = migratePersistedAppState(persisted, CURRENT_STORAGE_VERSION)
         if (!validated) throw new Error('Persisted app state is unsupported or invalid')
         migrationWriteAuthorized = migrated
         return { ...current, ...validated }
@@ -453,7 +503,8 @@ export const useAppStore = create<AppState>()(
         theme: state.theme,
         currentCefrLevel: state.currentCefrLevel,
         activeLessonId: state.activeLessonId,
-        lessonProgress: state.lessonProgress
+        lessonProgress: state.lessonProgress,
+        storyBank: state.storyBank
       })
     }
   )

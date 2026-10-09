@@ -20,8 +20,8 @@ Không component nào đọc raw JSON shape. Không domain module nào import Re
   migration/normalization và catalog validation.
 - `src/domain/learning`: phase transitions, rubric và completion rules.
 - `src/domain/progress`: attempt evidence, capability aggregation, review scheduling và Today selectors.
-- `src/infrastructure/storage`: `ProgressEnvelope` với `storageVersion: 5`, validated
-  import/export/reset và canonical migration V3/V4 → V5.
+- `src/infrastructure/storage`: `ProgressEnvelope` với `storageVersion: 6`, validated
+  import/export/reset và canonical migration V3/V4/V5 → V6.
 - `src/app`: semantic app shell và typed in-memory navigation.
 - `src/features/catalog`, `today`, `lesson`, `practice`, `progress`: UI orchestration.
 - `src/shared`: UI primitives, media adapters và generic hooks; không chứa business rules.
@@ -99,7 +99,7 @@ lưu bằng ID có cấu trúc, không dùng free-text feedback.
 
 ## Progress và privacy
 
-`ProgressEnvelope` V5 lưu status/current section, `activePhase`, các exercise đã đúng,
+`ProgressEnvelope` V6 lưu status/current section, `activePhase`, các exercise đã đúng,
 aggregate count, tối đa 50 attempt metadata gần nhất, optional `focusCriterionId`,
 transfer flag, review stage/`nextReviewAt`, `activeProcessEvidence` và settings.
 Mỗi attempt bắt buộc có duration dương, `wordCount` nullable và preparation time
@@ -116,7 +116,7 @@ version 5.
 
 Attempt transfer và review lưu thêm `assessment` (`qualifies` và danh sách reason code) cùng
 `contentRevision` (băm ổn định của hợp đồng bằng chứng lúc làm). Hai trường này là tùy chọn
-nên `storageVersion` vẫn là 5 và backup cũ vẫn nhập được; attempt không có `assessment` hiển
+(thay đổi đó không cần migration) và backup cũ vẫn nhập được; attempt không có `assessment` hiển
 thị là "chưa có đánh giá" và không tính đạt. Progress dùng kết quả đã lưu, không chấm lại
 bằng nội dung hiện tại; nếu `contentRevision` khác hợp đồng hiện tại thì chỉ gắn nhãn
 "bài đã đổi sau lượt này".
@@ -129,8 +129,10 @@ không đếm một independent baseline/retry như transfer đạt.
 
 inputProgress (tùy chọn) là điểm tiếp tục của phần luyện đầu vào: vị trí và điểm perception, bước sentence chunks, trạng thái learning loop, stage và các lựa chọn của reading ladder. Nó chỉ là metadata, được xóa khi hoàn tất input hoặc luyện lại.
 
+Version 6 thêm `contentRevision` vào mỗi lesson progress (phiên bản nội dung mà vòng học hiện tại bắt đầu; migration đặt 1) và `storyBank` ở mức envelope: tối đa 30 câu chuyện, mỗi câu chỉ có nhãn ngắn (≤ 60 ký tự), 1 đến 4 năng lực và thời điểm tạo hoặc luyện, không có nội dung câu chuyện. Nhãn do người học đặt nên có thể chứa thông tin nhạy cảm và nằm trong backup.
+
 Không lưu audio/blob URL, transcript, written response hoặc free-text. Backup import
-và Zustand hydration cùng đi qua canonical migration: parse v5 hoặc migrate v3/v4
+và Zustand hydration cùng đi qua canonical migration: parse v6 hoặc migrate v3/v4/v5
 → validate → preview → explicit confirm → atomic replace. Import malformed,
 v1/v2/future version giữ nguyên state và trả recoverable error; không reset ngầm.
 

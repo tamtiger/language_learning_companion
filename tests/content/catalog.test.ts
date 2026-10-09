@@ -1,30 +1,57 @@
 import { describe, expect, it } from 'vitest'
 import { buildCatalog, getBundledCatalog } from '@/content/catalog'
-import { validWrittenMission } from './schema.test'
+import { CAPABILITY_IDS } from '@/content/schema'
+import { readContentInventory } from '../helpers/contentInventory'
+import { validWrittenMission } from '../helpers/lessonFixtures'
 
 describe('capability-first catalog', () => {
-  it('loads every bundled JSON and keeps the six pronunciation legacy lessons', () => {
-    const catalog = getBundledCatalog()
-    expect(catalog.errors).toEqual([])
-    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')).toHaveLength(6)
-    expect(catalog.lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v2')).toHaveLength(0)
+  it('loads and validates every executable lesson JSON on disk', () => {
+    const inventory = readContentInventory()
+
+    expect(inventory.files.length).toBeGreaterThan(0)
+    expect(inventory.catalog.errors).toEqual([])
+    expect(inventory.catalog.lessons).toHaveLength(inventory.files.length)
+    expect(getBundledCatalog().errors).toEqual([])
+    expect(getBundledCatalog().lessons.map((lesson) => lesson.lessonId))
+      .toEqual(inventory.catalog.lessons.map((lesson) => lesson.lessonId))
   })
 
-  it('contains two baseline missions for each of the six primary capabilities', () => {
-    const catalog = getBundledCatalog()
-    const capabilities = catalog.baselineMissions.flatMap((lesson) => lesson.capabilities)
+  it('keeps lesson, section and exercise ids unique', () => {
+    const { catalog } = readContentInventory()
+    const lessonIds = catalog.lessons.map((lesson) => lesson.lessonId)
+    expect(new Set(lessonIds).size).toBe(lessonIds.length)
 
-    expect(catalog.baselineMissions).toHaveLength(12)
-    expect(new Set(capabilities)).toEqual(new Set([
-      'workplace-communication',
-      'technical-reading',
-      'international-meetings',
-      'technical-explanation',
-      'international-interview',
-      'technology-learning'
-    ]))
-    for (const capability of new Set(capabilities)) {
-      expect(capabilities.filter((item) => item === capability)).toHaveLength(2)
+    catalog.lessons.forEach((lesson) => {
+      const sectionIds = lesson.sections.map((section) => section.id)
+      const exerciseIds = lesson.sections.flatMap((section) =>
+        section.type === 'auto-check' ? section.exercises.map((exercise) => exercise.id) : []
+      )
+      expect(new Set(sectionIds).size, lesson.lessonId).toBe(sectionIds.length)
+      expect(new Set(exerciseIds).size, lesson.lessonId).toBe(exerciseIds.length)
+    })
+  })
+
+  it('keeps every capability mission complete and only pronunciation lessons on the legacy schema', () => {
+    const inventory = readContentInventory()
+
+    expect(inventory.catalog.baselineMissions.length).toBe(inventory.byVersion.v3.length)
+    inventory.catalog.baselineMissions.forEach((lesson) => {
+      expect(lesson.performanceTask?.rubric.length, lesson.lessonId).toBeGreaterThanOrEqual(3)
+      expect(lesson.performanceTask?.baselinePrompt, lesson.lessonId).toBeTruthy()
+      expect(lesson.performanceTask?.retryPrompt, lesson.lessonId).toBeTruthy()
+      expect(lesson.performanceTask?.transferPrompt, lesson.lessonId).toBeTruthy()
+      expect(lesson.performanceTask?.reviewPrompt, lesson.lessonId).toBeTruthy()
+      expect(lesson.reviewPolicy.intervalDays.length, lesson.lessonId).toBeGreaterThan(0)
+    })
+    expect(inventory.byVersion.v2).toHaveLength(0)
+    expect(inventory.byVersion.v1.every((lesson) => lesson.performanceTask === undefined)).toBe(true)
+  })
+
+  it('covers every primary capability with at least two missions', () => {
+    const { capabilityCounts } = readContentInventory()
+
+    for (const capability of CAPABILITY_IDS) {
+      expect(capabilityCounts.get(capability) ?? 0, capability).toBeGreaterThanOrEqual(2)
     }
   })
 

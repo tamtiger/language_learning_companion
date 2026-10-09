@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { normalizeLesson, parseLesson } from '@/content/normalization'
-import { validWrittenMission } from './schema.test'
+import { validWrittenMission } from '../helpers/lessonFixtures'
 
 const bundledLessons = Object.values(
   import.meta.glob('/content/**/*.json', { eager: true, import: 'default' })

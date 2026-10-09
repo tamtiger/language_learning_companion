@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { getBundledCatalog } from '@/content/catalog'
 import type { CanonicalLesson, CanonicalSourceSection } from '@/content/schema'
+import { collectSources, readContentInventory } from '../helpers/contentInventory'
 
 const SYNTHETIC_DISCLOSURE = 'Synthetic training artifact — non-production.'
 const rawFiles = import.meta.glob('/content/**/*.json', { eager: true }) as Record<string, unknown>
@@ -17,28 +18,6 @@ function lessonById(lessonId: string): CanonicalLesson {
   const lesson = getBundledCatalog().lessons.find((candidate) => candidate.lessonId === lessonId)
   if (!lesson) throw new Error(`Missing lesson fixture: ${lessonId}`)
   return lesson
-}
-
-function collectV3Sources(lesson: CanonicalLesson): CanonicalSourceSection[] {
-  const task = lesson.performanceTask
-  const sectionSources = lesson.sections.filter(
-    (section): section is CanonicalSourceSection => section.type === 'source'
-  )
-  if (!task) return sectionSources
-
-  const contextSources = task.practiceContexts
-    ? [
-        ...task.practiceContexts.baseline.artifacts,
-        ...(task.practiceContexts.retry?.artifacts ?? []),
-        ...task.practiceContexts.transfer.artifacts,
-        ...task.practiceContexts.review.artifacts
-      ]
-    : []
-  const ladderSources = task.mode === 'written' && task.readingLadder
-    ? [task.readingLadder.trainingSource]
-    : []
-
-  return [...sectionSources, ...contextSources, ...ladderSources]
 }
 
 function collectRawProvenanceIds(value: unknown, found: string[] = []): string[] {
@@ -63,7 +42,7 @@ function countWords(value: string): number {
 
 describe('curriculum content quality gate', () => {
   it('organizes missions by primary capability and pronunciation as reference content', () => {
-    expect(Object.keys(rawFiles)).toHaveLength(18)
+    expect(Object.keys(rawFiles)).toHaveLength(readContentInventory().files.length)
 
     for (const [path, moduleValue] of Object.entries(rawFiles)) {
       const raw = unwrapModule(moduleValue)
@@ -93,18 +72,15 @@ describe('curriculum content quality gate', () => {
     expect(Object.keys(rawFiles).every((path) => !path.includes('/content/modules/'))).toBe(true)
   })
 
-  it('keeps the complete 18-lesson inventory and traverses every source surface', () => {
+  it('keeps the complete inventory and traverses every source surface', () => {
+    const inventory = readContentInventory()
     const lessons = getBundledCatalog().lessons
-    const v3 = lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v3')
-    const v1 = lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v1')
-    const v3Sources = v3.flatMap(collectV3Sources)
-    const legacySources = v1.flatMap((lesson) => lesson.sections.filter((section) => section.type === 'source'))
 
-    expect(lessons).toHaveLength(18)
-    expect(v3).toHaveLength(12)
-    expect(v1).toHaveLength(6)
-    expect(v3Sources).toHaveLength(75)
-    expect(legacySources).toHaveLength(6)
+    expect(inventory.catalog.errors).toEqual([])
+    expect(lessons).toHaveLength(inventory.files.length)
+    expect(lessons.length).toBe(inventory.byVersion.v1.length + inventory.byVersion.v3.length)
+    // Every source node in the JSON must be reachable through the catalog, so none escapes the gates.
+    expect(inventory.sourceCount).toBe(inventory.rawSourceCount)
   })
 
   it('gives every capability mission reusable language support and deliberate comprehension checks', () => {
@@ -206,7 +182,7 @@ describe('curriculum content quality gate', () => {
     const lessons = getBundledCatalog().lessons.filter((lesson) => lesson.sourceSchemaVersion === 'v3')
 
     for (const lesson of lessons) {
-      for (const source of collectV3Sources(lesson)) {
+      for (const source of collectSources(lesson)) {
         const label = `${lesson.lessonId}:${source.id}`
         if (source.provenance) {
           expect(source.resolvedSources?.map((item) => item.sourceId), label)
@@ -239,7 +215,7 @@ describe('curriculum content quality gate', () => {
   })
 
   it('binds HTTP semantics to the RFCs without certifying the fictional API', () => {
-    const apiSources = collectV3Sources(lessonById('learn-api-from-docs-b2'))
+    const apiSources = collectSources(lessonById('learn-api-from-docs-b2'))
     const referencedUrls = new Set(apiSources.flatMap((source) =>
       source.resolvedSources?.map((item) => item.canonicalUrl) ?? []
     ))
@@ -643,7 +619,7 @@ describe('content accuracy', () => {
 
   it('discloses adapted synthetic artifacts through their adaptation note', () => {
     for (const lesson of getBundledCatalog().lessons) {
-      for (const source of collectV3Sources(lesson)) {
+      for (const source of collectSources(lesson)) {
         const provenance = source.provenance
         if (provenance?.origin === 'synthetic' && (provenance.sourceIds?.length ?? 0) > 0) {
           expect(provenance.adaptationNote?.length ?? 0, `${lesson.lessonId}/${source.id}`).toBeGreaterThan(0)

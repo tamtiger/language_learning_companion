@@ -65,9 +65,9 @@ export function Settings() {
         setMessage(`Backup không hợp lệ hoặc không thuộc version được hỗ trợ; dữ liệu hiện tại được giữ nguyên. ${result.error}`)
         return
       }
-      const { storageVersion, lessonProgress, settings } = result.data
+      const { storageVersion, lessonProgress, settings, storyBank } = result.data
       setPending({
-        envelope: { storageVersion, lessonProgress, settings },
+        envelope: { storageVersion, lessonProgress, settings, storyBank },
         fileName: file.name
       })
       setMessage(null)
@@ -85,7 +85,7 @@ export function Settings() {
     if (!pending || isReading) return
     useAppStore.getState().restoreEnvelope(pending.envelope)
     setPending(null)
-    setMessage(`Đã import backup v5 từ ${pending.fileName} sau khi validate và xác nhận.`)
+    setMessage(`Đã import backup v6 từ ${pending.fileName} sau khi validate và xác nhận.`)
   }
 
   return (
@@ -113,8 +113,8 @@ export function Settings() {
           Lần xuất cuối: {lastExportedAt ? new Date(lastExportedAt).toLocaleString('vi-VN') : 'chưa từng'}
         </p>
       </div>      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
-        <h2 className="flex items-center gap-2 text-xl font-bold"><Download className="h-5 w-5 text-purple-400" />Backup version 5</h2>
-        <p className="mt-2 text-sm text-zinc-400">Nhận backup v5 và tự migrate backup v3/v4; backup v1/v2 hoặc version tương lai bị từ chối.</p>
+        <h2 className="flex items-center gap-2 text-xl font-bold"><Download className="h-5 w-5 text-purple-400" />Backup version 6</h2>
+        <p className="mt-2 text-sm text-zinc-400">Nhận backup v6 và tự migrate backup v3/v4/v5; backup v1/v2 hoặc version tương lai bị từ chối.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <button type="button" onClick={exportBackup} className="rounded-xl bg-purple-700 px-4 py-3 font-bold">Tải backup metadata</button>
           <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-700 px-4 py-3 font-bold focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-purple-400">
@@ -124,7 +124,7 @@ export function Settings() {
         </div>
         {pending && (
           <div className="mt-5 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
-            <p className="text-sm">Đã validate backup v5 từ {pending.fileName}. Xác nhận mới thay thế progress hiện tại.</p>
+            <p className="text-sm">Đã validate backup v6 từ {pending.fileName}. Xác nhận mới thay thế progress hiện tại.</p>
             <div className="mt-3 flex gap-2">
               <button ref={confirmImportRef} type="button" disabled={isReading} onClick={confirmImport} className="rounded-lg bg-amber-400 px-4 py-2 font-bold text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50">Xác nhận import</button>
               <button type="button" onClick={() => setPending(null)} className="rounded-lg border border-zinc-700 px-4 py-2">Hủy</button>

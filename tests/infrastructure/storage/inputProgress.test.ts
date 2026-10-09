@@ -4,11 +4,12 @@ import { ProgressEnvelopeSchema, migrateProgressEnvelope } from '@/infrastructur
 
 function envelope(inputProgress?: unknown) {
   return {
-    storageVersion: 5,
+    storageVersion: 6,
     lessonProgress: {
       mission: { ...createEmptyLessonProgress(), ...(inputProgress === undefined ? {} : { inputProgress }) }
     },
-    settings: { theme: 'dark' }
+    settings: { theme: 'dark' },
+    storyBank: []
   }
 }
 
