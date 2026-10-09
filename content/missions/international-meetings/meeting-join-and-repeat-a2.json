@@ -1,0 +1,229 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "meeting-join-and-repeat-a2",
+  "title": "Join a meeting and ask someone to repeat (A2)",
+  "summary": "Chào, nói tên, đưa một cập nhật ngắn và lịch sự xin người khác nhắc lại khi bạn chưa nghe rõ.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": ["Chào và nói tên trong cuộc họp", "Nói một cập nhật bằng câu ngắn", "Xin nhắc lại lịch sự khi chưa nghe rõ"],
+  "capabilities": ["international-meetings"],
+  "workflowTags": ["meeting", "repeat-request", "a2-entry"],
+  "sections": [
+    {
+      "id": "meeting-source",
+      "type": "source",
+      "title": "Team sync",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please."
+    },
+    {
+      "id": "meeting-language",
+      "type": "language-support",
+      "title": "Words and phrases for a meeting",
+      "vocabulary": [
+        { "word": "update", "ipa": "/ˈʌp.deɪt/", "definition": "cập nhật", "technicalMeaning": "Một tin ngắn về việc bạn đã làm hoặc đang làm.", "collocations": ["give an update", "a short update"], "example": "My update is short.", "commonMistake": "Nhấn trọng âm ở âm tiết đầu khi là danh từ: UP-date." },
+        { "word": "repeat", "ipa": "/rɪˈpiːt/", "definition": "nhắc lại", "technicalMeaning": "Nói lại một câu để người nghe nghe rõ hơn.", "collocations": ["repeat that", "please repeat"], "example": "Could you repeat that, please?", "commonMistake": "Nói \"repeat that\"; không nói \"repeat to that\"." },
+        { "word": "hear", "ipa": "/hɪr/", "definition": "nghe thấy", "technicalMeaning": "Nhận được âm thanh của người đang nói.", "collocations": ["hear you", "cannot hear"], "example": "Sorry, I cannot hear you.", "commonMistake": "Dùng \"hear\" cho âm thanh; dùng \"listen\" khi chủ động nghe." },
+        { "word": "fix", "ipa": "/fɪks/", "definition": "sửa", "technicalMeaning": "Làm cho lỗi hoặc vấn đề không còn nữa.", "collocations": ["fix a bug", "fix the problem"], "example": "I fixed the login bug.", "commonMistake": "Dùng \"fixed\" cho việc đã xong: I fixed, không phải I fix yesterday." },
+        { "word": "slowly", "ipa": "/ˈsloʊ.li/", "definition": "chậm", "technicalMeaning": "Nói với tốc độ chậm để người khác hiểu.", "collocations": ["speak slowly", "a bit slowly"], "example": "Could you speak more slowly?", "commonMistake": "Dùng slowly sau động từ speak, không dùng slow." }
+      ],
+      "expressions": [
+        { "phrase": "Hello, I am ___ from ___.", "meaning": "Chào và nói tên cùng nhóm của bạn.", "tone": "neutral", "example": "Hello, I am Linh from the app team.", "alternatives": ["Hi, this is ___."] },
+        { "phrase": "My update is ___.", "meaning": "Mở đầu cập nhật của bạn.", "tone": "neutral", "example": "My update is short. I fixed the login bug.", "alternatives": ["Here is my update."] },
+        { "phrase": "Sorry, could you repeat that?", "meaning": "Xin nhắc lại khi chưa nghe rõ.", "tone": "neutral", "example": "Sorry, could you repeat that?", "alternatives": ["Sorry, could you say that again?"] },
+        { "phrase": "Could you speak a bit more slowly?", "meaning": "Nhờ người khác nói chậm hơn.", "tone": "neutral", "example": "Could you speak a bit more slowly, please?", "alternatives": ["Could you slow down a little?"] }
+      ]
+    },
+    {
+      "id": "meeting-check",
+      "type": "auto-check",
+      "title": "Check your meeting English",
+      "exercises": [
+        {
+          "id": "meeting-ask-repeat",
+          "type": "choice",
+          "question": "Câu nào nhờ người khác nói lại?",
+          "options": ["Sorry, could you repeat that?", "Sorry, I did not repeat that today.", "Thanks, that is all from me."],
+          "correctAnswer": ["Sorry, could you repeat that?"],
+          "explanation": "Could you repeat that là cách lịch sự để nhờ nói lại; hai câu còn lại không phải lời nhờ."
+        },
+        {
+          "id": "meeting-order-request",
+          "type": "ordering",
+          "question": "Sắp xếp các từ thành câu nhờ nhắc lại.",
+          "options": ["could", "Sorry,", "that?", "you", "repeat"],
+          "correctAnswer": ["Sorry,", "could", "you", "repeat", "that?"],
+          "explanation": "Thứ tự là Sorry, could you repeat that."
+        },
+        {
+          "id": "meeting-fill-hear",
+          "type": "fill",
+          "question": "Điền từ: Sorry, I cannot ___ you.",
+          "correctAnswer": ["hear"],
+          "explanation": "Cannot hear you nghĩa là bạn không nghe thấy người nói."
+        },
+        {
+          "id": "meeting-ken-update",
+          "type": "choice",
+          "question": "Ken says: \"I fixed the login bug.\" What is Ken's update?",
+          "options": ["He fixed a bug", "He found a new bug", "He wrote a new test"],
+          "correctAnswer": ["He fixed a bug"],
+          "explanation": "Fixed the login bug nghĩa là Ken đã sửa một lỗi."
+        },
+        {
+          "id": "meeting-slower",
+          "type": "choice",
+          "question": "Bạn nghe nhanh quá. Câu nào phù hợp?",
+          "options": ["Could you speak a bit more slowly?", "Could you speak faster, please?", "I do not want to hear this."],
+          "correctAnswer": ["Could you speak a bit more slowly?"],
+          "explanation": "More slowly nghĩa là nói chậm hơn."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "meeting-join-spoken-task",
+    "mode": "spoken",
+    "title": "Join the meeting and ask for a repeat",
+    "scenario": "Tình huống mô phỏng: bạn vào họp video với nhóm quốc tế, đưa một cập nhật ngắn và nhờ nhắc lại một câu.",
+    "baselinePrompt": "Trong 20–40 giây, nói bằng tiếng Anh: chào, nói tên và một cập nhật ngắn. Chưa xem bài mẫu hay các cụm câu.",
+    "performancePrompt": "Speak in English for 20 to 40 seconds: say hello, your name, one update, and ask Anna to repeat one sentence. (Chào, tên, một cập nhật, nhờ nhắc lại.)",
+    "modelResponse": "Hello, everyone. I am Linh from the app team. My update is short. I fixed the login bug yesterday. Today, I test the fix. I will send a note after the meeting. Sorry, Ken, I could not hear your last sentence. Could you repeat that, please? Thank you.",
+    "retryPrompt": "Speak again in English for 20 to 40 seconds. Fix your weakest criterion.",
+    "transferPrompt": "In 20 to 40 seconds, join a new meeting: say hello, your name, one update and one repeat request.",
+    "reviewPrompt": "In 20 to 40 seconds, join another meeting without looking at the old notes: hello, name, one update and one repeat request.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Team sync",
+        "brief": "Bạn là người thứ ba trong cuộc họp ngắn của nhóm; Anna mời bạn nói.",
+        "artifacts": [
+          {
+            "id": "meeting-baseline-notes",
+            "type": "source",
+            "title": "Team sync",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Design review",
+        "brief": "Sửa bài nói với một cuộc họp khác: Ravi nói nhanh và bạn cần nhờ nhắc lại.",
+        "artifacts": [
+          {
+            "id": "meeting-retry-notes",
+            "type": "source",
+            "title": "Design review",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Meeting: Design review, Wednesday 14:00. Host: Mia. People: Mia, Ravi, you.\nMia: Hi, everyone. Please share one update.\nRavi: I changed the button color. It is blue now.\nMia: Thank you, Ravi. Your turn."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Planning call",
+        "brief": "Một cuộc họp mới: Omar hỏi bạn một câu bạn nghe không rõ.",
+        "artifacts": [
+          {
+            "id": "meeting-transfer-notes",
+            "type": "source",
+            "title": "Planning call",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Meeting: Planning call, Thursday 10:30. Host: Omar. People: Omar, Sara, you.\nOmar: Good morning. Sara, please start.\nSara: I finished the report page.\nOmar: Thanks. You are next. Can you hear me?"
+          }
+        ]
+      },
+      "review": {
+        "title": "Release call",
+        "brief": "Ôn lại sau vài ngày với một cuộc gọi khác.",
+        "artifacts": [
+          {
+            "id": "meeting-review-notes",
+            "type": "source",
+            "title": "Release call",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Meeting: Release call, Friday 16:00. Host: Elena. People: Elena, Chris, you.\nElena: Welcome. Chris, what is your update?\nChris: I tested the payment page. It works.\nElena: Great. Now you, please."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 40,
+      "requiredElements": ["greeting and name", "one update", "repeat request"],
+      "targetSeconds": 20
+    },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 2, "preparationSeconds": 30 },
+    "feedbackPriorities": ["clear short sentences", "polite repeat request", "slow and clear speech"],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "Hello, update and repeat request",
+        "description": "The answer has a greeting with a name, one update and a repeat request.",
+        "dimension": "task",
+        "anchors": { "met": "The listener hears your name, one update and a clear request to repeat.", "notMet": "A part is missing, so the listener does not know your update or request." }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Basic grammar is correct enough for the team to understand.",
+        "dimension": "accuracy",
+        "anchors": { "met": "Short sentences with the right verb, such as \"I fixed the login bug\".", "notMet": "Verbs or word order are wrong, so a sentence is hard to follow." }
+      },
+      {
+        "id": "range",
+        "label": "Meeting phrases",
+        "description": "Uses phrases from the lesson, not only single words.",
+        "dimension": "range",
+        "anchors": { "met": "Uses at least two lesson phrases such as \"My update is\" and \"could you repeat that\".", "notMet": "Uses only single words such as \"update\" and \"again\"." }
+      },
+      {
+        "id": "register",
+        "label": "Polite request",
+        "description": "The repeat request sounds polite.",
+        "dimension": "register",
+        "anchors": { "met": "Says \"Sorry, could you...\" or \"please\" with a friendly voice.", "notMet": "Says \"Again!\" or sounds like an order." }
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          { "id": "meet-pre-1", "audio": { "kind": "speech-synthesis", "text": "Hello, everyone. I am Linh.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What does the speaker do first?", "options": ["Says hello and gives a name", "Asks a question about the bug", "Says goodbye to the team"], "correctAnswer": "Says hello and gives a name" },
+          { "id": "meet-pre-2", "audio": { "kind": "speech-synthesis", "text": "My update is short. I fixed the login bug.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is the update about?", "options": ["A solved problem", "A new meeting time", "A broken keyboard"], "correctAnswer": "A solved problem" },
+          { "id": "meet-pre-3", "audio": { "kind": "speech-synthesis", "text": "Sorry, I could not hear you.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What is the problem?", "options": ["The sound was not clear", "The meeting was too long", "The update was wrong"], "correctAnswer": "The sound was not clear" },
+          { "id": "meet-pre-4", "audio": { "kind": "speech-synthesis", "text": "Could you repeat that, please?", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What does the speaker want?", "options": ["To hear it again", "To end the meeting", "To change the topic"], "correctAnswer": "To hear it again" }
+        ],
+        "training": [
+          { "id": "meet-train-1", "audio": { "kind": "speech-synthesis", "text": "Sorry, could you say that again?", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "Which request is this?", "options": ["Asking for a repeat", "Giving an update", "Saying goodbye"], "correctAnswer": "Asking for a repeat", "feedback": "Nghe could you và again: đây là lời nhờ nhắc lại." },
+          { "id": "meet-train-2", "audio": { "kind": "speech-synthesis", "text": "Could you speak a bit slower?", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What does the speaker ask for?", "options": ["Slower speech", "A longer meeting", "A new topic"], "correctAnswer": "Slower speech", "feedback": "Slower là từ chính: người nói muốn nghe chậm hơn." },
+          { "id": "meet-train-3", "audio": { "kind": "speech-synthesis", "text": "I fixed the bug and wrote a test.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "How many things did the speaker do?", "options": ["Two", "One", "Three"], "correctAnswer": "Two", "feedback": "Có hai việc nối bằng and: fixed the bug và wrote a test." },
+          { "id": "meet-train-4", "audio": { "kind": "speech-synthesis", "text": "Today, I will check the fix again.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What will the speaker do today?", "options": ["Look at the fix once more", "Ask Ken to check again", "Write a new plan"], "correctAnswer": "Look at the fix once more", "feedback": "Chú ý check the fix: đó là việc người nói sẽ làm hôm nay." },
+          { "id": "meet-train-5", "audio": { "kind": "speech-synthesis", "text": "Thank you, Ken. That is clear now.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "How does the speaker feel about Ken's answer?", "options": ["It is clear", "It is wrong", "It is too fast"], "correctAnswer": "It is clear", "feedback": "Clear là từ chính: người nói đã hiểu rồi." },
+          { "id": "meet-train-6", "audio": { "kind": "speech-synthesis", "text": "Sorry, I missed the end of your sentence.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What did the speaker miss?", "options": ["The end of the sentence", "The start of the sentence", "The name of the speaker"], "correctAnswer": "The end of the sentence", "feedback": "Missed the end: người nói không nghe phần cuối câu." }
+        ],
+        "posttest": [
+          { "id": "meet-post-1", "audio": { "kind": "speech-synthesis", "text": "Hello, I am Ken. I fixed the login bug.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What did Ken do?", "options": ["Solved a problem", "Started a meeting", "Asked a question"], "correctAnswer": "Solved a problem" },
+          { "id": "meet-post-2", "audio": { "kind": "speech-synthesis", "text": "Sorry, could you repeat the last part?", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What does the speaker need?", "options": ["To hear it again", "To see a file", "To meet later"], "correctAnswer": "To hear it again" },
+          { "id": "meet-post-3", "audio": { "kind": "speech-synthesis", "text": "Could you speak more slowly, please?", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What is the request?", "options": ["A slower voice", "A shorter update", "A new test file"], "correctAnswer": "A slower voice" },
+          { "id": "meet-post-4", "audio": { "kind": "speech-synthesis", "text": "Thank you. I understand now.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What changed for the speaker?", "options": ["Now it is clear", "Now it is longer", "Now it is cancelled"], "correctAnswer": "Now it is clear" }
+        ]
+      },
+      "pronunciationCues": [
+        { "id": "meet-cue-repeat", "articulatoryCue": "Nhấn REPEAT và nối could you thành một nhịp: could-you-re-PEAT that.", "meaningRisk": "Không nhấn repeat thì người nghe có thể không nhận ra bạn đang nhờ nói lại.", "triggerItemIds": ["meet-pre-4", "meet-post-2"] },
+        { "id": "meet-cue-hear", "articulatoryCue": "Nhấn HEAR và lên giọng nhẹ ở cuối câu hỏi để nghe như một lời nhờ.", "meaningRisk": "Giọng đi xuống làm câu nhờ nghe như một lời phàn nàn.", "triggerItemIds": ["meet-pre-3", "meet-train-2"] }
+      ],
+      "chunks": [
+        { "id": "meet-chunk-hello", "function": "greeting and name", "text": "Hello, I am ___ from ___.", "meaning": "Chào và nói tên cùng nhóm của bạn.", "slots": ["name", "team"], "modelAudio": { "kind": "speech-synthesis", "text": "Hello, I am Linh from the app team.", "locale": "en-US", "voiceHints": ["English US"] } },
+        { "id": "meet-chunk-update", "function": "one update", "text": "My update is ___.", "meaning": "Mở đầu cập nhật ngắn.", "slots": ["update"], "stressPattern": "UPDATE", "modelAudio": { "kind": "speech-synthesis", "text": "My update is short. I fixed the login bug.", "locale": "en-GB", "voiceHints": ["English UK"] } },
+        { "id": "meet-chunk-repeat", "function": "repeat request", "text": "Sorry, could you repeat ___?", "meaning": "Xin nhắc lại điều chưa nghe rõ.", "slots": ["that"], "stressPattern": "REPEAT", "modelAudio": { "kind": "speech-synthesis", "text": "Sorry, could you repeat that?", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } },
+        { "id": "meet-chunk-thanks", "function": "thank and confirm", "text": "Thank you, ___. That is clear.", "meaning": "Cảm ơn và xác nhận đã hiểu.", "slots": ["name"], "modelAudio": { "kind": "speech-synthesis", "text": "Thank you, Ken. That is clear now.", "locale": "en-US", "voiceHints": ["English US"] } }
+      ],
+      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
+      "listenBackChecklist": ["Mình nói tên và một cập nhật ngắn.", "Câu nhờ nhắc lại nghe lịch sự: Sorry, could you...", "Mình nói chậm và rõ từng câu."],
+      "interactionTurns": [
+        { "id": "meet-turn-repeat", "kind": "clarification", "prompt": "Sorry, I did not hear your update. Could you say it again?", "expectedFunction": "repeat the update in one short sentence" },
+        { "id": "meet-turn-interrupt", "kind": "interruption", "prompt": "We have little time. What is your one main point?", "expectedFunction": "say one main point in one short sentence" }
+      ]
+    }
+  },
+  "reviewPolicy": { "intervalDays": [1, 2, 5, 10, 21], "interleave": true }
+}

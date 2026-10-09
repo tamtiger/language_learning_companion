@@ -1,5 +1,6 @@
 import { CAPABILITY_IDS, type CapabilityId } from '../../content/schema'
 import type { LearningLoopState } from '../learning/learningLoop'
+import { CEFR_RANK, isEntryLevelSkipped, type PathwayLevel } from './pathway'
 
 export type RubricState = 'met' | 'not-met' | 'not-rated'
 /** Why a lesson is opened: a due review, or continuing the cycle in progress. */
@@ -290,6 +291,8 @@ export interface CatalogProgressItem {
   lessonId: string
   capabilityId?: CapabilityId
   hasPerformanceTask: boolean
+  /** Orders each capability's pathway (A2 first) and hides an entry lesson the learner has outgrown. */
+  cefrLevel?: PathwayLevel
   /** Opt in to alternating this lesson's due review with other capabilities. */
   interleave?: boolean
 }
@@ -307,6 +310,7 @@ export function buildTodayQueue(
   now: Date
 ): TodayQueueItem[] {
   const nowValue = now.getTime()
+  const pathway = catalog.flatMap((lesson) => lesson.cefrLevel ? [{ ...lesson, cefrLevel: lesson.cefrLevel }] : [])
   const items = catalog.flatMap((lesson): TodayQueueItem[] => {
     const progress = progressByLesson[lesson.lessonId]
     const dueAt = progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= nowValue
@@ -317,6 +321,7 @@ export function buildTodayQueue(
     if (progress?.status === 'in-progress') return [...review, { ...lesson, kind: 'resume' }]
     if (review.length > 0) return review
     if (progress?.status === 'completed') return []
+    if (lesson.cefrLevel && isEntryLevelSkipped({ ...lesson, cefrLevel: lesson.cefrLevel }, pathway, progressByLesson)) return []
     if (lesson.hasPerformanceTask && !progress?.attemptCount) return [{ ...lesson, kind: 'baseline' }]
     return [{ ...lesson, kind: 'new' }]
   })
@@ -331,7 +336,9 @@ export function buildTodayQueue(
     }
     const leftCapability = left.capabilityId ? CAPABILITY_ORDER.indexOf(left.capabilityId) : 999
     const rightCapability = right.capabilityId ? CAPABILITY_ORDER.indexOf(right.capabilityId) : 999
-    return leftCapability - rightCapability || left.lessonId.localeCompare(right.lessonId)
+    const leftLevel = left.cefrLevel ? CEFR_RANK[left.cefrLevel] : 0
+    const rightLevel = right.cefrLevel ? CEFR_RANK[right.cefrLevel] : 0
+    return leftCapability - rightCapability || leftLevel - rightLevel || left.lessonId.localeCompare(right.lessonId)
   })
   return interleaveReviews(sorted)
 }

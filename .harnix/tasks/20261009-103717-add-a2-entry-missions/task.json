@@ -4,8 +4,8 @@
   "id": "20261009-103717-add-a2-entry-missions",
   "title": "Thêm mission A2 làm lối vào cho người mới",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Người học A2 có đường vào từng capability và đường lên B1.",
   "nonGoals": [
     "Không viết mission B1/B2 (task khác)"
@@ -13,28 +13,37 @@
   "acceptanceCriteria": [
     {
       "id": "ac-1",
-      "text": "Mỗi capability có ít nhất 1 mission A2 (6 mission), chunk đơn giản, output ngắn (20-40 giây hoặc 40-60 từ), prompt song ngữ giảm dần.",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "Mỗi capability có đúng một mission A2 theo bảng trong PRD (sáu mission); chunk đơn giản (tối đa 8 từ), câu model response ngắn, đầu ra 20-40 giây (nói) hoặc 40-60 từ (viết), prompt song ngữ giảm dần và vòng ôn chỉ còn tiếng Anh.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a2-content-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
-      "text": "Mỗi mission A2 qua cổng chất lượng: schema, perception từ 3 lựa chọn, provenance, rubric có tiêu chí ngôn ngữ.",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "Mỗi mission A2 qua schema và mọi cổng chất lượng: perception đúng ba lựa chọn, mọi nguồn có khai báo synthetic hoặc provenance, rubric có tiêu chí ngôn ngữ kèm anchors, trọng âm và cue phát âm hợp lệ (cổng suy ra từ catalog), không lộ dữ kiện phase sau vào learning loop.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a2-content-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
-      "text": "Catalog và Today đề xuất A2 cho người mới và có đường lên B1.",
-      "status": "pending",
-      "evidenceIds": []
+      "text": "Today xếp bài theo level trong cùng capability và không đề xuất A2 cho người đã bắt đầu hoặc hoàn thành bài cao hơn của capability đó; Catalog gắn nhãn A2, hiện 'Tiếp theo' (đường lên B1) và có lối 'Bắt đầu với A2' cho người mới.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a2-path-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
     {
       "id": "check-a2-content",
-      "description": "Nội dung và cổng chất lượng A2",
-      "command": "npx vitest run tests/content/a2Missions.test.ts",
+      "description": "Sáu mission A2 qua cổng A2 và mọi cổng nội dung",
+      "command": "npx vitest run tests/content",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -49,8 +58,8 @@
     },
     {
       "id": "check-a2-path",
-      "description": "Đề xuất và lộ trình A2 sang B1",
-      "command": "npx vitest run tests/features/catalog tests/domain/progress",
+      "description": "Lộ trình A2 đến B1 trong Today và Catalog",
+      "command": "npx vitest run tests/features/catalog tests/features/today tests/domain/progress",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -78,15 +87,90 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-a2-content-1",
+      "checkId": "check-a2-content",
+      "recordedAt": "2026-10-09T17:05:00.634+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "ae7e51d3cad31c94f7320754ead7d792746c7310d5ea687bccef908ba5add912"
+    },
+    {
+      "id": "ev-check-a2-path-1",
+      "checkId": "check-a2-path",
+      "recordedAt": "2026-10-09T17:05:07.133+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/catalog tests/features/today tests/domain/progress — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "325ab9efaaa7e77a338e35138dcf9b0e0e32f24befc8782ca902842cc17ee821"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T17:05:57.911+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "c91c02591923135355982f29cc8da856f32d38c1216811155d5b8694b6442685"
+    }
+  ],
   "relevantPaths": [
+    "README.md",
     "content/missions",
+    "docs",
     "src/content",
+    "src/domain/progress",
     "src/features/catalog",
-    "src/domain/progress"
+    "src/features/today",
+    "tests"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:07.804+07:00"
+  "updatedAt": "2026-10-09T17:06:25.677+07:00",
+  "decisions": [
+    {
+      "id": "d-synthetic-disclosure",
+      "text": "Nguồn của mission A2 là synthetic có khai báo 'Synthetic training artifact — non-production.', không dùng sourceRegistry.",
+      "rationale": "Không bịa vị trí trích dẫn ngoài mà không kiểm chứng được; tình huống đều là mô phỏng."
+    },
+    {
+      "id": "d-derived-gates",
+      "text": "SPOKEN_LESSONS và quy tắc dữ kiện phase sau được suy ra từ catalog thay vì viết cứng theo bài.",
+      "rationale": "Cổng cứng không chạm mission nói mới, nên A2 sẽ không qua cổng trọng âm và cue."
+    },
+    {
+      "id": "d-spoken-min-duration",
+      "text": "Spoken targetSeconds tối thiểu 15 và timeLimitSeconds tối thiểu 20 (trước 30).",
+      "rationale": "Mục tiêu A2 là 20 đến 40 giây; mission cũ không đổi."
+    },
+    {
+      "id": "d-level-order-today",
+      "text": "Today sắp theo level tăng dần trong capability và bỏ A2 mới khi đã có tiến độ ở bài cao hơn cùng capability.",
+      "rationale": "Người mới thấy A2 trước, người đã học cao hơn không bị kéo xuống; review và resume không bị lọc."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "r-no-native-review",
+      "text": "Nội dung A2 viết tay chưa có người bản ngữ hoặc giáo viên rà soát; mức vừa sức thật chỉ kiểm được với người học.",
+      "severity": "low"
+    },
+    {
+      "id": "r-answer-length-corpus",
+      "text": "Thêm nhiều mục lựa chọn có thể làm tỷ lệ đáp án đúng là phương án dài nhất toàn kho vượt 45%; cần cân bằng phương án nhiễu.",
+      "severity": "low"
+    },
+    {
+      "id": "r-future-facts-heuristic",
+      "text": "Quy tắc từ đặc trưng của phase sau là heuristic, có thể báo nhầm với từ phổ biến.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T17:06:25.677+07:00"
 }

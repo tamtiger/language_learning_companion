@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103717-add-a2-entry-missions` — Thêm mission A2 làm lối vào cho người mới (`planning`)
+- `20261009-103718-add-interview-and-work-pathway` — Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài (`planning`)
 
 ## Members (16 tasks)
 
@@ -26,7 +26,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `completed` |
 | 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `completed` |
 | 9 | `20261009-103716-extend-curriculum-schema` | Mở rộng schema chương trình để nhận nội dung mới | `full` | `completed` |
-| 10 | `20261009-103717-add-a2-entry-missions` | Thêm mission A2 làm lối vào cho người mới | `full` | `planning` |
+| 10 | `20261009-103717-add-a2-entry-missions` | Thêm mission A2 làm lối vào cho người mới | `full` | `completed` |
 | 11 | `20261009-103718-add-interview-and-work-pathway` | Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài | `full` | `planning` |
 | 12 | `20261009-103719-add-listening-and-long-reading` | Thêm luyện nghe hội thoại và bài đọc dài | `full` | `planning` |
 | 13 | `20261009-103720-add-vocabulary-and-fill-content-gaps` | Thêm từ vựng chuyên ngành và lấp ô trống ma trận nội dung | `full` | `planning` |
@@ -92,7 +92,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 10. `20261009-103717-add-a2-entry-missions` — Thêm mission A2 làm lối vào cho người mới
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Người học A2 có đường vào từng capability và đường lên B1.
 - **Tiêu chí nghiệm thu:** 3 tiêu chí
 

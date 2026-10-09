@@ -297,3 +297,29 @@ describe('content revision and story bank requirement', () => {
     }
   })
 })
+
+describe('short spoken outputs for A2', () => {
+  const spoken = (contract: Record<string, number>) => lesson((draft) => {
+    draft.performanceTask = {
+      ...draft.performanceTask,
+      mode: 'spoken',
+      outputContract: { requiredElements: ['context'], ...contract }
+    }
+    delete draft.performanceTask.minWords
+  })
+
+  it('accepts a 20 second target inside a 40 second limit', () => {
+    expect(issues(spoken({ targetSeconds: 20, timeLimitSeconds: 40 }))).toBe('')
+  })
+
+  it('still rejects a target below 15 seconds, a limit below 20 and a target above its limit', () => {
+    expect(spoken({ targetSeconds: 14, timeLimitSeconds: 40 }).success).toBe(false)
+    expect(spoken({ targetSeconds: 15, timeLimitSeconds: 19 }).success).toBe(false)
+    expect(spoken({ targetSeconds: 41, timeLimitSeconds: 40 }).success).toBe(false)
+  })
+
+  it('keeps the written minimum time limit at 30 seconds', () => {
+    expect(lesson((draft) => { draft.performanceTask.outputContract.timeLimitSeconds = 29 }).success).toBe(false)
+    expect(lesson((draft) => { draft.performanceTask.outputContract.timeLimitSeconds = 30 }).success).toBe(true)
+  })
+})

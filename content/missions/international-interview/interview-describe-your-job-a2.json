@@ -1,0 +1,741 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-describe-your-job-a2",
+  "title": "Describe your job in an interview (A2)",
+  "summary": "Nói ngắn gọn bạn làm nghề gì, mỗi ngày làm gì và dùng công cụ nào.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": [
+    "Nói nghề của bạn",
+    "Nói việc bạn làm mỗi ngày",
+    "Nói công cụ bạn dùng"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "interview",
+    "job-description",
+    "a2-entry"
+  ],
+  "sections": [
+    {
+      "id": "job-source",
+      "type": "source",
+      "title": "Interview question card",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interviewer: Please tell us about your job.\nCandidate sample: I work as a web developer. Every day, I write code and fix small bugs. I use React and Git. I work with a team of five people."
+    },
+    {
+      "id": "job-language",
+      "type": "language-support",
+      "title": "Words for your job",
+      "vocabulary": [
+        {
+          "word": "work as",
+          "ipa": "/wɝːk æz/",
+          "definition": "làm nghề",
+          "technicalMeaning": "Nói chức danh hoặc nghề của bạn.",
+          "collocations": [
+            "work as a developer",
+            "work as a tester"
+          ],
+          "example": "I work as a web developer.",
+          "commonMistake": "Nói \"work as + nghề\"; không nói \"work like\"."
+        },
+        {
+          "word": "every day",
+          "ipa": "/ˈev.ri deɪ/",
+          "definition": "mỗi ngày",
+          "technicalMeaning": "Chỉ việc bạn làm đều đặn mỗi ngày.",
+          "collocations": [
+            "every day I write",
+            "do it every day"
+          ],
+          "example": "Every day, I write code.",
+          "commonMistake": "Viết every day thành hai từ khi là trạng từ."
+        },
+        {
+          "word": "code",
+          "ipa": "/koʊd/",
+          "definition": "mã nguồn",
+          "technicalMeaning": "Các dòng chữ mà lập trình viên viết cho máy.",
+          "collocations": [
+            "write code",
+            "read code"
+          ],
+          "example": "I write code for a web app.",
+          "commonMistake": "Code là danh từ không đếm được: write code, không nói \"write codes\"."
+        },
+        {
+          "word": "team",
+          "ipa": "/tiːm/",
+          "definition": "nhóm",
+          "technicalMeaning": "Những người cùng làm một dự án.",
+          "collocations": [
+            "a small team",
+            "work with a team"
+          ],
+          "example": "I work with a team of five people.",
+          "commonMistake": "Nói \"work with a team\"; không nói \"work in with\"."
+        },
+        {
+          "word": "tool",
+          "ipa": "/tuːl/",
+          "definition": "công cụ",
+          "technicalMeaning": "Phần mềm hoặc thiết bị bạn dùng để làm việc.",
+          "collocations": [
+            "use a tool",
+            "a daily tool"
+          ],
+          "example": "I use Git every day.",
+          "commonMistake": "Nói \"use a tool\"; đừng bỏ từ a."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "I work as a ___.",
+          "meaning": "Nói nghề của bạn.",
+          "tone": "neutral",
+          "example": "I work as a web developer.",
+          "alternatives": [
+            "I am a ___."
+          ]
+        },
+        {
+          "phrase": "Every day, I ___.",
+          "meaning": "Nói việc bạn làm mỗi ngày.",
+          "tone": "neutral",
+          "example": "Every day, I write code.",
+          "alternatives": [
+            "Each day, I ___."
+          ]
+        },
+        {
+          "phrase": "I use ___ and ___.",
+          "meaning": "Nói công cụ bạn dùng.",
+          "tone": "neutral",
+          "example": "I use React and Git.",
+          "alternatives": [
+            "My main tools are ___ and ___."
+          ]
+        },
+        {
+          "phrase": "I work with a team of ___.",
+          "meaning": "Nói bạn làm việc với nhóm bao nhiêu người.",
+          "tone": "neutral",
+          "example": "I work with a team of five people.",
+          "alternatives": [
+            "My team has ___ people."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "job-check",
+      "type": "auto-check",
+      "title": "Check your job English",
+      "exercises": [
+        {
+          "id": "job-what-work",
+          "type": "choice",
+          "question": "What is the candidate's job?",
+          "options": [
+            "A web developer",
+            "A project manager",
+            "A night guard"
+          ],
+          "correctAnswer": [
+            "A web developer"
+          ],
+          "explanation": "Mẫu nói: I work as a web developer."
+        },
+        {
+          "id": "job-order-sentence",
+          "type": "ordering",
+          "question": "Sắp xếp các từ thành một câu về nghề.",
+          "options": [
+            "a tester",
+            "I",
+            "work as"
+          ],
+          "correctAnswer": [
+            "I",
+            "work as",
+            "a tester"
+          ],
+          "explanation": "Thứ tự là chủ ngữ, work as rồi nghề."
+        },
+        {
+          "id": "job-fill-as",
+          "type": "fill",
+          "question": "Điền từ: I work ___ a web developer.",
+          "correctAnswer": [
+            "as"
+          ],
+          "explanation": "Work as + nghề là cách nói nghề của bạn."
+        },
+        {
+          "id": "job-daily-work",
+          "type": "choice",
+          "question": "What does the candidate do every day?",
+          "options": [
+            "Writes code and fixes small bugs",
+            "Plans trips for the whole company",
+            "Cooks lunch for the team"
+          ],
+          "correctAnswer": [
+            "Writes code and fixes small bugs"
+          ],
+          "explanation": "Mẫu nói: Every day, I write code and fix small bugs."
+        },
+        {
+          "id": "job-team-size",
+          "type": "choice",
+          "question": "How many people are in the team?",
+          "options": [
+            "Five",
+            "Fifteen",
+            "Fifty"
+          ],
+          "correctAnswer": [
+            "Five"
+          ],
+          "explanation": "Mẫu nói: a team of five people."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "job-spoken-task",
+    "mode": "spoken",
+    "title": "Describe your job in one short answer",
+    "scenario": "Tình huống mô phỏng: người phỏng vấn mời bạn nói về công việc hiện tại.",
+    "baselinePrompt": "Trong 20–40 giây, nói bằng tiếng Anh: nghề của bạn, việc làm mỗi ngày và công cụ bạn dùng. Chưa xem bài mẫu hay các cụm câu.",
+    "performancePrompt": "Speak in English for 20 to 40 seconds: your job, what you do every day, and the tools you use. (Nghề, việc mỗi ngày, công cụ.)",
+    "modelResponse": "I work as a web developer. Every day, I write code and fix small bugs. I use React and Git. I work with a team of five people. We talk every morning, and we help each other. I like my job because I learn new things every week.",
+    "retryPrompt": "Speak again in English for 20 to 40 seconds. Fix your weakest criterion.",
+    "transferPrompt": "In 20 to 40 seconds, describe a job in a new situation: your job, what you do every day and the tools you use.",
+    "reviewPrompt": "In 20 to 40 seconds, describe your job again without looking at the old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Web developer",
+        "brief": "Phỏng vấn cho vị trí lập trình viên web; mô tả công việc hiện tại.",
+        "artifacts": [
+          {
+            "id": "job-baseline-card",
+            "type": "source",
+            "title": "Web developer",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interviewer: Please tell us about your job.\nCandidate sample: I work as a web developer. Every day, I write code and fix small bugs. I use React and Git. I work with a team of five people."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Software tester",
+        "brief": "Sửa bài nói cho vị trí kiểm thử phần mềm.",
+        "artifacts": [
+          {
+            "id": "job-retry-card",
+            "type": "source",
+            "title": "Software tester",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interviewer: What do you do at work?\nCandidate sample: I work as a software tester. Every day, I run tests and write bug reports. I use Jira and Postman. I work with three developers."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Data analyst",
+        "brief": "Một vị trí mới: phân tích dữ liệu.",
+        "artifacts": [
+          {
+            "id": "job-transfer-card",
+            "type": "source",
+            "title": "Data analyst",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interviewer: Can you describe your daily work?\nCandidate sample: I work as a data analyst. Every day, I clean data and make charts. I use SQL and Excel. I work with the sales team."
+          }
+        ]
+      },
+      "review": {
+        "title": "Support engineer",
+        "brief": "Ôn lại sau vài ngày với vị trí hỗ trợ kỹ thuật.",
+        "artifacts": [
+          {
+            "id": "job-review-card",
+            "type": "source",
+            "title": "Support engineer",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interviewer: Tell us about your role.\nCandidate sample: I work as a support engineer. Every day, I answer tickets and help customers. I use Zendesk and Slack. I work with a night shift."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 40,
+      "requiredElements": [
+        "job title",
+        "daily work",
+        "tools"
+      ],
+      "targetSeconds": 20
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 2,
+      "preparationSeconds": 30
+    },
+    "feedbackPriorities": [
+      "clear short sentences",
+      "correct -s and verb forms",
+      "steady pace"
+    ],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "Job, daily work and tools",
+        "description": "The answer covers the three parts the interviewer asks for.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The interviewer hears your job, one thing you do every day and one tool.",
+          "notMet": "A part is missing, so the interviewer still has to ask."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Verbs and word order are correct enough to follow.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Short sentences such as \"I write code\" with the right verb.",
+          "notMet": "The verb is missing or wrong, for example \"I working code\"."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Job phrases",
+        "description": "Uses phrases from the lesson, not only single words.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least two phrases such as \"I work as\" and \"Every day, I\".",
+          "notMet": "Uses only single words such as \"developer\" and \"code\"."
+        }
+      },
+      {
+        "id": "delivery",
+        "label": "Clear delivery",
+        "description": "Speech is steady and clear for an interviewer.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Key words such as \"work\" and \"code\" are clear and the pace is steady.",
+          "notMet": "Speech is rushed or key words are hard to hear."
+        }
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "job-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work as a web developer.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker's job?",
+            "options": [
+              "A builder of web pages",
+              "A teacher of children",
+              "A driver of trucks"
+            ],
+            "correctAnswer": "A builder of web pages"
+          },
+          {
+            "id": "job-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Every day, I write code and fix small bugs.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do every day?",
+            "options": [
+              "Writes programs",
+              "Cooks meals",
+              "Draws pictures"
+            ],
+            "correctAnswer": "Writes programs"
+          },
+          {
+            "id": "job-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I use React and Git.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker talk about?",
+            "options": [
+              "Work tools",
+              "A trip plan",
+              "Lunch food"
+            ],
+            "correctAnswer": "Work tools"
+          },
+          {
+            "id": "job-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work with a team of five people.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Who does the speaker work with?",
+            "options": [
+              "A small group",
+              "One manager",
+              "No one"
+            ],
+            "correctAnswer": "A small group"
+          }
+        ],
+        "training": [
+          {
+            "id": "job-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work as a software tester.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the job?",
+            "options": [
+              "Testing software",
+              "Writing songs",
+              "Fixing cars"
+            ],
+            "correctAnswer": "Testing software",
+            "feedback": "Chú ý work as: sau đó là tên nghề."
+          },
+          {
+            "id": "job-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Every day, I run tests.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How often does the speaker do it?",
+            "options": [
+              "Daily",
+              "Yearly",
+              "Never"
+            ],
+            "correctAnswer": "Daily",
+            "feedback": "Every day nghĩa là mỗi ngày."
+          },
+          {
+            "id": "job-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I write code and I fix bugs.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How many tasks does the speaker say?",
+            "options": [
+              "Two",
+              "One",
+              "Five"
+            ],
+            "correctAnswer": "Two",
+            "feedback": "Có hai việc nối bằng and: write code và fix bugs."
+          },
+          {
+            "id": "job-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I use Jira and Postman.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What are Jira and Postman?",
+            "options": [
+              "Tools",
+              "People",
+              "Cities"
+            ],
+            "correctAnswer": "Tools",
+            "feedback": "Chú ý use: sau use là công cụ."
+          },
+          {
+            "id": "job-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work with three developers.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How many developers are there?",
+            "options": [
+              "3",
+              "13",
+              "30"
+            ],
+            "correctAnswer": "3",
+            "feedback": "Chú ý three: số ba, không phải thirteen hay thirty."
+          },
+          {
+            "id": "job-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I like my job because I learn new things.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Why does the speaker like the job?",
+            "options": [
+              "They learn",
+              "They rest",
+              "They travel"
+            ],
+            "correctAnswer": "They learn",
+            "feedback": "Chú ý because: lý do là học điều mới."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "job-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work as a web developer.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker say first?",
+            "options": [
+              "Their job",
+              "Their city",
+              "Their age"
+            ],
+            "correctAnswer": "Their job"
+          },
+          {
+            "id": "job-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Every day, I write code.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "When does the speaker write code?",
+            "options": [
+              "Daily",
+              "Yearly",
+              "Nightly"
+            ],
+            "correctAnswer": "Daily"
+          },
+          {
+            "id": "job-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I use React and Git every day.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker use?",
+            "options": [
+              "Two tools",
+              "Two cars",
+              "Two books"
+            ],
+            "correctAnswer": "Two tools"
+          },
+          {
+            "id": "job-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I work with a team of five people.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How big is the team?",
+            "options": [
+              "5 people",
+              "1 person",
+              "50 people"
+            ],
+            "correctAnswer": "5 people"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "job-cue-work",
+          "articulatoryCue": "Đọc work là /wɝːk/: môi tròn cho âm w, không đọc thành \"wok\" hay \"walk\".",
+          "meaningRisk": "Đọc work như walk làm người nghe hiểu bạn đi bộ thay vì đi làm.",
+          "triggerItemIds": [
+            "job-pre-1",
+            "job-train-1"
+          ]
+        },
+        {
+          "id": "job-cue-code",
+          "articulatoryCue": "Đọc code là /koʊd/ và đọc rõ âm d cuối để phân biệt với co.",
+          "meaningRisk": "Thiếu âm d cuối làm từ code nghe như một từ khác.",
+          "triggerItemIds": [
+            "job-pre-2",
+            "job-post-2"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "job-chunk-work",
+          "function": "job title",
+          "text": "I work as a ___.",
+          "meaning": "Nói nghề của bạn.",
+          "slots": [
+            "job"
+          ],
+          "stressPattern": "WORK",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I work as a web developer.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "job-chunk-daily",
+          "function": "daily work",
+          "text": "Every day, I ___.",
+          "meaning": "Nói việc làm mỗi ngày.",
+          "slots": [
+            "task"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Every day, I write code and fix small bugs.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "job-chunk-tools",
+          "function": "tools",
+          "text": "I use ___ and ___.",
+          "meaning": "Nói công cụ bạn dùng.",
+          "slots": [
+            "tool one",
+            "tool two"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I use React and Git.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "job-chunk-team",
+          "function": "team",
+          "text": "I work with a team of ___.",
+          "meaning": "Nói quy mô nhóm.",
+          "slots": [
+            "number"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I work with a team of five people.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nói nghề, việc mỗi ngày và công cụ.",
+        "Mình dùng work as và every day.",
+        "Mình nói chậm và rõ từ work và code."
+      ],
+      "interactionTurns": [
+        {
+          "id": "job-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not hear that. What do you do every day?",
+          "expectedFunction": "say what you do every day in one short sentence"
+        },
+        {
+          "id": "job-turn-follow",
+          "kind": "follow-up",
+          "prompt": "Which tool do you use the most?",
+          "expectedFunction": "name one tool in one short sentence"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      2,
+      5,
+      10,
+      21
+    ],
+    "interleave": true
+  }
+}

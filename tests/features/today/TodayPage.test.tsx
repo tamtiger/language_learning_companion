@@ -104,7 +104,7 @@ describe('TodayPage job-first shortcuts', () => {
     expect(within(workIntentList).getAllByRole('button')).toHaveLength(6)
 
     const meeting = within(workIntentList).getByRole('button', { name: /luyện standup hoặc meeting/i })
-    expect(within(meeting).getByText('Daily Standup: Cập nhật tiến độ rõ ràng')).toBeTruthy()
+    expect(within(meeting).getByText('Join a meeting and ask someone to repeat (A2)')).toBeTruthy()
     expect(within(meeting).getByText('Sentence chunks')).toBeTruthy()
     expect(within(meeting).getByText('Luyện phát âm')).toBeTruthy()
 
@@ -112,14 +112,27 @@ describe('TodayPage job-first shortcuts', () => {
     expect(within(reading).getByText('Viết đầu ra công việc')).toBeTruthy()
   })
 
-  it('opens Daily Standup directly from the meeting intent on first run', async () => {
+  it('moves the meeting intent up to B1 once the A2 entry is completed', async () => {
+    const user = userEvent.setup()
+    const onStartLesson = vi.fn()
+    useAppStore.setState({
+      lessonProgress: { 'meeting-join-and-repeat-a2': { ...createEmptyLessonProgress(), status: 'completed' } }
+    })
+    render(<TodayPage onStartLesson={onStartLesson} />)
+
+    await user.click(screen.getByRole('button', { name: /luyện standup hoặc meeting/i }))
+
+    expect(onStartLesson).toHaveBeenCalledWith('daily-standup-b1', undefined)
+  })
+
+  it('opens the A2 meeting entry from the meeting intent on first run', async () => {
     const user = userEvent.setup()
     const onStartLesson = vi.fn()
     render(<TodayPage onStartLesson={onStartLesson} />)
 
     await user.click(screen.getByRole('button', { name: /luyện standup hoặc meeting/i }))
 
-    expect(onStartLesson).toHaveBeenCalledWith('daily-standup-b1', undefined)
+    expect(onStartLesson).toHaveBeenCalledWith('meeting-join-and-repeat-a2', undefined)
   })
 
   it('prefers an in-progress lesson within the selected work intent', async () => {

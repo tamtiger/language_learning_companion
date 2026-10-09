@@ -2,6 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { buildCatalog } from '@/content/catalog'
+import { createEmptyLessonProgress } from '@/domain/progress/progress'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 import { validWrittenMission } from '../../helpers/lessonFixtures'
 import { CatalogPage } from '@/features/catalog/CatalogPage'
@@ -23,7 +24,7 @@ describe('CatalogPage learning feature discovery', () => {
     expect(within(spokenLesson).getByText('Sentence chunks')).toBeTruthy()
     expect(within(spokenLesson).getByText('Luyện phát âm')).toBeTruthy()
 
-    const writtenLesson = screen.getByRole('button', { name: /turn technical documentation into actions/i })
+    const writtenLesson = screen.getByText(/^turn technical documentation into actions/i, { selector: 'span' }).closest('button') as HTMLElement
     expect(within(writtenLesson).queryByText('Sentence chunks')).toBeNull()
     expect(within(writtenLesson).queryByText('Luyện phát âm')).toBeNull()
   })
@@ -62,5 +63,34 @@ describe('CatalogPage learning feature discovery', () => {
     await user.selectOptions(screen.getByLabelText(/^cefr/i), 'A2')
 
     expect(screen.getByRole('button', { name: /A2 entry: say what is wrong/i })).toBeTruthy()
-    expect(screen.queryByRole('button', { name: /turn technical documentation into actions/i })).toBeNull()
-  })})
+    expect(screen.queryByText(/^turn technical documentation into actions/i, { selector: 'span' })).toBeNull()
+  })
+  describe('A2 pathway', () => {
+    it('marks A2 cards as an entry and names the lesson that comes next', () => {
+      render(<CatalogPage onStartLesson={() => undefined} />)
+      const entry = screen.getByRole('button', { name: /ask a teammate for help/i })
+      expect(within(entry).getByText('Lối vào A2')).toBeTruthy()
+      expect(within(entry).getByText(/^Tiếp theo: /)).toBeTruthy()
+
+      const advanced = screen.getByRole('button', { name: /write an evidence-safe incident update/i })
+      expect(within(advanced).queryByText('Lối vào A2')).toBeNull()
+      expect(within(advanced).queryByText(/^Tiếp theo: /)).toBeNull()
+    })
+
+    it('offers to start with A2 only before any progress and filters to A2', async () => {
+      const user = userEvent.setup()
+      render(<CatalogPage onStartLesson={() => undefined} />)
+
+      await user.click(screen.getByRole('button', { name: /bắt đầu với a2/i }))
+      expect((screen.getByLabelText('CEFR') as HTMLSelectElement).value).toBe('A2')
+      expect(screen.queryByRole('button', { name: /write an evidence-safe incident update/i })).toBeNull()
+    })
+
+    it('hides the A2 start button once the learner has progress', () => {
+      const first = useAppStore.getState().lessons[0]
+      useAppStore.setState({ lessonProgress: { [first.lessonId]: { ...createEmptyLessonProgress(), status: 'in-progress' } } })
+      render(<CatalogPage onStartLesson={() => undefined} />)
+      expect(screen.queryByRole('button', { name: /bắt đầu với a2/i })).toBeNull()
+    })
+  })
+})

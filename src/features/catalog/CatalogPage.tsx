@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, AudioLines, CheckCircle2, Clock3, MessageSquareQuote } from 'lucide-react'
 import type { CapabilityId } from '../../content/schema'
+import { nextLessonAfter } from '../../domain/progress/pathway'
 import { useAppStore } from '../../shared/hooks/useAppStore'
 
 const CAPABILITY_LABELS: Record<CapabilityId, string> = {
@@ -23,6 +24,8 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
     (capability === 'all' || lesson.capabilities.includes(capability))
     && (level === 'all' || lesson.cefrLevel === level)
   ), [capability, lessons, level])
+  const hasProgress = Object.values(lessonProgress).some((progress) => progress.status !== 'not-started')
+  const hasEntryLessons = lessons.some((lesson) => lesson.cefrLevel === 'A2')
   const hasActiveFilters = capability !== 'all' || level !== 'all'
   const clearFilters = () => {
     setCapability('all')
@@ -36,6 +39,14 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
         <h1 id="catalog-title" className="mt-2 text-3xl font-black">Thư viện bài học</h1>
         <p className="mt-2 max-w-3xl text-zinc-400">Chọn kỹ năng bạn cần dùng trong công việc. Trình độ CEFR là bộ lọc phụ.</p>
       </div>
+      {!hasProgress && hasEntryLessons && level !== 'A2' && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-4">
+          <p className="max-w-xl text-sm text-zinc-200">Mới bắt đầu? Mỗi kỹ năng có một bài A2 ngắn (10–15 phút) trước khi lên B1.</p>
+          <button type="button" onClick={() => setLevel('A2')} className="rounded-lg border border-cyan-400 px-4 py-2 font-bold text-cyan-100">
+            Bắt đầu với A2
+          </button>
+        </div>
+      )}
       <div className="grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-4 sm:grid-cols-2">
         <label className="text-sm font-semibold">Capability
           <select value={capability} onChange={(event) => setCapability(event.target.value as CapabilityId | 'all')} className="mt-2 w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2">
@@ -66,17 +77,23 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
           const completed = lessonProgress[lesson.lessonId]?.status === 'completed'
           const hasSpeakingLoop = lesson.performanceTask?.mode === 'spoken'
             && Boolean(lesson.performanceTask.learningLoop)
+          const isEntry = lesson.cefrLevel === 'A2'
+          const next = isEntry
+            ? nextLessonAfter({ lessonId: lesson.lessonId, capabilityId: lesson.capabilities[0], cefrLevel: lesson.cefrLevel }, lessons.map((item) => ({ lessonId: item.lessonId, capabilityId: item.capabilities[0], cefrLevel: item.cefrLevel, title: item.title })))
+            : null
           const label = lesson.capabilities[0] ? CAPABILITY_LABELS[lesson.capabilities[0]] : 'Pronunciation legacy'
           return (
             <button key={lesson.lessonId} type="button" onClick={() => onStartLesson(lesson.lessonId)} className="group rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5 text-left hover:border-purple-500/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400">
               <span className="flex items-center justify-between gap-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-purple-400">{label}</span>
                 <span className="flex items-center gap-2">
+                  {isEntry && <span className="rounded-md border border-cyan-400/40 bg-cyan-500/10 px-2 py-0.5 text-xs font-bold text-cyan-100">Lối vào A2</span>}
                   {completed && <CheckCircle2 aria-label="Đã hoàn thành" className="h-5 w-5 text-green-400" />}
                 </span>
               </span>
               <span className="mt-3 block text-lg font-bold text-zinc-100">{lesson.title}</span>
               <span className="mt-2 block text-sm leading-relaxed text-zinc-400">{lesson.summary}</span>
+              {next && <span className="mt-2 block text-xs font-semibold text-zinc-300">Tiếp theo: {next.title}</span>}
               {hasSpeakingLoop && (
                 <span className="mt-4 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-md border border-cyan-400/30 bg-cyan-500/10 px-2 py-1 text-xs font-semibold text-cyan-100">

@@ -14,7 +14,7 @@ Taxonomy authoring hiện tại:
 content/
 ├── missions/
 │   └── <primary-capability>/
-│       └── <lesson-id>.json       # 12 mission schema v3
+│       └── <lesson-id>.json       # 18 mission schema v3
 └── reference/
     └── pronunciation/
         └── <lesson-id>.json       # 6 knowledge/reference lesson schema v1
@@ -35,8 +35,8 @@ catalog tiếp tục khám phá toàn bộ corpus bằng glob `content/**/*.json
 - `international-interview`
 - `technology-learning`
 
-Mỗi mission v3 có đúng một primary capability; catalog hiện có 12 mission, hai
-mission cho mỗi capability. `workflowTags` mô tả workflow như `issue-update`,
+Mỗi mission v3 có đúng một primary capability; catalog hiện có 18 mission, ba
+mission cho mỗi capability (một bài A2 lối vào, hai bài B1/B2). `workflowTags` mô tả workflow như `issue-update`,
 `documentation`, `standup`, `tradeoff`, `interview`, `api-learning`.
 
 ## Lesson v3
@@ -140,6 +140,27 @@ Các trường dưới đây đều tùy chọn hoặc có mặc định, nên b
 
 Nguồn trong `listening-source` và `long-reading` đi qua cùng kiểm tra provenance như `source`.
 
+## Mission A2 lối vào
+
+Mỗi capability có một mission A2 (10 đến 15 phút) để người mới vào đúng mức. Cổng đo được nằm ở
+`tests/helpers/a2Rules.ts` và chạy trong `tests/content/a2Missions.test.ts` cho mọi bài `cefrLevel: "A2"`:
+
+- Bài viết: `minWords` 40, `maxWords` ≤ 70, `timeLimitSeconds` ≤ 300. Bài nói: `targetSeconds` 20 đến 30,
+  `timeLimitSeconds` ≤ 45 và có `learningLoop` đầy đủ (schema cho phép bài nói ngắn từ 20 giây).
+- Câu ngắn: chunk ≤ 8 từ, mỗi câu ≤ 14 từ, trung bình ≤ 10 từ (bài mẫu) hoặc ≤ 14 từ (nguồn).
+- Prompt song ngữ giảm dần: baseline có tiếng Việt, tỉ lệ tiếng Việt không tăng ở các bước sau, review chỉ tiếng Anh.
+- Rubric 3 đến 5 tiêu chí có `anchors` khác nhau, ít nhất một tiêu chí task và một tiêu chí accuracy/range/register.
+- `language-support` ≥ 4 từ có collocation và ≥ 3 cụm; `auto-check` ≥ 4 bài gồm điền hoặc sắp xếp.
+- `reviewPolicy` có `interleave: true` và ≥ 5 khoảng; learning loop không chứa dữ kiện chỉ có ở transfer hoặc review.
+- Nguồn là tài liệu tổng hợp nên mở đầu bằng "Synthetic training artifact — non-production.".
+
+Sáu mission: `workplace-ask-for-help-a2`, `technical-readme-steps-a2`, `learn-a-tool-from-short-docs-a2`
+(viết) và `meeting-join-and-repeat-a2`, `explain-what-a-service-does-a2`, `interview-describe-your-job-a2` (nói).
+Chưa có người bản ngữ rà soát; xem rủi ro trong task `add-a2-entry-missions`.
+
+Lộ trình: Today xếp theo capability rồi level (A2, B1, B2, C1) và bỏ qua bài A2 mới khi người học đã bắt đầu
+bài cao hơn cùng capability (`src/domain/progress/pathway.ts`).
+
 ## Source registry và provenance
 
 Lesson v3 có thể khai báo `sourceRegistry` opt-in. Mỗi record bắt buộc có
@@ -238,7 +259,7 @@ pronunciation v1 vẫn là knowledge/reference: rule, dictionary notation và qu
 không phải audio perception, spoken production hay evidence về pronunciation
 accuracy.
 
-`practiceContexts` đã được rollout tới toàn bộ 12 mission v3 với evidence packet
+`practiceContexts` đã được rollout tới toàn bộ 18 mission v3 với evidence packet
 riêng cho baseline/retry/transfer/review. Đây là coverage của content contract và
 generic flow, không phải bằng chứng efficacy.
 

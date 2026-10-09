@@ -1,0 +1,189 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-ask-for-help-a2",
+  "title": "Ask a teammate for help (A2)",
+  "summary": "Viết tin nhắn ngắn nhờ đồng nghiệp giúp: nêu vấn đề, việc bạn đã thử và một câu hỏi rõ ràng.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": ["Nêu vấn đề bằng một câu ngắn", "Nói bạn đã thử gì", "Hỏi nhờ giúp lịch sự bằng một câu hỏi"],
+  "capabilities": ["workplace-communication"],
+  "workflowTags": ["help-request", "chat-message", "a2-entry"],
+  "sections": [
+    {
+      "id": "help-source",
+      "type": "source",
+      "title": "Build error on your laptop",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Build log: Error: config file not found. The path is app/config.json. You ran npm install. You ran npm start. The error is still there. Mai set up this project last month."
+    },
+    {
+      "id": "help-language",
+      "type": "language-support",
+      "title": "Words and phrases for asking for help",
+      "vocabulary": [
+        { "word": "error", "ipa": "/ˈer.ɚ/", "definition": "lỗi", "technicalMeaning": "Thông báo cho biết chương trình không chạy đúng.", "collocations": ["get an error", "fix an error"], "example": "I get an error when I start the app.", "commonMistake": "Nói \"get an error\" khi chương trình báo lỗi; không nói \"make an error\"." },
+        { "word": "try", "ipa": "/traɪ/", "definition": "thử", "technicalMeaning": "Làm một việc để xem nó có giải quyết được vấn đề không.", "collocations": ["try again", "try a different way"], "example": "I tried again, but the error is still there.", "commonMistake": "Dùng \"tried\" cho việc đã làm xong; không nói \"I try yesterday\"." },
+        { "word": "file", "ipa": "/faɪl/", "definition": "tệp", "technicalMeaning": "Một tệp dữ liệu hoặc cấu hình trên máy.", "collocations": ["config file", "missing file"], "example": "The config file is missing.", "commonMistake": "Dùng \"a file\" hoặc \"the file\"; đừng bỏ từ a hoặc the." },
+        { "word": "help", "ipa": "/help/", "definition": "giúp, sự giúp đỡ", "technicalMeaning": "Nhờ người khác hỗ trợ giải quyết một việc cụ thể.", "collocations": ["ask for help", "help with"], "example": "Can you help me with the build?", "commonMistake": "Nói \"help me with + việc\"; không nói \"help me for + việc\"." },
+        { "word": "install", "ipa": "/ɪnˈstɔːl/", "definition": "cài đặt", "technicalMeaning": "Tải và cài các gói mà dự án cần.", "collocations": ["install a package", "run npm install"], "example": "I ran npm install, and it finished.", "commonMistake": "Nhấn trọng âm ở âm tiết thứ hai: in-STALL." }
+      ],
+      "expressions": [
+        { "phrase": "I have a problem with ___.", "meaning": "Nêu vấn đề của bạn bằng một câu ngắn.", "tone": "neutral", "example": "I have a problem with the build.", "alternatives": ["I am stuck on ___."] },
+        { "phrase": "I tried ___, but ___.", "meaning": "Nói việc bạn đã thử và kết quả.", "tone": "neutral", "example": "I tried npm install, but the error is still there.", "alternatives": ["I ran ___, and ___."] },
+        { "phrase": "Can you help me with ___?", "meaning": "Nhờ giúp một việc cụ thể, lịch sự.", "tone": "neutral", "example": "Can you help me with the config file?", "alternatives": ["Could you help me with ___?"] },
+        { "phrase": "Thank you for your help.", "meaning": "Cảm ơn khi kết thúc tin nhắn.", "tone": "neutral", "example": "Thank you for your help.", "alternatives": ["Thanks a lot."] }
+      ]
+    },
+    {
+      "id": "help-check",
+      "type": "auto-check",
+      "title": "Check your help message",
+      "exercises": [
+        {
+          "id": "help-clear-problem",
+          "type": "choice",
+          "question": "Câu nào nêu vấn đề rõ nhất?",
+          "options": ["I have a problem with my laptop.", "I have a problem with the build; the config file is missing.", "Something is wrong with my computer today."],
+          "correctAnswer": ["I have a problem with the build; the config file is missing."],
+          "explanation": "Câu đúng nêu việc đang lỗi (the build) và lỗi cụ thể (config file not found)."
+        },
+        {
+          "id": "help-what-tried",
+          "type": "choice",
+          "question": "Câu nào nói rõ bạn đã thử gì?",
+          "options": ["I tried npm install, but it did not work.", "I tried many things, but I do not remember them.", "Nothing works at all."],
+          "correctAnswer": ["I tried npm install, but it did not work."],
+          "explanation": "Câu đúng nêu lệnh đã chạy và kết quả sau đó; hai câu còn lại không cho người đọc biết đã thử gì."
+        },
+        {
+          "id": "help-order-question",
+          "type": "ordering",
+          "question": "Sắp xếp các phần thành một câu hỏi nhờ giúp.",
+          "options": ["help", "Can", "the config file?", "me with", "you"],
+          "correctAnswer": ["Can", "you", "help", "me with", "the config file?"],
+          "explanation": "Câu hỏi bắt đầu bằng Can you, sau đó là help me with và việc cần giúp."
+        },
+        {
+          "id": "help-fill-with",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I have a problem ___ the build.",
+          "correctAnswer": ["with"],
+          "explanation": "Cụm cố định là have a problem with + việc đang gặp lỗi."
+        },
+        {
+          "id": "help-polite",
+          "type": "choice",
+          "question": "Câu nào lịch sự nhất khi nhờ đồng nghiệp?",
+          "options": ["Fix my build now, because it is urgent.", "Can you help me with my build, please?", "You must look at my build today."],
+          "correctAnswer": ["Can you help me with my build, please?"],
+          "explanation": "Can you ... please là cách hỏi lịch sự; hai câu còn lại là mệnh lệnh."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "ask-for-help-task",
+    "mode": "written",
+    "title": "Send a short help message",
+    "scenario": "Bạn gặp lỗi build trên máy và nhắn cho đồng nghiệp tên Mai để nhờ giúp.",
+    "baselinePrompt": "Viết một tin nhắn ngắn cho Mai: nêu vấn đề, việc bạn đã thử và một câu hỏi. Hãy viết bằng tiếng Anh, chưa xem bài mẫu.",
+    "performancePrompt": "Write 40 to 60 words in English: the problem, what you tried, and one question. (Nêu vấn đề, việc đã thử, một câu hỏi.)",
+    "modelResponse": "Hi Mai, I have a problem with the build. I get an error: config file not found. I ran npm install and npm start. The error is still there. Can you help me with the config file? I am free after lunch. Thank you for your help.",
+    "retryPrompt": "Write your message again in English. Fix your weakest criterion (tiêu chí yếu nhất). Keep it short.",
+    "transferPrompt": "Write a new help message for a different error. Say the problem, what you tried, and ask one question.",
+    "reviewPrompt": "Write a help message for a new problem. Do not look at your old messages.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Config file error",
+        "brief": "Bạn khởi động ứng dụng và gặp lỗi thiếu file cấu hình. Nhắn cho Mai.",
+        "artifacts": [
+          {
+            "id": "help-baseline-log",
+            "type": "source",
+            "title": "Terminal output",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Error: config file not found. The path is app/config.json. You ran npm install. You ran npm start. The error is still there."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Test database error",
+        "brief": "Sửa tin nhắn cho một lỗi khác: các bài test không kết nối được với database.",
+        "artifacts": [
+          {
+            "id": "help-retry-log",
+            "type": "source",
+            "title": "Test output",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Error: cannot connect to database. The test run stops at test number three. You checked the database name. You started the test again. The error is the same."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Port already in use",
+        "brief": "Một tình huống mới: ứng dụng không khởi động vì cổng đã bị dùng.",
+        "artifacts": [
+          {
+            "id": "help-transfer-log",
+            "type": "source",
+            "title": "Start-up message",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Error: port 4000 is already in use. The app does not start. You closed the browser tab. You restarted the terminal. Sam knows this server well."
+          }
+        ]
+      },
+      "review": {
+        "title": "Permission denied",
+        "brief": "Ôn lại sau vài ngày: viết tin nhắn nhờ giúp cho lỗi quyền truy cập.",
+        "artifacts": [
+          {
+            "id": "help-review-log",
+            "type": "source",
+            "title": "Deploy message",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Error: permission denied for the staging folder. The deploy stops at the last step. You read the team guide. You tried with your own account. Priya manages access."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 240,
+      "requiredElements": ["problem", "what I tried", "one question"],
+      "minWords": 40,
+      "maxWords": 60
+    },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 2, "preparationSeconds": 90 },
+    "feedbackPriorities": ["clear problem", "simple accurate sentences", "polite question"],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "Problem, what I tried, one question",
+        "description": "The message has all three parts so the teammate can act.",
+        "dimension": "task",
+        "anchors": { "met": "The reader can see the problem, one thing you tried and one clear question.", "notMet": "The reader still has to ask what is wrong or what you want." }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Basic grammar and word order are correct enough to read quickly.",
+        "dimension": "accuracy",
+        "anchors": { "met": "Short sentences with the right word order, such as \"I tried npm install\".", "notMet": "Missing words or a wrong order make a sentence hard to read." }
+      },
+      {
+        "id": "range",
+        "label": "Help phrases",
+        "description": "Uses phrases from the lesson instead of repeating one pattern.",
+        "dimension": "range",
+        "anchors": { "met": "Uses two or more phrases such as \"I have a problem with\" and \"Can you help me with\".", "notMet": "Repeats one pattern or only writes \"help\" without a phrase." }
+      },
+      {
+        "id": "register",
+        "label": "Polite tone",
+        "description": "Sounds polite to a teammate.",
+        "dimension": "register",
+        "anchors": { "met": "Says hello, asks with \"Can you\" or \"Could you\" and says thank you.", "notMet": "Gives an order such as \"Fix it now\" or has no greeting." }
+      }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 2, 5, 10, 21], "interleave": true }
+}

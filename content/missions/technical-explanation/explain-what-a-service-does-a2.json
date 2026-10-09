@@ -1,0 +1,738 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "explain-what-a-service-does-a2",
+  "title": "Explain what a service does (A2)",
+  "summary": "Nói ngắn gọn một dịch vụ làm gì, dùng gì và gửi dữ liệu cho ai, bằng câu đơn giản.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": [
+    "Nói một dịch vụ làm gì",
+    "Nói dịch vụ dùng công cụ nào",
+    "Nói dịch vụ gửi dữ liệu cho ai"
+  ],
+  "capabilities": [
+    "technical-explanation"
+  ],
+  "workflowTags": [
+    "service",
+    "short-explanation",
+    "a2-entry"
+  ],
+  "sections": [
+    {
+      "id": "service-source",
+      "type": "source",
+      "title": "Service card: Mail Service",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Service: Mail Service. It sends emails to users. It uses a queue to keep each email safe. It gets data from the Orders Service. It sends a status message to the Alerts Service."
+    },
+    {
+      "id": "service-language",
+      "type": "language-support",
+      "title": "Words for services",
+      "vocabulary": [
+        {
+          "word": "service",
+          "ipa": "/ˈsɝː.vɪs/",
+          "definition": "dịch vụ",
+          "technicalMeaning": "Một phần nhỏ của hệ thống làm một việc rõ ràng.",
+          "collocations": [
+            "a small service",
+            "call a service"
+          ],
+          "example": "The Mail Service sends emails.",
+          "commonMistake": "Nhấn trọng âm ở âm tiết đầu: SER-vice."
+        },
+        {
+          "word": "queue",
+          "ipa": "/kjuː/",
+          "definition": "hàng đợi",
+          "technicalMeaning": "Danh sách việc chờ được xử lý theo thứ tự.",
+          "collocations": [
+            "a message queue",
+            "join the queue"
+          ],
+          "example": "The service uses a queue.",
+          "commonMistake": "Đọc là /kjuː/, không đọc thành \"que-ue\"."
+        },
+        {
+          "word": "send",
+          "ipa": "/send/",
+          "definition": "gửi",
+          "technicalMeaning": "Chuyển dữ liệu hoặc tin nhắn cho một nơi khác.",
+          "collocations": [
+            "send data",
+            "send a message"
+          ],
+          "example": "It sends data to another service.",
+          "commonMistake": "Thêm s sau chủ ngữ ngôi thứ ba: it sends."
+        },
+        {
+          "word": "data",
+          "ipa": "/ˈdeɪ.t̬ə/",
+          "definition": "dữ liệu",
+          "technicalMeaning": "Thông tin mà các dịch vụ gửi và nhận.",
+          "collocations": [
+            "get data",
+            "send data"
+          ],
+          "example": "The service gets data from the Orders Service.",
+          "commonMistake": "Data đi với động từ số ít trong tiếng Anh hằng ngày: the data is ready."
+        },
+        {
+          "word": "use",
+          "ipa": "/juːz/",
+          "definition": "dùng",
+          "technicalMeaning": "Dùng một công cụ hoặc một thành phần để làm việc.",
+          "collocations": [
+            "use a queue",
+            "use a database"
+          ],
+          "example": "It uses a queue.",
+          "commonMistake": "Động từ use đọc /juːz/, danh từ use đọc /juːs/."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "This service ___.",
+          "meaning": "Nói dịch vụ làm gì.",
+          "tone": "neutral",
+          "example": "This service sends emails to users.",
+          "alternatives": [
+            "The service ___."
+          ]
+        },
+        {
+          "phrase": "It uses ___.",
+          "meaning": "Nói dịch vụ dùng gì.",
+          "tone": "neutral",
+          "example": "It uses a queue.",
+          "alternatives": [
+            "It works with ___."
+          ]
+        },
+        {
+          "phrase": "It sends ___ to ___.",
+          "meaning": "Nói dịch vụ gửi gì cho ai.",
+          "tone": "neutral",
+          "example": "It sends a status message to the Alerts Service.",
+          "alternatives": [
+            "It passes ___ to ___."
+          ]
+        },
+        {
+          "phrase": "It gets data from ___.",
+          "meaning": "Nói dữ liệu đến từ đâu.",
+          "tone": "neutral",
+          "example": "It gets data from the Orders Service.",
+          "alternatives": [
+            "The data comes from ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "service-check",
+      "type": "auto-check",
+      "title": "Check your service English",
+      "exercises": [
+        {
+          "id": "service-what-does",
+          "type": "choice",
+          "question": "What does the Mail Service do?",
+          "options": [
+            "It sends emails to users",
+            "It stores all user passwords",
+            "It draws charts for managers"
+          ],
+          "correctAnswer": [
+            "It sends emails to users"
+          ],
+          "explanation": "Thẻ dịch vụ nói It sends emails to users."
+        },
+        {
+          "id": "service-order-sentence",
+          "type": "ordering",
+          "question": "Sắp xếp các từ thành một câu.",
+          "options": [
+            "a queue",
+            "It",
+            "uses"
+          ],
+          "correctAnswer": [
+            "It",
+            "uses",
+            "a queue"
+          ],
+          "explanation": "Thứ tự là chủ ngữ, động từ rồi công cụ."
+        },
+        {
+          "id": "service-fill-from",
+          "type": "fill",
+          "question": "Điền giới từ: It gets data ___ the Orders Service.",
+          "correctAnswer": [
+            "from"
+          ],
+          "explanation": "Gets data from là nơi dữ liệu đến."
+        },
+        {
+          "id": "service-who-receives",
+          "type": "choice",
+          "question": "Who gets the status message?",
+          "options": [
+            "The Alerts Service",
+            "The Orders Service",
+            "The user directly"
+          ],
+          "correctAnswer": [
+            "The Alerts Service"
+          ],
+          "explanation": "Thẻ dịch vụ nói Mail Service gửi thông báo trạng thái cho Alerts Service."
+        },
+        {
+          "id": "service-fill-sends",
+          "type": "fill",
+          "question": "Điền động từ: The service ___ emails. (send)",
+          "correctAnswer": [
+            "sends"
+          ],
+          "explanation": "Chủ ngữ ngôi thứ ba số ít cần thêm s: sends."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "service-spoken-task",
+    "mode": "spoken",
+    "title": "Explain a service in one short answer",
+    "scenario": "Tình huống mô phỏng: đồng nghiệp mới hỏi một dịch vụ làm gì; bạn trả lời bằng vài câu ngắn.",
+    "baselinePrompt": "Trong 20–40 giây, nói bằng tiếng Anh: dịch vụ làm gì, dùng gì và gửi dữ liệu cho ai. Chưa xem bài mẫu hay các cụm câu.",
+    "performancePrompt": "Speak in English for 20 to 40 seconds: what the service does, what it uses, and where it sends data. (Làm gì, dùng gì, gửi cho ai.)",
+    "modelResponse": "This service sends emails to users. It uses a queue to keep each email safe. It gets data from the Orders Service. When an email is ready, it sends a status message to the Alerts Service. The queue helps the service stay calm when many users wait. That is all for this service.",
+    "retryPrompt": "Speak again in English for 20 to 40 seconds. Fix your weakest criterion.",
+    "transferPrompt": "In 20 to 40 seconds, explain a new service: what it does, what it uses and where it sends data.",
+    "reviewPrompt": "In 20 to 40 seconds, explain another service without looking at the old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Mail Service",
+        "brief": "Đồng nghiệp mới hỏi Mail Service làm gì.",
+        "artifacts": [
+          {
+            "id": "service-baseline-card",
+            "type": "source",
+            "title": "Mail Service",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Service: Mail Service. It sends emails to users. It uses a queue to keep each email safe. It gets data from the Orders Service. It sends a status message to the Alerts Service."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Search Service",
+        "brief": "Sửa bài nói với một dịch vụ khác: tìm sản phẩm.",
+        "artifacts": [
+          {
+            "id": "service-retry-card",
+            "type": "source",
+            "title": "Search Service",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Service: Search Service. It finds products for users. It uses an index to find them fast. It gets data from the Catalog Service. It sends the results to the Web Page."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Billing Service",
+        "brief": "Một dịch vụ mới: tạo hóa đơn.",
+        "artifacts": [
+          {
+            "id": "service-transfer-card",
+            "type": "source",
+            "title": "Billing Service",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Service: Billing Service. It makes invoices for customers. It uses a database to save each invoice. It gets data from the Cart Service. It sends a copy to the Mail Service."
+          }
+        ]
+      },
+      "review": {
+        "title": "Photo Service",
+        "brief": "Ôn lại sau vài ngày với dịch vụ ảnh.",
+        "artifacts": [
+          {
+            "id": "service-review-card",
+            "type": "source",
+            "title": "Photo Service",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Service: Photo Service. It makes small copies of photos. It uses a cache to keep the copies. It gets photos from the Upload Service. It sends the copies to the Gallery Service."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 40,
+      "requiredElements": [
+        "what the service does",
+        "what it uses",
+        "where it sends data"
+      ],
+      "targetSeconds": 20
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 2,
+      "preparationSeconds": 30
+    },
+    "feedbackPriorities": [
+      "clear short sentences",
+      "correct -s on verbs",
+      "sentence stress on key words"
+    ],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "What it does, what it uses, where it sends data",
+        "description": "The answer covers the three parts about the service.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The listener knows what the service does, what it uses and who gets its data.",
+          "notMet": "A part is missing, so the listener cannot explain the service."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Verbs and word order are correct enough to follow.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Short sentences such as \"It sends emails\" with the -s on the verb.",
+          "notMet": "Verbs miss the -s or the order is wrong, for example \"It send email\"."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Service phrases",
+        "description": "Uses phrases from the lesson, not only single words.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least two phrases such as \"It uses\" and \"It sends ... to\".",
+          "notMet": "Uses only single words such as \"email\" and \"queue\"."
+        }
+      },
+      {
+        "id": "delivery",
+        "label": "Clear delivery",
+        "description": "Speech is slow and clear enough for a new teammate.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Key words such as \"queue\" and \"data\" are clear and the pace is steady.",
+          "notMet": "Speech is rushed or key words are hard to hear."
+        }
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "svc-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This service sends emails to users.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the service do?",
+            "options": [
+              "It sends messages",
+              "It reads messages",
+              "It deletes messages"
+            ],
+            "correctAnswer": "It sends messages"
+          },
+          {
+            "id": "svc-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It uses a queue to keep each email safe.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the service use?",
+            "options": [
+              "A waiting list",
+              "A new screen",
+              "A paper report"
+            ],
+            "correctAnswer": "A waiting list"
+          },
+          {
+            "id": "svc-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It gets data from the Orders Service.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Where does the data come from?",
+            "options": [
+              "A different service",
+              "The user phone",
+              "A paper form"
+            ],
+            "correctAnswer": "A different service"
+          },
+          {
+            "id": "svc-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It sends a status message to the Alerts Service.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Who receives the message?",
+            "options": [
+              "Another service",
+              "A manager by phone",
+              "The first user"
+            ],
+            "correctAnswer": "Another service"
+          }
+        ],
+        "training": [
+          {
+            "id": "svc-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The service sends data to another service.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the service send?",
+            "options": [
+              "Data files",
+              "A phone",
+              "A chair"
+            ],
+            "correctAnswer": "Data files",
+            "feedback": "Chú ý sends data: dịch vụ gửi dữ liệu."
+          },
+          {
+            "id": "svc-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It uses a queue, and it uses a cache.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How many tools does it use?",
+            "options": [
+              "Two",
+              "One",
+              "Four"
+            ],
+            "correctAnswer": "Two",
+            "feedback": "Có hai công cụ nối bằng and: a queue và a cache."
+          },
+          {
+            "id": "svc-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It gets data from the Catalog Service.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Where does the data come from?",
+            "options": [
+              "From another service",
+              "From a user email",
+              "From a paper box"
+            ],
+            "correctAnswer": "From another service",
+            "feedback": "Chú ý from: nơi dữ liệu đến."
+          },
+          {
+            "id": "svc-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This service finds products for users.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the service do?",
+            "options": [
+              "It finds products",
+              "It sells products",
+              "It builds products"
+            ],
+            "correctAnswer": "It finds products",
+            "feedback": "Chú ý finds products: dịch vụ tìm sản phẩm."
+          },
+          {
+            "id": "svc-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It sends the results to the Web Page.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Where do the results go?",
+            "options": [
+              "Into the web page",
+              "To the old desk",
+              "To the next year"
+            ],
+            "correctAnswer": "Into the web page",
+            "feedback": "Chú ý to: nơi dữ liệu đi tới."
+          },
+          {
+            "id": "svc-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The queue keeps each message safe.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the queue do?",
+            "options": [
+              "Keeps messages safe",
+              "Makes messages louder",
+              "Counts all the users"
+            ],
+            "correctAnswer": "Keeps messages safe",
+            "feedback": "Chú ý keeps ... safe: queue giữ tin an toàn."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "svc-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This service sends status messages.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the service send?",
+            "options": [
+              "Messages about status",
+              "Phone calls",
+              "Paper maps"
+            ],
+            "correctAnswer": "Messages about status"
+          },
+          {
+            "id": "svc-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It uses a queue for the emails.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the service use?",
+            "options": [
+              "A waiting line",
+              "A mouse",
+              "A phone"
+            ],
+            "correctAnswer": "A waiting line"
+          },
+          {
+            "id": "svc-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It gets data from the Orders Service.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "Which service sends data in?",
+            "options": [
+              "The orders one",
+              "The alerts one",
+              "The search one"
+            ],
+            "correctAnswer": "The orders one"
+          },
+          {
+            "id": "svc-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It sends the status to the Alerts Service.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Which service gets the status?",
+            "options": [
+              "The alerts one",
+              "The orders one",
+              "The search one"
+            ],
+            "correctAnswer": "The alerts one"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "svc-cue-queue",
+          "articulatoryCue": "Đọc queue là /kjuː/: bật âm k rồi kéo dài âm u, không đọc thành \"que-ue\".",
+          "meaningRisk": "Đọc sai queue làm người nghe không nhận ra từ về hàng đợi.",
+          "triggerItemIds": [
+            "svc-pre-2",
+            "svc-train-6"
+          ]
+        },
+        {
+          "id": "svc-cue-sends",
+          "articulatoryCue": "Giữ âm s ở cuối sends để người nghe biết dịch vụ gửi, không phải người gửi.",
+          "meaningRisk": "Mất âm s cuối làm câu nghe như sai ngữ pháp và khó nhận ra động từ.",
+          "triggerItemIds": [
+            "svc-pre-1",
+            "svc-train-1"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "svc-chunk-does",
+          "function": "what it does",
+          "text": "This service ___.",
+          "meaning": "Nói dịch vụ làm gì.",
+          "slots": [
+            "action"
+          ],
+          "stressPattern": "SERVICE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "This service sends emails to users.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "svc-chunk-uses",
+          "function": "what it uses",
+          "text": "It uses ___ to ___.",
+          "meaning": "Nói dịch vụ dùng gì để làm gì.",
+          "slots": [
+            "tool",
+            "goal"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "It uses a queue to keep each email safe.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "svc-chunk-gets",
+          "function": "where data comes from",
+          "text": "It gets data from ___.",
+          "meaning": "Nói dữ liệu đến từ đâu.",
+          "slots": [
+            "source"
+          ],
+          "stressPattern": "DATA",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "It gets data from the Orders Service.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "svc-chunk-sends",
+          "function": "where it sends data",
+          "text": "It sends ___ to ___.",
+          "meaning": "Nói dịch vụ gửi gì cho ai.",
+          "slots": [
+            "data",
+            "target"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "It sends a status message to the Alerts Service.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nói dịch vụ làm gì, dùng gì và gửi cho ai.",
+        "Động từ có -s: sends, uses, gets.",
+        "Mình nói chậm và rõ từ queue và data."
+      ],
+      "interactionTurns": [
+        {
+          "id": "svc-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not understand. What does the service use?",
+          "expectedFunction": "say what the service uses in one short sentence"
+        },
+        {
+          "id": "svc-turn-follow",
+          "kind": "follow-up",
+          "prompt": "Who gets the data from your service?",
+          "expectedFunction": "say who gets the data in one short sentence"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      2,
+      5,
+      10,
+      21
+    ],
+    "interleave": true
+  }
+}

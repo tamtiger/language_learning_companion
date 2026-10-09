@@ -293,3 +293,45 @@ describe('content revision of a lesson progress', () => {
     expect(isLessonProgressStale(progress, { contentRevision: 1 })).toBe(false)
   })
 })
+describe('today queue along the A2 pathway', () => {
+  const cap = 'workplace-communication' as const
+  const catalog = [
+    { lessonId: 'b2-lesson', capabilityId: cap, hasPerformanceTask: true, cefrLevel: 'B2' as const },
+    { lessonId: 'a2-lesson', capabilityId: cap, hasPerformanceTask: true, cefrLevel: 'A2' as const },
+    { lessonId: 'b1-lesson', capabilityId: cap, hasPerformanceTask: true, cefrLevel: 'B1' as const }
+  ]
+  const now = new Date('2026-08-18T08:00:00.000Z')
+  const ids = (items: { lessonId: string; kind: string }[]) => items.map((item) => `${item.lessonId}:${item.kind}`)
+
+  it('offers A2 before B1 before B2 within a capability for a new learner', () => {
+    expect(ids(buildTodayQueue(catalog, {}, now))).toEqual(['a2-lesson:baseline', 'b1-lesson:baseline', 'b2-lesson:baseline'])
+  })
+
+  it('makes B1 the first item once A2 is completed', () => {
+    const items = buildTodayQueue(catalog, { 'a2-lesson': { ...createEmptyLessonProgress(), status: 'completed' } }, now)
+    expect(items[0].lessonId).toBe('b1-lesson')
+  })
+
+  it('drops a new A2 entry once the learner works at a higher level of the same capability', () => {
+    const items = buildTodayQueue(catalog, {
+      'b1-lesson': { ...createEmptyLessonProgress(), status: 'in-progress', attemptCount: 1 }
+    }, now)
+    expect(ids(items)).toEqual(['b1-lesson:resume', 'b2-lesson:baseline'])
+  })
+
+  it('keeps a due A2 review and an A2 resume even when the learner moved on', () => {
+    const items = buildTodayQueue(catalog, {
+      'a2-lesson': { ...createEmptyLessonProgress(), status: 'in-progress', nextReviewAt: '2026-08-17T00:00:00.000Z' },
+      'b1-lesson': { ...createEmptyLessonProgress(), status: 'in-progress', attemptCount: 1 }
+    }, now)
+    expect(ids(items)).toEqual(['a2-lesson:review', 'a2-lesson:resume', 'b1-lesson:resume', 'b2-lesson:baseline'])
+  })
+
+  it('does not let one capability skip the A2 entry of another', () => {
+    const items = buildTodayQueue([
+      ...catalog,
+      { lessonId: 'other-a2', capabilityId: 'technical-reading' as const, hasPerformanceTask: true, cefrLevel: 'A2' as const }
+    ], { 'b1-lesson': { ...createEmptyLessonProgress(), status: 'in-progress', attemptCount: 1 } }, now)
+    expect(items.map((item) => item.lessonId)).toContain('other-a2')
+  })
+})

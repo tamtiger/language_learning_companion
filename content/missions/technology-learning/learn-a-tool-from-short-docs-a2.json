@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "learn-a-tool-from-short-docs-a2",
+  "title": "Learn a new tool from short docs (A2)",
+  "summary": "Đọc tài liệu bốn dòng của một công cụ dòng lệnh và viết công cụ làm gì, một lệnh ví dụ và một câu hỏi.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": ["Hiểu công cụ làm gì từ tài liệu ngắn", "Viết một lệnh ví dụ đúng", "Đặt một câu hỏi về công cụ"],
+  "capabilities": ["technology-learning"],
+  "workflowTags": ["tool-docs", "cli-tool", "a2-entry"],
+  "sections": [
+    {
+      "id": "tool-source",
+      "type": "source",
+      "title": "Docs: logpeek",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Tool: logpeek. logpeek shows the last lines of a log file. Usage: logpeek FILE. Option: --lines N shows N lines. The default is 10 lines. Example: logpeek app.log --lines 20."
+    },
+    {
+      "id": "tool-language",
+      "type": "language-support",
+      "title": "Words for tool docs",
+      "vocabulary": [
+        { "word": "tool", "ipa": "/tuːl/", "definition": "công cụ", "technicalMeaning": "Một chương trình nhỏ giúp làm một việc cụ thể.", "collocations": ["use a tool", "a command-line tool"], "example": "I use a tool to read log files.", "commonMistake": "Nói \"a tool\" cho số ít; đừng bỏ từ a." },
+        { "word": "option", "ipa": "/ˈɑːp.ʃən/", "definition": "tùy chọn", "technicalMeaning": "Một phần thêm vào lệnh để đổi cách công cụ chạy.", "collocations": ["add an option", "default option"], "example": "The --lines option shows more lines.", "commonMistake": "Nhấn trọng âm ở âm tiết đầu: OP-tion." },
+        { "word": "example", "ipa": "/ɪɡˈzæm.pəl/", "definition": "ví dụ", "technicalMeaning": "Một lệnh mẫu cho thấy cách dùng công cụ.", "collocations": ["for example", "an example command"], "example": "For example, I run logpeek app.log.", "commonMistake": "Nói \"for example\"; không nói \"for examples\"." },
+        { "word": "line", "ipa": "/laɪn/", "definition": "dòng", "technicalMeaning": "Một dòng chữ trong tệp hoặc trong kết quả.", "collocations": ["last line", "20 lines"], "example": "I want to see 20 lines.", "commonMistake": "Dùng \"lines\" sau số lớn hơn một: 20 lines." },
+        { "word": "show", "ipa": "/ʃoʊ/", "definition": "hiển thị", "technicalMeaning": "In nội dung ra màn hình.", "collocations": ["show lines", "show an error"], "example": "The tool shows the last lines.", "commonMistake": "Thêm s sau chủ ngữ ngôi thứ ba: the tool shows." }
+      ],
+      "expressions": [
+        { "phrase": "___ is used to ___.", "meaning": "Nói công cụ dùng để làm gì.", "tone": "neutral", "example": "logpeek is used to read log files.", "alternatives": ["___ helps me ___."] },
+        { "phrase": "For example, I run ___.", "meaning": "Đưa ra một lệnh ví dụ.", "tone": "neutral", "example": "For example, I run logpeek app.log.", "alternatives": ["An example is ___."] },
+        { "phrase": "The default is ___.", "meaning": "Nói giá trị mặc định của một tùy chọn.", "tone": "neutral", "example": "The default is 10 lines.", "alternatives": ["By default, it shows ___."] },
+        { "phrase": "I have one question. ___?", "meaning": "Mở đầu một câu hỏi về công cụ.", "tone": "neutral", "example": "I have one question. Can it read two files?", "alternatives": ["One question: ___?"] }
+      ]
+    },
+    {
+      "id": "tool-check",
+      "type": "auto-check",
+      "title": "Check what you read",
+      "exercises": [
+        {
+          "id": "tool-what-it-does",
+          "type": "choice",
+          "question": "What does logpeek do?",
+          "options": ["It shows the last lines of a log file", "It deletes every old log file on your disk", "It sends a log file by email"],
+          "correctAnswer": ["It shows the last lines of a log file"],
+          "explanation": "Câu đầu của tài liệu nói logpeek shows the last lines of a log file."
+        },
+        {
+          "id": "tool-option-meaning",
+          "type": "choice",
+          "question": "What does --lines 20 do?",
+          "options": ["It shows 20 lines", "It shows 20 files", "It waits 20 seconds"],
+          "correctAnswer": ["It shows 20 lines"],
+          "explanation": "Tài liệu nói --lines N shows N lines, nên 20 nghĩa là 20 dòng."
+        },
+        {
+          "id": "tool-order-command",
+          "type": "ordering",
+          "question": "Sắp xếp các phần thành một lệnh ví dụ đúng.",
+          "options": ["--lines 20", "logpeek", "app.log"],
+          "correctAnswer": ["logpeek", "app.log", "--lines 20"],
+          "explanation": "Cú pháp là tên công cụ, tên tệp, rồi tùy chọn."
+        },
+        {
+          "id": "tool-fill-default",
+          "type": "fill",
+          "question": "Điền số: The default is ___ lines.",
+          "correctAnswer": ["10"],
+          "acceptedAnswers": ["ten"],
+          "explanation": "Tài liệu nói The default is 10 lines."
+        },
+        {
+          "id": "tool-good-question",
+          "type": "choice",
+          "question": "Which question is about what the tool can do?",
+          "options": ["Can logpeek read two files together?", "Is logpeek a good tool for everything?", "What does the tool do for the whole team?"],
+          "correctAnswer": ["Can logpeek read two files together?"],
+          "explanation": "Câu đúng hỏi về một khả năng cụ thể; hai câu còn lại quá chung chung để trả lời bằng tài liệu."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "tool-docs-task",
+    "mode": "written",
+    "title": "Explain a tool and ask one question",
+    "scenario": "Đồng nghiệp gửi bạn tài liệu ngắn của một công cụ mới; bạn viết lại bằng tiếng Anh cho nhóm.",
+    "baselinePrompt": "Đọc tài liệu ngắn của logpeek rồi viết bằng tiếng Anh: công cụ làm gì, một lệnh ví dụ và một câu hỏi. Chưa xem bài mẫu.",
+    "performancePrompt": "Write 40 to 60 words in English: what the tool does, one example command and one question. (Công cụ làm gì, một ví dụ, một câu hỏi.)",
+    "modelResponse": "logpeek shows the last lines of a log file. It is used to check errors fast. For example, I run logpeek app.log --lines 20 to see 20 lines. I have one question. Can logpeek show lines from two files at the same time?",
+    "retryPrompt": "Write your answer again in English. Fix your weakest criterion.",
+    "transferPrompt": "Write about a new tool. Say what it does, give one example command and ask one question.",
+    "reviewPrompt": "Write about another tool. Do not look at your old answers.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "logpeek",
+        "brief": "Đọc tài liệu của logpeek rồi viết lại cho nhóm.",
+        "artifacts": [
+          {
+            "id": "tool-baseline-doc",
+            "type": "source",
+            "title": "Docs: logpeek",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Tool: logpeek. logpeek shows the last lines of a log file. Usage: logpeek FILE. Option: --lines N shows N lines. The default is 10 lines. Example: logpeek app.log --lines 20."
+          }
+        ]
+      },
+      "retry": {
+        "title": "jsonfmt",
+        "brief": "Sửa bài viết với một công cụ khác dùng để làm đẹp file JSON.",
+        "artifacts": [
+          {
+            "id": "tool-retry-doc",
+            "type": "source",
+            "title": "Docs: jsonfmt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Tool: jsonfmt. jsonfmt makes a JSON file easy to read. Usage: jsonfmt FILE. Option: --indent N sets the space size. The default is 2 spaces. Example: jsonfmt data.json --indent 4."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "portcheck",
+        "brief": "Một công cụ mới: kiểm tra một cổng trên máy chủ.",
+        "artifacts": [
+          {
+            "id": "tool-transfer-doc",
+            "type": "source",
+            "title": "Docs: portcheck",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Tool: portcheck. portcheck tells you if a port is open on a server. Usage: portcheck HOST PORT. Option: --wait N waits N seconds. The default is 5 seconds. Example: portcheck db.local 5432 --wait 10."
+          }
+        ]
+      },
+      "review": {
+        "title": "tablesnap",
+        "brief": "Ôn lại sau vài ngày với một công cụ lưu bản sao bảng dữ liệu.",
+        "artifacts": [
+          {
+            "id": "tool-review-doc",
+            "type": "source",
+            "title": "Docs: tablesnap",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Tool: tablesnap. tablesnap saves a copy of one database table. Usage: tablesnap TABLE. Option: --format csv saves the copy as a CSV file. The default is json. Example: tablesnap users --format csv."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 240,
+      "requiredElements": ["what the tool does", "example command", "one question"],
+      "minWords": 40,
+      "maxWords": 60
+    },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 2, "preparationSeconds": 90 },
+    "feedbackPriorities": ["correct meaning", "correct example command", "simple accurate sentences"],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "What it does, an example and a question",
+        "description": "The answer has all three parts and matches the docs.",
+        "dimension": "task",
+        "anchors": { "met": "The reader learns what the tool does, sees a correct command and finds one clear question.", "notMet": "A part is missing or the command does not match the docs." }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Basic grammar is correct, including the -s after he, she or it.",
+        "dimension": "accuracy",
+        "anchors": { "met": "Short sentences such as \"The tool shows 20 lines\".", "notMet": "Verbs are wrong or missing, for example \"The tool show 20 line\"." }
+      },
+      {
+        "id": "range",
+        "label": "Tool-docs phrases",
+        "description": "Uses phrases from the lesson such as \"is used to\" and \"For example\".",
+        "dimension": "range",
+        "anchors": { "met": "Uses at least two phrases from the lesson.", "notMet": "Repeats \"it is\" for every sentence." }
+      }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 2, 5, 10, 21], "interleave": true }
+}

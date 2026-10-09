@@ -508,9 +508,10 @@ const SpokenPerformanceTaskSchema = z.object({
   mode: z.literal('spoken'),
   learningLoop: LearningLoopV1Schema.optional(),
   outputContract: z.object({
-    timeLimitSeconds: z.number().int().min(30).max(1800),
+    // A2 spoken missions are short: a 20 second target inside a 40 second limit.
+    timeLimitSeconds: z.number().int().min(20).max(1800),
     requiredElements: z.array(NonEmptyString).min(1).max(8),
-    targetSeconds: z.number().int().min(30).max(600)
+    targetSeconds: z.number().int().min(15).max(600)
   }).strict().refine((contract) => contract.targetSeconds <= contract.timeLimitSeconds, {
     message: 'targetSeconds must be less than or equal to timeLimitSeconds',
     path: ['targetSeconds']

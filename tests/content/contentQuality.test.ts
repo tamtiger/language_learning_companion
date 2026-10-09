@@ -550,10 +550,10 @@ function perceptionItem(lessonId: string, itemId: string) {
   return item
 }
 
-const SPOKEN_LESSONS = [
-  'architecture-walkthrough-b2', 'behavioral-interview-ownership-b2', 'daily-standup-b1',
-  'meeting-disagree-and-recap-b2', 'technical-interview-decision-b2', 'technical-tradeoff-explanation-b2'
-]
+/** Every spoken mission with a learning loop, so new missions are covered without editing this file. */
+const SPOKEN_LESSONS = getBundledCatalog().lessons
+  .filter((lesson) => lesson.performanceTask?.mode === 'spoken' && lesson.performanceTask.learningLoop)
+  .map((lesson) => lesson.lessonId)
 
 describe('content accuracy', () => {
   it('stresses only content words that appear in each chunk frame', () => {

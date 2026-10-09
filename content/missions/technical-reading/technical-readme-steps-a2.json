@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "technical-readme-steps-a2",
+  "title": "Read a README and write the steps (A2)",
+  "summary": "Đọc phần cài đặt ngắn của một README và viết lại các bước theo đúng thứ tự bằng first, then, after that, finally.",
+  "cefrLevel": "A2",
+  "durationMinutes": 12,
+  "learningObjectives": ["Tìm các bước trong một README ngắn", "Viết các bước theo thứ tự bằng từ nối", "Nêu kết quả cuối cùng bạn sẽ thấy"],
+  "capabilities": ["technical-reading"],
+  "workflowTags": ["readme", "setup-steps", "a2-entry"],
+  "sections": [
+    {
+      "id": "readme-source",
+      "type": "source",
+      "title": "README: Tools Hub",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. README for Tools Hub. Step 1: Install Node. Step 2: Run npm install. Step 3: Copy .env.example to .env. Step 4: Run npm start. Open http://localhost:3000 in your browser. You should see the Tools Hub home page. To stop the app, press Ctrl+C."
+    },
+    {
+      "id": "readme-language",
+      "type": "language-support",
+      "title": "Words for steps",
+      "vocabulary": [
+        { "word": "step", "ipa": "/step/", "definition": "bước", "technicalMeaning": "Một việc trong danh sách các việc cần làm theo thứ tự.", "collocations": ["first step", "next step"], "example": "The first step is to install Node.", "commonMistake": "Nói \"the first step\"; không nói \"the step first\"." },
+        { "word": "copy", "ipa": "/ˈkɑː.pi/", "definition": "sao chép", "technicalMeaning": "Tạo một bản của tệp ở chỗ khác.", "collocations": ["copy a file", "copy and paste"], "example": "I copy the example file to .env.", "commonMistake": "Nói \"copy A to B\"; giới từ là to." },
+        { "word": "run", "ipa": "/rʌn/", "definition": "chạy", "technicalMeaning": "Thực hiện một lệnh hoặc khởi động chương trình.", "collocations": ["run a command", "run the app"], "example": "I run npm install.", "commonMistake": "Nói \"run npm install\"; không cần thêm từ \"the\" trước tên lệnh." },
+        { "word": "open", "ipa": "/ˈoʊ.pən/", "definition": "mở", "technicalMeaning": "Mở một trang web hoặc một tệp.", "collocations": ["open a page", "open a file"], "example": "I open the page in my browser.", "commonMistake": "Nói \"open the page\"; không nói \"open to the page\"." },
+        { "word": "stop", "ipa": "/stɑːp/", "definition": "dừng", "technicalMeaning": "Tắt ứng dụng hoặc máy chủ đang chạy.", "collocations": ["stop the app", "stop a server"], "example": "To stop the app, I press Ctrl+C.", "commonMistake": "Nói \"stop the app\"; không nói \"stop to the app\"." }
+      ],
+      "expressions": [
+        { "phrase": "First, I ___.", "meaning": "Mở đầu bước thứ nhất.", "tone": "neutral", "example": "First, I install Node.", "alternatives": ["The first step is to ___."] },
+        { "phrase": "Then I ___.", "meaning": "Nối sang bước tiếp theo.", "tone": "neutral", "example": "Then I run npm install.", "alternatives": ["Next, I ___."] },
+        { "phrase": "After that, I ___.", "meaning": "Nối bước sau một bước đã nêu.", "tone": "neutral", "example": "After that, I copy the example file.", "alternatives": ["Next, I ___."] },
+        { "phrase": "Finally, I ___.", "meaning": "Nêu bước cuối cùng.", "tone": "neutral", "example": "Finally, I run npm start.", "alternatives": ["The last step is to ___."] }
+      ]
+    },
+    {
+      "id": "readme-check",
+      "type": "auto-check",
+      "title": "Check what you read",
+      "exercises": [
+        {
+          "id": "readme-first-step",
+          "type": "choice",
+          "question": "What is the first step?",
+          "options": ["Install Node", "Run npm start", "Copy the env file"],
+          "correctAnswer": ["Install Node"],
+          "explanation": "Step 1 trong README là Install Node."
+        },
+        {
+          "id": "readme-order-steps",
+          "type": "ordering",
+          "question": "Sắp xếp các bước theo thứ tự đúng.",
+          "options": ["Run npm start", "Install Node", "Copy .env.example to .env", "Run npm install"],
+          "correctAnswer": ["Install Node", "Run npm install", "Copy .env.example to .env", "Run npm start"],
+          "explanation": "Thứ tự trong README là Step 1 đến Step 4."
+        },
+        {
+          "id": "readme-fill-then",
+          "type": "fill",
+          "question": "Điền từ nối: First, I install Node. ___ I run npm install.",
+          "correctAnswer": ["Then"],
+          "acceptedAnswers": ["Next"],
+          "explanation": "Then hoặc Next nối sang bước thứ hai."
+        },
+        {
+          "id": "readme-stop-app",
+          "type": "choice",
+          "question": "How do you stop the app?",
+          "options": ["Press Ctrl+C", "Open the browser", "Run npm install again"],
+          "correctAnswer": ["Press Ctrl+C"],
+          "explanation": "Câu cuối của README nói: To stop the app, press Ctrl+C."
+        },
+        {
+          "id": "readme-result",
+          "type": "choice",
+          "question": "What should you see after npm start?",
+          "options": ["The Tools Hub home page", "An error about Node", "A blank terminal window"],
+          "correctAnswer": ["The Tools Hub home page"],
+          "explanation": "README nói bạn nên thấy trang chủ Tools Hub sau khi mở localhost 3000."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "readme-steps-task",
+    "mode": "written",
+    "title": "Write the setup steps in order",
+    "scenario": "Một đồng nghiệp mới hỏi cách chạy ứng dụng Tools Hub; bạn viết các bước từ README.",
+    "baselinePrompt": "Đọc README rồi viết các bước cài đặt theo thứ tự bằng tiếng Anh. Hãy dùng first, then, after that, finally. Chưa xem bài mẫu.",
+    "performancePrompt": "Write the setup steps in order in English, 40 to 60 words. (Dùng first, then, after that, finally.)",
+    "modelResponse": "First, I install Node. Then I run npm install. After that, I copy the example file to .env. Finally, I run npm start and open the page at localhost 3000. I should see the Tools Hub home page. To stop the app, I press Ctrl+C.",
+    "retryPrompt": "Write the steps again in English. Fix your weakest criterion.",
+    "transferPrompt": "Write the setup steps for a new README. Use order words and say what you should see at the end.",
+    "reviewPrompt": "Write the steps for a different README. Do not look at your old answers.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Tools Hub",
+        "brief": "Đọc README của Tools Hub rồi viết các bước theo thứ tự.",
+        "artifacts": [
+          {
+            "id": "readme-baseline-doc",
+            "type": "source",
+            "title": "README: Tools Hub",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. README for Tools Hub. Step 1: Install Node. Step 2: Run npm install. Step 3: Copy .env.example to .env. Step 4: Run npm start. Open http://localhost:3000 in your browser. You should see the Tools Hub home page. To stop the app, press Ctrl+C."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Report Maker",
+        "brief": "Sửa bài viết với một README khác, dùng Python thay cho Node.",
+        "artifacts": [
+          {
+            "id": "readme-retry-doc",
+            "type": "source",
+            "title": "README: Report Maker",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. README for Report Maker. Step 1: Install Python. Step 2: Run pip install -r requirements.txt. Step 3: Copy config.example.ini to config.ini. Step 4: Run python main.py. A new file called report.pdf appears in the output folder."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Quick API",
+        "brief": "Một README mới: ứng dụng chạy trong Docker.",
+        "artifacts": [
+          {
+            "id": "readme-transfer-doc",
+            "type": "source",
+            "title": "README: Quick API",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. README for Quick API. Step 1: Install Docker. Step 2: Run docker build -t quick-api . Step 3: Run docker run -p 8080:80 quick-api. Open http://localhost:8080 in your browser. To stop the container, press Ctrl+C."
+          }
+        ]
+      },
+      "review": {
+        "title": "Style Check",
+        "brief": "Ôn lại sau vài ngày với một README về kiểm tra lỗi code.",
+        "artifacts": [
+          {
+            "id": "readme-review-doc",
+            "type": "source",
+            "title": "README: Style Check",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. README for Style Check. Step 1: Install Node. Step 2: Run npm install. Step 3: Run npm run lint. Fix every error in the list. Step 4: Run npm run lint again. The list must be empty before you commit."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 240,
+      "requiredElements": ["steps in order", "order words", "final result"],
+      "minWords": 40,
+      "maxWords": 60
+    },
+    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 2, "preparationSeconds": 90 },
+    "feedbackPriorities": ["correct order", "order words", "simple accurate sentences"],
+    "rubric": [
+      {
+        "id": "task",
+        "label": "All steps in the right order",
+        "description": "Every important step from the README is there, in the same order.",
+        "dimension": "task",
+        "anchors": { "met": "The reader can follow your steps from the first to the last without the README.", "notMet": "A step is missing or the order is wrong, so the reader gets stuck." }
+      },
+      {
+        "id": "accuracy",
+        "label": "Simple, accurate sentences",
+        "description": "Basic grammar and word order are correct.",
+        "dimension": "accuracy",
+        "anchors": { "met": "Short sentences with a subject and a verb, such as \"I run npm install\".", "notMet": "Sentences miss the subject or the verb, so a step is unclear." }
+      },
+      {
+        "id": "range",
+        "label": "Order words",
+        "description": "Uses first, then, after that and finally instead of only \"and\".",
+        "dimension": "range",
+        "anchors": { "met": "Uses at least three different order words.", "notMet": "Uses only \"and\" or the same word for every step." }
+      }
+    ]
+  },
+  "reviewPolicy": { "intervalDays": [1, 2, 5, 10, 21], "interleave": true }
+}

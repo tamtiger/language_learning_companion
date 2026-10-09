@@ -121,20 +121,22 @@ perception pretest → training có feedback → posttest
 
 ## Nội dung hiện có
 
-Có 12 capability mission v3 — hai mission cho mỗi mục tiêu:
+Có 18 capability mission v3 — ba mission cho mỗi mục tiêu (một bài A2 lối vào, rồi B1/B2):
 
 | Capability | Hai mission | Mode |
 |---|---|---|
-| Giao tiếp công việc | Actionable issue update; clarification request | Written |
-| Đọc tài liệu kỹ thuật | Documentation to actions; log diagnosis | Written |
-| Họp quốc tế | Daily Standup; disagree and recap | Spoken |
-| Giải thích kỹ thuật | Technical trade-off; architecture walkthrough | Spoken |
-| Phỏng vấn quốc tế | Technical decision; behavioral ownership | Spoken |
-| Học công nghệ bằng tiếng Anh | API learning plan; troubleshooting from docs | Written |
+| Giao tiếp công việc | Ask a teammate for help (A2); actionable issue update; clarification request | Written |
+| Đọc tài liệu kỹ thuật | Read a README and write the steps (A2); documentation to actions; log diagnosis | Written |
+| Họp quốc tế | Join a meeting and ask to repeat (A2); Daily Standup; disagree and recap | Spoken |
+| Giải thích kỹ thuật | Explain what a service does (A2); technical trade-off; architecture walkthrough | Spoken |
+| Phỏng vấn quốc tế | Describe your job (A2); technical decision; behavioral ownership | Spoken |
+| Học công nghệ bằng tiếng Anh | Learn a tool from short docs (A2); API learning plan; troubleshooting from docs | Written |
 
-Ngoài 12 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
+Người mới mở Today sẽ thấy bài A2 của từng kỹ năng trước; Thư viện đánh dấu "Lối vào A2", gợi ý bài tiếp theo và có nút "Bắt đầu với A2". Bài A2 chỉ còn được đề xuất mới khi bạn chưa học bài cao hơn cùng kỹ năng.
+
+Ngoài 18 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
 và chỉ hoàn thành khi mọi auto-check đều đúng; kết quả quiz không đánh giá phát âm
-khi nói. Taxonomy authoring đặt 12 mission v3 tại
+khi nói. Taxonomy authoring đặt 18 mission v3 tại
 `content/missions/<primary-capability>/<lesson-id>.json` và 6 pronunciation lesson
 v1 tại `content/reference/pronunciation/<lesson-id>.json`. Cấu trúc thư mục giúp
 tổ chức biên soạn, không quyết định semantics hoặc runtime behavior; content
