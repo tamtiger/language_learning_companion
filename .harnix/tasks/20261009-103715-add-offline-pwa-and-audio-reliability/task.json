@@ -4,8 +4,8 @@
   "id": "20261009-103715-add-offline-pwa-and-audio-reliability",
   "title": "Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "App tải và chạy được khi offline, dữ liệu được bảo vệ, audio mẫu báo trạng thái thật.",
   "nonGoals": [
     "Không thêm đồng bộ đám mây",
@@ -15,33 +15,45 @@
     {
       "id": "ac-1",
       "text": "Service worker precache và manifest để cài app và tải lại khi offline; build tạo được.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-pwa-build-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Gọi navigator.storage.persist() và nhắc export định kỳ (lastExportedAt); Settings hiển thị trạng thái.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-storage-persist-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Model audio ưu tiên voice localService, cập nhật trạng thái thật qua onerror/onend/voiceschanged và báo rõ khi không phát được.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-model-audio-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "README và PRODUCT mô tả đúng phạm vi offline-first và TTS.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-docs-offline-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
     {
       "id": "check-pwa-build",
-      "description": "Build sinh service worker và manifest",
-      "command": "npm run build",
+      "description": "Build tạo sw.js, manifest hợp lệ; plugin, service worker và đăng ký đúng hành vi",
+      "command": "npm run check:offline",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -49,32 +61,33 @@
       ],
       "inputs": [
         "index.html",
+        "package.json",
         "public/**",
+        "scripts/**",
         "src/**",
+        "tests/app/**",
+        "tests/scripts/**",
         "vite.config.ts"
       ]
     },
     {
       "id": "check-storage-persist",
-      "description": "Persist và nhắc export",
-      "command": "npx vitest run tests/features/settings/Settings.test.tsx",
+      "description": "persist, lastExportedAt, nhắc xuất, Settings",
+      "command": "npx vitest run tests/features/settings tests/infrastructure tests/app",
       "scope": "focused",
       "required": true,
       "criterionIds": [
-        "ac-2",
-        "ac-4"
+        "ac-2"
       ],
       "inputs": [
-        "PRODUCT.md",
-        "README.md",
         "src/**",
         "tests/**"
       ]
     },
     {
       "id": "check-model-audio",
-      "description": "Voice và trạng thái phát",
-      "command": "npx vitest run tests/features/practice/modelAudio.test.ts",
+      "description": "Model audio: voice tại máy, voiceschanged, trạng thái thật",
+      "command": "npx vitest run tests/features/practice/modelAudio.test.ts tests/features/practice/modelAudioStatus.test.ts tests/features/practice/ModelAudioPlayer.test.tsx",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -100,19 +113,141 @@
       "inputs": [
         "**"
       ]
+    },
+    {
+      "id": "check-docs-offline",
+      "description": "README và PRODUCT nêu đúng phạm vi offline và TTS",
+      "command": "node --test tests/scripts/check-docs-layout.test.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-4"
+      ],
+      "inputs": [
+        "README.md",
+        "docs/**",
+        "scripts/**",
+        "tests/scripts/**"
+      ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "task-contract-revision-01",
+      "recordedAt": "2026-10-09T15:23:55.190+07:00",
+      "result": "skipped",
+      "summary": "Task contract revised at persisted replan: Thêm file test modelAudioStatus.test.ts vào lệnh check",
+      "artifactPaths": [
+        ".harnix/tasks/20261009-103715-add-offline-pwa-and-audio-reliability/task.json"
+      ]
+    },
+    {
+      "id": "ev-check-pwa-build-1",
+      "checkId": "check-pwa-build",
+      "recordedAt": "2026-10-09T15:24:13.560+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm check:offline — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "1b6923f04090562d362af88590b5d7e740cfbae25866e97c9a54519bdd377271"
+    },
+    {
+      "id": "ev-check-storage-persist-1",
+      "checkId": "check-storage-persist",
+      "recordedAt": "2026-10-09T15:24:24.109+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/settings tests/infrastructure tests/app — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "394ea24157fbaad7a6f185a0b735b0233e47043d704bb68f2080260d739ba435"
+    },
+    {
+      "id": "ev-check-model-audio-1",
+      "checkId": "check-model-audio",
+      "recordedAt": "2026-10-09T15:24:28.046+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice/modelAudio.test.ts tests/features/practice/modelAudioStatus.test.ts tests/features/practice/ModelAudioPlayer.test.tsx — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "959fd72e99d8efc04f4b1d201d4b15c4edcb76ce5b914b480c85dc329cde6256"
+    },
+    {
+      "id": "ev-check-docs-offline-1",
+      "checkId": "check-docs-offline",
+      "recordedAt": "2026-10-09T15:24:28.565+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test tests/scripts/check-docs-layout.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "f822c5066a4396cbe0b0bdf89a6829c293f65c681a12a5e2f6cc10922573958f"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T15:25:17.029+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "ac7c18c401833fadf2bdc06a3a280e425cae116eb92202bb06a73bc6d5780dbc"
+    }
+  ],
   "relevantPaths": [
-    "PRODUCT.md",
     "README.md",
+    "docs/ARCHITECTURE.md",
+    "docs/PRODUCT.md",
+    "index.html",
     "public",
-    "src/features/practice/modelAudio.ts",
+    "scripts",
+    "src/app",
+    "src/features/practice",
     "src/features/settings",
+    "src/infrastructure/storage",
+    "tests",
     "vite.config.ts"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:06.390+07:00"
+  "updatedAt": "2026-10-09T15:25:29.094+07:00",
+  "decisions": [
+    {
+      "id": "d-handwritten-sw",
+      "text": "Service worker viết tay qua plugin Vite (precache + shell fallback), không thêm workbox hay vite-plugin-pwa.",
+      "rationale": "Nhu cầu nhỏ, tránh dependency; test được bằng vm với caches/fetch giả."
+    },
+    {
+      "id": "d-export-key",
+      "text": "lastExportedAt lưu ở khóa localStorage riêng, không đổi schema tiến độ.",
+      "rationale": "Non-goal: không đổi định dạng dữ liệu tiến độ."
+    },
+    {
+      "id": "d-no-auto-reload",
+      "text": "Bản service worker mới có hiệu lực ở lần mở sau, không tự reload.",
+      "rationale": "Tự reload có thể làm mất bản nháp."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "r-no-png-icons",
+      "text": "Chỉ có icon SVG; iOS và một số trình duyệt có thể không cài được hoặc dùng icon chung.",
+      "severity": "low"
+    },
+    {
+      "id": "r-no-real-browser",
+      "text": "Chưa thử offline và speechSynthesis trên trình duyệt thật; test dùng vm và giả lập; cần kiểm tay Chrome và Safari trước phát hành.",
+      "severity": "low"
+    },
+    {
+      "id": "r-persist-denied",
+      "text": "persist() có thể bị từ chối khi mở app (Firefox, Safari); nút trong Settings là đường dự phòng, nhắc backup là lớp bảo vệ chính.",
+      "severity": "low"
+    },
+    {
+      "id": "r-sw-cache-first",
+      "text": "Asset cùng origin cache-first: một file không hash (favicon, icon, manifest) đổi nội dung sẽ chỉ cập nhật khi version precache đổi; hiện version phụ thuộc danh sách tên file, không phải nội dung file tĩnh.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T15:25:29.094+07:00"
 }

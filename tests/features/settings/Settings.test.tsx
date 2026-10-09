@@ -3,6 +3,7 @@ import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 import { Settings } from '@/features/settings/Settings'
+import { LAST_EXPORT_KEY } from '@/infrastructure/storage/storageHealth'
 
 describe('Settings data safety flows', () => {
   beforeEach(() => useAppStore.getState().resetProgress())
@@ -161,6 +162,57 @@ describe('Settings data safety flows', () => {
     } finally {
       vi.useRealTimers()
     }
+  })
+  describe('data protection status', () => {
+    function stubStorage(storage: object | undefined) {
+      vi.stubGlobal('navigator', Object.assign(Object.create(window.navigator), { storage }))
+    }
+
+    beforeEach(() => window.localStorage.removeItem(LAST_EXPORT_KEY))
+    afterEach(() => window.localStorage.removeItem(LAST_EXPORT_KEY))
+
+    it('says the data is protected when the browser granted persistent storage', async () => {
+      stubStorage({ persisted: async () => true, persist: vi.fn() })
+      render(<Settings />)
+
+      expect(await screen.findByText(/lưu trữ bền vững: đã được cấp/i)).toBeTruthy()
+      expect(screen.queryByRole('button', { name: /yêu cầu lưu trữ bền vững/i })).toBeNull()
+    })
+
+    it('offers a request button when it is not granted and updates after the browser answers', async () => {
+      const user = userEvent.setup()
+      const persist = vi.fn().mockResolvedValue(true)
+      stubStorage({ persisted: async () => false, persist })
+      render(<Settings />)
+
+      expect(await screen.findByText(/chưa được cấp/i)).toBeTruthy()
+      await user.click(screen.getByRole('button', { name: /yêu cầu lưu trữ bền vững/i }))
+
+      expect(persist).toHaveBeenCalledTimes(1)
+      expect(await screen.findByText(/lưu trữ bền vững: đã được cấp/i)).toBeTruthy()
+    })
+
+    it('tells the learner when the browser cannot protect the data at all', async () => {
+      stubStorage(undefined)
+      render(<Settings />)
+
+      expect(await screen.findByText(/không hỗ trợ/i)).toBeTruthy()
+      expect(screen.getByText(/backup là cách duy nhất/i)).toBeTruthy()
+    })
+
+    it('shows that no backup was ever taken and records the time when one is exported', async () => {
+      const user = userEvent.setup()
+      stubStorage(undefined)
+      vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined)
+      render(<Settings />)
+
+      expect(screen.getByText(/lần xuất cuối: chưa từng/i)).toBeTruthy()
+      await user.click(screen.getByRole('button', { name: /tải backup metadata/i }))
+
+      expect(window.localStorage.getItem(LAST_EXPORT_KEY)).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+      expect(screen.queryByText(/lần xuất cuối: chưa từng/i)).toBeNull()
+      expect(screen.getByText(/lần xuất cuối:/i)).toBeTruthy()
+    })
   })})
 
 function createEmptyProgress() {

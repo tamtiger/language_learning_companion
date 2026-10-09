@@ -2,8 +2,10 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { BookOpen, CalendarCheck, ChartNoAxesColumnIncreasing, Settings as SettingsIcon } from 'lucide-react'
 import type { LessonEntry } from '../domain/progress/progress'
 import { handleStorageEvent, useAppStore } from '../shared/hooks/useAppStore'
+import { requestPersistentStorage } from '../infrastructure/storage/storageHealth'
 import { confirmLeave } from '../shared/hooks/useUnsavedWork'
 import { ErrorBoundary } from './ErrorBoundary'
+import { ExportReminder } from './ExportReminder'
 import { PersistenceBanner } from './PersistenceBanner'
 import { CatalogPage } from '../features/catalog/CatalogPage'
 import { TodayPage } from '../features/today/TodayPage'
@@ -38,6 +40,11 @@ export default function App() {
   }
   const navigationKey = `${page}:${activeLessonId ?? ''}`
   const previousNavigationKey = useRef(navigationKey)
+
+  useEffect(() => {
+    // Ask once, quietly: the browser may then keep this site's data when space runs low.
+    void requestPersistentStorage()
+  }, [])
 
   useEffect(() => {
     const onStorage = (event: StorageEvent) => { void handleStorageEvent(event) }
@@ -95,6 +102,7 @@ export default function App() {
 
       <main id="main-content" ref={mainRef} tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 focus:outline-none">
         <PersistenceBanner status={persistence.status} onOpenSettings={() => navigate('settings')} />
+        <ExportReminder onOpenSettings={() => navigate('settings')} />
         {contentErrors.length > 0 && (
           <div role="alert" className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
             Có {contentErrors.length} content file không hợp lệ. Catalog vẫn mở các lesson an toàn.

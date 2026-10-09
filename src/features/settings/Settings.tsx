@@ -1,13 +1,22 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { CheckCircle2, Download, ShieldAlert, Trash2, Upload } from 'lucide-react'
+import { CheckCircle2, Download, HardDrive, ShieldAlert, Trash2, Upload } from 'lucide-react'
 import { createCapabilityBackup, parseCapabilityBackup, useAppStore } from '../../shared/hooks/useAppStore'
 import type { ProgressEnvelope } from '../../infrastructure/storage/progressStorage'
+import {
+  getLastExportedAt,
+  getPersistState,
+  requestPersistentStorage,
+  setLastExportedAt,
+  type PersistState
+} from '../../infrastructure/storage/storageHealth'
 
 export function Settings() {
   const [pending, setPending] = useState<{ envelope: ProgressEnvelope; fileName: string } | null>(null)
   const [isReading, setIsReading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
   const [confirmReset, setConfirmReset] = useState(false)
+  const [persistState, setPersistState] = useState<PersistState | null>(null)
+  const [lastExportedAt, setLastExported] = useState(() => getLastExportedAt())
   const readGeneration = useRef(0)
   const messageRef = useRef<HTMLDivElement>(null)
   const confirmImportRef = useRef<HTMLButtonElement>(null)
@@ -15,6 +24,11 @@ export function Settings() {
   useEffect(() => {
     if (message) messageRef.current?.focus()
   }, [message])
+  useEffect(() => {
+    let active = true
+    void getPersistState().then((state) => { if (active) setPersistState(state) })
+    return () => { active = false }
+  }, [])
   useLayoutEffect(() => {
     if (pending) confirmImportRef.current?.focus()
   }, [pending])
@@ -28,6 +42,9 @@ export function Settings() {
     link.click()
     // Revoking immediately can cancel the download in some browsers.
     window.setTimeout(() => URL.revokeObjectURL(url), 1_000)
+    const exportedAt = new Date().toISOString()
+    setLastExportedAt(exportedAt)
+    setLastExported(exportedAt)
   }
 
   const readImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,6 +96,23 @@ export function Settings() {
       </div>
       {message && <div ref={messageRef} tabIndex={-1} role="status" className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-4 text-sm">{message}</div>}
       <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
+        <h2 className="flex items-center gap-2 text-xl font-bold"><HardDrive className="h-5 w-5 text-purple-400" />Bảo vệ dữ liệu</h2>
+        <p className="mt-2 text-sm text-zinc-300">
+          Tiến độ nằm trong trình duyệt này. Trình duyệt có thể dọn dữ liệu khi thiếu dung lượng (Safari còn xóa dữ liệu site không dùng sau 7 ngày), nên hãy xin lưu trữ bền vững và tải backup định kỳ.
+        </p>
+        <p className="mt-3 text-sm font-semibold">
+          Lưu trữ bền vững: {persistState === null ? 'đang kiểm tra…' : persistState === 'persisted' ? 'đã được cấp' : persistState === 'denied' ? 'chưa được cấp' : 'trình duyệt không hỗ trợ'}
+        </p>
+        {persistState === 'unsupported' && <p className="mt-1 text-sm text-amber-200">Trình duyệt này không có cơ chế bảo vệ; backup là cách duy nhất để giữ tiến độ.</p>}
+        {persistState === 'denied' && (
+          <button type="button" onClick={() => { void requestPersistentStorage().then(setPersistState) }} className="mt-3 rounded-xl border border-purple-400 px-4 py-2 font-bold">
+            Yêu cầu lưu trữ bền vững
+          </button>
+        )}
+        <p className="mt-3 text-sm font-semibold">
+          Lần xuất cuối: {lastExportedAt ? new Date(lastExportedAt).toLocaleString('vi-VN') : 'chưa từng'}
+        </p>
+      </div>      <div className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-6">
         <h2 className="flex items-center gap-2 text-xl font-bold"><Download className="h-5 w-5 text-purple-400" />Backup version 5</h2>
         <p className="mt-2 text-sm text-zinc-400">Nhận backup v5 và tự migrate backup v3/v4; backup v1/v2 hoặc version tương lai bị từ chối.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2">

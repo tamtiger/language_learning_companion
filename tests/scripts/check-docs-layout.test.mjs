@@ -10,15 +10,22 @@ import { fileURLToPath } from 'node:url'
 
 import { checkDocsLayout } from '../../scripts/check-docs-layout.mjs'
 
+const OFFLINE_TOPICS = [
+  'Service worker lưu sẵn app để mở lại khi offline.',
+  'Lần mở đầu tiên cần có mạng.',
+  'App xin lưu trữ bền vững (navigator.storage.persist) và nhắc xuất backup định kỳ.',
+  'TTS dùng giọng của máy (Web Speech), một số giọng có thể cần mạng.'
+].join(' ')
+
 function fixture(overrides = {}) {
   const root = mkdtempSync(join(tmpdir(), 'docs-layout-'))
   const files = {
-    'README.md': '# App\n\n[Kiến trúc](./docs/ARCHITECTURE.md) · [Phát hành](./docs/RELEASE.md)\n\nCó 2 mission.',
+    'README.md': '# App\n\n[Kiến trúc](./docs/ARCHITECTURE.md) · [Phát hành](./docs/RELEASE.md)\n\nCó 2 mission. ' + OFFLINE_TOPICS,
     'CHANGELOG.md': '# Changelog\n\n## [Unreleased]\n\n## [1.0.0] - 2026-01-01\n',
     'AGENTS.md': '# Agents\n',
     'docs/ARCHITECTURE.md': '# Kiến trúc\n\nXem [nội dung](./CONTENT.md).\n',
     'docs/CONTENT.md': '# Nội dung\n\nHai mission.\n',
-    'docs/PRODUCT.md': '# Sản phẩm\n',
+    'docs/PRODUCT.md': '# Sản phẩm\n\n' + OFFLINE_TOPICS + '\n',
     'docs/START_HERE.md': '# Bắt đầu\n',
     'docs/CONVENTIONS.md': '# Quy ước\n',
     'docs/EVALUATION_PROTOCOL.md': '# Đánh giá\n',
@@ -93,7 +100,21 @@ test('yêu cầu [Unreleased] ở đầu CHANGELOG và không nhắc streak', ()
 })
 
 test('số mission nêu trong tài liệu phải khớp số file mission thật', () => {
-  const errors = errorsFor({ 'README.md': 'Có 12 mission.\n[ok](./docs/RELEASE.md)\n', 'docs/ARCHITECTURE.md': 'Gồm six mission flows.\n' })
+  const errors = errorsFor({ 'README.md': 'Có 12 mission. ' + OFFLINE_TOPICS + '\n[ok](./docs/RELEASE.md)\n', 'docs/ARCHITECTURE.md': 'Gồm six mission flows.\n' })
   assert.match(errors, /README\.md nêu 12 mission nhưng repo có 2/)
   assert.match(errors, /docs\/ARCHITECTURE\.md còn số mission cũ/)
+})
+
+test('README và PRODUCT phải nêu đúng phạm vi offline, bền dữ liệu và TTS', () => {
+  const errors = errorsFor({
+    'README.md': '# App\n\n[Phát hành](./docs/RELEASE.md)\n\nChạy offline.',
+    'docs/PRODUCT.md': '# Sản phẩm\n\nCó TTS.\n'
+  })
+  for (const file of ['README.md', 'docs/PRODUCT.md']) {
+    assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: service worker'))
+    assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: lần mở đầu cần mạng'))
+    assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: lưu trữ bền vững'))
+    assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: backup định kỳ'))
+    assert.match(errors, new RegExp(file.replace('.', '\\.') + ' thiếu chủ đề offline: giọng TTS của máy'))
+  }
 })

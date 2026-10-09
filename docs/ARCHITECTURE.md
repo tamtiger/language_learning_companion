@@ -170,6 +170,20 @@ công sau đó đặt lại). `App` hiện `PersistenceBanner` có đường và
 của khóa persist áp dụng theme, CEFR và progress từ tab khác mà không ghi ngược và không đổi
 lesson đang mở; khi đang quarantined thì bỏ qua. Đồng bộ là bản ghi sau cùng thắng.
 
+## Offline và bền dữ liệu
+
+`scripts/vite-plugin-offline.mjs` phát `sw.js` khi build: precache mọi file của bundle cộng
+`manifest.webmanifest` và icon; điều hướng ưu tiên mạng rồi rơi về `index.html` đã cache, asset
+cùng origin ưu tiên cache. Tên cache gồm băm danh sách precache nên bản mới thay bản cũ ở lần mở
+sau. `src/app/registerServiceWorker.ts` chỉ đăng ký ở production. `npm run check:offline` build rồi
+kiểm tra `sw.js`, manifest và link trong `index.html`.
+
+`src/infrastructure/storage/storageHealth.ts` bọc `navigator.storage.persist` và lưu
+`lastExportedAt` ở khóa localStorage riêng (không đổi schema tiến độ); `ExportReminder` nhắc xuất
+backup khi có tiến độ và quá 7 ngày. `playModelAudio` báo trạng thái thật (`onstart`, `onend`,
+`onerror`, `play()` bị từ chối), ưu tiên voice `localService`, chờ `voiceschanged` tối đa 1,5 giây
+và báo `unavailable` khi chỉ có voice cần mạng lúc offline.
+
 ## Accessibility
 
 Native semantics trước ARIA. Mọi action dùng button/link/form control; focus order có nghĩa, focus visible, heading target sau navigation và live region cho timer/save/error/completion.

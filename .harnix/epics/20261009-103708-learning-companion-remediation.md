@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103715-add-offline-pwa-and-audio-reliability` — Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy (`planning`)
+- `20261009-103716-extend-curriculum-schema` — Mở rộng schema chương trình để nhận nội dung mới (`planning`)
 
 ## Members (16 tasks)
 
@@ -24,7 +24,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `completed` |
 | 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `completed` |
 | 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `completed` |
-| 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `planning` |
+| 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `completed` |
 | 9 | `20261009-103716-extend-curriculum-schema` | Mở rộng schema chương trình để nhận nội dung mới | `full` | `planning` |
 | 10 | `20261009-103717-add-a2-entry-missions` | Thêm mission A2 làm lối vào cho người mới | `full` | `planning` |
 | 11 | `20261009-103718-add-interview-and-work-pathway` | Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài | `full` | `planning` |
@@ -80,7 +80,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 8. `20261009-103715-add-offline-pwa-and-audio-reliability` — Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** App tải và chạy được khi offline, dữ liệu được bảo vệ, audio mẫu báo trạng thái thật.
 - **Tiêu chí nghiệm thu:** 4 tiêu chí
 

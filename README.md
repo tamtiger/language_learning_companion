@@ -5,6 +5,22 @@ Engineer Việt Nam. Mục tiêu của dự án không phải hoàn thành thậ
 là tạo được đầu ra tiếng Anh trong công việc, sửa điểm yếu cụ thể và transfer
 sang tình huống mới.
 
+## Offline và dữ liệu của bạn
+
+- **Chạy offline sau lần mở đầu tiên.** Lần mở đầu tiên cần có mạng để tải app; service worker
+  lưu sẵn toàn bộ app và nội dung bài học nên các lần sau mở và học được khi offline. Bản mới
+  có hiệu lực ở lần mở kế tiếp (app không tự tải lại để khỏi mất bản nháp). Bản build production
+  mới đăng ký service worker; `npm run dev` thì không.
+- **Dữ liệu nằm trong trình duyệt này.** Tiến độ không đồng bộ giữa thiết bị. App xin lưu trữ
+  bền vững (`navigator.storage.persist`) khi mở, và Cài đặt hiện trạng thái cùng nút yêu cầu
+  lại. Không phải trình duyệt nào cũng cấp; Safari còn xóa dữ liệu site không dùng sau 7 ngày.
+  Vì vậy hãy tải backup định kỳ: app nhắc khi bạn có tiến độ mà quá 7 ngày chưa xuất.
+- **Cài như ứng dụng.** Có manifest và icon SVG nên Chrome/Edge cho cài đặt; iOS và một số
+  trình duyệt cần icon PNG chưa có, nên có thể dùng icon chung.
+- **Model audio là TTS của thiết bị.** Giọng đọc lấy từ Web Speech API: app ưu tiên giọng cài
+  trên máy (chạy offline), nhưng một số giọng cần mạng và máy có thể không có giọng tiếng Anh.
+  Trạng thái phát được báo thật, kể cả khi không phát được.
+
 ## Sáu mục tiêu
 
 1. Giao tiếp tiếng Anh tự tin trong công việc.

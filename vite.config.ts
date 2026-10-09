@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import { offlinePlugin } from './scripts/vite-plugin-offline.mjs'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), offlinePlugin({ extra: ['/manifest.webmanifest', '/icon.svg', '/favicon.svg'] })],
   build: {
     rolldownOptions: {
       output: {

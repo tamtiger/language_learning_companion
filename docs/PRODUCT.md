@@ -60,8 +60,15 @@ Completion count chỉ là metadata phụ. App không suy diễn proficiency sco
 - Audio, written response, transcript và free-text note chỉ sống trong session; không persist và không xuất backup.
 - Progress backup chỉ chứa allowlisted metadata, được validate trước khi import.
 - Media permission chỉ được hỏi sau thao tác rõ ràng của người dùng và luôn có timer-only fallback.
+- **Phạm vi offline.** Service worker precache toàn bộ app và nội dung; lần mở đầu tiên cần có
+  mạng, sau đó học được khi offline. Dữ liệu chỉ nằm trong một trình duyệt (không đồng bộ giữa
+  thiết bị). App xin lưu trữ bền vững (`navigator.storage.persist`), hiện trạng thái trong Cài
+  đặt và nhắc xuất backup định kỳ khi có tiến độ mà quá 7 ngày chưa xuất; trình duyệt có thể từ
+  chối nên backup là lớp bảo vệ chính.
 - Model audio ưu tiên nguồn đóng gói có provenance; pilot hiện dùng speech
-  synthesis tại thiết bị, được gắn nhãn rõ và không gửi text ra dịch vụ của app.
+  synthesis tại thiết bị, được gắn nhãn rõ và không gửi text ra dịch vụ của app. TTS dùng giọng
+  của máy (Web Speech): ưu tiên giọng cài sẵn chạy offline, một số giọng cần mạng, và app báo
+  trạng thái phát thật thay vì giả định đã phát.
 
 ## Scope hiện hành
 

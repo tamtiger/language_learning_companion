@@ -19,6 +19,16 @@ const REMOVED_PROMPTS = [
   'LEARNING_FEATURE_RESEARCH_PROMPT',
   'CURRICULUM_RESEARCH_PROMPT'
 ]
+/** Topics the README and product doc must state so the offline promise matches what the app does. */
+const OFFLINE_TOPICS = [
+  ['service worker', /service worker/i],
+  ['lần mở đầu cần mạng', /lần mở đầu[^.]*mạng|mạng[^.]*lần mở đầu/i],
+  ['lưu trữ bền vững', /lưu trữ bền vững|storage\.persist/i],
+  ['backup định kỳ', /backup định kỳ/i],
+  ['giọng TTS của máy', /(TTS|Web Speech)[^.]*(giọng|voice)[^.]*(máy|thiết bị)/i]
+]
+const OFFLINE_DOCS = ['README.md', 'docs/PRODUCT.md']
+
 const LINK_PATTERN = /\[[^\]]*\]\(([^)\s]+)\)/g
 
 function listMarkdown(dir, root) {
@@ -82,6 +92,14 @@ export function checkDocsLayout(root) {
   }
   for (const prompt of REMOVED_PROMPTS) {
     if (existsSync(join(root, `${prompt}.md`))) errors.push(`${prompt}.md phải bị xóa`)
+  }
+
+  for (const file of OFFLINE_DOCS) {
+    if (!existsSync(join(root, file))) continue
+    const text = readFileSync(join(root, file), 'utf8')
+    for (const [label, pattern] of OFFLINE_TOPICS) {
+      if (!pattern.test(text)) errors.push(file + ' thiếu chủ đề offline: ' + label)
+    }
   }
 
   const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))

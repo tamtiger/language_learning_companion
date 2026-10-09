@@ -3,9 +3,12 @@ import { createRoot } from 'react-dom/client'
 import '../index.css'
 import '../styles.css'
 import App from './App.tsx'
+import { registerServiceWorker } from './registerServiceWorker'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
   </StrictMode>,
 )
+
+void registerServiceWorker(navigator, import.meta.env.PROD)

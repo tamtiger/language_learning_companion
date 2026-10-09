@@ -15,7 +15,8 @@
     "check:changelog": "node scripts/check-changelog-rule.mjs",
     "check:release": "node scripts/check-release.mjs",
     "check:docs": "node scripts/check-docs-layout.mjs",
-    "check:bundle": "npm run build && node scripts/check-bundle-size.mjs"
+    "check:bundle": "npm run build && node scripts/check-bundle-size.mjs",
+    "check:offline": "npm run build && node scripts/check-offline-build.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.475.0",

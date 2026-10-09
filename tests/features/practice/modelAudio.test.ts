@@ -16,7 +16,7 @@ describe('playModelAudio playback rate', () => {
     vi.stubGlobal('SpeechSynthesisUtterance', Utterance)
     Object.defineProperty(window, 'speechSynthesis', {
       configurable: true,
-      value: { getVoices: () => [], speak, cancel: vi.fn() }
+      value: { getVoices: () => [{ name: 'English UK', lang: 'en-GB', voiceURI: 'uk', localService: true } as SpeechSynthesisVoice], speak, cancel: vi.fn() }
     })
 
     const source = { kind: 'speech-synthesis' as const, text: 'Deploy the fix.', locale: 'en-GB', voiceHints: ['English UK'] }
