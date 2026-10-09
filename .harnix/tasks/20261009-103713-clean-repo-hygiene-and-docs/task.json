@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103713-clean-repo-hygiene-and-docs",
+  "title": "Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Repo gọn, tài liệu khớp code, quy trình release chạy được và bundle không còn cảnh báo kích thước.",
+  "nonGoals": [
+    "Không đổi hành vi người dùng",
+    "Không xóa dữ liệu .harnix"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Quy tắc release/changelog nằm trong docs/RELEASE.md, check-changelog-rule hết gãy, check-release đọc version từ package.json, cả hai có npm script và test.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Tài liệu khớp code: ARCHITECTURE (12 mission), CHANGELOG (vị trí Unreleased, số test), PRODUCT (bỏ streak), tsconfig ghi rõ strict.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Dead code đã xóa (facade src/types/progress.ts, theme/setTheme/currentCefrLevel, canCompleteCapabilityMission, isQualifyingTransfer thừa); enum capability có một nguồn duy nhất.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Component dùng selector thay vì subscribe cả store; CapabilityTask.tsx tách xuống dưới 400 dòng; buildEvidenceContract dùng chung với ProgressPage.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-5",
+      "text": "Bundle tách chunk (lazy phần thân lesson), build không còn cảnh báo chunk trên 500 kB.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-6",
+      "text": "Toàn bộ tài liệu dự án nằm trong docs/ (ARCHITECTURE, CONTENT, PRODUCT, START_HERE chuyển vào docs/); chỉ README.md, CHANGELOG.md và AGENTS.md ở root vì công cụ yêu cầu; mọi link nội bộ không gãy.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-7",
+      "text": "Các prompt dùng một lần đã hoàn tất bị xóa (IMPROVEMENT_PROMPT, UX_RESEARCH_REFACTOR_PROMPT, LEARNING_FEATURE_RESEARCH_PROMPT, CURRICULUM_RESEARCH_PROMPT); LEARNER_AUDIT_PROMPT và prompt review tổng thể được chuyển vào docs/prompts/.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-8",
+      "text": "scripts/check-changelog-rule đổi tên thành .mjs, mọi tham chiếu được cập nhật và script nằm trong npm scripts.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-release-scripts",
+      "description": "Script release và changelog",
+      "command": "node --test scripts/check-release.test.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2"
+      ],
+      "inputs": [
+        "ARCHITECTURE.md",
+        "CHANGELOG.md",
+        "PRODUCT.md",
+        "docs/**",
+        "package.json",
+        "scripts/**"
+      ]
+    },
+    {
+      "id": "check-refactor",
+      "description": "Refactor, selector và dead code",
+      "command": "npx vitest run src/features src/shared src/domain",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "src/**"
+      ]
+    },
+    {
+      "id": "check-bundle",
+      "description": "Build không cảnh báo chunk lớn",
+      "command": "npm run build",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-5"
+      ],
+      "inputs": [
+        "content/**",
+        "src/**",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5"
+      ],
+      "inputs": [
+        "**"
+      ]
+    },
+    {
+      "id": "check-docs-layout",
+      "description": "Bố cục tài liệu, link nội bộ và tên script",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-6",
+        "ac-7",
+        "ac-8"
+      ],
+      "inputs": [
+        "*.md",
+        "docs/**",
+        "package.json",
+        "scripts/**"
+      ],
+      "command": "node --test scripts/check-docs-layout.test.mjs"
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "scripts",
+    "docs",
+    "CHANGELOG.md",
+    "ARCHITECTURE.md",
+    "PRODUCT.md",
+    "src/features/practice/CapabilityTask.tsx",
+    "src/types",
+    "vite.config.ts"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:15.815+07:00",
+  "decisions": [
+    {
+      "id": "dec-docs-in-docs",
+      "text": "Tài liệu dự án đặt trong docs/; root chỉ giữ README.md, CHANGELOG.md, AGENTS.md.",
+      "rationale": "Yêu cầu của chủ dự án; README, CHANGELOG và AGENTS.md được công cụ và quy ước đọc ở root."
+    }
+  ]
+}

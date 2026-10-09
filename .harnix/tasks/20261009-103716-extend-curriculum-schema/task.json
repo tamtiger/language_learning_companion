@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103716-extend-curriculum-schema",
+  "title": "Mở rộng schema chương trình để nhận nội dung mới",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Schema, rubric và lịch ôn đủ biểu đạt các loại nội dung của đợt mở rộng và thêm bài mới không cần sửa test.",
+  "nonGoals": [
+    "Chưa viết bài học mới (các task sau)",
+    "Không phá progress cũ"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Schema hỗ trợ CEFR A2, vocabulary có collocation và ôn lại, nguồn nghe hội thoại nhiều người (transcript, giọng, gist/detail), bài đọc dài có mục lục và câu hỏi định vị, story bank của người học (chỉ metadata).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "contentRevision được thêm kèm migration không phá progress cũ.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Số bài không còn hard-code trong test; có docs/ADDING_LESSONS.md checklist từng bước; validator trùng lặp được gộp.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Rubric có tiêu chí ngôn ngữ (accuracy, range, register) và mẫu neo đạt/chưa đạt; reviewPolicy hỗ trợ khoảng ôn dài đến 21/45 ngày và interleaving.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-schema-extension",
+      "description": "Schema mới và rubric ngôn ngữ",
+      "command": "npx vitest run src/content/schema.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-4"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-migration-revision",
+      "description": "Migration contentRevision",
+      "command": "npx vitest run src/infrastructure/storage",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-2"
+      ],
+      "inputs": [
+        "src/domain/**",
+        "src/infrastructure/**"
+      ]
+    },
+    {
+      "id": "check-catalog-counts",
+      "description": "Catalog không hard-code số bài",
+      "command": "npx vitest run src/content",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3"
+      ],
+      "inputs": [
+        "CONTENT.md",
+        "docs/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "src/content/schema.ts",
+    "src/content",
+    "docs",
+    "CONTENT.md",
+    "src/infrastructure/storage"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:17.125+07:00"
+}

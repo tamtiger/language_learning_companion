@@ -1,0 +1,82 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 3,
+  "id": "20261009-104509-refactor-practice-feature-structure",
+  "title": "Refactor cấu trúc feature practice và dọn đặt tên",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "src/features/practice có cấu trúc rõ ràng, tên gọi đúng nghĩa và không còn file nhập nhằng.",
+  "nonGoals": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "src/features/practice được tổ chức lại theo vai trò (task, spoken, perception, ladder, interaction, shared), mỗi file dưới 300 dòng và import một chiều.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "targetSeconds đổi thành minSeconds và storage key khớp version, kèm migration không mất dữ liệu.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Dọn các nit đã ghi nhận: text-current/80 vô tác dụng, nav thừa, tiêu đề tab khớp tên header, tsconfig ghi rõ strict.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test, lint và typecheck của dự án phải xanh",
+      "scope": "full",
+      "required": true,
+      "command": "npm run test",
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "**"
+      ]
+    },
+    {
+      "id": "check-practice-structure",
+      "description": "Cấu trúc practice và nit",
+      "scope": "focused",
+      "required": true,
+      "command": "npx vitest run src/features/practice",
+      "criterionIds": [
+        "ac-1",
+        "ac-3"
+      ],
+      "inputs": [
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-rename-migration",
+      "description": "Đổi tên minSeconds và migration",
+      "scope": "focused",
+      "required": true,
+      "command": "npx vitest run src/infrastructure/storage src/content",
+      "criterionIds": [
+        "ac-2"
+      ],
+      "inputs": [
+        "content/**",
+        "src/**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [],
+  "relevantSpecs": [],
+  "createdAt": "2026-10-09T10:45:09.250+07:00",
+  "updatedAt": "2026-10-09T10:48:19.417+07:00"
+}

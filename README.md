@@ -148,7 +148,8 @@ study; functional QA không được diễn giải thành learning efficacy.
 
 ## Yêu cầu môi trường
 
-- Node.js phiên bản tương thích với Vite 8.
+- Node.js 22.12 trở lên (khai báo trong `engines` của `package.json`, `.nvmrc` ghim Node 22).
+  Test suite đã được kiểm chứng trên Node 25.
 - npm.
 - Trình duyệt hiện đại; microphone là tùy chọn.
 

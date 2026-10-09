@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103710-harden-assessment-integrity",
+  "title": "Siết toàn vẹn bài kiểm tra: xáo trộn, chấm điểm, cổng chất lượng đáp án",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Bài kiểm tra không thể đoán đúng bằng vị trí hoặc độ dài đáp án, và việc chấm điểm không phạt oan người học.",
+  "nonGoals": [
+    "Không thêm bài học mới (thuộc đợt mở rộng nội dung)",
+    "Không đổi giao diện ngoài thứ tự lựa chọn"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Thứ tự lựa chọn của choice, perception và reading ladder được xáo trộn xác định theo seed (id item + lượt làm); đáp án đúng không còn cố định ở vị trí đầu (hiện 91/96 item perception/ladder đúng ở options[0]).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Bài ordering và matching không hiển thị sẵn theo đúng đáp án (technical-doc-action-b1 runbook-recovery-order, pronunciation-shadowing-routine).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Chấm fill chuẩn hóa NFC, nháy cong/thẳng, hoa thường, dấu câu cuối và hỗ trợ acceptedAnswers; câu q3 của pronunciation-sounds không còn phụ thuộc ký tự U+02C8.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Cổng nội dung tự động chặn: phân bố vị trí đáp án lệch, đáp án đúng luôn là lựa chọn dài nhất (hiện 74%), perception/ladder dưới 3 lựa chọn, distractor lặp từ khóa của audio.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-5",
+      "text": "Toàn bộ item perception/ladder và choice hiện có được viết lại (3-4 lựa chọn, distractor hợp lý) để vượt cổng ở tiêu chí 4.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-option-order",
+      "description": "Xáo trộn lựa chọn, ordering và matching",
+      "command": "npx vitest run src/features/lesson/option_order.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2"
+      ],
+      "inputs": [
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-grading",
+      "description": "Chuẩn hóa chấm fill",
+      "command": "npx vitest run src/features/lesson/exercise_grading.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3"
+      ],
+      "inputs": [
+        "content/reference/pronunciation/**",
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-assessment-gate",
+      "description": "Cổng chất lượng đáp án và nội dung viết lại",
+      "command": "npx vitest run src/content/assessment_quality.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-4",
+        "ac-5"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "src/features/lesson/SectionRenderer.tsx",
+    "src/features/practice/PerceptionPractice.tsx",
+    "src/features/practice/ReadingLadderPractice.tsx",
+    "src/content/schema.ts",
+    "content"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:14.556+07:00"
+}

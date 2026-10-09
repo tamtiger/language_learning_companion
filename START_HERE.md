@@ -25,6 +25,10 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 
 Mục tiêu không phải hoàn thành nhiều bài mà là transfer độc lập trong task giống công việc thật.
 
+## Chạy từ mã nguồn
+
+Cần Node 22.12 trở lên (xem `engines` trong `package.json` và `.nvmrc`), sau đó chạy `npm install` và `npm run dev`.
+
 ## Privacy
 
 App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiên hiện tại, không persist hoặc upload. Backup chỉ chứa metadata tiến độ đã allowlist. Nếu trình duyệt không hỗ trợ hoặc từ chối microphone, bạn vẫn luyện bằng timer-only fallback.

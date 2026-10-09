@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103712-fix-learning-state-logic",
+  "title": "Sửa logic hoàn thành, ôn tập và bền vững dữ liệu",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Trạng thái hoàn thành, lịch ôn và lưu trữ phản ánh đúng năng lực thật và không mất dữ liệu âm thầm.",
+  "nonGoals": [
+    "Không đổi giao diện ngoài banner, xác nhận và nhãn trạng thái",
+    "Không đổi định dạng backup đã xuất mà không migration"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Transfer chưa đạt hợp đồng không đặt mission completed và không lên lịch ôn; quyết định nằm trong domain (applyTransferOutcome), khớp ARCHITECTURE.md.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Review chỉ tính đạt khi rubric không rỗng và đạt cả độc lập lẫn hợp đồng output (assessReview trong domain).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Lịch ôn tính theo ngày lịch địa phương; test với TZ cố định ở ranh 23:59/00:01; Today cập nhật khi qua giờ đến hạn.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Luyện lại không che bài ôn đến hạn, giữ nguyên reviewStage, có bước xác nhận trước khi luyện lại.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-5",
+      "text": "Attempt lưu kèm assessment và contentRevision; Progress không chấm lại attempt cũ bằng content hiện tại.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-6",
+      "text": "Có trạng thái persistence (ok/quarantined/memory-only) hiện banner có hướng xử lý; lỗi setItem/quota không làm kẹt phase; nhiều tab đồng bộ qua sự kiện storage.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-domain-logic",
+      "description": "Domain: transfer, review, lịch ôn theo ngày, assessment",
+      "command": "npx vitest run src/domain",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-5"
+      ],
+      "inputs": [
+        "src/domain/**",
+        "src/types/**"
+      ]
+    },
+    {
+      "id": "check-store-persistence",
+      "description": "Store: luyện lại, quota, đồng bộ tab",
+      "command": "npx vitest run src/shared/hooks/use_app_store.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-4",
+        "ac-6"
+      ],
+      "inputs": [
+        "src/infrastructure/**",
+        "src/shared/**"
+      ]
+    },
+    {
+      "id": "check-state-ui",
+      "description": "UI: banner persistence, xác nhận luyện lại, Today",
+      "command": "npx vitest run src/features/today/TodayPage.test.tsx src/features/settings/Settings.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3",
+        "ac-4",
+        "ac-6"
+      ],
+      "inputs": [
+        "src/app/**",
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5",
+        "ac-6"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "src/domain",
+    "src/shared/hooks/use_app_store.ts",
+    "src/infrastructure/storage",
+    "src/features/today",
+    "src/features/progress",
+    "ARCHITECTURE.md"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:15.383+07:00"
+}

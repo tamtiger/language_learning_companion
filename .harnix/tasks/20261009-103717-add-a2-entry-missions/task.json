@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103717-add-a2-entry-missions",
+  "title": "Thêm mission A2 làm lối vào cho người mới",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Người học A2 có đường vào từng capability và đường lên B1.",
+  "nonGoals": [
+    "Không viết mission B1/B2 (task khác)"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Mỗi capability có ít nhất 1 mission A2 (6 mission), chunk đơn giản, output ngắn (20-40 giây hoặc 40-60 từ), prompt song ngữ giảm dần.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Mỗi mission A2 qua cổng chất lượng: schema, perception từ 3 lựa chọn, provenance, rubric có tiêu chí ngôn ngữ.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Catalog và Today đề xuất A2 cho người mới và có đường lên B1.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-a2-content",
+      "description": "Nội dung và cổng chất lượng A2",
+      "command": "npx vitest run src/content/a2_missions.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-a2-path",
+      "description": "Đề xuất và lộ trình A2 sang B1",
+      "command": "npx vitest run src/features/catalog src/domain/progress",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3"
+      ],
+      "inputs": [
+        "src/domain/**",
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "content/missions",
+    "src/content",
+    "src/features/catalog",
+    "src/domain/progress"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:17.511+07:00"
+}

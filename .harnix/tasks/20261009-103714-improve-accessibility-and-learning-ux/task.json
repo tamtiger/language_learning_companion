@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103714-improve-accessibility-and-learning-ux",
+  "title": "Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Người dùng bàn phím và trình đọc màn hình hoàn thành được vòng học; không mất bản nháp; thời gian được tính công bằng.",
+  "nonGoals": [
+    "Không chia mission thành phiên (task riêng ở đợt mở rộng)",
+    "Không đổi nội dung bài học"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Focus không mất sau nút ghi âm, perception và reading ladder; kết quả có live region; không disable nút đang focus.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Nội dung tiếng Anh có lang=\"en\"; heading hoặc mô tả phase nêu baseline/retry/transfer; rubric là nhóm có tên tiêu chí; nút disabled nêu lý do.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Cảnh báo khi rời trang lúc có bản nháp hoặc đang ghi âm (beforeunload và điều hướng nội bộ); tiến độ reading ladder và perception được lưu metadata để reload không phải làm lại.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "durationSeconds chốt khi xong bản nháp, tách thời gian chấm rubric; bài viết có đồng hồ hiển thị; thời gian đọc source read-once và xin quyền mic không bị tính.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-5",
+      "text": "Có ErrorBoundary; UI nhất quán ngôn ngữ, không lộ enum pretest/training; input import có focus nhìn thấy; export revoke trễ; bài pronunciation không chiếm Nhiệm vụ hôm nay.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-6",
+      "text": "axe chạy cho Today, Catalog, các phase của LessonFlow, Settings và Progress ở các trạng thái chính.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-a11y-practice",
+      "description": "Focus, lang, rubric, draft, đồng hồ trong practice",
+      "command": "npx vitest run src/features/practice",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "src/features/**"
+      ]
+    },
+    {
+      "id": "check-a11y-app",
+      "description": "ErrorBoundary, nhãn UI và axe đa màn hình",
+      "command": "npx vitest run src/app/App.test.tsx src/features/settings src/features/today",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-5",
+        "ac-6"
+      ],
+      "inputs": [
+        "src/app/**",
+        "src/features/**",
+        "tailwind.config.js"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5",
+        "ac-6"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "src/features/practice",
+    "src/features/lesson",
+    "src/features/settings",
+    "src/features/today",
+    "src/app",
+    "index.html"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:16.223+07:00"
+}

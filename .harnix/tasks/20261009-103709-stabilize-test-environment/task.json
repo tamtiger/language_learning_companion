@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103709-stabilize-test-environment",
+  "title": "Ổn định môi trường test và ghim phiên bản Node",
+  "mode": "lite",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "npm run test chạy xanh trên Node 25 mặc định và repo khai báo rõ phiên bản Node được hỗ trợ.",
+  "nonGoals": [
+    "Không đổi hành vi sản phẩm",
+    "Không nâng cấp dependency"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "npm run test chạy xanh trên Node 25 mặc định, không cần biến môi trường NODE_OPTIONS (hiện 73/267 test fail do localStorage gốc của Node 25 che localStorage của jsdom).",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-env-localstorage-1",
+        "ev-check-suite-2-1"
+      ]
+    },
+    {
+      "id": "ac-2",
+      "text": "Repo khai báo phiên bản Node hỗ trợ (engines trong package.json và .nvmrc), được ghi trong README và START_HERE.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-node-engine-3",
+        "ev-check-suite-2-1"
+      ]
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-env-localstorage",
+      "description": "Test dùng localStorage chạy xanh trên Node mặc định",
+      "command": "npx vitest run src/features/today/TodayPage.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1"
+      ],
+      "inputs": [
+        "src/**",
+        "vitest.config.ts"
+      ]
+    },
+    {
+      "id": "check-node-engine",
+      "description": "Script kiểm tra engines và .nvmrc khớp",
+      "command": "node --test scripts/check-node-engine.test.mjs",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-2"
+      ],
+      "inputs": [
+        ".nvmrc",
+        "README.md",
+        "START_HERE.md",
+        "package.json",
+        "scripts/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": false,
+      "criterionIds": [
+        "ac-1",
+        "ac-2"
+      ],
+      "inputs": [
+        "**"
+      ]
+    },
+    {
+      "id": "check-suite-2",
+      "description": "Toàn bộ test của dự án (suite), chạy lại sau khi sửa test mới",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2"
+      ],
+      "inputs": [
+        "**",
+        ".nvmrc"
+      ],
+      "command": "npm run test"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-check-env-localstorage-1",
+      "checkId": "check-env-localstorage",
+      "recordedAt": "2026-10-09T10:50:03.303+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run src/features/today/TodayPage.test.tsx — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "651515f90c3a781f2b9cfb54d7a00da496904fc9fabf3e39c898bfa916bb2001"
+    },
+    {
+      "id": "ev-check-node-engine-1",
+      "checkId": "check-node-engine",
+      "recordedAt": "2026-10-09T10:50:03.621+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test scripts/check-node-engine.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "0c76e277da7720629603aa7756ddad886686174c339c5c05faa73b4160c68156"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T10:50:30.293+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "39a0d7f437a7739612e4b1f12d3bf7d28733dea3527e0395c5e609c0a9554fd3"
+    },
+    {
+      "id": "ev-check-node-engine-2",
+      "checkId": "check-node-engine",
+      "recordedAt": "2026-10-09T10:51:02.481+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test scripts/check-node-engine.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "230d14fdf2ffc23caa15d9cba199c0d8c1d772206ec0cd8a1bf43671a9ce4f46"
+    },
+    {
+      "id": "ev-check-suite-2",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T10:51:28.536+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "4dce4f887ccdca633e33bbe3bc91d86acca3eaaab38b0013ed49c664a68fea75"
+    },
+    {
+      "id": "task-contract-revision-01",
+      "recordedAt": "2026-10-09T10:54:12.123+07:00",
+      "result": "skipped",
+      "summary": "Task contract revised at persisted replan: Lỗi nằm ở test mới viết (runner node:test bị vitest quét và new URL trong jsdom); đã sửa, suite chạy tay xanh 272/272. Check mới khai báo thêm input .nvmrc mà task tạo ra",
+      "artifactPaths": [
+        ".harnix/tasks/20261009-103709-stabilize-test-environment/task.json"
+      ]
+    },
+    {
+      "id": "ev-check-node-engine-3",
+      "checkId": "check-node-engine",
+      "recordedAt": "2026-10-09T10:54:13.004+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test scripts/check-node-engine.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "9eea95052253157e375bd32d5cea59f014a31cf519b16e8ec7ed7e92462fedd5"
+    },
+    {
+      "id": "ev-check-suite-2-1",
+      "checkId": "check-suite-2",
+      "recordedAt": "2026-10-09T10:54:40.074+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "189f9acc07c7d332f425ca9686d77591f97cd80c9370ad980d21ac4209365379"
+    }
+  ],
+  "relevantPaths": [
+    "vitest.config.ts",
+    "package.json",
+    "scripts",
+    "README.md",
+    "START_HERE.md"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:55:21.666+07:00",
+  "residualRisks": [
+    {
+      "id": "risk-node22-unverified",
+      "text": "Test suite chỉ được kiểm chứng trên Node 25.8; engines >=22.12 dựa trên yêu cầu của Vite 8, chưa chạy thật trên Node 22 hoặc 24. Nên chạy suite trên Node 22 khi có môi trường.",
+      "severity": "low"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "dec-storage-polyfill",
+      "text": "Sửa lỗi localStorage của Node 25 bằng storage trong bộ nhớ ở src/test/setup.ts thay vì cờ --no-experimental-webstorage.",
+      "rationale": "Cờ chỉ có từ Node 22.4 nên làm gãy Node cũ hơn; polyfill chỉ kích hoạt khi storage gốc không hoạt động."
+    }
+  ],
+  "completedAt": "2026-10-09T10:55:21.666+07:00"
+}

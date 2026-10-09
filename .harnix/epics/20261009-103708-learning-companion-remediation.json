@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "generator": "harnix",
+  "id": "20261009-103708-learning-companion-remediation",
+  "title": "Khắc phục toàn bộ phát hiện từ review tổng thể và mở rộng bài học",
+  "goal": "Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đợt 1), rồi mở rộng nội dung để đủ cho 6 mục tiêu học (đợt 2).",
+  "nonGoals": [
+    "Không chấm nói tự động bằng AI",
+    "Không thêm backend hay đồng bộ đám mây"
+  ],
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:45:10.693+07:00",
+  "order": [
+    "20261009-103709-stabilize-test-environment",
+    "20261009-103710-harden-assessment-integrity",
+    "20261009-103711-fix-content-accuracy-errors",
+    "20261009-103712-fix-learning-state-logic",
+    "20261009-103713-clean-repo-hygiene-and-docs",
+    "20261009-103714-improve-accessibility-and-learning-ux",
+    "20261009-103715-add-offline-pwa-and-audio-reliability",
+    "20261009-103716-extend-curriculum-schema",
+    "20261009-103717-add-a2-entry-missions",
+    "20261009-103718-add-interview-and-work-pathway",
+    "20261009-103719-add-listening-and-long-reading",
+    "20261009-103720-add-vocabulary-and-fill-content-gaps",
+    "20261009-103721-split-missions-into-sessions",
+    "20261009-104509-refactor-practice-feature-structure",
+    "20261009-104458-final-docs-and-release-sync"
+  ]
+}

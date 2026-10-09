@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103719-add-listening-and-long-reading",
+  "title": "Thêm luyện nghe hội thoại và bài đọc dài",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Mục tiêu 2, 3 và 6 có luyện nghe thật và đọc tài liệu đủ dài.",
+  "nonGoals": [
+    "Không ghi âm hay thu thập giọng người thật",
+    "Không chép nguyên văn nguồn không có giấy phép"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Ít nhất 6 bài nghe hội thoại 1-3 phút nhiều giọng (standup, planning/estimation, retro, incident call, design review, tech talk) có transcript ẩn, gist/detail và ghi chú khi nghe.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Ít nhất 6 bài đọc dài 400-1.500 từ (RFC, API reference, changelog, stack trace/log, GitHub issue, tutorial) có skim/scan và câu hỏi định vị; không trùng kịch bản.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Mỗi nguồn có provenance và license rõ; dùng reference-only khi không được chép.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Tiến độ nghe và đọc dài hiển thị trong Progress.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-listening-reading-content",
+      "description": "Nội dung nghe, đọc dài và provenance",
+      "command": "npx vitest run src/content/listening_reading.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-progress-listening",
+      "description": "Progress hiển thị nghe và đọc dài",
+      "command": "npx vitest run src/features/progress",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-4"
+      ],
+      "inputs": [
+        "src/domain/**",
+        "src/features/progress/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "content",
+    "src/content",
+    "src/features/progress",
+    "src/features/practice"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:18.281+07:00"
+}

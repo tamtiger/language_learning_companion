@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103715-add-offline-pwa-and-audio-reliability",
+  "title": "Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "App tải và chạy được khi offline, dữ liệu được bảo vệ, audio mẫu báo trạng thái thật.",
+  "nonGoals": [
+    "Không thêm đồng bộ đám mây",
+    "Không đổi định dạng dữ liệu tiến độ"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Service worker precache và manifest để cài app và tải lại khi offline; build tạo được.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Gọi navigator.storage.persist() và nhắc export định kỳ (lastExportedAt); Settings hiển thị trạng thái.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Model audio ưu tiên voice localService, cập nhật trạng thái thật qua onerror/onend/voiceschanged và báo rõ khi không phát được.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "README và PRODUCT mô tả đúng phạm vi offline-first và TTS.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-pwa-build",
+      "description": "Build sinh service worker và manifest",
+      "command": "npm run build",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1"
+      ],
+      "inputs": [
+        "index.html",
+        "public/**",
+        "src/**",
+        "vite.config.ts"
+      ]
+    },
+    {
+      "id": "check-storage-persist",
+      "description": "Persist và nhắc export",
+      "command": "npx vitest run src/features/settings/Settings.test.tsx",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-2",
+        "ac-4"
+      ],
+      "inputs": [
+        "PRODUCT.md",
+        "README.md",
+        "src/**"
+      ]
+    },
+    {
+      "id": "check-model-audio",
+      "description": "Voice và trạng thái phát",
+      "command": "npx vitest run src/features/practice/model_audio.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-3"
+      ],
+      "inputs": [
+        "src/features/practice/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "public",
+    "vite.config.ts",
+    "src/features/practice/model_audio.ts",
+    "src/features/settings",
+    "README.md",
+    "PRODUCT.md"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:16.702+07:00"
+}

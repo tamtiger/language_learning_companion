@@ -1,0 +1,99 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 3,
+  "id": "20261009-104458-final-docs-and-release-sync",
+  "title": "Đồng bộ tài liệu cuối epic và đóng release",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Tài liệu trong docs/ khớp với kết quả cuối của epic và release minor được đóng đúng quy tắc.",
+  "nonGoals": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Mỗi tài liệu trong docs/ (ARCHITECTURE, CONTENT, PRODUCT, START_HERE, ADDING_LESSONS, README) mô tả đúng hành vi sau khi các task trước hoàn tất, kể cả luyện lại, lịch ôn theo ngày, offline và phiên học.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "CHANGELOG có mục release cho epic theo docs/RELEASE.md, version trong package.json và package-lock.json đồng bộ, và check-release pass.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Có quyết định được ghi lại cho .harnix/tasks (giữ hay lưu trữ research lịch sử) mà không làm gãy check-curriculum-research.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test, lint và typecheck của dự án phải xanh",
+      "scope": "full",
+      "required": true,
+      "command": "npm run test",
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "**"
+      ]
+    },
+    {
+      "id": "check-final-docs",
+      "description": "Tài liệu khớp code và link không gãy",
+      "scope": "focused",
+      "required": true,
+      "command": "node --test scripts/check-docs-layout.test.mjs",
+      "criterionIds": [
+        "ac-1"
+      ],
+      "inputs": [
+        "*.md",
+        "docs/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-final-release",
+      "description": "Release và version đồng bộ",
+      "scope": "focused",
+      "required": true,
+      "command": "node scripts/check-release.mjs",
+      "criterionIds": [
+        "ac-2"
+      ],
+      "inputs": [
+        "CHANGELOG.md",
+        "package-lock.json",
+        "package.json",
+        "scripts/**"
+      ]
+    },
+    {
+      "id": "check-harnix-history",
+      "description": "Lịch sử research không gãy",
+      "scope": "focused",
+      "required": true,
+      "command": "node --test scripts/check-curriculum-research.test.mjs",
+      "criterionIds": [
+        "ac-3"
+      ],
+      "inputs": [
+        ".harnix/tasks/**",
+        "scripts/**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [],
+  "relevantSpecs": [],
+  "createdAt": "2026-10-09T10:44:58.155+07:00",
+  "updatedAt": "2026-10-09T10:48:19.815+07:00"
+}

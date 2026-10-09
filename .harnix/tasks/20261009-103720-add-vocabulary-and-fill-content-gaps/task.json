@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103720-add-vocabulary-and-fill-content-gaps",
+  "title": "Thêm từ vựng chuyên ngành và lấp ô trống ma trận nội dung",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Mỗi capability đạt độ phủ B1 đến B2 với từ vựng và nhiều loại bài tập.",
+  "nonGoals": [
+    "Không đổi schema (đã làm ở task schema)"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Mỗi mission có 8-15 từ hoặc collocation chuyên ngành, được ôn trong delayed review.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Lấp ô trống ma trận: workplace nói và B2, technical-reading B2, explanation B1 và viết, interview B1, technology-learning B1.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Mỗi capability đạt tối thiểu 6 mission trải B1 đến B2; nếu chưa đạt thì README thu hẹp lời hứa cho khớp.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Auto-check đa dạng hơn: fill, ordering, error-correction chiếm tối thiểu 30%.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-vocab-coverage",
+      "description": "Từ vựng và độ phủ ma trận",
+      "command": "npx vitest run src/content/coverage_matrix.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "README.md",
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "content",
+    "src/content",
+    "README.md"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:18.669+07:00"
+}

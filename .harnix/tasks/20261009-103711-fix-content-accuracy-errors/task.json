@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103711-fix-content-accuracy-errors",
+  "title": "Sửa lỗi chính xác nội dung đã phát hiện khi review",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Mọi lỗi trọng âm, câu hỏi, ngữ pháp, model response và provenance đã liệt kê được sửa và có test chặn tái diễn.",
+  "nonGoals": [
+    "Không thêm mission mới",
+    "Không đổi cấu trúc schema"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Cue trọng âm nhấn đúng từ nội dung, không nhấn hư từ (meeting-disagree-and-recap-b2 dòng 74-77, architecture-walkthrough-b2:84, technical-interview-decision-b2:63,82, technical-tradeoff-explanation-b2:76) và có test kiểm.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Câu hỏi sai nghĩa hoặc mơ hồ được sửa (daily-standup-b1 stand-pre-3, meeting-disagree-and-recap-b2 meet-train-3); feedback và cue khớp với audio (interview:64, meeting:55, tradeoff:70).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Lỗi ngữ pháp và cách dùng từ được sửa (rollback/roll back, clarification:30, architecture:35,71, meeting:35); model response lệch được sửa (behavioral-interview-ownership:33, learn-api:77, interview:40, issue-update:91).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-4",
+      "text": "Thời lượng spoken khớp prompt ở tốc độ nói thực tế (130 wpm) hoặc prompt được đổi; test không còn dùng sàn 75 wpm.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-5",
+      "text": "Định nghĩa pronunciation giống nguồn ngoài được tự viết lại; nhãn synthetic artifact nhất quán theo CONTENT.md; ngôn ngữ hướng dẫn nhất quán và prompt tiếng Việt giảm dần từ B2.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-content-fixes",
+      "description": "Test chất lượng nội dung mở rộng cho các lỗi đã sửa",
+      "command": "npx vitest run src/content/content_quality.test.ts",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "content",
+    "src/content/content_quality.test.ts",
+    "CONTENT.md"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:14.976+07:00"
+}

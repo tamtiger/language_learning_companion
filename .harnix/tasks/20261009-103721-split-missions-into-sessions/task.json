@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 3,
+  "generator": "harnix",
+  "id": "20261009-103721-split-missions-into-sessions",
+  "title": "Chia mission thành các phiên học ngắn có checkpoint",
+  "mode": "full",
+  "status": "planning",
+  "checkpoint": "planning",
+  "goal": "Một dev có 10-15 phút vẫn hoàn thành một phiên có ý nghĩa và quay lại không mất tiến độ.",
+  "nonGoals": [
+    "Không đổi nội dung bài học"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Mission chia phiên khoảng 10 phút có checkpoint persist (phiên 1 baseline và input, phiên 2 performance đến retry, phiên 3 transfer).",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-2",
+      "text": "Input hiển thị từng section; output contract thu gọn sau lần xem đầu.",
+      "status": "pending",
+      "evidenceIds": []
+    },
+    {
+      "id": "ac-3",
+      "text": "Today cam kết đúng thời lượng phiên hiện tại; durationMinutes khớp thực tế.",
+      "status": "pending",
+      "evidenceIds": []
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-sessions",
+      "description": "Phiên, checkpoint và Today",
+      "command": "npx vitest run src/features/practice src/features/today src/domain",
+      "scope": "focused",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "content/**",
+        "src/**"
+      ]
+    },
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test của dự án (suite)",
+      "command": "npm run test",
+      "scope": "full",
+      "required": true,
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3"
+      ],
+      "inputs": [
+        "**"
+      ]
+    }
+  ],
+  "evidence": [],
+  "relevantPaths": [
+    "src/features/practice",
+    "src/features/today",
+    "src/domain/learning"
+  ],
+  "relevantSpecs": [],
+  "epicId": "20261009-103708-learning-companion-remediation",
+  "createdAt": "2026-10-09T10:37:08.274+07:00",
+  "updatedAt": "2026-10-09T10:48:19.040+07:00"
+}
