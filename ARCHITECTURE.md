@@ -114,6 +114,13 @@ V3 hợp lệ được migrate với `process: null`; backup V4 được bổ su
 `activeProcessEvidence: null`. Local persist giữ cùng storage key và dùng middleware
 version 5.
 
+Attempt transfer và review lưu thêm `assessment` (`qualifies` và danh sách reason code) cùng
+`contentRevision` (băm ổn định của hợp đồng bằng chứng lúc làm). Hai trường này là tùy chọn
+nên `storageVersion` vẫn là 5 và backup cũ vẫn nhập được; attempt không có `assessment` hiển
+thị là "chưa có đánh giá" và không tính đạt. Progress dùng kết quả đã lưu, không chấm lại
+bằng nội dung hiện tại; nếu `contentRevision` khác hợp đồng hiện tại thì chỉ gắn nhãn
+"bài đã đổi sau lượt này".
+
 Pure progress selectors định nghĩa `qualifying transfer` là completed transfer có
 rubric không rỗng và toàn bộ `met`, không dùng tiếng Việt, translation, model answer
 và không vượt content-owned `maxHints`, time limit hoặc output length. Progress UI
@@ -137,10 +144,29 @@ restart tạo progress rỗng.
 
 ## Review scheduling
 
-Scheduler là pure function nhận clock. Transfer thành công đặt review theo
-`reviewPolicy.intervalDays` content-owned của lesson; review đạt tăng stage theo
-policy đó, review chưa đạt lặp sau một ngày. Today queue có thứ tự deterministic:
-overdue review → active loop → capability baseline chưa có evidence → next new lesson.
+Scheduler là pure function nhận clock. Chỉ transfer đạt hợp đồng (`assessTransfer` qua
+`applyTransferOutcome`) mới đặt `completed` và lên lịch review theo
+`reviewPolicy.intervalDays` content-owned của lesson; transfer chưa đạt giữ mission ở phase
+transfer, không đặt lịch. Review đạt khi `assessReview` không có reason (rubric không rỗng,
+độc lập, đúng output contract) thì tăng stage; review chưa đạt giữ stage và lặp vào ngày kế
+tiếp. Mốc đến hạn là 00:00 theo ngày lịch địa phương của ngày đích (`addLocalDays`), lưu
+dạng ISO và so sánh `nextReviewAt <= now`. Today tính queue từ `useNow` (làm mới mỗi 60 giây
+và khi tab hiện lại).
+
+Today queue có thứ tự deterministic: overdue review → active loop → capability baseline
+chưa có evidence → next new lesson. Lesson đang luyện lại mà review đến hạn phát hai mục
+(`review` và `resume`); lối vào mang ý định `entry` (`review` hoặc `continue`) để mở đúng
+phase. "Luyện lại" cần xác nhận, xóa tiến độ vòng hiện tại nhưng giữ lịch sử, `reviewStage`
+và `nextReviewAt`.
+
+## Persistence status
+
+Store giữ `persistence.status` (không được lưu): `ok`, `memory-only` (trình duyệt chặn
+localStorage, dùng bộ nhớ), `quarantined` (hydrate bị từ chối, không ghi đè dữ liệu cũ) và
+`write-failed` (`setItem` ném lỗi như quota; không ném ra khỏi hành động UI, lần ghi thành
+công sau đó đặt lại). `App` hiện `PersistenceBanner` có đường vào Cài đặt. Sự kiện `storage`
+của khóa persist áp dụng theme, CEFR và progress từ tab khác mà không ghi ngược và không đổi
+lesson đang mở; khi đang quarantined thì bỏ qua. Đồng bộ là bản ghi sau cùng thắng.
 
 ## Accessibility
 

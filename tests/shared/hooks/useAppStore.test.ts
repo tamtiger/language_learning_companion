@@ -1,9 +1,17 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { PersistStorage, StorageValue } from 'zustand/middleware'
-import { createEmptyLessonProgress, type AttemptEvidence } from '@/domain/progress/progress'
+import { contractRevision } from '@/domain/progress/evidenceContract'
+import {
+  addLocalDays,
+  createEmptyLessonProgress,
+  type AttemptEvidence,
+  type EvidenceContract
+} from '@/domain/progress/progress'
 import {
   createCapabilityBackup,
+  handleStorageEvent,
   parseCapabilityBackup,
+  selectStorage,
   useAppStore,
   withPersistenceQuarantine,
   type PersistedAppState
@@ -20,6 +28,22 @@ const testStorage: PersistStorage<PersistedAppState | null> = {
   removeItem: () => { persistedValue = null }
 }
 const quarantinedTestStorage = withPersistenceQuarantine(testStorage)
+
+const contract: EvidenceContract = {
+  expectedLessonId: 'workplace-issue-update-b1',
+  expectedTaskId: 'issue-update-task',
+  expectedCapabilityId: 'workplace-communication',
+  forbidVietnamese: true,
+  forbidTranslation: true,
+  forbidModelAnswer: true,
+  maxHints: 0,
+  maxPreparationSeconds: 60,
+  requiredRubricIds: ['action'],
+  timeLimitSeconds: 120,
+  minWords: 20,
+  maxWords: 120
+}
+const policy = { reviewIntervals: [1, 3, 7], contract }
 
 function attempt(overrides: Partial<AttemptEvidence> = {}): AttemptEvidence {
   return {
@@ -103,11 +127,11 @@ describe('v5 app store', () => {
   })
 
   it('records measured attempts and clears phase after transfer', () => {
-    useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'transfer' }), [1, 3, 7])
+    useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'transfer' }), policy)
     const progress = useAppStore.getState().lessonProgress['workplace-issue-update-b1']
     expect(progress.recentAttempts[0]).toMatchObject({ durationSeconds: 75, wordCount: 48 })
     expect(progress.activePhase).toBeNull()
-    expect(progress.nextReviewAt).toBe('2026-08-19T08:00:00.000Z')
+    expect(progress.nextReviewAt).toBe(addLocalDays(new Date('2026-08-18T08:00:00.000Z'), 1))
     expect(JSON.stringify(progress)).not.toMatch(/responseText|audio|blob/i)
   })
 
@@ -220,7 +244,7 @@ describe('v5 app store', () => {
     useAppStore.getState().recordCapabilityAttempt(attempt({
       phase: 'review',
       attemptedAt: '2026-08-18T08:00:00.000Z'
-    }), [1, 3, 7])
+    }), policy)
 
     expect(useAppStore.getState().lessonProgress[lessonId]).toMatchObject({
       status: 'in-progress',
@@ -500,5 +524,141 @@ describe('v5 app store', () => {
 
     expect(asyncWrites).toHaveLength(1)
     expect(asyncWrites[0]).toMatchObject({ version: 5, state: { theme: 'light' } })
+  })
+
+  describe('assessed completion', () => {
+    const lessonId = 'workplace-issue-update-b1'
+    const read = () => useAppStore.getState().lessonProgress[lessonId]
+
+    it('does not complete or schedule review after a transfer that misses the contract', () => {
+      const assessment = useAppStore.getState().recordCapabilityAttempt(
+        attempt({ phase: 'transfer', rubric: { action: 'not-met' } }), policy
+      )
+
+      expect(assessment).toEqual({ qualifies: false, reasons: ['rubric-gap'] })
+      expect(read()).toMatchObject({
+        status: 'in-progress',
+        activePhase: 'transfer',
+        transferCompleted: false,
+        nextReviewAt: null,
+        attemptCount: 1
+      })
+      expect(read().recentAttempts[0]).toMatchObject({ assessment, contentRevision: contractRevision(contract) })
+    })
+
+    it('completes and schedules review only after a qualifying transfer', () => {
+      const assessment = useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'transfer' }), policy)
+
+      expect(assessment).toEqual({ qualifies: true, reasons: [] })
+      expect(read()).toMatchObject({ status: 'completed', transferCompleted: true, activePhase: null })
+      expect(read().recentAttempts[0].assessment).toEqual({ qualifies: true, reasons: [] })
+    })
+
+    it('does not advance the review stage when the review used a model answer', () => {
+      useAppStore.setState({
+        lessonProgress: {
+          [lessonId]: { ...createEmptyLessonProgress(), status: 'completed', reviewStage: 1, nextReviewAt: '2026-08-17T00:00:00.000Z' }
+        }
+      })
+      const assessment = useAppStore.getState().recordCapabilityAttempt(attempt({
+        phase: 'review',
+        independence: { usedVietnamese: false, usedTranslation: false, usedModelAnswer: true, hintCount: 0, preparationSeconds: 10 }
+      }), policy)
+
+      expect(assessment?.reasons).toContain('used-model-answer')
+      expect(read().reviewStage).toBe(1)
+      expect(read().recentAttempts[0].assessment?.qualifies).toBe(false)
+    })
+
+    it('advances the review stage for a qualifying review and ignores empty rubrics', () => {
+      useAppStore.setState({
+        lessonProgress: {
+          [lessonId]: { ...createEmptyLessonProgress(), status: 'completed', reviewStage: 0, nextReviewAt: '2026-08-17T00:00:00.000Z' }
+        }
+      })
+      useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'review', rubric: {} }), policy)
+      expect(read().reviewStage).toBe(0)
+
+      useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'review', attemptId: 'attempt-2' }), policy)
+      expect(read().reviewStage).toBe(1)
+    })
+
+    it('returns no assessment for attempts that are not transfer or review', () => {
+      expect(useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'retry' }), policy)).toBeNull()
+      expect(read().recentAttempts[0].assessment).toBeUndefined()
+    })
+  })
+
+  describe('persistence status', () => {
+    const throwingStorage: PersistStorage<PersistedAppState | null> = {
+      getItem: () => null,
+      setItem: () => { throw new DOMException('The quota has been exceeded.', 'QuotaExceededError') },
+      removeItem: () => undefined
+    }
+    const futureValue = {
+      version: 99,
+      state: { theme: 'light', currentCefrLevel: 'C1', activeLessonId: 'future', lessonProgress: {} }
+    } as unknown as StorageValue<PersistedAppState | null>
+
+    it('starts ok', () => {
+      expect(useAppStore.getState().persistence.status).toBe('ok')
+    })
+
+    it('survives a quota error without throwing and recovers on the next successful write', () => {
+      useAppStore.persist.setOptions({ storage: withPersistenceQuarantine(throwingStorage) })
+
+      expect(() => useAppStore.getState().recordCapabilityAttempt(attempt({ phase: 'transfer' }), policy)).not.toThrow()
+      expect(useAppStore.getState().persistence.status).toBe('write-failed')
+      expect(useAppStore.getState().lessonProgress['workplace-issue-update-b1'].status).toBe('completed')
+
+      useAppStore.persist.setOptions({ storage: quarantinedTestStorage })
+      useAppStore.getState().setTheme('light')
+      expect(useAppStore.getState().persistence.status).toBe('ok')
+    })
+
+    it('reports quarantined after a rejected hydration and clears it on an explicit restore', async () => {
+      persistedValue = futureValue
+      await useAppStore.persist.rehydrate()
+      expect(useAppStore.getState().persistence.status).toBe('quarantined')
+
+      useAppStore.getState().restoreEnvelope({ storageVersion: 5, lessonProgress: {}, settings: { theme: 'light' } })
+      expect(useAppStore.getState().persistence.status).toBe('ok')
+    })
+
+    it('falls back to memory when browser storage cannot be used', () => {
+      const blocked = { get localStorage(): Storage { throw new DOMException('denied', 'SecurityError') } }
+      expect(selectStorage(blocked as unknown as Window).memoryOnly).toBe(true)
+      expect(selectStorage({ localStorage: window.localStorage } as unknown as Window).memoryOnly).toBe(false)
+      expect(selectStorage(undefined).memoryOnly).toBe(true)
+    })
+
+    it('rehydrates when another tab changes the stored state', async () => {
+      persistedValue = {
+        version: 5,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+      }
+      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
+
+      expect(useAppStore.getState().theme).toBe('light')
+    })
+
+    it('ignores unrelated keys and never rehydrates over quarantined data', async () => {
+      persistedValue = {
+        version: 5,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+      }
+      await handleStorageEvent(new StorageEvent('storage', { key: 'something-else' }))
+      expect(useAppStore.getState().theme).toBe('dark')
+
+      persistedValue = futureValue
+      await useAppStore.persist.rehydrate()
+      persistedValue = {
+        version: 5,
+        state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }
+      }
+      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
+      expect(useAppStore.getState().theme).toBe('dark')
+      expect(useAppStore.getState().persistence.status).toBe('quarantined')
+    })
   })
 })

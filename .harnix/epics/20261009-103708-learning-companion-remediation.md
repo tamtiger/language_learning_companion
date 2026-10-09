@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103712-fix-learning-state-logic` — Sửa logic hoàn thành, ôn tập và bền vững dữ liệu (`planning`)
+- `20261009-103713-clean-repo-hygiene-and-docs` — Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release (`planning`)
 
 ## Members (16 tasks)
 
@@ -21,7 +21,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 2 | `20261009-103710-harden-assessment-integrity` | Siết toàn vẹn bài kiểm tra: xáo trộn, chấm điểm, cổng chất lượng đáp án | `full` | `completed` |
 | 3 | `20261009-112609-standardize-file-naming-and-test-layout` | Thống nhất quy ước tên file, đuôi file và gom test vào thư mục tests | `full` | `completed` |
 | 4 | `20261009-103711-fix-content-accuracy-errors` | Sửa lỗi chính xác nội dung đã phát hiện khi review | `full` | `completed` |
-| 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `planning` |
+| 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `completed` |
 | 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `planning` |
 | 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `planning` |
 | 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `planning` |
@@ -62,7 +62,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 5. `20261009-103712-fix-learning-state-logic` — Sửa logic hoàn thành, ôn tập và bền vững dữ liệu
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Trạng thái hoàn thành, lịch ôn và lưu trữ phản ánh đúng năng lực thật và không mất dữ liệu âm thầm.
 - **Tiêu chí nghiệm thu:** 6 tiêu chí
 

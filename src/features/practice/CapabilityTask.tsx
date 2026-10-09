@@ -10,11 +10,12 @@ import {
   type CapabilityPhase,
   type CapabilitySession
 } from '../../domain/learning/flow'
+import { buildEvidenceContract } from '../../domain/progress/evidenceContract'
 import {
-  assessTransfer,
   type AttemptProcessEvidence,
   type AttemptEvidence,
   type IndependenceEvidence,
+  type LessonEntry,
   type LessonProgress,
   type RubricState,
   type TransferAssessment,
@@ -102,13 +103,17 @@ const PHASE_DESCRIPTIONS: Record<CapabilityPhase, string> = {
   completed: 'Nhiệm vụ đã được ghi nhận.'
 }
 
-function initialSession(progress: LessonProgress | undefined, now = Date.now()): CapabilitySession {
+function initialSession(
+  progress: LessonProgress | undefined,
+  entry?: LessonEntry,
+  now = Date.now()
+): CapabilitySession {
   const completed: CapabilitySession = {
     phase: 'completed', baselineAttempted: true, rubricRated: true, transferCompleted: true
   }
-  if (progress?.status !== 'in-progress'
-    && progress?.nextReviewAt
-    && new Date(progress.nextReviewAt).getTime() <= now) {
+  const reviewDue = Boolean(progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= now)
+  // An in-progress repeat keeps its cycle unless the learner explicitly opened the due review.
+  if (reviewDue && (progress?.status !== 'in-progress' || entry === 'review')) {
     return { ...completed, phase: 'review' }
   }
   if (progress?.status === 'completed') return completed
@@ -281,7 +286,11 @@ function PilotJourney({ phase }: { phase: CapabilityPhase }) {
   )
 }
 
-export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task: CanonicalPerformanceTaskV3 }) {
+export function CapabilityTask({ lesson, task, entry }: {
+  lesson: CanonicalLesson
+  task: CanonicalPerformanceTaskV3
+  entry?: LessonEntry
+}) {
   const capabilityId = lesson.capabilities[0]
   if (!capabilityId) throw new Error(`Capability task lesson ${lesson.lessonId} must declare a capability`)
   const progress = useAppStore((state) => state.lessonProgress[lesson.lessonId])
@@ -289,7 +298,8 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
   const setActivePhase = useAppStore((state) => state.setActivePhase)
   const setActiveProcessEvidence = useAppStore((state) => state.setActiveProcessEvidence)
   const startLessonRepeat = useAppStore((state) => state.startLessonRepeat)
-  const [session, setSession] = useState<CapabilitySession>(() => initialSession(progress))
+  const [session, setSession] = useState<CapabilitySession>(() => initialSession(progress, entry))
+  const [confirmingRepeat, setConfirmingRepeat] = useState(false)
   const [response, setResponse] = useState('')
   const [spokenSnapshot, setSpokenSnapshot] = useState<SpokenAttemptSnapshot | null>(null)
   const [learnerOutput, setLearnerOutput] = useState<SessionAttemptSnapshot | null>(null)
@@ -432,8 +442,10 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
       } : null,
       completed: true
     }
-    recordAttempt(attempt, lesson.reviewPolicy.intervalDays)
-    return attempt
+    return recordAttempt(attempt, {
+      reviewIntervals: lesson.reviewPolicy.intervalDays,
+      contract: buildEvidenceContract(lesson)
+    })
   }
   const resetResponse = (releaseLearnerOutput = true) => {
     if (releaseLearnerOutput) {
@@ -486,16 +498,32 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               ? 'Review đã được lưu. Lịch ôn tiếp theo đã được cập nhật theo review policy của bài học.'
               : 'Mission này đã hoàn tất. Bạn có thể luyện lại để bắt đầu một vòng mới mà vẫn giữ lịch sử luyện tập.'}
         </p>
-        {completionKind === 'transfer' && completionAssessment && (
-          <p className={`mt-4 rounded-xl p-4 text-sm ${completionAssessment.qualifies ? 'bg-green-500/10 text-green-200' : 'bg-amber-500/10 text-amber-200'}`}>
+        {completionKind === 'review' && completionAssessment && (
+          <p role="status" aria-label="Kết quả review" className={`mt-4 rounded-xl p-4 text-sm ${completionAssessment.qualifies ? 'bg-green-500/10 text-green-200' : 'bg-amber-500/10 text-amber-200'}`}>
             {completionAssessment.qualifies
-              ? 'Transfer đạt hợp đồng độc lập và output contract.'
-              : `Transfer đã lưu nhưng chưa qualifying: ${completionAssessment.reasons.map((reason) => TRANSFER_REASON_LABELS[reason]).join(', ')}.`}
+              ? 'Review đạt hợp đồng độc lập và output contract; lịch ôn chuyển sang chặng tiếp theo.'
+              : `Review đã lưu nhưng chưa đạt: ${completionAssessment.reasons.map((reason) => TRANSFER_REASON_LABELS[reason]).join(', ')}. Bài sẽ được ôn lại vào ngày kế tiếp.`}
           </p>
         )}
-        <button type="button" onClick={beginRepeat} className="mt-5 rounded-xl border border-green-300 px-5 py-3 font-bold text-green-100">
-          Luyện lại mission
-        </button>
+        {completionKind === 'transfer' && completionAssessment?.qualifies && (
+          <p role="status" aria-label="Kết quả transfer" className="mt-4 rounded-xl bg-green-500/10 p-4 text-sm text-green-200">
+            Transfer đạt hợp đồng độc lập và output contract.
+          </p>
+        )}
+        {confirmingRepeat ? (
+          <div role="alertdialog" aria-labelledby="repeat-mission-title" className="mt-5 rounded-xl border border-amber-500/40 bg-amber-500/10 p-4 text-left">
+            <h3 id="repeat-mission-title" className="font-bold text-amber-100">Xác nhận luyện lại mission</h3>
+            <p className="mt-2 text-sm text-amber-100">Luyện lại sẽ xóa tiến độ vòng hiện tại (các phần và bài tập đã đúng). Lịch sử luyện tập và lịch ôn vẫn được giữ.</p>
+            <div className="mt-3 flex gap-2">
+              <button type="button" autoFocus onClick={() => { setConfirmingRepeat(false); beginRepeat() }} className="rounded-lg bg-amber-400 px-4 py-2 font-bold text-zinc-950">Xác nhận luyện lại</button>
+              <button type="button" onClick={() => setConfirmingRepeat(false)} className="rounded-lg border border-zinc-700 px-4 py-2">Hủy</button>
+            </div>
+          </div>
+        ) : (
+          <button type="button" onClick={() => setConfirmingRepeat(true)} className="mt-5 rounded-xl border border-green-300 px-5 py-3 font-bold text-green-100">
+            Luyện lại mission
+          </button>
+        )}
       </section>
     )
   }
@@ -619,6 +647,11 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
               Source đã ẩn. Hãy trích xuất và diễn đạt từ trí nhớ; reload chỉ dùng khi bạn cần bắt đầu lại phase.
             </p>
           )}
+          {phase === 'transfer' && completionKind === 'transfer' && completionAssessment && !completionAssessment.qualifies && (
+            <p role="status" aria-label="Kết quả transfer" className="rounded-xl bg-amber-500/10 p-4 text-sm text-amber-200">
+              Transfer chưa đạt: {completionAssessment.reasons.map((reason) => TRANSFER_REASON_LABELS[reason]).join(', ')}. Mission chưa hoàn thành và chưa lên lịch ôn; hãy làm lại tình huống này.
+            </p>
+          )}
           <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
           {phase === 'retry' && learnerOutput && (
             <div className="grid gap-4 lg:grid-cols-2">
@@ -684,45 +717,19 @@ export function CapabilityTask({ lesson, task }: { lesson: CanonicalLesson; task
             }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Sang transfer</button>}
             {phase === 'transfer' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
-              const attempt = saveAttempt('transfer', snapshot)
-              const contract = task.mode === 'spoken'
-                ? {
-                    expectedLessonId: lesson.lessonId,
-                    expectedTaskId: task.id,
-                    expectedCapabilityId: capabilityId,
-                    forbidVietnamese: task.independenceContract.noVietnamese,
-                    forbidTranslation: task.independenceContract.noTranslation,
-                    forbidModelAnswer: task.independenceContract.noModelAnswer,
-                    maxHints: task.independenceContract.maxHints,
-                    maxPreparationSeconds: task.independenceContract.preparationSeconds,
-                    requiredRubricIds: task.rubric.map((item) => item.id),
-                    timeLimitSeconds: task.outputContract.timeLimitSeconds,
-                    targetSeconds: task.outputContract.targetSeconds,
-                    requireListenBack: isPilot,
-                    requiredInteractionTurnIds: isPilot ? task.learningLoop?.interactionTurns.map((turn) => turn.id) : undefined
-                  }
-                : {
-                    expectedLessonId: lesson.lessonId,
-                    expectedTaskId: task.id,
-                    expectedCapabilityId: capabilityId,
-                    forbidVietnamese: task.independenceContract.noVietnamese,
-                    forbidTranslation: task.independenceContract.noTranslation,
-                    forbidModelAnswer: task.independenceContract.noModelAnswer,
-                    maxHints: task.independenceContract.maxHints,
-                    maxPreparationSeconds: task.independenceContract.preparationSeconds,
-                    requiredRubricIds: task.rubric.map((item) => item.id),
-                    timeLimitSeconds: task.outputContract.timeLimitSeconds,
-                    minWords: task.outputContract.minWords,
-                    maxWords: task.outputContract.maxWords
-                  }
-              setCompletionAssessment(assessTransfer(attempt, contract))
+              const assessment = saveAttempt('transfer', snapshot)
+              setCompletionAssessment(assessment)
               setCompletionKind('transfer')
               resetResponse()
+              if (!assessment?.qualifies) {
+                setRubric({})
+                return
+              }
               setSession((current) => advancePhase(current, 'SUBMIT_TRANSFER'))
             }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Hoàn thành transfer</button>}
             {phase === 'review' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
-              saveAttempt('review', snapshot)
+              setCompletionAssessment(saveAttempt('review', snapshot))
               setCompletionKind('review')
               resetResponse()
               setSession((current) => advancePhase(current, 'SUBMIT_REVIEW'))

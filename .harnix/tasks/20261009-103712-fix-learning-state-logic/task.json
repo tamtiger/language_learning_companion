@@ -4,8 +4,8 @@
   "id": "20261009-103712-fix-learning-state-logic",
   "title": "Sửa logic hoàn thành, ôn tập và bền vững dữ liệu",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Trạng thái hoàn thành, lịch ôn và lưu trữ phản ánh đúng năng lực thật và không mất dữ liệu âm thầm.",
   "nonGoals": [
     "Không đổi giao diện ngoài banner, xác nhận và nhãn trạng thái",
@@ -15,45 +15,68 @@
     {
       "id": "ac-1",
       "text": "Transfer chưa đạt hợp đồng không đặt mission completed và không lên lịch ôn; quyết định nằm trong domain (applyTransferOutcome), khớp ARCHITECTURE.md.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-logic-1",
+        "ev-check-store-persistence-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Review chỉ tính đạt khi rubric không rỗng và đạt cả độc lập lẫn hợp đồng output (assessReview trong domain).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-logic-1",
+        "ev-check-store-persistence-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Lịch ôn tính theo ngày lịch địa phương; test với TZ cố định ở ranh 23:59/00:01; Today cập nhật khi qua giờ đến hạn.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-logic-1",
+        "ev-check-state-ui-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Luyện lại không che bài ôn đến hạn, giữ nguyên reviewStage, có bước xác nhận trước khi luyện lại.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-state-ui-1",
+        "ev-check-store-persistence-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-5",
       "text": "Attempt lưu kèm assessment và contentRevision; Progress không chấm lại attempt cũ bằng content hiện tại.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-domain-logic-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-6",
       "text": "Có trạng thái persistence (ok/quarantined/memory-only) hiện banner có hướng xử lý; lỗi setItem/quota không làm kẹt phase; nhiều tab đồng bộ qua sự kiện storage.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-state-ui-1",
+        "ev-check-store-persistence-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
     {
       "id": "check-domain-logic",
-      "description": "Domain: transfer, review, lịch ôn theo ngày, assessment",
-      "command": "npx vitest run tests/domain",
+      "description": "Domain và schema: transfer, review, lịch ngày địa phương, hợp đồng, attempt",
+      "command": "npx vitest run tests/domain tests/infrastructure tests/features/progress",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -64,21 +87,26 @@
       ],
       "inputs": [
         "src/domain/**",
+        "src/features/progress/**",
+        "src/infrastructure/**",
         "src/types/**",
         "tests/**"
       ]
     },
     {
       "id": "check-store-persistence",
-      "description": "Store: luyện lại, quota, đồng bộ tab",
+      "description": "Store: transfer, review, luyện lại, quota, đồng bộ tab",
       "command": "npx vitest run tests/shared/hooks/useAppStore.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
+        "ac-1",
+        "ac-2",
         "ac-4",
         "ac-6"
       ],
       "inputs": [
+        "src/domain/**",
         "src/infrastructure/**",
         "src/shared/**",
         "tests/**"
@@ -86,8 +114,8 @@
     },
     {
       "id": "check-state-ui",
-      "description": "UI: banner persistence, xác nhận luyện lại, Today",
-      "command": "npx vitest run tests/features/today/TodayPage.test.tsx tests/features/settings/Settings.test.tsx",
+      "description": "UI: Today, xác nhận luyện lại, transfer chưa đạt, banner persistence",
+      "command": "npx vitest run tests/features/today tests/features/practice tests/features/lesson tests/app",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -98,6 +126,7 @@
       "inputs": [
         "src/app/**",
         "src/features/**",
+        "src/shared/**",
         "tests/**"
       ]
     },
@@ -120,17 +149,109 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-domain-logic-1",
+      "checkId": "check-domain-logic",
+      "recordedAt": "2026-10-09T13:49:58.839+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/domain tests/infrastructure tests/features/progress — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "4baa7558afef7326b293e94487cea42daccad5174b0f9f1b120f9da1ba088a57"
+    },
+    {
+      "id": "ev-check-store-persistence-1",
+      "checkId": "check-store-persistence",
+      "recordedAt": "2026-10-09T13:50:01.968+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/shared/hooks/useAppStore.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "77f4508ffbd59e51a0a0a6ec188dfde9e07052df77edc252f439e8587af55c2f"
+    },
+    {
+      "id": "ev-check-state-ui-1",
+      "checkId": "check-state-ui",
+      "recordedAt": "2026-10-09T13:50:20.302+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/today tests/features/practice tests/features/lesson tests/app — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "fc3b89c16dece99833c1a45e47371e569a48a7c8be288f0c4c98006b587260a6"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T13:50:50.033+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "1fd7a974b1475f637446687306e0a001d5b27ffa66f583be04c1a580ada2805b"
+    }
+  ],
   "relevantPaths": [
     "ARCHITECTURE.md",
+    "src/app",
     "src/domain",
-    "src/features/progress",
-    "src/features/today",
+    "src/features",
     "src/infrastructure/storage",
-    "src/shared/hooks/useAppStore.ts"
+    "src/shared",
+    "tests"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:04.293+07:00"
+  "updatedAt": "2026-10-09T13:51:27.228+07:00",
+  "decisions": [
+    {
+      "id": "d-domain-first",
+      "text": "Quyết định đạt/hoàn thành/ôn nằm trong domain (applyTransferOutcome, assessReview); store nhận hợp đồng qua policy và trả assessment.",
+      "rationale": "Hiện UI tự gọi assessTransfer sau khi store đã completed; chuyển vào domain để khớp ARCHITECTURE.md và test được."
+    },
+    {
+      "id": "d-local-day",
+      "text": "Review đến hạn từ 00:00 địa phương của ngày đích; lưu ISO, so sánh nextReviewAt <= now, không migration.",
+      "rationale": "Mốc 24 giờ làm bài học 23:50 đến hạn 23:50; dữ liệu cũ vẫn dùng được."
+    },
+    {
+      "id": "d-additive-attempt",
+      "text": "Thêm assessment và contentRevision tùy chọn vào attempt v5, giữ storageVersion 5; attempt cũ hiện chưa có đánh giá và không tính đạt.",
+      "rationale": "Tránh chấm lại attempt cũ bằng nội dung mới mà không phải bump version; backup cũ vẫn nhập được."
+    },
+    {
+      "id": "d-review-parallel",
+      "text": "Lesson đang luyện lại mà review đến hạn phát hai mục review và resume; lối vào mang entry review|continue; luyện lại cần xác nhận và giữ reviewStage.",
+      "rationale": "Đã thống nhất với người dùng: luyện lại không được che bài ôn đến hạn."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "r-sig-change",
+      "text": "Đổi chữ ký recordCapabilityAttempt ảnh hưởng nhiều test; sửa cùng slice.",
+      "severity": "low"
+    },
+    {
+      "id": "r-multitab",
+      "text": "Đồng bộ nhiều tab chỉ là bản ghi sau cùng thắng; hai tab ghi cùng lúc vẫn có thể mất một lượt.",
+      "severity": "low"
+    },
+    {
+      "id": "r-backup-forward",
+      "text": "Backup mới có trường assessment/contentRevision không nhập được vào bản app cũ hơn do schema strict.",
+      "severity": "low"
+    },
+    {
+      "id": "r-review-during-repeat",
+      "text": "Sau khi nộp review trong lúc đang luyện lại, màn hình vẫn hiện 'Mission hoàn thành' dù vòng luyện lại còn dở (dữ liệu đúng: status in-progress); chỉ là copy UI, nên xử lý ở task UX.",
+      "severity": "low"
+    },
+    {
+      "id": "r-tz-test",
+      "text": "Test múi giờ đặt process.env.TZ lúc chạy (Asia/Ho_Chi_Minh, America/Los_Angeles); đã pass trên Node 25, chưa kiểm chứng trên Node 22.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T13:51:27.228+07:00"
 }

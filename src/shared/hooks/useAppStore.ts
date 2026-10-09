@@ -8,12 +8,17 @@ import {
 import { z } from 'zod'
 import { getBundledCatalog } from '../../content/catalog'
 import type { CanonicalLesson } from '../../content/schema'
+import { contractRevision } from '../../domain/progress/evidenceContract'
 import {
   appendAttempt,
   applyReviewResult,
+  applyTransferOutcome,
+  assessReview,
+  assessTransfer,
   createEmptyLessonProgress,
-  scheduleTransferReview,
+  type AttemptAssessment,
   type AttemptEvidence,
+  type EvidenceContract,
   type AttemptProcessEvidence,
   type DurableCapabilityPhase,
   type ProgressByLesson
@@ -34,12 +39,46 @@ const memoryStorage: StateStorage = {
   removeItem: (name) => { memoryValues.delete(name) }
 }
 
-function getSafeStorage(): StateStorage {
+/** Picks browser storage, or an in-memory fallback (progress lost on close) when it is unavailable. */
+export function selectStorage(
+  win: Pick<Window, 'localStorage'> | undefined
+): { storage: StateStorage; memoryOnly: boolean } {
   try {
-    return typeof window !== 'undefined' && window.localStorage ? window.localStorage : memoryStorage
+    if (win?.localStorage) return { storage: win.localStorage, memoryOnly: false }
   } catch {
-    return memoryStorage
+    // Access itself can throw (blocked site data); fall through to memory.
   }
+  return { storage: memoryStorage, memoryOnly: true }
+}
+
+const storageSelection = selectStorage(typeof window === 'undefined' ? undefined : window)
+const PERSIST_KEY = 'language-learning-companion-storage-v3'
+
+export type PersistenceStatus = 'ok' | 'memory-only' | 'quarantined' | 'write-failed'
+
+const baselinePersistenceStatus: PersistenceStatus = storageSelection.memoryOnly ? 'memory-only' : 'ok'
+let storeReady = false
+let deferredPersistenceStatus: PersistenceStatus | null = null
+let suppressPersistWrite = false
+
+function markPersistence(status: PersistenceStatus): void {
+  if (!storeReady) {
+    deferredPersistenceStatus = status
+    return
+  }
+  if (useAppStore.getState().persistence.status === status) return
+  // Status is not persisted, so it must not trigger a storage write.
+  suppressPersistWrite = true
+  try {
+    useAppStore.setState({ persistence: { status } })
+  } finally {
+    suppressPersistWrite = false
+  }
+}
+
+export interface AttemptPolicy {
+  reviewIntervals: number[]
+  contract: EvidenceContract
 }
 
 export interface AppState {
@@ -49,6 +88,8 @@ export interface AppState {
   lessons: CanonicalLesson[]
   contentErrors: typeof catalog.errors
   lessonProgress: ProgressByLesson
+  /** Whether progress is actually being saved; never persisted. */
+  persistence: { status: PersistenceStatus }
   setTheme: (theme: 'dark' | 'light') => void
   setCefrLevel: (level: 'B1' | 'B2' | 'C1' | null) => void
   setActiveLessonId: (lessonId: string | null) => void
@@ -57,7 +98,8 @@ export interface AppState {
   setActiveProcessEvidence: (lessonId: string, evidence: AttemptProcessEvidence | null) => void
   markExerciseCorrect: (lessonId: string, exerciseId: string) => void
   markLessonComplete: (lessonId: string, completed: boolean) => void
-  recordCapabilityAttempt: (attempt: AttemptEvidence, reviewIntervals: number[]) => void
+  /** Saves the attempt and returns the stored assessment (transfer and review only). */
+  recordCapabilityAttempt: (attempt: AttemptEvidence, policy: AttemptPolicy) => AttemptAssessment | null
   restoreEnvelope: (envelope: ProgressEnvelope) => void
   restartLesson: (lessonId: string) => void
   startLessonRepeat: (lessonId: string) => void
@@ -79,11 +121,14 @@ function allowPersistenceRecovery(): void {
   persistenceRecoveryEpoch += 1
   migrationWriteAuthorized = false
   persistenceQuarantined = false
+  markPersistence(baselinePersistenceStatus)
 }
 
 /**
  * Blocks automatic writes after hydration rejects stored data. Recovery actions
  * explicitly clear the quarantine before replacing that data with validated state.
+ * A failing write (quota, blocked storage) is reported through `persistence.status`
+ * instead of throwing out of the user action that triggered it.
  */
 export function withPersistenceQuarantine(
   storage: PersistStorage<PersistedAppState | null>
@@ -91,18 +136,51 @@ export function withPersistenceQuarantine(
   return {
     getItem: (name) => storage.getItem(name),
     setItem: (name, value) => {
+      if (suppressPersistWrite) return undefined
       if (persistenceQuarantined) {
         if (!migrationWriteAuthorized) return undefined
         migrationWriteAuthorized = false
       }
-      return storage.setItem(name, value)
+      try {
+        const result = storage.setItem(name, value)
+        if (storeReady && useAppStore.getState().persistence.status === 'write-failed') {
+          markPersistence(baselinePersistenceStatus)
+        }
+        return result
+      } catch {
+        markPersistence('write-failed')
+        return undefined
+      }
     },
     removeItem: (name) => storage.removeItem(name)
   }
 }
 
+/**
+ * Applies progress written by another tab. Local-only fields such as the open lesson are kept,
+ * and the applied state is not written back, so two tabs cannot ping-pong the same key.
+ */
+export async function handleStorageEvent(event: StorageEvent): Promise<void> {
+  if (event.key !== PERSIST_KEY || persistenceQuarantined) return
+  const storage = useAppStore.persist.getOptions().storage
+  const stored = await storage?.getItem(PERSIST_KEY)
+  if (!stored) return
+  const external = migratePersistedAppState(stored.state, stored.version ?? 0)
+  if (!external) return
+  suppressPersistWrite = true
+  try {
+    useAppStore.setState({
+      theme: external.theme,
+      currentCefrLevel: external.currentCefrLevel,
+      lessonProgress: external.lessonProgress
+    })
+  } finally {
+    suppressPersistWrite = false
+  }
+}
+
 function createAppPersistStorage(): PersistStorage<PersistedAppState | null> | undefined {
-  const storage = createJSONStorage<PersistedAppState | null>(getSafeStorage)
+  const storage = createJSONStorage<PersistedAppState | null>(() => storageSelection.storage)
   return storage ? withPersistenceQuarantine(storage) : undefined
 }
 
@@ -171,6 +249,7 @@ export const useAppStore = create<AppState>()(
       lessons: catalog.lessons,
       contentErrors: catalog.errors,
       lessonProgress: {},
+      persistence: { status: baselinePersistenceStatus },
 
       setTheme: (theme) => set({ theme }),
       setCefrLevel: (currentCefrLevel) => set({ currentCefrLevel, activeLessonId: null }),
@@ -241,42 +320,51 @@ export const useAppStore = create<AppState>()(
           }
         }
       }),
-      recordCapabilityAttempt: (attempt, reviewIntervals) => set((state) => {
-        const current = state.lessonProgress[attempt.lessonId] ?? createEmptyLessonProgress()
-        const preserveActiveCycle = attempt.phase === 'review' && current.status === 'in-progress'
-        let next = appendAttempt(current, attempt)
-        const nextPhase: DurableCapabilityPhase | null = attempt.phase === 'baseline'
-          ? 'input'
-          : attempt.phase === 'performance'
-            ? 'retry'
-            : attempt.phase === 'retry'
-              ? 'transfer'
+      recordCapabilityAttempt: (rawAttempt, policy) => {
+        let assessment: AttemptAssessment | null = null
+        set((state) => {
+          const current = state.lessonProgress[rawAttempt.lessonId] ?? createEmptyLessonProgress()
+          const preserveActiveCycle = rawAttempt.phase === 'review' && current.status === 'in-progress'
+          assessment = rawAttempt.phase === 'transfer'
+            ? assessTransfer(rawAttempt, policy.contract)
+            : rawAttempt.phase === 'review'
+              ? assessReview(rawAttempt, policy.contract)
               : null
-        next = {
-          ...next,
-          activePhase: preserveActiveCycle ? current.activePhase : nextPhase,
-          activeProcessEvidence: preserveActiveCycle
-            ? current.activeProcessEvidence
-            : nextPhase === null
-              ? null
-              : attempt.process ?? current.activeProcessEvidence
-        }
-        if (attempt.phase === 'transfer') {
+          const attempt: AttemptEvidence = assessment
+            ? { ...rawAttempt, assessment, contentRevision: contractRevision(policy.contract) }
+            : rawAttempt
+          const attemptedAt = new Date(attempt.attemptedAt)
+          let next = appendAttempt(current, attempt)
+          const nextPhase: DurableCapabilityPhase | null = attempt.phase === 'baseline'
+            ? 'input'
+            : attempt.phase === 'performance'
+              ? 'retry'
+              : attempt.phase === 'retry'
+                ? 'transfer'
+                : null
           next = {
-            ...scheduleTransferReview(next, reviewIntervals, new Date(attempt.attemptedAt)),
-            status: 'completed',
-            activePhase: null
+            ...next,
+            activePhase: preserveActiveCycle ? current.activePhase : nextPhase,
+            activeProcessEvidence: preserveActiveCycle
+              ? current.activeProcessEvidence
+              : nextPhase === null
+                ? null
+                : attempt.process ?? current.activeProcessEvidence
           }
-        } else if (attempt.phase === 'review') {
-          const passed = Object.values(attempt.rubric).every((rating) => rating === 'met')
-          next = {
-            ...applyReviewResult(next, passed, reviewIntervals, new Date(attempt.attemptedAt)),
-            status: preserveActiveCycle ? 'in-progress' : 'completed',
-            activePhase: preserveActiveCycle ? current.activePhase : null
+          if (attempt.phase === 'transfer' && assessment) {
+            next = applyTransferOutcome(next, assessment, policy.reviewIntervals, attemptedAt)
+            if (!assessment.qualifies) next = { ...next, activeProcessEvidence: current.activeProcessEvidence }
+          } else if (attempt.phase === 'review' && assessment) {
+            next = {
+              ...applyReviewResult(next, assessment.qualifies, policy.reviewIntervals, attemptedAt),
+              status: preserveActiveCycle ? 'in-progress' : 'completed',
+              activePhase: preserveActiveCycle ? current.activePhase : null
+            }
           }
-        }
-        return { lessonProgress: { ...state.lessonProgress, [attempt.lessonId]: next } }
-      }),
+          return { lessonProgress: { ...state.lessonProgress, [attempt.lessonId]: next } }
+        })
+        return assessment
+      },
       restoreEnvelope: (envelope) => {
         allowPersistenceRecovery()
         set({
@@ -320,7 +408,7 @@ export const useAppStore = create<AppState>()(
       }
     }),
     {
-      name: 'language-learning-companion-storage-v3',
+      name: PERSIST_KEY,
       version: 5,
       storage: createAppPersistStorage(),
       onRehydrateStorage: () => {
@@ -332,6 +420,7 @@ export const useAppStore = create<AppState>()(
           if (recoveryEpoch !== persistenceRecoveryEpoch) return
           migrationWriteAuthorized = false
           persistenceQuarantined = error !== undefined
+          markPersistence(error !== undefined ? 'quarantined' : baselinePersistenceStatus)
         }
       },
       migrate: (persisted, version) => {
@@ -360,3 +449,6 @@ export const useAppStore = create<AppState>()(
     }
   )
 )
+
+storeReady = true
+if (deferredPersistenceStatus) markPersistence(deferredPersistenceStatus)

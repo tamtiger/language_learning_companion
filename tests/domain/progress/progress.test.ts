@@ -241,18 +241,25 @@ describe('progress evidence and scheduling', () => {
     })
   })
 
-  it('uses content-owned review intervals and repeats failed stages after one day', () => {
-    const now = new Date('2026-08-18T08:00:00.000Z')
-    const scheduled = scheduleTransferReview(createEmptyLessonProgress(), [1, 3, 7], now)
-    expect(scheduled.nextReviewAt).toBe('2026-08-19T08:00:00.000Z')
+  it('uses content-owned review intervals and advances the stage on a passed review', () => {
+    const originalTz = process.env.TZ
+    process.env.TZ = 'UTC'
+    try {
+      const scheduled = scheduleTransferReview(
+        createEmptyLessonProgress(), [1, 3, 7], new Date('2026-08-18T08:00:00.000Z')
+      )
+      expect(scheduled.nextReviewAt).toBe('2026-08-19T00:00:00.000Z')
 
-    const failed = applyReviewResult(scheduled, false, [1, 3, 7], new Date('2026-08-19T08:00:00.000Z'))
-    expect(failed.reviewStage).toBe(0)
-    expect(failed.nextReviewAt).toBe('2026-08-20T08:00:00.000Z')
+      const failed = applyReviewResult(scheduled, false, [1, 3, 7], new Date('2026-08-19T08:00:00.000Z'))
+      expect(failed.reviewStage).toBe(0)
 
-    const passed = applyReviewResult(failed, true, [1, 3, 7], new Date('2026-08-20T08:00:00.000Z'))
-    expect(passed.reviewStage).toBe(1)
-    expect(passed.nextReviewAt).toBe('2026-08-23T08:00:00.000Z')
+      const passed = applyReviewResult(failed, true, [1, 3, 7], new Date('2026-08-20T08:00:00.000Z'))
+      expect(passed.reviewStage).toBe(1)
+      expect(passed.nextReviewAt).toBe('2026-08-23T00:00:00.000Z')
+    } finally {
+      if (originalTz === undefined) delete process.env.TZ
+      else process.env.TZ = originalTz
+    }
   })
 
   it('orders overdue review, active loop, missing baseline, then new lesson', () => {
@@ -270,21 +277,6 @@ describe('progress evidence and scheduling', () => {
     expect(items.map((item) => item.kind)).toEqual(['review', 'resume', 'baseline', 'baseline'])
     expect(items[0].lessonId).toBe('overdue')
     expect(items[1].lessonId).toBe('active')
-  })
-
-  it('resumes an active repeat cycle before an overdue review', () => {
-    const items = buildTodayQueue([
-      { lessonId: 'repeat', capabilityId: 'workplace-communication', hasPerformanceTask: true }
-    ], {
-      repeat: {
-        ...createEmptyLessonProgress(),
-        status: 'in-progress',
-        activePhase: 'input',
-        nextReviewAt: '2026-08-17T00:00:00.000Z'
-      }
-    }, new Date('2026-08-18T08:00:00.000Z'))
-
-    expect(items).toEqual([expect.objectContaining({ lessonId: 'repeat', kind: 'resume' })])
   })
 
   it('keeps completed missions out of Today until their review is due', () => {

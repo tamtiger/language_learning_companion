@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { BookOpen, CalendarCheck, ChartNoAxesColumnIncreasing, Settings as SettingsIcon } from 'lucide-react'
-import { useAppStore } from '../shared/hooks/useAppStore'
+import type { LessonEntry } from '../domain/progress/progress'
+import { handleStorageEvent, useAppStore } from '../shared/hooks/useAppStore'
+import { PersistenceBanner } from './PersistenceBanner'
 import { CatalogPage } from '../features/catalog/CatalogPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
@@ -19,10 +21,21 @@ const NAV_ITEMS: Array<{ id: Page; label: string; icon: typeof BookOpen }> = [
 export default function App() {
   const [page, setPage] = useState<Page>('today')
   const mainRef = useRef<HTMLElement>(null)
-  const { lessons, activeLessonId, setActiveLessonId, contentErrors } = useAppStore()
+  const { lessons, activeLessonId, setActiveLessonId, contentErrors, persistence } = useAppStore()
+  const [lessonEntry, setLessonEntry] = useState<LessonEntry | undefined>(undefined)
   const activeLesson = lessons.find((lesson) => lesson.lessonId === activeLessonId)
+  const startLesson = (lessonId: string, entry?: LessonEntry) => {
+    setLessonEntry(entry)
+    setActiveLessonId(lessonId)
+  }
   const navigationKey = `${page}:${activeLessonId ?? ''}`
   const previousNavigationKey = useRef(navigationKey)
+
+  useEffect(() => {
+    const onStorage = (event: StorageEvent) => { void handleStorageEvent(event) }
+    window.addEventListener('storage', onStorage)
+    return () => window.removeEventListener('storage', onStorage)
+  }, [])
 
   useEffect(() => {
     if (previousNavigationKey.current === navigationKey) return
@@ -72,17 +85,18 @@ export default function App() {
       </header>
 
       <main id="main-content" ref={mainRef} tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 focus:outline-none">
+        <PersistenceBanner status={persistence.status} onOpenSettings={() => navigate('settings')} />
         {contentErrors.length > 0 && (
           <div role="alert" className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
             Có {contentErrors.length} content file không hợp lệ. Catalog vẫn mở các lesson an toàn.
           </div>
         )}
         {activeLesson ? (
-          <LessonFlow lesson={activeLesson} onBack={() => setActiveLessonId(null)} />
+          <LessonFlow lesson={activeLesson} entry={lessonEntry} onBack={() => setActiveLessonId(null)} />
         ) : page === 'today' ? (
-          <TodayPage onStartLesson={setActiveLessonId} />
+          <TodayPage onStartLesson={startLesson} />
         ) : page === 'catalog' ? (
-          <CatalogPage onStartLesson={setActiveLessonId} />
+          <CatalogPage onStartLesson={startLesson} />
         ) : page === 'progress' ? (
           <ProgressPage />
         ) : (

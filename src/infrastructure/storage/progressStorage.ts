@@ -53,8 +53,35 @@ const AttemptEvidenceV4Schema = AttemptEvidenceV3Schema.extend({
   process: AttemptProcessEvidenceV4Schema.nullable().default(null)
 }).strict()
 
+const TransferReasonSchema = z.enum([
+  'incomplete',
+  'lesson-mismatch',
+  'task-mismatch',
+  'capability-mismatch',
+  'rubric-mismatch',
+  'rubric-not-rated',
+  'rubric-gap',
+  'used-vietnamese',
+  'used-translation',
+  'used-model-answer',
+  'too-many-hints',
+  'preparation-overtime',
+  'too-short',
+  'too-long',
+  'overtime',
+  'listen-back-missing',
+  'interaction-incomplete'
+])
+
+const AttemptAssessmentSchema = z.object({
+  qualifies: z.boolean(),
+  reasons: z.array(TransferReasonSchema).max(20)
+}).strict()
+
 const AttemptEvidenceSchema = AttemptEvidenceV3Schema.extend({
-  process: AttemptProcessEvidenceSchema.nullable().default(null)
+  process: AttemptProcessEvidenceSchema.nullable().default(null),
+  assessment: AttemptAssessmentSchema.optional(),
+  contentRevision: z.string().min(1).max(64).optional()
 }).strict()
 
 const LessonProgressV3Schema = z.object({

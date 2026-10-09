@@ -1,5 +1,6 @@
 import type { CanonicalLesson, CapabilityId } from '../../content/schema'
-import { assessTransfer, type EvidenceContract, type TransferReason } from '../../domain/progress/progress'
+import { buildEvidenceContract, contractRevision } from '../../domain/progress/evidenceContract'
+import type { AttemptEvidence, TransferReason } from '../../domain/progress/progress'
 import { useAppStore } from '../../shared/hooks/useAppStore'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
 
@@ -23,45 +24,9 @@ const REASON_LABELS: Record<TransferReason, string> = {
   'interaction-incomplete': 'Chưa hoàn thành đủ lượt clarification/repair'
 }
 
-function evidenceContract(lesson: CanonicalLesson | undefined): EvidenceContract {
-  const task = lesson?.performanceTask
-  if (!task) return {
-    expectedLessonId: lesson?.lessonId ?? '',
-    expectedTaskId: '',
-    expectedCapabilityId: lesson?.capabilities[0] ?? null,
-    forbidVietnamese: true,
-    forbidTranslation: true,
-    forbidModelAnswer: true,
-    maxHints: 0,
-    maxPreparationSeconds: Number.MAX_SAFE_INTEGER,
-    requiredRubricIds: [],
-    timeLimitSeconds: Number.MAX_SAFE_INTEGER
-  }
-  const shared = {
-    expectedLessonId: lesson.lessonId,
-    expectedTaskId: task.id,
-    expectedCapabilityId: lesson.capabilities[0] ?? null,
-    forbidVietnamese: task.independenceContract.noVietnamese,
-    forbidTranslation: task.independenceContract.noTranslation,
-    forbidModelAnswer: task.independenceContract.noModelAnswer,
-    maxHints: task.independenceContract.maxHints,
-    maxPreparationSeconds: task.independenceContract.preparationSeconds,
-    requiredRubricIds: task.rubric.map((item) => item.id),
-    timeLimitSeconds: task.outputContract.timeLimitSeconds
-  }
-  const isPilot = lesson.workflowTags.includes('p0-pilot')
-  return task.mode === 'spoken'
-    ? {
-        ...shared,
-        targetSeconds: task.outputContract.targetSeconds,
-        requireListenBack: isPilot,
-        requiredInteractionTurnIds: isPilot ? task.learningLoop?.interactionTurns.map((turn) => turn.id) : undefined
-      }
-    : {
-        ...shared,
-        minWords: task.outputContract.minWords,
-        maxWords: task.outputContract.maxWords
-      }
+function isContractChanged(attempt: AttemptEvidence, lesson: CanonicalLesson | undefined): boolean {
+  if (!attempt.contentRevision || !lesson) return false
+  return attempt.contentRevision !== contractRevision(buildEvidenceContract(lesson))
 }
 
 export function ProgressPage() {
@@ -89,10 +54,8 @@ export function ProgressPage() {
           const transfers = recentCapabilityAttempts.filter((attempt) => attempt.phase === 'transfer')
           const assessments = transfers.map((attempt) => ({
             attempt,
-            assessment: assessTransfer(
-              attempt,
-              evidenceContract(lessonsById.get(attempt.lessonId))
-            )
+            assessment: attempt.assessment,
+            changed: isContractChanged(attempt, lessonsById.get(attempt.lessonId))
           }))
           return (
             <article key={id} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
@@ -100,17 +63,18 @@ export function ProgressPage() {
               <dl className="mt-4 grid grid-cols-3 gap-3 text-center">
                 <div><dt className="text-xs text-zinc-400">Attempts</dt><dd className="mt-1 text-2xl font-black">{totalAttempts}</dd></div>
                 <div><dt className="text-xs text-zinc-400">Transfer gần đây</dt><dd className="mt-1 text-2xl font-black">{transfers.length}</dd></div>
-                <div><dt className="text-xs text-zinc-400">Transfer đạt gần đây</dt><dd className="mt-1 text-2xl font-black">{assessments.filter(({ assessment }) => assessment.qualifies).length}</dd></div>
+                <div><dt className="text-xs text-zinc-400">Transfer đạt gần đây</dt><dd className="mt-1 text-2xl font-black">{assessments.filter(({ assessment }) => assessment?.qualifies).length}</dd></div>
               </dl>
               {assessments.length > 0 && (
                 <ul aria-label={`Chi tiết transfer ${CAPABILITY_LABELS[id]}`} className="mt-5 space-y-3 border-t border-zinc-800 pt-4">
-                  {assessments.slice(-3).reverse().map(({ attempt, assessment }) => (
+                  {assessments.slice(-3).reverse().map(({ attempt, assessment, changed }) => (
                     <li key={attempt.attemptId} className="rounded-xl bg-zinc-950/60 p-3 text-sm">
                       <div className="flex items-center justify-between gap-3">
-                        <span className={assessment.qualifies ? 'font-bold text-green-300' : 'font-bold text-amber-300'}>{assessment.qualifies ? 'Đạt hợp đồng' : 'Chưa đạt'}</span>
+                        <span className={assessment?.qualifies ? 'font-bold text-green-300' : 'font-bold text-amber-300'}>{assessment ? (assessment.qualifies ? 'Đạt hợp đồng' : 'Chưa đạt') : 'Chưa có đánh giá (bản ghi cũ)'}</span>
                         <span className="text-zinc-400">{attempt.durationSeconds}s{attempt.wordCount === null ? '' : ` · ${attempt.wordCount} từ`}</span>
                       </div>
-                      {!assessment.qualifies && <p className="mt-2 text-zinc-400">{assessment.reasons.map((reason) => REASON_LABELS[reason]).join(' · ')}</p>}
+                      {assessment && !assessment.qualifies && <p className="mt-2 text-zinc-400">{assessment.reasons.map((reason) => REASON_LABELS[reason]).join(' · ')}</p>}
+                      {changed && <p className="mt-2 text-xs text-zinc-400">Bài đã đổi sau lượt này; kết quả giữ theo hợp đồng lúc làm.</p>}
                     </li>
                   ))}
                 </ul>

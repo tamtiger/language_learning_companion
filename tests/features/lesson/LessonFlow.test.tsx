@@ -3,8 +3,15 @@ import { act, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { getBundledCatalog } from '@/content/catalog'
 import type { CanonicalLesson, Exercise } from '@/content/schema'
+import { buildEvidenceContract } from '@/domain/progress/evidenceContract'
+import { createEmptyLessonProgress } from '@/domain/progress/progress'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 import { LessonFlow } from '@/features/lesson/LessonFlow'
+
+/** A written response of exactly `count` English-looking words (satisfies minWords/maxWords). */
+function words(count: number, seed = 'detail') {
+  return Array.from({ length: count }, (_, index) => `${seed}${index}`).join(' ')
+}
 
 function completeRequiredAutoChecks(lesson: CanonicalLesson) {
   act(() => {
@@ -70,7 +77,8 @@ describe('generic capability lesson flow', () => {
     expect((screen.getByRole('button', { name: /sang transfer/i }) as HTMLButtonElement).disabled).toBe(true)
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /sang transfer/i }))
-    await user.type(screen.getByRole('textbox'), 'Transfer update for delayed orders and reconciliation.')
+    await user.click(screen.getByRole('textbox'))
+    await user.paste(words(80, 'transfer'))
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
@@ -79,6 +87,69 @@ describe('generic capability lesson flow', () => {
     expect(attempts.every((attempt) => attempt.durationSeconds > 0)).toBe(true)
     expect(attempts.every((attempt) => (attempt.wordCount ?? 0) > 0)).toBe(true)
   }, 15_000)
+
+  it('keeps a transfer that misses the output contract open for another try', async () => {
+    const user = userEvent.setup()
+    const lesson = getBundledCatalog().lessons.find(
+      (item) => item.lessonId === 'workplace-issue-update-b1'
+    )
+    if (!lesson) throw new Error('Mission fixture missing')
+    useAppStore.setState({
+      lessonProgress: {
+        [lesson.lessonId]: { ...createEmptyLessonProgress(), status: 'in-progress', activePhase: 'transfer' }
+      }
+    })
+
+    render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
+    await user.type(screen.getByRole('textbox'), 'Too short for the transfer contract.')
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
+
+    expect(screen.queryByRole('heading', { name: /mission hoàn thành/i })).toBeNull()
+    expect(screen.getByRole('status', { name: /kết quả transfer/i }).textContent).toMatch(/chưa đạt.*ngắn hơn yêu cầu/i)
+    const missed = useAppStore.getState().lessonProgress[lesson.lessonId]
+    expect(missed).toMatchObject({ status: 'in-progress', activePhase: 'transfer', transferCompleted: false, nextReviewAt: null })
+    expect(missed.recentAttempts[0].assessment?.qualifies).toBe(false)
+
+    expect(screen.getByText(/Nhiệm vụ viết · Tình huống mới/i)).toBeTruthy()
+    await user.click(screen.getByRole('textbox'))
+    await user.paste(words(80, 'retry'))
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
+
+    expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()
+    const passed = useAppStore.getState().lessonProgress[lesson.lessonId]
+    expect(passed).toMatchObject({ status: 'completed', transferCompleted: true })
+    expect(passed.nextReviewAt).not.toBeNull()
+    expect(passed.recentAttempts).toHaveLength(2)
+  })
+
+  it('reports a review that missed the contract and keeps the review stage', async () => {
+    const user = userEvent.setup()
+    const lesson = getBundledCatalog().lessons.find(
+      (item) => item.lessonId === 'workplace-issue-update-b1'
+    )
+    if (!lesson) throw new Error('Mission fixture missing')
+    useAppStore.setState({
+      lessonProgress: {
+        [lesson.lessonId]: {
+          ...createEmptyLessonProgress(),
+          status: 'completed',
+          transferCompleted: true,
+          reviewStage: 1,
+          nextReviewAt: '2026-01-01T00:00:00.000Z'
+        }
+      }
+    })
+
+    render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
+    await user.type(screen.getByRole('textbox'), 'Too short to count as a review.')
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await user.click(screen.getByRole('button', { name: /lưu review/i }))
+
+    expect(screen.getByRole('status', { name: /kết quả review/i }).textContent).toMatch(/chưa đạt.*ngắn hơn yêu cầu/i)
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId].reviewStage).toBe(1)
+  })
 
   it('turns a not-met rubric item into a persisted retry focus', async () => {
     const user = userEvent.setup()
@@ -186,7 +257,7 @@ describe('generic capability lesson flow', () => {
       phase: 'transfer',
       attemptedAt: '2026-01-01T00:00:00.000Z',
       durationSeconds: 60,
-      wordCount: 10,
+      wordCount: 80,
       rubric: Object.fromEntries(task.rubric.map((item) => [item.id, 'met'])),
       independence: {
         usedVietnamese: false,
@@ -196,11 +267,12 @@ describe('generic capability lesson flow', () => {
         preparationSeconds: task.independenceContract.preparationSeconds
       },
       completed: true
-    }, lesson.reviewPolicy.intervalDays)
+    }, { reviewIntervals: lesson.reviewPolicy.intervalDays, contract: buildEvidenceContract(lesson) })
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     expect(screen.getByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeTruthy()
-    await user.type(screen.getByRole('textbox'), 'A fresh review response in a changed incident context.')
+    await user.click(screen.getByRole('textbox'))
+    await user.paste(words(80, 'review'))
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))
 

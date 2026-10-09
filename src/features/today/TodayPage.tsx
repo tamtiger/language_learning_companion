@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   AudioLines,
@@ -19,13 +20,19 @@ import {
 import type { CapabilityId, CanonicalLesson } from '../../content/schema'
 import {
   buildTodayQueue,
+  type LessonEntry,
   type LessonProgress,
   type TodayQueueItem
 } from '../../domain/progress/progress'
 import { useAppStore } from '../../shared/hooks/useAppStore'
+import { useNow } from '../../shared/hooks/useNow'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
 
-export interface TodayPageProps { onStartLesson: (lessonId: string) => void }
+export interface TodayPageProps { onStartLesson: (lessonId: string, entry?: LessonEntry) => void }
+
+function entryFor(kind: TodayQueueItem['kind']): LessonEntry | undefined {
+  return kind === 'review' ? 'review' : kind === 'resume' ? 'continue' : undefined
+}
 
 const KIND_LABEL = {
   review: 'Đến hạn ôn lại',
@@ -152,11 +159,18 @@ function buildWorkIntentCandidates(
 
 export function TodayPage({ onStartLesson }: TodayPageProps) {
   const { lessons, lessonProgress, startLessonRepeat } = useAppStore()
+  const now = useNow()
+  const [pendingRepeatId, setPendingRepeatId] = useState<string | null>(null)
+  const confirmRepeatRef = useRef<HTMLButtonElement>(null)
+  const pendingRepeat = lessons.find((lesson) => lesson.lessonId === pendingRepeatId)
+  useEffect(() => {
+    if (pendingRepeatId) confirmRepeatRef.current?.focus()
+  }, [pendingRepeatId])
   const queue = buildTodayQueue(lessons.map((lesson) => ({
     lessonId: lesson.lessonId,
     capabilityId: lesson.capabilities[0],
     hasPerformanceTask: lesson.performanceTask !== undefined
-  })), lessonProgress, new Date())
+  })), lessonProgress, now)
   const actionable = queue.filter((item) =>
     item.kind !== 'new' || lessons.find((lesson) => lesson.lessonId === item.lessonId)?.performanceTask
   )
@@ -198,7 +212,7 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
                 </div>
                 <button
                   type="button"
-                  onClick={() => onStartLesson(nextLesson.lessonId)}
+                  onClick={() => onStartLesson(nextLesson.lessonId, entryFor(next.kind))}
                   className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-cyan-400 px-5 py-3 font-black text-zinc-950 hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
                 >
                   {PRIMARY_ACTION_LABEL[next.kind]} <ArrowRight aria-hidden="true" className="h-4 w-4" />
@@ -278,8 +292,11 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
                 <button
                   type="button"
                   onClick={() => {
-                    if (kind === 'repeat') startLessonRepeat(lesson.lessonId)
-                    onStartLesson(lesson.lessonId)
+                    if (kind === 'repeat') {
+                      setPendingRepeatId(lesson.lessonId)
+                      return
+                    }
+                    onStartLesson(lesson.lessonId, entryFor(kind))
                   }}
                   className="group flex min-h-36 w-full flex-col rounded-lg border border-zinc-800 bg-zinc-900/35 p-4 text-left hover:border-cyan-500/60 hover:bg-zinc-900/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300"
                 >
@@ -307,6 +324,29 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
             )
           })}
         </ul>
+        {pendingRepeat && (
+          <div role="alertdialog" aria-labelledby="repeat-confirm-title" aria-describedby="repeat-confirm-body" className="mt-4 rounded-lg border border-amber-500/40 bg-amber-500/10 p-4">
+            <h3 id="repeat-confirm-title" className="font-bold text-amber-100">Xác nhận luyện lại: {pendingRepeat.title}</h3>
+            <p id="repeat-confirm-body" className="mt-2 text-sm text-amber-100">
+              Luyện lại sẽ xóa tiến độ vòng hiện tại (các phần và bài tập đã đúng). Lịch sử luyện tập và lịch ôn vẫn được giữ.
+            </p>
+            <div className="mt-3 flex gap-2">
+              <button
+                ref={confirmRepeatRef}
+                type="button"
+                onClick={() => {
+                  startLessonRepeat(pendingRepeat.lessonId)
+                  setPendingRepeatId(null)
+                  onStartLesson(pendingRepeat.lessonId, 'continue')
+                }}
+                className="rounded-lg bg-amber-400 px-4 py-2 font-bold text-zinc-950"
+              >
+                Xác nhận luyện lại
+              </button>
+              <button type="button" onClick={() => setPendingRepeatId(null)} className="rounded-lg border border-zinc-700 px-4 py-2">Hủy</button>
+            </div>
+          </div>
+        )}
       </div>
 
       {actionable.length > 1 && (
@@ -320,8 +360,8 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
               const lesson = lessons.find((candidate) => candidate.lessonId === item.lessonId)
               if (!lesson) return null
               return (
-                <li key={item.lessonId}>
-                  <button type="button" onClick={() => onStartLesson(item.lessonId)} className="min-h-20 w-full rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 text-left hover:border-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400">
+                <li key={`${item.lessonId}:${item.kind}`}>
+                  <button type="button" onClick={() => onStartLesson(item.lessonId, entryFor(item.kind))} className="min-h-20 w-full rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 text-left hover:border-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-purple-400">
                     <span className="text-xs font-bold text-purple-300">{KIND_LABEL[item.kind]}</span>
                     <span className="mt-1 block font-semibold">{lesson.title}</span>
                   </button>

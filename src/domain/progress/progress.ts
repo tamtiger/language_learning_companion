@@ -1,6 +1,8 @@
 import type { CapabilityId } from '../../content/schema'
 
 export type RubricState = 'met' | 'not-met' | 'not-rated'
+/** Why a lesson is opened: a due review, or continuing the cycle in progress. */
+export type LessonEntry = 'review' | 'continue'
 export type AttemptPhase = 'baseline' | 'performance' | 'retry' | 'transfer' | 'review'
 export type DurableCapabilityPhase = 'input' | 'performance' | 'retry' | 'transfer'
 
@@ -41,6 +43,10 @@ export interface AttemptEvidence {
   focusCriterionId?: string
   independence: IndependenceEvidence
   process?: AttemptProcessEvidence | null
+  /** Outcome recorded when a transfer or review was saved; never recomputed from current content. */
+  assessment?: AttemptAssessment
+  /** Digest of the evidence contract the assessment was made against. */
+  contentRevision?: string
   completed: boolean
 }
 
@@ -99,12 +105,15 @@ export interface TransferAssessment {
   reasons: TransferReason[]
 }
 
-export function assessTransfer(
+export type AttemptAssessment = TransferAssessment
+
+function assessAttempt(
   attempt: AttemptEvidence,
-  contract: EvidenceContract
+  contract: EvidenceContract,
+  expectedPhase: 'transfer' | 'review'
 ): TransferAssessment {
   const reasons: TransferReason[] = []
-  if (attempt.phase !== 'transfer' || !attempt.completed) reasons.push('incomplete')
+  if (attempt.phase !== expectedPhase || !attempt.completed) reasons.push('incomplete')
   if (attempt.lessonId !== contract.expectedLessonId) reasons.push('lesson-mismatch')
   if (attempt.taskId !== contract.expectedTaskId) reasons.push('task-mismatch')
   if (attempt.capabilityId !== contract.expectedCapabilityId) reasons.push('capability-mismatch')
@@ -144,6 +153,14 @@ export function assessTransfer(
     reasons.push('interaction-incomplete')
   }
   return { qualifies: reasons.length === 0, reasons }
+}
+
+export function assessTransfer(attempt: AttemptEvidence, contract: EvidenceContract): TransferAssessment {
+  return assessAttempt(attempt, contract, 'transfer')
+}
+
+export function assessReview(attempt: AttemptEvidence, contract: EvidenceContract): TransferAssessment {
+  return assessAttempt(attempt, contract, 'review')
 }
 
 export function isQualifyingTransfer(attempt: AttemptEvidence, maxHints = 0): boolean {
@@ -194,13 +211,13 @@ export function appendAttempt(progress: LessonProgress, attempt: AttemptEvidence
     status: progress.status === 'completed' ? 'completed' : 'in-progress',
     attemptCount: progress.attemptCount + 1,
     recentAttempts,
-    transferCompleted: progress.transferCompleted || attempt.phase === 'transfer',
     lastActivityAt: attempt.attemptedAt
   }
 }
 
-function addDays(now: Date, days: number): string {
-  return new Date(now.getTime() + days * 86_400_000).toISOString()
+/** ISO instant of 00:00 local time, `days` calendar days after the local day of `from`. */
+export function addLocalDays(from: Date, days: number): string {
+  return new Date(from.getFullYear(), from.getMonth(), from.getDate() + days).toISOString()
 }
 
 export function scheduleTransferReview(
@@ -212,8 +229,28 @@ export function scheduleTransferReview(
     ...progress,
     transferCompleted: true,
     reviewStage: 0,
-    nextReviewAt: addDays(now, intervalDays[0] ?? 1),
+    nextReviewAt: addLocalDays(now, intervalDays[0] ?? 1),
     lastActivityAt: now.toISOString()
+  }
+}
+
+/**
+ * Applies the outcome of a saved transfer attempt; `progress` already contains the attempt.
+ * Only a qualifying transfer completes the mission and starts the review schedule.
+ */
+export function applyTransferOutcome(
+  progress: LessonProgress,
+  assessment: TransferAssessment,
+  intervalDays: number[],
+  now: Date
+): LessonProgress {
+  if (!assessment.qualifies) {
+    return { ...progress, status: 'in-progress', activePhase: 'transfer', transferCompleted: false }
+  }
+  return {
+    ...scheduleTransferReview(progress, intervalDays, now),
+    status: 'completed',
+    activePhase: null
   }
 }
 
@@ -224,14 +261,14 @@ export function applyReviewResult(
   now: Date
 ): LessonProgress {
   if (!passed) {
-    return { ...progress, nextReviewAt: addDays(now, 1), lastActivityAt: now.toISOString() }
+    return { ...progress, nextReviewAt: addLocalDays(now, 1), lastActivityAt: now.toISOString() }
   }
 
   const nextStage = progress.reviewStage + 1
   return {
     ...progress,
     reviewStage: nextStage,
-    nextReviewAt: nextStage >= intervalDays.length ? null : addDays(now, intervalDays[nextStage]),
+    nextReviewAt: nextStage >= intervalDays.length ? null : addLocalDays(now, intervalDays[nextStage]),
     lastActivityAt: now.toISOString()
   }
 }
@@ -262,20 +299,18 @@ export function buildTodayQueue(
   now: Date
 ): TodayQueueItem[] {
   const nowValue = now.getTime()
-  const items = catalog.filter((lesson) => {
+  const items = catalog.flatMap((lesson): TodayQueueItem[] => {
     const progress = progressByLesson[lesson.lessonId]
-    const reviewIsDue = Boolean(
-      progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= nowValue
-    )
-    return progress?.status !== 'completed' || reviewIsDue
-  }).map((lesson): TodayQueueItem => {
-    const progress = progressByLesson[lesson.lessonId]
-    if (progress?.status === 'in-progress') return { ...lesson, kind: 'resume' }
-    if (progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= nowValue) {
-      return { ...lesson, kind: 'review', dueAt: progress.nextReviewAt }
-    }
-    if (lesson.hasPerformanceTask && !progress?.attemptCount) return { ...lesson, kind: 'baseline' }
-    return { ...lesson, kind: 'new' }
+    const dueAt = progress?.nextReviewAt && new Date(progress.nextReviewAt).getTime() <= nowValue
+      ? progress.nextReviewAt
+      : undefined
+    // A due review stays visible next to an in-progress repeat of the same lesson.
+    const review: TodayQueueItem[] = dueAt ? [{ ...lesson, kind: 'review', dueAt }] : []
+    if (progress?.status === 'in-progress') return [...review, { ...lesson, kind: 'resume' }]
+    if (review.length > 0) return review
+    if (progress?.status === 'completed') return []
+    if (lesson.hasPerformanceTask && !progress?.attemptCount) return [{ ...lesson, kind: 'baseline' }]
+    return [{ ...lesson, kind: 'new' }]
   })
 
   const rank = { review: 0, resume: 1, baseline: 2, new: 3 } as const

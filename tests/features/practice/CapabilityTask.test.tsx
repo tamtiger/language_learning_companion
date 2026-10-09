@@ -518,7 +518,8 @@ describe('CapabilityTask session evidence', () => {
     })
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    await user.type(screen.getByRole('textbox'), 'A concise transfer attempt with new evidence.')
+    await user.click(screen.getByRole('textbox'))
+    await user.paste(Array.from({ length: 80 }, (_, index) => `evidence${index}`).join(' '))
     for (const button of screen.getAllByRole('button', { name: 'Đạt' })) {
       await user.click(button)
     }
@@ -575,12 +576,74 @@ describe('CapabilityTask session evidence', () => {
     expect(screen.queryByText(/review đã được lưu/i)).toBeNull()
     await user.click(screen.getByRole('button', { name: /luyện lại mission/i }))
 
+    expect(screen.getByRole('alertdialog', { name: /xác nhận luyện lại/i })).toBeTruthy()
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId].status).toBe('completed')
+    await user.click(screen.getByRole('button', { name: /hủy/i }))
+    expect(screen.queryByRole('alertdialog')).toBeNull()
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId].status).toBe('completed')
+
+    await user.click(screen.getByRole('button', { name: /luyện lại mission/i }))
+    await user.click(screen.getByRole('button', { name: /xác nhận luyện lại/i }))
+
     expect(screen.getByText(/Nhiệm vụ viết · Lượt đầu/i)).toBeTruthy()
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]).toMatchObject({
       status: 'in-progress',
       attemptCount: 4,
       transferCompleted: false,
       nextReviewAt: '2099-01-01T00:00:00.000Z'
+    })
+  })
+
+  it('opens the due review of an in-progress repeat only when the learner chose the review', () => {
+    const { lesson, task } = mission()
+    useAppStore.setState({
+      lessonProgress: {
+        [lesson.lessonId]: {
+          ...createEmptyLessonProgress(),
+          status: 'in-progress',
+          activePhase: 'input',
+          reviewStage: 1,
+          nextReviewAt: '2020-01-01T00:00:00.000Z'
+        }
+      }
+    })
+
+    const { unmount } = render(<CapabilityTask lesson={lesson} task={task} entry="review" />)
+    expect(screen.getByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeTruthy()
+    unmount()
+
+    render(<CapabilityTask lesson={lesson} task={task} entry="continue" />)
+    expect(screen.getByText(/Nhiệm vụ viết · Học có hướng dẫn/i)).toBeTruthy()
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId]).toMatchObject({ reviewStage: 1, activePhase: 'input' })
+  })
+
+  it('keeps the repeat cycle after a due review submitted during an in-progress repeat', async () => {
+    const user = userEvent.setup()
+    const { lesson, task } = mission()
+    useAppStore.setState({
+      lessonProgress: {
+        [lesson.lessonId]: {
+          ...createEmptyLessonProgress(),
+          status: 'in-progress',
+          activePhase: 'input',
+          completedExerciseIds: ['kept'],
+          reviewStage: 0,
+          nextReviewAt: '2020-01-01T00:00:00.000Z'
+        }
+      }
+    })
+    render(<CapabilityTask lesson={lesson} task={task} entry="review" />)
+
+    await user.click(screen.getByRole('textbox'))
+    await user.paste(Array.from({ length: 80 }, (_, index) => `review${index}`).join(' '))
+    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await user.click(screen.getByRole('button', { name: /lưu review/i }))
+
+    expect(useAppStore.getState().lessonProgress[lesson.lessonId]).toMatchObject({
+      status: 'in-progress',
+      activePhase: 'input',
+      completedExerciseIds: ['kept'],
+      reviewStage: 1
     })
   })
 })

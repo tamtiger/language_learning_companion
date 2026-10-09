@@ -119,7 +119,7 @@ describe('TodayPage job-first shortcuts', () => {
 
     await user.click(screen.getByRole('button', { name: /luyện standup hoặc meeting/i }))
 
-    expect(onStartLesson).toHaveBeenCalledWith('daily-standup-b1')
+    expect(onStartLesson).toHaveBeenCalledWith('daily-standup-b1', undefined)
   })
 
   it('prefers an in-progress lesson within the selected work intent', async () => {
@@ -141,7 +141,7 @@ describe('TodayPage job-first shortcuts', () => {
     expect(within(meeting).getByText('Disagree and recap in an international meeting')).toBeTruthy()
     await user.click(meeting)
 
-    expect(onStartLesson).toHaveBeenCalledWith('meeting-disagree-and-recap-b2')
+    expect(onStartLesson).toHaveBeenCalledWith('meeting-disagree-and-recap-b2', 'continue')
   })
 
   it('starts a history-preserving repeat cycle from a completed work intent', async () => {
@@ -175,8 +175,9 @@ describe('TodayPage job-first shortcuts', () => {
     const meeting = screen.getByRole('button', { name: /luyện standup hoặc meeting/i })
     expect(within(meeting).getByText('Luyện lại')).toBeTruthy()
     await user.click(meeting)
+    await user.click(screen.getByRole('button', { name: /xác nhận luyện lại/i }))
 
-    expect(onStartLesson).toHaveBeenCalledWith(repeatedLesson.lessonId)
+    expect(onStartLesson).toHaveBeenCalledWith(repeatedLesson.lessonId, 'continue')
     expect(useAppStore.getState().lessonProgress[repeatedLesson.lessonId]).toMatchObject({
       status: 'in-progress',
       attemptCount: 4,
