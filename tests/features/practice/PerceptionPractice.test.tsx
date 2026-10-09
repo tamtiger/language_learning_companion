@@ -32,7 +32,7 @@ describe('PerceptionPractice', () => {
     await answerCurrentItem(/sang phần tiếp theo/i)
 
     const heading = screen.getByRole('heading', { name: /nghe trước khi nói/i })
-    expect(screen.getByText(/perception · training/i)).toBeTruthy()
+    expect(screen.getByText(/luyện nghe/i)).toBeTruthy()
     expect(document.activeElement).toBe(heading)
 
     for (let index = 0; index < 5; index += 1) {
@@ -40,7 +40,7 @@ describe('PerceptionPractice', () => {
     }
     await answerCurrentItem(/sang phần tiếp theo/i)
 
-    expect(screen.getByText(/perception · posttest/i)).toBeTruthy()
+    expect(screen.getByText(/nghe lại để kiểm tra/i)).toBeTruthy()
     expect(document.activeElement).toBe(heading)
   })
 

@@ -9,7 +9,9 @@ import {
   type DurableCapabilityPhase
 } from '@/domain/progress/progress'
 import { CapabilityTask } from '@/features/practice/CapabilityTask'
-import { ListenBackChecklist } from '@/features/practice/ListenBackChecklist'
+import { ListenBackChecklist } from '@/features/practice/ListenBackChecklist'
+import { isBlocked } from '../../helpers/aria'
+import { rateAllMet } from '../../helpers/flow'
 
 const recorderMocks = vi.hoisted(() => ({
   start: vi.fn(),
@@ -191,7 +193,7 @@ describe('CapabilityTask session evidence', () => {
       await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
       await screen.findByText(/đang ghi âm cục bộ/i)
       await waitFor(() => {
-        expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+        expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
       }, { timeout: 1_500 })
       await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     }
@@ -200,15 +202,15 @@ describe('CapabilityTask session evidence', () => {
     fireEvent.ended(screen.getByLabelText(/bản ghi cục bộ/i))
     const listenerCheck = () => screen.getByRole('group', { name: /listener check/i })
     for (const checkbox of within(listenerCheck()).getAllByRole('checkbox')) await user.click(checkbox)
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
-    expect((screen.getByRole('button', { name: /hoàn thành transfer/i }) as HTMLButtonElement).disabled).toBe(false)
+    await rateAllMet(user)
+    expect(isBlocked(screen.getByRole('button', { name: /hoàn thành transfer/i }))).toBe(false)
 
     await user.click(screen.getByRole('button', { name: /làm lại/i }))
     await recordAndFinish()
 
     const currentChecklist = within(listenerCheck()).getAllByRole('checkbox') as HTMLInputElement[]
     expect(currentChecklist.every((checkbox) => checkbox.disabled && !checkbox.checked)).toBe(true)
-    expect((screen.getByRole('button', { name: /hoàn thành transfer/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(isBlocked(screen.getByRole('button', { name: /hoàn thành transfer/i }))).toBe(true)
   })
 
   it('shows the learner written output during self-feedback without persisting it', async () => {
@@ -232,17 +234,17 @@ describe('CapabilityTask session evidence', () => {
     const { lesson, task } = mission()
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    expect(document.activeElement).not.toBe(screen.getByRole('heading', { name: task.title }))
+    expect(document.activeElement).not.toBe(screen.getByRole('heading', { level: 2, name: new RegExp('^' + task.title) }))
     await user.type(screen.getByRole('textbox'), 'Baseline output.')
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
-    expect(document.activeElement).toBe(screen.getByRole('heading', { name: task.title }))
+    expect(document.activeElement).toBe(screen.getByRole('heading', { level: 2, name: new RegExp('^' + task.title) }))
     const startMain = screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement
-    expect(startMain.disabled).toBe(true)
+    expect(isBlocked(startMain)).toBe(true)
 
     completeAutoChecks(lesson)
-    expect(startMain.disabled).toBe(false)
+    expect(isBlocked(startMain)).toBe(false)
     await user.click(startMain)
-    expect(document.activeElement).toBe(screen.getByRole('heading', { name: task.title }))
+    expect(document.activeElement).toBe(screen.getByRole('heading', { level: 2, name: new RegExp('^' + task.title) }))
   })
 
   it('restores spoken input readiness from persisted process evidence', () => {
@@ -261,7 +263,7 @@ describe('CapabilityTask session evidence', () => {
 
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    expect((screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement).disabled).toBe(false)
+    expect(isBlocked(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))).toBe(false)
     expect(screen.getByText('Lượt nói chính').getAttribute('aria-current')).toBe('step')
     expect(screen.getByText(/đã khôi phục tiến trình/i)).toBeTruthy()
     expect(screen.queryByText(/đã luyện bổ sung/i)).toBeNull()
@@ -306,7 +308,7 @@ describe('CapabilityTask session evidence', () => {
     await user.click(screen.getByRole('button', { name: /hoàn tất shadowing test/i }))
 
     const startMain = screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement
-    expect(startMain.disabled).toBe(false)
+    expect(isBlocked(startMain)).toBe(false)
     expect(document.activeElement).toBe(startMain)
   })
 
@@ -338,7 +340,7 @@ describe('CapabilityTask session evidence', () => {
     await user.click(screen.getByRole('button', { name: /hoàn thành reading ladder/i }))
 
     const startMain = screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement
-    expect(startMain.disabled).toBe(false)
+    expect(isBlocked(startMain)).toBe(false)
     expect(document.activeElement).toBe(startMain)
   })
 
@@ -369,7 +371,7 @@ describe('CapabilityTask session evidence', () => {
     await user.type(screen.getByRole('textbox'), 'Prerequisite, command, success signal and rollback from memory.')
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
     expect(screen.getByText(/reading ladder.*bước 1\/3/i)).toBeTruthy()
-    expect((screen.getByRole('button', { name: /bắt đầu lượt chính/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(isBlocked(screen.getByRole('button', { name: /bắt đầu lượt chính/i }))).toBe(true)
   })
 
   it('shows the machine-enforced written output contract before an attempt', () => {
@@ -420,7 +422,7 @@ describe('CapabilityTask session evidence', () => {
 
     await user.click(screen.getByRole('button', { name: /bắt đầu timer-only/i }))
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     await user.click(screen.getByRole('button', { name: /lưu baseline/i }))
@@ -520,9 +522,7 @@ describe('CapabilityTask session evidence', () => {
 
     await user.click(screen.getByRole('textbox'))
     await user.paste(Array.from({ length: 80 }, (_, index) => `evidence${index}`).join(' '))
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) {
-      await user.click(button)
-    }
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.getByText(/transfer evidence đã được lưu/i)).toBeTruthy()
@@ -545,9 +545,7 @@ describe('CapabilityTask session evidence', () => {
     render(<CapabilityTask lesson={lesson} task={task} />)
 
     await user.type(screen.getByRole('textbox'), 'A fresh review response using the new incident evidence.')
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) {
-      await user.click(button)
-    }
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))
 
     expect(screen.getByText(/review đã được lưu/i)).toBeTruthy()
@@ -636,7 +634,7 @@ describe('CapabilityTask session evidence', () => {
 
     await user.click(screen.getByRole('textbox'))
     await user.paste(Array.from({ length: 80 }, (_, index) => `review${index}`).join(' '))
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))
 
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]).toMatchObject({

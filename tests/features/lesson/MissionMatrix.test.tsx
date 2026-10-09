@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { getBundledCatalog } from '@/content/catalog'
 import { useAppStore } from '@/shared/hooks/useAppStore'
-import { LessonFlow } from '@/features/lesson/LessonFlow'
+import { LessonFlow } from '@/features/lesson/LessonFlow'
+import { isBlocked } from '../../helpers/aria'
 
 const catalog = getBundledCatalog()
 
@@ -15,7 +16,7 @@ describe('bundled mission UI matrix', () => {
       render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
 
       expect(screen.getByRole('heading', { name: lesson.title })).toBeTruthy()
-      expect((screen.getByRole('button', { name: /lưu baseline/i }) as HTMLButtonElement).disabled).toBe(true)
+      expect(isBlocked(screen.getByRole('button', { name: /lưu baseline/i }))).toBe(true)
       expect(screen.queryByText(/model response — chỉ mở sau attempt/i)).toBeNull()
 
       if (lesson.performanceTask?.mode === 'spoken') {

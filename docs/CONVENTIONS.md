@@ -30,6 +30,7 @@ Không dùng `snake_case` trong tên file. Tên file module khớp tên hàm ho�
   `src/features/lesson/optionOrder.ts` có test ở `tests/features/lesson/optionOrder.test.ts`.
 - Ngoại lệ: `tests/conventions/` (kiểm tra cấu trúc repo), `tests/scripts/` (test của `scripts/`,
   tên `kebab-case.test.mjs`, chạy được cả bằng `node --test tests/scripts/*.test.mjs`) và
+  `tests/helpers/` (hàm dùng chung cho test như `axe.ts`, `aria.ts`, `flow.ts`) và
   `tests/setup.ts` (thiết lập chung của Vitest).
 - Tên test là tên đối tượng được test cộng `.test.ts` hoặc `.test.tsx`. Test kiểm tra nội dung hoặc
   nhiều module cùng lúc đặt theo chủ đề, ví dụ `tests/content/assessmentQuality.test.ts`.

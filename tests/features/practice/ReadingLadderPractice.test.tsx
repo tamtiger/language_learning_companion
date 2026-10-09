@@ -2,7 +2,8 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
 import type { CanonicalReadingLadderV1 } from '@/content/schema'
-import { ReadingLadderPractice } from '@/features/practice/ReadingLadderPractice'
+import { ReadingLadderPractice } from '@/features/practice/ReadingLadderPractice'
+import { isBlocked } from '../../helpers/aria'
 
 const ladder: CanonicalReadingLadderV1 = {
   version: 'v1',
@@ -29,13 +30,13 @@ describe('ReadingLadderPractice', () => {
     expect(document.activeElement).toBe(screen.getByRole('heading', { name: /trích action/i }))
     await user.click(screen.getByLabelText('B'))
     expect(screen.getByText(/chưa đúng.*choose a/i)).toBeTruthy()
-    expect((screen.getByRole('button', { name: /sang explain/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(isBlocked(screen.getByRole('button', { name: /sang explain/i }))).toBe(true)
     for (const answer of ['A', 'C', 'E']) await user.click(screen.getByLabelText(answer))
     await user.click(screen.getByRole('button', { name: /sang explain/i }))
     expect(document.activeElement).toBe(screen.getByRole('heading', { name: /explain và apply/i }))
 
     const finish = screen.getByRole('button', { name: /hoàn thành reading ladder/i }) as HTMLButtonElement
-    expect(finish.disabled).toBe(true)
+    expect(isBlocked(finish)).toBe(true)
     await user.type(screen.getByRole('textbox'), 'The rule requires multiple attempts. I would test one failing staging job.')
     for (const checkbox of screen.getAllByRole('checkbox')) await user.click(checkbox)
     await user.click(finish)

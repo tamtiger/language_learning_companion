@@ -3,6 +3,15 @@ import type { LearningLoopV1 } from '../../content/schema'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 
+const TURN_KIND_LABELS: Record<LearningLoopV1['interactionTurns'][number]['kind'], string> = {
+  'follow-up': 'Hỏi tiếp',
+  clarification: 'Làm rõ',
+  misunderstanding: 'Hiểu nhầm',
+  interruption: 'Bị ngắt lời',
+  repair: 'Sửa lại',
+  recap: 'Tóm tắt lại'
+}
+
 export function InteractionPractice({ turns, onComplete }: {
   turns: LearningLoopV1['interactionTurns']
   onComplete: (turnIds: string[]) => void
@@ -42,7 +51,7 @@ export function InteractionPractice({ turns, onComplete }: {
   }
   return (
     <section className="space-y-4 rounded-2xl border border-cyan-500/30 bg-cyan-500/5 p-5">
-      <p className="text-xs font-bold uppercase tracking-wider text-cyan-300">Interaction · {turn.kind}</p>
+      <p className="text-xs font-bold uppercase tracking-wider text-cyan-300">Tương tác · {TURN_KIND_LABELS[turn.kind]}</p>
       <h3 ref={promptHeading} tabIndex={-1} className="text-xl font-black">{turn.prompt}</h3>
       {turn.audio && <ModelAudioPlayer source={turn.audio} transcriptVisible />}
       <p className="text-sm text-zinc-300">Mục tiêu: {turn.expectedFunction}</p>

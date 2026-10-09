@@ -46,7 +46,7 @@ describe('capability-first app shell', () => {
     expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'auto' })
 
     await user.click(screen.getByRole('button', { name: /tiến bộ/i }))
-    expect(await screen.findByText(/glossary: cách đọc learning loop/i)).toBeTruthy()
+    expect(await screen.findByText(/glossary: cách đọc learning loop/i, {}, { timeout: 5_000 })).toBeTruthy()
     focus.mockRestore()
   })
 

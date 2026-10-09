@@ -136,7 +136,32 @@ describe('Settings data safety flows', () => {
     expect((await screen.findByRole('status')).textContent).toMatch(/không thể đọc/i)
     expect(screen.queryByRole('button', { name: /xác nhận import/i })).toBeNull()
   })
-})
+
+  it('shows a visible focus indicator when the hidden file input is focused', () => {
+    render(<Settings />)
+    const input = screen.getByLabelText(/chọn file import/i)
+    const label = input.closest('label')
+
+    expect(label?.className).toMatch(/focus-within:(outline|ring)/)
+  })
+
+  it('revokes the exported file URL only after the download has had time to start', () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+    try {
+      const revoke = vi.spyOn(URL, 'revokeObjectURL')
+      const click = vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(() => undefined)
+      render(<Settings />)
+
+      act(() => { screen.getByRole('button', { name: /tải backup metadata/i }).click() })
+
+      expect(click).toHaveBeenCalledTimes(1)
+      expect(revoke).not.toHaveBeenCalled()
+      act(() => { vi.advanceTimersByTime(1_000) })
+      expect(revoke).toHaveBeenCalledTimes(1)
+    } finally {
+      vi.useRealTimers()
+    }
+  })})
 
 function createEmptyProgress() {
   return {

@@ -173,8 +173,9 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
     capabilityId: lesson.capabilities[0],
     hasPerformanceTask: lesson.performanceTask !== undefined
   })), lessonProgress, now)
+  // Knowledge-only lessons (pronunciation) are reached from the catalog, never as the mission of the day.
   const actionable = queue.filter((item) =>
-    item.kind !== 'new' || lessons.find((lesson) => lesson.lessonId === item.lessonId)?.performanceTask
+    lessons.find((lesson) => lesson.lessonId === item.lessonId)?.performanceTask
   )
   const next = actionable[0]
   const nextLesson = lessons.find((lesson) => lesson.lessonId === next?.lessonId)

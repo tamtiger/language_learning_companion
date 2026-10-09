@@ -96,9 +96,44 @@ const LessonProgressV4Schema = LessonProgressV3Schema.extend({
   recentAttempts: z.array(AttemptEvidenceV4Schema).max(50)
 }).strict()
 
+const LearningLoopStateSchema = z.object({
+  stage: z.enum(['perception', 'pronunciation-cue', 'guided-shadowing', 'ready-for-performance']),
+  pronunciationStatus: z.enum(['pending', 'recommended', 'completed', 'not-needed', 'unavailable']),
+  requiredShadowingStepIds: z.array(z.string().min(1)).max(10),
+  completedShadowingSteps: z.array(z.string().min(1)).max(10),
+  perception: z.object({
+    pretestCorrect: z.number().int().nonnegative(),
+    pretestTotal: z.number().int().nonnegative(),
+    trainingCompleted: z.number().int().nonnegative(),
+    posttestCorrect: z.number().int().nonnegative(),
+    posttestTotal: z.number().int().nonnegative(),
+    diagnosticMissedItemIds: z.array(z.string().min(1)).max(50),
+    availableVariantCount: z.number().int().nonnegative(),
+    variabilityQualified: z.boolean(),
+    optedOut: z.boolean()
+  }).strict().nullable()
+}).strict()
+
+const InputProgressSchema = z.object({
+  loop: LearningLoopStateSchema.optional(),
+  perception: z.object({
+    phase: z.enum(['pretest', 'training', 'posttest']),
+    index: z.number().int().nonnegative(),
+    pretestCorrect: z.number().int().nonnegative(),
+    posttestCorrect: z.number().int().nonnegative(),
+    missedItemIds: z.array(z.string().min(1)).max(50)
+  }).strict().optional(),
+  shadowingIndex: z.number().int().nonnegative().optional(),
+  ladder: z.object({
+    stage: z.enum(['read', 'extract', 'apply']),
+    answers: z.record(z.string().min(1))
+  }).strict().optional()
+}).strict()
+
 export const LessonProgressSchema = LessonProgressV4Schema.extend({
   recentAttempts: z.array(AttemptEvidenceSchema).max(50),
-  activeProcessEvidence: AttemptProcessEvidenceSchema.nullable()
+  activeProcessEvidence: AttemptProcessEvidenceSchema.nullable(),
+  inputProgress: InputProgressSchema.optional()
 }).strict()
 
 const ProgressEnvelopeV3Schema = z.object({

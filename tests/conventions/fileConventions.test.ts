@@ -66,7 +66,7 @@ export function findConventionViolations(files: RepoFile[], sourceDirs: Readonly
       const directory = posix.dirname(path)
       const [, top] = directory.split('/')
       const topLevel = top ?? ''
-      const allowedOutsideSrc = topLevel === 'conventions' || topLevel === 'scripts'
+      const allowedOutsideSrc = topLevel === 'conventions' || topLevel === 'scripts' || topLevel === 'helpers'
       if (directory !== 'tests' && !allowedOutsideSrc && !sourceDirs.has(directory.replace(/^tests\//, 'src/'))) {
         add('test-mirror', path, 'test directories must mirror an existing src directory')
       }

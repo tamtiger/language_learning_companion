@@ -4,8 +4,8 @@
   "id": "20261009-103714-improve-accessibility-and-learning-ux",
   "title": "Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Người dùng bàn phím và trình đọc màn hình hoàn thành được vòng học; không mất bản nháp; thời gian được tính công bằng.",
   "nonGoals": [
     "Không chia mission thành phiên (task riêng ở đợt mở rộng)",
@@ -15,45 +15,63 @@
     {
       "id": "ac-1",
       "text": "Focus không mất sau nút ghi âm, perception và reading ladder; kết quả có live region; không disable nút đang focus.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-practice-3",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Nội dung tiếng Anh có lang=\"en\"; heading hoặc mô tả phase nêu baseline/retry/transfer; rubric là nhóm có tên tiêu chí; nút disabled nêu lý do.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-practice-3",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Cảnh báo khi rời trang lúc có bản nháp hoặc đang ghi âm (beforeunload và điều hướng nội bộ); tiến độ reading ladder và perception được lưu metadata để reload không phải làm lại.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-practice-3",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-4",
       "text": "durationSeconds chốt khi xong bản nháp, tách thời gian chấm rubric; bài viết có đồng hồ hiển thị; thời gian đọc source read-once và xin quyền mic không bị tính.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-practice-3",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-5",
       "text": "Có ErrorBoundary; UI nhất quán ngôn ngữ, không lộ enum pretest/training; input import có focus nhìn thấy; export revoke trễ; bài pronunciation không chiếm Nhiệm vụ hôm nay.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-app-3",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-6",
       "text": "axe chạy cho Today, Catalog, các phase của LessonFlow, Settings và Progress ở các trạng thái chính.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-a11y-app-3",
+        "ev-check-suite-2"
+      ]
     }
   ],
   "validationPlan": [
     {
       "id": "check-a11y-practice",
-      "description": "Focus, lang, rubric, draft, đồng hồ trong practice",
-      "command": "npx vitest run tests/features/practice",
+      "description": "A11y practice: focus, ngữ nghĩa, rời trang, lưu input, thời gian",
+      "command": "npx vitest run tests/features/practice tests/features/lesson tests/shared tests/infrastructure tests/domain",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -63,14 +81,17 @@
         "ac-4"
       ],
       "inputs": [
+        "src/domain/**",
         "src/features/**",
+        "src/infrastructure/**",
+        "src/shared/**",
         "tests/**"
       ]
     },
     {
       "id": "check-a11y-app",
-      "description": "ErrorBoundary, nhãn UI và axe đa màn hình",
-      "command": "npx vitest run tests/app/App.test.tsx tests/features/settings tests/features/today",
+      "description": "A11y app: ErrorBoundary, enum, Settings, Today, ma trận axe",
+      "command": "npx vitest run tests/app tests/features/settings tests/features/today tests/features/progress tests/features/catalog",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -80,6 +101,7 @@
       "inputs": [
         "src/app/**",
         "src/features/**",
+        "src/shared/**",
         "tailwind.config.js",
         "tests/**"
       ]
@@ -103,17 +125,153 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-a11y-practice-1",
+      "checkId": "check-a11y-practice",
+      "recordedAt": "2026-10-09T14:43:13.786+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice tests/features/lesson tests/shared tests/infrastructure tests/domain — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "fc85b133ed7ebbb4ebab92f7c69722c5927e2317b7b9f7158c9c1f2b7802484a"
+    },
+    {
+      "id": "ev-check-a11y-app-1",
+      "checkId": "check-a11y-app",
+      "recordedAt": "2026-10-09T14:43:23.611+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npx vitest run tests/app tests/features/settings tests/features/today tests/features/progress tests/features/catalog — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "8db26e74507f6957878cf88d11b14b097f634da2c60e7ce24aa1905fc755d956"
+    },
+    {
+      "id": "ev-check-a11y-practice-2",
+      "checkId": "check-a11y-practice",
+      "recordedAt": "2026-10-09T14:43:59.351+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice tests/features/lesson tests/shared tests/infrastructure tests/domain — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "11a91eae6b659748e72e61f7bb2d41d9374a825c568e0a298baa9a5fbb1ce111"
+    },
+    {
+      "id": "ev-check-a11y-app-2",
+      "checkId": "check-a11y-app",
+      "recordedAt": "2026-10-09T14:44:08.878+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/app tests/features/settings tests/features/today tests/features/progress tests/features/catalog — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "97a4df1c9b4ce9fe2e501f0036b70846cd44cc6f93828b69980ff3a8ac9a8f8c"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T14:44:53.129+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "c96b6d7a67a27a46cd59d81b7dc7b88cd36b365e265495b7dc85e4eb1dfd1258"
+    },
+    {
+      "id": "ev-check-a11y-practice-3",
+      "checkId": "check-a11y-practice",
+      "recordedAt": "2026-10-09T14:45:36.595+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice tests/features/lesson tests/shared tests/infrastructure tests/domain — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "caa086fcdb7c8f08a502bf34e96563f1b36932ca96f7693e7837d8a4ca2852e2"
+    },
+    {
+      "id": "ev-check-a11y-app-3",
+      "checkId": "check-a11y-app",
+      "recordedAt": "2026-10-09T14:45:51.451+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/app tests/features/settings tests/features/today tests/features/progress tests/features/catalog — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "dfcb62eab83a7a917a99f83855a932d34a1ecb348080e420135162c60d8a8cba"
+    },
+    {
+      "id": "ev-check-suite-2",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T14:46:38.240+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "883f4d0802f5d0a81e7c69be9d9b7bb846ce81c4427205ba22d40bb9ccede6fd"
+    }
+  ],
   "relevantPaths": [
-    "src/features/practice",
+    "docs/ARCHITECTURE.md",
+    "index.html",
+    "src/app",
+    "src/domain/progress",
     "src/features/lesson",
+    "src/features/practice",
     "src/features/settings",
     "src/features/today",
-    "src/app",
-    "index.html"
+    "src/infrastructure/storage",
+    "src/shared",
+    "tests"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:05.690+07:00"
+  "updatedAt": "2026-10-09T14:46:47.625+07:00",
+  "decisions": [
+    {
+      "id": "d-aria-disabled",
+      "text": "Nút bị chặn dùng aria-disabled + mô tả lý do (GuardedButton) thay vì disabled; lựa chọn đã trả lời dùng aria-disabled.",
+      "rationale": "disabled làm mất focus và không nêu lý do cho trình đọc màn hình."
+    },
+    {
+      "id": "d-native-confirm",
+      "text": "Rời trang dùng beforeunload và window.confirm gốc cho điều hướng nội bộ.",
+      "rationale": "Dialog gốc có sẵn hỗ trợ bàn phím và trình đọc màn hình, dễ test; dialog tùy biến để task UX sau."
+    },
+    {
+      "id": "d-input-progress-additive",
+      "text": "Lưu inputProgress (metadata perception, shadowing, ladder) là trường tùy chọn của LessonProgress, storageVersion giữ 5, xóa khi hoàn tất input hoặc luyện lại.",
+      "rationale": "Không cần migration; không lưu bản nháp/transcript/audio nên giữ chính sách privacy."
+    },
+    {
+      "id": "d-freeze-draft",
+      "text": "Thêm nút Chốt bản nháp ở retry/transfer/review để dừng đồng hồ trước khi chấm rubric; durationSeconds lấy lúc chốt.",
+      "rationale": "Rubric nằm cùng màn hình nên thời gian chấm đang bị tính vào duration."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "r-aria-disabled-tests",
+      "text": "Đổi disabled sang aria-disabled làm vỡ test cũ kiểm .disabled; cập nhật sang kiểm hành vi.",
+      "severity": "low"
+    },
+    {
+      "id": "r-lang-heuristic",
+      "text": "languageOf dựa vào ký tự có dấu; câu tiếng Anh chứa tên riêng Việt có thể bị gắn vi.",
+      "severity": "low"
+    },
+    {
+      "id": "r-input-progress-rollback",
+      "text": "Hoàn tác code khi người dùng có inputProgress dở làm schema cũ từ chối dữ liệu; chấp nhận vì app chưa phát hành.",
+      "severity": "low"
+    },
+    {
+      "id": "r-no-real-screen-reader",
+      "text": "Chưa kiểm tay bằng trình đọc màn hình và bàn phím thật; axe, test focus và aria dựa trên jsdom, và tương phản màu không đo được trong jsdom (chỉ có bảng màu).",
+      "severity": "low"
+    },
+    {
+      "id": "r-confirm-native",
+      "text": "Điều hướng nội bộ dùng window.confirm gốc, khác phong cách giao diện; có thể thay bằng dialog tùy biến sau.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T14:46:47.625+07:00"
 }

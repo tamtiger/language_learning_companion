@@ -127,6 +127,8 @@ và không vượt content-owned `maxHints`, time limit hoặc output length. Pr
 hiển thị riêng attempts, transfer attempts, qualifying transfers và reason codes;
 không đếm một independent baseline/retry như transfer đạt.
 
+inputProgress (tùy chọn) là điểm tiếp tục của phần luyện đầu vào: vị trí và điểm perception, bước sentence chunks, trạng thái learning loop, stage và các lựa chọn của reading ladder. Nó chỉ là metadata, được xóa khi hoàn tất input hoặc luyện lại.
+
 Không lưu audio/blob URL, transcript, written response hoặc free-text. Backup import
 và Zustand hydration cùng đi qua canonical migration: parse v5 hoặc migrate v3/v4
 → validate → preview → explicit confirm → atomic replace. Import malformed,
@@ -170,7 +172,14 @@ lesson đang mở; khi đang quarantined thì bỏ qua. Đồng bộ là bản g
 
 ## Accessibility
 
-Native semantics trước ARIA. Mọi action dùng button/link/form control; focus order có nghĩa, focus visible, heading target sau navigation và live region cho timer/save/error/completion. Source trust dùng `details/summary` keyboard-native; raw schema/mode/phase không xuất hiện trong learner-facing header. Recording luôn có textual state và unsupported/permission-denied fallback.
+Native semantics trước ARIA. Mọi action dùng button/link/form control; focus order có nghĩa, focus visible, heading target sau navigation và live region cho timer/save/error/completion.
+
+- **Nút bị chặn** dùng `GuardedButton` (`aria-disabled` + mô tả lý do) thay vì `disabled` để không mất focus và luôn nêu lý do; lựa chọn đã trả lời của perception cũng dùng `aria-disabled`.
+- **Focus** chuyển sang điều khiển kế tiếp khi điều khiển đang giữ focus bị thay (ghi âm, perception, reading ladder); kết quả và phản hồi nằm trong `role="status"` luôn có mặt trong DOM.
+- **Ngôn ngữ**: nội dung hiển thị có `lang` theo `languageOf` (có ký tự tiếng Việt là `vi`, còn lại `en`); bản nháp là `lang="en"`. Heading của task kèm tên phase (baseline, retry, transfer, review) cho trình đọc màn hình; mỗi tiêu chí rubric là một `role="group"` có tên.
+- **Rời trang**: `useUnsavedWork` chặn `beforeunload` khi có bản nháp hoặc đang ghi âm; điều hướng nội bộ gọi `confirmLeave()` (`window.confirm`). `ErrorBoundary` bao nội dung chính và có nút về Today.
+- **Thời gian**: bài viết có đồng hồ `role="timer"`; retry, transfer và review có bước "Chốt bản nháp" dừng đồng hồ trước khi mở rubric, nên `durationSeconds` không gồm thời gian chấm. Thời gian đọc source read-once và chờ quyền microphone không bị tính.
+- **Kiểm thử**: axe chạy trên Today, Catalog, Progress, Settings và các phase của LessonFlow (`tests/app/axeMatrix.test.tsx`, `tests/features/lesson/lessonFlowAxe.test.tsx`); tương phản màu kiểm bằng bảng màu và `tests/app/App.test.tsx`. Source trust dùng `details/summary` keyboard-native; raw schema/mode/phase không xuất hiện trong learner-facing header. Recording luôn có textual state và unsupported/permission-denied fallback.
 
 ## Verification
 

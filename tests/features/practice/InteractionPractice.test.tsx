@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { InteractionPractice } from '@/features/practice/InteractionPractice'
+import { InteractionPractice } from '@/features/practice/InteractionPractice'
+import { isBlocked } from '../../helpers/aria'
 
 const recorderMocks = vi.hoisted(() => ({
   start: vi.fn(),
@@ -25,7 +26,8 @@ describe('InteractionPractice', () => {
       id: 'interrupt-1', kind: 'interruption', prompt: 'What is the priority?', expectedFunction: 'answer briefly'
     }]} onComplete={vi.fn()} />)
 
-    expect(screen.getByText(/interaction · interruption/i)).toBeTruthy()
+    expect(screen.getByText(/tương tác · bị ngắt lời/i)).toBeTruthy()
+    expect(screen.queryByText(/interruption/i)).toBeNull()
     expect(screen.getByRole('heading', { name: 'What is the priority?' })).toBeTruthy()
   })
 
@@ -35,9 +37,9 @@ describe('InteractionPractice', () => {
     render(<InteractionPractice turns={[{
       id: 'repair-1', kind: 'repair', prompt: 'Could you rephrase that?', expectedFunction: 'repair the explanation'
     }]} onComplete={onComplete} />)
-    expect((screen.getByRole('button', { name: /hoàn thành interaction/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(isBlocked(screen.getByRole('button', { name: /hoàn thành interaction/i }))).toBe(true)
     await user.click(screen.getByRole('button', { name: /timer-only/i }))
-    await waitFor(() => expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false), { timeout: 1_500 })
+    await waitFor(() => expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false), { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     await user.click(screen.getByRole('button', { name: /hoàn thành interaction/i }))
     expect(onComplete).toHaveBeenCalledWith(['repair-1'])
@@ -58,7 +60,7 @@ describe('InteractionPractice', () => {
 
     await user.click(screen.getByRole('button', { name: /timer-only/i }))
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     await user.click(screen.getByRole('button', { name: /lượt tiếp theo/i }))
@@ -76,11 +78,11 @@ describe('InteractionPractice', () => {
     await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
     await screen.findByText(/đang ghi âm cục bộ/i)
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /hoàn thành interaction/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /hoàn thành interaction/i }))).toBe(false)
     })
 
     unmount()

@@ -7,7 +7,7 @@ import {
   type LearningLoopStage as DomainLearningLoopStage,
   type PronunciationStatus as DomainPronunciationStatus
 } from '../../domain/learning/learningLoop'
-import type { AttemptProcessEvidence } from '../../domain/progress/progress'
+import type { AttemptProcessEvidence, InputProgress } from '../../domain/progress/progress'
 import { GuidedShadowing } from './GuidedShadowing'
 import { PerceptionPractice } from './PerceptionPractice'
 import { getRelevantPronunciationCues } from './learningLoopDiagnostics'
@@ -90,11 +90,25 @@ export function LearningLoopProgress({ stage, pronunciationStatus }: {
   )
 }
 
-export function LearningLoopPractice({ loop, onComplete }: {
+function sameSteps(left: readonly string[], right: readonly string[]): boolean {
+  return left.length === right.length && left.every((step, index) => step === right[index])
+}
+
+export function LearningLoopPractice({ loop, initial, onProgress, onComplete }: {
   loop: LearningLoopV1
+  /** Resume point saved earlier; dropped when the shadowing sequence has changed. */
+  initial?: InputProgress
+  onProgress?: (progress: InputProgress) => void
   onComplete: (process: AttemptProcessEvidence, summary: LearningLoopSummary) => void
 }) {
-  const [learningState, setLearningState] = useState(() => createLearningLoopState(loop.shadowingSteps))
+  const restored = initial?.loop && sameSteps(initial.loop.requiredShadowingStepIds, loop.shadowingSteps) ? initial : undefined
+  const [saved, setSaved] = useState<InputProgress>(restored ?? {})
+  const save = (patch: InputProgress) => {
+    const merged = { ...saved, ...patch }
+    setSaved(merged)
+    onProgress?.(merged)
+  }
+  const [learningState, setLearningState] = useState(() => restored?.loop ?? createLearningLoopState(loop.shadowingSteps))
   const [transitionError, setTransitionError] = useState<string | null>(null)
   const stage = journeyStage(learningState.stage)
   const pronunciationStatus = learningState.pronunciationStatus
@@ -102,22 +116,26 @@ export function LearningLoopPractice({ loop, onComplete }: {
   let practice: ReactNode
 
   if (learningState.stage === 'perception') {
-    practice = <PerceptionPractice perception={loop.perception} onComplete={(result) => {
+    practice = <PerceptionPractice perception={loop.perception} initial={saved.perception} onProgress={(perceptionProgress) => save({ perception: perceptionProgress })} onComplete={(result) => {
       const hasDiagnosticCue = getRelevantPronunciationCues(loop.pronunciationCues, result.diagnosticMissedItemIds).length > 0
-      setLearningState(advanceLearningLoop(learningState, {
+      const nextState = advanceLearningLoop(learningState, {
         type: 'COMPLETE_PERCEPTION',
         evidence: result,
         requiresPronunciationCue: hasDiagnosticCue
-      }))
+      })
+      setLearningState(nextState)
+      save({ loop: nextState, perception: undefined })
       setTransitionError(null)
     }} />
   } else if (learningState.stage === 'pronunciation-cue' && perception) {
     practice = <PronunciationCueCard cues={loop.pronunciationCues} missedItemIds={perception.diagnosticMissedItemIds} onComplete={() => {
-      setLearningState(advanceLearningLoop(learningState, { type: 'ACKNOWLEDGE_CUES' }))
+      const nextState = advanceLearningLoop(learningState, { type: 'ACKNOWLEDGE_CUES' })
+      setLearningState(nextState)
+      save({ loop: nextState })
       setTransitionError(null)
     }} />
   } else if (learningState.stage === 'guided-shadowing') {
-    practice = <GuidedShadowing chunks={loop.chunks} steps={loop.shadowingSteps} onComplete={(stepIds) => {
+    practice = <GuidedShadowing chunks={loop.chunks} steps={loop.shadowingSteps} initialIndex={saved.shadowingIndex} onIndexChange={(shadowingIndex) => save({ shadowingIndex })} onComplete={(stepIds) => {
       let nextState
       try {
         nextState = advanceLearningLoop(learningState, { type: 'COMPLETE_SHADOWING', stepIds })

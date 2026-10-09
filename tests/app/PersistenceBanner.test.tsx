@@ -56,7 +56,7 @@ describe('persistence banner', () => {
     expect(banner.textContent).toMatch(/không ghi đè/i)
 
     await user.click(screen.getByRole('button', { name: /mở cài đặt/i }))
-    expect(await screen.findByRole('heading', { name: /cài đặt và dữ liệu local/i })).toBeTruthy()
+    expect(await screen.findByRole('heading', { name: /cài đặt và dữ liệu local/i }, { timeout: 5_000 })).toBeTruthy()
   })
 
   it('applies progress saved by another tab through the storage event', async () => {

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Check, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { LearningLoopV1 } from '../../content/schema'
+import { languageOf } from '../../shared/lang'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
 
 const STEP_LABEL: Record<LearningLoopV1['shadowingSteps'][number], string> = {
@@ -11,12 +12,19 @@ const STEP_LABEL: Record<LearningLoopV1['shadowingSteps'][number], string> = {
   variation: 'Thay dữ kiện và tự nói'
 }
 
-export function GuidedShadowing({ chunks, steps, onComplete }: {
+export function GuidedShadowing({ chunks, steps, initialIndex, onIndexChange, onComplete }: {
   chunks: LearningLoopV1['chunks']
   steps: LearningLoopV1['shadowingSteps']
+  /** Step to resume at; ignored when out of range. */
+  initialIndex?: number
+  onIndexChange?: (index: number) => void
   onComplete: (stepIds: string[]) => void
 }) {
-  const [index, setIndex] = useState(0)
+  const [index, setIndexState] = useState(initialIndex !== undefined && initialIndex < steps.length ? initialIndex : 0)
+  const setIndex = (next: number) => {
+    setIndexState(next)
+    onIndexChange?.(next)
+  }
   const step = steps[index]
   const chunkIndex = index % chunks.length
   const chunk = chunks[chunkIndex]
@@ -36,7 +44,7 @@ export function GuidedShadowing({ chunks, steps, onComplete }: {
         </p>
       </div>
       <ModelAudioPlayer source={chunk.modelAudio} transcriptVisible={transcriptVisible} />
-      {chunkVisible && <p className="leading-7"><strong>{chunk.function}:</strong> {chunk.text}</p>}
+      {chunkVisible && <p lang={languageOf(chunk.text)} className="leading-7"><strong>{chunk.function}:</strong> {chunk.text}</p>}
       {chunkVisible && chunk.stressPattern && <p className="text-sm text-purple-200">Stress: {chunk.stressPattern}</p>}
       {step === 'delayed-imitation' && <p className="text-sm text-zinc-300">Phát mẫu, chờ ba giây, sau đó nói mà không nhìn transcript.</p>}
       {step === 'variation' && <p className="text-sm text-zinc-300">Thay các slot: {chunk.slots.join(', ')}.</p>}

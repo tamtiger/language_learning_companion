@@ -1,4 +1,5 @@
 import { CAPABILITY_IDS, type CapabilityId } from '../../content/schema'
+import type { LearningLoopState } from '../learning/learningLoop'
 
 export type RubricState = 'met' | 'not-met' | 'not-rated'
 /** Why a lesson is opened: a due review, or continuing the cycle in progress. */
@@ -150,6 +151,29 @@ export function assessReview(attempt: AttemptEvidence, contract: EvidenceContrac
   return assessAttempt(attempt, contract, 'review')
 }
 
+/** Position in the listening test; metadata only, never answers' text or audio. */
+export interface PerceptionProgress {
+  phase: 'pretest' | 'training' | 'posttest'
+  index: number
+  pretestCorrect: number
+  posttestCorrect: number
+  missedItemIds: string[]
+}
+
+/** Reading ladder position and the options already chosen; the written draft is never stored. */
+export interface LadderProgress {
+  stage: 'read' | 'extract' | 'apply'
+  answers: Record<string, string>
+}
+
+/** Resume point for the guided input practice, so a reload does not restart it. */
+export interface InputProgress {
+  loop?: LearningLoopState
+  perception?: PerceptionProgress
+  shadowingIndex?: number
+  ladder?: LadderProgress
+}
+
 export interface LessonProgress {
   status: 'not-started' | 'in-progress' | 'completed'
   currentSectionId: string | null
@@ -159,6 +183,7 @@ export interface LessonProgress {
   attemptCount: number
   recentAttempts: AttemptEvidence[]
   activeProcessEvidence: AttemptProcessEvidence | null
+  inputProgress?: InputProgress
   transferCompleted: boolean
   reviewStage: number
   nextReviewAt: string | null

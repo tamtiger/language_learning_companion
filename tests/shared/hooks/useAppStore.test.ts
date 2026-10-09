@@ -661,4 +661,42 @@ describe('v5 app store', () => {
       expect(useAppStore.getState().persistence.status).toBe('quarantined')
     })
   })
-})
+
+  describe('input progress', () => {
+    const lessonId = 'workplace-issue-update-b1'
+    const read = () => useAppStore.getState().lessonProgress[lessonId]
+
+    it('saves, replaces and clears the resume point without touching other progress', () => {
+      useAppStore.getState().markExerciseCorrect(lessonId, 'exercise-1')
+      useAppStore.getState().setInputProgress(lessonId, { ladder: { stage: 'extract', answers: { x1: 'a' } } })
+      expect(read().inputProgress).toEqual({ ladder: { stage: 'extract', answers: { x1: 'a' } } })
+      expect(read().completedExerciseIds).toEqual(['exercise-1'])
+
+      useAppStore.getState().setInputProgress(lessonId, { shadowingIndex: 2 })
+      expect(read().inputProgress).toEqual({ shadowingIndex: 2 })
+
+      useAppStore.getState().setInputProgress(lessonId, null)
+      expect(read()).not.toHaveProperty('inputProgress')
+      expect(read().completedExerciseIds).toEqual(['exercise-1'])
+    })
+
+    it('is dropped when the learner starts a repeat but keeps the review schedule', () => {
+      useAppStore.setState({
+        lessonProgress: {
+          [lessonId]: { ...createEmptyLessonProgress(), status: 'completed', reviewStage: 2, nextReviewAt: '2099-01-01T00:00:00.000Z', inputProgress: { shadowingIndex: 1 } }
+        }
+      })
+      useAppStore.getState().startLessonRepeat(lessonId)
+
+      expect(read()).not.toHaveProperty('inputProgress')
+      expect(read()).toMatchObject({ status: 'in-progress', reviewStage: 2, nextReviewAt: '2099-01-01T00:00:00.000Z' })
+    })
+
+    it('survives export and import as plain metadata', () => {
+      useAppStore.getState().setInputProgress(lessonId, { perception: { phase: 'training', index: 1, pretestCorrect: 2, posttestCorrect: 0, missedItemIds: [] } })
+      const backup = createCapabilityBackup(useAppStore.getState(), '2026-08-18T09:00:00.000Z')
+
+      expect(parseCapabilityBackup(JSON.stringify(backup))).toEqual({ success: true, data: backup })
+      expect(backup.lessonProgress[lessonId].inputProgress?.perception?.phase).toBe('training')
+    })
+  })})

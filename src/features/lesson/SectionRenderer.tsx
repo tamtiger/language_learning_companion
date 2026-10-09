@@ -1,3 +1,4 @@
+import { languageOf } from '../../shared/lang'
 import { useEffect, useRef, useState } from 'react'
 import { Volume2 } from 'lucide-react'
 import type {
@@ -126,7 +127,7 @@ function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
     }
 
     return <fieldset key={exercise.id} className="rounded-xl border border-zinc-700 p-4">
-      <legend className="px-2 font-semibold">{exercise.question}</legend>
+      <legend lang={languageOf(exercise.question)} className="px-2 font-semibold">{exercise.question}</legend>
 
       {exercise.type === 'choice' && <div className="mt-3 space-y-2">{orderOptions(exercise.options ?? [], shuffleSeed).map((option) => {
         const multi = exercise.correctAnswer.length > 1
@@ -139,7 +140,7 @@ function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
               ? selected.includes(option) ? selected.filter((item) => item !== option) : [...selected, option]
               : [option])}
           />
-          <span>{option}</span>
+          <span lang={languageOf(option)}>{option}</span>
         </label>
       })}</div>}
 
@@ -244,7 +245,7 @@ export function SectionRenderer({ lessonId, section, onExerciseCorrect, headingL
       {SOURCE_FORMAT_LABELS[section.format]}
     </p>
     <Heading className={`mt-2 ${headingClass} font-bold`}>{section.title}</Heading>
-    <div className="mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 leading-7 text-zinc-300">
+    <div lang={languageOf(section.content)} className="mt-4 whitespace-pre-line rounded-xl border border-zinc-800 bg-zinc-950/60 p-5 leading-7 text-zinc-300">
       {section.content}
     </div>
     <SourceTrustDisclosure section={section} headingTag={ItemHeading} />
@@ -296,7 +297,7 @@ export function SectionRenderer({ lessonId, section, onExerciseCorrect, headingL
             )}
 
             <p className="mt-3 text-sm leading-6">
-              <span className="font-semibold text-zinc-400">Ví dụ: </span>{item.example}
+              <span className="font-semibold text-zinc-400">Ví dụ: </span><span lang={languageOf(item.example)}>{item.example}</span>
             </p>
             <aside className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/10 p-3 text-sm leading-6 text-amber-100">
               <span className="font-semibold">Lưu ý: </span>{item.commonMistake}
@@ -318,7 +319,7 @@ export function SectionRenderer({ lessonId, section, onExerciseCorrect, headingL
             </div>
             <p className="mt-2 text-sm leading-6 text-zinc-400">{item.meaning}</p>
             <p className="mt-2 text-sm leading-6">
-              <span className="font-semibold text-zinc-400">Ví dụ: </span>{item.example}
+              <span className="font-semibold text-zinc-400">Ví dụ: </span><span lang={languageOf(item.example)}>{item.example}</span>
             </p>
             {item.alternatives.length > 0 && (
               <div className="mt-3">

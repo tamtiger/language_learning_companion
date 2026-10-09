@@ -7,6 +7,8 @@ import { buildEvidenceContract } from '@/domain/progress/evidenceContract'
 import { createEmptyLessonProgress } from '@/domain/progress/progress'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 import { LessonFlow } from '@/features/lesson/LessonFlow'
+import { isBlocked } from '../../helpers/aria'
+import { rateAllMet } from '../../helpers/flow'
 
 /** A written response of exactly `count` English-looking words (satisfies minWords/maxWords). */
 function words(count: number, seed = 'detail') {
@@ -71,15 +73,15 @@ describe('generic capability lesson flow', () => {
     await user.click(screen.getByRole('button', { name: /đối chiếu rubric/i }))
 
     expect(screen.getByText(/model response — chỉ mở sau attempt/i)).toBeTruthy()
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /lưu self-feedback/i }))
     await user.type(screen.getByRole('textbox'), 'Retry with a concrete impact, owner and request.')
-    expect((screen.getByRole('button', { name: /sang transfer/i }) as HTMLButtonElement).disabled).toBe(true)
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    expect(isBlocked(screen.getByRole('button', { name: /sang transfer/i }))).toBe(true)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /sang transfer/i }))
     await user.click(screen.getByRole('textbox'))
     await user.paste(words(80, 'transfer'))
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()
@@ -102,7 +104,7 @@ describe('generic capability lesson flow', () => {
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     await user.type(screen.getByRole('textbox'), 'Too short for the transfer contract.')
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.queryByRole('heading', { name: /mission hoàn thành/i })).toBeNull()
@@ -114,7 +116,7 @@ describe('generic capability lesson flow', () => {
     expect(screen.getByText(/Nhiệm vụ viết · Tình huống mới/i)).toBeTruthy()
     await user.click(screen.getByRole('textbox'))
     await user.paste(words(80, 'retry'))
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /hoàn thành transfer/i }))
 
     expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()
@@ -144,7 +146,7 @@ describe('generic capability lesson flow', () => {
 
     render(<LessonFlow lesson={lesson} onBack={() => undefined} />)
     await user.type(screen.getByRole('textbox'), 'Too short to count as a review.')
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))
 
     expect(screen.getByRole('status', { name: /kết quả review/i }).textContent).toMatch(/chưa đạt.*ngắn hơn yêu cầu/i)
@@ -172,7 +174,7 @@ describe('generic capability lesson flow', () => {
     for (const button of screen.getAllByRole('button', { name: 'Đạt' }).slice(1)) {
       await user.click(button)
     }
-    expect((screen.getByRole('button', { name: /lưu self-feedback/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(isBlocked(screen.getByRole('button', { name: /lưu self-feedback/i }))).toBe(true)
 
     await user.click(screen.getByRole('radio', { name: task.rubric[0].label }))
     await user.click(screen.getByRole('button', { name: /lưu self-feedback/i }))
@@ -180,7 +182,7 @@ describe('generic capability lesson flow', () => {
     expect(screen.getByText(task.rubric[0].description)).toBeTruthy()
 
     await user.type(screen.getByRole('textbox'), 'Retry focused on the missing criterion.')
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /sang transfer/i }))
 
     const retryAttempt = useAppStore.getState().lessonProgress[lesson.lessonId]
@@ -221,14 +223,14 @@ describe('generic capability lesson flow', () => {
     expect(screen.getByRole('button', { name: `${lesson.sections.length}. ${lastSection.title}` }).getAttribute('aria-current')).toBe('step')
 
     const finish = screen.getByRole('button', { name: /hoàn thành bài/i }) as HTMLButtonElement
-    expect(finish.disabled).toBe(true)
+    expect(isBlocked(finish)).toBe(true)
     for (const exercise of lastSection.exercises) {
       const fieldset = screen.getByText(exercise.question).closest('fieldset')
       if (!fieldset) throw new Error('Exercise fieldset missing')
       await answerExercise(user, fieldset, exercise)
       await user.click(within(fieldset).getByRole('button', { name: /kiểm tra/i }))
     }
-    expect(finish.disabled).toBe(false)
+    expect(isBlocked(finish)).toBe(false)
     await user.click(finish)
     expect(useAppStore.getState().lessonProgress[lesson.lessonId]?.recentAttempts).toEqual([])
     firstRender.unmount()
@@ -273,7 +275,7 @@ describe('generic capability lesson flow', () => {
     expect(screen.getByText(/Nhiệm vụ viết · Ôn lại theo lịch/i)).toBeTruthy()
     await user.click(screen.getByRole('textbox'))
     await user.paste(words(80, 'review'))
-    for (const button of screen.getAllByRole('button', { name: 'Đạt' })) await user.click(button)
+    await rateAllMet(user)
     await user.click(screen.getByRole('button', { name: /lưu review/i }))
 
     expect(screen.getByRole('heading', { name: /mission hoàn thành/i })).toBeTruthy()

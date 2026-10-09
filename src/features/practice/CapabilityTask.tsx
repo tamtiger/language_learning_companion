@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { Ear, Mic2, RefreshCw } from 'lucide-react'
 import type {
   CanonicalLesson,
@@ -21,7 +21,10 @@ import {
   type TransferAssessment,
   type TransferReason
 } from '../../domain/progress/progress'
+import { GuardedButton } from '../../shared/components/GuardedButton'
 import { useAppStore } from '../../shared/hooks/useAppStore'
+import { languageOf } from '../../shared/lang'
+import { useUnsavedWork } from '../../shared/hooks/useUnsavedWork'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 import { InteractionPractice } from './InteractionPractice'
@@ -78,15 +81,15 @@ const MODE_LABELS: Record<CanonicalPerformanceTaskV3['mode'], string> = {
 }
 
 const PHASE_LABELS: Record<CapabilityPhase, string> = {
-  baseline: 'Lượt đầu',
+  baseline: 'Lượt đầu (baseline)',
   input: 'Học có hướng dẫn',
   'auto-check': 'Kiểm tra hiểu bài',
   performance: 'Lượt chính',
   interaction: 'Tương tác',
   'self-feedback': 'Tự đánh giá',
-  retry: 'Làm lại có trọng tâm',
-  transfer: 'Tình huống mới',
-  review: 'Ôn lại theo lịch',
+  retry: 'Làm lại có trọng tâm (retry)',
+  transfer: 'Tình huống mới (transfer)',
+  review: 'Ôn lại theo lịch (review)',
   completed: 'Đã hoàn thành'
 }
 
@@ -131,6 +134,11 @@ function initialSession(
   }
 }
 
+function formatClock(totalSeconds: number): string {
+  const minutes = Math.floor(totalSeconds / 60)
+  return String(minutes).padStart(2, '0') + ':' + String(totalSeconds % 60).padStart(2, '0')
+}
+
 function countWords(value: string): number {
   return value.trim() ? value.trim().split(/\s+/u).length : 0
 }
@@ -140,12 +148,13 @@ function RubricEditor({ task, answers, setAnswers }: {
   answers: Record<string, RubricState>
   setAnswers: (answers: Record<string, RubricState>) => void
 }) {
+  const groupId = useId()
   return (
     <fieldset className="space-y-4">
       <legend className="text-lg font-bold">Self-rubric</legend>
       {task.rubric.map((item) => (
-        <div key={item.id} className="rounded-xl border border-zinc-700 p-4">
-          <p className="font-semibold">{item.label}</p>
+        <div key={item.id} role="group" aria-labelledby={`${groupId}-${item.id}`} className="rounded-xl border border-zinc-700 p-4">
+          <p id={`${groupId}-${item.id}`} className="font-semibold">{item.label}</p>
           <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
           <div className="mt-3 flex gap-2">
             {(['met', 'not-met'] as const).map((value) => (
@@ -207,7 +216,7 @@ function LearnerOutput({ snapshot }: { snapshot: SessionAttemptSnapshot }) {
     <div className="rounded-xl border border-sky-500/30 bg-sky-500/10 p-5">
       <p className="text-xs font-bold uppercase tracking-wider text-sky-300">Output của bạn · chỉ trong phiên này</p>
       {snapshot.kind === 'written' ? (
-        <p className="mt-3 whitespace-pre-wrap leading-7 text-zinc-200">{snapshot.text}</p>
+        <p lang={languageOf(snapshot.text)} className="mt-3 whitespace-pre-wrap leading-7 text-zinc-200">{snapshot.text}</p>
       ) : snapshot.audioUrl ? (
         <audio className="mt-4 w-full" controls src={snapshot.audioUrl} aria-label="Output nói của bạn" />
       ) : (
@@ -297,6 +306,7 @@ export function CapabilityTask({ lesson, task, entry }: {
   const recordAttempt = useAppStore((state) => state.recordCapabilityAttempt)
   const setActivePhase = useAppStore((state) => state.setActivePhase)
   const setActiveProcessEvidence = useAppStore((state) => state.setActiveProcessEvidence)
+  const setInputProgress = useAppStore((state) => state.setInputProgress)
   const startLessonRepeat = useAppStore((state) => state.startLessonRepeat)
   const [session, setSession] = useState<CapabilitySession>(() => initialSession(progress, entry))
   const [confirmingRepeat, setConfirmingRepeat] = useState(false)
@@ -322,6 +332,10 @@ export function CapabilityTask({ lesson, task, entry }: {
   const [listenedBack, setListenedBack] = useState(false)
   const [listenBackChecks, setListenBackChecks] = useState<boolean[]>([])
   const [cueToSpeechStartMs, setCueToSpeechStartMs] = useState<number | null>(null)
+  const [lockedDraft, setLockedDraft] = useState<WrittenAttemptSnapshot | null>(null)
+  const [clockRunning, setClockRunning] = useState(false)
+  const [elapsedSeconds, setElapsedSeconds] = useState(0)
+  useUnsavedWork(response.trim().length > 0, 'bản nháp đang viết')
   const preparationStartedAt = useRef(Date.now())
   const outputStartedAt = useRef<number | null>(null)
   const learnerAudio = useRef<SpokenAttemptSnapshot | null>(null)
@@ -346,6 +360,13 @@ export function CapabilityTask({ lesson, task, entry }: {
     progress?.completedExerciseIds.includes(exerciseId)
   )
 
+  useEffect(() => {
+    if (!clockRunning) return
+    const tick = () => setElapsedSeconds(Math.max(0, Math.floor((Date.now() - (outputStartedAt.current ?? Date.now())) / 1_000)))
+    tick()
+    const timer = window.setInterval(tick, 1_000)
+    return () => window.clearInterval(timer)
+  }, [clockRunning])
   useEffect(() => {
     const phaseChanged = previousPhase.current !== phase
     previousPhase.current = phase
@@ -390,9 +411,35 @@ export function CapabilityTask({ lesson, task, entry }: {
       )
     : readOnceReady && response.trim().length > 0
 
+  const draftReason = task.mode === 'spoken'
+    ? 'Ghi âm hoặc bấm timer, rồi chọn "Tôi đã nói xong" trước.'
+    : requiresReadOnce && !readOnceReady
+      ? 'Ẩn tài liệu read-once trước khi viết.'
+      : 'Viết bản nháp tiếng Anh trước.'
+  // Written retry, transfer and review lock the draft first so rating time never counts as writing time.
+  const needsDraftLock = task.mode === 'written' && (phase === 'retry' || phase === 'transfer' || phase === 'review')
+  const showRubricEditor = (phase === 'retry' || phase === 'transfer' || phase === 'review')
+    && (!needsDraftLock || lockedDraft !== null)
+  const responseBlockedReason = responseReady ? undefined : draftReason
+  const lockBlockedReason = needsDraftLock && !lockedDraft ? 'Bấm "Chốt bản nháp" trước khi chấm rubric.' : undefined
+  const ratingBlockedReason = allRated ? undefined : 'Chấm đủ các tiêu chí rubric trước.'
+  const submitBlockedReason = responseBlockedReason ?? lockBlockedReason ?? ratingBlockedReason
+  const timeLimitSeconds = task.outputContract.timeLimitSeconds
+
+  const lockDraft = () => {
+    if (!response.trim()) return
+    setClockRunning(false)
+    setLockedDraft({
+      kind: 'written', text: response,
+      durationSeconds: Math.max(1, Math.ceil((Date.now() - (outputStartedAt.current ?? Date.now())) / 1_000)),
+      wordCount: countWords(response), audioUrl: null
+    })
+  }
+
   const startOutput = () => {
     if (outputStartedAt.current === null) {
       outputStartedAt.current = Date.now()
+      if (task.mode === 'written') setClockRunning(true)
       setCueToSpeechStartMs(Math.max(0, Date.now() - preparationStartedAt.current))
     }
   }
@@ -411,6 +458,7 @@ export function CapabilityTask({ lesson, task, entry }: {
   const createSnapshot = (): SessionAttemptSnapshot | null => {
     if (task.mode === 'spoken') return spokenSnapshot
     if (!response.trim()) return null
+    if (lockedDraft) return lockedDraft
     return {
       kind: 'written', text: response,
       durationSeconds: Math.max(1, Math.ceil((Date.now() - (outputStartedAt.current ?? Date.now())) / 1_000)),
@@ -461,6 +509,9 @@ export function CapabilityTask({ lesson, task, entry }: {
     setCueToSpeechStartMs(null)
     preparationStartedAt.current = Date.now()
     outputStartedAt.current = null
+    setLockedDraft(null)
+    setClockRunning(false)
+    setElapsedSeconds(0)
   }
   const beginRepeat = () => {
     resetResponse()
@@ -540,8 +591,8 @@ export function CapabilityTask({ lesson, task, entry }: {
         <p id="task-phase-label" className="text-xs font-bold uppercase tracking-widest text-purple-300">
           {MODE_LABELS[task.mode]} · {PHASE_LABELS[phase]}
         </p>
-        <h2 ref={taskTitleRef} tabIndex={-1} id="task-title" className="mt-2 text-2xl font-black">{task.title}</h2>
-        <p className="mt-3 text-zinc-300">{practiceContext?.brief ?? task.scenario}</p>
+        <h2 ref={taskTitleRef} tabIndex={-1} id="task-title" className="mt-2 text-2xl font-black">{task.title}<span className="sr-only"> — {PHASE_LABELS[phase]}</span></h2>
+        <p lang={languageOf(practiceContext?.brief ?? task.scenario)} className="mt-3 text-zinc-300">{practiceContext?.brief ?? task.scenario}</p>
         <p className="mt-2 text-sm text-purple-100">{PHASE_DESCRIPTIONS[phase]}</p>
       </div>
 
@@ -555,7 +606,10 @@ export function CapabilityTask({ lesson, task, entry }: {
             </div>
           ))}
           {task.mode === 'spoken' && task.learningLoop && !inputPracticeReady && (
-            <LearningLoopPractice loop={task.learningLoop} onComplete={(process, summary) => {
+            <LearningLoopPractice loop={task.learningLoop} initial={progress?.inputProgress}
+              onProgress={(inputProgress) => setInputProgress(lesson.lessonId, inputProgress)}
+              onComplete={(process, summary) => {
+              setInputProgress(lesson.lessonId, null)
               setProcessEvidence(process)
               setActiveProcessEvidence(lesson.lessonId, process)
               setLearningLoopSummary(summary)
@@ -572,16 +626,19 @@ export function CapabilityTask({ lesson, task, entry }: {
           )}
           {task.mode === 'written' && task.readingLadder && !inputPracticeReady && (
             <ReadingLadderPractice lessonId={lesson.lessonId} ladder={task.readingLadder}
+              initial={progress?.inputProgress?.ladder}
+              onProgress={(ladder) => setInputProgress(lesson.lessonId, { ladder })}
               onComplete={() => {
+                setInputProgress(lesson.lessonId, null)
                 setFocusMainAttemptWhenReady(true)
                 setInputPracticeReady(true)
               }} />
           )}
-          <button ref={mainAttemptButtonRef} type="button" onClick={() => {
+          <GuardedButton ref={mainAttemptButtonRef} disabledReason={!inputPracticeReady ? 'Hoàn tất phần luyện nghe hoặc luyện đọc ở trên trước.' : !autoCheckComplete ? 'Hoàn tất auto-check trước khi bắt đầu lượt chính.' : undefined} onClick={() => {
             setSession((current) => advancePhase(current, 'COMPLETE_AUTO_CHECK'))
             setActivePhase(lesson.lessonId, 'performance')
             preparationStartedAt.current = Date.now()
-          }} disabled={!inputPracticeReady || !autoCheckComplete} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Bắt đầu lượt chính</button>
+          }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold">Bắt đầu lượt chính</GuardedButton>
           {!autoCheckComplete && (
             <p role="status" className="text-sm text-amber-200">
               Hoàn tất auto-check trước khi bắt đầu lượt chính ({progress?.completedExerciseIds.filter((id) => requiredAutoCheckExerciseIds.includes(id)).length ?? 0}/{requiredAutoCheckExerciseIds.length}).
@@ -601,7 +658,7 @@ export function CapabilityTask({ lesson, task, entry }: {
           <LearnerOutput snapshot={learnerOutput} />
           <div className="rounded-xl border border-zinc-700 bg-zinc-950 p-5">
             <p className="text-xs font-bold uppercase tracking-wider text-purple-400">Model response — chỉ mở sau attempt</p>
-            <p className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
+            <p lang="en" className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
           </div>
           <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />
           {allRated && notMetCriterionIds.length > 0 ? (
@@ -621,12 +678,12 @@ export function CapabilityTask({ lesson, task, entry }: {
           ) : allRated ? (
             <p className="rounded-xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-200">Tất cả tiêu chí đã đạt. Retry để giữ chất lượng khi diễn đạt lại.</p>
           ) : null}
-          <button type="button" disabled={!canSubmitFeedback} onClick={() => {
+          <GuardedButton disabledReason={!allRated ? 'Chấm đủ các tiêu chí rubric trước.' : !canSubmitFeedback ? 'Chọn một tiêu chí ưu tiên retry.' : undefined} onClick={() => {
             saveAttempt('performance', learnerOutput, rubric, selectedRetryFocusId)
             setRubric({})
             resetResponse(false)
             setSession((current) => advancePhase(current, 'SUBMIT_RUBRIC'))
-          }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Lưu self-feedback</button>
+          }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Lưu self-feedback</GuardedButton>
         </div>
       ) : (
         <div className="space-y-5">
@@ -636,6 +693,8 @@ export function CapabilityTask({ lesson, task, entry }: {
           {requiresReadOnce && !readOnceReady && (
             <button type="button" onClick={() => {
               focusWrittenResponseWhenReady.current = true
+              // Time spent reading the source is not preparation time.
+              preparationStartedAt.current = Date.now()
               setReadOnceClosedPhase(phase)
             }}
               className="rounded-xl border border-cyan-400 px-5 py-3 font-bold text-cyan-200">
@@ -652,13 +711,13 @@ export function CapabilityTask({ lesson, task, entry }: {
               Transfer chưa đạt: {completionAssessment.reasons.map((reason) => TRANSFER_REASON_LABELS[reason]).join(', ')}. Mission chưa hoàn thành và chưa lên lịch ôn; hãy làm lại tình huống này.
             </p>
           )}
-          <p className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
+          <p lang={languageOf(prompt)} className="whitespace-pre-line text-lg leading-8 text-zinc-200">{prompt}</p>
           {phase === 'retry' && learnerOutput && (
             <div className="grid gap-4 lg:grid-cols-2">
               <LearnerOutput snapshot={learnerOutput} />
               <div className="rounded-xl border border-zinc-700 bg-zinc-950 p-5">
                 <p className="text-xs font-bold uppercase tracking-wider text-purple-400">Model để đối chiếu</p>
-                <p className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
+                <p lang="en" className="mt-3 leading-7 text-zinc-300">{task.modelResponse}</p>
               </div>
             </div>
           )}
@@ -666,11 +725,12 @@ export function CapabilityTask({ lesson, task, entry }: {
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
               <p className="text-xs font-bold uppercase tracking-wider text-amber-300">Ưu tiên retry</p>
               <p className="mt-2 font-semibold">{retryFocus?.label ?? 'Giữ toàn bộ tiêu chí đã đạt khi diễn đạt lại'}</p>
+              {retryFocus && <p lang={languageOf(retryFocus.description)} className="mt-1 text-sm text-zinc-300">{retryFocus.description}</p>}
             </div>
           )}
           {task.mode === 'spoken' ? (
             <div className="space-y-3">
-              <SpokenResponse key={`${lesson.lessonId}:${phase}`} onStarted={handleSpokenStarted} onReady={handleSpokenReady} onListenedBack={() => setListenedBack(true)} />
+              <SpokenResponse key={`${lesson.lessonId}:${phase}:${progress?.attemptCount ?? 0}`} onStarted={handleSpokenStarted} onReady={handleSpokenReady} onListenedBack={() => setListenedBack(true)} />
               {task.learningLoop && requiresPilotListenerCheck && spokenSnapshot?.audioUrl && (
                 <ListenBackChecklist items={task.learningLoop.listenBackChecklist} checked={listenBackChecks}
                   playbackCompleted={listenedBack} onChange={setListenBackChecks} />
@@ -682,24 +742,33 @@ export function CapabilityTask({ lesson, task, entry }: {
           ) : (
             <div>
               <label className="block font-semibold">Bản nháp tiếng Anh
-                <textarea ref={writtenResponseRef} value={response} onChange={(event) => {
+                <textarea ref={writtenResponseRef} lang="en" value={response} onChange={(event) => {
                   if (event.target.value.trim()) startOutput()
                   setResponse(event.target.value)
-                }} disabled={!readOnceReady} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7 disabled:cursor-not-allowed disabled:opacity-40" />
+                }} disabled={!readOnceReady} readOnly={lockedDraft !== null} rows={7} className="mt-2 block w-full rounded-xl border border-zinc-700 bg-zinc-950 p-4 font-normal leading-7 disabled:cursor-not-allowed disabled:opacity-40" />
               </label>
               <p className="mt-2 text-xs text-zinc-400">{countWords(response)} từ · Bản nháp chỉ ở session hiện tại và không được persist.</p>
+              <p role="timer" aria-label="Thời gian viết" className="mt-1 font-mono text-sm text-zinc-300">
+                Thời gian: {formatClock(elapsedSeconds)} / {formatClock(timeLimitSeconds)}{lockedDraft ? ' · đã chốt' : ''}
+              </p>
+              <p role="status" className="text-sm text-amber-200">
+                {elapsedSeconds >= timeLimitSeconds && !lockedDraft ? 'Đã tới giới hạn thời gian của lượt này.' : ''}
+              </p>
             </div>
           )}
           <IndependenceEditor value={independence} onChange={setIndependence} />
-          {(phase === 'retry' || phase === 'transfer' || phase === 'review') && <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />}
+          {showRubricEditor && <RubricEditor task={task} answers={rubric} setAnswers={setRubric} />}
           <div className="flex flex-wrap gap-3">
-            {phase === 'baseline' && <button type="button" disabled={!responseReady} onClick={() => {
+            {needsDraftLock && !lockedDraft && (
+              <GuardedButton disabledReason={responseBlockedReason} onClick={lockDraft} className="rounded-xl border border-purple-400 px-5 py-3 font-bold text-purple-100">Chốt bản nháp</GuardedButton>
+            )}
+            {phase === 'baseline' && <GuardedButton disabledReason={responseBlockedReason} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
               saveAttempt('baseline', snapshot, {})
               resetResponse()
               setSession((current) => advancePhase(current, 'SUBMIT_BASELINE'))
-            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Lưu baseline</button>}
-            {phase === 'performance' && <button type="button" disabled={!responseReady} onClick={() => {
+            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Lưu baseline</GuardedButton>}
+            {phase === 'performance' && <GuardedButton disabledReason={responseBlockedReason} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
               setLearnerOutput(snapshot)
               setSpokenSnapshot(null)
@@ -707,15 +776,15 @@ export function CapabilityTask({ lesson, task, entry }: {
                 current,
                 task.mode === 'spoken' && task.learningLoop ? 'OPEN_INTERACTION' : 'SUBMIT_PERFORMANCE'
               ))
-            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Đối chiếu rubric</button>}
-            {phase === 'retry' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Đối chiếu rubric</GuardedButton>}
+            {phase === 'retry' && <GuardedButton disabledReason={submitBlockedReason} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
               saveAttempt('retry', snapshot, rubric, retryFocusId)
               setRubric({})
               resetResponse()
               setSession((current) => advancePhase(current, 'START_TRANSFER'))
-            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Sang transfer</button>}
-            {phase === 'transfer' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+            }} className="rounded-xl bg-purple-700 px-5 py-3 font-bold disabled:opacity-40">Sang transfer</GuardedButton>}
+            {phase === 'transfer' && <GuardedButton disabledReason={submitBlockedReason} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
               const assessment = saveAttempt('transfer', snapshot)
               setCompletionAssessment(assessment)
@@ -726,14 +795,14 @@ export function CapabilityTask({ lesson, task, entry }: {
                 return
               }
               setSession((current) => advancePhase(current, 'SUBMIT_TRANSFER'))
-            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Hoàn thành transfer</button>}
-            {phase === 'review' && <button type="button" disabled={!responseReady || !allRated} onClick={() => {
+            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Hoàn thành transfer</GuardedButton>}
+            {phase === 'review' && <GuardedButton disabledReason={submitBlockedReason} onClick={() => {
               const snapshot = createSnapshot(); if (!snapshot) return
               setCompletionAssessment(saveAttempt('review', snapshot))
               setCompletionKind('review')
               resetResponse()
               setSession((current) => advancePhase(current, 'SUBMIT_REVIEW'))
-            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Lưu review</button>}
+            }} className="rounded-xl bg-green-500 px-5 py-3 font-bold text-zinc-950 disabled:opacity-40">Lưu review</GuardedButton>}
           </div>
         </div>
       )}

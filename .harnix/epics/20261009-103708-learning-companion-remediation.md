@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103714-improve-accessibility-and-learning-ux` — Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học (`planning`)
+- `20261009-103715-add-offline-pwa-and-audio-reliability` — Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy (`planning`)
 
 ## Members (16 tasks)
 
@@ -23,7 +23,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 4 | `20261009-103711-fix-content-accuracy-errors` | Sửa lỗi chính xác nội dung đã phát hiện khi review | `full` | `completed` |
 | 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `completed` |
 | 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `completed` |
-| 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `planning` |
+| 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `completed` |
 | 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `planning` |
 | 9 | `20261009-103716-extend-curriculum-schema` | Mở rộng schema chương trình để nhận nội dung mới | `full` | `planning` |
 | 10 | `20261009-103717-add-a2-entry-missions` | Thêm mission A2 làm lối vào cho người mới | `full` | `planning` |
@@ -74,7 +74,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 7. `20261009-103714-improve-accessibility-and-learning-ux` — Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Người dùng bàn phím và trình đọc màn hình hoàn thành được vòng học; không mất bản nháp; thời gian được tính công bằng.
 - **Tiêu chí nghiệm thu:** 6 tiêu chí
 

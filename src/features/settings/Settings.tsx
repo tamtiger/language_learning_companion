@@ -26,7 +26,8 @@ export function Settings() {
     link.href = url
     link.download = `language_companion_backup_${new Date().toISOString().slice(0, 10)}.json`
     link.click()
-    URL.revokeObjectURL(url)
+    // Revoking immediately can cancel the download in some browsers.
+    window.setTimeout(() => URL.revokeObjectURL(url), 1_000)
   }
 
   const readImport = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +83,7 @@ export function Settings() {
         <p className="mt-2 text-sm text-zinc-400">Nhận backup v5 và tự migrate backup v3/v4; backup v1/v2 hoặc version tương lai bị từ chối.</p>
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <button type="button" onClick={exportBackup} className="rounded-xl bg-purple-700 px-4 py-3 font-bold">Tải backup metadata</button>
-          <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-700 px-4 py-3 font-bold">
+          <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-zinc-700 px-4 py-3 font-bold focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-purple-400">
             <Upload className="h-4 w-4" />Chọn file import
             <input type="file" accept="application/json,.json" className="sr-only" onChange={readImport} />
           </label>

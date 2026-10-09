@@ -2,6 +2,8 @@ import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { BookOpen, CalendarCheck, ChartNoAxesColumnIncreasing, Settings as SettingsIcon } from 'lucide-react'
 import type { LessonEntry } from '../domain/progress/progress'
 import { handleStorageEvent, useAppStore } from '../shared/hooks/useAppStore'
+import { confirmLeave } from '../shared/hooks/useUnsavedWork'
+import { ErrorBoundary } from './ErrorBoundary'
 import { PersistenceBanner } from './PersistenceBanner'
 import { CatalogPage } from '../features/catalog/CatalogPage'
 import { TodayPage } from '../features/today/TodayPage'
@@ -56,6 +58,7 @@ export default function App() {
   }, [navigationKey])
 
   const navigate = (nextPage: Page) => {
+    if (!confirmLeave()) return
     setActiveLessonId(null)
     setPage(nextPage)
   }
@@ -97,19 +100,21 @@ export default function App() {
             Có {contentErrors.length} content file không hợp lệ. Catalog vẫn mở các lesson an toàn.
           </div>
         )}
-        <Suspense fallback={<p role="status" className="text-zinc-400">Đang tải…</p>}>
-          {activeLesson ? (
-            <LessonFlow lesson={activeLesson} entry={lessonEntry} onBack={() => setActiveLessonId(null)} />
-          ) : page === 'today' ? (
-            <TodayPage onStartLesson={startLesson} />
-          ) : page === 'catalog' ? (
-            <CatalogPage onStartLesson={startLesson} />
-          ) : page === 'progress' ? (
-            <ProgressPage />
-          ) : (
-            <Settings />
-          )}
-        </Suspense>
+        <ErrorBoundary onReset={() => { setActiveLessonId(null); setPage('today') }}>
+          <Suspense fallback={<p role="status" className="text-zinc-400">Đang tải…</p>}>
+            {activeLesson ? (
+              <LessonFlow lesson={activeLesson} entry={lessonEntry} onBack={() => { if (confirmLeave()) setActiveLessonId(null) }} />
+            ) : page === 'today' ? (
+              <TodayPage onStartLesson={startLesson} />
+            ) : page === 'catalog' ? (
+              <CatalogPage onStartLesson={startLesson} />
+            ) : page === 'progress' ? (
+              <ProgressPage />
+            ) : (
+              <Settings />
+            )}
+          </Suspense>
+        </ErrorBoundary>
       </main>
       <footer className="border-t border-zinc-900 px-4 py-6 text-center text-xs text-zinc-400">
         Dữ liệu học tập được giữ local. Audio và nội dung trả lời không được persist hoặc upload.

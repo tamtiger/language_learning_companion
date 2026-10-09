@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
+import { GuardedButton } from '../../shared/components/GuardedButton'
+import { useUnsavedWork } from '../../shared/hooks/useUnsavedWork'
 import {
   LocalMediaError,
   startLocalAudioRecording,
@@ -32,6 +34,19 @@ export function SpokenResponse({
   const requestGeneration = useRef(0)
   const transferred = useRef(false)
   const startedAt = useRef<number | null>(null)
+  const container = useRef<HTMLDivElement>(null)
+  useUnsavedWork(captureState !== 'idle', 'bản ghi âm chưa lưu')
+  const startButton = useRef<HTMLButtonElement>(null)
+  const finishButton = useRef<HTMLButtonElement>(null)
+  const retryButton = useRef<HTMLButtonElement>(null)
+
+  // The button that had focus is replaced when the state changes; hand focus to its successor.
+  useEffect(() => {
+    const active = document.activeElement
+    if (active !== document.body && !container.current?.contains(active)) return
+    const next = captureState === 'running' ? finishButton : captureState === 'ready' ? retryButton : startButton
+    next.current?.focus()
+  }, [captureState])
 
   useEffect(() => {
     if (captureState !== 'running') return
@@ -91,9 +106,14 @@ export function SpokenResponse({
         return
       }
       session.current = nextSession
+      // The permission prompt is not speaking time: count from the moment the microphone is live.
+      startedAt.current = Date.now()
+      setSeconds(0)
       setStatus('Đang ghi âm cục bộ. Không có audio nào được upload.')
     } catch (error) {
       if (requestGeneration.current !== generation) return
+      startedAt.current = Date.now()
+      setSeconds(0)
       setStatus(error instanceof LocalMediaError && error.kind === 'denied'
         ? 'Microphone bị từ chối. Timer vẫn đang chạy.'
         : 'Ghi âm không khả dụng. Timer vẫn đang chạy.')
@@ -137,13 +157,13 @@ export function SpokenResponse({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-4">
+    <div ref={container} className="rounded-xl border border-zinc-700 bg-zinc-950/60 p-4">
       <p aria-live="polite" className="text-sm text-zinc-300">{status}</p>
       <p className="mt-2 font-mono text-2xl">{seconds}s</p>
       <div className="mt-4 flex flex-wrap gap-2">
         {captureState === 'idle' && (
           <>
-            <button type="button" onClick={() => void startRecording()} className="rounded-lg bg-red-700 px-4 py-2 font-bold text-white">
+            <button ref={startButton} type="button" onClick={() => void startRecording()} className="rounded-lg bg-red-700 px-4 py-2 font-bold text-white">
               Bắt đầu ghi âm
             </button>
             <button type="button" onClick={startTimerOnly} className="rounded-lg border border-zinc-700 px-4 py-2 font-semibold">
@@ -152,12 +172,12 @@ export function SpokenResponse({
           </>
         )}
         {captureState === 'running' && (
-          <button type="button" disabled={seconds < 1} onClick={() => void finish()} className="rounded-lg bg-white px-4 py-2 font-bold text-zinc-950 disabled:opacity-40">
+          <GuardedButton ref={finishButton} disabledReason={seconds < 1 ? 'Hãy nói ít nhất một giây trước khi kết thúc.' : undefined} onClick={() => void finish()} className="rounded-lg bg-white px-4 py-2 font-bold text-zinc-950">
             Tôi đã nói xong
-          </button>
+          </GuardedButton>
         )}
         {captureState === 'ready' && (
-          <button type="button" onClick={resetCapture} className="rounded-lg border border-zinc-700 px-4 py-2 font-semibold">
+          <button ref={retryButton} type="button" onClick={resetCapture} className="rounded-lg border border-zinc-700 px-4 py-2 font-semibold">
             Làm lại
           </button>
         )}

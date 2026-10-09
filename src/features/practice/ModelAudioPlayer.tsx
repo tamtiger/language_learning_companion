@@ -50,7 +50,7 @@ export function ModelAudioPlayer({ source, transcriptVisible = false }: {
       )}
       <p aria-live="polite" className="mt-2 text-xs text-zinc-400">{status}</p>
       {transcriptVisible && (
-        <p aria-label="Bản chép audio" className="mt-3 rounded-lg bg-zinc-900 p-3 leading-7">
+        <p aria-label="Bản chép audio" lang="en" className="mt-3 rounded-lg bg-zinc-900 p-3 leading-7">
           {modelAudioTranscript(source)}
         </p>
       )}

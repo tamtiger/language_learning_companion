@@ -21,6 +21,7 @@ import {
   type EvidenceContract,
   type AttemptProcessEvidence,
   type DurableCapabilityPhase,
+  type InputProgress,
   type ProgressByLesson
 } from '../../domain/progress/progress'
 import {
@@ -94,6 +95,8 @@ export interface AppState {
   setCurrentSection: (lessonId: string, sectionId: string | null) => void
   setActivePhase: (lessonId: string, phase: DurableCapabilityPhase | null) => void
   setActiveProcessEvidence: (lessonId: string, evidence: AttemptProcessEvidence | null) => void
+  /** Saves (or clears with null) where guided input practice stopped, so a reload can resume it. */
+  setInputProgress: (lessonId: string, progress: InputProgress | null) => void
   markExerciseCorrect: (lessonId: string, exerciseId: string) => void
   markLessonComplete: (lessonId: string, completed: boolean) => void
   /** Saves the attempt and returns the stored assessment (transfer and review only). */
@@ -287,6 +290,16 @@ export const useAppStore = create<AppState>()(
           }
         }
       }),
+      setInputProgress: (lessonId, inputProgress) => set((state) => {
+        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const { inputProgress: _previous, ...rest } = current
+        return {
+          lessonProgress: {
+            ...state.lessonProgress,
+            [lessonId]: inputProgress === null ? rest : { ...rest, inputProgress }
+          }
+        }
+      }),
       markExerciseCorrect: (lessonId, exerciseId) => set((state) => {
         const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
         if (current.completedExerciseIds.includes(exerciseId)) return {}
@@ -376,7 +389,7 @@ export const useAppStore = create<AppState>()(
         }
       })),
       startLessonRepeat: (lessonId) => set((state) => {
-        const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
+        const { inputProgress: _previous, ...current } = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()
         return {
           lessonProgress: {
             ...state.lessonProgress,

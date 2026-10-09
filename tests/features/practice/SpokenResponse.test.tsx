@@ -1,7 +1,8 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { SpokenResponse } from '@/features/practice/SpokenResponse'
+import { SpokenResponse } from '@/features/practice/SpokenResponse'
+import { isBlocked } from '../../helpers/aria'
 
 const mocks = vi.hoisted(() => ({
   start: vi.fn(),
@@ -28,10 +29,10 @@ describe('SpokenResponse measured local capture', () => {
     expect(screen.queryByRole('button', { name: /tôi đã nói xong/i })).toBeNull()
     await user.click(screen.getByRole('button', { name: /bắt đầu timer-only/i }))
     const finish = screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement
-    expect(finish.disabled).toBe(true)
+    expect(isBlocked(finish)).toBe(true)
     expect(onReady).not.toHaveBeenCalled()
 
-    await waitFor(() => expect(finish.disabled).toBe(false), { timeout: 1_500 })
+    await waitFor(() => expect(isBlocked(finish)).toBe(false), { timeout: 1_500 })
     await user.click(finish)
 
     expect(mocks.start).not.toHaveBeenCalled()
@@ -47,7 +48,7 @@ describe('SpokenResponse measured local capture', () => {
     await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
     await screen.findByText(/đang ghi âm cục bộ/i)
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
 
@@ -70,7 +71,7 @@ describe('SpokenResponse measured local capture', () => {
     await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
     await screen.findByText(/đang ghi âm cục bộ/i)
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     await user.click(screen.getByRole('button', { name: /làm lại/i }))
@@ -94,7 +95,7 @@ describe('SpokenResponse measured local capture', () => {
 
     await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
     expect(screen.getByText(/đã hoàn tất bằng timer-only/i)).toBeTruthy()
@@ -114,7 +115,7 @@ describe('SpokenResponse measured local capture', () => {
     await user.click(screen.getByRole('button', { name: /bắt đầu ghi âm/i }))
     await screen.findByText(/đang ghi âm cục bộ/i)
     await waitFor(() => {
-      expect((screen.getByRole('button', { name: /tôi đã nói xong/i }) as HTMLButtonElement).disabled).toBe(false)
+      expect(isBlocked(screen.getByRole('button', { name: /tôi đã nói xong/i }))).toBe(false)
     }, { timeout: 1_500 })
     await user.click(screen.getByRole('button', { name: /tôi đã nói xong/i }))
 
