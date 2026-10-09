@@ -50,8 +50,9 @@
       "question": "Phát biểu nào bảo vệ được về yes/no question trong ngữ cảnh checking?",
       "options": [
         "Rising contour là một lựa chọn thường gặp nhưng không bắt buộc",
-        "Mọi yes/no question bắt buộc phải rising",
-        "Mọi workplace request bắt buộc phải falling"
+        "Mọi yes/no question trong workplace đều bắt buộc phải rising để nghe lịch sự",
+        "Mọi workplace request đều bắt buộc phải dùng falling contour",
+        "Yes/no question luôn phải falling vì đó là câu hỏi lịch sự"
       ],
       "correctAnswer": ["Rising contour là một lựa chọn thường gặp nhưng không bắt buộc"],
       "explanation": "Sentence type không quyết định duy nhất contour; speaker purpose, stance và discourse context cũng ảnh hưởng."
@@ -63,7 +64,8 @@
       "options": [
         "Vowel-to-vowel boundary",
         "Repeated-consonant boundary",
-        "Consonant-to-vowel boundary"
+        "Consonant-to-vowel boundary",
+        "Consonant-to-consonant boundary"
       ],
       "correctAnswer": ["Consonant-to-vowel boundary"],
       "explanation": "Final /k/ của check đứng trước initial /ɪ/ của it; realization cụ thể vẫn có thể thay đổi theo speaker và tốc độ."

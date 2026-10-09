@@ -49,7 +49,8 @@
           "type": "choice",
           "question": "Which sentence keeps fact and hypothesis separate?",
           "options": [
-            "Release 5.8 caused worker memory exhaustion.",
+            "Release 5.8 caused worker memory exhaustion, so push delivery fell to 72% and the rollout should stop.",
+            "Push delivery fell to 72% because the new batch size exhausted worker memory; Jo is now confirming the fix.",
             "Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."
           ],
           "correctAnswer": ["Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."],
@@ -60,7 +61,8 @@
           "type": "choice",
           "question": "Which request gives the audience a decision and deadline?",
           "options": [
-            "Please investigate.",
+            "Release lead, please look into the push delivery problem when you have some time this week.",
+            "Could everyone keep an eye on the dashboard and tell us if anything else looks wrong later?",
             "Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."
           ],
           "correctAnswer": ["Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."],

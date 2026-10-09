@@ -4,8 +4,8 @@
   "id": "20261009-103710-harden-assessment-integrity",
   "title": "Siết toàn vẹn bài kiểm tra: xáo trộn, chấm điểm, cổng chất lượng đáp án",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Bài kiểm tra không thể đoán đúng bằng vị trí hoặc độ dài đáp án, và việc chấm điểm không phạt oan người học.",
   "nonGoals": [
     "Không thêm bài học mới (thuộc đợt mở rộng nội dung)",
@@ -15,32 +15,47 @@
     {
       "id": "ac-1",
       "text": "Thứ tự lựa chọn của choice, perception và reading ladder được xáo trộn xác định theo seed (id item + lượt làm); đáp án đúng không còn cố định ở vị trí đầu (hiện 91/96 item perception/ladder đúng ở options[0]).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-option-order-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Bài ordering và matching không hiển thị sẵn theo đúng đáp án (technical-doc-action-b1 runbook-recovery-order, pronunciation-shadowing-routine).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-option-order-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Chấm fill chuẩn hóa NFC, nháy cong/thẳng, hoa thường, dấu câu cuối và hỗ trợ acceptedAnswers; câu q3 của pronunciation-sounds không còn phụ thuộc ký tự U+02C8.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-grading-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Cổng nội dung tự động chặn: phân bố vị trí đáp án lệch, đáp án đúng luôn là lựa chọn dài nhất (hiện 74%), perception/ladder dưới 3 lựa chọn, distractor lặp từ khóa của audio.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-assessment-gate-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-5",
       "text": "Toàn bộ item perception/ladder và choice hiện có được viết lại (3-4 lựa chọn, distractor hợp lý) để vượt cổng ở tiêu chí 4.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-assessment-gate-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -60,7 +75,7 @@
     },
     {
       "id": "check-grading",
-      "description": "Chuẩn hóa chấm fill",
+      "description": "Chuẩn hóa chấm fill và q3",
       "command": "npx vitest run src/features/lesson/exercise_grading.test.ts",
       "scope": "focused",
       "required": true,
@@ -69,6 +84,7 @@
       ],
       "inputs": [
         "content/reference/pronunciation/**",
+        "src/content/**",
         "src/features/**"
       ]
     },
@@ -105,7 +121,48 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-option-order-1",
+      "checkId": "check-option-order",
+      "recordedAt": "2026-10-09T11:17:37.102+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run src/features/lesson/option_order.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "b42279e02848d134f1e263a989a859fb3e2c1adf3c431d80430d6b66118ebaaa"
+    },
+    {
+      "id": "ev-check-grading-1",
+      "checkId": "check-grading",
+      "recordedAt": "2026-10-09T11:17:40.525+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run src/features/lesson/exercise_grading.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "22f577852b975ad5ed1d58d72a9af0fc1f28e8aedbc19f89a96634f2ee2bd286"
+    },
+    {
+      "id": "ev-check-assessment-gate-1",
+      "checkId": "check-assessment-gate",
+      "recordedAt": "2026-10-09T11:17:43.925+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run src/content/assessment_quality.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "a70c70f1772ec946fffe71452d43988180b9d4ab51e088a03f58e955360528ad"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T11:18:13.243+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "99542373629bb447d9f5a42f6058916813286f358a068e396799faa61c77ccc0"
+    }
+  ],
   "relevantPaths": [
     "src/features/lesson/SectionRenderer.tsx",
     "src/features/practice/PerceptionPractice.tsx",
@@ -116,5 +173,40 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:14.556+07:00"
+  "updatedAt": "2026-10-09T11:19:00.074+07:00",
+  "decisions": [
+    {
+      "id": "dec-session-salt",
+      "text": "Xáo trộn theo seed gồm id bài, id item và salt ngẫu nhiên tạo mỗi lần mở component.",
+      "rationale": "Người học không ghi nhớ được vị trí giữa các lượt; test điều khiển bằng cách giả lập Math.random."
+    },
+    {
+      "id": "dec-q3-choice",
+      "text": "Câu q3 của pronunciation-sounds chuyển thành choice; engine vẫn hỗ trợ fill kèm acceptedAnswers.",
+      "rationale": "Người học khó gõ ký tự U+02C8 và datalist làm lộ đáp án; task mở rộng nội dung sau sẽ thêm fill thật."
+    },
+    {
+      "id": "dec-gate-thresholds",
+      "text": "Ngưỡng cổng đáp án: 3 đến 4 lựa chọn, đáp án dài nhất tối đa 45% toàn corpus và 60% mỗi bài, tỉ lệ dài nhất trên ngắn nhất tối đa 2,5.",
+      "rationale": "Ngưỡng ngẫu nhiên lý thuyết khoảng 30%; cho dư biên và gom về một hằng số để chỉnh có lý do."
+    },
+    {
+      "id": "dec-claude-agents-rewrite",
+      "text": "Nội dung 17 file được viết lại bởi 4 agent theo 4 nhóm file tách biệt, sau đó đối chiếu các item đổi chữ correctAnswer với audio hoặc source.",
+      "rationale": "File tách biệt nên không xung đột; kiểm tra ngoài cổng bắt các lỗi mà cổng tự động không thấy."
+    }
+  ],
+  "residualRisks": [
+    {
+      "id": "risk-middle-length-cue",
+      "text": "Đáp án đúng có độ dài trung bình ở khoảng 49% item (kỳ vọng ngẫu nhiên khoảng 33% với 3 lựa chọn); người học có thể thu được lợi thế nhỏ khi chọn lựa chọn dài vừa. Cổng hiện chỉ chặn thiên lệch dài nhất. Cân nhắc cổng đối xứng khi mở rộng nội dung.",
+      "severity": "low"
+    },
+    {
+      "id": "risk-paraphrased-answers",
+      "text": "Để qua rule keyword-parity, agent viết lại một số đáp án đúng thành cách nói khác audio (ví dụ Reproduce thành Recreate ở stand-pre-2). Cách này buộc hiểu nghĩa nhưng làm yếu việc nghe đúng thuật ngữ mục tiêu; task sửa lỗi nội dung nên rà lại các item này.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T11:19:00.074+07:00"
 }

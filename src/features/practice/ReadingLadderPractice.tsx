@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CanonicalReadingLadderV1 } from '../../content/schema'
+import { orderOptions, useShuffleSalt } from '../lesson/option_order'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 
 type Stage = 'read' | 'extract' | 'apply'
@@ -14,6 +15,7 @@ export function ReadingLadderPractice({ lessonId, ladder, onComplete }: {
   const [application, setApplication] = useState('')
   const [checks, setChecks] = useState<boolean[]>(() => ladder.applicationChecklist.map(() => false))
   const stageHeading = useRef<HTMLHeadingElement>(null)
+  const salt = useShuffleSalt()
   const previousStage = useRef(stage)
   const extractionComplete = ladder.extractionItems.every((item) => answers[item.id] === item.correctAnswer)
   const applicationComplete = application.trim().length > 0 && checks.every(Boolean)
@@ -51,7 +53,7 @@ export function ReadingLadderPractice({ lessonId, ladder, onComplete }: {
         {ladder.extractionItems.map((item) => (
           <fieldset key={item.id} className="space-y-3 rounded-xl border border-zinc-800 p-4">
             <legend className="px-1 font-semibold">{item.question}</legend>
-            {item.options.map((option) => (
+            {orderOptions(item.options, `${item.id}:${salt}`).map((option) => (
               <label key={option} className="flex cursor-pointer items-center gap-3 text-sm">
                 <input
                   type="radio"

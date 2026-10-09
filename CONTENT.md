@@ -215,3 +215,26 @@ Cả 6 spoken missions dùng learning loop P1. TTS/metadata chỉ chứng minh f
 thể chạy; human listener protocol ở `docs/EVALUATION_PROTOCOL.md` mới định nghĩa
 intent, critical-fact, comprehensibility và agreement evidence cần thu, nhưng hiện
 chưa có dữ liệu để kết luận learner phát âm đúng hoặc giao tiếp tốt hơn.
+
+## Viết đáp án (assessment gate)
+
+Auto-check, perception và reading ladder phải đo hiểu thật, không đo khả năng đoán.
+Runtime xáo trộn thứ tự `choice`, `ordering`, `matching`, perception và reading ladder
+theo seed riêng cho mỗi lần mở bài (`src/features/lesson/option_order.ts`), nên vị trí
+tác giả viết không có tác dụng. Điều tác giả phải đảm bảo được kiểm bằng
+`src/content/assessment_quality.test.ts`; mọi ngưỡng nằm ở hằng số
+`ASSESSMENT_THRESHOLDS` ở đầu file đó:
+
+- 3 đến 4 lựa chọn cho mỗi perception, reading ladder và `choice` một đáp án.
+- Lựa chọn dài nhất không quá 2,5 lần lựa chọn ngắn nhất, và đáp án đúng không được
+  là lựa chọn dài nhất ở quá 45% item toàn corpus (60% trong một bài có từ 5 item).
+- Không có hai lựa chọn trùng nhau sau khi chuẩn hóa.
+- Nếu đáp án đúng xuất hiện nguyên văn trong audio hoặc source thì phải có ít nhất một
+  distractor cũng xuất hiện nguyên văn; distractor là hiểu nhầm có thật (sai chủ thể,
+  số liệu, nguyên nhân hoặc hành động), không phải phương án vô lý.
+- Bài `ordering` không được viết `options` theo đúng thứ tự `correctAnswer`.
+
+Chấm `fill` chuẩn hóa Unicode NFC, nháy cong/thẳng, hoa/thường, khoảng trắng và dấu câu
+cuối; ký hiệu IPA giữ nguyên để các ký hiệu khác nhau vẫn khác nhau. Trường tùy chọn
+`acceptedAnswers` (chỉ cho `fill`) liệt kê các dạng đáp án hợp lệ khác. Khi người học
+khó gõ một ký tự, dùng `choice` thay vì `fill`.

@@ -74,7 +74,7 @@
         "Âm tiết đầu",
         "Âm tiết thứ hai",
         "Âm tiết thứ ba",
-        "Âm tiết cuối"
+        "Âm tiết cuối cùng"
       ],
       "correctAnswer": ["Âm tiết thứ hai"],
       "explanation": "Dấu ˈ đứng trước âm tiết thứ hai trong transcription tham chiếu."

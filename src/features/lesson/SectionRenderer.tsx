@@ -7,6 +7,8 @@ import type {
   SourceProvenance
 } from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/use_app_store'
+import { hasCompleteAnswer, isExerciseCorrect } from './exercise_grading'
+import { orderOptions, useShuffleSalt } from './option_order'
 
 const SOURCE_FORMAT_LABELS: Record<CanonicalSourceSection['format'], string> = {
   prose: 'Văn bản',
@@ -93,44 +95,21 @@ function SourceTrustDisclosure({ section, headingTag }: {
   )
 }
 
-function isExerciseCorrect(exercise: Exercise, answers: string[], matches: Record<string, string>): boolean {
-  if (exercise.type === 'fill') {
-    return answers.length === 1 && exercise.correctAnswer.includes(answers[0].trim())
-  }
-  if (exercise.type === 'matching') {
-    return (exercise.matchingPairs ?? []).every((pair) =>
-      exercise.correctAnswer.includes(`${pair.key} - ${matches[pair.key] ?? ''}`)
-    )
-  }
-  if (exercise.type === 'ordering') {
-    return answers.length === exercise.correctAnswer.length
-      && answers.every((answer, index) => answer === exercise.correctAnswer[index])
-  }
-  return answers.length === exercise.correctAnswer.length
-    && answers.every((answer) => exercise.correctAnswer.includes(answer))
-}
-
-function hasCompleteAnswer(exercise: Exercise, answers: string[], matches: Record<string, string>): boolean {
-  if (exercise.type === 'matching') {
-    return (exercise.matchingPairs ?? []).every((pair) => Boolean(matches[pair.key]))
-  }
-  if (exercise.type === 'ordering') return answers.length === (exercise.options?.length ?? 0)
-  if (exercise.type === 'fill') return Boolean(answers[0]?.trim())
-  return answers.length > 0
-}
-
 function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
   lessonId: string
   exercises: Exercise[]
   onExerciseCorrect?: (exerciseId: string) => void
 }) {
   const markExerciseCorrect = useAppStore((state) => state.markExerciseCorrect)
+  const salt = useShuffleSalt()
   const [answers, setAnswers] = useState<Record<string, string[]>>({})
   const [matchingAnswers, setMatchingAnswers] = useState<Record<string, Record<string, string>>>({})
   const [checked, setChecked] = useState<Record<string, boolean>>({})
 
   return <div className="space-y-5">{exercises.map((exercise) => {
     const selected = answers[exercise.id] ?? []
+    const shuffleSeed = `${lessonId}:${exercise.id}:${salt}`
+    const pairValues = [...new Set((exercise.matchingPairs ?? []).map((candidate) => candidate.value))]
     const matches = matchingAnswers[exercise.id] ?? {}
     const correct = isExerciseCorrect(exercise, selected, matches)
     const complete = hasCompleteAnswer(exercise, selected, matches)
@@ -149,7 +128,7 @@ function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
     return <fieldset key={exercise.id} className="rounded-xl border border-zinc-700 p-4">
       <legend className="px-2 font-semibold">{exercise.question}</legend>
 
-      {exercise.type === 'choice' && <div className="mt-3 space-y-2">{(exercise.options ?? []).map((option) => {
+      {exercise.type === 'choice' && <div className="mt-3 space-y-2">{orderOptions(exercise.options ?? [], shuffleSeed).map((option) => {
         const multi = exercise.correctAnswer.length > 1
         return <label key={option} className="flex cursor-pointer gap-3 rounded-lg border border-zinc-800 p-3 hover:bg-zinc-800/60">
           <input
@@ -195,14 +174,14 @@ function AutoCheck({ lessonId, exercises, onExerciseCorrect }: {
             className="rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
           >
             <option value="">-- Chọn --</option>
-            {[...new Set((exercise.matchingPairs ?? []).map((candidate) => candidate.value))]
+            {orderOptions(pairValues, shuffleSeed, pairValues)
               .map((value) => <option key={value} value={value}>{value}</option>)}
           </select>
         </label>
       ))}</div>}
 
       {exercise.type === 'ordering' && <div className="mt-3 space-y-3">
-        <div className="flex flex-wrap gap-2">{(exercise.options ?? []).filter((option) => !selected.includes(option)).map((option) => (
+        <div className="flex flex-wrap gap-2">{orderOptions(exercise.options ?? [], shuffleSeed, exercise.correctAnswer).filter((option) => !selected.includes(option)).map((option) => (
           <button
             key={option}
             type="button"

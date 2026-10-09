@@ -56,7 +56,7 @@
     },
     {
       "id": "ac-8",
-      "text": "scripts/check-changelog-rule đổi tên thành .mjs, mọi tham chiếu được cập nhật và script nằm trong npm scripts.",
+      "text": "Mọi tham chiếu tới script kiểm tra changelog dùng tên scripts/check-changelog-rule.mjs (việc đổi tên làm ở task thống nhất quy ước file) và script nằm trong npm scripts.",
       "status": "pending",
       "evidenceIds": []
     }
@@ -160,7 +160,7 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:15.815+07:00",
+  "updatedAt": "2026-10-09T11:28:18.235+07:00",
   "decisions": [
     {
       "id": "dec-docs-in-docs",

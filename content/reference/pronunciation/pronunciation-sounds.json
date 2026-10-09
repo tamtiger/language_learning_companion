@@ -79,13 +79,14 @@
     },
     {
       "id": "q3",
-      "type": "fill",
-      "question": "Điền ký hiệu đặt trước âm tiết mang trọng âm chính: ___",
+      "type": "choice",
+      "question": "Ký hiệu nào đặt trước âm tiết mang trọng âm chính?",
       "options": [
-        "ˈ",
-        "ˌ"
+        "ˈ (primary stress)",
+        "ˌ (secondary stress)",
+        "ː (âm dài)"
       ],
-      "correctAnswer": ["ˈ"],
+      "correctAnswer": ["ˈ (primary stress)"],
       "explanation": "ˈ đánh dấu primary stress; ˌ thường đánh dấu secondary stress."
     }
   ]

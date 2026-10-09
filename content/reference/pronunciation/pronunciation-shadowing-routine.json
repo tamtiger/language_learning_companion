@@ -50,8 +50,9 @@
       "question": "Hoàn thành quiz của bài shadowing này có thể chứng minh điều gì?",
       "options": [
         "Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules",
-        "Người học đã đạt pronunciation mastery",
-        "Người học có native accent"
+        "Người học đã đạt pronunciation mastery sau khi hoàn thành quiz và routine",
+        "Người học có native accent và phát âm đã cải thiện rõ rệt sau bài này",
+        "Người học đã thực hiện đầy đủ routine shadowing hằng ngày và phát âm đã cải thiện rõ rệt"
       ],
       "correctAnswer": ["Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules"],
       "explanation": "Quiz completion là knowledge evidence only; app không quan sát learner có thực hiện routine hay không. Pronunciation accuracy và efficacy cần observer evidence phù hợp."
@@ -62,8 +63,9 @@
       "question": "Input nào an toàn nhất cho local shadowing practice?",
       "options": [
         "Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data",
-        "Một production incident transcript có customer data",
-        "Một đoạn proprietary audio được sao chép khi chưa rõ quyền sử dụng"
+        "Một production incident transcript có customer data và tên khách hàng thật",
+        "Một đoạn proprietary audio được sao chép khi chưa rõ quyền sử dụng",
+        "Một đoạn ghi âm cuộc họp nội bộ có chứa API key và email khách hàng, lấy từ kho lưu trữ công ty"
       ],
       "correctAnswer": ["Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data"],
       "explanation": "Practice input phải đủ ngắn, hiểu được, không chứa secret/PII và có quyền sử dụng rõ."

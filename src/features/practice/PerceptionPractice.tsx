@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { LearningLoopV1 } from '../../content/schema'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
 import { recordPerceptionMiss, type PerceptionPhase } from './learning_loop_diagnostics'
+import { orderOptions, useShuffleSalt } from '../lesson/option_order'
 import { availableVoiceCount } from './model_audio'
 
 export interface PerceptionResult {
@@ -26,6 +27,7 @@ export function PerceptionPractice({ perception, onComplete }: {
   const [scores, setScores] = useState({ pretest: 0, posttest: 0 })
   const [missed, setMissed] = useState<string[]>([])
   const phaseHeading = useRef<HTMLHeadingElement>(null)
+  const salt = useShuffleSalt()
   const previousPhase = useRef(phase)
   const items = perception[phase]
   const item = items[index]
@@ -88,7 +90,7 @@ export function PerceptionPractice({ perception, onComplete }: {
       <ModelAudioPlayer source={item.audio} transcriptVisible={Boolean(answer)} />
       <fieldset className="space-y-2">
         <legend className="font-semibold">{item.question}</legend>
-        {item.options.map((option) => (
+        {orderOptions(item.options, `${item.id}:${salt}`).map((option) => (
           <button key={option} type="button" disabled={Boolean(answer)} onClick={() => answerItem(option)}
             className="mr-2 rounded-lg border border-zinc-700 px-3 py-2 disabled:opacity-70">
             {option}

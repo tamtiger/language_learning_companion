@@ -60,7 +60,8 @@
       "options": [
         "/ɪd/",
         "/t/",
-        "/d/"
+        "/d/",
+        "/s/"
       ],
       "correctAnswer": ["/t/"],
       "explanation": "Base verb fix kết thúc bằng âm vô thanh /s/, nên regular -ed được phân loại là /t/."
@@ -72,7 +73,8 @@
       "options": [
         "/ɪd/",
         "/t/",
-        "/d/"
+        "/d/",
+        "/z/"
       ],
       "correctAnswer": ["/d/"],
       "explanation": "Deploy kết thúc bằng một âm hữu thanh, nên regular -ed được phân loại là /d/."

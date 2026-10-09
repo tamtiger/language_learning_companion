@@ -9,10 +9,11 @@
     "Không thêm backend hay đồng bộ đám mây"
   ],
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:45:10.693+07:00",
+  "updatedAt": "2026-10-09T11:26:10.511+07:00",
   "order": [
     "20261009-103709-stabilize-test-environment",
     "20261009-103710-harden-assessment-integrity",
+    "20261009-112609-standardize-file-naming-and-test-layout",
     "20261009-103711-fix-content-accuracy-errors",
     "20261009-103712-fix-learning-state-logic",
     "20261009-103713-clean-repo-hygiene-and-docs",

@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { normalizeAnswer } from './answer_normalization'
 
 const IdSchema = z.string().regex(/^[a-z0-9-_]+$/)
 const NonEmptyString = z.string().trim().min(1)
@@ -51,8 +52,22 @@ export const ExerciseSchema = z.object({
   options: z.array(NonEmptyString).optional(),
   matchingPairs: z.array(z.object({ key: NonEmptyString, value: NonEmptyString })).optional(),
   correctAnswer: z.array(NonEmptyString).min(1),
+  acceptedAnswers: z.array(NonEmptyString).optional(),
   explanation: NonEmptyString.optional()
 }).superRefine((exercise, context) => {
+  if (exercise.acceptedAnswers) {
+    if (exercise.type !== 'fill') {
+      context.addIssue({ code: z.ZodIssueCode.custom, path: ['acceptedAnswers'], message: 'acceptedAnswers is only allowed on fill exercises' })
+    }
+    const normalized = [...exercise.correctAnswer, ...exercise.acceptedAnswers].map(normalizeAnswer)
+    if (new Set(normalized).size !== normalized.length) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['acceptedAnswers'],
+        message: 'acceptedAnswers must be unique and differ from correctAnswer after normalization'
+      })
+    }
+  }
   const options = exercise.options ?? []
   if (new Set(options).size !== options.length) {
     context.addIssue({ code: z.ZodIssueCode.custom, path: ['options'], message: 'Options must be unique' })

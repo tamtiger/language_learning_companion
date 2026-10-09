@@ -5,7 +5,7 @@
 - **Epic:** 20261009-103708-learning-companion-remediation
 - **Status:** planning/planning
 - **Created:** 2026-10-09 10:37:08 +07:00
-- **Updated:** 2026-10-09 10:48:15 +07:00
+- **Updated:** 2026-10-09 11:28:18 +07:00
 
 **Verdict:** PENDING — 0/8 acceptance criteria met
 
@@ -45,7 +45,7 @@ Repo gọn, tài liệu khớp code, quy trình release chạy được và bund
 - [ ] `ac-5` (pending): Bundle tách chunk (lazy phần thân lesson), build không còn cảnh báo chunk trên 500 kB.
 - [ ] `ac-6` (pending): Toàn bộ tài liệu dự án nằm trong docs/ (ARCHITECTURE, CONTENT, PRODUCT, START_HERE chuyển vào docs/); chỉ README.md, CHANGELOG.md và AGENTS.md ở root vì công cụ yêu cầu; mọi link nội bộ không gãy.
 - [ ] `ac-7` (pending): Các prompt dùng một lần đã hoàn tất bị xóa (IMPROVEMENT_PROMPT, UX_RESEARCH_REFACTOR_PROMPT, LEARNING_FEATURE_RESEARCH_PROMPT, CURRICULUM_RESEARCH_PROMPT); LEARNER_AUDIT_PROMPT và prompt review tổng thể được chuyển vào docs/prompts/.
-- [ ] `ac-8` (pending): scripts/check-changelog-rule đổi tên thành .mjs, mọi tham chiếu được cập nhật và script nằm trong npm scripts.
+- [ ] `ac-8` (pending): Mọi tham chiếu tới script kiểm tra changelog dùng tên scripts/check-changelog-rule.mjs (việc đổi tên làm ở task thống nhất quy ước file) và script nằm trong npm scripts.
 
 ## Required checks
 
