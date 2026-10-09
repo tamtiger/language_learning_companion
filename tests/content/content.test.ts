@@ -1,21 +1,20 @@
 import { describe, expect, it } from 'vitest'
 import { getBundledCatalog } from '@/content/catalog'
-import { NEW_CAPABILITY_MISSIONS } from '@/content/content'
-import type { CanonicalSourceSection } from '@/content/schema'
+import { CAPABILITY_IDS, type CanonicalSourceSection } from '@/content/schema'
 
 describe('new capability mission wave', () => {
-  it('loads exactly one valid v3 mission for every capability', () => {
+  it('loads at least one valid v3 mission for every capability', () => {
     const catalog = getBundledCatalog()
-    expect(NEW_CAPABILITY_MISSIONS).toHaveLength(6)
-    expect(new Set(NEW_CAPABILITY_MISSIONS.map((item) => item.lessonId)).size).toBe(6)
-    expect(new Set(NEW_CAPABILITY_MISSIONS.map((item) => item.capabilityId)).size).toBe(6)
 
-    for (const expected of NEW_CAPABILITY_MISSIONS) {
-      const lesson = catalog.lessons.find((item) => item.lessonId === expected.lessonId)
-      expect(lesson?.sourceSchemaVersion).toBe('v3')
-      expect(lesson?.capabilities).toEqual([expected.capabilityId])
-      expect(lesson?.performanceTask?.rubric.length).toBeGreaterThanOrEqual(3)
-      expect(lesson?.performanceTask?.transferPrompt.length).toBeGreaterThan(20)
+    for (const capabilityId of CAPABILITY_IDS) {
+      const missions = catalog.lessons.filter((item) => item.capabilities.includes(capabilityId))
+      expect(missions.length, capabilityId).toBeGreaterThanOrEqual(1)
+      for (const lesson of missions) {
+        expect(lesson.sourceSchemaVersion, lesson.lessonId).toBe('v3')
+        expect(lesson.capabilities, lesson.lessonId).toEqual([capabilityId])
+        expect(lesson.performanceTask?.rubric.length, lesson.lessonId).toBeGreaterThanOrEqual(3)
+        expect(lesson.performanceTask?.transferPrompt.length, lesson.lessonId).toBeGreaterThan(20)
+      }
     }
   })
 

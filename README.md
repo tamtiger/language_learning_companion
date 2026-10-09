@@ -187,11 +187,14 @@ Library.
 
 ## Source of truth
 
-- Product behavior và success evidence: [`PRODUCT.md`](./PRODUCT.md)
-- Content schema và authoring rules: [`CONTENT.md`](./CONTENT.md)
-- Architecture, storage và privacy: [`ARCHITECTURE.md`](./ARCHITECTURE.md)
+- Product behavior và success evidence: [`docs/PRODUCT.md`](./docs/PRODUCT.md)
+- Content schema và authoring rules: [`docs/CONTENT.md`](./docs/CONTENT.md)
+- Architecture, storage và privacy: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md)
 - Listener/expert evaluation: [`docs/EVALUATION_PROTOCOL.md`](./docs/EVALUATION_PROTOCOL.md)
-- Hướng dẫn dành cho người học: [`START_HERE.md`](./START_HERE.md)
+- Hướng dẫn dành cho người học: [`docs/START_HERE.md`](./docs/START_HERE.md)
+- Quy tắc release và changelog: [`docs/RELEASE.md`](./docs/RELEASE.md)
+- Quy ước đặt tên file và vị trí test: [`docs/CONVENTIONS.md`](./docs/CONVENTIONS.md)
+- Prompt audit người học: [`docs/prompts/LEARNER_AUDIT_PROMPT.md`](./docs/prompts/LEARNER_AUDIT_PROMPT.md)
 - Lịch sử thay đổi: [`CHANGELOG.md`](./CHANGELOG.md)
 - Executable curriculum: [`content/`](./content)
 

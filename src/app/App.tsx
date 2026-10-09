@@ -1,13 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, lazy, useEffect, useRef, useState } from 'react'
 import { BookOpen, CalendarCheck, ChartNoAxesColumnIncreasing, Settings as SettingsIcon } from 'lucide-react'
 import type { LessonEntry } from '../domain/progress/progress'
 import { handleStorageEvent, useAppStore } from '../shared/hooks/useAppStore'
 import { PersistenceBanner } from './PersistenceBanner'
 import { CatalogPage } from '../features/catalog/CatalogPage'
 import { TodayPage } from '../features/today/TodayPage'
-import { ProgressPage } from '../features/progress/ProgressPage'
-import { LessonFlow } from '../features/lesson/LessonFlow'
-import { Settings } from '../features/settings/Settings'
+
+// Heavier views load on demand so the entry chunk stays small.
+const ProgressPage = lazy(() => import('../features/progress/ProgressPage').then((module) => ({ default: module.ProgressPage })))
+const LessonFlow = lazy(() => import('../features/lesson/LessonFlow').then((module) => ({ default: module.LessonFlow })))
+const Settings = lazy(() => import('../features/settings/Settings').then((module) => ({ default: module.Settings })))
 
 type Page = 'today' | 'catalog' | 'progress' | 'settings'
 
@@ -21,7 +23,11 @@ const NAV_ITEMS: Array<{ id: Page; label: string; icon: typeof BookOpen }> = [
 export default function App() {
   const [page, setPage] = useState<Page>('today')
   const mainRef = useRef<HTMLElement>(null)
-  const { lessons, activeLessonId, setActiveLessonId, contentErrors, persistence } = useAppStore()
+  const lessons = useAppStore((state) => state.lessons)
+  const activeLessonId = useAppStore((state) => state.activeLessonId)
+  const setActiveLessonId = useAppStore((state) => state.setActiveLessonId)
+  const contentErrors = useAppStore((state) => state.contentErrors)
+  const persistence = useAppStore((state) => state.persistence)
   const [lessonEntry, setLessonEntry] = useState<LessonEntry | undefined>(undefined)
   const activeLesson = lessons.find((lesson) => lesson.lessonId === activeLessonId)
   const startLesson = (lessonId: string, entry?: LessonEntry) => {
@@ -91,17 +97,19 @@ export default function App() {
             Có {contentErrors.length} content file không hợp lệ. Catalog vẫn mở các lesson an toàn.
           </div>
         )}
-        {activeLesson ? (
-          <LessonFlow lesson={activeLesson} entry={lessonEntry} onBack={() => setActiveLessonId(null)} />
-        ) : page === 'today' ? (
-          <TodayPage onStartLesson={startLesson} />
-        ) : page === 'catalog' ? (
-          <CatalogPage onStartLesson={startLesson} />
-        ) : page === 'progress' ? (
-          <ProgressPage />
-        ) : (
-          <Settings />
-        )}
+        <Suspense fallback={<p role="status" className="text-zinc-400">Đang tải…</p>}>
+          {activeLesson ? (
+            <LessonFlow lesson={activeLesson} entry={lessonEntry} onBack={() => setActiveLessonId(null)} />
+          ) : page === 'today' ? (
+            <TodayPage onStartLesson={startLesson} />
+          ) : page === 'catalog' ? (
+            <CatalogPage onStartLesson={startLesson} />
+          ) : page === 'progress' ? (
+            <ProgressPage />
+          ) : (
+            <Settings />
+          )}
+        </Suspense>
       </main>
       <footer className="border-t border-zinc-900 px-4 py-6 text-center text-xs text-zinc-400">
         Dữ liệu học tập được giữ local. Audio và nội dung trả lời không được persist hoặc upload.

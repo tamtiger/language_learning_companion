@@ -79,10 +79,3 @@ export function advancePhase(session: CapabilitySession, event: CapabilityEvent)
       return { ...session, phase: 'completed' }
   }
 }
-
-export function canCompleteCapabilityMission(session: CapabilitySession): boolean {
-  return session.phase === 'completed'
-    && session.baselineAttempted
-    && session.rubricRated
-    && session.transferCompleted
-}

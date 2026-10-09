@@ -4,7 +4,6 @@ import { createCapabilityBackup, parseCapabilityBackup, useAppStore } from '../.
 import type { ProgressEnvelope } from '../../infrastructure/storage/progressStorage'
 
 export function Settings() {
-  const store = useAppStore()
   const [pending, setPending] = useState<{ envelope: ProgressEnvelope; fileName: string } | null>(null)
   const [isReading, setIsReading] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
@@ -21,7 +20,7 @@ export function Settings() {
   }, [pending])
 
   const exportBackup = () => {
-    const backup = createCapabilityBackup(store)
+    const backup = createCapabilityBackup(useAppStore.getState())
     const url = URL.createObjectURL(new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' }))
     const link = document.createElement('a')
     link.href = url
@@ -66,7 +65,7 @@ export function Settings() {
 
   const confirmImport = () => {
     if (!pending || isReading) return
-    store.restoreEnvelope(pending.envelope)
+    useAppStore.getState().restoreEnvelope(pending.envelope)
     setPending(null)
     setMessage(`Đã import backup v5 từ ${pending.fileName} sau khi validate và xác nhận.`)
   }
@@ -103,7 +102,7 @@ export function Settings() {
         <p className="mt-2 text-sm text-zinc-400">Reset xóa progress local và không thể hoàn tác nếu chưa export backup.</p>
         {confirmReset ? (
           <div className="mt-4 flex gap-2">
-            <button type="button" onClick={() => { store.resetProgress(); setConfirmReset(false); setMessage('Đã reset progress local.') }} className="rounded-lg bg-red-700 px-4 py-2 font-bold text-white">Xác nhận xóa</button>
+            <button type="button" onClick={() => { useAppStore.getState().resetProgress(); setConfirmReset(false); setMessage('Đã reset progress local.') }} className="rounded-lg bg-red-700 px-4 py-2 font-bold text-white">Xác nhận xóa</button>
             <button type="button" onClick={() => setConfirmReset(false)} className="rounded-lg border border-zinc-700 px-4 py-2">Hủy</button>
           </div>
         ) : (

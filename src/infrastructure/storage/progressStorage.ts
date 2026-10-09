@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { CAPABILITY_IDS } from '../../content/schema'
 
 const RubricStateSchema = z.enum(['met', 'not-met', 'not-rated'])
 
@@ -25,14 +26,7 @@ const AttemptEvidenceV3Schema = z.object({
   attemptId: z.string().min(1),
   lessonId: z.string().min(1),
   taskId: z.string().min(1),
-  capabilityId: z.enum([
-    'workplace-communication',
-    'technical-reading',
-    'international-meetings',
-    'technical-explanation',
-    'international-interview',
-    'technology-learning'
-  ]),
+  capabilityId: z.enum(CAPABILITY_IDS),
   phase: z.enum(['baseline', 'performance', 'retry', 'transfer', 'review']),
   attemptedAt: z.string().datetime(),
   durationSeconds: z.number().int().positive(),

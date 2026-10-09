@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103713-clean-repo-hygiene-and-docs` — Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release (`planning`)
+- `20261009-103714-improve-accessibility-and-learning-ux` — Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học (`planning`)
 
 ## Members (16 tasks)
 
@@ -22,7 +22,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 3 | `20261009-112609-standardize-file-naming-and-test-layout` | Thống nhất quy ước tên file, đuôi file và gom test vào thư mục tests | `full` | `completed` |
 | 4 | `20261009-103711-fix-content-accuracy-errors` | Sửa lỗi chính xác nội dung đã phát hiện khi review | `full` | `completed` |
 | 5 | `20261009-103712-fix-learning-state-logic` | Sửa logic hoàn thành, ôn tập và bền vững dữ liệu | `full` | `completed` |
-| 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `planning` |
+| 6 | `20261009-103713-clean-repo-hygiene-and-docs` | Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release | `full` | `completed` |
 | 7 | `20261009-103714-improve-accessibility-and-learning-ux` | Cải thiện trợ năng, đồng hồ và bảo toàn tiến độ khi học | `full` | `planning` |
 | 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `planning` |
 | 9 | `20261009-103716-extend-curriculum-schema` | Mở rộng schema chương trình để nhận nội dung mới | `full` | `planning` |
@@ -68,7 +68,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 6. `20261009-103713-clean-repo-hygiene-and-docs` — Dọn nợ kỹ thuật, đồng bộ tài liệu và quy trình release
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Repo gọn, tài liệu khớp code, quy trình release chạy được và bundle không còn cảnh báo kích thước.
 - **Tiêu chí nghiệm thu:** 8 tiêu chí
 

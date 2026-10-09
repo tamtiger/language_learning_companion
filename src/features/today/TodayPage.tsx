@@ -158,7 +158,9 @@ function buildWorkIntentCandidates(
 }
 
 export function TodayPage({ onStartLesson }: TodayPageProps) {
-  const { lessons, lessonProgress, startLessonRepeat } = useAppStore()
+  const lessons = useAppStore((state) => state.lessons)
+  const lessonProgress = useAppStore((state) => state.lessonProgress)
+  const startLessonRepeat = useAppStore((state) => state.startLessonRepeat)
   const now = useNow()
   const [pendingRepeatId, setPendingRepeatId] = useState<string | null>(null)
   const confirmRepeatRef = useRef<HTMLButtonElement>(null)

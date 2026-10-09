@@ -51,7 +51,7 @@ Evidence hiển thị:
 - với hai spoken pilot: perception pre/post counts, số bước training/shadowing,
   listen-back, cue-to-speech latency, interaction turns và cờ audio variability.
 
-Completion count và streak chỉ là metadata phụ. App không suy diễn proficiency score khi không có human/validated assessment.
+Completion count chỉ là metadata phụ. App không suy diễn proficiency score khi không có human/validated assessment.
 
 ## Offline-first và privacy
 
@@ -122,6 +122,6 @@ capability flow chuẩn mà không làm mất progress V5.
 - `CONTENT.md`: schema v3, content invariants và authoring rules.
 - `ARCHITECTURE.md`: runtime boundaries, storage và verification.
 - `START_HERE.md`: hành trình người học.
-- `README.md`: developer quickstart.
+- `README.md` (root): developer quickstart.
 
 Khi tài liệu mâu thuẫn, owner file theo lĩnh vực ở trên thắng; prompts phải dẫn chiếu owner docs thay vì sao chép contract.

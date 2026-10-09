@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
   advancePhase,
-  canCompleteCapabilityMission,
   type CapabilityEvent,
   type CapabilitySession
 } from '@/domain/learning/flow'
@@ -20,36 +19,6 @@ describe('capability learning flow', () => {
       phase: 'input',
       baselineAttempted: true
     })
-  })
-
-  it('requires a rated transfer attempt before capability completion', () => {
-    expect(canCompleteCapabilityMission({
-      phase: 'transfer',
-      baselineAttempted: true,
-      rubricRated: true,
-      transferCompleted: false
-    })).toBe(false)
-
-    expect(canCompleteCapabilityMission({
-      phase: 'completed',
-      baselineAttempted: true,
-      rubricRated: true,
-      transferCompleted: true
-    })).toBe(true)
-
-    expect(canCompleteCapabilityMission({
-      phase: 'transfer',
-      baselineAttempted: true,
-      rubricRated: true,
-      transferCompleted: true
-    })).toBe(false)
-
-    expect(canCompleteCapabilityMission({
-      phase: 'completed',
-      baselineAttempted: true,
-      rubricRated: false,
-      transferCompleted: true
-    })).toBe(false)
   })
 
   it('returns a delayed review to the completed state after submission', () => {

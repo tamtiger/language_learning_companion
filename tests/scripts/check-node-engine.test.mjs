@@ -23,7 +23,7 @@ const validFiles = {
   'package.json': JSON.stringify({ engines: { node: '>=22.12.0' } }),
   '.nvmrc': '22\n',
   'README.md': 'Yêu cầu Node 22.12 trở lên.',
-  'START_HERE.md': 'Cần Node 22.12 trở lên.'
+  'docs/START_HERE.md': 'Cần Node 22.12 trở lên.'
 }
 
 test('repo hiện tại khai báo phiên bản Node nhất quán', () => {

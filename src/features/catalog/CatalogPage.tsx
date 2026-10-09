@@ -15,7 +15,8 @@ const CAPABILITY_LABELS: Record<CapabilityId, string> = {
 export interface CatalogPageProps { onStartLesson: (lessonId: string) => void }
 
 export function CatalogPage({ onStartLesson }: CatalogPageProps) {
-  const { lessons, lessonProgress } = useAppStore()
+  const lessons = useAppStore((state) => state.lessons)
+  const lessonProgress = useAppStore((state) => state.lessonProgress)
   const [capability, setCapability] = useState<CapabilityId | 'all'>('all')
   const [level, setLevel] = useState<'all' | 'B1' | 'B2' | 'C1'>('all')
   const filtered = useMemo(() => lessons.filter((lesson) =>

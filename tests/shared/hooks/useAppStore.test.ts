@@ -347,7 +347,7 @@ describe('v5 app store', () => {
     expect(persistedWrites).toEqual([])
     expect(persistedValue).toBe(futureValue)
 
-    useAppStore.getState().setCefrLevel('B1')
+    useAppStore.setState({ currentCefrLevel: 'B1' })
 
     expect(useAppStore.getState().currentCefrLevel).toBe('B1')
     expect(persistedWrites).toEqual([])
@@ -394,7 +394,7 @@ describe('v5 app store', () => {
     await useAppStore.persist.rehydrate()
 
     useAppStore.getState().resetProgress()
-    useAppStore.getState().setTheme('light')
+    useAppStore.setState({ theme: 'light' })
 
     expect(persistedWrites).toHaveLength(2)
     expect(persistedValue).toMatchObject({
@@ -432,7 +432,7 @@ describe('v5 app store', () => {
     useAppStore.persist.setOptions({ storage: withPersistenceQuarantine(asyncStorage) })
 
     const hydration = useAppStore.persist.rehydrate()
-    useAppStore.getState().setCefrLevel('B1')
+    useAppStore.setState({ currentCefrLevel: 'B1' })
 
     expect(asyncWrites).toEqual([])
     expect(storedValue).toBe(futureValue)
@@ -440,7 +440,7 @@ describe('v5 app store', () => {
     if (!resolveRead) throw new Error('Async hydration resolver was not created')
     resolveRead(futureValue)
     await hydration
-    useAppStore.getState().setTheme('light')
+    useAppStore.setState({ theme: 'light' })
 
     expect(asyncWrites).toEqual([])
     expect(storedValue).toBe(futureValue)
@@ -472,7 +472,7 @@ describe('v5 app store', () => {
     if (!resolveRead) throw new Error('Async hydration resolver was not created')
     resolveRead(futureValue)
     await hydration
-    useAppStore.getState().setTheme('light')
+    useAppStore.setState({ theme: 'light' })
 
     expect(asyncWrites).toHaveLength(2)
     expect(asyncWrites[1]).toMatchObject({ version: 5, state: { theme: 'light' } })
@@ -520,7 +520,7 @@ describe('v5 app store', () => {
     })
     await staleHydration
 
-    useAppStore.getState().setTheme('light')
+    useAppStore.setState({ theme: 'light' })
 
     expect(asyncWrites).toHaveLength(1)
     expect(asyncWrites[0]).toMatchObject({ version: 5, state: { theme: 'light' } })
@@ -612,7 +612,7 @@ describe('v5 app store', () => {
       expect(useAppStore.getState().lessonProgress['workplace-issue-update-b1'].status).toBe('completed')
 
       useAppStore.persist.setOptions({ storage: quarantinedTestStorage })
-      useAppStore.getState().setTheme('light')
+      useAppStore.setState({ theme: 'light' })
       expect(useAppStore.getState().persistence.status).toBe('ok')
     })
 

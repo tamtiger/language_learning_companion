@@ -215,7 +215,7 @@ riêng cho baseline/retry/transfer/review. Đây là coverage của content cont
 generic flow, không phải bằng chứng efficacy.
 
 Cả 6 spoken missions dùng learning loop P1. TTS/metadata chỉ chứng minh flow có
-thể chạy; human listener protocol ở `docs/EVALUATION_PROTOCOL.md` mới định nghĩa
+thể chạy; human listener protocol ở [`EVALUATION_PROTOCOL.md`](./EVALUATION_PROTOCOL.md) mới định nghĩa
 intent, critical-fact, comprehensibility và agreement evidence cần thu, nhưng hiện
 chưa có dữ liệu để kết luận learner phát âm đúng hoặc giao tiếp tốt hơn.
 

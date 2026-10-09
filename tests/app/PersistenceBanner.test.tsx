@@ -38,7 +38,7 @@ describe('persistence banner', () => {
         removeItem: () => undefined
       })
     })
-    act(() => { useAppStore.getState().setTheme('light') })
+    act(() => { useAppStore.setState({ theme: 'light' }) })
     useAppStore.persist.setOptions({ storage: original })
 
     const banner = screen.getByTestId('persistence-banner')
@@ -56,7 +56,7 @@ describe('persistence banner', () => {
     expect(banner.textContent).toMatch(/không ghi đè/i)
 
     await user.click(screen.getByRole('button', { name: /mở cài đặt/i }))
-    expect(screen.getByRole('heading', { name: /cài đặt và dữ liệu local/i })).toBeTruthy()
+    expect(await screen.findByRole('heading', { name: /cài đặt và dữ liệu local/i })).toBeTruthy()
   })
 
   it('applies progress saved by another tab through the storage event', async () => {

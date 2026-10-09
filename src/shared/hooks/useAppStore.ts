@@ -90,8 +90,6 @@ export interface AppState {
   lessonProgress: ProgressByLesson
   /** Whether progress is actually being saved; never persisted. */
   persistence: { status: PersistenceStatus }
-  setTheme: (theme: 'dark' | 'light') => void
-  setCefrLevel: (level: 'B1' | 'B2' | 'C1' | null) => void
   setActiveLessonId: (lessonId: string | null) => void
   setCurrentSection: (lessonId: string, sectionId: string | null) => void
   setActivePhase: (lessonId: string, phase: DurableCapabilityPhase | null) => void
@@ -251,8 +249,6 @@ export const useAppStore = create<AppState>()(
       lessonProgress: {},
       persistence: { status: baselinePersistenceStatus },
 
-      setTheme: (theme) => set({ theme }),
-      setCefrLevel: (currentCefrLevel) => set({ currentCefrLevel, activeLessonId: null }),
       setActiveLessonId: (activeLessonId) => set({ activeLessonId }),
       setCurrentSection: (lessonId, currentSectionId) => set((state) => {
         const current = state.lessonProgress[lessonId] ?? createEmptyLessonProgress()

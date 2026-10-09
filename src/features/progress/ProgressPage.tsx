@@ -30,7 +30,8 @@ function isContractChanged(attempt: AttemptEvidence, lesson: CanonicalLesson | u
 }
 
 export function ProgressPage() {
-  const { lessonProgress, lessons } = useAppStore()
+  const lessonProgress = useAppStore((state) => state.lessonProgress)
+  const lessons = useAppStore((state) => state.lessons)
   const attempts = Object.values(lessonProgress).flatMap((progress) => progress.recentAttempts)
   const lessonsById = new Map(lessons.map((lesson) => [lesson.lessonId, lesson]))
   const ids = Object.keys(CAPABILITY_LABELS) as CapabilityId[]

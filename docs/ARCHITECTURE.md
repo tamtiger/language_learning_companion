@@ -175,7 +175,7 @@ Native semantics trước ARIA. Mọi action dùng button/link/form control; foc
 ## Verification
 
 - Node tests: schema, normalization, domain, scheduling, storage.
-- DOM tests: app shell, keyboard, focus, live status, error/retry và six mission flows.
+- DOM tests: app shell, keyboard, focus, live status, error/retry và các luồng của 12 mission.
 - Catalog test đọc toàn bộ JSON.
 - Gates: focused tests → full `npm test` → `npm run lint` → `npm run build` → manual critical flows.
 - Mỗi Harnix required check được snapshot trước/sau cùng input digest trước khi ghi evidence.

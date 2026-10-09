@@ -18,14 +18,17 @@ const IsoDateSchema = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine((value) => 
   return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === value
 }, { message: 'Expected a valid YYYY-MM-DD date' })
 
-export const CapabilityIdSchema = z.enum([
+/** Single source of truth for capability ids; the order is the display and Today-queue order. */
+export const CAPABILITY_IDS = [
   'workplace-communication',
   'technical-reading',
   'international-meetings',
   'technical-explanation',
   'international-interview',
   'technology-learning'
-])
+] as const
+
+export const CapabilityIdSchema = z.enum(CAPABILITY_IDS)
 
 export const VocabularyItemSchema = z.object({
   word: NonEmptyString,

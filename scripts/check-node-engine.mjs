@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-const DOCS_WITH_NODE_REQUIREMENT = ['README.md', 'START_HERE.md']
+const DOCS_WITH_NODE_REQUIREMENT = ['README.md', 'docs/START_HERE.md']
 
 function majorOf(version) {
   const match = /(\d+)/.exec(version)

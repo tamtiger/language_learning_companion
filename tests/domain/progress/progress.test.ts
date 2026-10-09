@@ -5,9 +5,6 @@ import {
   applyReviewResult,
   buildTodayQueue,
   createEmptyLessonProgress,
-  isIndependentAttempt,
-  isQualifyingTransfer,
-  isRubricFullyMet,
   scheduleTransferReview,
   type AttemptEvidence,
   type ProgressByLesson
@@ -43,26 +40,6 @@ describe('progress evidence and scheduling', () => {
     expect(progress.attemptCount).toBe(52)
     expect(progress.recentAttempts).toHaveLength(50)
     expect(progress.recentAttempts[0].attemptId).toBe('attempt-2')
-  })
-
-  it('classifies only completed, fully-met and independent transfers as qualifying', () => {
-    const transfer = { ...attempt(1), phase: 'transfer' as const }
-
-    expect(isRubricFullyMet(transfer)).toBe(true)
-    expect(isIndependentAttempt(transfer)).toBe(true)
-    expect(isQualifyingTransfer(transfer)).toBe(true)
-
-    expect(isRubricFullyMet({ ...transfer, rubric: {} })).toBe(false)
-    expect(isRubricFullyMet({ ...transfer, rubric: { clarity: 'not-rated' } })).toBe(false)
-    const hintedTransfer = {
-      ...transfer,
-      independence: { ...transfer.independence, hintCount: 1 }
-    }
-    expect(isIndependentAttempt(hintedTransfer)).toBe(false)
-    expect(isIndependentAttempt(hintedTransfer, 1)).toBe(true)
-    expect(isQualifyingTransfer(hintedTransfer, 1)).toBe(true)
-    expect(isQualifyingTransfer({ ...transfer, phase: 'retry' })).toBe(false)
-    expect(isQualifyingTransfer({ ...transfer, completed: false })).toBe(false)
   })
 
   it('returns actionable reasons for rubric, independence and output-contract gaps', () => {

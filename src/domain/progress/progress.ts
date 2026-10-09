@@ -1,4 +1,4 @@
-import type { CapabilityId } from '../../content/schema'
+import { CAPABILITY_IDS, type CapabilityId } from '../../content/schema'
 
 export type RubricState = 'met' | 'not-met' | 'not-rated'
 /** Why a lesson is opened: a due review, or continuing the cycle in progress. */
@@ -48,19 +48,6 @@ export interface AttemptEvidence {
   /** Digest of the evidence contract the assessment was made against. */
   contentRevision?: string
   completed: boolean
-}
-
-export function isRubricFullyMet(attempt: AttemptEvidence): boolean {
-  const ratings = Object.values(attempt.rubric)
-  return ratings.length > 0 && ratings.every((rating) => rating === 'met')
-}
-
-export function isIndependentAttempt(attempt: AttemptEvidence, maxHints = 0): boolean {
-  const evidence = attempt.independence
-  return !evidence.usedVietnamese
-    && !evidence.usedTranslation
-    && !evidence.usedModelAnswer
-    && evidence.hintCount <= maxHints
 }
 
 export type TransferReason =
@@ -161,13 +148,6 @@ export function assessTransfer(attempt: AttemptEvidence, contract: EvidenceContr
 
 export function assessReview(attempt: AttemptEvidence, contract: EvidenceContract): TransferAssessment {
   return assessAttempt(attempt, contract, 'review')
-}
-
-export function isQualifyingTransfer(attempt: AttemptEvidence, maxHints = 0): boolean {
-  return attempt.phase === 'transfer'
-    && attempt.completed
-    && isRubricFullyMet(attempt)
-    && isIndependentAttempt(attempt, maxHints)
 }
 
 export interface LessonProgress {
@@ -284,14 +264,7 @@ export interface TodayQueueItem extends CatalogProgressItem {
   dueAt?: string
 }
 
-const CAPABILITY_ORDER: CapabilityId[] = [
-  'workplace-communication',
-  'technical-reading',
-  'international-meetings',
-  'technical-explanation',
-  'international-interview',
-  'technology-learning'
-]
+const CAPABILITY_ORDER: readonly CapabilityId[] = CAPABILITY_IDS
 
 export function buildTodayQueue(
   catalog: CatalogProgressItem[],

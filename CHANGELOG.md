@@ -1,6 +1,10 @@
 # Changelog
 
-Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Dự án hiện chưa phát hành version công khai.
+Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo cấu trúc của [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Quy tắc phát hành nằm ở [docs/RELEASE.md](./docs/RELEASE.md).
+
+## [Unreleased]
+
+Chưa có thay đổi nào được phát hành sau 1.1.5.
 
 ## [1.1.5] - 2026-08-28
 

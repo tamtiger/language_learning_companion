@@ -1,10 +1,9 @@
 import { readFileSync } from 'node:fs'
+import { join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
-const instructions = readFileSync(new URL('../AGENTS.md', import.meta.url), 'utf8')
-const changelog = readFileSync(new URL('../CHANGELOG.md', import.meta.url), 'utf8')
-const packageManifest = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'))
-const packageLock = JSON.parse(readFileSync(new URL('../package-lock.json', import.meta.url), 'utf8'))
-const requiredStatements = [
+/** Các câu quy tắc bắt buộc phải xuất hiện trong docs/RELEASE.md. */
+export const REQUIRED_STATEMENTS = [
   'Sau mỗi lần implement có thay đổi production',
   'đầu lịch sử changelog',
   '`MAJOR`',
@@ -19,19 +18,35 @@ const requiredStatements = [
   'completion gate'
 ]
 
-const missing = requiredStatements.filter((statement) => !instructions.includes(statement))
-if (missing.length > 0) {
-  throw new Error(`Thiếu quy tắc changelog/version: ${missing.join(', ')}`)
+const RELEASE_HEADING = /^## \[(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)\] - \d{4}-\d{2}-\d{2}$/m
+
+/** Trả về danh sách lỗi; mảng rỗng nghĩa là quy tắc, version và CHANGELOG nhất quán. */
+export function checkChangelogRule(root) {
+  const errors = []
+  const read = (file) => readFileSync(join(root, file), 'utf8')
+
+  const rules = read('docs/RELEASE.md')
+  const missing = REQUIRED_STATEMENTS.filter((statement) => !rules.includes(statement))
+  if (missing.length > 0) errors.push(`Thiếu quy tắc changelog/version trong docs/RELEASE.md: ${missing.join(', ')}`)
+
+  const manifest = JSON.parse(read('package.json'))
+  const lock = JSON.parse(read('package-lock.json'))
+  if (manifest.version !== lock.version || manifest.version !== lock.packages?.['']?.version) {
+    errors.push('Version giữa package.json và package-lock.json chưa đồng bộ.')
+  }
+
+  const latest = read('CHANGELOG.md').match(RELEASE_HEADING)?.[1]
+  if (latest !== manifest.version) {
+    errors.push(`Release mới nhất trong CHANGELOG.md (${latest ?? 'không có'}) không khớp package version ${manifest.version}.`)
+  }
+  return errors
 }
 
-const rootLockVersion = packageLock.packages?.['']?.version
-if (packageManifest.version !== packageLock.version || packageManifest.version !== rootLockVersion) {
-  throw new Error('Version giữa package.json và package-lock.json chưa đồng bộ.')
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const errors = checkChangelogRule(resolve(fileURLToPath(new URL('..', import.meta.url))))
+  if (errors.length > 0) {
+    console.error(errors.join('\n'))
+    process.exit(1)
+  }
+  console.log('Quy tắc changelog/version đầy đủ.')
 }
-
-const latestRelease = changelog.match(/^## \[(\d+\.\d+\.\d+)\] - \d{4}-\d{2}-\d{2}$/m)?.[1]
-if (latestRelease !== packageManifest.version) {
-  throw new Error('Release mới nhất trong CHANGELOG.md không khớp package version.')
-}
-
-console.log('Quy tắc changelog/version đầy đủ.')
