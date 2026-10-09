@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { CheckCircle2, Download, ShieldAlert, Trash2, Upload } from 'lucide-react'
-import { createCapabilityBackup, parseCapabilityBackup, useAppStore } from '../../shared/hooks/use_app_store'
-import type { ProgressEnvelope } from '../../infrastructure/storage/progress_storage'
+import { createCapabilityBackup, parseCapabilityBackup, useAppStore } from '../../shared/hooks/useAppStore'
+import type { ProgressEnvelope } from '../../infrastructure/storage/progressStorage'
 
 export function Settings() {
   const store = useAppStore()

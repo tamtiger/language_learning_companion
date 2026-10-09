@@ -50,13 +50,14 @@
       "description": "Cấu trúc practice và nit",
       "scope": "focused",
       "required": true,
-      "command": "npx vitest run src/features/practice",
+      "command": "npx vitest run tests/features/practice",
       "criterionIds": [
         "ac-1",
         "ac-3"
       ],
       "inputs": [
-        "src/features/**"
+        "src/features/**",
+        "tests/**"
       ]
     },
     {
@@ -64,13 +65,14 @@
       "description": "Đổi tên minSeconds và migration",
       "scope": "focused",
       "required": true,
-      "command": "npx vitest run src/infrastructure/storage src/content",
+      "command": "npx vitest run tests/infrastructure/storage tests/content",
       "criterionIds": [
         "ac-2"
       ],
       "inputs": [
         "content/**",
-        "src/**"
+        "src/**",
+        "tests/**"
       ]
     }
   ],
@@ -78,5 +80,5 @@
   "relevantPaths": [],
   "relevantSpecs": [],
   "createdAt": "2026-10-09T10:45:09.250+07:00",
-  "updatedAt": "2026-10-09T10:48:19.417+07:00"
+  "updatedAt": "2026-10-09T11:37:11.343+07:00"
 }

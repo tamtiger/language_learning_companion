@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import type { LearningLoopV1 } from '../../content/schema'
 import { ModelAudioPlayer } from './ModelAudioPlayer'
-import { recordPerceptionMiss, type PerceptionPhase } from './learning_loop_diagnostics'
-import { orderOptions, useShuffleSalt } from '../lesson/option_order'
-import { availableVoiceCount } from './model_audio'
+import { recordPerceptionMiss, type PerceptionPhase } from './learningLoopDiagnostics'
+import { orderOptions, useShuffleSalt } from '../lesson/optionOrder'
+import { availableVoiceCount } from './modelAudio'
 
 export interface PerceptionResult {
   pretestCorrect: number

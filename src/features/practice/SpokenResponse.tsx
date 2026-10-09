@@ -3,7 +3,7 @@ import {
   LocalMediaError,
   startLocalAudioRecording,
   type LocalAudioSession
-} from '../lesson-player/media_recorder'
+} from '../lesson-player/mediaRecorder'
 
 export interface SpokenAttemptSnapshot {
   kind: 'spoken'

@@ -5,7 +5,7 @@
 - **Epic:** 20261009-103708-learning-companion-remediation
 - **Status:** planning/planning
 - **Created:** 2026-10-09 10:37:08 +07:00
-- **Updated:** 2026-10-09 10:48:15 +07:00
+- **Updated:** 2026-10-09 11:37:04 +07:00
 
 **Verdict:** PENDING — 0/6 acceptance criteria met
 
@@ -27,12 +27,12 @@ Trạng thái hoàn thành, lịch ôn và lưu trữ phản ánh đúng năng l
 
 ## Relevant paths
 
-- `src/domain`
-- `src/shared/hooks/use_app_store.ts`
-- `src/infrastructure/storage`
-- `src/features/today`
-- `src/features/progress`
 - `ARCHITECTURE.md`
+- `src/domain`
+- `src/features/progress`
+- `src/features/today`
+- `src/infrastructure/storage`
+- `src/shared/hooks/useAppStore.ts`
 
 ## Acceptance criteria
 

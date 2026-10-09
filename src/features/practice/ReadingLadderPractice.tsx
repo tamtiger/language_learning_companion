@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CanonicalReadingLadderV1 } from '../../content/schema'
-import { orderOptions, useShuffleSalt } from '../lesson/option_order'
+import { orderOptions, useShuffleSalt } from '../lesson/optionOrder'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 
 type Stage = 'read' | 'extract' | 'apply'

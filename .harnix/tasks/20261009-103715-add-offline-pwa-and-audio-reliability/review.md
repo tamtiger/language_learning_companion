@@ -5,7 +5,7 @@
 - **Epic:** 20261009-103708-learning-companion-remediation
 - **Status:** planning/planning
 - **Created:** 2026-10-09 10:37:08 +07:00
-- **Updated:** 2026-10-09 10:48:16 +07:00
+- **Updated:** 2026-10-09 11:37:06 +07:00
 
 **Verdict:** PENDING — 0/4 acceptance criteria met
 
@@ -27,12 +27,12 @@ App tải và chạy được khi offline, dữ liệu được bảo vệ, audi
 
 ## Relevant paths
 
-- `public`
-- `vite.config.ts`
-- `src/features/practice/model_audio.ts`
-- `src/features/settings`
-- `README.md`
 - `PRODUCT.md`
+- `README.md`
+- `public`
+- `src/features/practice/modelAudio.ts`
+- `src/features/settings`
+- `vite.config.ts`
 
 ## Acceptance criteria
 

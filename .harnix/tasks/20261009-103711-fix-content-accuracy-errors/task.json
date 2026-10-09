@@ -47,7 +47,7 @@
     {
       "id": "check-content-fixes",
       "description": "Test chất lượng nội dung mở rộng cho các lỗi đã sửa",
-      "command": "npx vitest run src/content/content_quality.test.ts",
+      "command": "npx vitest run tests/content/contentQuality.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -59,7 +59,8 @@
       ],
       "inputs": [
         "content/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
@@ -82,12 +83,12 @@
   ],
   "evidence": [],
   "relevantPaths": [
+    "CONTENT.md",
     "content",
-    "src/content/content_quality.test.ts",
-    "CONTENT.md"
+    "tests/content/contentQuality.test.ts"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:14.976+07:00"
+  "updatedAt": "2026-10-09T11:37:03.553+07:00"
 }

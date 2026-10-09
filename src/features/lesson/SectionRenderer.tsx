@@ -6,9 +6,9 @@ import type {
   Exercise,
   SourceProvenance
 } from '../../content/schema'
-import { useAppStore } from '../../shared/hooks/use_app_store'
-import { hasCompleteAnswer, isExerciseCorrect } from './exercise_grading'
-import { orderOptions, useShuffleSalt } from './option_order'
+import { useAppStore } from '../../shared/hooks/useAppStore'
+import { hasCompleteAnswer, isExerciseCorrect } from './exerciseGrading'
+import { orderOptions, useShuffleSalt } from './optionOrder'
 
 const SOURCE_FORMAT_LABELS: Record<CanonicalSourceSection['format'], string> = {
   prose: 'Văn bản',

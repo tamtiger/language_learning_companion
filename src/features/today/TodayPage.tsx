@@ -22,7 +22,7 @@ import {
   type LessonProgress,
   type TodayQueueItem
 } from '../../domain/progress/progress'
-import { useAppStore } from '../../shared/hooks/use_app_store'
+import { useAppStore } from '../../shared/hooks/useAppStore'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
 
 export interface TodayPageProps { onStartLesson: (lessonId: string) => void }

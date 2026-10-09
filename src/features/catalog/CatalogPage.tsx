@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowRight, AudioLines, CheckCircle2, Clock3, MessageSquareQuote } from 'lucide-react'
 import type { CapabilityId } from '../../content/schema'
-import { useAppStore } from '../../shared/hooks/use_app_store'
+import { useAppStore } from '../../shared/hooks/useAppStore'
 
 const CAPABILITY_LABELS: Record<CapabilityId, string> = {
   'workplace-communication': 'Giao tiếp công việc',

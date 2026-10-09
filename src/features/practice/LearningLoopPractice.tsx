@@ -6,11 +6,11 @@ import {
   createLearningLoopState,
   type LearningLoopStage as DomainLearningLoopStage,
   type PronunciationStatus as DomainPronunciationStatus
-} from '../../domain/learning/learning_loop'
+} from '../../domain/learning/learningLoop'
 import type { AttemptProcessEvidence } from '../../domain/progress/progress'
 import { GuidedShadowing } from './GuidedShadowing'
 import { PerceptionPractice } from './PerceptionPractice'
-import { getRelevantPronunciationCues } from './learning_loop_diagnostics'
+import { getRelevantPronunciationCues } from './learningLoopDiagnostics'
 import { PronunciationCueCard } from './PronunciationCueCard'
 
 export type LearningLoopStage = 'perception' | 'cue' | 'shadowing' | 'ready'

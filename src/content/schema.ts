@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { normalizeAnswer } from './answer_normalization'
+import { normalizeAnswer } from './answerNormalization'
 
 const IdSchema = z.string().regex(/^[a-z0-9-_]+$/)
 const NonEmptyString = z.string().trim().min(1)

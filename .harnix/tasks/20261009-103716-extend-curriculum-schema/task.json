@@ -41,7 +41,7 @@
     {
       "id": "check-schema-extension",
       "description": "Schema mới và rubric ngôn ngữ",
-      "command": "npx vitest run src/content/schema.test.ts",
+      "command": "npx vitest run tests/content/schema.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -50,13 +50,14 @@
       ],
       "inputs": [
         "content/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-migration-revision",
       "description": "Migration contentRevision",
-      "command": "npx vitest run src/infrastructure/storage",
+      "command": "npx vitest run tests/infrastructure/storage",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -64,13 +65,14 @@
       ],
       "inputs": [
         "src/domain/**",
-        "src/infrastructure/**"
+        "src/infrastructure/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-catalog-counts",
       "description": "Catalog không hard-code số bài",
-      "command": "npx vitest run src/content",
+      "command": "npx vitest run tests/content",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -79,7 +81,8 @@
       "inputs": [
         "CONTENT.md",
         "docs/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
@@ -110,5 +113,5 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:17.125+07:00"
+  "updatedAt": "2026-10-09T11:37:07.104+07:00"
 }

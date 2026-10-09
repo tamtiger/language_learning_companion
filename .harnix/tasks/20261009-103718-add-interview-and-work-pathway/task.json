@@ -34,7 +34,7 @@
     {
       "id": "check-interview-content",
       "description": "Nội dung và cổng chất lượng lộ trình phỏng vấn",
-      "command": "npx vitest run src/content/interview_pathway.test.ts",
+      "command": "npx vitest run tests/content/interviewPathway.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -44,7 +44,8 @@
       ],
       "inputs": [
         "content/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
@@ -71,5 +72,5 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:17.899+07:00"
+  "updatedAt": "2026-10-09T11:37:08.495+07:00"
 }

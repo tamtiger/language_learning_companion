@@ -1,6 +1,6 @@
 import type { CanonicalLesson, CapabilityId } from '../../content/schema'
 import { assessTransfer, type EvidenceContract, type TransferReason } from '../../domain/progress/progress'
-import { useAppStore } from '../../shared/hooks/use_app_store'
+import { useAppStore } from '../../shared/hooks/useAppStore'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
 
 const REASON_LABELS: Record<TransferReason, string> = {

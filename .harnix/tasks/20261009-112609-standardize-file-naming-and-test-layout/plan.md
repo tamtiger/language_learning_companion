@@ -2,12 +2,12 @@
 
 ## Checklist theo slice
 
-- [ ] S1: ghi nhận số test hiện có, cấu hình alias `@/` và vùng quét của vitest, viết `fileConventions.test.ts` (RED) (ac-4)
-- [ ] S2: đổi tên module snake_case sang camelCase bằng `git mv` và cập nhật import (ac-1, ac-5)
-- [ ] S3: gom test vào `tests/`, đổi tên file test theo module, chuyển `optionOrder.test` sang JSX (ac-2, ac-3, ac-5)
-- [ ] S4: chốt cấu hình (`vitest.config.ts`, `tsconfig.app.json`) và đổi tên `scripts/check-changelog-rule` (ac-2, ac-3)
-- [ ] S5: viết `docs/CONVENTIONS.md`, cập nhật tham chiếu tài liệu và check của các task còn lại trong epic (ac-4, ac-5)
-- [ ] S6: chạy build, lint, toàn bộ suite, so sánh số test (ac-1 đến ac-5)
+- [x] S1: ghi nhận số test hiện có, cấu hình alias `@/` và vùng quét của vitest, viết `fileConventions.test.ts` (RED) (ac-4)
+- [x] S2: đổi tên module snake_case sang camelCase bằng `git mv` và cập nhật import (ac-1, ac-5)
+- [x] S3: gom test vào `tests/`, đổi tên file test theo module, chuyển `optionOrder.test` sang JSX (ac-2, ac-3, ac-5)
+- [x] S4: chốt cấu hình (`vitest.config.ts`, `tsconfig.app.json`) và đổi tên `scripts/check-changelog-rule` (ac-2, ac-3)
+- [x] S5: viết `docs/CONVENTIONS.md`, cập nhật tham chiếu tài liệu và check của các task còn lại trong epic (ac-4, ac-5)
+- [x] S6: chạy build, lint, toàn bộ suite, so sánh số test (ac-1 đến ac-5)
 
 Đường dẫn tương đối với root repo. Mỗi bước đổi tên chạy `npm run build` và vitest trước khi sang bước sau.
 

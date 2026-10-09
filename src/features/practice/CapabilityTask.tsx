@@ -20,7 +20,7 @@ import {
   type TransferAssessment,
   type TransferReason
 } from '../../domain/progress/progress'
-import { useAppStore } from '../../shared/hooks/use_app_store'
+import { useAppStore } from '../../shared/hooks/useAppStore'
 import { SectionRenderer } from '../lesson/SectionRenderer'
 import { SpokenResponse, type SpokenAttemptSnapshot } from './SpokenResponse'
 import { InteractionPractice } from './InteractionPractice'

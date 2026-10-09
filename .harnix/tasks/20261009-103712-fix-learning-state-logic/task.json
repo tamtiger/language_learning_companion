@@ -53,7 +53,7 @@
     {
       "id": "check-domain-logic",
       "description": "Domain: transfer, review, lịch ôn theo ngày, assessment",
-      "command": "npx vitest run src/domain",
+      "command": "npx vitest run tests/domain",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -64,13 +64,14 @@
       ],
       "inputs": [
         "src/domain/**",
-        "src/types/**"
+        "src/types/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-store-persistence",
       "description": "Store: luyện lại, quota, đồng bộ tab",
-      "command": "npx vitest run src/shared/hooks/use_app_store.test.ts",
+      "command": "npx vitest run tests/shared/hooks/useAppStore.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -79,13 +80,14 @@
       ],
       "inputs": [
         "src/infrastructure/**",
-        "src/shared/**"
+        "src/shared/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-state-ui",
       "description": "UI: banner persistence, xác nhận luyện lại, Today",
-      "command": "npx vitest run src/features/today/TodayPage.test.tsx src/features/settings/Settings.test.tsx",
+      "command": "npx vitest run tests/features/today/TodayPage.test.tsx tests/features/settings/Settings.test.tsx",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -95,7 +97,8 @@
       ],
       "inputs": [
         "src/app/**",
-        "src/features/**"
+        "src/features/**",
+        "tests/**"
       ]
     },
     {
@@ -119,15 +122,15 @@
   ],
   "evidence": [],
   "relevantPaths": [
+    "ARCHITECTURE.md",
     "src/domain",
-    "src/shared/hooks/use_app_store.ts",
-    "src/infrastructure/storage",
-    "src/features/today",
     "src/features/progress",
-    "ARCHITECTURE.md"
+    "src/features/today",
+    "src/infrastructure/storage",
+    "src/shared/hooks/useAppStore.ts"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:15.383+07:00"
+  "updatedAt": "2026-10-09T11:37:04.293+07:00"
 }

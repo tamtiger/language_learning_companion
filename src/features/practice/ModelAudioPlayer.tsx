@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ModelAudioSource } from '../../content/schema'
-import { availableVoiceCount, MODEL_AUDIO_RATES, modelAudioTranscript, playModelAudio, type ModelAudioRate } from './model_audio'
+import { availableVoiceCount, MODEL_AUDIO_RATES, modelAudioTranscript, playModelAudio, type ModelAudioRate } from './modelAudio'
 
 export function ModelAudioPlayer({ source, transcriptVisible = false }: {
   source: ModelAudioSource

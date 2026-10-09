@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
 import type { CanonicalLesson } from '../../content/schema'
-import { useAppStore } from '../../shared/hooks/use_app_store'
+import { useAppStore } from '../../shared/hooks/useAppStore'
 import { CapabilityTask } from '../practice/CapabilityTask'
 import { SectionRenderer } from './SectionRenderer'
 

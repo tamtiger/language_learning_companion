@@ -65,7 +65,7 @@
     {
       "id": "check-release-scripts",
       "description": "Script release và changelog",
-      "command": "node --test scripts/check-release.test.mjs",
+      "command": "node --test tests/scripts/check-release.test.mjs",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -78,13 +78,14 @@
         "PRODUCT.md",
         "docs/**",
         "package.json",
-        "scripts/**"
+        "scripts/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-refactor",
       "description": "Refactor, selector và dead code",
-      "command": "npx vitest run src/features src/shared src/domain",
+      "command": "npx vitest run tests/features tests/shared tests/domain",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -92,7 +93,8 @@
         "ac-4"
       ],
       "inputs": [
-        "src/**"
+        "src/**",
+        "tests/**"
       ]
     },
     {
@@ -141,9 +143,10 @@
         "*.md",
         "docs/**",
         "package.json",
-        "scripts/**"
+        "scripts/**",
+        "tests/**"
       ],
-      "command": "node --test scripts/check-docs-layout.test.mjs"
+      "command": "node --test tests/scripts/check-docs-layout.test.mjs"
     }
   ],
   "evidence": [],
@@ -160,7 +163,7 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:28:18.235+07:00",
+  "updatedAt": "2026-10-09T11:37:04.995+07:00",
   "decisions": [
     {
       "id": "dec-docs-in-docs",

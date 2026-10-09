@@ -57,7 +57,7 @@
     {
       "id": "check-storage-persist",
       "description": "Persist và nhắc export",
-      "command": "npx vitest run src/features/settings/Settings.test.tsx",
+      "command": "npx vitest run tests/features/settings/Settings.test.tsx",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -67,20 +67,22 @@
       "inputs": [
         "PRODUCT.md",
         "README.md",
-        "src/**"
+        "src/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-model-audio",
       "description": "Voice và trạng thái phát",
-      "command": "npx vitest run src/features/practice/model_audio.test.ts",
+      "command": "npx vitest run tests/features/practice/modelAudio.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
         "ac-3"
       ],
       "inputs": [
-        "src/features/practice/**"
+        "src/features/practice/**",
+        "tests/**"
       ]
     },
     {
@@ -102,15 +104,15 @@
   ],
   "evidence": [],
   "relevantPaths": [
-    "public",
-    "vite.config.ts",
-    "src/features/practice/model_audio.ts",
-    "src/features/settings",
+    "PRODUCT.md",
     "README.md",
-    "PRODUCT.md"
+    "public",
+    "src/features/practice/modelAudio.ts",
+    "src/features/settings",
+    "vite.config.ts"
   ],
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:16.702+07:00"
+  "updatedAt": "2026-10-09T11:37:06.390+07:00"
 }

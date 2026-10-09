@@ -220,9 +220,9 @@ chưa có dữ liệu để kết luận learner phát âm đúng hoặc giao ti
 
 Auto-check, perception và reading ladder phải đo hiểu thật, không đo khả năng đoán.
 Runtime xáo trộn thứ tự `choice`, `ordering`, `matching`, perception và reading ladder
-theo seed riêng cho mỗi lần mở bài (`src/features/lesson/option_order.ts`), nên vị trí
+theo seed riêng cho mỗi lần mở bài (`src/features/lesson/optionOrder.ts`), nên vị trí
 tác giả viết không có tác dụng. Điều tác giả phải đảm bảo được kiểm bằng
-`src/content/assessment_quality.test.ts`; mọi ngưỡng nằm ở hằng số
+`tests/content/assessmentQuality.test.ts`; mọi ngưỡng nằm ở hằng số
 `ASSESSMENT_THRESHOLDS` ở đầu file đó:
 
 - 3 đến 4 lựa chọn cho mỗi perception, reading ladder và `choice` một đáp án.

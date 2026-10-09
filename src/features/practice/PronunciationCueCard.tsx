@@ -1,6 +1,6 @@
 import type { LearningLoopV1 } from '../../content/schema'
 import { Check } from 'lucide-react'
-import { getRelevantPronunciationCues } from './learning_loop_diagnostics'
+import { getRelevantPronunciationCues } from './learningLoopDiagnostics'
 
 export function PronunciationCueCard({ cues, missedItemIds, onComplete }: {
   cues: LearningLoopV1['pronunciationCues']

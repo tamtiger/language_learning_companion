@@ -53,7 +53,7 @@
     {
       "id": "check-a11y-practice",
       "description": "Focus, lang, rubric, draft, đồng hồ trong practice",
-      "command": "npx vitest run src/features/practice",
+      "command": "npx vitest run tests/features/practice",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -63,13 +63,14 @@
         "ac-4"
       ],
       "inputs": [
-        "src/features/**"
+        "src/features/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-a11y-app",
       "description": "ErrorBoundary, nhãn UI và axe đa màn hình",
-      "command": "npx vitest run src/app/App.test.tsx src/features/settings src/features/today",
+      "command": "npx vitest run tests/app/App.test.tsx tests/features/settings tests/features/today",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -79,7 +80,8 @@
       "inputs": [
         "src/app/**",
         "src/features/**",
-        "tailwind.config.js"
+        "tailwind.config.js",
+        "tests/**"
       ]
     },
     {
@@ -113,5 +115,5 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:16.223+07:00"
+  "updatedAt": "2026-10-09T11:37:05.690+07:00"
 }

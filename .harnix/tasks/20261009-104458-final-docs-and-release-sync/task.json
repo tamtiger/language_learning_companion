@@ -50,14 +50,15 @@
       "description": "Tài liệu khớp code và link không gãy",
       "scope": "focused",
       "required": true,
-      "command": "node --test scripts/check-docs-layout.test.mjs",
+      "command": "node --test tests/scripts/check-docs-layout.test.mjs",
       "criterionIds": [
         "ac-1"
       ],
       "inputs": [
         "*.md",
         "docs/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
@@ -81,13 +82,14 @@
       "description": "Lịch sử research không gãy",
       "scope": "focused",
       "required": true,
-      "command": "node --test scripts/check-curriculum-research.test.mjs",
+      "command": "node --test tests/scripts/check-curriculum-research.test.mjs",
       "criterionIds": [
         "ac-3"
       ],
       "inputs": [
         ".harnix/tasks/**",
-        "scripts/**"
+        "scripts/**",
+        "tests/**"
       ]
     }
   ],
@@ -95,5 +97,5 @@
   "relevantPaths": [],
   "relevantSpecs": [],
   "createdAt": "2026-10-09T10:44:58.155+07:00",
-  "updatedAt": "2026-10-09T10:48:19.815+07:00"
+  "updatedAt": "2026-10-09T11:37:12.060+07:00"
 }

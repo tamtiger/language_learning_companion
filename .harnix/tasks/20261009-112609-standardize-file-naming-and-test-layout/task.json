@@ -4,8 +4,8 @@
   "id": "20261009-112609-standardize-file-naming-and-test-layout",
   "title": "Thống nhất quy ước tên file, đuôi file và gom test vào thư mục tests",
   "mode": "full",
-  "status": "ready",
-  "checkpoint": "ready",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Mã nguồn dùng một quy ước đặt tên và đuôi file duy nhất, và toàn bộ test nằm trong thư mục tests phản chiếu cấu trúc nguồn.",
   "nonGoals": [],
   "epicId": "20261009-103708-learning-companion-remediation",
@@ -13,32 +13,47 @@
     {
       "id": "ac-1",
       "text": "Component dùng PascalCase.tsx, hook bắt đầu bằng use và dùng camelCase.ts, mọi module khác dùng camelCase.ts; không còn tên snake_case trong src/ (use_app_store, model_audio, media_recorder, progress_storage, learning_loop, learning_loop_diagnostics, option_order, exercise_grading, answer_normalization).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-conventions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Đuôi file theo nội dung: .tsx chỉ khi file có JSX; test có JSX là .test.tsx, test không có JSX là .test.ts; test option_order chuyển sang JSX thay vì dùng createElement.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-conventions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Toàn bộ test (src và scripts) nằm trong thư mục tests/ phản chiếu cấu trúc nguồn, setup nằm tại tests/setup.ts; vitest.config.ts, tsconfig và lệnh node --test được cập nhật; không còn file *.test.* ngoài tests/.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-conventions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Quy ước được ghi trong docs/CONVENTIONS.md và được cưỡng chế bằng một test tự động quét src/, tests/ và scripts/ (tên file, đuôi file, vị trí test).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-conventions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-5",
       "text": "Refactor không đổi hành vi: dùng git mv để giữ lịch sử, số lượng test trước và sau bằng nhau, build, lint và toàn bộ suite xanh, các lệnh check của task còn lại trong epic được cập nhật theo đường dẫn mới.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-rename-build-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -97,11 +112,42 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-conventions-1",
+      "checkId": "check-conventions",
+      "recordedAt": "2026-10-09T11:37:56.978+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/conventions/fileConventions.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "c730af6b4304e4b93539d9d60c8e19b893b2bcef0a7ad4e14cb08beb026dc8d8"
+    },
+    {
+      "id": "ev-check-rename-build-1",
+      "checkId": "check-rename-build",
+      "recordedAt": "2026-10-09T11:38:01.642+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm build — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "556ccf86741a1d10edc46e39e7ced9b0b6a895f346f302e717e859696b664d81"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-09T11:38:32.268+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "465e658aa88bae0ae39dcaed4220b8ec1ab761e530e1e5d8fefaa2119059a4b0"
+    }
+  ],
   "relevantPaths": [],
   "relevantSpecs": [],
   "createdAt": "2026-10-09T11:26:09.742+07:00",
-  "updatedAt": "2026-10-09T11:28:18.728+07:00",
+  "updatedAt": "2026-10-09T11:39:14.461+07:00",
   "decisions": [
     {
       "id": "dec-camelcase-modules",
@@ -117,6 +163,24 @@
       "id": "dec-jsx-by-ast",
       "text": "Kiểm tra .tsx có JSX bằng TypeScript compiler API.",
       "rationale": "Regex nhầm với generics và so sánh; typescript đã là devDependency."
+    },
+    {
+      "id": "dec-baseline-tests",
+      "text": "Mốc trước refactor: 35 file test, 306 test, tất cả xanh (Node 25.8). Sau refactor chỉ được tăng đúng bằng số test của fileConventions.test.ts.",
+      "rationale": "Chứng minh refactor không làm mất test nào (ac-5)."
     }
-  ]
+  ],
+  "residualRisks": [
+    {
+      "id": "risk-alias-tests-only",
+      "text": "Alias @/ chỉ dùng trong test (cấu hình ở vitest.config.ts và tsconfig.app.json). Code trong src/ phải tiếp tục dùng đường dẫn tương đối; dùng alias trong src/ cần cấu hình thêm cho vite.config.ts.",
+      "severity": "low"
+    },
+    {
+      "id": "risk-history-old-paths",
+      "text": "Bản ghi của các task đã hoàn thành (.harnix/tasks) và CHANGELOG giữ tên và đường dẫn cũ (option_order, use_app_store, src/**/*.test.*) vì là lịch sử; không coi là tham chiếu hỏng.",
+      "severity": "low"
+    }
+  ],
+  "completedAt": "2026-10-09T11:39:14.461+07:00"
 }

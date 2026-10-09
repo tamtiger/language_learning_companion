@@ -5,7 +5,7 @@
 - **Epic:** 20261009-103708-learning-companion-remediation
 - **Status:** planning/planning
 - **Created:** 2026-10-09 10:37:08 +07:00
-- **Updated:** 2026-10-09 10:48:14 +07:00
+- **Updated:** 2026-10-09 11:37:03 +07:00
 
 **Verdict:** PENDING — 0/5 acceptance criteria met
 
@@ -27,9 +27,9 @@ Mọi lỗi trọng âm, câu hỏi, ngữ pháp, model response và provenance 
 
 ## Relevant paths
 
-- `content`
-- `src/content/content_quality.test.ts`
 - `CONTENT.md`
+- `content`
+- `tests/content/contentQuality.test.ts`
 
 ## Acceptance criteria
 

@@ -41,7 +41,7 @@
     {
       "id": "check-listening-reading-content",
       "description": "Nội dung nghe, đọc dài và provenance",
-      "command": "npx vitest run src/content/listening_reading.test.ts",
+      "command": "npx vitest run tests/content/listeningReading.test.ts",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -51,13 +51,14 @@
       ],
       "inputs": [
         "content/**",
-        "src/content/**"
+        "src/content/**",
+        "tests/**"
       ]
     },
     {
       "id": "check-progress-listening",
       "description": "Progress hiển thị nghe và đọc dài",
-      "command": "npx vitest run src/features/progress",
+      "command": "npx vitest run tests/features/progress",
       "scope": "focused",
       "required": true,
       "criterionIds": [
@@ -65,7 +66,8 @@
       ],
       "inputs": [
         "src/domain/**",
-        "src/features/progress/**"
+        "src/features/progress/**",
+        "tests/**"
       ]
     },
     {
@@ -95,5 +97,5 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T10:48:18.281+07:00"
+  "updatedAt": "2026-10-09T11:37:09.207+07:00"
 }

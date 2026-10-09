@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { BookOpen, CalendarCheck, ChartNoAxesColumnIncreasing, Settings as SettingsIcon } from 'lucide-react'
-import { useAppStore } from '../shared/hooks/use_app_store'
+import { useAppStore } from '../shared/hooks/useAppStore'
 import { CatalogPage } from '../features/catalog/CatalogPage'
 import { TodayPage } from '../features/today/TodayPage'
 import { ProgressPage } from '../features/progress/ProgressPage'
