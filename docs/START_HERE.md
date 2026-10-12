@@ -11,7 +11,8 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 
 ## Cách học nhanh nhất
 
-1. Mở **Today** và làm baseline capability được đề xuất.
+1. Mở **Today** và làm baseline capability được đề xuất. Nếu mới bắt đầu, vào **Catalog** và chọn
+   "Bắt đầu với A2" để đi từ bài ngắn nhất lên B1.
 2. Đọc evidence packet của phase (nếu task cung cấp) và chỉ dùng dữ kiện có trong đó.
 3. Tạo output trước khi xem model answer; đánh dấu rõ fact và điều chưa chắc chắn.
 4. Đọc input/scaffold, làm auto-check nếu có.
@@ -22,6 +23,9 @@ English Companion là app local-only giúp bạn luyện sáu capability dùng t
 7. Trả lời clarification/repair turn, rồi tự đánh giá rubric trung thực.
 8. Chọn một ưu tiên để retry và làm transfer với evidence mới.
 9. Quay lại Today khi review đến hạn.
+
+Mỗi mission chia thành ba phiên (thử sức và học; luyện và sửa; vận dụng mới). Bạn có thể dừng sau mỗi phiên: app
+nhớ phiên, giai đoạn và phần đang đọc, và Today cho biết phiên tiếp theo mất khoảng bao lâu.
 
 Mục tiêu không phải hoàn thành nhiều bài mà là transfer độc lập trong task giống công việc thật.
 
@@ -47,7 +51,9 @@ App chạy offline-first. Audio và nội dung bạn nói/viết chỉ ở phiê
 
 ## Nội dung hiện có
 
-- Mười hai mission, hai mission ứng với mỗi capability.
+- Bốn mươi sáu mission: mỗi capability có một bài A2 để vào nghề và ít nhất sáu bài B1 hoặc B2, kèm lộ trình
+  phỏng vấn, lộ trình làm việc, sáu bài nghe hội thoại và sáu bài đọc tài liệu dài.
+- Mỗi bài có từ vựng chuyên ngành kèm phần ôn lại và các bài tự kiểm đa dạng (điền, sắp xếp, ghép, sửa lỗi).
 - `Actionable issue update` là pilot có evidence packet riêng cho baseline,
   transfer và review; hãy phản hồi nếu dữ kiện thiếu, thừa hoặc khó hiểu.
 - `Disagree and recap` và `Technical trade-off` là hai pilot có perception,

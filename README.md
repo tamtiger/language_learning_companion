@@ -51,15 +51,24 @@ baseline → input → auto-check → performance → self-feedback
 - Tự đánh giá từng tiêu chí bằng rubric `met/not-met`.
 - Khi còn gap, chọn một `retry focus`, làm lại và chấm lại toàn bộ rubric.
 - Làm transfer task trong ngữ cảnh mới.
-- Quay lại delayed review theo `reviewPolicy.intervalDays` do từng lesson sở hữu.
+- Quay lại delayed review theo `reviewPolicy.intervalDays` do từng lesson sở hữu; lịch ôn tính
+  theo ngày địa phương của người học.
+- Mission chia thành ba phiên ngắn (thử sức và học; luyện và sửa; vận dụng mới). Today nêu "Phiên n/3 ·
+  khoảng m phút" và app nhớ phiên, giai đoạn và phần input đang dở. `durationMinutes` của bài là thời
+  lượng phiên dài nhất, suy ra từ nội dung.
+- Input hiện từng phần với điều hướng Trước/Tiếp; hợp đồng đầu ra mở ở lượt đầu rồi thu gọn.
+- Luyện lại một mission giữ lịch sử luyện tập và lịch ôn; chỉ xóa tiến độ của vòng hiện tại.
 
 ### Today, Catalog và Progress
 
 - **Today** ưu tiên review quá hạn, learning loop đang dở, baseline chưa làm và
-  bài mới tiếp theo.
-- **Catalog** nhóm và lọc bài theo capability, workflow và CEFR.
+  bài mới tiếp theo; trong cùng capability bài xếp từ A2 lên B1, B2 và C1, và bài A2 mới bị bỏ qua khi
+  bạn đã học bài cao hơn của capability đó.
+- **Catalog** nhóm và lọc bài theo capability, workflow và CEFR; bài A2 có nhãn "Lối vào A2", dòng
+  "Tiếp theo" và nút "Bắt đầu với A2" cho người mới.
 - **Progress** hiển thị evidence quan sát được theo từng capability: attempts,
-  transfer attempts, **Transfer đạt** và lý do cụ thể của lượt chưa đạt.
+  transfer attempts, **Transfer đạt** và lý do cụ thể của lượt chưa đạt, cùng khối "Nghe và đọc dài"
+  (số bài hoàn thành và số câu đã trả lời).
 - Một transfer chỉ được tính là đạt khi hoàn thành toàn bộ rubric và thỏa điều
   kiện độc lập của task, gồm giới hạn hint và việc không dùng tiếng Việt, bản
   dịch hoặc model answer.
@@ -85,9 +94,18 @@ read once rồi ẩn source → extract action/constraint/evidence
 - Extraction có feedback tức thời; explain/apply draft và đáp án chỉ ở session.
 - Transfer/review dùng source mới cùng workflow để tránh học thuộc một passage.
 
+### Nghe hội thoại và đọc tài liệu dài
+
+- Sáu bài nghe hội thoại nhiều giọng (standup, planning, retro, incident call, design review, tech
+  talk): nghe từng lượt, trả lời gist và detail, ghi chú tạm khi nghe rồi mới mở transcript, sau đó
+  viết biên bản.
+- Sáu bài đọc dài (RFC, API reference, changelog, stack trace và log, GitHub issue, tutorial): đọc lướt
+  bằng mục lục, quét tìm bằng câu hỏi định vị, rồi viết tóm tắt.
+- Nguồn là tài liệu tổng hợp do dự án viết, khai báo "Synthetic training artifact — non-production."
+
 ### Learning loop nghe–phát âm–phản xạ
 
-Cả sáu spoken mission có thêm chuỗi:
+Mọi spoken mission (21 bài) có thêm chuỗi:
 
 ```text
 perception pretest → training có feedback → posttest
@@ -106,7 +124,8 @@ perception pretest → training có feedback → posttest
 
 - Resume section hoặc learning phase an toàn sau khi reload; output session-only không được phục dựng giả.
 - Lưu tối đa 50 attempt metadata gần nhất cho mỗi lesson.
-- Tự đưa review đến hạn vào Today queue.
+- Tự đưa review đến hạn vào Today queue; nếu bộ nhớ trình duyệt không ghi được, app hiện cảnh báo
+  và gợi ý xuất backup.
 - Export/import backup v6 bằng allowlisted metadata; backup v3/v4/v5 được migrate
   sang v6 qua cùng canonical migration, còn v1/v2 và future version bị từ chối.
 - Import có schema validation, preview và xác nhận trước khi thay state.
@@ -149,12 +168,12 @@ Mọi source artifact trong curriculum được phân loại bằng provenance c
 disclosure synthetic/non-production ngay trong nội dung. Link nguồn chỉ mở khi
 người học chủ động chọn; lesson vẫn chạy offline nếu không mở link.
 
-`Actionable issue update` là realism pilot. Sáu spoken loops và bốn reading
+`Actionable issue update` là realism pilot. Các spoken loop và bốn reading
 ladders giúp kiểm
 chứng content contract và UI; dự án chưa tuyên bố hiệu quả học tập nếu chưa có
 thử nghiệm với người học mục tiêu và đánh giá người nghe độc lập.
 
-Rollout P0–P2 đã có executable flow và protocol. Dự án vẫn chưa có participant
+Rollout P0–P3 đã có executable flow và protocol. Dự án vẫn chưa có participant
 study; functional QA không được diễn giải thành learning efficacy.
 
 ## Privacy và giới hạn
@@ -185,11 +204,15 @@ Mở URL do Vite hiển thị trong terminal.
 ## Scripts
 
 ```bash
-npm run dev      # development server
-npm test         # chạy toàn bộ Vitest suite
-npm run lint     # static lint bằng Oxlint
-npm run build    # TypeScript check và production build
-npm run preview  # xem production build ở local
+npm run dev            # development server
+npm test               # chạy toàn bộ Vitest suite
+npm run lint           # static lint bằng Oxlint
+npm run build          # TypeScript check và production build
+npm run preview        # xem production build ở local
+npm run check:docs     # bố cục tài liệu và số mission khớp nội dung thật
+npm run check:bundle   # mọi chunk JS dưới 500 kB
+npm run check:offline  # bản build dùng được khi offline
+npm run check:release  # version, lock và CHANGELOG khớp nhau
 ```
 
 ## Kiến trúc ngắn gọn

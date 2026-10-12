@@ -24,11 +24,13 @@ mission theo capability từ chính thư mục `content/`, nên thêm bài **kh�
    nằm ở `content/reference/pronunciation/`.
 2. Bắt đầu từ một mission cùng loại làm mẫu (written hoặc spoken); đổi `lessonId`, `title`,
    `summary` và mọi `id` bên trong sao cho không trùng id trong cùng lesson.
-3. Điền các trường bắt buộc: `schemaVersion: "v3"`, `capabilities` (đúng một giá trị),
+3. Điền `durationMinutes` bằng thời lượng phiên dài nhất của bài (`commitmentMinutes`); chạy
+   `npx vitest run tests/domain/learning/sessions.test.ts` để biết số mong đợi nếu test báo lệch.
+4. Điền các trường bắt buộc: `schemaVersion: "v3"`, `capabilities` (đúng một giá trị),
    `workflowTags`, `sections` (có ít nhất một `source` và một `auto-check`), `performanceTask`
    (prompt cho baseline, performance, retry, transfer, review; `outputContract`;
    `independenceContract`; `rubric` 3 đến 6 tiêu chí) và `reviewPolicy.intervalDays` (tăng dần).
-4. `practiceContexts` cho baseline, transfer và review phải là bộ dữ kiện khác nhau (transfer và
+5. `practiceContexts` cho baseline, transfer và review phải là bộ dữ kiện khác nhau (transfer và
    review không lặp nguồn của baseline).
 
 ## 3. Ghi provenance và nguồn
@@ -44,9 +46,11 @@ mission theo capability từ chính thư mục `content/`, nên thêm bài **kh�
 
 1. Câu hỏi lựa chọn có 3 hoặc 4 phương án, không để đáp án đúng luôn là phương án dài nhất; chi
    tiết ở mục "Viết đáp án" trong [CONTENT.md](./CONTENT.md).
-2. Mỗi bài tập có `explanation`; mỗi mission có ít nhất ba bài tập tự kiểm và phần
-   `language-support` có tối thiểu ba biểu thức.
-3. Prompt cho bài B2 trở lên viết bằng tiếng Anh; bài thấp hơn có thể song ngữ.
+2. Mỗi bài tập có `explanation`; mỗi mission có ít nhất ba bài tập tự kiểm (ít nhất 30% không phải
+   `choice`) và phần `language-support` có tối thiểu ba biểu thức.
+3. Mỗi mission dạy 8 đến 15 mục từ vựng (từ cộng collocation) trong `language-support` và có một section
+   `vocabulary-review` ôn các từ đó (ghép từ với nghĩa và điền vào câu ví dụ).
+4. Prompt cho bài B2 trở lên viết bằng tiếng Anh; bài thấp hơn có thể song ngữ.
 
 ## 5. Chạy cổng kiểm tra
 

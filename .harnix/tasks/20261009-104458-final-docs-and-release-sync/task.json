@@ -4,8 +4,8 @@
   "id": "20261009-104458-final-docs-and-release-sync",
   "title": "Đồng bộ tài liệu cuối epic và đóng release",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Tài liệu trong docs/ khớp với kết quả cuối của epic và release minor được đóng đúng quy tắc.",
   "nonGoals": [],
   "epicId": "20261009-103708-learning-companion-remediation",
@@ -13,20 +13,29 @@
     {
       "id": "ac-1",
       "text": "Mỗi tài liệu trong docs/ (ARCHITECTURE, CONTENT, PRODUCT, START_HERE, ADDING_LESSONS, README) mô tả đúng hành vi sau khi các task trước hoàn tất, kể cả luyện lại, lịch ôn theo ngày, offline và phiên học.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-final-docs-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "CHANGELOG có mục release cho epic theo docs/RELEASE.md, version trong package.json và package-lock.json đồng bộ, và check-release pass.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-final-release-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Có quyết định được ghi lại cho .harnix/tasks (giữ hay lưu trữ research lịch sử) mà không làm gãy check-curriculum-research.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-harnix-history-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -93,9 +102,51 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-final-docs-1",
+      "checkId": "check-final-docs",
+      "recordedAt": "2026-10-12T09:12:46.229+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test tests/scripts/check-docs-layout.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "6a8844fd6c8362f1dcdfcaaa0f231d2e28ce8290982373662051d43c256018c6"
+    },
+    {
+      "id": "ev-check-final-release-1",
+      "checkId": "check-final-release",
+      "recordedAt": "2026-10-12T09:12:46.490+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node scripts/check-release.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "2fffb8eda76ea7d2dcc3728829d13dc6cded1e46c9c6b8a18c40fb5cc0624a09"
+    },
+    {
+      "id": "ev-check-harnix-history-1",
+      "checkId": "check-harnix-history",
+      "recordedAt": "2026-10-12T09:12:47.022+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "node --test tests/scripts/check-curriculum-research.test.mjs — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "74cc188a901a1a88573cdd9e9b03f7701cfb327b464fc8723bee4460cbd11f2b"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T09:13:43.797+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "7280a6013f6626315c22786c4eba0a50d7c2e60952021117c97cb3472a1a84bd"
+    }
+  ],
   "relevantPaths": [],
   "relevantSpecs": [],
   "createdAt": "2026-10-09T10:44:58.155+07:00",
-  "updatedAt": "2026-10-09T11:37:12.060+07:00"
+  "updatedAt": "2026-10-12T09:14:13.709+07:00",
+  "completedAt": "2026-10-12T09:14:13.709+07:00"
 }

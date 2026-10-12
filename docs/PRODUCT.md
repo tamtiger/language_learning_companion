@@ -13,7 +13,7 @@ Sáu outcome tối cao:
 5. Phỏng vấn và làm việc tại công ty nước ngoài.
 6. Học công nghệ mới hoàn toàn bằng tiếng Anh.
 
-Ứng dụng là **capability-first**, không phải thư viện bài đọc hoặc quiz. Mỗi mission chạy learning loop: baseline → input → auto-check → performance → self-feedback → retry → transfer → delayed review.
+Ứng dụng là **capability-first**, không phải thư viện bài đọc hoặc quiz. Mỗi mission chạy learning loop: baseline → input → auto-check → performance → self-feedback → retry → transfer → delayed review, chia thành ba phiên ngắn (thử sức và học; luyện và sửa; vận dụng mới) để một lập trình viên chỉ có 10 đến 15 phút vẫn làm xong một phiên.
 
 ## Người dùng và công việc cần làm
 
@@ -21,13 +21,13 @@ Người dùng chính là lập trình viên Việt Nam tự học, có ít th�
 
 Một phiên học tốt phải:
 
-- bắt đầu bằng nhiệm vụ nghề nghiệp rõ ràng;
+- bắt đầu bằng nhiệm vụ nghề nghiệp rõ ràng và cho biết phiên hiện tại kéo dài khoảng bao lâu (Today: "Phiên n/3 · khoảng m phút");
 - thấy trước hợp đồng đầu ra gồm timebox, độ dài mục tiêu và các thành phần bắt buộc;
 - tạo spoken hoặc written output trong timebox;
 - cho người học tự đối chiếu rubric có cấu trúc;
 - khi rubric còn gap, chọn đúng một `retry focus` rồi chấm lại toàn bộ rubric sau retry;
 - yêu cầu retry và transfer, không hoàn thành chỉ vì trả lời quiz;
-- quay lại đúng practice đến hạn;
+- quay lại đúng practice đến hạn (lịch ôn tính theo ngày địa phương) và quay lại đúng phiên, giai đoạn và phần input đang dở;
 - cho thấy evidence theo capability thay vì một điểm trình độ mơ hồ.
 
 ## North-star và evidence
@@ -72,7 +72,15 @@ Completion count chỉ là metadata phụ. App không suy diễn proficiency sco
 
 ## Scope hiện hành
 
-- Mười hai mission executable, hai mission cho mỗi outcome.
+- Bốn mươi sáu mission executable. Mỗi outcome có một mission A2 làm lối vào và ít nhất sáu mission B1 hoặc B2
+  (có cả hai level); outcome 5 có thêm lộ trình phỏng vấn (giới thiệu bản thân, story bank, system design, coding
+  think-aloud, hỏi lại người phỏng vấn, đàm phán offer) và outcome 1 có lộ trình làm việc (feedback, 1:1,
+  performance review, small talk, code review comment).
+- Mười hai bài luyện nghe hội thoại nhiều giọng và đọc tài liệu dài (sáu bài mỗi loại), mỗi bài kết thúc bằng một
+  nhiệm vụ viết; Progress hiển thị tiến độ nghe và đọc dài.
+- Mỗi mission có 8 đến 15 từ hoặc collocation chuyên ngành, phần ôn từ vựng và ít nhất 30% bài tự kiểm không phải
+  trắc nghiệm (điền, sắp xếp, ghép, sửa lỗi).
+- Today xếp bài theo level trong từng capability (A2 trước) và bỏ qua bài A2 mới khi người học đã học bài cao hơn.
 - Mission `workplace-issue-update-b1` là pilot realism đầu tiên: baseline,
   transfer và review có evidence packet riêng để người học tổng hợp fact,
   uncertainty, impact, owner và request thay vì phải tự bịa dữ kiện.
@@ -80,7 +88,7 @@ Completion count chỉ là metadata phụ. App không suy diễn proficiency sco
   bài knowledge/reference; Daily Standup đã được migrate sang spoken v3.
 - Pronunciation completion yêu cầu mọi auto-check đúng; restart xóa toàn bộ exercise
   progress. Kết quả này không đánh giá spoken production, accent accuracy hoặc efficacy.
-- Cả 6 spoken missions chạy chuỗi perception → cue theo lỗi diagnostic →
+- Mọi spoken mission (21 bài) chạy chuỗi perception → cue theo lỗi diagnostic →
   functional chunks → guided shadowing/delayed imitation/variation → listen-back
   → scripted clarification/interruption/repair → retry/transfer/review.
 - Bốn mission đọc docs/log thuộc `technical-reading` và `technology-learning`
@@ -108,10 +116,13 @@ suy diễn rằng app đã cải thiện phát âm, phản xạ hay hiệu quả
 - **P1:** 6 spoken missions có context/interaction đa dạng; cue chỉ
   dựa trên lỗi pre/post diagnostic trong phiên. Listener protocol ghi
   `evidence observed`, chưa có listener result hoặc efficacy claim.
-- **P2 (hiện tại):** 4 technical reading missions có read-once/extract/apply và
+- **P2:** 4 technical reading missions có read-once/extract/apply và
   delayed unseen source; TTS có tốc độ điều chỉnh cùng requested locale trung thực.
   Study protocol đã decision-complete nhưng chưa có participant data; chỉ human
   calibration mới có thể hỗ trợ claim về intelligibility hoặc transfer.
+
+- **P3 (hiện tại):** phủ A2 đến B2 cho cả sáu capability, nghe và đọc dài, từ vựng chuyên ngành, phiên học và
+  checkpoint. Vẫn chưa có participant data nên chưa có claim về hiệu quả học tập.
 
 Rollback theo content flag: bỏ `learningLoop` khỏi spoken task sẽ trả mission về
 capability flow chuẩn mà không làm mất progress V6.

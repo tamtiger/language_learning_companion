@@ -4,7 +4,52 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 ## [Unreleased]
 
-Chưa có thay đổi nào được phát hành sau 1.1.5.
+Chưa có thay đổi nào được phát hành sau 1.2.0.
+
+## [1.2.0] - 2026-10-12
+
+Gộp toàn bộ epic "learning-companion-remediation" (16 task) thành một bản phát hành.
+
+### Added
+
+- Bốn mươi sáu mission thay cho mười hai: mỗi capability có một bài A2 làm lối vào và ít nhất sáu bài B1/B2
+  (có cả hai level); thêm lộ trình phỏng vấn (tell me about yourself, story bank, system design, coding
+  think-aloud, hỏi lại người phỏng vấn, đàm phán offer) và lộ trình làm việc (feedback, 1:1, performance
+  review, small talk, code review comment).
+- Sáu bài nghe hội thoại nhiều giọng và sáu bài đọc tài liệu dài (RFC, API reference, changelog, stack trace,
+  GitHub issue, tutorial); Progress có khối "Nghe và đọc dài".
+- Từ vựng chuyên ngành (8 đến 15 mục mỗi bài), section ôn từ vựng và bài tự kiểm đa dạng (điền, sắp xếp, ghép,
+  sửa lỗi) cho mọi mission.
+- Lộ trình A2 đến B1: Today xếp theo level và bỏ bài A2 đã vượt qua; Catalog có nhãn "Lối vào A2", "Tiếp theo"
+  và "Bắt đầu với A2".
+- Mission chia ba phiên với checkpoint đã lưu, input từng phần, hợp đồng đầu ra thu gọn và Today nêu thời lượng
+  phiên hiện tại.
+- Chạy offline sau lần mở đầu (service worker), xin lưu trữ bền vững, nhắc xuất backup, trạng thái ghi dữ liệu
+  và trạng thái phát model audio trung thực.
+- Schema mở rộng: level A2, rubric có dimension và anchors, section nghe/đọc dài/ôn từ, story bank, thời lượng
+  nói ngắn từ 20 giây và `contentRevision`.
+- Cải thiện accessibility và UX: nút bị chặn bằng `aria-disabled`, quản lý focus, thông báo kết quả, cảnh báo
+  khi rời bản nháp, `lang` đúng theo nội dung, đo thời gian viết công bằng.
+
+### Changed
+
+- Lịch ôn tính theo ngày địa phương; transfer và review đánh giá theo hợp đồng độc lập, lưu kết quả và
+  `contentRevision` của từng attempt; Today xen kẽ review giữa các capability.
+- Đổi `outputContract.targetSeconds` thành `minSeconds` (giữ nguyên `contractRevision` đã lưu) và khóa lưu
+  trữ thành `language-learning-companion-storage-v6`; dữ liệu ở khóa cũ được đọc và chuyển mà không mất.
+- `src/features/practice` chia theo vai trò (shared, perception, ladder, spoken, interaction, task) với import
+  một chiều và mỗi file dưới 300 dòng; test chuyển vào thư mục tương ứng.
+- `durationMinutes` bằng thời lượng phiên dài nhất suy ra từ nội dung.
+- Tài liệu trong `docs/` được đồng bộ và chuyển vào `docs/`; thêm hướng dẫn thêm bài, quy ước đặt tên và quy
+  tắc release.
+
+### Fixed
+
+- Sửa các lỗi chính xác nội dung phát hiện khi review, các cổng đáp án (độ dài, từ khóa, thứ tự) và nhiều lệch
+  giữa source, prompt và rubric.
+- Sửa lỗi hoàn thành khi transfer chưa đạt, review lệch ngày, và vài nit giao diện (lớp CSS vô tác dụng, landmark
+  thừa, tiêu đề tab, `strict` tường minh).
+- Chia chunk nội dung theo capability để mọi chunk JS dưới 500 kB.
 
 ## [1.1.5] - 2026-08-28
 

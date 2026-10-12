@@ -227,7 +227,7 @@ các chi tiết sản phẩm đó.
 - Bốn technical docs missions có reading ladder và context riêng cho
   baseline/retry/transfer/review. Baseline, transfer và delayed retrieval review
   dùng unseen source; UI ẩn source trước khi learner nhập output từ trí nhớ.
-- Toàn bộ 6 spoken v3 missions phải có learning loop; training miss nhận feedback
+- Mọi spoken v3 mission (21 bài) phải có learning loop; training miss nhận feedback
   ngay nhưng chỉ pre/post diagnostic miss mới kích hoạt pronunciation cue.
 - Mỗi spoken loop có 2–3 interaction turns và ít nhất một clarification,
   misunderstanding, repair hoặc interruption.
@@ -271,7 +271,7 @@ accuracy.
 riêng cho baseline/retry/transfer/review. Đây là coverage của content contract và
 generic flow, không phải bằng chứng efficacy.
 
-Cả 6 spoken missions dùng learning loop P1. TTS/metadata chỉ chứng minh flow có
+Mọi spoken mission (21 bài) dùng learning loop P1. TTS/metadata chỉ chứng minh flow có
 thể chạy; human listener protocol ở [`EVALUATION_PROTOCOL.md`](./EVALUATION_PROTOCOL.md) mới định nghĩa
 intent, critical-fact, comprehensibility và agreement evidence cần thu, nhưng hiện
 chưa có dữ liệu để kết luận learner phát âm đúng hoặc giao tiếp tốt hơn.

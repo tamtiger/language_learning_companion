@@ -47,6 +47,13 @@ Mã trong `src/` vẫn dùng đường dẫn tương đối. Đường dẫn t�
 ví dụ `import.meta.glob('/content/**/*.json')`. Test import lẫn nhau dùng đường dẫn tương đối
 trong `tests/`.
 
+## Lịch sử Harnix (`.harnix/tasks`)
+
+Quyết định: **giữ nguyên** `.harnix/tasks` và các research lịch sử trong repo, không lưu trữ hay di chuyển. Lý do:
+`scripts/check-curriculum-research.mjs` đọc task `20260827-224143-complete-realistic-curriculum` ở đường dẫn cố định
+(`npm test` chạy test của nó), nên chuyển thư mục sẽ làm gãy kiểm tra; toàn bộ thư mục chỉ khoảng 10 MB. Task đã
+hoàn tất là tài liệu lịch sử: không sửa tay; chỉ `harnix workflow` thay đổi trạng thái task.
+
 ## Thêm một file mới
 
 1. Chọn tên theo bảng trên; component có JSX thì dùng `.tsx`.
