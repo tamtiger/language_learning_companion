@@ -4,7 +4,7 @@
   "title": "Read a changelog and find the breaking change (B1)",
   "summary": "Đọc một changelog dài nhiều phiên bản, tìm thay đổi gây lỗi khi nâng cấp và viết ghi chú nâng cấp cho đội.",
   "cefrLevel": "B1",
-  "durationMinutes": 15,
+  "durationMinutes": 22,
   "learningObjectives": [
     "Đọc lướt changelog theo phiên bản",
     "Tìm thay đổi gây lỗi và cách sửa",

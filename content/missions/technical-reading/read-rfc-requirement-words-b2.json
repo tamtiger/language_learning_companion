@@ -4,7 +4,7 @@
   "title": "Read an RFC-style document and separate MUST from SHOULD (B2)",
   "summary": "Read a long RFC-style specification, separate mandatory rules from recommendations and write a short summary for implementers.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 22,
   "learningObjectives": [
     "Skim a specification by its structure",
     "Tell MUST, SHOULD and MAY apart",

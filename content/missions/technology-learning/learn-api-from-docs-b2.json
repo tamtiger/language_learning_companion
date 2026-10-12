@@ -4,7 +4,7 @@
   "title": "Learn a new API in English",
   "summary": "Build a mental model and implementation plan directly from English API documentation.",
   "cefrLevel": "B2",
-  "durationMinutes": 30,
+  "durationMinutes": 24,
   "learningObjectives": [
     "Explain an unfamiliar API and plan a safe first implementation without translation."
   ],

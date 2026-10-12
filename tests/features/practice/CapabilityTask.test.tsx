@@ -378,7 +378,7 @@ describe('CapabilityTask session evidence', () => {
     const { lesson, task } = mission()
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    const contract = screen.getByRole('region', { name: /hợp đồng đầu ra/i })
+    const contract = screen.getByRole('group', { name: /hợp đồng đầu ra/i })
     expect(within(contract).getByText(/70–110 từ/i)).toBeTruthy()
     expect(within(contract).getByText(/tối đa 300 giây/i)).toBeTruthy()
     const requiredElements = within(contract).getAllByRole('listitem').map((item) => item.textContent ?? '')
@@ -391,7 +391,7 @@ describe('CapabilityTask session evidence', () => {
     const { lesson, task } = spokenMissionWithLoop()
     render(<CapabilityTask lesson={lesson} task={task} />)
 
-    const contract = screen.getByRole('region', { name: /hợp đồng đầu ra/i })
+    const contract = screen.getByRole('group', { name: /hợp đồng đầu ra/i })
     expect(within(contract).getByText(/tối thiểu 90 giây/i)).toBeTruthy()
     expect(within(contract).getByText(/tối đa 120 giây/i)).toBeTruthy()
   })

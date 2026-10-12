@@ -4,7 +4,7 @@
   "title": "Listen to an incident call and write the status update (B2)",
   "summary": "Listen to a live incident call, track impact, cause and next update time, and write a status update for stakeholders.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 20,
   "learningObjectives": [
     "Follow fast speech in an incident call",
     "Separate impact, cause, mitigation and next update",

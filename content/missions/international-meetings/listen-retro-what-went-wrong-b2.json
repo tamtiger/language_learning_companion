@@ -4,7 +4,7 @@
   "title": "Listen to a retrospective and write the actions (B2)",
   "summary": "Listen to a team retrospective about a failed release and write the root causes and agreed actions.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 20,
   "learningObjectives": [
     "Follow a blame-free discussion of what went wrong",
     "Separate causes from actions and owners",

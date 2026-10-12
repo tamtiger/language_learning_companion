@@ -4,7 +4,7 @@
   "title": "Write an architecture decision record (B2)",
   "summary": "Write a concise architecture decision record with context, decision, alternatives and consequences.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 18,
   "learningObjectives": [
     "State the context and the forces behind a decision",
     "Record the decision and the alternatives rejected",

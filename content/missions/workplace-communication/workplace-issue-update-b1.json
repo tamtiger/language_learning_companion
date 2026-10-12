@@ -4,7 +4,7 @@
   "title": "Write an evidence-safe incident update",
   "summary": "Select changing incident signals and write a concise update for the next owner without overstating the cause.",
   "cefrLevel": "B1",
-  "durationMinutes": 25,
+  "durationMinutes": 17,
   "learningObjectives": [
     "Select relevant incident facts from monitoring, team messages and ownership notes.",
     "Separate observed impact from an unconfirmed cause.",

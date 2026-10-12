@@ -139,6 +139,16 @@ v1/v2/future version giữ nguyên state và trả recoverable error; không res
 Vì app chưa phát hành, state v1/v2 bị bỏ và khởi tạo rỗng; không có
 `legacy-unknown` hoặc evidence giả.
 
+## Phiên học
+
+Mission chia thành ba phiên (`src/domain/learning/sessions.ts`): phiên 1 (baseline, input, auto-check), phiên 2
+(performance, interaction, self-feedback, retry) và phiên 3 (transfer). Điểm dừng là `activePhase` đã lưu; riêng
+giai đoạn input còn lưu `currentSectionId` nên người học quay lại đúng phần. `currentSession` suy ra phiên hiện tại từ
+checkpoint. Thời lượng mỗi phiên suy ra từ nội dung (`estimateSessionMinutes`: đọc 120 từ/phút, 40 giây mỗi câu tự
+kiểm, thời gian chuẩn bị cộng đầu ra điển hình, cộng vòng học nói) và `durationMinutes` của bài bằng phiên dài nhất
+(`commitmentMinutes`, kẹp 5 đến 30); test bảo đảm hai số khớp nhau. Today nêu "Phiên n/3 · khoảng m phút" cho phiên hiện
+tại. Input hiện từng section với điều hướng Trước/Tiếp, và hợp đồng đầu ra mở ở lượt đầu rồi thu gọn.
+
 ## Resume và pronunciation
 
 `activePhase` là checkpoint bền vững: input, performance, retry hoặc transfer.

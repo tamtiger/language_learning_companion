@@ -6,6 +6,7 @@ import {
   type AttemptEvidence,
   type AttemptPhase
 } from '@/domain/progress/progress'
+import { estimateSessionMinutes } from '@/domain/learning/sessions'
 import { useAppStore } from '@/shared/hooks/useAppStore'
 import { TodayPage } from '@/features/today/TodayPage'
 
@@ -67,6 +68,50 @@ describe('TodayPage job-first shortcuts', () => {
     expect(progress.getAttribute('value')).toBe('2')
     expect(screen.getByText('2/3 chặng')).toBeTruthy()
     expect(screen.getByText('Tiếp theo: Vận dụng mới')).toBeTruthy()
+  })
+
+  describe('session commitment', () => {
+    const lessonById = (id: string) => {
+      const lesson = useAppStore.getState().lessons.find((item) => item.lessonId === id)
+      if (!lesson) throw new Error('Missing lesson ' + id)
+      return lesson
+    }
+
+    it('tells a new learner how long session 1 takes', () => {
+      render(<TodayPage onStartLesson={() => undefined} />)
+
+      const card = screen.getByRole('heading', { name: /nhiệm vụ hôm nay/i }).closest('div')?.parentElement?.parentElement
+      expect(card).toBeTruthy()
+      const lesson = lessonById('workplace-ask-for-help-a2')
+      const minutes = Math.ceil(estimateSessionMinutes(lesson)[0])
+      expect(within(card as HTMLElement).getByText(new RegExp('Phiên 1/3 · Thử sức và học · khoảng ' + minutes + ' phút'))).toBeTruthy()
+    })
+
+    it('commits to session 3 and its shorter length after the learner reached transfer', () => {
+      const lesson = lessonById('workplace-ask-for-help-a2')
+      useAppStore.setState({
+        lessonProgress: {
+          [lesson.lessonId]: { ...createEmptyLessonProgress(), status: 'in-progress', activePhase: 'transfer', attemptCount: 2 }
+        }
+      })
+      render(<TodayPage onStartLesson={() => undefined} />)
+
+      const minutes = Math.ceil(estimateSessionMinutes(lesson)[2])
+      expect(screen.getByText(new RegExp('Phiên 3/3 · Vận dụng mới · khoảng ' + minutes + ' phút'))).toBeTruthy()
+    })
+
+    it('shows only the review length for a due review', () => {
+      const lesson = lessonById('workplace-ask-for-help-a2')
+      useAppStore.setState({
+        lessonProgress: {
+          [lesson.lessonId]: { ...createEmptyLessonProgress(), status: 'completed', transferCompleted: true, attemptCount: 3, nextReviewAt: '2000-01-01T00:00:00.000Z' }
+        }
+      })
+      render(<TodayPage onStartLesson={() => undefined} />)
+
+      const minutes = Math.ceil(estimateSessionMinutes(lesson)[2])
+      expect(screen.getByText(new RegExp('Ôn lại · khoảng ' + minutes + ' phút'))).toBeTruthy()
+    })
   })
 
   it('uses a single evidence-linked checkpoint for a due review', () => {

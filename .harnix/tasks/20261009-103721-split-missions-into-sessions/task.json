@@ -4,8 +4,8 @@
   "id": "20261009-103721-split-missions-into-sessions",
   "title": "Chia mission thành các phiên học ngắn có checkpoint",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Một dev có 10-15 phút vẫn hoàn thành một phiên có ý nghĩa và quay lại không mất tiến độ.",
   "nonGoals": [
     "Không đổi nội dung bài học"
@@ -14,20 +14,29 @@
     {
       "id": "ac-1",
       "text": "Mission chia phiên khoảng 10 phút có checkpoint persist (phiên 1 baseline và input, phiên 2 performance đến retry, phiên 3 transfer).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-sessions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Input hiển thị từng section; output contract thu gọn sau lần xem đầu.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-sessions-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Today cam kết đúng thời lượng phiên hiện tại; durationMinutes khớp thực tế.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-sessions-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -64,7 +73,28 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-sessions-1",
+      "checkId": "check-sessions",
+      "recordedAt": "2026-10-12T08:53:06.780+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice tests/features/today tests/domain — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "8d72707291016d2452fe78f266ff259068a53d295c9a8e3a24b3e72146b24bae"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T08:54:01.203+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "0e72101e4ae0a7d5a2307b704d9799974edfa9a9550c822bc0c474e72cffbe9b"
+    }
+  ],
   "relevantPaths": [
     "src/features/practice",
     "src/features/today",
@@ -73,5 +103,6 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:10.625+07:00"
+  "updatedAt": "2026-10-12T08:54:30.276+07:00",
+  "completedAt": "2026-10-12T08:54:30.276+07:00"
 }

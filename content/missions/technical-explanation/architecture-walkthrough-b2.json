@@ -4,7 +4,7 @@
   "title": "Walk through a system architecture",
   "summary": "Giải thích luồng hệ thống, ranh giới, failure path và trade-off bằng tiếng Anh dễ theo dõi.",
   "cefrLevel": "B2",
-  "durationMinutes": 20,
+  "durationMinutes": 17,
   "learningObjectives": [
     "Tổ chức explanation theo luồng",
     "Nêu component responsibility",

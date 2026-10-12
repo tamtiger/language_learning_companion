@@ -4,7 +4,7 @@
   "title": "Write a clear code review comment (B1)",
   "summary": "Viết một nhận xét code review lịch sự gồm quan sát, lý do và đề xuất cụ thể.",
   "cefrLevel": "B1",
-  "durationMinutes": 15,
+  "durationMinutes": 14,
   "learningObjectives": [
     "Nêu quan sát cụ thể về đoạn code",
     "Giải thích lý do ảnh hưởng đến người dùng hoặc đội",

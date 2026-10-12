@@ -256,10 +256,19 @@ function PracticeContextPanel({ lessonId, context }: { lessonId: string; context
   )
 }
 
-function OutputContractPanel({ task }: { task: CanonicalPerformanceTaskV3 }) {
+/** Shown open on the first attempt so it is read before the learner starts, then collapsed to save space. */
+function OutputContractPanel({ task, firstView }: { task: CanonicalPerformanceTaskV3; firstView: boolean }) {
+  const [open, setOpen] = useState(firstView)
   return (
-    <section aria-label="Hợp đồng đầu ra" className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5">
-      <p className="text-xs font-bold uppercase tracking-wider text-emerald-300">Hợp đồng đầu ra · hiển thị trước khi làm</p>
+    <details
+      aria-label="Hợp đồng đầu ra"
+      open={open}
+      onToggle={(event) => setOpen(event.currentTarget.open)}
+      className="rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-5"
+    >
+      <summary className="cursor-pointer text-xs font-bold uppercase tracking-wider text-emerald-300">
+        Hợp đồng đầu ra · {firstView ? 'đọc trước khi làm' : 'mở để xem lại'}
+      </summary>
       <div className="mt-3 flex flex-wrap gap-2 text-sm font-semibold text-emerald-100">
         {task.mode === 'written' ? (
           <span className="rounded-full bg-emerald-500/10 px-3 py-1">{task.outputContract.minWords}–{task.outputContract.maxWords} từ</span>
@@ -273,7 +282,7 @@ function OutputContractPanel({ task }: { task: CanonicalPerformanceTaskV3 }) {
         {task.outputContract.requiredElements.map((element) => <li key={element}>• {element}</li>)}
       </ul>
       <p className="mt-3 text-xs text-zinc-400">App dùng các mốc này để xét qualifying ở lượt transfer; nội dung câu trả lời vẫn chỉ ở phiên hiện tại.</p>
-    </section>
+    </details>
   )
 }
 
@@ -317,6 +326,7 @@ export function CapabilityTask({ lesson, task, entry }: {
   const progress = useAppStore((state) => state.lessonProgress[lesson.lessonId])
   const recordAttempt = useAppStore((state) => state.recordCapabilityAttempt)
   const setActivePhase = useAppStore((state) => state.setActivePhase)
+  const setCurrentSection = useAppStore((state) => state.setCurrentSection)
   const setActiveProcessEvidence = useAppStore((state) => state.setActiveProcessEvidence)
   const setInputProgress = useAppStore((state) => state.setInputProgress)
   const startLessonRepeat = useAppStore((state) => state.startLessonRepeat)
@@ -365,6 +375,11 @@ export function CapabilityTask({ lesson, task, entry }: {
       && learningLoop.listenBackChecklist.every((_, index) => listenBackChecks[index] === true)
     : true
   const requiresPilotListenerCheck = isPilot && phase !== 'baseline'
+  const firstAttempt = (progress?.attemptCount ?? 0) === 0
+  const sectionCount = lesson.sections.length
+  const savedSectionIndex = lesson.sections.findIndex((section) => section.id === progress?.currentSectionId)
+  const sectionIndex = Math.max(0, savedSectionIndex)
+  const goToSection = (index: number) => setCurrentSection(lesson.lessonId, lesson.sections[index].id)
   const requiredAutoCheckExerciseIds = lesson.sections.flatMap((section) => section.type === 'auto-check'
     ? section.exercises.map((exercise) => exercise.id)
     : [])
@@ -608,15 +623,24 @@ export function CapabilityTask({ lesson, task, entry }: {
         <p className="mt-2 text-sm text-purple-100">{PHASE_DESCRIPTIONS[phase]}</p>
       </div>
 
-      <OutputContractPanel task={task} />
+      <OutputContractPanel key={firstAttempt ? 'first' : 'later'} task={task} firstView={firstAttempt} />
 
       {phase === 'input' ? (
         <div className="space-y-8">
-          {lesson.sections.map((section) => (
-            <div key={section.id} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
-              <SectionRenderer lessonId={lesson.lessonId} section={section} headingLevel={3} />
+          <nav aria-label="Các phần của bài" className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-sm font-bold text-zinc-200">Phần {sectionIndex + 1}/{sectionCount}</p>
+            <div className="flex gap-2">
+              <button type="button" aria-disabled={sectionIndex === 0 ? true : undefined}
+                onClick={() => { if (sectionIndex > 0) goToSection(sectionIndex - 1) }}
+                className="rounded-lg border border-zinc-700 px-4 py-2 text-sm font-semibold aria-disabled:cursor-not-allowed aria-disabled:opacity-40">Phần trước</button>
+              <button type="button" aria-disabled={sectionIndex >= sectionCount - 1 ? true : undefined}
+                onClick={() => { if (sectionIndex < sectionCount - 1) goToSection(sectionIndex + 1) }}
+                className="rounded-lg border border-purple-400 px-4 py-2 text-sm font-semibold text-purple-100 aria-disabled:cursor-not-allowed aria-disabled:opacity-40">Phần tiếp theo</button>
             </div>
-          ))}
+          </nav>
+          <div key={lesson.sections[sectionIndex].id} className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
+            <SectionRenderer lessonId={lesson.lessonId} section={lesson.sections[sectionIndex]} headingLevel={3} />
+          </div>
           {task.mode === 'spoken' && task.learningLoop && !inputPracticeReady && (
             <LearningLoopPractice loop={task.learningLoop} initial={progress?.inputProgress}
               onProgress={(inputProgress) => setInputProgress(lesson.lessonId, inputProgress)}

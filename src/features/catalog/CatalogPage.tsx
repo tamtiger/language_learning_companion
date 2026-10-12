@@ -105,7 +105,7 @@ export function CatalogPage({ onStartLesson }: CatalogPageProps) {
                 </span>
               )}
               <span className="mt-4 flex items-center justify-between text-xs text-zinc-400">
-                <span className="flex items-center gap-1"><Clock3 aria-hidden="true" className="h-4 w-4" />{lesson.durationMinutes} phút · {lesson.cefrLevel}</span>
+                <span className="flex items-center gap-1"><Clock3 aria-hidden="true" className="h-4 w-4" />{lesson.durationMinutes} phút mỗi phiên · {lesson.cefrLevel}</span>
                 <ArrowRight aria-hidden="true" className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
             </button>

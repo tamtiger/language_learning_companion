@@ -4,7 +4,7 @@
   "title": "Diagnose an incident from logs",
   "summary": "Đọc log tiếng Anh, tách signal khỏi noise và viết chẩn đoán có bằng chứng.",
   "cefrLevel": "B1",
-  "durationMinutes": 25,
+  "durationMinutes": 17,
   "learningObjectives": [
     "Xác định symptom và tín hiệu quan sát được",
     "Phân biệt fact với hypothesis",

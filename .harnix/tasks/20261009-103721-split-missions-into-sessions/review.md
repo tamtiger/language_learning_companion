@@ -3,18 +3,18 @@
 - **ID:** 20261009-103721-split-missions-into-sessions
 - **Mode:** full
 - **Epic:** 20261009-103708-learning-companion-remediation
-- **Status:** planning/planning
+- **Status:** completed/finishing
 - **Created:** 2026-10-09 10:37:08 +07:00
-- **Updated:** 2026-10-09 11:37:10 +07:00
+- **Updated:** 2026-10-12 08:54:30 +07:00
 
-**Verdict:** PENDING — 0/3 acceptance criteria met
+**Verdict:** PASS — all acceptance criteria met or waived
 
 ## Summary
 
 | Item | Progress | Details |
 | --- | --- | --- |
-| Acceptance criteria | 0% | 0/3 met or waived |
-| Required checks | 0% | 0/2 passed |
+| Acceptance criteria | 100% | 3/3 met or waived |
+| Required checks | 100% | 2/2 passed |
 
 ## Goal
 
@@ -30,17 +30,23 @@ Một dev có 10-15 phút vẫn hoàn thành một phiên có ý nghĩa và quay
 - `src/features/today`
 - `src/domain/learning`
 
+## Artifacts
+
+- [`prd.md`](./prd.md) — outcome, scope, acceptance criteria narrative.
+- [`plan.md`](./plan.md) — implementation checklist and slices.
+
 ## Acceptance criteria
 
-- [ ] `ac-1` (pending): Mission chia phiên khoảng 10 phút có checkpoint persist (phiên 1 baseline và input, phiên 2 performance đến retry, phiên 3 transfer).
-- [ ] `ac-2` (pending): Input hiển thị từng section; output contract thu gọn sau lần xem đầu.
-- [ ] `ac-3` (pending): Today cam kết đúng thời lượng phiên hiện tại; durationMinutes khớp thực tế.
+- [x] `ac-1` (met): Mission chia phiên khoảng 10 phút có checkpoint persist (phiên 1 baseline và input, phiên 2 performance đến retry, phiên 3 transfer).
+- [x] `ac-2` (met): Input hiển thị từng section; output contract thu gọn sau lần xem đầu.
+- [x] `ac-3` (met): Today cam kết đúng thời lượng phiên hiện tại; durationMinutes khớp thực tế.
 
 ## Required checks
 
-- [ ] `check-sessions` (focused): Phiên, checkpoint và Today — chưa chạy / not yet run
-- [ ] `check-suite` (full): Toàn bộ test của dự án (suite) — chưa chạy / not yet run
+- [x] `check-sessions` (focused): Phiên, checkpoint và Today — pass (2026-10-12 08:53:06 +07:00)
+- [x] `check-suite` (full): Toàn bộ test của dự án (suite) — pass (2026-10-12 08:54:01 +07:00)
 
 ## Evidence
 
-_None recorded yet._
+- `check-sessions` — pass (2026-10-12 08:53:06 +07:00): npx vitest run tests/features/practice tests/features/today tests/domain — exit 0
+- `check-suite` — pass (2026-10-12 08:54:01 +07:00): npm test — exit 0

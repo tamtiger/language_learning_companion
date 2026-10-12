@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103721-split-missions-into-sessions` — Chia mission thành các phiên học ngắn có checkpoint (`planning`)
+- `20261009-104509-refactor-practice-feature-structure` — Refactor cấu trúc feature practice và dọn đặt tên (`planning`)
 
 ## Members (16 tasks)
 
@@ -30,7 +30,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 11 | `20261009-103718-add-interview-and-work-pathway` | Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài | `full` | `completed` |
 | 12 | `20261009-103719-add-listening-and-long-reading` | Thêm luyện nghe hội thoại và bài đọc dài | `full` | `completed` |
 | 13 | `20261009-103720-add-vocabulary-and-fill-content-gaps` | Thêm từ vựng chuyên ngành và lấp ô trống ma trận nội dung | `full` | `completed` |
-| 14 | `20261009-103721-split-missions-into-sessions` | Chia mission thành các phiên học ngắn có checkpoint | `full` | `planning` |
+| 14 | `20261009-103721-split-missions-into-sessions` | Chia mission thành các phiên học ngắn có checkpoint | `full` | `completed` |
 | 15 | `20261009-104509-refactor-practice-feature-structure` | Refactor cấu trúc feature practice và dọn đặt tên | `full` | `planning` |
 | 16 | `20261009-104458-final-docs-and-release-sync` | Đồng bộ tài liệu cuối epic và đóng release | `full` | `planning` |
 
@@ -116,7 +116,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 14. `20261009-103721-split-missions-into-sessions` — Chia mission thành các phiên học ngắn có checkpoint
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Một dev có 10-15 phút vẫn hoàn thành một phiên có ý nghĩa và quay lại không mất tiến độ.
 - **Tiêu chí nghiệm thu:** 3 tiêu chí
 

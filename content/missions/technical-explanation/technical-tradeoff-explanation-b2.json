@@ -4,7 +4,7 @@
   "title": "Explain and defend a technical trade-off",
   "summary": "Recommend an engineering option, make consequences audible and repair an unclear explanation.",
   "cefrLevel": "B2",
-  "durationMinutes": 25,
+  "durationMinutes": 15,
   "learningObjectives": [
     "Nghe ra constraint và consequence",
     "Giải thích trade-off bằng chunks",

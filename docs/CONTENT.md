@@ -163,6 +163,12 @@ Chưa có người bản ngữ rà soát; xem rủi ro trong task `add-a2-entry-
 Lộ trình: Today xếp theo capability rồi level (A2, B1, B2, C1) và bỏ qua bài A2 mới khi người học đã bắt đầu
 bài cao hơn cùng capability (`src/domain/progress/pathway.ts`).
 
+## Thời lượng bài (durationMinutes)
+
+`durationMinutes` không viết tay: nó bằng thời lượng của phiên dài nhất suy ra từ nội dung
+(`commitmentMinutes` trong `src/domain/learning/sessions.ts`). Khi sửa nội dung làm đổi độ dài, chạy lại ước lượng và
+cập nhật `durationMinutes`; `tests/domain/learning/sessions.test.ts` báo lệch.
+
 ## Source registry và provenance
 
 Lesson v3 có thể khai báo `sourceRegistry` opt-in. Mỗi record bắt buộc có

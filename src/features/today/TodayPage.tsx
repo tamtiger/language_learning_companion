@@ -24,6 +24,7 @@ import {
   type LessonProgress,
   type TodayQueueItem
 } from '../../domain/progress/progress'
+import { estimateSessionMinutes, currentSession, sessionLabel, SESSION_COUNT } from '../../domain/learning/sessions'
 import { useAppStore } from '../../shared/hooks/useAppStore'
 import { useNow } from '../../shared/hooks/useNow'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
@@ -106,6 +107,8 @@ interface MissionStage {
 }
 
 interface MissionState {
+  /** Where the learner is in the three sessions and how long that session takes. */
+  commitment: string
   stages: MissionStage[]
   completed: number
   nextLabel: string
@@ -114,10 +117,13 @@ interface MissionState {
 
 function buildMissionState(
   kind: TodayQueueItem['kind'],
-  progress: LessonProgress | undefined
+  progress: LessonProgress | undefined,
+  lesson: CanonicalLesson
 ): MissionState {
+  const minutes = estimateSessionMinutes(lesson).map((value) => Math.ceil(value))
   if (kind === 'review') {
     return {
+      commitment: `Ôn lại · khoảng ${minutes[2]} phút`,
       stages: [{ label: 'Ôn lại', complete: false }],
       completed: 0,
       nextLabel: 'Ôn lại',
@@ -133,7 +139,9 @@ function buildMissionState(
     { label: 'Vận dụng mới', complete: progress?.transferCompleted ?? false }
   ]
 
+  const session = currentSession(progress) ?? 1
   return {
+    commitment: `Phiên ${session}/${SESSION_COUNT} · ${sessionLabel(session)} · khoảng ${minutes[session - 1]} phút`,
     stages,
     completed: stages.filter((stage) => stage.complete).length,
     nextLabel: stages.find((stage) => !stage.complete)?.label ?? 'Hoàn tất',
@@ -182,14 +190,14 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
   const next = actionable[0]
   const nextLesson = lessons.find((lesson) => lesson.lessonId === next?.lessonId)
   const workIntentCandidates = buildWorkIntentCandidates(lessons, actionable)
-  const mission = next
-    ? buildMissionState(next.kind, lessonProgress[next.lessonId])
+  const mission = next && nextLesson
+    ? buildMissionState(next.kind, lessonProgress[next.lessonId], nextLesson)
     : null
 
   return (
     <section aria-labelledby="today-title" className="space-y-8 sm:space-y-10">
       <div className="border-b border-zinc-800 pb-6 sm:pb-8">
-        <p className="text-sm font-bold uppercase text-cyan-300">15–20 phút · đúng việc bạn sắp làm</p>
+        <p className="text-sm font-bold uppercase text-cyan-300">Từng phiên ngắn · đúng việc bạn sắp làm</p>
         <h1 id="today-title" className="mt-2 max-w-3xl text-3xl font-black sm:text-4xl">Luyện việc thật hôm nay</h1>
         <p className="mt-3 max-w-2xl text-zinc-300">Tiếp tục việc đang dở hoặc chọn tình huống bạn sắp dùng. Mỗi bài bắt đầu bằng một lượt thử thực tế.</p>
 
@@ -255,6 +263,7 @@ export function TodayPage({ onStartLesson }: TodayPageProps) {
                   })}
                 </ol>
                 <p className="mt-3 text-sm font-semibold text-white">Tiếp theo: {mission.nextLabel}</p>
+                <p className="mt-1 text-sm text-zinc-300">{mission.commitment}</p>
               </div>
 
               <div className="flex items-start gap-3 border-t border-zinc-800 pt-4 lg:border-l lg:border-t-0 lg:pl-5 lg:pt-0">

@@ -4,7 +4,7 @@
   "title": "Read a stack trace and logs to find the cause of a timeout (B2)",
   "summary": "Read a long set of logs, a stack trace and metrics, trace the failure to its cause and write a short diagnosis.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 22,
   "learningObjectives": [
     "Read logs in time order and find the first error",
     "Read a stack trace from the top frame",

@@ -4,7 +4,7 @@
   "title": "Read an API reference page and plan an integration (B2)",
   "summary": "Read a long API reference page for listing orders, find parameters, pagination and errors, and write an integration note.",
   "cefrLevel": "B2",
-  "durationMinutes": 15,
+  "durationMinutes": 22,
   "learningObjectives": [
     "Locate parameters and response fields quickly",
     "Understand cursor pagination and error handling",
