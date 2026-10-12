@@ -75,7 +75,7 @@ function inputSeconds(lesson: CanonicalLesson): number {
 function attemptSeconds(task: NonNullable<CanonicalLesson['performanceTask']>): number {
   const preparation = task.independenceContract.preparationSeconds
   return task.mode === 'spoken'
-    ? preparation + task.outputContract.targetSeconds
+    ? preparation + task.outputContract.minSeconds
     : preparation + ((task.outputContract.minWords + task.outputContract.maxWords) / 2) * 4
 }
 

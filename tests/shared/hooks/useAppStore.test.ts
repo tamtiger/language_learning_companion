@@ -650,7 +650,7 @@ describe('v5 app store', () => {
         version: 6,
         state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {}, storyBank: [] }
       }
-      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
+      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v6' }))
 
       expect(useAppStore.getState().theme).toBe('light')
     })
@@ -669,7 +669,7 @@ describe('v5 app store', () => {
         version: 6,
         state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {}, storyBank: [] }
       }
-      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v3' }))
+      await handleStorageEvent(new StorageEvent('storage', { key: 'language-learning-companion-storage-v6' }))
       expect(useAppStore.getState().theme).toBe('dark')
       expect(useAppStore.getState().persistence.status).toBe('quarantined')
     })

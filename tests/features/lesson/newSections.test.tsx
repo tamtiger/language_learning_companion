@@ -9,8 +9,8 @@ import { validWrittenMission } from '../../helpers/lessonFixtures'
 
 const audio = vi.hoisted(() => ({ playModelAudio: vi.fn((_source: unknown, _rate?: number, _onStatus?: unknown) => () => undefined) }))
 
-vi.mock('@/features/practice/modelAudio', async () => {
-  const actual = await vi.importActual<typeof import('@/features/practice/modelAudio')>('@/features/practice/modelAudio')
+vi.mock('@/features/practice/shared/modelAudio', async () => {
+  const actual = await vi.importActual<typeof import('@/features/practice/shared/modelAudio')>('@/features/practice/shared/modelAudio')
   return { ...actual, playModelAudio: audio.playModelAudio, availableVoiceCount: () => 1 }
 })
 

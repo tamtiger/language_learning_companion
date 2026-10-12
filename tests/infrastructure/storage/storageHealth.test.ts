@@ -60,7 +60,7 @@ describe('last export time', () => {
     const store = memory()
     setLastExportedAt('2026-08-18T10:00:00.000Z', store)
 
-    expect(LAST_EXPORT_KEY).not.toBe('language-learning-companion-storage-v3')
+    expect(LAST_EXPORT_KEY).not.toBe('language-learning-companion-storage-v6')
     expect(store.data[LAST_EXPORT_KEY]).toBe('2026-08-18T10:00:00.000Z')
     expect(getLastExportedAt(store)).toBe('2026-08-18T10:00:00.000Z')
   })

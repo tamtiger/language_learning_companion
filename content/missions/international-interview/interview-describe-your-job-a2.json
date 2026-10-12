@@ -339,7 +339,7 @@
         "daily work",
         "tools"
       ],
-      "targetSeconds": 20
+      "minSeconds": 20
     },
     "independenceContract": {
       "noVietnamese": true,

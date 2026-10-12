@@ -328,7 +328,7 @@
         "growth question",
         "thanks and next steps"
       ],
-      "targetSeconds": 60
+      "minSeconds": 60
     },
     "independenceContract": {
       "noVietnamese": true,

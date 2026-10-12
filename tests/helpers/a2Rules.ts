@@ -79,8 +79,8 @@ export function findA2Violations(lesson: CanonicalLesson): string[] {
   if (lesson.durationMinutes < 10 || lesson.durationMinutes > 15) violations.push('durationMinutes must be 10 to 15')
 
   if (task.mode === 'spoken') {
-    const { targetSeconds, timeLimitSeconds } = task.outputContract
-    if (targetSeconds < 20 || targetSeconds > 30 || timeLimitSeconds > 45) violations.push('spoken output must target 20 to 30 seconds within 45')
+    const { minSeconds, timeLimitSeconds } = task.outputContract
+    if (minSeconds < 20 || minSeconds > 30 || timeLimitSeconds > 45) violations.push('spoken output must target 20 to 30 seconds within 45')
     if (!task.learningLoop) violations.push('spoken A2 missions need a learning loop')
     else {
       violations.push(...findPerceptionViolations(task.learningLoop), ...findChunkViolations(task.learningLoop.chunks))

@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
 import type { CanonicalLesson } from '../../content/schema'
 import type { LessonEntry } from '../../domain/progress/progress'
 import { useAppStore } from '../../shared/hooks/useAppStore'
-import { CapabilityTask } from '../practice/CapabilityTask'
+import { CapabilityTask } from '../practice/task/CapabilityTask'
 import { SectionRenderer } from './SectionRenderer'
 
 export function LessonFlow({ lesson, entry, onBack }: { lesson: CanonicalLesson; entry?: LessonEntry; onBack: () => void }) {

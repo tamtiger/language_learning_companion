@@ -343,7 +343,7 @@
         "one update",
         "repeat request"
       ],
-      "targetSeconds": 20
+      "minSeconds": 20
     },
     "independenceContract": {
       "noVietnamese": true,

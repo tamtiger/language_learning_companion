@@ -331,7 +331,7 @@
         "approach and complexity",
         "edge case"
       ],
-      "targetSeconds": 90
+      "minSeconds": 90
     },
     "independenceContract": {
       "noVietnamese": true,

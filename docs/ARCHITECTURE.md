@@ -139,6 +139,21 @@ v1/v2/future version giữ nguyên state và trả recoverable error; không res
 Vì app chưa phát hành, state v1/v2 bị bỏ và khởi tạo rỗng; không có
 `legacy-unknown` hoặc evidence giả.
 
+## Cấu trúc feature practice
+
+`src/features/practice` chia theo vai trò, mỗi thư mục chỉ import từ thư mục có bậc thấp hơn (test `tests/features/practice/structure.test.ts`
+kiểm điều này và giới hạn 300 dòng mỗi file): `shared` (phát âm thanh mẫu, chẩn đoán vòng học) < `perception`, `ladder` <
+`spoken` (ghi âm, shadowing, cue phát âm, vòng học nói) < `interaction` < `task`. `task/CapabilityTask.tsx` chỉ ghép các phần:
+`useTaskState` (trạng thái và hiệu ứng), `useTaskActions` (lưu attempt, chốt bản nháp, luyện lại) và các view theo giai đoạn
+(`InputPhase`, `AttemptPhase`, `InteractionPhase`, `FeedbackPhase`, `CompletedView`) nhận `TaskContext`.
+
+## Khóa lưu trữ
+
+Tiến độ lưu ở `language-learning-companion-storage-v6` (khóa mang số phiên bản dữ liệu). Bản cũ lưu ở khóa `...-storage-v3`;
+`withLegacyKey` đọc khóa cũ khi khóa mới còn trống và chỉ xóa khóa cũ sau khi ghi khóa mới thành công nên không mất dữ liệu.
+Trường `outputContract.minSeconds` (trước đây `targetSeconds`) là thời lượng nói tối thiểu; `contractRevision` vẫn băm theo tên cũ
+để các lượt đã lưu không bị coi là "bài đã đổi".
+
 ## Phiên học
 
 Mission chia thành ba phiên (`src/domain/learning/sessions.ts`): phiên 1 (baseline, input, auto-check), phiên 2

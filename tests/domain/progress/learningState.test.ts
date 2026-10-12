@@ -220,7 +220,7 @@ describe('evidence contract', () => {
       expectedTaskId: spokenTask.id,
       requiredRubricIds: spokenTask.rubric.map((item) => item.id),
       timeLimitSeconds: spokenTask.outputContract.timeLimitSeconds,
-      targetSeconds: spokenTask.outputContract.targetSeconds
+      minSeconds: spokenTask.outputContract.minSeconds
     })
     expect(buildEvidenceContract(written)).toMatchObject({
       expectedLessonId: written.lessonId,

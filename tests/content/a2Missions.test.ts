@@ -39,7 +39,7 @@ describe('A2 entry missions', () => {
       expect(lesson?.capabilities, planned.lessonId).toEqual([planned.capability])
       const task = lesson?.performanceTask
       expect(task?.mode, planned.lessonId).toBe(planned.mode)
-      if (task?.mode === 'spoken') expect(task.outputContract).toMatchObject({ targetSeconds: 20, timeLimitSeconds: 40 })
+      if (task?.mode === 'spoken') expect(task.outputContract).toMatchObject({ minSeconds: 20, timeLimitSeconds: 40 })
       if (task?.mode === 'written') expect(task.outputContract).toMatchObject({ minWords: 40, maxWords: 60 })
     }
   })

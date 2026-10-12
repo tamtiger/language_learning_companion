@@ -314,7 +314,7 @@
         "one difficulty",
         "one tip"
       ],
-      "targetSeconds": 60
+      "minSeconds": 60
     },
     "independenceContract": {
       "noVietnamese": true,

@@ -35,7 +35,7 @@ export function buildEvidenceContract(lesson: CanonicalLesson): EvidenceContract
     const isPilot = lesson.workflowTags.includes('p0-pilot')
     return {
       ...shared,
-      targetSeconds: task.outputContract.targetSeconds,
+      minSeconds: task.outputContract.minSeconds,
       requireListenBack: isPilot,
       requiredInteractionTurnIds: isPilot
         ? task.learningLoop?.interactionTurns.map((turn) => turn.id)
@@ -62,8 +62,12 @@ function stableStringify(value: unknown): string {
 
 /** Short, stable digest (FNV-1a) of a contract; identifies which rules an attempt was assessed against. */
 export function contractRevision(contract: EvidenceContract): string {
+  // minSeconds was called targetSeconds when attempts were first saved; keep the old key in the digest
+  // so those attempts still match the lesson they were made against.
+  const { minSeconds, ...rest } = contract
   const text = stableStringify({
-    ...contract,
+    ...rest,
+    ...(minSeconds === undefined ? {} : { targetSeconds: minSeconds }),
     requiredRubricIds: [...contract.requiredRubricIds].sort()
   })
   let hash = 0x811c9dc5

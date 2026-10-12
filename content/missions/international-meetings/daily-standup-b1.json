@@ -410,7 +410,7 @@
         "blocker or no blocker",
         "next action"
       ],
-      "targetSeconds": 30
+      "minSeconds": 30
     },
     "independenceContract": {
       "noVietnamese": true,

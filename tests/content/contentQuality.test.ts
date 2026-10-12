@@ -293,15 +293,15 @@ describe('curriculum content quality gate', () => {
 
   it('aligns every executable output contract with the learner-facing timebox', () => {
     const expected: Record<string, Record<string, number>> = {
-      'architecture-walkthrough-b2': { targetSeconds: 90, timeLimitSeconds: 120 },
-      'behavioral-interview-ownership-b2': { targetSeconds: 90, timeLimitSeconds: 120 },
-      'daily-standup-b1': { targetSeconds: 30, timeLimitSeconds: 60 },
+      'architecture-walkthrough-b2': { minSeconds: 90, timeLimitSeconds: 120 },
+      'behavioral-interview-ownership-b2': { minSeconds: 90, timeLimitSeconds: 120 },
+      'daily-standup-b1': { minSeconds: 30, timeLimitSeconds: 60 },
       'learn-api-from-docs-b2': { minWords: 120, maxWords: 180, timeLimitSeconds: 300 },
-      'meeting-disagree-and-recap-b2': { targetSeconds: 60, timeLimitSeconds: 90 },
+      'meeting-disagree-and-recap-b2': { minSeconds: 60, timeLimitSeconds: 90 },
       'technical-doc-action-b1': { minWords: 45, maxWords: 100, timeLimitSeconds: 240 },
-      'technical-interview-decision-b2': { targetSeconds: 90, timeLimitSeconds: 120 },
+      'technical-interview-decision-b2': { minSeconds: 90, timeLimitSeconds: 120 },
       'technical-log-diagnosis-b1': { minWords: 70, maxWords: 130, timeLimitSeconds: 300 },
-      'technical-tradeoff-explanation-b2': { targetSeconds: 60, timeLimitSeconds: 90 },
+      'technical-tradeoff-explanation-b2': { minSeconds: 60, timeLimitSeconds: 90 },
       'technology-troubleshooting-from-docs-b2': { minWords: 100, maxWords: 180, timeLimitSeconds: 360 },
       'workplace-clarification-request-b1': { minWords: 45, maxWords: 100, timeLimitSeconds: 240 },
       'workplace-issue-update-b1': { minWords: 70, maxWords: 110, timeLimitSeconds: 300 }
@@ -321,7 +321,7 @@ describe('curriculum content quality gate', () => {
       const task = lesson.performanceTask
       if (task?.mode !== 'spoken') throw new Error(`Missing spoken task: ${lesson.lessonId}`)
       const words = countWords(task.modelResponse)
-      const minimumWords = Math.ceil(task.outputContract.targetSeconds * 110 / 60)
+      const minimumWords = Math.ceil(task.outputContract.minSeconds * 110 / 60)
       const maximumWords = Math.floor(task.outputContract.timeLimitSeconds * 160 / 60)
 
       expect(words, `${lesson.lessonId}: learner pace floor of 110 wpm`).toBeGreaterThanOrEqual(minimumWords)

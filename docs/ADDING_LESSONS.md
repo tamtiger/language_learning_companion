@@ -12,7 +12,7 @@ mission theo capability từ chính thư mục `content/`, nên thêm bài **kh�
    `technology-learning`.
 2. Chọn `cefrLevel` (`A2`, `B1`, `B2`, `C1`). Bài A2 bắt buộc có tiêu chí ngôn ngữ kèm mẫu neo ở
    rubric.
-3. Chọn chế độ đầu ra: `written` (có `minWords` và `maxWords`) hoặc `spoken` (có `targetSeconds`
+3. Chọn chế độ đầu ra: `written` (có `minWords` và `maxWords`) hoặc `spoken` (có `minSeconds`
    và có thể có `learningLoop`).
 4. Kiểm tra nội dung mới không trùng kịch bản với mission hiện có (đọc `scenario` và các
    `practiceContexts`).

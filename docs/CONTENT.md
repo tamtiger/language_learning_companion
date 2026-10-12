@@ -76,7 +76,7 @@ thể dùng cadence khác ở từng lesson.
 
 - identity/context: `id`, `mode: spoken | written`, `title`, `scenario`;
 - loop prompts: `baselinePrompt`, `performancePrompt`, `modelResponse`, `retryPrompt`, `transferPrompt`, `reviewPrompt`;
-- `outputContract`: `timeLimitSeconds`, `requiredElements`, cùng `targetSeconds` cho spoken hoặc `minWords/maxWords` cho written;
+- `outputContract`: `timeLimitSeconds`, `requiredElements`, cùng `minSeconds` cho spoken hoặc `minWords/maxWords` cho written;
 - `independenceContract`: `noVietnamese`, `noTranslation`, `noModelAnswer`, `maxHints`, `preparationSeconds`;
 - `feedbackPriorities`: 1–4 strings;
 - `rubric`: 3–5 item có `id`, `label`, `description`.
@@ -147,7 +147,7 @@ Nguồn trong `listening-source` và `long-reading` đi qua cùng kiểm tra pro
 Mỗi capability có một mission A2 (10 đến 15 phút) để người mới vào đúng mức. Cổng đo được nằm ở
 `tests/helpers/a2Rules.ts` và chạy trong `tests/content/a2Missions.test.ts` cho mọi bài `cefrLevel: "A2"`:
 
-- Bài viết: `minWords` 40, `maxWords` ≤ 70, `timeLimitSeconds` ≤ 300. Bài nói: `targetSeconds` 20 đến 30,
+- Bài viết: `minWords` 40, `maxWords` ≤ 70, `timeLimitSeconds` ≤ 300. Bài nói: `minSeconds` 20 đến 30,
   `timeLimitSeconds` ≤ 45 và có `learningLoop` đầy đủ (schema cho phép bài nói ngắn từ 20 giây).
 - Câu ngắn: chunk ≤ 8 từ, mỗi câu ≤ 14 từ, trung bình ≤ 10 từ (bài mẫu) hoặc ≤ 14 từ (nguồn).
 - Prompt song ngữ giảm dần: baseline có tiếng Việt, tỉ lệ tiếng Việt không tăng ở các bước sau, review chỉ tiếng Anh.
@@ -210,7 +210,7 @@ các chi tiết sản phẩm đó.
 
 - Lesson, section và rubric IDs duy nhất trong scope tương ứng; exercise ID phải duy nhất trên toàn lesson, kể cả giữa nhiều section `auto-check`.
 - V3 có 1 primary capability, ít nhất 1 source/input section và đúng 1 performance task.
-- Spoken task chỉ có `targetSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
+- Spoken task chỉ có `minSeconds`; written task chỉ có `minWords/maxWords` và `minWords <= maxWords`.
 - Baseline không hiển thị `modelResponse` trước attempt đầu.
 - Mọi câu factual trong model response phải trace tới evidence packet hiện tại;
   phần chưa được chứng minh phải được viết thành hypothesis, proposal hoặc question.

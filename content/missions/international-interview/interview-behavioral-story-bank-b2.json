@@ -329,7 +329,7 @@
         "measured result",
         "takeaway"
       ],
-      "targetSeconds": 90
+      "minSeconds": 90
     },
     "independenceContract": {
       "noVietnamese": true,

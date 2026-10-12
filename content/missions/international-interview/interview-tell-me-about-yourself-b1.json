@@ -331,7 +331,7 @@
         "earlier step",
         "why this role"
       ],
-      "targetSeconds": 60
+      "minSeconds": 60
     },
     "independenceContract": {
       "noVietnamese": true,

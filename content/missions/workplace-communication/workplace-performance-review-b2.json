@@ -328,7 +328,7 @@
         "objective",
         "support needed"
       ],
-      "targetSeconds": 90
+      "minSeconds": 90
     },
     "independenceContract": {
       "noVietnamese": true,

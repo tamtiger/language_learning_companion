@@ -40,6 +40,7 @@ import {
   type ProgressBackup,
   type ProgressEnvelope
 } from '../../infrastructure/storage/progressStorage'
+import { withLegacyKey } from '../../infrastructure/storage/legacyKey'
 
 const catalog = getBundledCatalog()
 
@@ -71,7 +72,9 @@ export function selectStorage(
 }
 
 const storageSelection = selectStorage(typeof window === 'undefined' ? undefined : window)
-const PERSIST_KEY = 'language-learning-companion-storage-v3'
+/** The key carries the data version so a future format change picks a new key; v3 is the key used before. */
+const PERSIST_KEY = 'language-learning-companion-storage-v6'
+const LEGACY_PERSIST_KEY = 'language-learning-companion-storage-v3'
 
 export type PersistenceStatus = 'ok' | 'memory-only' | 'quarantined' | 'write-failed'
 
@@ -205,7 +208,8 @@ export async function handleStorageEvent(event: StorageEvent): Promise<void> {
 }
 
 function createAppPersistStorage(): PersistStorage<PersistedAppState | null> | undefined {
-  const storage = createJSONStorage<PersistedAppState | null>(() => storageSelection.storage)
+  const storage = createJSONStorage<PersistedAppState | null>(() =>
+    withLegacyKey(storageSelection.storage, PERSIST_KEY, LEGACY_PERSIST_KEY))
   return storage ? withPersistenceQuarantine(storage) : undefined
 }
 

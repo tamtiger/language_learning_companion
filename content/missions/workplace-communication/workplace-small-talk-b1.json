@@ -328,7 +328,7 @@
         "reaction",
         "polite ending"
       ],
-      "targetSeconds": 45
+      "minSeconds": 45
     },
     "independenceContract": {
       "noVietnamese": true,

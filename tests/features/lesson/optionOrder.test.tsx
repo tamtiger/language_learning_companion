@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { CanonicalLessonSection, CanonicalReadingLadderV1, LearningLoopV1 } from '@/content/schema'
-import { PerceptionPractice } from '@/features/practice/PerceptionPractice'
-import { ReadingLadderPractice } from '@/features/practice/ReadingLadderPractice'
+import { PerceptionPractice } from '@/features/practice/perception/PerceptionPractice'
+import { ReadingLadderPractice } from '@/features/practice/ladder/ReadingLadderPractice'
 import { orderOptions, seededShuffle } from '@/features/lesson/optionOrder'
 import { SectionRenderer } from '@/features/lesson/SectionRenderer'
 

@@ -163,7 +163,7 @@ describe('LessonV3Schema', () => {
     task.outputContract = {
       timeLimitSeconds: 60,
       requiredElements: ['one result'],
-      targetSeconds: 60
+      minSeconds: 60
     }
     invalid.sections = [validWrittenMission.sections[0], validWrittenMission.sections[0]]
 
@@ -177,7 +177,7 @@ describe('LessonV3Schema', () => {
     spoken.performanceTask.outputContract = {
       timeLimitSeconds: 120,
       requiredElements: ['intent'],
-      targetSeconds: 121
+      minSeconds: 121
     }
 
     expect(LessonV3Schema.safeParse(spoken).success).toBe(false)
@@ -289,7 +289,7 @@ describe('LessonV3Schema', () => {
       performanceTask: {
         ...validWrittenMission.performanceTask,
         mode: 'spoken',
-        outputContract: { timeLimitSeconds: 120, requiredElements: ['intent'], targetSeconds: 45 },
+        outputContract: { timeLimitSeconds: 120, requiredElements: ['intent'], minSeconds: 45 },
         learningLoop
       }
     }
@@ -333,7 +333,7 @@ describe('LessonV3Schema', () => {
     const spokenWithLadder = structuredClone(writtenWithLadder)
     spokenWithLadder.performanceTask.mode = 'spoken'
     spokenWithLadder.performanceTask.outputContract = {
-      timeLimitSeconds: 120, requiredElements: ['intent'], targetSeconds: 45
+      timeLimitSeconds: 120, requiredElements: ['intent'], minSeconds: 45
     }
     expect(LessonV3Schema.safeParse(spokenWithLadder).success).toBe(false)
   })

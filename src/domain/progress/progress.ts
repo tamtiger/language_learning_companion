@@ -82,7 +82,7 @@ export interface EvidenceContract {
   maxPreparationSeconds: number
   requiredRubricIds: string[]
   timeLimitSeconds: number
-  targetSeconds?: number
+  minSeconds?: number
   minWords?: number
   maxWords?: number
   requireListenBack?: boolean
@@ -126,7 +126,7 @@ function assessAttempt(
     reasons.push('preparation-overtime')
   }
   if (attempt.durationSeconds > contract.timeLimitSeconds) reasons.push('overtime')
-  if (contract.targetSeconds !== undefined && attempt.durationSeconds < contract.targetSeconds) {
+  if (contract.minSeconds !== undefined && attempt.durationSeconds < contract.minSeconds) {
     reasons.push('too-short')
   }
   if (contract.minWords !== undefined && (attempt.wordCount ?? 0) < contract.minWords) {

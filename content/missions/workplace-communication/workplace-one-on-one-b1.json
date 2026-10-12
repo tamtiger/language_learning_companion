@@ -328,7 +328,7 @@
         "request for guidance",
         "next step with date"
       ],
-      "targetSeconds": 60
+      "minSeconds": 60
     },
     "independenceContract": {
       "noVietnamese": true,

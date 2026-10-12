@@ -116,7 +116,7 @@ describe('new capability mission wave', () => {
     }
     expect(sources.map((source) => source.content).length).toBe(new Set(sources.map((source) => source.content)).size)
     expect(sources.every((source) => /Sprint Goal/i.test(source.content))).toBe(true)
-    expect(task.outputContract).toMatchObject({ timeLimitSeconds: 60, targetSeconds: 30 })
+    expect(task.outputContract).toMatchObject({ timeLimitSeconds: 60, minSeconds: 30 })
     expect(task.outputContract.requiredElements).toContain('Sprint Goal progress')
     expect(task.rubric[0]?.label).toMatch(/team convention/i)
     expect(task.rubric[0]?.description).toMatch(/not a Scrum requirement/i)

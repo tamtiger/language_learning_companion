@@ -6,7 +6,7 @@ import type {
 } from '../../content/schema'
 import { useAppStore } from '../../shared/hooks/useAppStore'
 import { languageOf } from '../../shared/lang'
-import { ModelAudioPlayer } from '../practice/ModelAudioPlayer'
+import { ModelAudioPlayer } from '../practice/shared/ModelAudioPlayer'
 import { AutoCheck } from './AutoCheck'
 import { SourceTrustDisclosure } from './SourceTrustDisclosure'
 

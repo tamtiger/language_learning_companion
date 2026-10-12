@@ -309,13 +309,13 @@ describe('short spoken outputs for A2', () => {
   })
 
   it('accepts a 20 second target inside a 40 second limit', () => {
-    expect(issues(spoken({ targetSeconds: 20, timeLimitSeconds: 40 }))).toBe('')
+    expect(issues(spoken({ minSeconds: 20, timeLimitSeconds: 40 }))).toBe('')
   })
 
   it('still rejects a target below 15 seconds, a limit below 20 and a target above its limit', () => {
-    expect(spoken({ targetSeconds: 14, timeLimitSeconds: 40 }).success).toBe(false)
-    expect(spoken({ targetSeconds: 15, timeLimitSeconds: 19 }).success).toBe(false)
-    expect(spoken({ targetSeconds: 41, timeLimitSeconds: 40 }).success).toBe(false)
+    expect(spoken({ minSeconds: 14, timeLimitSeconds: 40 }).success).toBe(false)
+    expect(spoken({ minSeconds: 15, timeLimitSeconds: 19 }).success).toBe(false)
+    expect(spoken({ minSeconds: 41, timeLimitSeconds: 40 }).success).toBe(false)
   })
 
   it('keeps the written minimum time limit at 30 seconds', () => {

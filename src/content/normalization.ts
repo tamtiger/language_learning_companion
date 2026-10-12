@@ -103,7 +103,7 @@ function normalizeV2Task(lesson: LessonV2): NonNullable<CanonicalLesson['perform
     reviewPrompt: task.transferPrompt,
     outputContract: {
       timeLimitSeconds: task.preparationSeconds + task.performanceSeconds,
-      targetSeconds: task.performanceSeconds,
+      minSeconds: task.performanceSeconds,
       requiredElements: task.requirements
     },
     independenceContract: {

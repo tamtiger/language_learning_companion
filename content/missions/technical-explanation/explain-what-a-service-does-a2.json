@@ -334,7 +334,7 @@
         "what it uses",
         "where it sends data"
       ],
-      "targetSeconds": 20
+      "minSeconds": 20
     },
     "independenceContract": {
       "noVietnamese": true,

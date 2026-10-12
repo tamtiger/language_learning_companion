@@ -61,7 +61,7 @@ describe('persistence banner', () => {
 
   it('applies progress saved by another tab through the storage event', async () => {
     render(<App />)
-    const key = 'language-learning-companion-storage-v3'
+    const key = 'language-learning-companion-storage-v6'
     window.localStorage.setItem(key, JSON.stringify({
       version: 5,
       state: { theme: 'light', currentCefrLevel: null, activeLessonId: null, lessonProgress: {} }

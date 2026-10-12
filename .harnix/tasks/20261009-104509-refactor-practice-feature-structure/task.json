@@ -4,8 +4,8 @@
   "id": "20261009-104509-refactor-practice-feature-structure",
   "title": "Refactor cấu trúc feature practice và dọn đặt tên",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "src/features/practice có cấu trúc rõ ràng, tên gọi đúng nghĩa và không còn file nhập nhằng.",
   "nonGoals": [],
   "epicId": "20261009-103708-learning-companion-remediation",
@@ -13,20 +13,29 @@
     {
       "id": "ac-1",
       "text": "src/features/practice được tổ chức lại theo vai trò (task, spoken, perception, ladder, interaction, shared), mỗi file dưới 300 dòng và import một chiều.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-practice-structure-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "targetSeconds đổi thành minSeconds và storage key khớp version, kèm migration không mất dữ liệu.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-rename-migration-1",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Dọn các nit đã ghi nhận: text-current/80 vô tác dụng, nav thừa, tiêu đề tab khớp tên header, tsconfig ghi rõ strict.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-practice-structure-1",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -76,9 +85,41 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-practice-structure-1",
+      "checkId": "check-practice-structure",
+      "recordedAt": "2026-10-12T09:08:07.272+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/practice — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "b21f6babcf08c35108a66595d045b7422f34ffac7a710d09080ebc026992c14d"
+    },
+    {
+      "id": "ev-check-rename-migration-1",
+      "checkId": "check-rename-migration",
+      "recordedAt": "2026-10-12T09:08:15.177+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/infrastructure/storage tests/content — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "3a7a54b94f56d4f0ca086e3d52a7e034c49e75614200738e7a21a69e11a03934"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T09:09:11.482+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "301510c890258c7baa8bc58152595779fbde9d5bacdc50e203cb823d71680c33"
+    }
+  ],
   "relevantPaths": [],
   "relevantSpecs": [],
   "createdAt": "2026-10-09T10:45:09.250+07:00",
-  "updatedAt": "2026-10-09T11:37:11.343+07:00"
+  "updatedAt": "2026-10-12T09:09:41.011+07:00",
+  "completedAt": "2026-10-12T09:09:41.011+07:00"
 }

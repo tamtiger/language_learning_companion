@@ -337,7 +337,7 @@
         "trade-off",
         "failure or recovery path"
       ],
-      "targetSeconds": 90
+      "minSeconds": 90
     },
     "independenceContract": {
       "noVietnamese": true,
