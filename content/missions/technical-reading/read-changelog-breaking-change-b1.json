@@ -1,0 +1,439 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-changelog-breaking-change-b1",
+  "title": "Read a changelog and find the breaking change (B1)",
+  "summary": "Đọc một changelog dài nhiều phiên bản, tìm thay đổi gây lỗi khi nâng cấp và viết ghi chú nâng cấp cho đội.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Đọc lướt changelog theo phiên bản",
+    "Tìm thay đổi gây lỗi và cách sửa",
+    "Viết ghi chú nâng cấp ngắn bằng tiếng Anh"
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "changelog-reading",
+    "breaking-change",
+    "upgrade-notes"
+  ],
+  "sections": [
+    {
+      "id": "rcl-reading",
+      "type": "long-reading",
+      "title": "Changelog: FormKit library",
+      "format": "changelog",
+      "parts": [
+        {
+          "id": "v3",
+          "heading": "Version 3.0.0 (released 2026-02-10)",
+          "content": "Synthetic training artifact — non-production. This is a major release. BREAKING: the submit handler now receives one object with the form values instead of separate arguments. Code that wrote onSubmit(name, email) must change to onSubmit(values) and read values.name and values.email. BREAKING: Node 16 is no longer supported; use Node 18 or newer. Added: a new validate option that can run asynchronous checks, such as checking whether a username is already taken. Changed: error messages are now strings, not objects. A codemod is available to update most call sites automatically: run npx formkit-migrate and review the changes before you commit."
+        },
+        {
+          "id": "v28",
+          "heading": "Version 2.8.0 (released 2026-01-12)",
+          "content": "Added: the disabled option for single fields, so that a field can be turned off without removing it. Added: the reset method now accepts new initial values. Deprecated: the onSubmit(name, email) style with separate arguments. It still works in 2.x but prints a warning in the console and will be removed in version 3. Fixed: the form no longer loses focus after a failed validation when the page uses a custom scroll container. Performance: large forms with more than two hundred fields render about thirty percent faster."
+        },
+        {
+          "id": "v27",
+          "heading": "Version 2.7.1 (released 2025-12-05)",
+          "content": "Fixed: a crash when a field was removed while its validation was still running. Fixed: the touched state was not reset when reset was called twice in a row. Fixed: a typing error in the TypeScript definition of the validate option, which accepted only synchronous functions. Documentation: added an example for multi-step forms and corrected the description of the dirty state. No API changes in this release, so it is safe to install without code changes."
+        },
+        {
+          "id": "v27b",
+          "heading": "Version 2.7.0 (released 2025-11-18)",
+          "content": "Added: support for field arrays, for example a list of phone numbers that the user can extend. Added: the useFieldValue hook, which lets a component read the value of one field without re-rendering the whole form. Changed: the default debounce for validation on typing is now two hundred milliseconds instead of one hundred. If your tests expect the old timing, update the waiting time or set debounce explicitly. Fixed: radio buttons inside field arrays did not keep their selected value."
+        },
+        {
+          "id": "upgrade",
+          "heading": "Upgrade notes",
+          "content": "To upgrade from 2.x to 3.0.0, first move to version 2.8.0 and remove every warning about the deprecated submit style. Then update Node, install 3.0.0 and run the codemod. Search your code for onSubmit with several arguments and for code that reads error.message, because errors are now plain strings. After the upgrade, run your form tests and check the asynchronous validation. Teams that cannot upgrade Node yet should stay on 2.8.x, which receives security fixes until the end of the year."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rcl-s1",
+          "type": "choice",
+          "question": "Which version contains breaking changes?",
+          "options": [
+            "Version 3.0.0",
+            "Version 2.8.0",
+            "Version 2.7.1"
+          ],
+          "correctAnswer": [
+            "Version 3.0.0"
+          ],
+          "explanation": "Phiên bản 3.0.0 ghi BREAKING."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "v3",
+          "exercise": {
+            "id": "rcl-q1",
+            "type": "choice",
+            "question": "How must the submit handler change in 3.0.0?",
+            "options": [
+              "It receives one object with the values",
+              "It receives three arguments for the team",
+              "It is removed completely"
+            ],
+            "correctAnswer": [
+              "It receives one object with the values"
+            ],
+            "explanation": "Phiên bản 3.0.0 đổi tham số của onSubmit."
+          }
+        },
+        {
+          "locatePartId": "v28",
+          "exercise": {
+            "id": "rcl-q2",
+            "type": "choice",
+            "question": "What happens to the old submit style in 2.8.0?",
+            "options": [
+              "It prints a deprecation warning",
+              "It stops working immediately for the team",
+              "It becomes much faster"
+            ],
+            "correctAnswer": [
+              "It prints a deprecation warning"
+            ],
+            "explanation": "Bản 2.8.0 đánh dấu deprecated."
+          }
+        },
+        {
+          "locatePartId": "v27",
+          "exercise": {
+            "id": "rcl-q3",
+            "type": "choice",
+            "question": "Is 2.7.1 safe to install without code changes?",
+            "options": [
+              "Yes, it has no API changes",
+              "No, it needs a codemod",
+              "No, it requires Node 18 for the team"
+            ],
+            "correctAnswer": [
+              "Yes, it has no API changes"
+            ],
+            "explanation": "Bản 2.7.1 không đổi API."
+          }
+        },
+        {
+          "locatePartId": "v27b",
+          "exercise": {
+            "id": "rcl-q4",
+            "type": "choice",
+            "question": "What changed about the default debounce in 2.7.0?",
+            "options": [
+              "It doubled to 200 milliseconds",
+              "It was removed at work",
+              "It became 50 milliseconds for the team"
+            ],
+            "correctAnswer": [
+              "It doubled to 200 milliseconds"
+            ],
+            "explanation": "Bản 2.7.0 tăng debounce lên 200ms."
+          }
+        },
+        {
+          "locatePartId": "upgrade",
+          "exercise": {
+            "id": "rcl-q5",
+            "type": "choice",
+            "question": "What should you do before moving to 3.0.0?",
+            "options": [
+              "Upgrade to 2.8.0 and fix warnings",
+              "Delete the form tests for the team",
+              "Switch to Node 16"
+            ],
+            "correctAnswer": [
+              "Upgrade to 2.8.0 and fix warnings"
+            ],
+            "explanation": "Phần Upgrade notes nêu các bước."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rcl-language",
+      "type": "language-support",
+      "title": "Language for changelogs",
+      "vocabulary": [
+        {
+          "word": "breaking change",
+          "ipa": "/ˈbreɪ.kɪŋ tʃeɪndʒ/",
+          "definition": "thay đổi gây lỗi khi nâng cấp",
+          "technicalMeaning": "Thay đổi làm code cũ không còn chạy đúng.",
+          "collocations": [
+            "a breaking change",
+            "introduce a breaking change"
+          ],
+          "example": "Version 3 has two breaking changes.",
+          "commonMistake": "Nói a breaking change, không nói a broken change."
+        },
+        {
+          "word": "deprecated",
+          "ipa": "/ˈdep.rə.keɪ.t̬ɪd/",
+          "definition": "đã bị khuyến cáo bỏ",
+          "technicalMeaning": "Còn dùng được nhưng sẽ bị xóa trong tương lai.",
+          "collocations": [
+            "deprecated feature",
+            "is deprecated"
+          ],
+          "example": "The old submit style is deprecated.",
+          "commonMistake": "Nhấn âm đầu: DEP-re-cat-ed."
+        },
+        {
+          "word": "codemod",
+          "ipa": "/ˈkoʊd.mɑːd/",
+          "definition": "công cụ tự sửa code hàng loạt",
+          "technicalMeaning": "Chương trình tự cập nhật code theo quy tắc.",
+          "collocations": [
+            "run a codemod",
+            "a codemod for"
+          ],
+          "example": "Run the codemod to update call sites.",
+          "commonMistake": "Codemod là một từ."
+        },
+        {
+          "word": "migrate",
+          "ipa": "/ˈmaɪ.ɡreɪt/",
+          "definition": "chuyển sang phiên bản mới",
+          "technicalMeaning": "Cập nhật code hoặc dữ liệu để chạy trên phiên bản mới.",
+          "collocations": [
+            "migrate to",
+            "migration guide"
+          ],
+          "example": "We will migrate to version 3 next month.",
+          "commonMistake": "Nói migrate to, không nói migrate in."
+        },
+        {
+          "word": "safe to install",
+          "ipa": "/seɪf tuː ɪnˈstɔːl/",
+          "definition": "có thể cài mà không sửa code",
+          "technicalMeaning": "Bản vá không đổi API.",
+          "collocations": [
+            "is safe to install",
+            "safe to upgrade"
+          ],
+          "example": "Version 2.7.1 is safe to install.",
+          "commonMistake": "Nói safe to + động từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Version ___ introduces a breaking change: ___.",
+          "meaning": "Báo thay đổi gây lỗi.",
+          "tone": "neutral",
+          "example": "Version 3.0.0 introduces a breaking change: the submit handler receives one object.",
+          "alternatives": [
+            "In ___, ___ no longer works."
+          ]
+        },
+        {
+          "phrase": "___ is deprecated and will be removed in ___.",
+          "meaning": "Báo tính năng sắp bị bỏ.",
+          "tone": "neutral",
+          "example": "The old submit style is deprecated and will be removed in version 3.",
+          "alternatives": [
+            "___ still works, but you should stop using it."
+          ]
+        },
+        {
+          "phrase": "To upgrade, first ___, then ___.",
+          "meaning": "Mô tả các bước nâng cấp.",
+          "tone": "neutral",
+          "example": "To upgrade, first move to 2.8.0, then install 3.0.0.",
+          "alternatives": [
+            "Before upgrading, make sure ___."
+          ]
+        },
+        {
+          "phrase": "No action is needed for ___.",
+          "meaning": "Báo bản không cần sửa gì.",
+          "tone": "neutral",
+          "example": "No action is needed for version 2.7.1.",
+          "alternatives": [
+            "___ is safe to install."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rcl-check",
+      "type": "auto-check",
+      "title": "Check changelog language",
+      "exercises": [
+        {
+          "id": "rcl-c1",
+          "type": "choice",
+          "question": "What does \"deprecated\" mean?",
+          "options": [
+            "It still works but will be removed later",
+            "It was removed yesterday for the team right now",
+            "It is a new feature"
+          ],
+          "correctAnswer": [
+            "It still works but will be removed later"
+          ],
+          "explanation": "Deprecated là còn dùng được nhưng sẽ bị bỏ."
+        },
+        {
+          "id": "rcl-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: We will migrate ___ version 3 next month.",
+          "correctAnswer": [
+            "to"
+          ],
+          "explanation": "Migrate to + phiên bản."
+        },
+        {
+          "id": "rcl-c3",
+          "type": "ordering",
+          "question": "Sắp xếp các bước nâng cấp.",
+          "options": [
+            "run the codemod",
+            "move to 2.8.0 first",
+            "install 3.0.0"
+          ],
+          "correctAnswer": [
+            "move to 2.8.0 first",
+            "install 3.0.0",
+            "run the codemod"
+          ],
+          "explanation": "Lên 2.8.0, cài 3.0.0, chạy codemod."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rcl-task",
+    "mode": "written",
+    "title": "Write upgrade notes for your team",
+    "scenario": "Bạn đọc changelog của một thư viện và viết ghi chú nâng cấp cho đồng đội.",
+    "baselinePrompt": "Đọc đoạn changelog ngắn rồi viết ghi chú nâng cấp bằng tiếng Anh (60 đến 110 từ): thay đổi gây lỗi, cách sửa và thứ tự nâng cấp. Chưa xem bài mẫu.",
+    "performancePrompt": "Write upgrade notes in English, 60 to 110 words: the breaking changes, how to fix them and the order of the upgrade.",
+    "modelResponse": "Upgrade notes for FormKit 3.0.0. There are two breaking changes. First, the submit handler now receives one object, so onSubmit(name, email) becomes onSubmit(values). Second, Node 16 is no longer supported, so we need Node 18 or newer. Errors are also plain strings now. Plan: move to 2.8.0 first and remove the deprecation warnings, then update Node, install 3.0.0 and run the codemod with npx formkit-migrate. After that, run the form tests and check the asynchronous validation. If we cannot update Node yet, we stay on 2.8.x.",
+    "retryPrompt": "Write the notes again in English. Keep the structure and make the order of the steps clearer.",
+    "transferPrompt": "Write upgrade notes for a different changelog, using the same structure.",
+    "reviewPrompt": "Write upgrade notes for another changelog without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "FormKit 3.0.0 excerpt",
+        "brief": "Viết ghi chú nâng cấp từ một đoạn changelog.",
+        "artifacts": [
+          {
+            "id": "rcl-baseline-ctx",
+            "type": "source",
+            "title": "FormKit 3.0.0 excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. 3.0.0: BREAKING onSubmit receives one object. BREAKING Node 16 not supported. Codemod: npx formkit-migrate. 2.8.0: old submit style deprecated, prints a warning."
+          }
+        ]
+      },
+      "retry": {
+        "title": "ChartLite 5.0.0 excerpt",
+        "brief": "Sửa bài với một thư viện biểu đồ.",
+        "artifacts": [
+          {
+            "id": "rcl-retry-ctx",
+            "type": "source",
+            "title": "ChartLite 5.0.0 excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. 5.0.0: BREAKING the colors option is renamed palette. BREAKING the export method is async. Deprecated in 4.9: the theme string. Run npx chartlite-migrate before building."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "TableGrid 2.0.0 excerpt",
+        "brief": "Tình huống mới: thư viện bảng.",
+        "artifacts": [
+          {
+            "id": "rcl-transfer-ctx",
+            "type": "source",
+            "title": "TableGrid 2.0.0 excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. 2.0.0: BREAKING rows must have a unique id. BREAKING the sort callback is removed. 1.9.0: the sort callback is deprecated and logs a warning. Upgrade to 1.9.x first."
+          }
+        ]
+      },
+      "review": {
+        "title": "AuthKit 4.0.0 excerpt",
+        "brief": "Ôn lại với thư viện đăng nhập.",
+        "artifacts": [
+          {
+            "id": "rcl-review-ctx",
+            "type": "source",
+            "title": "AuthKit 4.0.0 excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. 4.0.0: BREAKING sessions expire after 24 hours by default. BREAKING the login method returns a user object, not a token. 3.5.0: the token return is deprecated. A guide describes the steps."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "breaking changes",
+        "how to fix",
+        "upgrade order"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "correct breaking changes",
+      "clear order",
+      "short sentences"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Breaking changes, fixes, order",
+        "description": "The notes cover the three parts.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The team knows what breaks, how to fix it and in which order.",
+          "notMet": "A breaking change or the order is missing."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate details",
+        "description": "Versions and code names match the changelog.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Versions, options and tools are correct.",
+          "notMet": "Versions or names are wrong."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Changelog vocabulary",
+        "description": "Uses words such as breaking, deprecated and migrate.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three changelog terms.",
+          "notMet": "Uses only \"change\" and \"new\"."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

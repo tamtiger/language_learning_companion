@@ -121,7 +121,7 @@ perception pretest → training có feedback → posttest
 
 ## Nội dung hiện có
 
-Có 29 capability mission v3. Mỗi mục tiêu có một bài A2 lối vào rồi các bài B1/B2; hai mục tiêu phỏng vấn và công việc có thêm lộ trình riêng:
+Có 41 capability mission v3. Mỗi mục tiêu có một bài A2 lối vào rồi các bài B1/B2; hai mục tiêu phỏng vấn và công việc có thêm lộ trình riêng, cùng 12 bài luyện nghe hội thoại và đọc tài liệu dài (viết biên bản, tóm tắt sau khi nghe hoặc đọc):
 
 | Capability | Hai mission | Mode |
 |---|---|---|
@@ -134,9 +134,9 @@ Có 29 capability mission v3. Mỗi mục tiêu có một bài A2 lối vào r�
 
 Người mới mở Today sẽ thấy bài A2 của từng kỹ năng trước; Thư viện đánh dấu "Lối vào A2", gợi ý bài tiếp theo và có nút "Bắt đầu với A2". Bài A2 chỉ còn được đề xuất mới khi bạn chưa học bài cao hơn cùng kỹ năng.
 
-Ngoài 29 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
+Ngoài 41 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
 và chỉ hoàn thành khi mọi auto-check đều đúng; kết quả quiz không đánh giá phát âm
-khi nói. Taxonomy authoring đặt 29 mission v3 tại
+khi nói. Taxonomy authoring đặt 41 mission v3 tại
 `content/missions/<primary-capability>/<lesson-id>.json` và 6 pronunciation lesson
 v1 tại `content/reference/pronunciation/<lesson-id>.json`. Cấu trúc thư mục giúp
 tổ chức biên soạn, không quyết định semantics hoặc runtime behavior; content

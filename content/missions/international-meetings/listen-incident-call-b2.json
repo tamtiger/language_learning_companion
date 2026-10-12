@@ -1,0 +1,473 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "listen-incident-call-b2",
+  "title": "Listen to an incident call and write the status update (B2)",
+  "summary": "Listen to a live incident call, track impact, cause and next update time, and write a status update for stakeholders.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Follow fast speech in an incident call",
+    "Separate impact, cause, mitigation and next update",
+    "Write a clear status update in English"
+  ],
+  "capabilities": [
+    "international-meetings"
+  ],
+  "workflowTags": [
+    "incident-call-listening",
+    "status-updates",
+    "impact-and-mitigation"
+  ],
+  "sections": [
+    {
+      "id": "lic-listening",
+      "type": "listening-source",
+      "title": "Incident call (synthetic training dialogue)",
+      "durationSeconds": 93,
+      "speakers": [
+        {
+          "id": "nora",
+          "label": "Nora, incident commander",
+          "locale": "en-US",
+          "voiceHints": [
+            "English US"
+          ]
+        },
+        {
+          "id": "ben",
+          "label": "Ben, database engineer",
+          "locale": "en-GB",
+          "voiceHints": [
+            "English UK"
+          ]
+        },
+        {
+          "id": "sam",
+          "label": "Sam, support lead",
+          "locale": "en-AU",
+          "voiceHints": [
+            "English Australia",
+            "English"
+          ]
+        }
+      ],
+      "turns": [
+        {
+          "speakerId": "nora",
+          "text": "This is Nora, I am the incident commander. We are here because checkout is slow for about thirty percent of customers. Ben, what do you see?"
+        },
+        {
+          "speakerId": "ben",
+          "text": "The primary database is at ninety-five percent CPU. The spike started at ten past two, right after the pricing job started. I think the job is running a heavy query without a limit."
+        },
+        {
+          "speakerId": "nora",
+          "text": "Can we stop the job?"
+        },
+        {
+          "speakerId": "ben",
+          "text": "Yes, but it will leave the price list half updated. I would rather pause it and let the current batch finish. That should take about ten minutes."
+        },
+        {
+          "speakerId": "sam",
+          "text": "From support, we have forty-two open tickets and the number is growing. Customers say that the payment page takes more than twenty seconds. Nobody has lost an order yet."
+        },
+        {
+          "speakerId": "nora",
+          "text": "Thanks, Sam. Decision: Ben pauses the pricing job now. We keep checkout on and do not roll back, because the last release is not related. Sam, please add a banner that says we are investigating a slowdown."
+        },
+        {
+          "speakerId": "sam",
+          "text": "Understood. I will publish the banner in five minutes and send the first customer message after that."
+        },
+        {
+          "speakerId": "ben",
+          "text": "The job is paused. CPU is dropping, now at seventy percent."
+        },
+        {
+          "speakerId": "nora",
+          "text": "Good. I will post a status update to the stakeholders channel now. Next update at half past two, or earlier if something changes. Ben, please write the query fix after the call."
+        }
+      ],
+      "gist": [
+        {
+          "id": "lic-g1",
+          "type": "choice",
+          "question": "What is happening on this call?",
+          "options": [
+            "A live incident is being handled",
+            "A product demo is planned",
+            "A quarterly review is starting for the team"
+          ],
+          "correctAnswer": [
+            "A live incident is being handled"
+          ],
+          "explanation": "Nora điều phối xử lý sự cố chậm thanh toán."
+        }
+      ],
+      "detail": [
+        {
+          "id": "lic-d1",
+          "type": "choice",
+          "question": "How many customers are affected?",
+          "options": [
+            "About thirty percent",
+            "About three percent for the team",
+            "Every customer"
+          ],
+          "correctAnswer": [
+            "About thirty percent"
+          ],
+          "explanation": "Nora nói khoảng ba mươi phần trăm khách hàng."
+        },
+        {
+          "id": "lic-d2",
+          "type": "choice",
+          "question": "What does Ben think caused the spike?",
+          "options": [
+            "A heavy query in a pricing job",
+            "A broken release for the team right now",
+            "A network cable at work"
+          ],
+          "correctAnswer": [
+            "A heavy query in a pricing job"
+          ],
+          "explanation": "Ben nghi ngờ job giá chạy truy vấn nặng."
+        },
+        {
+          "id": "lic-d3",
+          "type": "choice",
+          "question": "Why does Ben not stop the job completely?",
+          "options": [
+            "The price list would be half updated",
+            "The job is already finished for the team",
+            "He lacks permission"
+          ],
+          "correctAnswer": [
+            "The price list would be half updated"
+          ],
+          "explanation": "Dừng giữa chừng sẽ để bảng giá cập nhật dở."
+        },
+        {
+          "id": "lic-d4",
+          "type": "choice",
+          "question": "Why does Nora decide not to roll back?",
+          "options": [
+            "The last release is not related",
+            "Rollback takes a day",
+            "Customers asked her not to for the team"
+          ],
+          "correctAnswer": [
+            "The last release is not related"
+          ],
+          "explanation": "Nora nói bản phát hành gần nhất không liên quan."
+        },
+        {
+          "id": "lic-d5",
+          "type": "choice",
+          "question": "When is the next update?",
+          "options": [
+            "At half past two",
+            "At ten past two",
+            "At three o'clock"
+          ],
+          "correctAnswer": [
+            "At half past two"
+          ],
+          "explanation": "Nora hẹn cập nhật lúc hai giờ rưỡi."
+        }
+      ],
+      "listeningNotes": {
+        "prompt": "Take short notes while you listen; they are not saved.",
+        "fields": [
+          "Impact",
+          "Cause",
+          "Next update"
+        ]
+      }
+    },
+    {
+      "id": "lic-language",
+      "type": "language-support",
+      "title": "Language for incident updates",
+      "vocabulary": [
+        {
+          "word": "impact",
+          "ipa": "/ˈɪm.pækt/",
+          "definition": "tác động",
+          "technicalMeaning": "Ai hoặc cái gì bị ảnh hưởng và mức độ.",
+          "collocations": [
+            "customer impact",
+            "assess the impact"
+          ],
+          "example": "The impact is about thirty percent of customers.",
+          "commonMistake": "Danh từ nhấn âm đầu: IM-pact."
+        },
+        {
+          "word": "mitigate",
+          "ipa": "/ˈmɪt.ə.ɡeɪt/",
+          "definition": "giảm nhẹ",
+          "technicalMeaning": "Làm giảm tác động trước khi sửa tận gốc.",
+          "collocations": [
+            "mitigate the issue",
+            "mitigation step"
+          ],
+          "example": "We mitigated the issue by pausing the job.",
+          "commonMistake": "Mitigate là giảm nhẹ, không phải fix tận gốc."
+        },
+        {
+          "word": "investigating",
+          "ipa": "/ɪnˈves.tə.ɡeɪ.t̬ɪŋ/",
+          "definition": "đang điều tra",
+          "technicalMeaning": "Trạng thái khi chưa biết nguyên nhân chắc chắn.",
+          "collocations": [
+            "still investigating",
+            "investigating the cause"
+          ],
+          "example": "We are still investigating the cause.",
+          "commonMistake": "Nhấn âm tiết thứ hai: in-VES-ti-gat-ing."
+        },
+        {
+          "word": "stakeholder",
+          "ipa": "/ˈsteɪk.hoʊl.dɚ/",
+          "definition": "bên liên quan",
+          "technicalMeaning": "Người cần biết kết quả của sự cố, như quản lý hoặc khách hàng.",
+          "collocations": [
+            "update stakeholders",
+            "key stakeholders"
+          ],
+          "example": "I will update the stakeholders.",
+          "commonMistake": "Stakeholder viết thành một từ."
+        },
+        {
+          "word": "resolve",
+          "ipa": "/rɪˈzɑːlv/",
+          "definition": "khắc phục xong",
+          "technicalMeaning": "Sự cố kết thúc và dịch vụ hoạt động bình thường.",
+          "collocations": [
+            "resolve the incident",
+            "resolved at"
+          ],
+          "example": "The incident was resolved at three.",
+          "commonMistake": "Nhấn âm tiết thứ hai: re-SOLVE."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Impact: ___.",
+          "meaning": "Mở đầu bằng tác động.",
+          "tone": "neutral",
+          "example": "Impact: checkout is slow for about thirty percent of customers.",
+          "alternatives": [
+            "Customers are seeing ___."
+          ]
+        },
+        {
+          "phrase": "We believe the cause is ___, but we are still investigating.",
+          "meaning": "Nêu nguyên nhân tạm thời.",
+          "tone": "neutral",
+          "example": "We believe the cause is a heavy query, but we are still investigating.",
+          "alternatives": [
+            "The likely cause is ___."
+          ]
+        },
+        {
+          "phrase": "Mitigation: ___.",
+          "meaning": "Nêu biện pháp giảm nhẹ.",
+          "tone": "neutral",
+          "example": "Mitigation: the pricing job is paused and CPU is dropping.",
+          "alternatives": [
+            "We have ___ to reduce the impact."
+          ]
+        },
+        {
+          "phrase": "Next update at ___, or earlier if ___.",
+          "meaning": "Hẹn thời điểm cập nhật.",
+          "tone": "neutral",
+          "example": "Next update at half past two, or earlier if the impact changes.",
+          "alternatives": [
+            "We will update you by ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lic-check",
+      "type": "auto-check",
+      "title": "Check your incident language",
+      "exercises": [
+        {
+          "id": "lic-c1",
+          "type": "choice",
+          "question": "Which sentence is a good status update line?",
+          "options": [
+            "Impact: checkout is slow for about thirty percent of customers.",
+            "Everything is bad right now. for the team right now",
+            "Ben is working on something."
+          ],
+          "correctAnswer": [
+            "Impact: checkout is slow for about thirty percent of customers."
+          ],
+          "explanation": "Dòng tác động nêu ai bị ảnh hưởng và mức độ."
+        },
+        {
+          "id": "lic-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: We are still ___ the cause.",
+          "correctAnswer": [
+            "investigating"
+          ],
+          "explanation": "Still investigating cho biết chưa biết chắc nguyên nhân."
+        },
+        {
+          "id": "lic-c3",
+          "type": "ordering",
+          "question": "Sắp xếp một status update.",
+          "options": [
+            "next update time",
+            "impact",
+            "mitigation",
+            "likely cause"
+          ],
+          "correctAnswer": [
+            "impact",
+            "likely cause",
+            "mitigation",
+            "next update time"
+          ],
+          "explanation": "Tác động, nguyên nhân, giảm nhẹ, lần cập nhật tiếp theo."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "lic-task",
+    "mode": "written",
+    "title": "Write an incident status update",
+    "scenario": "During an incident, you write a status update for the stakeholders channel.",
+    "baselinePrompt": "From the rough notes of an incident call, write a status update in English (60 to 110 words): impact, likely cause, mitigation and next update. Do not look at the model answer yet.",
+    "performancePrompt": "Write a status update in English, 60 to 110 words: the impact, the likely cause, the mitigation and the time of the next update.",
+    "modelResponse": "Status update, 14:20. Impact: checkout is slow for about thirty percent of customers, and support has forty-two open tickets. No orders have been lost. Likely cause: a pricing job is running a heavy query without a limit, and the primary database CPU reached ninety-five percent. Mitigation: the job is paused, CPU is now seventy percent and falling. We are not rolling back because the last release is not related. Support has published a banner on the site. Next update at 14:30, or earlier if the situation changes.",
+    "retryPrompt": "Write the update again in English. Keep the structure and make the impact more specific.",
+    "transferPrompt": "Write a status update for a different incident, such as failed logins.",
+    "reviewPrompt": "Write a status update for another incident without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Raw notes: slow checkout",
+        "brief": "Turn rough call notes into a status update.",
+        "artifacts": [
+          {
+            "id": "lic-baseline-ctx",
+            "type": "source",
+            "title": "Raw notes: slow checkout",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. 14:20. Checkout slow, about 30% of customers, 42 tickets, no lost orders. Cause likely pricing job heavy query. Paused job, CPU 95 then 70. Next update 14:30."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Raw notes: failed logins",
+        "brief": "Retry with a login problem.",
+        "artifacts": [
+          {
+            "id": "lic-retry-ctx",
+            "type": "source",
+            "title": "Raw notes: failed logins",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. 09:05. Login fails for mobile users, about 15% of logins. Cause likely expired certificate. Mitigation: certificate renewed, testing now. Next update 09:20."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Raw notes: email delay",
+        "brief": "A new situation: delayed emails.",
+        "artifacts": [
+          {
+            "id": "lic-transfer-ctx",
+            "type": "source",
+            "title": "Raw notes: email delay",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. 16:40. Order emails delayed up to 30 minutes for all customers. Cause likely queue backlog after a deploy. Mitigation: added workers, backlog falling. Next update 17:00."
+          }
+        ]
+      },
+      "review": {
+        "title": "Raw notes: search outage",
+        "brief": "Review with a search outage.",
+        "artifacts": [
+          {
+            "id": "lic-review-ctx",
+            "type": "source",
+            "title": "Raw notes: search outage",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. 11:15. Search returns no results for English queries. Cause unknown, investigating index. Mitigation: switched to the old index for half of traffic. Next update 11:30."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "impact",
+        "likely cause",
+        "mitigation",
+        "next update"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "specific impact",
+      "cautious cause",
+      "next update time"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Impact, cause, mitigation, next update",
+        "description": "All four parts are present.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The reader sees impact, cause, mitigation and the next update time.",
+          "notMet": "A part, such as the next update time, is missing."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Calm, factual tone",
+        "description": "The tone is calm and does not blame or overpromise.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Uses \"likely\" and facts, with no blame.",
+          "notMet": "Overpromises or blames a person."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate facts",
+        "description": "Numbers and times match the call.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Numbers and times are correct and specific.",
+          "notMet": "Numbers are wrong or vague."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

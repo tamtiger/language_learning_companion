@@ -1,0 +1,427 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-rfc-requirement-words-b2",
+  "title": "Read an RFC-style document and separate MUST from SHOULD (B2)",
+  "summary": "Read a long RFC-style specification, separate mandatory rules from recommendations and write a short summary for implementers.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Skim a specification by its structure",
+    "Tell MUST, SHOULD and MAY apart",
+    "Summarize the rules for implementers"
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "rfc-reading",
+    "requirement-words",
+    "spec-summary"
+  ],
+  "sections": [
+    {
+      "id": "rrf-reading",
+      "type": "long-reading",
+      "title": "Retry Behavior for the Billing API (internal RFC)",
+      "format": "rfc",
+      "parts": [
+        {
+          "id": "abstract",
+          "heading": "1. Abstract",
+          "content": "Synthetic training artifact — non-production. RFC 0412: Retry Behavior for the Billing API. Status: Proposed. This document defines how clients retry requests to the Billing API when a request fails. Unsafe retries can charge a customer twice, and unlimited retries can overload the service during an incident. The rules below reduce both risks. They apply to every client that creates or changes invoices, including the mobile app, the admin site and partner integrations. The document does not describe retries of read-only requests, which are covered in RFC 0398."
+        },
+        {
+          "id": "terms",
+          "heading": "2. Terminology",
+          "content": "The key words MUST, MUST NOT, SHOULD, SHOULD NOT and MAY in this document are to be read as follows. MUST and MUST NOT describe an absolute rule: a client that breaks it is not compatible. SHOULD and SHOULD NOT describe a strong recommendation: a client may ignore it only for a valid reason that the implementer understands and documents. MAY describes a truly optional feature. An idempotency key is a unique value that a client sends so that the server can detect and ignore a repeated request."
+        },
+        {
+          "id": "rules",
+          "heading": "3. Client Requirements",
+          "content": "A client MUST send an idempotency key with every request that creates or changes an invoice. The key MUST be unique for each logical operation and MUST stay the same across retries of that operation. A client MUST NOT retry a request that failed with a status in the 400 range, except 408 and 429, because those errors will not change on a second attempt. A client SHOULD wait before each retry and SHOULD use exponential backoff, starting at one second and doubling each time. A client SHOULD add a small random delay, called jitter, so that many clients do not retry at the same moment. A client MAY limit the total retry time to a shorter period than the maximum."
+        },
+        {
+          "id": "limits",
+          "heading": "4. Limits",
+          "content": "A client MUST stop after five retries or after two minutes in total, whichever comes first. After that, the client MUST report the failure to the user or to the calling system and MUST NOT continue silently. A client SHOULD record every retry in its logs with the idempotency key, so that support can follow a single operation. A client SHOULD NOT retry in a tight loop, and a library that does so is not recommended for use with the Billing API."
+        },
+        {
+          "id": "server",
+          "heading": "5. Server Behavior",
+          "content": "The server MUST store each idempotency key for at least twenty-four hours. When it receives a repeated key with the same request body, it MUST return the original response and MUST NOT create a second invoice. When it receives a repeated key with a different body, it MUST reject the request with status 422. The server SHOULD include a Retry-After header when it returns 429 or 503, and clients SHOULD respect that value when it is longer than their own delay."
+        },
+        {
+          "id": "security",
+          "heading": "6. Security and Open Issues",
+          "content": "Idempotency keys are not secrets, but they MUST NOT contain personal data such as an email address. An open issue remains: partner integrations that cannot store keys across restarts. Until the working group decides, such clients MAY generate a new key after a restart, accepting that a duplicate invoice is possible, and they SHOULD alert an operator when this happens. Comments on this proposal are welcome until the end of the review period."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rrf-s1",
+          "type": "choice",
+          "question": "What is the main purpose of this document?",
+          "options": [
+            "It defines safe retry rules for clients",
+            "It describes how invoices are designed for the team",
+            "It explains how to price a product"
+          ],
+          "correctAnswer": [
+            "It defines safe retry rules for clients"
+          ],
+          "explanation": "Phần Abstract nêu mục đích: quy tắc retry an toàn."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "rules",
+          "exercise": {
+            "id": "rrf-q1",
+            "type": "choice",
+            "question": "Which requirement is mandatory for creating an invoice?",
+            "options": [
+              "Sending an idempotency key",
+              "Adding random jitter",
+              "Limiting the total retry time"
+            ],
+            "correctAnswer": [
+              "Sending an idempotency key"
+            ],
+            "explanation": "Mục 3: client MUST gửi idempotency key."
+          }
+        },
+        {
+          "locatePartId": "limits",
+          "exercise": {
+            "id": "rrf-q2",
+            "type": "choice",
+            "question": "When must a client stop retrying?",
+            "options": [
+              "After five retries or two minutes",
+              "After one hour of waiting",
+              "When a user cancels the app for the team"
+            ],
+            "correctAnswer": [
+              "After five retries or two minutes"
+            ],
+            "explanation": "Mục 4 đặt giới hạn năm lần hoặc hai phút."
+          }
+        },
+        {
+          "locatePartId": "server",
+          "exercise": {
+            "id": "rrf-q3",
+            "type": "choice",
+            "question": "What does the server do when the same key arrives with a different body?",
+            "options": [
+              "It rejects the request with 422",
+              "It creates a second invoice",
+              "It repeats the first response for the team"
+            ],
+            "correctAnswer": [
+              "It rejects the request with 422"
+            ],
+            "explanation": "Mục 5: khác nội dung thì trả 422."
+          }
+        },
+        {
+          "locatePartId": "terms",
+          "exercise": {
+            "id": "rrf-q4",
+            "type": "choice",
+            "question": "How strong is the word SHOULD?",
+            "options": [
+              "A strong recommendation with exceptions",
+              "An absolute rule at work",
+              "A purely optional feature for the team right now"
+            ],
+            "correctAnswer": [
+              "A strong recommendation with exceptions"
+            ],
+            "explanation": "Mục 2 định nghĩa SHOULD."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rrf-language",
+      "type": "language-support",
+      "title": "Language for reading specifications",
+      "vocabulary": [
+        {
+          "word": "mandatory",
+          "ipa": "/ˈmæn.də.tɔːr.i/",
+          "definition": "bắt buộc",
+          "technicalMeaning": "Quy tắc phải tuân theo để tương thích.",
+          "collocations": [
+            "a mandatory rule",
+            "is mandatory"
+          ],
+          "example": "Sending a key is mandatory.",
+          "commonMistake": "Nhấn âm đầu: MAN-da-tory."
+        },
+        {
+          "word": "idempotent",
+          "ipa": "/ˌaɪ.demˈpoʊ.t̬ənt/",
+          "definition": "có tính lũy đẳng",
+          "technicalMeaning": "Gửi lặp lại cho cùng kết quả như gửi một lần.",
+          "collocations": [
+            "an idempotent request",
+            "idempotency key"
+          ],
+          "example": "The server treats repeated requests as idempotent.",
+          "commonMistake": "Nhấn âm tiết thứ ba: i-dem-PO-tent."
+        },
+        {
+          "word": "backoff",
+          "ipa": "/ˈbæk.ɔːf/",
+          "definition": "chờ lâu dần giữa các lần thử",
+          "technicalMeaning": "Tăng dần thời gian chờ giữa các lần retry.",
+          "collocations": [
+            "exponential backoff",
+            "use backoff"
+          ],
+          "example": "Use exponential backoff for retries.",
+          "commonMistake": "Backoff là một từ khi là danh từ."
+        },
+        {
+          "word": "compatible",
+          "ipa": "/kəmˈpæt̬.ə.bəl/",
+          "definition": "tương thích",
+          "technicalMeaning": "Làm việc đúng với một chuẩn hoặc hệ thống.",
+          "collocations": [
+            "compatible with",
+            "fully compatible"
+          ],
+          "example": "A client that breaks a MUST rule is not compatible.",
+          "commonMistake": "Nói compatible with, không nói compatible to."
+        },
+        {
+          "word": "valid reason",
+          "ipa": "/ˈvæl.ɪd ˈriː.zən/",
+          "definition": "lý do chính đáng",
+          "technicalMeaning": "Lý do đủ tốt để bỏ qua một khuyến nghị.",
+          "collocations": [
+            "a valid reason",
+            "without a valid reason"
+          ],
+          "example": "A client may ignore SHOULD only for a valid reason.",
+          "commonMistake": "Nói a valid reason for + việc."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The document requires ___ (MUST).",
+          "meaning": "Mô tả một quy tắc bắt buộc.",
+          "tone": "neutral",
+          "example": "The document requires clients to send an idempotency key.",
+          "alternatives": [
+            "Clients are obliged to ___."
+          ]
+        },
+        {
+          "phrase": "It recommends ___ (SHOULD), but allows exceptions.",
+          "meaning": "Mô tả khuyến nghị.",
+          "tone": "neutral",
+          "example": "It recommends exponential backoff, but allows exceptions.",
+          "alternatives": [
+            "It is advisable to ___."
+          ]
+        },
+        {
+          "phrase": "It leaves ___ to the implementer (MAY).",
+          "meaning": "Mô tả điều tùy chọn.",
+          "tone": "neutral",
+          "example": "It leaves the shorter retry limit to the implementer.",
+          "alternatives": [
+            "It is optional to ___."
+          ]
+        },
+        {
+          "phrase": "One open issue is ___.",
+          "meaning": "Nêu vấn đề còn mở.",
+          "tone": "neutral",
+          "example": "One open issue is partner clients that cannot store keys.",
+          "alternatives": [
+            "It is not yet decided ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rrf-check",
+      "type": "auto-check",
+      "title": "Check requirement words",
+      "exercises": [
+        {
+          "id": "rrf-c1",
+          "type": "choice",
+          "question": "Which word marks an absolute rule?",
+          "options": [
+            "MUST",
+            "SHOULD",
+            "MAY"
+          ],
+          "correctAnswer": [
+            "MUST"
+          ],
+          "explanation": "MUST là quy tắc tuyệt đối trong RFC."
+        },
+        {
+          "id": "rrf-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: A client ___ NOT retry a 404 response.",
+          "correctAnswer": [
+            "MUST"
+          ],
+          "explanation": "MUST NOT là cấm tuyệt đối."
+        },
+        {
+          "id": "rrf-c3",
+          "type": "ordering",
+          "question": "Sắp xếp từ mạnh nhất đến yếu nhất.",
+          "options": [
+            "MAY",
+            "MUST",
+            "SHOULD"
+          ],
+          "correctAnswer": [
+            "MUST",
+            "SHOULD",
+            "MAY"
+          ],
+          "explanation": "MUST bắt buộc, SHOULD khuyến nghị, MAY tùy chọn."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rrf-task",
+    "mode": "written",
+    "title": "Summarize the rules for implementers",
+    "scenario": "You read a specification and write a short note that tells implementers what is required and what is recommended.",
+    "baselinePrompt": "Read the short specification excerpt and write a summary in English (60 to 120 words): what is mandatory, what is recommended and what is optional. Do not look at the model answer yet.",
+    "performancePrompt": "Write a summary of the specification in English, 60 to 120 words: what clients must do, what they should do and what is optional.",
+    "modelResponse": "Summary of RFC 0412 for client developers. Clients must send an idempotency key with every request that creates or changes an invoice, keep the same key across retries, and never retry 4xx errors except 408 and 429. They must stop after five retries or two minutes. Clients should use exponential backoff with jitter and should log each retry with the key. They may shorten the total retry time. On the server side, keys are stored for at least twenty-four hours. One open issue concerns partner clients that cannot store keys across restarts, which may create duplicate invoices.",
+    "retryPrompt": "Write the summary again in English. Keep the three levels and make the strongest rules easier to find.",
+    "transferPrompt": "Summarize a different specification excerpt, using the same three levels.",
+    "reviewPrompt": "Summarize another specification excerpt without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Retry excerpt (RFC 0412)",
+        "brief": "Summarize an excerpt about retry rules.",
+        "artifacts": [
+          {
+            "id": "rrf-baseline-ctx",
+            "type": "source",
+            "title": "Retry excerpt (RFC 0412)",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. A client MUST send an idempotency key with every write request. A client SHOULD use exponential backoff. A client MAY limit the total retry time. A client MUST NOT retry after five attempts."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Logging excerpt (RFC 0421)",
+        "brief": "Retry with a document about logging.",
+        "artifacts": [
+          {
+            "id": "rrf-retry-ctx",
+            "type": "source",
+            "title": "Logging excerpt (RFC 0421)",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Every service MUST log the request id. Services SHOULD log in JSON format. Services MAY add the user agent. Services MUST NOT log passwords or card numbers."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Cache excerpt (RFC 0433)",
+        "brief": "A new situation: a document about caching.",
+        "artifacts": [
+          {
+            "id": "rrf-transfer-ctx",
+            "type": "source",
+            "title": "Cache excerpt (RFC 0433)",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Responses MUST include a cache header. Clients SHOULD cache lists for sixty seconds. Gateways MAY keep older copies during an outage. Caches MUST NOT store private data."
+          }
+        ]
+      },
+      "review": {
+        "title": "Versioning excerpt (RFC 0440)",
+        "brief": "Review with a document about API versions.",
+        "artifacts": [
+          {
+            "id": "rrf-review-ctx",
+            "type": "source",
+            "title": "Versioning excerpt (RFC 0440)",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Every endpoint MUST include a version in its path. Teams SHOULD announce changes ninety days before removal. Teams MAY keep old versions longer. A version MUST NOT change meaning after release."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "mandatory rules",
+        "recommended rules",
+        "optional rules"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "correct strength of each rule",
+      "accurate details",
+      "concise wording"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Three levels of requirement",
+        "description": "The summary separates must, should and may.",
+        "dimension": "task",
+        "anchors": {
+          "met": "Each rule is placed at the right strength.",
+          "notMet": "Rules are mixed or the strength is wrong."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate details",
+        "description": "Numbers and conditions match the document.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Limits and exceptions are correct.",
+          "notMet": "Numbers are wrong or invented."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Requirement vocabulary",
+        "description": "Uses words such as must, should, may, mandatory and recommended.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three requirement terms correctly.",
+          "notMet": "Uses only \"need\" and \"can\"."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

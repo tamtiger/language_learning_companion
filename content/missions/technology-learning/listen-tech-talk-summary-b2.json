@@ -1,0 +1,473 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "listen-tech-talk-summary-b2",
+  "title": "Listen to a tech talk and write a summary (B2)",
+  "summary": "Listen to a short tech talk with a host and Q&A, then write a summary of the claims, evidence and what you would try.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Follow the structure of a short technical talk",
+    "Separate claims from evidence",
+    "Write a summary with what you would try next"
+  ],
+  "capabilities": [
+    "technology-learning"
+  ],
+  "workflowTags": [
+    "tech-talk-listening",
+    "claims-and-evidence",
+    "talk-summary"
+  ],
+  "sections": [
+    {
+      "id": "ltt-listening",
+      "type": "listening-source",
+      "title": "Short tech talk (synthetic training dialogue)",
+      "durationSeconds": 114,
+      "speakers": [
+        {
+          "id": "host",
+          "label": "Hana, host",
+          "locale": "en-AU",
+          "voiceHints": [
+            "English Australia",
+            "English"
+          ]
+        },
+        {
+          "id": "speaker",
+          "label": "Victor, speaker",
+          "locale": "en-US",
+          "voiceHints": [
+            "English US"
+          ]
+        },
+        {
+          "id": "guest",
+          "label": "Priti, audience member",
+          "locale": "en-GB",
+          "voiceHints": [
+            "English UK"
+          ]
+        }
+      ],
+      "turns": [
+        {
+          "speakerId": "host",
+          "text": "Welcome back. Our next talk is about slow builds. Victor leads the developer tools team at a mid-size company, and he will share what they changed last year. Victor, the floor is yours."
+        },
+        {
+          "speakerId": "speaker",
+          "text": "Thanks, Hana. A year ago, our full build took twenty-two minutes. People stopped running it locally, so bugs reached the shared branch. We made three changes. First, we cached dependencies between runs. Second, we ran tests in parallel. Third, we only rebuilt the parts that changed."
+        },
+        {
+          "speakerId": "speaker",
+          "text": "The result was a median build of six minutes. The biggest gain came from the third change, which saved about eight of those sixteen minutes. Caching saved four, and parallel tests saved the rest. I should be honest: we measured on our main branch for one month, and our monorepo is quite large, so your numbers may differ."
+        },
+        {
+          "speakerId": "host",
+          "text": "Thank you, Victor. We have time for one question."
+        },
+        {
+          "speakerId": "guest",
+          "text": "Thanks for the talk. Did you see any problems with cached dependencies, for example old versions that stayed in the cache?"
+        },
+        {
+          "speakerId": "speaker",
+          "text": "Yes, once. A cache entry kept an old library version and a test passed when it should have failed. Now the cache key includes the lock file hash, so any change in dependencies creates a new entry."
+        },
+        {
+          "speakerId": "guest",
+          "text": "That makes sense. If I wanted to try this, where would you start?"
+        },
+        {
+          "speakerId": "speaker",
+          "text": "Measure first. Find the slowest step, then change one thing at a time. In our case, rebuilding only changed parts was the best start, but it needs a clear map of dependencies, so give it time."
+        },
+        {
+          "speakerId": "host",
+          "text": "Great advice. Thank you again, Victor, and thanks to everyone for listening."
+        }
+      ],
+      "gist": [
+        {
+          "id": "ltt-g1",
+          "type": "choice",
+          "question": "What is the talk mainly about?",
+          "options": [
+            "Making software builds faster",
+            "Hiring a developer tools team",
+            "Choosing a new programming language"
+          ],
+          "correctAnswer": [
+            "Making software builds faster"
+          ],
+          "explanation": "Victor kể cách giảm thời gian build từ hai mươi hai xuống sáu phút."
+        }
+      ],
+      "detail": [
+        {
+          "id": "ltt-d1",
+          "type": "choice",
+          "question": "How long did the full build take a year ago?",
+          "options": [
+            "Twenty-two minutes",
+            "Twelve minutes for the team",
+            "Six minutes"
+          ],
+          "correctAnswer": [
+            "Twenty-two minutes"
+          ],
+          "explanation": "Build đầy đủ mất hai mươi hai phút."
+        },
+        {
+          "id": "ltt-d2",
+          "type": "choice",
+          "question": "Which change gave the biggest gain?",
+          "options": [
+            "Rebuilding only changed parts",
+            "Caching dependencies",
+            "Running tests in parallel for the team"
+          ],
+          "correctAnswer": [
+            "Rebuilding only changed parts"
+          ],
+          "explanation": "Thay đổi thứ ba tiết kiệm khoảng tám phút."
+        },
+        {
+          "id": "ltt-d3",
+          "type": "choice",
+          "question": "What limitation does Victor mention about his data?",
+          "options": [
+            "One month on one large repository",
+            "A survey of a hundred teams for the team",
+            "A test with no data"
+          ],
+          "correctAnswer": [
+            "One month on one large repository"
+          ],
+          "explanation": "Victor nói số đo trong một tháng trên monorepo lớn."
+        },
+        {
+          "id": "ltt-d4",
+          "type": "choice",
+          "question": "What problem did the cache cause once?",
+          "options": [
+            "An old library version stayed in it",
+            "The disk became full for the team right now",
+            "The builds stopped"
+          ],
+          "correctAnswer": [
+            "An old library version stayed in it"
+          ],
+          "explanation": "Bộ nhớ đệm giữ phiên bản thư viện cũ."
+        },
+        {
+          "id": "ltt-d5",
+          "type": "choice",
+          "question": "What advice does Victor give first?",
+          "options": [
+            "Measure before changing",
+            "Buy faster computers for the team",
+            "Delete the tests"
+          ],
+          "correctAnswer": [
+            "Measure before changing"
+          ],
+          "explanation": "Victor khuyên đo trước, rồi thay một thứ một lần."
+        }
+      ],
+      "listeningNotes": {
+        "prompt": "Take short notes while you listen; they are not saved.",
+        "fields": [
+          "Claims",
+          "Evidence",
+          "What to try"
+        ]
+      }
+    },
+    {
+      "id": "ltt-language",
+      "type": "language-support",
+      "title": "Language for talk summaries",
+      "vocabulary": [
+        {
+          "word": "median",
+          "ipa": "/ˈmiː.di.ən/",
+          "definition": "trung vị",
+          "technicalMeaning": "Giá trị ở giữa khi sắp xếp các số đo.",
+          "collocations": [
+            "the median build time",
+            "median of"
+          ],
+          "example": "The median build is six minutes.",
+          "commonMistake": "Median khác mean (trung bình cộng)."
+        },
+        {
+          "word": "cache",
+          "ipa": "/kæʃ/",
+          "definition": "bộ nhớ đệm",
+          "technicalMeaning": "Nơi lưu kết quả để dùng lại nhanh hơn.",
+          "collocations": [
+            "cache dependencies",
+            "a cache key"
+          ],
+          "example": "We cache dependencies between runs.",
+          "commonMistake": "Đọc là /kæʃ/, giống cash."
+        },
+        {
+          "word": "in parallel",
+          "ipa": "/ɪn ˈper.ə.lel/",
+          "definition": "chạy song song",
+          "technicalMeaning": "Chạy nhiều việc cùng lúc.",
+          "collocations": [
+            "run in parallel",
+            "tests in parallel"
+          ],
+          "example": "We run tests in parallel.",
+          "commonMistake": "Nói in parallel, không nói on parallel."
+        },
+        {
+          "word": "claim",
+          "ipa": "/kleɪm/",
+          "definition": "tuyên bố",
+          "technicalMeaning": "Điều người nói cho là đúng và cần bằng chứng.",
+          "collocations": [
+            "make a claim",
+            "support a claim"
+          ],
+          "example": "His main claim is that rebuilding only changes helps most.",
+          "commonMistake": "Nói make a claim, không nói do a claim."
+        },
+        {
+          "word": "limitation",
+          "ipa": "/ˌlɪm.əˈteɪ.ʃən/",
+          "definition": "hạn chế",
+          "technicalMeaning": "Điều làm kết quả khó áp dụng rộng.",
+          "collocations": [
+            "a limitation of",
+            "mention a limitation"
+          ],
+          "example": "One limitation is the single month of data.",
+          "commonMistake": "Nói a limitation of + dữ liệu."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The speaker argued that ___.",
+          "meaning": "Tóm tắt luận điểm.",
+          "tone": "neutral",
+          "example": "The speaker argued that rebuilding only changed parts helps most.",
+          "alternatives": [
+            "The main claim was ___."
+          ]
+        },
+        {
+          "phrase": "As evidence, he said ___.",
+          "meaning": "Nêu bằng chứng.",
+          "tone": "neutral",
+          "example": "As evidence, he said the median build dropped from twenty-two to six minutes.",
+          "alternatives": [
+            "The data showed ___."
+          ]
+        },
+        {
+          "phrase": "One limitation is ___.",
+          "meaning": "Ghi hạn chế.",
+          "tone": "neutral",
+          "example": "One limitation is that the data covers one month on one repository.",
+          "alternatives": [
+            "This may not apply to ___."
+          ]
+        },
+        {
+          "phrase": "I would start by ___.",
+          "meaning": "Nêu điều bạn sẽ thử.",
+          "tone": "neutral",
+          "example": "I would start by measuring our slowest build step.",
+          "alternatives": [
+            "My first step would be ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ltt-check",
+      "type": "auto-check",
+      "title": "Check your summary language",
+      "exercises": [
+        {
+          "id": "ltt-c1",
+          "type": "choice",
+          "question": "Which sentence gives evidence?",
+          "options": [
+            "The median build dropped from twenty-two to six minutes.",
+            "The talk was very interesting. for the team right now",
+            "Everyone should try this."
+          ],
+          "correctAnswer": [
+            "The median build dropped from twenty-two to six minutes."
+          ],
+          "explanation": "Bằng chứng là số đo cụ thể."
+        },
+        {
+          "id": "ltt-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: We run the tests ___ parallel.",
+          "correctAnswer": [
+            "in"
+          ],
+          "explanation": "In parallel là chạy song song."
+        },
+        {
+          "id": "ltt-c3",
+          "type": "ordering",
+          "question": "Sắp xếp phần tóm tắt.",
+          "options": [
+            "what I would try",
+            "the main claim",
+            "the evidence",
+            "a limitation"
+          ],
+          "correctAnswer": [
+            "the main claim",
+            "the evidence",
+            "a limitation",
+            "what I would try"
+          ],
+          "explanation": "Luận điểm, bằng chứng, hạn chế, việc sẽ thử."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "ltt-task",
+    "mode": "written",
+    "title": "Write a talk summary",
+    "scenario": "After a tech talk, you write a short summary for your team with what you would try.",
+    "baselinePrompt": "From the rough notes of a tech talk, write a summary in English (60 to 110 words): claims, evidence, a limitation and what you would try. Do not look at the model answer yet.",
+    "performancePrompt": "Write a talk summary in English, 60 to 110 words: the main claim, the evidence, one limitation and the first thing you would try.",
+    "modelResponse": "Talk summary: faster builds. Victor argued that rebuilding only changed parts of the code helps most. As evidence, he said the median build dropped from twenty-two to six minutes after three changes: caching dependencies, running tests in parallel and rebuilding only what changed. The third change saved about eight minutes. One limitation is that the data covers one month on one large repository, so our results may differ. He also warned that cache keys must include the lock file hash. I would start by measuring our slowest build step, then change one thing at a time.",
+    "retryPrompt": "Write the summary again in English. Keep the structure and make the evidence more precise.",
+    "transferPrompt": "Write a summary of a different talk, such as one about code reviews.",
+    "reviewPrompt": "Write a summary of another talk without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Raw notes: faster builds talk",
+        "brief": "Turn rough talk notes into a summary.",
+        "artifacts": [
+          {
+            "id": "ltt-baseline-ctx",
+            "type": "source",
+            "title": "Raw notes: faster builds talk",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Talk on slow builds. Claim: rebuild only changes. Evidence: median 22 to 6 minutes. Limit: one month, big repo. Warning: cache key needs lock file hash."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Raw notes: code review talk",
+        "brief": "Retry with a talk about code reviews.",
+        "artifacts": [
+          {
+            "id": "ltt-retry-ctx",
+            "type": "source",
+            "title": "Raw notes: code review talk",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Talk on code reviews. Claim: small pull requests get reviewed faster. Evidence: median wait 2 days to 5 hours. Limit: one team of 12. Tip: set a size limit of 300 lines."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Raw notes: feature flag talk",
+        "brief": "A new situation: a talk about feature flags.",
+        "artifacts": [
+          {
+            "id": "ltt-transfer-ctx",
+            "type": "source",
+            "title": "Raw notes: feature flag talk",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Talk on feature flags. Claim: flags cut release risk. Evidence: failed releases 9 to 3 in a year. Limit: self-reported by two teams. Tip: remove old flags every month."
+          }
+        ]
+      },
+      "review": {
+        "title": "Raw notes: testing talk",
+        "brief": "Review with a talk about test strategy.",
+        "artifacts": [
+          {
+            "id": "ltt-review-ctx",
+            "type": "source",
+            "title": "Raw notes: testing talk",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Talk on tests. Claim: more integration tests catch more bugs. Evidence: 40% fewer production bugs. Limit: no control group. Tip: start with the three busiest flows."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "main claim",
+        "evidence",
+        "limitation",
+        "what I would try"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "claim versus evidence",
+      "limitation",
+      "concrete next step"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Claim, evidence, limitation, next step",
+        "description": "All four parts are present.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The reader sees the claim, numbers, a limitation and a next step.",
+          "notMet": "Evidence or the limitation is missing."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate reporting",
+        "description": "The summary reports what the speaker said.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Numbers and claims match the talk.",
+          "notMet": "Numbers are wrong or the speaker is misquoted."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Reporting verbs",
+        "description": "Uses verbs such as argued, showed and warned.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three different reporting verbs.",
+          "notMet": "Repeats \"said\" for every sentence."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

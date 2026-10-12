@@ -1,0 +1,427 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-api-reference-pagination-b2",
+  "title": "Read an API reference page and plan an integration (B2)",
+  "summary": "Read a long API reference page for listing orders, find parameters, pagination and errors, and write an integration note.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Locate parameters and response fields quickly",
+    "Understand cursor pagination and error handling",
+    "Write a short integration note"
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "api-reference-reading",
+    "pagination-rules",
+    "integration-note"
+  ],
+  "sections": [
+    {
+      "id": "rap-reading",
+      "type": "long-reading",
+      "title": "Orders API: List orders",
+      "format": "api-reference",
+      "parts": [
+        {
+          "id": "overview",
+          "heading": "Overview",
+          "content": "Synthetic training artifact — non-production. Orders API reference, version 2. This endpoint returns a list of orders that belong to your account. Results are sorted from newest to oldest. Use it to sync orders into your own system or to build reports. The endpoint requires a secret key in the Authorization header. Requests without a valid key return status 401. A key can be restricted to read-only access, which is enough for this endpoint. Do not call this endpoint from a browser, because the secret key would be visible to anyone."
+        },
+        {
+          "id": "params",
+          "heading": "Query parameters",
+          "content": "limit: integer, optional. The number of orders to return, from 1 to 100. The default is 20. status: string, optional. Filter by one of pending, paid, shipped or cancelled. created_after: timestamp, optional. Returns orders created after this time, in UTC and in ISO 8601 format. cursor: string, optional. The value of next_cursor from the previous response. Do not build a cursor yourself, because its format may change without notice. Unknown parameters are ignored and do not cause an error."
+        },
+        {
+          "id": "response",
+          "heading": "Response fields",
+          "content": "The response is a JSON object with three fields. data is an array of order objects. Each order has an id, a status, an amount in the smallest currency unit, such as cents, a currency code and a created timestamp. has_more is a boolean that tells you whether more pages exist. next_cursor is a string, or null on the last page. The amount is always an integer, so you never need to handle decimals. Orders that are older than two years are archived and do not appear in this list."
+        },
+        {
+          "id": "pagination",
+          "heading": "Pagination",
+          "content": "This endpoint uses cursor pagination. To read all orders, send the first request without a cursor. If has_more is true, send the next request with cursor set to next_cursor, and repeat until has_more is false. Cursors are valid for one hour. If a cursor expires, the endpoint returns status 410, and you must start again from the first page. New orders created during pagination may or may not appear, so do not rely on the list being a perfect snapshot. For a full export, use the created_after parameter and run the sync regularly."
+        },
+        {
+          "id": "errors",
+          "heading": "Errors",
+          "content": "Errors use standard HTTP status codes and a JSON body with a code and a message. 400: a parameter is invalid, for example a limit above 100. 401: the key is missing or invalid. 403: the key does not have permission to read orders. 410: the cursor has expired. 429: you sent too many requests; wait for the number of seconds in the Retry-After header. 500: an error on our side; retry with a delay. Always log the request id from the response header, because support needs it to investigate a problem."
+        },
+        {
+          "id": "limits",
+          "heading": "Rate limits and example",
+          "content": "Each account can send up to one hundred requests per minute to this endpoint. Rate limit information is returned in the X-RateLimit-Remaining header. Example: a request to list the ten newest paid orders uses limit equal to 10 and status equal to paid. The response contains up to ten orders, has_more set to true if there are more, and a next_cursor value that you pass to the next request."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rap-s1",
+          "type": "choice",
+          "question": "What does this endpoint do?",
+          "options": [
+            "Lists the account's orders, newest first",
+            "Creates a new order for a customer for the team",
+            "Deletes old orders from the system"
+          ],
+          "correctAnswer": [
+            "Lists the account's orders, newest first"
+          ],
+          "explanation": "Phần Overview nêu mục đích."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "params",
+          "exercise": {
+            "id": "rap-q1",
+            "type": "choice",
+            "question": "What is the maximum value of limit?",
+            "options": [
+              "100",
+              "20 for the team",
+              "10 at work"
+            ],
+            "correctAnswer": [
+              "100"
+            ],
+            "explanation": "Phần tham số: limit từ 1 đến 100."
+          }
+        },
+        {
+          "locatePartId": "pagination",
+          "exercise": {
+            "id": "rap-q2",
+            "type": "choice",
+            "question": "What should you do when has_more is true?",
+            "options": [
+              "Send the next request with next_cursor",
+              "Wait for one hour",
+              "Start again without a cursor for the team"
+            ],
+            "correctAnswer": [
+              "Send the next request with next_cursor"
+            ],
+            "explanation": "Phần Pagination hướng dẫn dùng cursor."
+          }
+        },
+        {
+          "locatePartId": "errors",
+          "exercise": {
+            "id": "rap-q3",
+            "type": "choice",
+            "question": "What does status 410 mean here?",
+            "options": [
+              "The cursor has expired",
+              "The key has no permission",
+              "The server failed"
+            ],
+            "correctAnswer": [
+              "The cursor has expired"
+            ],
+            "explanation": "Phần Errors: 410 là cursor hết hạn."
+          }
+        },
+        {
+          "locatePartId": "limits",
+          "exercise": {
+            "id": "rap-q4",
+            "type": "choice",
+            "question": "How many requests per minute are allowed?",
+            "options": [
+              "One hundred",
+              "Ten",
+              "One thousand"
+            ],
+            "correctAnswer": [
+              "One hundred"
+            ],
+            "explanation": "Phần Rate limits: tối đa một trăm yêu cầu mỗi phút."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rap-language",
+      "type": "language-support",
+      "title": "Language for API references",
+      "vocabulary": [
+        {
+          "word": "endpoint",
+          "ipa": "/ˈen.dpɔɪnt/",
+          "definition": "điểm cuối của API",
+          "technicalMeaning": "Một địa chỉ trong API nhận yêu cầu và trả kết quả.",
+          "collocations": [
+            "call an endpoint",
+            "this endpoint returns"
+          ],
+          "example": "This endpoint returns a list of orders.",
+          "commonMistake": "Endpoint viết thành một từ."
+        },
+        {
+          "word": "cursor",
+          "ipa": "/ˈkɝː.sɚ/",
+          "definition": "con trỏ phân trang",
+          "technicalMeaning": "Giá trị đánh dấu vị trí để lấy trang tiếp theo.",
+          "collocations": [
+            "a pagination cursor",
+            "pass the cursor"
+          ],
+          "example": "Pass next_cursor as the cursor.",
+          "commonMistake": "Không tự tạo cursor; chỉ dùng giá trị server trả."
+        },
+        {
+          "word": "optional",
+          "ipa": "/ˈɑːp.ʃən.əl/",
+          "definition": "không bắt buộc",
+          "technicalMeaning": "Tham số có thể bỏ qua vì đã có giá trị mặc định.",
+          "collocations": [
+            "an optional parameter",
+            "optional field"
+          ],
+          "example": "The limit parameter is optional.",
+          "commonMistake": "Nhấn âm đầu: OP-tion-al."
+        },
+        {
+          "word": "expire",
+          "ipa": "/ɪkˈspaɪɚ/",
+          "definition": "hết hạn",
+          "technicalMeaning": "Không còn hợp lệ sau một khoảng thời gian.",
+          "collocations": [
+            "the cursor expires",
+            "expires after"
+          ],
+          "example": "A cursor expires after one hour.",
+          "commonMistake": "Nhấn âm tiết thứ hai: ex-PIRE."
+        },
+        {
+          "word": "archived",
+          "ipa": "/ˈɑːr.kaɪvd/",
+          "definition": "đã lưu trữ",
+          "technicalMeaning": "Dữ liệu cũ được chuyển ra khỏi danh sách thường dùng.",
+          "collocations": [
+            "archived records",
+            "is archived"
+          ],
+          "example": "Orders older than two years are archived.",
+          "commonMistake": "Nhấn âm đầu: AR-chived."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The ___ parameter is optional and defaults to ___.",
+          "meaning": "Mô tả tham số tùy chọn.",
+          "tone": "neutral",
+          "example": "The limit parameter is optional and defaults to twenty.",
+          "alternatives": [
+            "You can leave out ___."
+          ]
+        },
+        {
+          "phrase": "To read all results, repeat the request until ___.",
+          "meaning": "Mô tả vòng lặp phân trang.",
+          "tone": "neutral",
+          "example": "To read all results, repeat the request until has_more is false.",
+          "alternatives": [
+            "Keep calling until ___."
+          ]
+        },
+        {
+          "phrase": "If ___, the API returns ___.",
+          "meaning": "Mô tả điều kiện lỗi.",
+          "tone": "neutral",
+          "example": "If the cursor has expired, the API returns status 410.",
+          "alternatives": [
+            "When ___, you will get ___."
+          ]
+        },
+        {
+          "phrase": "You must not rely on ___.",
+          "meaning": "Cảnh báo giới hạn.",
+          "tone": "neutral",
+          "example": "You must not rely on the list being a perfect snapshot.",
+          "alternatives": [
+            "Do not assume ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rap-check",
+      "type": "auto-check",
+      "title": "Check API reference language",
+      "exercises": [
+        {
+          "id": "rap-c1",
+          "type": "choice",
+          "question": "What does \"optional parameter\" mean?",
+          "options": [
+            "You can leave it out",
+            "You must always send it",
+            "The server ignores everything"
+          ],
+          "correctAnswer": [
+            "You can leave it out"
+          ],
+          "explanation": "Optional nghĩa là có thể bỏ qua."
+        },
+        {
+          "id": "rap-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: A cursor ___ after one hour.",
+          "correctAnswer": [
+            "expires"
+          ],
+          "explanation": "Expires là hết hạn."
+        },
+        {
+          "id": "rap-c3",
+          "type": "ordering",
+          "question": "Sắp xếp các bước đọc hết danh sách.",
+          "options": [
+            "repeat until has_more is false",
+            "send the first request",
+            "use next_cursor for the next page"
+          ],
+          "correctAnswer": [
+            "send the first request",
+            "use next_cursor for the next page",
+            "repeat until has_more is false"
+          ],
+          "explanation": "Yêu cầu đầu, dùng next_cursor, lặp đến khi hết."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rap-task",
+    "mode": "written",
+    "title": "Write an integration note",
+    "scenario": "You read an API reference page and write a short note for a teammate who will build the integration.",
+    "baselinePrompt": "Read the short API excerpt and write an integration note in English (60 to 120 words): how to call it, how to page through results and how to handle errors. Do not look at the model answer yet.",
+    "performancePrompt": "Write an integration note in English, 60 to 120 words: how to call the endpoint, how pagination works and how to handle two errors.",
+    "modelResponse": "Integration note for the Orders API. Call the list endpoint from the server with a read-only secret key, never from a browser. Use limit up to 100 and the status filter when needed. To read all orders, send the first request without a cursor, then pass next_cursor to each following request until has_more is false. Cursors expire after one hour and return 410, so restart from the first page. If you receive 429, wait for the Retry-After value, and for 500, retry with a delay. Log the request id, and keep to one hundred requests per minute.",
+    "retryPrompt": "Write the note again in English. Keep the structure and make the pagination steps clearer.",
+    "transferPrompt": "Write an integration note for a different API excerpt, using the same structure.",
+    "reviewPrompt": "Write an integration note for another API excerpt without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "List orders excerpt",
+        "brief": "Write an integration note for listing orders.",
+        "artifacts": [
+          {
+            "id": "rap-baseline-ctx",
+            "type": "source",
+            "title": "List orders excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /orders returns up to 100 orders. Use cursor from next_cursor to read the next page. Status 429 means wait for Retry-After. A secret key is required in the Authorization header."
+          }
+        ]
+      },
+      "retry": {
+        "title": "List invoices excerpt",
+        "brief": "Retry with an invoices endpoint.",
+        "artifacts": [
+          {
+            "id": "rap-retry-ctx",
+            "type": "source",
+            "title": "List invoices excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /invoices returns up to 50 invoices. Use page_token from next_page_token. Status 401 means the key is missing. Status 404 means the customer does not exist. Keys must stay on the server."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "List events excerpt",
+        "brief": "A new situation: an events endpoint.",
+        "artifacts": [
+          {
+            "id": "rap-transfer-ctx",
+            "type": "source",
+            "title": "List events excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /events returns events of the last thirty days. Use starting_after with the last event id. Status 400 means the date is invalid. Limit is 100 requests per minute."
+          }
+        ]
+      },
+      "review": {
+        "title": "List customers excerpt",
+        "brief": "Review with a customers endpoint.",
+        "artifacts": [
+          {
+            "id": "rap-review-ctx",
+            "type": "source",
+            "title": "List customers excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /customers returns up to 200 customers. Use offset and limit. Offsets above 10,000 return status 400. Status 500 means retry later. Responses are cached for one minute."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "how to call",
+        "pagination",
+        "error handling"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "accurate details",
+      "clear steps",
+      "error handling"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Call, pagination, errors",
+        "description": "The note covers the three areas.",
+        "dimension": "task",
+        "anchors": {
+          "met": "A teammate could start coding from the note.",
+          "notMet": "Pagination or error handling is missing."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate details",
+        "description": "Names and limits match the reference.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Parameter names, limits and codes are correct.",
+          "notMet": "Names or limits are wrong."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Direct technical style",
+        "description": "The note is direct and uses imperative steps.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Uses short imperative steps.",
+          "notMet": "Long, vague sentences."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

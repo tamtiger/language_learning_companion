@@ -1,0 +1,441 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-github-issue-thread-b1",
+  "title": "Read a GitHub issue thread and write a helpful reply (B1)",
+  "summary": "Đọc một issue dài với mô tả, các bước tái hiện, bình luận và bản sửa; rồi viết một câu trả lời hữu ích bằng tiếng Anh.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Đọc lướt một issue để biết vấn đề và trạng thái",
+    "Tìm các bước tái hiện và môi trường",
+    "Viết một câu trả lời ngắn có thông tin hữu ích"
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "issue-thread-reading",
+    "bug-reproduction",
+    "helpful-reply"
+  ],
+  "sections": [
+    {
+      "id": "rgi-reading",
+      "type": "long-reading",
+      "title": "Issue #482: Date picker shows the wrong day",
+      "format": "issue",
+      "parts": [
+        {
+          "id": "report",
+          "heading": "Issue description",
+          "content": "Synthetic training artifact — non-production. Issue #482, opened by user maria-dev. Title: Date picker shows the wrong day in some time zones. Labels: bug, needs-reproduction. When I select the first of the month, the form saves the last day of the previous month. This happens only on my staging site. On my laptop everything works. I use version 3.4.0 of the library and I expected that the date I click is the date that is saved. This is a problem for our billing page because invoices get the wrong date. Thanks for the great library!"
+        },
+        {
+          "id": "steps",
+          "heading": "Steps to reproduce",
+          "content": "Steps to reproduce, added by maria-dev after a request: 1. Set the computer time zone to Pacific Time (UTC minus 8). 2. Open the example page of the date picker. 3. Click the first day of any month. 4. Press Save and read the saved value. Expected: the first day of the month. Actual: the last day of the previous month. Environment: Chrome 124 and Firefox 125, macOS 14, library version 3.4.0, Node 20. The bug does not appear when the time zone is UTC or a time zone east of UTC."
+        },
+        {
+          "id": "analysis",
+          "heading": "Maintainer comment",
+          "content": "Comment by maintainer ken-lib. Thanks for the clear steps, Maria. I can reproduce this. The cause is that the picker creates the date at midnight in UTC and then formats it in the local time zone. In time zones west of UTC, midnight in UTC is still the previous evening, so the day moves back. This is a real bug and it affects every date picked in those time zones. I have added the label confirmed and removed needs-reproduction. As a workaround, you can pass the option useLocalTime set to true, which creates dates at local midnight."
+        },
+        {
+          "id": "workaround",
+          "heading": "Community comments",
+          "content": "Comment by dev-tom: The workaround works for me. I added useLocalTime and my tests pass. Comment by sara-codes: Please note that useLocalTime changes the value that the library gives to your onChange handler, so you may need to update tests that compare exact timestamps. Comment by maria-dev: Confirmed on my staging site, invoices have the correct date now. I will keep the option until the fix is released. Is there a date for the release?"
+        },
+        {
+          "id": "fix",
+          "heading": "Fix and status",
+          "content": "Comment by ken-lib: A fix is ready in pull request #490. It changes the default so that dates are created in local time, and it adds tests for time zones from UTC minus 12 to UTC plus 14. The fix will be released in version 3.4.1 next Tuesday. Because it changes how values are created, the release notes will mention it, and the useLocalTime option will be deprecated. Status: closed as completed when 3.4.1 is published. Thanks to everyone who helped with reproduction."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rgi-s1",
+          "type": "choice",
+          "question": "What is the issue about?",
+          "options": [
+            "A date picker saves the wrong day",
+            "A button has the wrong color for the team",
+            "A server runs out of memory"
+          ],
+          "correctAnswer": [
+            "A date picker saves the wrong day"
+          ],
+          "explanation": "Tiêu đề và mô tả nói về ngày bị sai."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "steps",
+          "exercise": {
+            "id": "rgi-q1",
+            "type": "choice",
+            "question": "In which time zones does the bug appear?",
+            "options": [
+              "West of UTC, such as Pacific Time",
+              "East of UTC only at work",
+              "In every time zone for the team right now"
+            ],
+            "correctAnswer": [
+              "West of UTC, such as Pacific Time"
+            ],
+            "explanation": "Phần các bước tái hiện nêu múi giờ."
+          }
+        },
+        {
+          "locatePartId": "analysis",
+          "exercise": {
+            "id": "rgi-q2",
+            "type": "choice",
+            "question": "What is the cause?",
+            "options": [
+              "A date created at midnight UTC is shown in local time",
+              "The user clicked the wrong day for the team right now",
+              "The server clock was wrong"
+            ],
+            "correctAnswer": [
+              "A date created at midnight UTC is shown in local time"
+            ],
+            "explanation": "Phần bình luận của maintainer giải thích nguyên nhân."
+          }
+        },
+        {
+          "locatePartId": "workaround",
+          "exercise": {
+            "id": "rgi-q3",
+            "type": "choice",
+            "question": "What should you check after using useLocalTime?",
+            "options": [
+              "Tests that compare exact timestamps",
+              "The library license",
+              "The color of the picker for the team"
+            ],
+            "correctAnswer": [
+              "Tests that compare exact timestamps"
+            ],
+            "explanation": "Sara cảnh báo về timestamp trong test."
+          }
+        },
+        {
+          "locatePartId": "fix",
+          "exercise": {
+            "id": "rgi-q4",
+            "type": "choice",
+            "question": "When will the fix be released?",
+            "options": [
+              "In version 3.4.1 next Tuesday",
+              "In version 4.0 next year for the team",
+              "It will not be released"
+            ],
+            "correctAnswer": [
+              "In version 3.4.1 next Tuesday"
+            ],
+            "explanation": "Phần fix nêu phiên bản và ngày."
+          }
+        },
+        {
+          "locatePartId": "report",
+          "exercise": {
+            "id": "rgi-q5",
+            "type": "choice",
+            "question": "Which version does the reporter use?",
+            "options": [
+              "3.4.0",
+              "3.4.1",
+              "4.0.0"
+            ],
+            "correctAnswer": [
+              "3.4.0"
+            ],
+            "explanation": "Mô tả nêu phiên bản 3.4.0."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rgi-language",
+      "type": "language-support",
+      "title": "Language for issue threads",
+      "vocabulary": [
+        {
+          "word": "reproduce",
+          "ipa": "/ˌriː.prəˈduːs/",
+          "definition": "tái hiện lỗi",
+          "technicalMeaning": "Làm lại lỗi theo các bước để người khác thấy.",
+          "collocations": [
+            "reproduce the bug",
+            "steps to reproduce"
+          ],
+          "example": "I can reproduce this bug.",
+          "commonMistake": "Nhấn âm tiết thứ ba: re-pro-DUCE."
+        },
+        {
+          "word": "workaround",
+          "ipa": "/ˈwɝːk.ə.raʊnd/",
+          "definition": "cách tạm thời để tránh lỗi",
+          "technicalMeaning": "Giải pháp tạm khi chưa có bản sửa chính thức.",
+          "collocations": [
+            "a workaround for",
+            "use a workaround"
+          ],
+          "example": "There is a workaround for this bug.",
+          "commonMistake": "Workaround là một từ."
+        },
+        {
+          "word": "expected",
+          "ipa": "/ɪkˈspek.tɪd/",
+          "definition": "kết quả mong đợi",
+          "technicalMeaning": "Điều bạn nghĩ phải xảy ra.",
+          "collocations": [
+            "expected behavior",
+            "expected result"
+          ],
+          "example": "Expected: the first day of the month.",
+          "commonMistake": "Expected nói về mong đợi, actual nói về thực tế."
+        },
+        {
+          "word": "environment",
+          "ipa": "/ɪnˈvaɪ.rən.mənt/",
+          "definition": "môi trường",
+          "technicalMeaning": "Hệ điều hành, trình duyệt và phiên bản mà lỗi xảy ra.",
+          "collocations": [
+            "the environment details",
+            "in my environment"
+          ],
+          "example": "Please add your environment details.",
+          "commonMistake": "Nhấn âm tiết thứ hai: en-VI-ron-ment."
+        },
+        {
+          "word": "confirmed",
+          "ipa": "/kənˈfɝːmd/",
+          "definition": "đã xác nhận",
+          "technicalMeaning": "Người duy trì đã tái hiện và xác nhận lỗi.",
+          "collocations": [
+            "a confirmed bug",
+            "confirmed on"
+          ],
+          "example": "The maintainer confirmed the bug.",
+          "commonMistake": "Confirmed on + môi trường."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "I can reproduce this on ___.",
+          "meaning": "Xác nhận bạn tái hiện được.",
+          "tone": "neutral",
+          "example": "I can reproduce this on Chrome 124 with Pacific Time.",
+          "alternatives": [
+            "This happens for me on ___."
+          ]
+        },
+        {
+          "phrase": "Expected: ___. Actual: ___.",
+          "meaning": "Nêu mong đợi và thực tế.",
+          "tone": "neutral",
+          "example": "Expected: the first day of the month. Actual: the last day of the previous month.",
+          "alternatives": [
+            "I expected ___, but got ___."
+          ]
+        },
+        {
+          "phrase": "As a workaround, you can ___.",
+          "meaning": "Gợi ý cách tạm.",
+          "tone": "neutral",
+          "example": "As a workaround, you can set useLocalTime to true.",
+          "alternatives": [
+            "Until the fix is released, try ___."
+          ]
+        },
+        {
+          "phrase": "Thanks for the clear steps. ___.",
+          "meaning": "Cảm ơn và nêu việc tiếp theo.",
+          "tone": "neutral",
+          "example": "Thanks for the clear steps. I will test the fix on staging.",
+          "alternatives": [
+            "Thank you for reporting this."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rgi-check",
+      "type": "auto-check",
+      "title": "Check issue language",
+      "exercises": [
+        {
+          "id": "rgi-c1",
+          "type": "choice",
+          "question": "What does \"steps to reproduce\" give the maintainer?",
+          "options": [
+            "A way to see the bug again",
+            "A price for the fix",
+            "A date for the release for the team"
+          ],
+          "correctAnswer": [
+            "A way to see the bug again"
+          ],
+          "explanation": "Các bước giúp người khác tái hiện lỗi."
+        },
+        {
+          "id": "rgi-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: As a ___, you can set useLocalTime to true.",
+          "correctAnswer": [
+            "workaround"
+          ],
+          "explanation": "Workaround là cách tạm thời."
+        },
+        {
+          "id": "rgi-c3",
+          "type": "ordering",
+          "question": "Sắp xếp một báo cáo lỗi tốt.",
+          "options": [
+            "expected and actual results",
+            "a short title",
+            "steps to reproduce",
+            "environment details"
+          ],
+          "correctAnswer": [
+            "a short title",
+            "steps to reproduce",
+            "expected and actual results",
+            "environment details"
+          ],
+          "explanation": "Tiêu đề, các bước, mong đợi và thực tế, môi trường."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rgi-task",
+    "mode": "written",
+    "title": "Write a helpful reply on an issue",
+    "scenario": "Bạn đọc một issue và viết một câu trả lời giúp người báo lỗi và người duy trì thư viện.",
+    "baselinePrompt": "Đọc đoạn issue ngắn rồi viết một câu trả lời bằng tiếng Anh (60 đến 110 từ): xác nhận bạn tái hiện được, nêu môi trường và gợi ý cách tạm. Chưa xem bài mẫu.",
+    "performancePrompt": "Write a helpful reply on the issue in English, 60 to 110 words: say whether you can reproduce it, give your environment and suggest a workaround or next step.",
+    "modelResponse": "Thanks for the clear steps, Maria. I can reproduce this on Chrome 124 with the time zone set to Pacific Time and library version 3.4.0. Expected: the first day of the month. Actual: the last day of the previous month. It does not happen in UTC. As a workaround, you can set useLocalTime to true, but please check tests that compare exact timestamps. Pull request #490 should fix the root cause and is planned for 3.4.1 next Tuesday. I can test the fix on our staging site and report the result here.",
+    "retryPrompt": "Write the reply again in English. Keep it friendly and make the workaround clearer.",
+    "transferPrompt": "Write a reply for a different issue, using reproduction, environment and a workaround.",
+    "reviewPrompt": "Write a reply for another issue without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Issue #482: date picker",
+        "brief": "Viết trả lời cho một issue về chọn ngày.",
+        "artifacts": [
+          {
+            "id": "rgi-baseline-ctx",
+            "type": "source",
+            "title": "Issue #482: date picker",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Date picker saves the wrong day. Steps: set Pacific Time, click the first day, save. Expected: first day. Actual: last day of previous month. Version 3.4.0. Workaround: useLocalTime."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Issue #511: slow search",
+        "brief": "Sửa bài với một issue về tìm kiếm chậm.",
+        "artifacts": [
+          {
+            "id": "rgi-retry-ctx",
+            "type": "source",
+            "title": "Issue #511: slow search",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Search is slow with 10,000 items. Steps: load 10,000 items, type one letter. Expected: results in 100 ms. Actual: 3 seconds. Version 2.1.0, Chrome 125. Workaround: set debounce to 300."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Issue #530: dark mode text",
+        "brief": "Tình huống mới: chữ khó đọc ở chế độ tối.",
+        "artifacts": [
+          {
+            "id": "rgi-transfer-ctx",
+            "type": "source",
+            "title": "Issue #530: dark mode text",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Table text is hard to read in dark mode. Steps: enable dark mode, open the table example. Expected: light text. Actual: gray text on dark gray. Version 1.9.2, Safari 17. Workaround: override the text color."
+          }
+        ]
+      },
+      "review": {
+        "title": "Issue #547: upload fails",
+        "brief": "Ôn lại với một issue về tải tệp.",
+        "artifacts": [
+          {
+            "id": "rgi-review-ctx",
+            "type": "source",
+            "title": "Issue #547: upload fails",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Upload fails for files over 50 MB. Steps: select a 60 MB file, press Upload. Expected: progress bar. Actual: error 413. Version 4.0.1, Firefox 126. Workaround: set chunkSize to 10 MB."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "reproduction result",
+        "environment",
+        "workaround or next step"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "clear reproduction",
+      "friendly tone",
+      "useful next step"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Reproduction, environment, next step",
+        "description": "The reply has the three parts.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The maintainer can see what you tried, where, and the next step.",
+          "notMet": "Environment or the next step is missing."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate details",
+        "description": "Versions and options match the issue.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Versions, options and numbers are correct.",
+          "notMet": "Details are wrong."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Friendly and polite",
+        "description": "The tone is polite and helpful.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Thanks the reporter and stays friendly.",
+          "notMet": "Sounds blunt or complains."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

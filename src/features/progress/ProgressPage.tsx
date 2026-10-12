@@ -1,6 +1,7 @@
 import type { CanonicalLesson, CapabilityId } from '../../content/schema'
 import { buildEvidenceContract, contractRevision } from '../../domain/progress/evidenceContract'
 import type { AttemptEvidence, TransferReason } from '../../domain/progress/progress'
+import { summarizeListeningReading, type ListeningReadingGroup } from '../../domain/progress/listeningReading'
 import { useAppStore } from '../../shared/hooks/useAppStore'
 import { CAPABILITY_LABELS } from '../catalog/CatalogPage'
 
@@ -29,12 +30,38 @@ function isContractChanged(attempt: AttemptEvidence, lesson: CanonicalLesson | u
   return attempt.contentRevision !== contractRevision(buildEvidenceContract(lesson))
 }
 
+const STATUS_LABELS = { 'not-started': 'Chưa bắt đầu', 'in-progress': 'Đang học', completed: 'Đã hoàn thành' } as const
+
+function ListeningReadingList({ label, noun, group }: { label: string; noun: string; group: ListeningReadingGroup }) {
+  return (
+    <div>
+      <h3 className="font-bold">{label}: {group.completed}/{group.total} đã hoàn thành</h3>
+      {group.items.length === 0 ? (
+        <p className="mt-2 text-sm text-zinc-400">Chưa có {noun} trong thư viện.</p>
+      ) : (
+        <ul className="mt-3 space-y-2">
+          {group.items.map((item) => (
+            <li key={item.lessonId} aria-label={item.title} className="rounded-xl bg-zinc-950/60 p-3 text-sm">
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-semibold text-zinc-100">{item.title}</span>
+                <span className={item.status === 'completed' ? 'font-bold text-green-300' : 'text-zinc-400'}>{STATUS_LABELS[item.status]}</span>
+              </div>
+              <p className="mt-1 text-zinc-400">Đã trả lời {item.answered}/{item.questions} câu hỏi</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
 export function ProgressPage() {
   const lessonProgress = useAppStore((state) => state.lessonProgress)
   const lessons = useAppStore((state) => state.lessons)
   const attempts = Object.values(lessonProgress).flatMap((progress) => progress.recentAttempts)
   const lessonsById = new Map(lessons.map((lesson) => [lesson.lessonId, lesson]))
   const ids = Object.keys(CAPABILITY_LABELS) as CapabilityId[]
+  const listeningReading = summarizeListeningReading(lessons, lessonProgress)
 
   return (
     <section aria-labelledby="progress-title" className="space-y-6">
@@ -84,6 +111,14 @@ export function ProgressPage() {
           )
         })}
       </div>
+      <section aria-labelledby="listening-reading-title" className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
+        <h2 id="listening-reading-title" className="text-lg font-bold">Nghe và đọc dài</h2>
+        <p className="mt-1 text-sm text-zinc-400">Tiến độ các bài nghe hội thoại và đọc tài liệu dài; chỉ đếm câu hỏi bạn đã trả lời đúng.</p>
+        <div className="mt-4 grid gap-6 md:grid-cols-2">
+          <ListeningReadingList label="Bài nghe" noun="bài nghe" group={listeningReading.listening} />
+          <ListeningReadingList label="Bài đọc dài" noun="bài đọc dài" group={listeningReading.reading} />
+        </div>
+      </section>
       <details className="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-5">
         <summary className="cursor-pointer font-bold">Glossary: cách đọc learning loop</summary>
         <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">

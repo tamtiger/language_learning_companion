@@ -164,3 +164,27 @@ describe('capability progress evidence', () => {
     expect(scope.getByText(/chưa có đánh giá/i)).toBeTruthy()
   })
 })
+
+describe('ProgressPage listening and long reading', () => {
+  beforeEach(() => useAppStore.getState().resetProgress())
+
+  it('shows how many listening and long reading lessons are finished and how many questions are answered', () => {
+    const lessons = useAppStore.getState().lessons
+    const listening = lessons.find((item) => item.sections.some((section) => section.type === 'listening-source'))
+    const reading = lessons.find((item) => item.sections.some((section) => section.type === 'long-reading'))
+    if (!listening || !reading) throw new Error('Catalog needs a listening and a long reading lesson')
+    useAppStore.setState({
+      lessonProgress: {
+        [listening.lessonId]: { ...createEmptyLessonProgress(), status: 'completed', completedExerciseIds: ['gist-1'] }
+      }
+    })
+    render(<ProgressPage />)
+
+    const block = screen.getByRole('region', { name: /nghe và đọc dài/i })
+    const listeningItem = within(block).getByRole('listitem', { name: listening.title })
+    expect(within(listeningItem).getByText(/đã hoàn thành/i)).toBeTruthy()
+    const readingItem = within(block).getByRole('listitem', { name: reading.title })
+    expect(within(readingItem).getByText(/chưa bắt đầu/i)).toBeTruthy()
+    expect(within(block).getByText(/bài nghe: 1\/\d+ đã hoàn thành/i)).toBeTruthy()
+  })
+})

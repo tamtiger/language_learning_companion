@@ -1,0 +1,480 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "listen-retro-what-went-wrong-b2",
+  "title": "Listen to a retrospective and write the actions (B2)",
+  "summary": "Listen to a team retrospective about a failed release and write the root causes and agreed actions.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Follow a blame-free discussion of what went wrong",
+    "Separate causes from actions and owners",
+    "Write concise retrospective notes in English"
+  ],
+  "capabilities": [
+    "international-meetings"
+  ],
+  "workflowTags": [
+    "retro-listening",
+    "root-cause-discussion",
+    "action-items"
+  ],
+  "sections": [
+    {
+      "id": "lrr-listening",
+      "type": "listening-source",
+      "title": "Release retrospective (synthetic training dialogue)",
+      "durationSeconds": 103,
+      "speakers": [
+        {
+          "id": "priya",
+          "label": "Priya, facilitator",
+          "locale": "en-GB",
+          "voiceHints": [
+            "English UK"
+          ]
+        },
+        {
+          "id": "tom",
+          "label": "Tom, backend developer",
+          "locale": "en-US",
+          "voiceHints": [
+            "English US"
+          ]
+        },
+        {
+          "id": "lena",
+          "label": "Lena, operations engineer",
+          "locale": "en-AU",
+          "voiceHints": [
+            "English Australia",
+            "English"
+          ]
+        }
+      ],
+      "turns": [
+        {
+          "speakerId": "priya",
+          "text": "Welcome to the retro for last Thursday's release. Remember, we look at the process, not at people. Let us start with what went well."
+        },
+        {
+          "speakerId": "tom",
+          "text": "The build was fast and the tests passed. I also think the release notes were clear, so support knew what changed."
+        },
+        {
+          "speakerId": "priya",
+          "text": "Thanks, Tom. Now, what went wrong?"
+        },
+        {
+          "speakerId": "lena",
+          "text": "The release broke the payment page for forty minutes. We had no rollback plan, so we fixed the problem live. I also saw the alert at the start, but it looked the same as many old alerts, so I did not react at once."
+        },
+        {
+          "speakerId": "tom",
+          "text": "To be fair, I did not know the new config option was required. It was only mentioned in a chat thread, not in the release checklist."
+        },
+        {
+          "speakerId": "priya",
+          "text": "So we have two causes: a missing rollback plan and a checklist that does not include config changes. Is there a third?"
+        },
+        {
+          "speakerId": "lena",
+          "text": "Yes, alert fatigue. Too many alerts are noisy, so important ones are easy to miss."
+        },
+        {
+          "speakerId": "priya",
+          "text": "Good. Let us agree actions. Tom, can you add config changes and a rollback step to the checklist by the next sprint?"
+        },
+        {
+          "speakerId": "tom",
+          "text": "Yes, I can do that. I will ask Lena to review it."
+        },
+        {
+          "speakerId": "lena",
+          "text": "I will review it and also clean up the alert rules. I need two weeks for that, and I would like the team to help me decide which alerts matter."
+        },
+        {
+          "speakerId": "priya",
+          "text": "Perfect. I will put both actions on the board and we will check them at the next retro."
+        }
+      ],
+      "gist": [
+        {
+          "id": "lrr-g1",
+          "type": "choice",
+          "question": "What is the team discussing?",
+          "options": [
+            "Why a release failed",
+            "How to hire an engineer",
+            "A new pricing plan"
+          ],
+          "correctAnswer": [
+            "Why a release failed"
+          ],
+          "explanation": "Cuộc họp rà soát lần phát hành bị lỗi."
+        }
+      ],
+      "detail": [
+        {
+          "id": "lrr-d1",
+          "type": "choice",
+          "question": "How long was the payment page broken?",
+          "options": [
+            "Forty minutes",
+            "Four hours",
+            "Fourteen minutes"
+          ],
+          "correctAnswer": [
+            "Forty minutes"
+          ],
+          "explanation": "Lena nói trang thanh toán hỏng bốn mươi phút."
+        },
+        {
+          "id": "lrr-d2",
+          "type": "choice",
+          "question": "Which problem is a process gap, not a technical bug?",
+          "options": [
+            "The checklist skipped config changes",
+            "The build was slow for the team right now",
+            "The tests failed at work"
+          ],
+          "correctAnswer": [
+            "The checklist skipped config changes"
+          ],
+          "explanation": "Danh sách kiểm tra thiếu thay đổi cấu hình."
+        },
+        {
+          "id": "lrr-d3",
+          "type": "choice",
+          "question": "Why did Lena not react to the alert immediately?",
+          "options": [
+            "It looked like many old alerts",
+            "She was on holiday for the team",
+            "She did not see it"
+          ],
+          "correctAnswer": [
+            "It looked like many old alerts"
+          ],
+          "explanation": "Cảnh báo quá nhiều nên bị bỏ qua."
+        },
+        {
+          "id": "lrr-d4",
+          "type": "choice",
+          "question": "Who will update the release checklist?",
+          "options": [
+            "Tom",
+            "Priya",
+            "Lena"
+          ],
+          "correctAnswer": [
+            "Tom"
+          ],
+          "explanation": "Tom nhận việc thêm bước vào checklist."
+        },
+        {
+          "id": "lrr-d5",
+          "type": "choice",
+          "question": "How long does Lena need for the alert cleanup?",
+          "options": [
+            "Two weeks",
+            "Two days",
+            "Two months"
+          ],
+          "correctAnswer": [
+            "Two weeks"
+          ],
+          "explanation": "Lena cần hai tuần để dọn cảnh báo."
+        }
+      ],
+      "listeningNotes": {
+        "prompt": "Take short notes while you listen; they are not saved.",
+        "fields": [
+          "Causes",
+          "Actions",
+          "Owners"
+        ]
+      }
+    },
+    {
+      "id": "lrr-language",
+      "type": "language-support",
+      "title": "Language for retrospective notes",
+      "vocabulary": [
+        {
+          "word": "root cause",
+          "ipa": "/ˈruːt kɑːz/",
+          "definition": "nguyên nhân gốc",
+          "technicalMeaning": "Lý do sâu nhất khiến sự cố xảy ra.",
+          "collocations": [
+            "identify the root cause",
+            "a root cause of"
+          ],
+          "example": "We identified two root causes.",
+          "commonMistake": "Viết root cause thành hai từ."
+        },
+        {
+          "word": "rollback",
+          "ipa": "/ˈroʊl.bæk/",
+          "definition": "quay lại phiên bản trước",
+          "technicalMeaning": "Hoàn tác một lần phát hành để khôi phục dịch vụ.",
+          "collocations": [
+            "a rollback plan",
+            "roll back"
+          ],
+          "example": "We had no rollback plan.",
+          "commonMistake": "Danh từ viết rollback, động từ viết roll back."
+        },
+        {
+          "word": "alert fatigue",
+          "ipa": "/əˈlɝːt fəˈtiːɡ/",
+          "definition": "quá tải cảnh báo",
+          "technicalMeaning": "Mệt mỏi vì quá nhiều cảnh báo nên bỏ sót cái quan trọng.",
+          "collocations": [
+            "suffer from alert fatigue",
+            "reduce alert fatigue"
+          ],
+          "example": "Alert fatigue makes us miss real problems.",
+          "commonMistake": "Alert fatigue không đếm được."
+        },
+        {
+          "word": "action item",
+          "ipa": "/ˈæk.ʃən ˌaɪ.təm/",
+          "definition": "việc cần làm sau họp",
+          "technicalMeaning": "Việc cụ thể có người phụ trách và thời hạn.",
+          "collocations": [
+            "assign an action item",
+            "agree on action items"
+          ],
+          "example": "We agreed on two action items.",
+          "commonMistake": "Viết action item thành hai từ."
+        },
+        {
+          "word": "blameless",
+          "ipa": "/ˈbleɪm.ləs/",
+          "definition": "không đổ lỗi",
+          "technicalMeaning": "Tập trung vào quy trình thay vì cá nhân.",
+          "collocations": [
+            "a blameless review",
+            "stay blameless"
+          ],
+          "example": "We keep the retro blameless.",
+          "commonMistake": "Blameless là một từ, nhấn âm đầu."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The root cause was ___, not ___.",
+          "meaning": "Phân biệt nguyên nhân với triệu chứng.",
+          "tone": "neutral",
+          "example": "The root cause was a missing checklist step, not a careless engineer.",
+          "alternatives": [
+            "The underlying issue was ___."
+          ]
+        },
+        {
+          "phrase": "We had no ___, so ___.",
+          "meaning": "Nêu thiếu sót và hậu quả.",
+          "tone": "neutral",
+          "example": "We had no rollback plan, so we fixed the problem live.",
+          "alternatives": [
+            "Without ___, we ___."
+          ]
+        },
+        {
+          "phrase": "To prevent this, ___ will ___ by ___.",
+          "meaning": "Giao hành động có người và hạn.",
+          "tone": "neutral",
+          "example": "To prevent this, Tom will add a rollback step by the next sprint.",
+          "alternatives": [
+            "Action: ___ to ___ by ___."
+          ]
+        },
+        {
+          "phrase": "We will review this at the next retro.",
+          "meaning": "Hẹn kiểm tra lại.",
+          "tone": "neutral",
+          "example": "We will review both actions at the next retro.",
+          "alternatives": [
+            "Let us check progress at ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lrr-check",
+      "type": "auto-check",
+      "title": "Check your retrospective language",
+      "exercises": [
+        {
+          "id": "lrr-c1",
+          "type": "choice",
+          "question": "Which sentence is blameless?",
+          "options": [
+            "The checklist did not include config changes.",
+            "Tom forgot the config change again. for the team",
+            "Lena was careless with the alert."
+          ],
+          "correctAnswer": [
+            "The checklist did not include config changes."
+          ],
+          "explanation": "Câu blameless nói về quy trình, không đổ lỗi cho cá nhân."
+        },
+        {
+          "id": "lrr-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: We had no rollback plan, ___ we fixed it live.",
+          "correctAnswer": [
+            "so"
+          ],
+          "explanation": "So nêu hậu quả của thiếu sót."
+        },
+        {
+          "id": "lrr-c3",
+          "type": "ordering",
+          "question": "Sắp xếp phần ghi chú retro.",
+          "options": [
+            "actions with owners",
+            "what went well",
+            "what went wrong",
+            "root causes"
+          ],
+          "correctAnswer": [
+            "what went well",
+            "what went wrong",
+            "root causes",
+            "actions with owners"
+          ],
+          "explanation": "Điểm tốt, điểm sai, nguyên nhân, hành động."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "lrr-task",
+    "mode": "written",
+    "title": "Write retrospective notes",
+    "scenario": "After a retro, you write the notes that list the causes and the agreed actions.",
+    "baselinePrompt": "From the rough notes of a retrospective, write notes in English (60 to 110 words): root causes, actions and owners. Do not look at the model answer yet.",
+    "performancePrompt": "Write retrospective notes in English, 60 to 110 words: the root causes, the agreed actions and the owner and date of each action.",
+    "modelResponse": "Retro notes: Thursday release. The payment page was down for forty minutes. Root causes: first, there was no rollback plan; second, the release checklist did not include config changes; third, alert fatigue meant the first alert was missed. Actions: Tom will add config changes and a rollback step to the checklist by the next sprint, and Lena will review it. Lena will clean up the alert rules within two weeks, with help from the team to decide which alerts matter. Priya will track both actions on the board and we will review them at the next retro.",
+    "retryPrompt": "Write the notes again in English. Keep the same structure and separate causes from actions more clearly.",
+    "transferPrompt": "Write notes for a different retro, such as a delayed project, with causes, actions and owners.",
+    "reviewPrompt": "Write notes for another retro without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Raw notes: failed release retro",
+        "brief": "Turn rough retro notes into clear notes.",
+        "artifacts": [
+          {
+            "id": "lrr-baseline-ctx",
+            "type": "source",
+            "title": "Raw notes: failed release retro",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Release Thursday, payment page down 40 minutes. Causes: no rollback plan, checklist missed config, alert noise. Actions: Tom checklist by next sprint, Lena alert cleanup two weeks."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Raw notes: late project retro",
+        "brief": "Retry with a project that finished late.",
+        "artifacts": [
+          {
+            "id": "lrr-retry-ctx",
+            "type": "source",
+            "title": "Raw notes: late project retro",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Project two weeks late. Causes: unclear scope, late design review, one person owned all deploys. Actions: Nina writes scope template by Friday, Omar shares deploy duty from next sprint."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Raw notes: data outage retro",
+        "brief": "A new situation: a data pipeline outage.",
+        "artifacts": [
+          {
+            "id": "lrr-transfer-ctx",
+            "type": "source",
+            "title": "Raw notes: data outage retro",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Pipeline stopped for six hours. Causes: disk full, no disk alert, runbook outdated. Actions: Ravi adds disk alert this week, Ines updates the runbook by Monday."
+          }
+        ]
+      },
+      "review": {
+        "title": "Raw notes: onboarding retro",
+        "brief": "Review with a retro about onboarding new engineers.",
+        "artifacts": [
+          {
+            "id": "lrr-review-ctx",
+            "type": "source",
+            "title": "Raw notes: onboarding retro",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Two new engineers waited three days for access. Causes: access request not started early, no onboarding checklist. Actions: Carla builds a checklist by Thursday, managers file requests before day one."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "root causes",
+        "actions",
+        "owners and dates"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "cause versus action",
+      "blameless language",
+      "owners and dates"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Causes, actions, owners",
+        "description": "The notes list causes and actions with owners and dates.",
+        "dimension": "task",
+        "anchors": {
+          "met": "Each action has an owner and a date.",
+          "notMet": "Causes and actions are mixed or owners are missing."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Blameless language",
+        "description": "The notes describe process issues, not people.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Uses process language such as \"the checklist did not include\".",
+          "notMet": "Blames a named person."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Retro vocabulary",
+        "description": "Uses words such as root cause and action item.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three retro terms correctly.",
+          "notMet": "Repeats \"problem\" and \"fix\"."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

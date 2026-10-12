@@ -1,0 +1,460 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "listen-standup-blockers-b1",
+  "title": "Listen to a standup and write the notes (B1)",
+  "summary": "Nghe một cuộc standup ba người, tìm vướng mắc, người phụ trách và bước tiếp theo, rồi viết biên bản ngắn.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nghe ý chính của một vòng standup",
+    "Ghi vướng mắc, người phụ trách và thời hạn",
+    "Viết biên bản ngắn bằng tiếng Anh"
+  ],
+  "capabilities": [
+    "international-meetings"
+  ],
+  "workflowTags": [
+    "standup-listening",
+    "blocker-tracking",
+    "meeting-notes"
+  ],
+  "sections": [
+    {
+      "id": "lsb-listening",
+      "type": "listening-source",
+      "title": "Team standup (synthetic training dialogue)",
+      "durationSeconds": 90,
+      "speakers": [
+        {
+          "id": "maya",
+          "label": "Maya, team lead",
+          "locale": "en-US",
+          "voiceHints": [
+            "English US"
+          ]
+        },
+        {
+          "id": "dev",
+          "label": "Dev, developer",
+          "locale": "en-GB",
+          "voiceHints": [
+            "English UK"
+          ]
+        },
+        {
+          "id": "chloe",
+          "label": "Chloe, developer",
+          "locale": "en-AU",
+          "voiceHints": [
+            "English Australia",
+            "English"
+          ]
+        }
+      ],
+      "turns": [
+        {
+          "speakerId": "maya",
+          "text": "Good morning, everyone. Let us do a quick round. Dev, you first."
+        },
+        {
+          "speakerId": "dev",
+          "text": "Morning. Yesterday I finished the export feature and opened a pull request. Today I will fix two review comments. My blocker is the staging database. It has been down since Monday, so I cannot test the export with real data."
+        },
+        {
+          "speakerId": "maya",
+          "text": "Thanks, Dev. Do you know who owns the staging database?"
+        },
+        {
+          "speakerId": "dev",
+          "text": "I think the platform team does, but I have not asked them yet."
+        },
+        {
+          "speakerId": "chloe",
+          "text": "I can help with that. I will message the platform team after this call and ask for an estimate. I will also add you to the thread."
+        },
+        {
+          "speakerId": "maya",
+          "text": "Great, thank you, Chloe. What about your update?"
+        },
+        {
+          "speakerId": "chloe",
+          "text": "Yesterday I fixed the login bug on mobile. It was a timeout, and the fix is in review. Today I will start the new settings page. I have no blockers, but I need a design file from Sam before I can finish."
+        },
+        {
+          "speakerId": "maya",
+          "text": "Sam is out until Thursday, so let us use the older mockup for now. I will send it to you in ten minutes."
+        },
+        {
+          "speakerId": "chloe",
+          "text": "Perfect, that works for me."
+        },
+        {
+          "speakerId": "maya",
+          "text": "My update is short. I will review the export pull request this afternoon and prepare the demo for Friday. Let us meet again tomorrow at the same time. Thanks, everyone."
+        }
+      ],
+      "gist": [
+        {
+          "id": "lsb-g1",
+          "type": "choice",
+          "question": "What is the main purpose of this conversation?",
+          "options": [
+            "A daily team status round",
+            "A job interview with a manager",
+            "A customer support call"
+          ],
+          "correctAnswer": [
+            "A daily team status round"
+          ],
+          "explanation": "Mỗi người báo việc hôm qua, hôm nay và vướng mắc."
+        }
+      ],
+      "detail": [
+        {
+          "id": "lsb-d1",
+          "type": "choice",
+          "question": "What is blocking Dev?",
+          "options": [
+            "A test database that is down",
+            "A rejected pull request for the team",
+            "A missing design file"
+          ],
+          "correctAnswer": [
+            "A test database that is down"
+          ],
+          "explanation": "Dev nói staging database hỏng từ thứ Hai."
+        },
+        {
+          "id": "lsb-d2",
+          "type": "choice",
+          "question": "Who will contact the platform team?",
+          "options": [
+            "Chloe",
+            "Maya for the team",
+            "Sam at work"
+          ],
+          "correctAnswer": [
+            "Chloe"
+          ],
+          "explanation": "Chloe nhận việc nhắn nhóm platform sau cuộc gọi."
+        },
+        {
+          "id": "lsb-d3",
+          "type": "choice",
+          "question": "What does Chloe need before she can finish the settings page?",
+          "options": [
+            "A design file",
+            "A new laptop",
+            "A code review"
+          ],
+          "correctAnswer": [
+            "A design file"
+          ],
+          "explanation": "Chloe cần file thiết kế từ Sam."
+        },
+        {
+          "id": "lsb-d4",
+          "type": "choice",
+          "question": "What will Maya do this afternoon?",
+          "options": [
+            "Check the export pull request",
+            "Fix the login bug",
+            "Call the platform team for the team"
+          ],
+          "correctAnswer": [
+            "Check the export pull request"
+          ],
+          "explanation": "Maya sẽ review pull request chiều nay."
+        }
+      ],
+      "listeningNotes": {
+        "prompt": "Ghi nhanh khi nghe; ghi chú không được lưu.",
+        "fields": [
+          "Blockers",
+          "Owners",
+          "Next steps"
+        ]
+      }
+    },
+    {
+      "id": "lsb-language",
+      "type": "language-support",
+      "title": "Language for standup notes",
+      "vocabulary": [
+        {
+          "word": "blocker",
+          "ipa": "/ˈblɑː.kɚ/",
+          "definition": "vướng mắc chặn tiến độ",
+          "technicalMeaning": "Điều ngăn bạn tiếp tục làm việc.",
+          "collocations": [
+            "a blocker for",
+            "remove a blocker"
+          ],
+          "example": "The staging database is a blocker for testing.",
+          "commonMistake": "Nói a blocker, không nói a block khi nói về công việc."
+        },
+        {
+          "word": "owner",
+          "ipa": "/ˈoʊ.nɚ/",
+          "definition": "người phụ trách",
+          "technicalMeaning": "Người chịu trách nhiệm cho một hệ thống hoặc hành động.",
+          "collocations": [
+            "the owner of",
+            "action owner"
+          ],
+          "example": "The platform team owns the database.",
+          "commonMistake": "Nói owner of, không nói owner for."
+        },
+        {
+          "word": "estimate",
+          "ipa": "/ˈes.tə.mət/",
+          "definition": "ước lượng thời gian",
+          "technicalMeaning": "Thời gian hoặc công sức dự kiến cho việc cần làm.",
+          "collocations": [
+            "ask for an estimate",
+            "a rough estimate"
+          ],
+          "example": "I will ask for an estimate.",
+          "commonMistake": "Danh từ đọc /mət/, động từ đọc /meɪt/."
+        },
+        {
+          "word": "in review",
+          "ipa": "/ɪn rɪˈvjuː/",
+          "definition": "đang chờ review",
+          "technicalMeaning": "Thay đổi đã gửi và đang chờ người khác xem.",
+          "collocations": [
+            "the fix is in review",
+            "in review since"
+          ],
+          "example": "The fix is in review.",
+          "commonMistake": "Nói in review, không nói on review."
+        },
+        {
+          "word": "follow up",
+          "ipa": "/ˌfɑː.loʊ ˈʌp/",
+          "definition": "theo dõi tiếp",
+          "technicalMeaning": "Làm việc tiếp theo sau cuộc họp.",
+          "collocations": [
+            "follow up with",
+            "follow up on"
+          ],
+          "example": "I will follow up with the platform team.",
+          "commonMistake": "Động từ viết follow up."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The blocker is ___.",
+          "meaning": "Nêu vướng mắc.",
+          "tone": "neutral",
+          "example": "The blocker is the staging database.",
+          "alternatives": [
+            "I am blocked by ___."
+          ]
+        },
+        {
+          "phrase": "___ will ___ after the call.",
+          "meaning": "Ghi người nhận việc.",
+          "tone": "neutral",
+          "example": "Chloe will message the platform team after the call.",
+          "alternatives": [
+            "___ is going to ___."
+          ]
+        },
+        {
+          "phrase": "The fix is in review and should be ready by ___.",
+          "meaning": "Báo trạng thái và thời hạn.",
+          "tone": "neutral",
+          "example": "The fix is in review and should be ready by Thursday.",
+          "alternatives": [
+            "We expect ___ by ___."
+          ]
+        },
+        {
+          "phrase": "As agreed, ___.",
+          "meaning": "Chốt điều đã thống nhất.",
+          "tone": "neutral",
+          "example": "As agreed, we will use the older mockup for now.",
+          "alternatives": [
+            "We decided to ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lsb-check",
+      "type": "auto-check",
+      "title": "Check your standup language",
+      "exercises": [
+        {
+          "id": "lsb-c1",
+          "type": "choice",
+          "question": "Which sentence names a blocker?",
+          "options": [
+            "I cannot test because the database is down.",
+            "I finished the export yesterday. for the team",
+            "I will join the demo on Friday."
+          ],
+          "correctAnswer": [
+            "I cannot test because the database is down."
+          ],
+          "explanation": "Blocker là điều ngăn bạn làm tiếp."
+        },
+        {
+          "id": "lsb-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: I will follow ___ with the platform team.",
+          "correctAnswer": [
+            "up"
+          ],
+          "explanation": "Follow up là cụm động từ."
+        },
+        {
+          "id": "lsb-c3",
+          "type": "ordering",
+          "question": "Sắp xếp phần ghi chú theo thứ tự.",
+          "options": [
+            "next step with a date",
+            "the blocker",
+            "the owner"
+          ],
+          "correctAnswer": [
+            "the blocker",
+            "the owner",
+            "next step with a date"
+          ],
+          "explanation": "Vướng mắc, người phụ trách, bước tiếp theo."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "lsb-task",
+    "mode": "written",
+    "title": "Write standup notes",
+    "scenario": "Sau một buổi standup, bạn viết biên bản để gửi cho cả đội.",
+    "baselinePrompt": "Dựa vào ghi chú thô của một buổi standup, hãy viết biên bản bằng tiếng Anh (60 đến 110 từ): vướng mắc, người phụ trách và bước tiếp theo. Chưa xem bài mẫu.",
+    "performancePrompt": "Write standup notes in English, 60 to 110 words: the blockers, the owners and the next steps with dates.",
+    "modelResponse": "Standup notes, Tuesday. Dev finished the export feature and will fix two review comments today. His blocker is the staging database, which has been down since Monday. Chloe will contact the platform team after the call and ask for an estimate. Chloe fixed the mobile login bug and starts the settings page, but she needs a design file from Sam. Maya will send the older mockup in ten minutes and review the export pull request this afternoon. Demo: Friday. Next standup: tomorrow, same time.",
+    "retryPrompt": "Write the notes again in English. Keep the same structure and make each owner and date clearer.",
+    "transferPrompt": "Write notes for a different standup, using the same three parts.",
+    "reviewPrompt": "Write notes for another standup without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Raw notes: payments team standup",
+        "brief": "Chuyển ghi chú thô thành biên bản.",
+        "artifacts": [
+          {
+            "id": "lsb-baseline-ctx",
+            "type": "source",
+            "title": "Raw notes: payments team standup",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Ana: finished refund form, tests tomorrow. Blocker: no access to the sandbox, owner Lee, ask today. Raj: fixing a slow report, needs data sample from Ana by Wednesday. Lee: will grant sandbox access by noon."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Raw notes: mobile team standup",
+        "brief": "Sửa bài với ghi chú của đội mobile.",
+        "artifacts": [
+          {
+            "id": "lsb-retry-ctx",
+            "type": "source",
+            "title": "Raw notes: mobile team standup",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Kim: push notification bug fixed, in review. Blocker: certificate expired, owner Omar, renew by Friday. Omar: renewing certificate, needs approval from security. Tess: starts the onboarding screens."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Raw notes: data team standup",
+        "brief": "Tình huống mới: đội dữ liệu.",
+        "artifacts": [
+          {
+            "id": "lsb-transfer-ctx",
+            "type": "source",
+            "title": "Raw notes: data team standup",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Noor: nightly job failed twice, cause unknown. Blocker: logs missing, owner Ben, add logging today. Ben: adds logging, retests tomorrow. Eli: updates the dashboard, shares link Thursday."
+          }
+        ]
+      },
+      "review": {
+        "title": "Raw notes: support tools standup",
+        "brief": "Ôn lại với đội công cụ hỗ trợ.",
+        "artifacts": [
+          {
+            "id": "lsb-review-ctx",
+            "type": "source",
+            "title": "Raw notes: support tools standup",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Sara: new ticket filter works, demo on Monday. Blocker: waiting for API key, owner Hugo, request sent yesterday. Hugo: follows up with vendor today. Mia: writes the user guide, draft due Friday."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "blockers",
+        "owners",
+        "next steps with dates"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "clear owners",
+      "dates",
+      "short sentences"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Blockers, owners, next steps",
+        "description": "The notes cover all three parts.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The reader sees each blocker with an owner and a next step.",
+          "notMet": "A blocker has no owner or no next step."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate short sentences",
+        "description": "Sentences are short and correct.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Past and future forms are correct, such as \"fixed\" and \"will fix\".",
+          "notMet": "Mixed tenses make it unclear what is done."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Neutral professional tone",
+        "description": "The tone suits team notes.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Neutral and clear, with no filler.",
+          "notMet": "Chatty or unclear about who does what."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

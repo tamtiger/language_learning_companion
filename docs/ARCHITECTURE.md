@@ -30,7 +30,7 @@ Zustand là adapter mỏng: compose state/actions và persist allowlisted progre
 
 ## Content discovery và taxonomy authoring
 
-29 mission v3 được biên soạn tại
+41 mission v3 được biên soạn tại
 `content/missions/<primary-capability>/<lesson-id>.json`; sáu pronunciation lesson
 v1 dạng knowledge/reference nằm tại
 `content/reference/pronunciation/<lesson-id>.json`. Các segment thư mục chỉ tổ
@@ -200,7 +200,7 @@ Native semantics trước ARIA. Mọi action dùng button/link/form control; foc
 ## Verification
 
 - Node tests: schema, normalization, domain, scheduling, storage.
-- DOM tests: app shell, keyboard, focus, live status, error/retry và các luồng của 29 mission.
+- DOM tests: app shell, keyboard, focus, live status, error/retry và các luồng của 41 mission.
 - Catalog test đọc toàn bộ JSON.
 - Gates: focused tests → full `npm test` → `npm run lint` → `npm run build` → manual critical flows.
 - Mỗi Harnix required check được snapshot trước/sau cùng input digest trước khi ghi evidence.

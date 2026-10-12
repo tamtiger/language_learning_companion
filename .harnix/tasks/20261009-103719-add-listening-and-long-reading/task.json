@@ -4,8 +4,8 @@
   "id": "20261009-103719-add-listening-and-long-reading",
   "title": "Thêm luyện nghe hội thoại và bài đọc dài",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Mục tiêu 2, 3 và 6 có luyện nghe thật và đọc tài liệu đủ dài.",
   "nonGoals": [
     "Không ghi âm hay thu thập giọng người thật",
@@ -15,26 +15,38 @@
     {
       "id": "ac-1",
       "text": "Ít nhất 6 bài nghe hội thoại 1-3 phút nhiều giọng (standup, planning/estimation, retro, incident call, design review, tech talk) có transcript ẩn, gist/detail và ghi chú khi nghe.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-listening-reading-content-2",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Ít nhất 6 bài đọc dài 400-1.500 từ (RFC, API reference, changelog, stack trace/log, GitHub issue, tutorial) có skim/scan và câu hỏi định vị; không trùng kịch bản.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-listening-reading-content-2",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Mỗi nguồn có provenance và license rõ; dùng reference-only khi không được chép.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-listening-reading-content-2",
+        "ev-check-suite-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Tiến độ nghe và đọc dài hiển thị trong Progress.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-progress-listening-2",
+        "ev-check-suite-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -87,7 +99,58 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-listening-reading-content-1",
+      "checkId": "check-listening-reading-content",
+      "recordedAt": "2026-10-12T08:28:32.390+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/listeningReading.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "f75c2b5b2909a0f6f82f9bb60d0472a82b67e8022359010bac6587e58d9c28f4"
+    },
+    {
+      "id": "ev-check-progress-listening-1",
+      "checkId": "check-progress-listening",
+      "recordedAt": "2026-10-12T08:28:36.872+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npx vitest run tests/features/progress — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "6afab085dcbe029781cc8d595f98e6ad0de91177067dcaf615cf4588df35d88c"
+    },
+    {
+      "id": "ev-check-listening-reading-content-2",
+      "checkId": "check-listening-reading-content",
+      "recordedAt": "2026-10-12T08:29:28.925+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/listeningReading.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "092b8b50b463a81a12caf2dfb2ad2b9357e16d004b3d3f41855411b937c27f3d"
+    },
+    {
+      "id": "ev-check-progress-listening-2",
+      "checkId": "check-progress-listening",
+      "recordedAt": "2026-10-12T08:29:33.258+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/features/progress — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "aa2c44e42c9061225ced17931fa69eea00259b82aa3d3e800f1be7e5b37c7292"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T08:30:26.270+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "a6b8b3d06ab8f14b6f9381245a4fcace9ea8eb3fd6a9266030a52bc3db63f509"
+    }
+  ],
   "relevantPaths": [
     "content",
     "src/content",
@@ -97,5 +160,6 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:09.207+07:00"
+  "updatedAt": "2026-10-12T08:31:03.007+07:00",
+  "completedAt": "2026-10-12T08:31:03.007+07:00"
 }

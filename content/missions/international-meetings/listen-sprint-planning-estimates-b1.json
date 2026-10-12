@@ -1,0 +1,458 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "listen-sprint-planning-estimates-b1",
+  "title": "Listen to sprint planning and write the decisions (B1)",
+  "summary": "Nghe cuộc họp lập kế hoạch sprint: ước lượng, chia nhỏ một việc quá lớn và cam kết số việc, rồi viết các quyết định.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nghe các con số ước lượng và lý do",
+    "Nhận ra quyết định chia nhỏ việc",
+    "Viết biên bản kế hoạch sprint ngắn"
+  ],
+  "capabilities": [
+    "international-meetings"
+  ],
+  "workflowTags": [
+    "sprint-planning",
+    "story-estimation",
+    "commitment-notes"
+  ],
+  "sections": [
+    {
+      "id": "lsp-listening",
+      "type": "listening-source",
+      "title": "Sprint planning (synthetic training dialogue)",
+      "durationSeconds": 93,
+      "speakers": [
+        {
+          "id": "jordan",
+          "label": "Jordan, product owner",
+          "locale": "en-US",
+          "voiceHints": [
+            "English US"
+          ]
+        },
+        {
+          "id": "amir",
+          "label": "Amir, developer",
+          "locale": "en-GB",
+          "voiceHints": [
+            "English UK"
+          ]
+        },
+        {
+          "id": "lily",
+          "label": "Lily, tester",
+          "locale": "en-AU",
+          "voiceHints": [
+            "English Australia",
+            "English"
+          ]
+        }
+      ],
+      "turns": [
+        {
+          "speakerId": "jordan",
+          "text": "Let us look at the next story. It is the invoice export. Customers want to download all invoices in one file. Amir, how big is it?"
+        },
+        {
+          "speakerId": "amir",
+          "text": "I would say eight points. We need a new endpoint, a file builder and a progress screen. The file builder is the risky part because large accounts have thousands of invoices."
+        },
+        {
+          "speakerId": "lily",
+          "text": "For testing, I would say five points. I need big test data and I need to check the file format with two accounting tools."
+        },
+        {
+          "speakerId": "jordan",
+          "text": "Eight points is a lot for one story. Can we split it?"
+        },
+        {
+          "speakerId": "amir",
+          "text": "Yes. We can do the endpoint and a small file first, for accounts under five hundred invoices. Then the progress screen and the large accounts in the next sprint. The first part is three points."
+        },
+        {
+          "speakerId": "lily",
+          "text": "That works for me. Testing the small file is two points."
+        },
+        {
+          "speakerId": "jordan",
+          "text": "Good. So we commit to the first part in this sprint. Does the team still have room? Our capacity is twenty-four points."
+        },
+        {
+          "speakerId": "amir",
+          "text": "We already have nineteen points. Five more brings us to twenty-four, which is exactly our limit, so I would not add anything else."
+        },
+        {
+          "speakerId": "jordan",
+          "text": "Agreed. We commit to twenty-four points and keep the large accounts for the next sprint. I will update the board and tell the customer about the two steps. Any questions? No? Thanks, everyone."
+        }
+      ],
+      "gist": [
+        {
+          "id": "lsp-g1",
+          "type": "choice",
+          "question": "What is the team doing?",
+          "options": [
+            "Planning the next sprint",
+            "Reviewing last sprint",
+            "Interviewing a candidate"
+          ],
+          "correctAnswer": [
+            "Planning the next sprint"
+          ],
+          "explanation": "Họ ước lượng và chọn việc cho sprint."
+        }
+      ],
+      "detail": [
+        {
+          "id": "lsp-d1",
+          "type": "choice",
+          "question": "How big does Amir think the whole story is?",
+          "options": [
+            "Eight points",
+            "Five points",
+            "Three points"
+          ],
+          "correctAnswer": [
+            "Eight points"
+          ],
+          "explanation": "Amir ước lượng tám điểm cho cả việc."
+        },
+        {
+          "id": "lsp-d2",
+          "type": "choice",
+          "question": "Why do they split the story?",
+          "options": [
+            "It is too large for one sprint",
+            "The customer cancelled it for the team",
+            "The endpoint is finished"
+          ],
+          "correctAnswer": [
+            "It is too large for one sprint"
+          ],
+          "explanation": "Jordan nói tám điểm là quá nhiều cho một việc."
+        },
+        {
+          "id": "lsp-d3",
+          "type": "choice",
+          "question": "What does the first part include?",
+          "options": [
+            "The endpoint and a small file",
+            "The progress screen only for the team",
+            "Large accounts only"
+          ],
+          "correctAnswer": [
+            "The endpoint and a small file"
+          ],
+          "explanation": "Phần đầu dành cho tài khoản dưới năm trăm hóa đơn."
+        },
+        {
+          "id": "lsp-d4",
+          "type": "choice",
+          "question": "How many points does the team commit to?",
+          "options": [
+            "Twenty-four",
+            "Nineteen for the team",
+            "Thirty at work"
+          ],
+          "correctAnswer": [
+            "Twenty-four"
+          ],
+          "explanation": "Mười chín cộng năm bằng hai mươi tư."
+        }
+      ],
+      "listeningNotes": {
+        "prompt": "Ghi nhanh khi nghe; ghi chú không được lưu.",
+        "fields": [
+          "Estimates",
+          "Decision",
+          "Commitment"
+        ]
+      }
+    },
+    {
+      "id": "lsp-language",
+      "type": "language-support",
+      "title": "Language for planning notes",
+      "vocabulary": [
+        {
+          "word": "story point",
+          "ipa": "/ˈstɔːr.i pɔɪnt/",
+          "definition": "điểm ước lượng",
+          "technicalMeaning": "Đơn vị tương đối để ước lượng độ lớn của một việc.",
+          "collocations": [
+            "an eight-point story",
+            "story points"
+          ],
+          "example": "We estimated the story at eight points.",
+          "commonMistake": "Viết số trước point: three points."
+        },
+        {
+          "word": "capacity",
+          "ipa": "/kəˈpæs.ə.t̬i/",
+          "definition": "năng lực của đội",
+          "technicalMeaning": "Số công việc đội có thể làm trong một sprint.",
+          "collocations": [
+            "team capacity",
+            "at capacity"
+          ],
+          "example": "Our capacity is twenty-four points.",
+          "commonMistake": "Nhấn âm tiết thứ hai: ca-PAC-i-ty."
+        },
+        {
+          "word": "split",
+          "ipa": "/splɪt/",
+          "definition": "chia nhỏ",
+          "technicalMeaning": "Tách một việc lớn thành các phần nhỏ hơn.",
+          "collocations": [
+            "split a story",
+            "split into two"
+          ],
+          "example": "Can we split it into two parts?",
+          "commonMistake": "Dạng quá khứ vẫn là split."
+        },
+        {
+          "word": "commit",
+          "ipa": "/kəˈmɪt/",
+          "definition": "cam kết",
+          "technicalMeaning": "Đồng ý hoàn thành một lượng việc trong sprint.",
+          "collocations": [
+            "commit to",
+            "commit to the sprint"
+          ],
+          "example": "We commit to twenty-four points.",
+          "commonMistake": "Nói commit to + danh từ, không nói commit for."
+        },
+        {
+          "word": "risky",
+          "ipa": "/ˈrɪs.ki/",
+          "definition": "có rủi ro",
+          "technicalMeaning": "Có khả năng làm chậm hoặc hỏng kế hoạch.",
+          "collocations": [
+            "the risky part",
+            "a risky change"
+          ],
+          "example": "The file builder is the risky part.",
+          "commonMistake": "Nói the risky part, không nói the risk part."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "I would say ___ points because ___.",
+          "meaning": "Nêu ước lượng và lý do.",
+          "tone": "neutral",
+          "example": "I would say eight points because the file builder is risky.",
+          "alternatives": [
+            "My estimate is ___ because ___."
+          ]
+        },
+        {
+          "phrase": "Can we split it into ___ and ___?",
+          "meaning": "Đề xuất chia nhỏ.",
+          "tone": "neutral",
+          "example": "Can we split it into a small file and the large accounts?",
+          "alternatives": [
+            "What if we do ___ first?"
+          ]
+        },
+        {
+          "phrase": "Our capacity is ___, so ___.",
+          "meaning": "Nói giới hạn của đội.",
+          "tone": "neutral",
+          "example": "Our capacity is twenty-four points, so we should not add more.",
+          "alternatives": [
+            "We only have room for ___."
+          ]
+        },
+        {
+          "phrase": "We commit to ___ and keep ___ for next sprint.",
+          "meaning": "Chốt cam kết.",
+          "tone": "neutral",
+          "example": "We commit to twenty-four points and keep the large accounts for next sprint.",
+          "alternatives": [
+            "We agreed to ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lsp-check",
+      "type": "auto-check",
+      "title": "Check your planning language",
+      "exercises": [
+        {
+          "id": "lsp-c1",
+          "type": "choice",
+          "question": "Which sentence explains an estimate?",
+          "options": [
+            "I would say eight points because the file builder is risky.",
+            "Let us have lunch after the meeting. for the team right now",
+            "The board is updated every Friday."
+          ],
+          "correctAnswer": [
+            "I would say eight points because the file builder is risky."
+          ],
+          "explanation": "Ước lượng đi cùng lý do."
+        },
+        {
+          "id": "lsp-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: We commit ___ twenty-four points.",
+          "correctAnswer": [
+            "to"
+          ],
+          "explanation": "Commit to + danh từ."
+        },
+        {
+          "id": "lsp-c3",
+          "type": "ordering",
+          "question": "Sắp xếp các bước của buổi planning.",
+          "options": [
+            "commit to the sprint",
+            "estimate the story",
+            "split the story",
+            "check the capacity"
+          ],
+          "correctAnswer": [
+            "estimate the story",
+            "split the story",
+            "check the capacity",
+            "commit to the sprint"
+          ],
+          "explanation": "Ước lượng, chia nhỏ, kiểm tra năng lực, cam kết."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "lsp-task",
+    "mode": "written",
+    "title": "Write sprint planning decisions",
+    "scenario": "Sau buổi planning, bạn viết các quyết định để gửi cho đội và khách hàng.",
+    "baselinePrompt": "Dựa vào ghi chú thô của một buổi planning, hãy viết các quyết định bằng tiếng Anh (60 đến 110 từ): ước lượng, việc được chia nhỏ và cam kết. Chưa xem bài mẫu.",
+    "performancePrompt": "Write sprint planning notes in English, 60 to 110 words: the estimates, what was split and what the team committed to.",
+    "modelResponse": "Sprint planning notes. The invoice export story was estimated at eight points by development and five points by testing, so the team split it. Part one, the endpoint and a small file for accounts under five hundred invoices, is three points for development and two for testing. Part two, the progress screen and large accounts, moves to the next sprint. The team already had nineteen points, so part one brings it to twenty-four, which matches our capacity. Decision: commit to twenty-four points. Jordan will update the board and tell the customer about the two steps.",
+    "retryPrompt": "Write the notes again in English. Keep the structure and make the numbers easier to find.",
+    "transferPrompt": "Write notes for a different planning meeting, using estimates, a split and a commitment.",
+    "reviewPrompt": "Write notes for another planning meeting without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Raw notes: planning for a search page",
+        "brief": "Chuyển ghi chú thô thành biên bản.",
+        "artifacts": [
+          {
+            "id": "lsp-baseline-ctx",
+            "type": "source",
+            "title": "Raw notes: planning for a search page",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: search filters. Dev says 13 points, QA says 8. Too large, split into basic filters (5) and saved filters (8). Capacity 30, already 22. Commit basic filters now, saved filters next sprint."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Raw notes: planning for onboarding",
+        "brief": "Sửa bài với một kế hoạch khác.",
+        "artifacts": [
+          {
+            "id": "lsp-retry-ctx",
+            "type": "source",
+            "title": "Raw notes: planning for onboarding",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: onboarding emails. Dev 5 points, QA 3. No split needed. Capacity 20, already 12. Commit now. Risk: email provider limits, owner Dara checks by Wednesday."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Raw notes: planning for reports",
+        "brief": "Tình huống mới: báo cáo doanh số.",
+        "artifacts": [
+          {
+            "id": "lsp-transfer-ctx",
+            "type": "source",
+            "title": "Raw notes: planning for reports",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: monthly sales report. Dev 8 points, QA 5. Split into numbers first (5) and charts (8). Capacity 26, already 20. Commit numbers; charts wait for design."
+          }
+        ]
+      },
+      "review": {
+        "title": "Raw notes: planning for payments",
+        "brief": "Ôn lại với tính năng thanh toán.",
+        "artifacts": [
+          {
+            "id": "lsp-review-ctx",
+            "type": "source",
+            "title": "Raw notes: planning for payments",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: pay by card. Dev 13 points, QA 8. Split into card form (5) and saved cards (13). Capacity 28, already 21. Commit card form; saved cards need legal review first."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "estimates",
+        "what was split",
+        "commitment"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "accurate numbers",
+      "clear decision",
+      "short sentences"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Estimates, split and commitment",
+        "description": "The notes cover all three parts.",
+        "dimension": "task",
+        "anchors": {
+          "met": "Estimates, the split and the final commitment are easy to find.",
+          "notMet": "The commitment or the split is missing."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate numbers and sentences",
+        "description": "Numbers add up and the grammar is clear.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Numbers match and sentences are clear.",
+          "notMet": "Numbers are wrong or missing."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Planning vocabulary",
+        "description": "Uses words such as estimate, capacity and commit.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three planning words correctly.",
+          "notMet": "Only everyday words such as \"do\" and \"make\"."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

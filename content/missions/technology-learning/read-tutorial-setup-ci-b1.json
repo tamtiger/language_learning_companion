@@ -1,0 +1,445 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-tutorial-setup-ci-b1",
+  "title": "Follow a long tutorial to set up CI (B1)",
+  "summary": "Đọc một tutorial dài về thiết lập kiểm tra tự động cho dự án web, theo dõi từng bước và viết tóm tắt các bước cùng một rủi ro.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Đọc lướt tutorial theo các phần",
+    "Theo dõi thứ tự các bước và điều kiện",
+    "Viết tóm tắt các bước và một rủi ro bằng tiếng Anh"
+  ],
+  "capabilities": [
+    "technology-learning"
+  ],
+  "workflowTags": [
+    "tutorial-reading",
+    "ci-setup-steps",
+    "learning-summary"
+  ],
+  "sections": [
+    {
+      "id": "rtc-reading",
+      "type": "long-reading",
+      "title": "Tutorial: Set up automatic checks for a small web app",
+      "format": "tutorial",
+      "parts": [
+        {
+          "id": "intro",
+          "heading": "Introduction",
+          "content": "Synthetic training artifact — non-production. Tutorial: Set up automatic checks for a small web app. In about thirty minutes you will create a workflow that runs your tests and your linter every time someone opens a pull request. This is often called continuous integration, or CI. You need a repository on a hosting service, Node 20 installed on your computer, and a project that already has a test command and a lint command in package.json. If you do not have a project, you can use the sample app linked at the end. You do not need to know anything about servers."
+        },
+        {
+          "id": "config",
+          "heading": "Step 1: Create the workflow file",
+          "content": "Create a folder called .ci in the root of the repository and add a file named checks.yml. A workflow file describes when the checks run and what they do. First, set the trigger: run the workflow on every pull request and on every push to the main branch. Second, choose a machine image; the tutorial uses the latest Linux image because it is the fastest and the cheapest. Third, give the workflow a name that people can read, such as Checks, because this name appears in the pull request."
+        },
+        {
+          "id": "steps",
+          "heading": "Step 2: Add the checks",
+          "content": "Add four steps in this order. First, check out the code so that the machine has your files. Second, install Node 20 with the setup step, and turn on the dependency cache so that later runs are faster. Third, run npm ci to install the exact versions from the lock file; do not use npm install here, because it can change the lock file. Fourth, run npm run lint and then npm test. If any step fails, the workflow stops and the pull request shows a red mark."
+        },
+        {
+          "id": "secrets",
+          "heading": "Step 3: Handle secrets safely",
+          "content": "Some tests need a token, for example for a test database. Never write a token in the workflow file or in the repository. Open the repository settings, find the section for secrets and add a secret named TEST_DB_TOKEN. In the workflow, read it as an environment variable. Remember that pull requests from forks do not receive secrets, so tests that need a token will fail for outside contributors. Mark such tests as optional or use a fake service for them."
+        },
+        {
+          "id": "protect",
+          "heading": "Step 4: Protect the main branch",
+          "content": "After the first successful run, open the branch settings and require the Checks workflow to pass before a pull request can be merged. Also require at least one review. This stops broken code from reaching the main branch. Be careful with the rule for administrators: if you also apply the rule to administrators, nobody can bypass a failing check in an emergency, which may be too strict for a small team. Decide this together with your team."
+        },
+        {
+          "id": "trouble",
+          "heading": "Troubleshooting and next steps",
+          "content": "If the workflow does not start, check that the folder name and the trigger are correct. If npm ci fails with a lock file error, run npm install on your computer and commit the updated lock file. If the checks are slow, look at the cache step first. When the basic workflow is stable, you can add a build step, a test coverage report or a deployment to a preview site. Add one thing at a time, and keep the total run time under ten minutes."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rtc-s1",
+          "type": "choice",
+          "question": "What will you build in this tutorial?",
+          "options": [
+            "A workflow that runs tests on pull requests",
+            "A new web application for the team right now",
+            "A database server at work"
+          ],
+          "correctAnswer": [
+            "A workflow that runs tests on pull requests"
+          ],
+          "explanation": "Phần giới thiệu mô tả mục tiêu."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "config",
+          "exercise": {
+            "id": "rtc-q1",
+            "type": "choice",
+            "question": "When should the workflow run?",
+            "options": [
+              "On pull requests and pushes to main",
+              "Only once a week",
+              "Only when an admin asks for the team"
+            ],
+            "correctAnswer": [
+              "On pull requests and pushes to main"
+            ],
+            "explanation": "Bước 1 nêu điều kiện kích hoạt."
+          }
+        },
+        {
+          "locatePartId": "steps",
+          "exercise": {
+            "id": "rtc-q2",
+            "type": "choice",
+            "question": "Why use npm ci instead of npm install?",
+            "options": [
+              "It installs exact versions from the lock file",
+              "It is shorter to type for the team right now",
+              "It skips the tests"
+            ],
+            "correctAnswer": [
+              "It installs exact versions from the lock file"
+            ],
+            "explanation": "Bước 2 giải thích lý do."
+          }
+        },
+        {
+          "locatePartId": "secrets",
+          "exercise": {
+            "id": "rtc-q3",
+            "type": "choice",
+            "question": "Where should a test token be stored?",
+            "options": [
+              "In the repository secrets settings",
+              "In the workflow file for the team right now",
+              "In the README at work"
+            ],
+            "correctAnswer": [
+              "In the repository secrets settings"
+            ],
+            "explanation": "Bước 3 hướng dẫn lưu secret."
+          }
+        },
+        {
+          "locatePartId": "protect",
+          "exercise": {
+            "id": "rtc-q4",
+            "type": "choice",
+            "question": "What does branch protection require?",
+            "options": [
+              "A passing Checks workflow and a review",
+              "Only a review at work",
+              "Nothing before merging for the team right now"
+            ],
+            "correctAnswer": [
+              "A passing Checks workflow and a review"
+            ],
+            "explanation": "Bước 4 nêu các điều kiện merge."
+          }
+        },
+        {
+          "locatePartId": "trouble",
+          "exercise": {
+            "id": "rtc-q5",
+            "type": "choice",
+            "question": "What should you do if npm ci shows a lock file error?",
+            "options": [
+              "Run npm install and commit the lock file",
+              "Delete the workflow file for the team right now",
+              "Turn off the cache at work"
+            ],
+            "correctAnswer": [
+              "Run npm install and commit the lock file"
+            ],
+            "explanation": "Phần xử lý sự cố nêu cách sửa."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rtc-language",
+      "type": "language-support",
+      "title": "Language for following tutorials",
+      "vocabulary": [
+        {
+          "word": "workflow",
+          "ipa": "/ˈwɝːk.floʊ/",
+          "definition": "quy trình tự động",
+          "technicalMeaning": "Tệp mô tả các bước máy chạy khi có sự kiện.",
+          "collocations": [
+            "create a workflow",
+            "run the workflow"
+          ],
+          "example": "The workflow runs on every pull request.",
+          "commonMistake": "Workflow là một từ."
+        },
+        {
+          "word": "trigger",
+          "ipa": "/ˈtrɪɡ.ɚ/",
+          "definition": "điều kiện kích hoạt",
+          "technicalMeaning": "Sự kiện làm quy trình bắt đầu chạy.",
+          "collocations": [
+            "set the trigger",
+            "trigger a build"
+          ],
+          "example": "The trigger is a pull request.",
+          "commonMistake": "Trigger vừa là danh từ vừa là động từ."
+        },
+        {
+          "word": "secret",
+          "ipa": "/ˈsiː.krət/",
+          "definition": "giá trị bí mật",
+          "technicalMeaning": "Token hoặc mật khẩu không được ghi vào mã nguồn.",
+          "collocations": [
+            "add a secret",
+            "store a secret"
+          ],
+          "example": "Add the token as a secret.",
+          "commonMistake": "Nói store a secret, không nói write a secret in code."
+        },
+        {
+          "word": "lock file",
+          "ipa": "/ˈlɑːk faɪl/",
+          "definition": "tệp khóa phiên bản",
+          "technicalMeaning": "Tệp ghi phiên bản chính xác của các gói đã cài.",
+          "collocations": [
+            "commit the lock file",
+            "the lock file changed"
+          ],
+          "example": "Commit the updated lock file.",
+          "commonMistake": "Viết lock file thành hai từ."
+        },
+        {
+          "word": "merge",
+          "ipa": "/mɝːdʒ/",
+          "definition": "gộp nhánh",
+          "technicalMeaning": "Đưa thay đổi của pull request vào nhánh chính.",
+          "collocations": [
+            "merge a pull request",
+            "ready to merge"
+          ],
+          "example": "Checks must pass before you merge.",
+          "commonMistake": "Nói merge into main, không nói merge to main."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "First, ___. Then, ___. Finally, ___.",
+          "meaning": "Nêu thứ tự các bước.",
+          "tone": "neutral",
+          "example": "First, check out the code. Then, install Node. Finally, run the tests.",
+          "alternatives": [
+            "Start by ___, and after that ___."
+          ]
+        },
+        {
+          "phrase": "Make sure that ___ before you ___.",
+          "meaning": "Nêu điều kiện trước khi làm.",
+          "tone": "neutral",
+          "example": "Make sure that the lock file is committed before you push.",
+          "alternatives": [
+            "Check that ___ first."
+          ]
+        },
+        {
+          "phrase": "Never ___; instead, ___.",
+          "meaning": "Nêu điều cấm và cách thay thế.",
+          "tone": "neutral",
+          "example": "Never write a token in the file; instead, add it as a secret.",
+          "alternatives": [
+            "Do not ___, but ___."
+          ]
+        },
+        {
+          "phrase": "If ___ fails, ___.",
+          "meaning": "Nêu cách xử lý khi lỗi.",
+          "tone": "neutral",
+          "example": "If npm ci fails, update and commit the lock file.",
+          "alternatives": [
+            "When ___ breaks, try ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rtc-check",
+      "type": "auto-check",
+      "title": "Check tutorial language",
+      "exercises": [
+        {
+          "id": "rtc-c1",
+          "type": "choice",
+          "question": "Which sentence tells you what NOT to do?",
+          "options": [
+            "Never write a token in the workflow file.",
+            "Create a folder in the root.",
+            "Run the tests after the lint step. for the team"
+          ],
+          "correctAnswer": [
+            "Never write a token in the workflow file."
+          ],
+          "explanation": "Never nêu điều cấm."
+        },
+        {
+          "id": "rtc-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: Commit the lock file ___ you push.",
+          "correctAnswer": [
+            "before"
+          ],
+          "explanation": "Before nêu điều cần làm trước."
+        },
+        {
+          "id": "rtc-c3",
+          "type": "ordering",
+          "question": "Sắp xếp các bước thiết lập.",
+          "options": [
+            "protect the main branch",
+            "add the checks",
+            "handle the secrets",
+            "create the workflow file"
+          ],
+          "correctAnswer": [
+            "create the workflow file",
+            "add the checks",
+            "handle the secrets",
+            "protect the main branch"
+          ],
+          "explanation": "Tạo tệp, thêm kiểm tra, xử lý secret, bảo vệ nhánh."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rtc-task",
+    "mode": "written",
+    "title": "Summarize the steps and one risk",
+    "scenario": "Bạn đọc một tutorial và viết tóm tắt để đồng đội làm theo, kèm một rủi ro cần chú ý.",
+    "baselinePrompt": "Đọc đoạn tutorial ngắn rồi viết tóm tắt bằng tiếng Anh (60 đến 110 từ): các bước theo thứ tự và một rủi ro cần chú ý. Chưa xem bài mẫu.",
+    "performancePrompt": "Write a summary of the tutorial in English, 60 to 110 words: the steps in order and one risk to watch for.",
+    "modelResponse": "Summary of the CI tutorial. First, create a workflow file that runs on every pull request and every push to main. Then add four steps: check out the code, install Node 20 with the cache, run npm ci, and run the lint and test commands. After that, store test tokens in the repository secrets, never in the file. Finally, protect the main branch so that the Checks workflow and one review are required. One risk: pull requests from forks do not receive secrets, so token tests will fail for outside contributors.",
+    "retryPrompt": "Write the summary again in English. Keep the order words and make the risk clearer.",
+    "transferPrompt": "Summarize a different tutorial, such as setting up a linter, with steps and one risk.",
+    "reviewPrompt": "Summarize another tutorial without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "CI tutorial excerpt",
+        "brief": "Tóm tắt một đoạn tutorial CI.",
+        "artifacts": [
+          {
+            "id": "rtc-baseline-ctx",
+            "type": "source",
+            "title": "CI tutorial excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: create the workflow file. Step 2: add checkout, Node, npm ci, lint and test. Step 3: store tokens as secrets. Step 4: protect the main branch. Note: forks do not receive secrets."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Linter tutorial excerpt",
+        "brief": "Sửa bài với tutorial về linter.",
+        "artifacts": [
+          {
+            "id": "rtc-retry-ctx",
+            "type": "source",
+            "title": "Linter tutorial excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: install the linter as a development package. Step 2: create a config file with three rules. Step 3: add a lint script to package.json. Step 4: run it before each commit. Note: do not enable every rule at once."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Docker tutorial excerpt",
+        "brief": "Tình huống mới: đóng gói ứng dụng bằng Docker.",
+        "artifacts": [
+          {
+            "id": "rtc-transfer-ctx",
+            "type": "source",
+            "title": "Docker tutorial excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: write a Dockerfile with a small base image. Step 2: copy package files and run npm ci. Step 3: copy the source code. Step 4: build and run the image. Note: do not copy the .env file into the image."
+          }
+        ]
+      },
+      "review": {
+        "title": "Preview site tutorial excerpt",
+        "brief": "Ôn lại với tutorial về trang xem trước.",
+        "artifacts": [
+          {
+            "id": "rtc-review-ctx",
+            "type": "source",
+            "title": "Preview site tutorial excerpt",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: connect the repository. Step 2: set the build command and the output folder. Step 3: add environment variables as secrets. Step 4: open the preview link in each pull request. Note: previews are public by default."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "steps in order",
+        "one risk"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "correct order",
+      "order words",
+      "clear risk"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Steps and one risk",
+        "description": "The summary has the steps in order and one risk.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The reader can follow the steps and sees the risk.",
+          "notMet": "Steps are out of order or no risk is named."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate details",
+        "description": "Commands and names match the tutorial.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Commands such as npm ci and secret names are correct.",
+          "notMet": "Commands or names are wrong."
+        }
+      },
+      {
+        "id": "range",
+        "label": "Order words",
+        "description": "Uses first, then, after that and finally.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Uses at least three different order words.",
+          "notMet": "Uses only \"and\"."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

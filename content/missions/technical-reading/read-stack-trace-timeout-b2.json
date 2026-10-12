@@ -1,0 +1,446 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "read-stack-trace-timeout-b2",
+  "title": "Read a stack trace and logs to find the cause of a timeout (B2)",
+  "summary": "Read a long set of logs, a stack trace and metrics, trace the failure to its cause and write a short diagnosis.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Read logs in time order and find the first error",
+    "Read a stack trace from the top frame",
+    "Write a diagnosis that separates evidence from guesses"
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "stack-trace-reading",
+    "timeout-diagnosis",
+    "evidence-based-summary"
+  ],
+  "sections": [
+    {
+      "id": "rst-reading",
+      "type": "long-reading",
+      "title": "Incident evidence: report export timeouts",
+      "format": "log",
+      "parts": [
+        {
+          "id": "summary",
+          "heading": "Incident summary",
+          "content": "Synthetic training artifact — non-production. Incident 2291. Report export timeouts. Reported by support at 14:05 UTC. Users who press Export on the monthly report page wait about thirty seconds and then see the message Request timed out. About one in four export requests fails. Other pages are not affected. The evidence below was collected by the on-call engineer: application logs, a stack trace from the worker, database metrics and the recent deploy history. Read the logs in time order first, then the stack trace from the top frame down, and note which facts are observed and which are only guesses."
+        },
+        {
+          "id": "logs",
+          "heading": "Application log excerpt",
+          "content": "13:58:02 INFO export-service request id=r-501 user=u-77 report=monthly started\n13:58:04 INFO export-service request id=r-501 query started table=orders rows=2400000\n13:58:34 WARN export-service request id=r-501 slow query 30.0s\n13:58:34 ERROR export-service request id=r-501 timeout after 30s\n13:59:10 INFO export-service request id=r-502 user=u-12 report=weekly started\n13:59:11 INFO export-service request id=r-502 completed rows=51000 time=0.9s\n14:01:46 ERROR export-service request id=r-503 timeout after 30s report=monthly"
+        },
+        {
+          "id": "trace",
+          "heading": "Stack trace from the worker",
+          "content": "TimeoutError: query exceeded 30000 ms\n    at Pool.query (db/pool.js:88)\n    at loadOrders (reports/orders.js:41)\n    at buildMonthlyReport (reports/monthly.js:17)\n    at handleExport (api/export.js:63)\nCaused by: statement timeout on connection 12. The top frame, Pool.query, shows where the error was raised, but the useful clue is the second frame: loadOrders loads every order of the month in one query, with no limit and no filter by date index."
+        },
+        {
+          "id": "metrics",
+          "heading": "Database metrics",
+          "content": "Between 13:50 and 14:10 the primary database CPU was between forty and fifty percent, which is normal. Connections in use were 38 of 50, which is higher than the usual 20, because slow exports keep their connections open for thirty seconds. The orders table has 2.4 million rows. The index on created_at exists, but the query in loadOrders sorts by customer name first, so the database cannot use that index. Weekly reports are fast because they read about fifty thousand rows."
+        },
+        {
+          "id": "deploys",
+          "heading": "Recent deploy history",
+          "content": "Tuesday 10:12: export-service 4.2.0 released. Change: monthly report now includes customer names, which needs a join with the customers table. Tuesday 16:40: no further changes. Previous release 4.1.3 was on Thursday last week. The first timeout in the logs appears on Tuesday at 10:31, about twenty minutes after the 4.2.0 release. No infrastructure changes were made this week, and the database version is unchanged since March."
+        },
+        {
+          "id": "notes",
+          "heading": "Engineer notes",
+          "content": "Observed: monthly exports time out after thirty seconds; weekly exports are fast; the slow query reads 2.4 million rows; the first timeout appeared after release 4.2.0. Guess: the join with customer names and the sort by name prevent the use of the date index. Not yet checked: the query plan, and whether a smaller date range avoids the problem. Next step: run EXPLAIN on the query and test a version that filters by date first and joins names afterwards."
+        }
+      ],
+      "skim": [
+        {
+          "id": "rst-s1",
+          "type": "choice",
+          "question": "What is the main problem in this incident?",
+          "options": [
+            "Monthly report exports time out",
+            "The database is down for the team",
+            "Users cannot log in"
+          ],
+          "correctAnswer": [
+            "Monthly report exports time out"
+          ],
+          "explanation": "Phần tóm tắt mô tả export báo cáo tháng bị timeout."
+        }
+      ],
+      "scan": [
+        {
+          "locatePartId": "logs",
+          "exercise": {
+            "id": "rst-q1",
+            "type": "choice",
+            "question": "How long does a failing export wait before it fails?",
+            "options": [
+              "Thirty seconds",
+              "Three seconds for the team",
+              "Three minutes"
+            ],
+            "correctAnswer": [
+              "Thirty seconds"
+            ],
+            "explanation": "Log ghi timeout sau 30s."
+          }
+        },
+        {
+          "locatePartId": "trace",
+          "exercise": {
+            "id": "rst-q2",
+            "type": "choice",
+            "question": "Which frame gives the most useful clue?",
+            "options": [
+              "loadOrders",
+              "Pool.query",
+              "handleExport"
+            ],
+            "correctAnswer": [
+              "loadOrders"
+            ],
+            "explanation": "Phần stack trace nói frame thứ hai là manh mối."
+          }
+        },
+        {
+          "locatePartId": "metrics",
+          "exercise": {
+            "id": "rst-q3",
+            "type": "choice",
+            "question": "Why can the database not use the created_at index?",
+            "options": [
+              "The query sorts by customer name first",
+              "The index does not exist for the team right now",
+              "The table is too small"
+            ],
+            "correctAnswer": [
+              "The query sorts by customer name first"
+            ],
+            "explanation": "Phần metrics giải thích lý do."
+          }
+        },
+        {
+          "locatePartId": "deploys",
+          "exercise": {
+            "id": "rst-q4",
+            "type": "choice",
+            "question": "When did the first timeout appear?",
+            "options": [
+              "About twenty minutes after release 4.2.0",
+              "Before release 4.2.0 for the team right now",
+              "After the weekend at work"
+            ],
+            "correctAnswer": [
+              "About twenty minutes after release 4.2.0"
+            ],
+            "explanation": "Phần deploy history nêu thời điểm."
+          }
+        },
+        {
+          "locatePartId": "notes",
+          "exercise": {
+            "id": "rst-q5",
+            "type": "choice",
+            "question": "Which statement is only a guess?",
+            "options": [
+              "The join and sort block the index",
+              "Weekly exports are fast",
+              "The table has 2.4 million rows for the team"
+            ],
+            "correctAnswer": [
+              "The join and sort block the index"
+            ],
+            "explanation": "Phần ghi chú tách quan sát khỏi phỏng đoán."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rst-language",
+      "type": "language-support",
+      "title": "Language for diagnosing from evidence",
+      "vocabulary": [
+        {
+          "word": "stack trace",
+          "ipa": "/ˈstæk treɪs/",
+          "definition": "dấu vết ngăn xếp lỗi",
+          "technicalMeaning": "Danh sách các hàm đang chạy khi lỗi xảy ra.",
+          "collocations": [
+            "read a stack trace",
+            "the top frame"
+          ],
+          "example": "The stack trace shows where the error was raised.",
+          "commonMistake": "Viết stack trace thành hai từ."
+        },
+        {
+          "word": "timeout",
+          "ipa": "/ˈtaɪm.aʊt/",
+          "definition": "quá thời gian chờ",
+          "technicalMeaning": "Yêu cầu bị dừng vì chạy quá lâu.",
+          "collocations": [
+            "a timeout error",
+            "time out after"
+          ],
+          "example": "The request timed out after thirty seconds.",
+          "commonMistake": "Danh từ viết timeout, động từ viết time out."
+        },
+        {
+          "word": "observed",
+          "ipa": "/əbˈzɝːvd/",
+          "definition": "đã quan sát được",
+          "technicalMeaning": "Sự thật có trong log hoặc số liệu.",
+          "collocations": [
+            "observed behavior",
+            "we observed that"
+          ],
+          "example": "We observed that weekly exports are fast.",
+          "commonMistake": "Dùng observed cho điều thấy được, không phải điều đoán."
+        },
+        {
+          "word": "correlate",
+          "ipa": "/ˈkɔːr.ə.leɪt/",
+          "definition": "có liên quan về thời gian",
+          "technicalMeaning": "Hai sự kiện xảy ra cùng lúc nhưng chưa chắc có quan hệ nhân quả.",
+          "collocations": [
+            "correlate with",
+            "a correlation"
+          ],
+          "example": "The timeouts correlate with the release.",
+          "commonMistake": "Nói correlate with."
+        },
+        {
+          "word": "query plan",
+          "ipa": "/ˈkwɪr.i plæn/",
+          "definition": "kế hoạch thực thi truy vấn",
+          "technicalMeaning": "Cách cơ sở dữ liệu quyết định chạy một truy vấn.",
+          "collocations": [
+            "check the query plan",
+            "run EXPLAIN"
+          ],
+          "example": "We need to check the query plan.",
+          "commonMistake": "Query plan là cụm cố định hai từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The logs show that ___ at ___.",
+          "meaning": "Nêu điều quan sát từ log.",
+          "tone": "neutral",
+          "example": "The logs show that the first timeout appeared at 10:31.",
+          "alternatives": [
+            "According to the logs, ___."
+          ]
+        },
+        {
+          "phrase": "The stack trace points to ___.",
+          "meaning": "Nêu manh mối từ stack trace.",
+          "tone": "neutral",
+          "example": "The stack trace points to loadOrders, which loads every order of the month.",
+          "alternatives": [
+            "The failing frame is ___."
+          ]
+        },
+        {
+          "phrase": "This is only a hypothesis: ___.",
+          "meaning": "Đánh dấu phỏng đoán.",
+          "tone": "neutral",
+          "example": "This is only a hypothesis: the join blocks the date index.",
+          "alternatives": [
+            "It may be that ___."
+          ]
+        },
+        {
+          "phrase": "To confirm this, we should ___.",
+          "meaning": "Nêu bước xác nhận.",
+          "tone": "neutral",
+          "example": "To confirm this, we should run EXPLAIN on the query.",
+          "alternatives": [
+            "The next check is ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rst-check",
+      "type": "auto-check",
+      "title": "Check evidence language",
+      "exercises": [
+        {
+          "id": "rst-c1",
+          "type": "choice",
+          "question": "Which sentence is an observation, not a guess?",
+          "options": [
+            "The logs show a timeout after thirty seconds.",
+            "The join probably breaks the index.",
+            "The developer must have forgotten a limit. for the team"
+          ],
+          "correctAnswer": [
+            "The logs show a timeout after thirty seconds."
+          ],
+          "explanation": "Quan sát dựa vào log, không suy đoán."
+        },
+        {
+          "id": "rst-c2-fill",
+          "type": "fill",
+          "question": "Điền từ: The timeouts correlate ___ the release.",
+          "correctAnswer": [
+            "with"
+          ],
+          "explanation": "Correlate with."
+        },
+        {
+          "id": "rst-c3",
+          "type": "ordering",
+          "question": "Sắp xếp cách đọc bằng chứng.",
+          "options": [
+            "write the next check",
+            "read the logs in time order",
+            "read the stack trace from the top",
+            "separate facts from guesses"
+          ],
+          "correctAnswer": [
+            "read the logs in time order",
+            "read the stack trace from the top",
+            "separate facts from guesses",
+            "write the next check"
+          ],
+          "explanation": "Log, stack trace, tách sự thật khỏi phỏng đoán, bước kiểm tra."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "rst-task",
+    "mode": "written",
+    "title": "Write a short diagnosis",
+    "scenario": "You read the evidence of an incident and write a short diagnosis for the team.",
+    "baselinePrompt": "Read the short log and trace excerpt and write a diagnosis in English (60 to 120 words): what you observed, your hypothesis and the next check. Do not look at the model answer yet.",
+    "performancePrompt": "Write a short diagnosis in English, 60 to 120 words: what the evidence shows, your hypothesis and the next check.",
+    "modelResponse": "Diagnosis for incident 2291. Observed: monthly report exports time out after thirty seconds, about one in four requests fails, weekly exports are fast, and the first timeout appeared twenty minutes after release 4.2.0. The stack trace points to loadOrders, which reads 2.4 million rows with no limit. Hypothesis: the new join with customer names and the sort by name prevent the use of the created_at index. This is not confirmed yet. Next check: run EXPLAIN on the query and test a version that filters by date before the join.",
+    "retryPrompt": "Write the diagnosis again in English. Keep the structure and mark guesses more clearly.",
+    "transferPrompt": "Write a diagnosis for a different failure, using observed facts, a hypothesis and a next check.",
+    "reviewPrompt": "Write a diagnosis for another failure without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Export timeout evidence",
+        "brief": "Write a diagnosis from log and trace evidence.",
+        "artifacts": [
+          {
+            "id": "rst-baseline-ctx",
+            "type": "source",
+            "title": "Export timeout evidence",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Excerpt. 13:58:34 ERROR export request r-501 timeout after 30s. Trace: Pool.query, loadOrders, buildMonthlyReport. Table orders has 2.4 million rows. First timeout after release 4.2.0."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Login failure evidence",
+        "brief": "Retry with a login failure.",
+        "artifacts": [
+          {
+            "id": "rst-retry-ctx",
+            "type": "source",
+            "title": "Login failure evidence",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Excerpt. 09:05:11 ERROR auth login failed reason=certificate expired. Trace: verifyToken, loadKeys, fetchCertificate. Certificate expired at 09:00. Failures start at 09:01. No deploy this week."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Memory growth evidence",
+        "brief": "A new situation: a service restarts often.",
+        "artifacts": [
+          {
+            "id": "rst-transfer-ctx",
+            "type": "source",
+            "title": "Memory growth evidence",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Excerpt. 02:14:09 WARN worker memory 1.9 GB of 2 GB. 02:14:40 ERROR worker killed out of memory. Trace: parseFile, readAll, importCustomers. Files larger than 200 MB arrive on Mondays."
+          }
+        ]
+      },
+      "review": {
+        "title": "Queue delay evidence",
+        "brief": "Review with a queue that grows.",
+        "artifacts": [
+          {
+            "id": "rst-review-ctx",
+            "type": "source",
+            "title": "Queue delay evidence",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Excerpt. 16:20 INFO queue size 120000. 16:21 WARN consumer lag 14 minutes. Trace: sendEmail, renderTemplate, loadImages. Image host responds in 8 seconds since 16:00."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "observed facts",
+        "hypothesis",
+        "next check"
+      ],
+      "minWords": 60,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "facts versus guesses",
+      "accurate details",
+      "next check"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Facts, hypothesis, next check",
+        "description": "The diagnosis separates facts from guesses and ends with a check.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The reader sees observed facts, one hypothesis and a next check.",
+          "notMet": "Guesses are written as facts or no next check is given."
+        }
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate evidence",
+        "description": "Times, numbers and names match the evidence.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Numbers and function names are correct.",
+          "notMet": "Details are wrong or invented."
+        }
+      },
+      {
+        "id": "register",
+        "label": "Cautious language",
+        "description": "Uses cautious words for unconfirmed ideas.",
+        "dimension": "register",
+        "anchors": {
+          "met": "Uses \"probably\", \"hypothesis\" or \"may\" for guesses.",
+          "notMet": "States a guess as certain."
+        }
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}
