@@ -1,0 +1,373 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "write-a-short-design-note-b1",
+  "title": "Write a short design note (B1)",
+  "summary": "Viết một ghi chú thiết kế ngắn gồm vấn đề, đề xuất và một rủi ro để đồng đội xem trước khi làm.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nêu vấn đề hiện tại bằng dữ kiện",
+    "Đề xuất một giải pháp đơn giản",
+    "Nêu một rủi ro và cách giảm"
+  ],
+  "capabilities": [
+    "technical-explanation"
+  ],
+  "workflowTags": [
+    "design-note",
+    "problem-proposal-risk",
+    "written-explanation"
+  ],
+  "sections": [
+    {
+      "id": "sdn-source",
+      "type": "source",
+      "title": "Design note request",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Request from the team lead. Topic: exports of large reports time out. Facts: exports with more than fifty thousand rows fail after thirty seconds; about one export in ten is that large; customers retry and increase the load. Idea to evaluate: run large exports in the background and send an email with a download link."
+    },
+    {
+      "id": "sdn-language",
+      "type": "language-support",
+      "title": "Language for a design note",
+      "vocabulary": [
+        {
+          "word": "proposal",
+          "ipa": "/prəˈpoʊ.zəl/",
+          "definition": "đề xuất",
+          "technicalMeaning": "Giải pháp bạn muốn đội xem xét.",
+          "collocations": [
+            "make a proposal",
+            "the proposal is"
+          ],
+          "example": "The proposal is to run exports in the background.",
+          "commonMistake": "Nhấn âm tiết thứ hai: pro-PO-sal."
+        },
+        {
+          "word": "background job",
+          "ipa": "/ˈbæk.ɡraʊnd dʒɑːb/",
+          "definition": "tác vụ chạy nền",
+          "technicalMeaning": "Việc chạy sau, không làm người dùng chờ.",
+          "collocations": [
+            "run as a background job",
+            "a background job queue"
+          ],
+          "example": "Large exports run as background jobs.",
+          "commonMistake": "Viết background job thành hai từ."
+        },
+        {
+          "word": "trade-off",
+          "ipa": "/ˈtreɪd.ɔːf/",
+          "definition": "sự đánh đổi",
+          "technicalMeaning": "Được cái này thì mất cái kia.",
+          "collocations": [
+            "a trade-off between",
+            "the main trade-off"
+          ],
+          "example": "The trade-off is between speed and simplicity.",
+          "commonMistake": "Nói a trade-off between ... and ...."
+        },
+        {
+          "word": "risk",
+          "ipa": "/rɪsk/",
+          "definition": "rủi ro",
+          "technicalMeaning": "Điều có thể sai và ảnh hưởng đến kết quả.",
+          "collocations": [
+            "a main risk",
+            "reduce the risk"
+          ],
+          "example": "The main risk is a full queue.",
+          "commonMistake": "Nói a risk of + danh từ."
+        },
+        {
+          "word": "mitigation",
+          "ipa": "/ˌmɪt.əˈɡeɪ.ʃən/",
+          "definition": "biện pháp giảm nhẹ",
+          "technicalMeaning": "Cách làm giảm khả năng hoặc tác động của rủi ro.",
+          "collocations": [
+            "a mitigation step",
+            "mitigation plan"
+          ],
+          "example": "A mitigation is to limit the number of exports.",
+          "commonMistake": "Nhấn âm tiết thứ ba: mit-i-GA-tion."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Currently, ___. This causes ___.",
+          "meaning": "Nêu vấn đề hiện tại.",
+          "tone": "neutral",
+          "example": "Currently, large exports fail after thirty seconds. This causes retries and extra load.",
+          "alternatives": [
+            "Right now, ___."
+          ]
+        },
+        {
+          "phrase": "I propose that we ___, because ___.",
+          "meaning": "Nêu đề xuất và lý do.",
+          "tone": "neutral",
+          "example": "I propose that we run large exports in the background, because users do not need to wait.",
+          "alternatives": [
+            "The proposal is to ___."
+          ]
+        },
+        {
+          "phrase": "The main risk is ___. We can reduce it by ___.",
+          "meaning": "Nêu rủi ro và cách giảm.",
+          "tone": "neutral",
+          "example": "The main risk is a full queue. We can reduce it by limiting exports per user.",
+          "alternatives": [
+            "One concern is ___."
+          ]
+        },
+        {
+          "phrase": "I would like your feedback on ___.",
+          "meaning": "Mời góp ý.",
+          "tone": "neutral",
+          "example": "I would like your feedback on the email link and its expiry time.",
+          "alternatives": [
+            "Please tell me if ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sdn-check",
+      "type": "auto-check",
+      "title": "Check your design note language",
+      "exercises": [
+        {
+          "id": "sdn-good",
+          "type": "choice",
+          "question": "Which sentence states the problem with facts?",
+          "options": [
+            "Exports above fifty thousand rows fail after thirty seconds.",
+            "Exports are somewhat annoying for some people.",
+            "We should probably do something about exports."
+          ],
+          "correctAnswer": [
+            "Exports above fifty thousand rows fail after thirty seconds."
+          ],
+          "explanation": "Vấn đề nêu bằng con số cụ thể."
+        },
+        {
+          "id": "sdn-fix-fill",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"I propose to we run exports in the background.\" sai một từ. Điền từ đúng thay cho \"to\".",
+          "correctAnswer": [
+            "that"
+          ],
+          "explanation": "I propose that we + động từ."
+        },
+        {
+          "id": "sdn-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các phần của design note.",
+          "options": [
+            "the main risk",
+            "the problem with facts",
+            "the proposal",
+            "a request for feedback"
+          ],
+          "correctAnswer": [
+            "the problem with facts",
+            "the proposal",
+            "the main risk",
+            "a request for feedback"
+          ],
+          "explanation": "Vấn đề, đề xuất, rủi ro, xin góp ý."
+        }
+      ]
+    },
+    {
+      "id": "wasdnb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "proposal",
+        "background job",
+        "trade-off",
+        "risk"
+      ],
+      "exercises": [
+        {
+          "id": "wasdnb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "proposal",
+              "value": "đề xuất"
+            },
+            {
+              "key": "background job",
+              "value": "tác vụ chạy nền"
+            },
+            {
+              "key": "trade-off",
+              "value": "sự đánh đổi"
+            },
+            {
+              "key": "risk",
+              "value": "rủi ro"
+            }
+          ],
+          "correctAnswer": [
+            "proposal - đề xuất",
+            "background job - tác vụ chạy nền",
+            "trade-off - sự đánh đổi",
+            "risk - rủi ro"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wasdnb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ is to run exports in the background.",
+          "correctAnswer": [
+            "proposal"
+          ],
+          "explanation": "\"proposal\" nghĩa là đề xuất."
+        },
+        {
+          "id": "wasdnb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Large exports run as ___.",
+          "correctAnswer": [
+            "background jobs"
+          ],
+          "explanation": "\"background job\" nghĩa là tác vụ chạy nền."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "sdn-task",
+    "mode": "written",
+    "title": "Write a design note",
+    "scenario": "Trưởng nhóm nhờ bạn viết một ghi chú thiết kế ngắn về xuất báo cáo lớn bị timeout.",
+    "baselinePrompt": "Từ yêu cầu ngắn, hãy viết một design note bằng tiếng Anh (70 đến 120 từ): vấn đề, đề xuất và một rủi ro. Chưa xem bài mẫu.",
+    "performancePrompt": "Write a short design note in English, 70 to 120 words: the problem with facts, your proposal, one risk and how to reduce it.",
+    "modelResponse": "Design note: large report exports. Currently, exports with more than fifty thousand rows fail after thirty seconds. About one export in ten is that large, and users retry, which increases the load. I propose that we run large exports as background jobs and send an email with a download link when the file is ready, because users do not need to wait on the page. The main trade-off is a more complex flow in exchange for fewer failures. The main risk is a full queue during busy hours. We can reduce it by limiting the number of exports per user. I would like your feedback on the link expiry time.",
+    "retryPrompt": "Write the note again in English. Keep the structure and make the problem more specific.",
+    "transferPrompt": "Write a design note for a different problem, such as slow search, with the same structure.",
+    "reviewPrompt": "Write a design note for another problem without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Large report exports",
+        "brief": "Viết design note cho vấn đề xuất báo cáo lớn.",
+        "artifacts": [
+          {
+            "id": "sdn-baseline-ctx",
+            "type": "source",
+            "title": "Large report exports",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Request. Topic: exports above fifty thousand rows time out after thirty seconds. About one export in ten is that large. Idea: run large exports in the background and email a link."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Slow search",
+        "brief": "Sửa bài với vấn đề tìm kiếm chậm.",
+        "artifacts": [
+          {
+            "id": "sdn-retry-ctx",
+            "type": "source",
+            "title": "Slow search",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Request. Topic: search takes four seconds with two million products. Users leave after three seconds. Idea: add a search index and keep it updated every minute."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Duplicate notifications",
+        "brief": "Tình huống mới: thông báo bị gửi trùng.",
+        "artifacts": [
+          {
+            "id": "sdn-transfer-ctx",
+            "type": "source",
+            "title": "Duplicate notifications",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Request. Topic: users receive the same alert twice, about two percent of alerts. Cause: retries after timeouts. Idea: store a unique key per alert."
+          }
+        ]
+      },
+      "review": {
+        "title": "Slow deployments",
+        "brief": "Ôn lại với việc triển khai chậm.",
+        "artifacts": [
+          {
+            "id": "sdn-review-ctx",
+            "type": "source",
+            "title": "Slow deployments",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Request. Topic: deployments take twenty-five minutes and block releases. Most time is spent on tests that run one after another. Idea: run tests in parallel on four machines."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 360,
+      "requiredElements": [
+        "problem with facts",
+        "proposal",
+        "one risk"
+      ],
+      "minWords": 70,
+      "maxWords": 120
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "facts",
+      "clear proposal",
+      "risk and mitigation"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Problem, proposal, risk",
+        "description": "The note has all three parts.",
+        "anchors": {
+          "met": "A reader sees facts, a proposal and one risk with a mitigation.",
+          "notMet": "A part is missing or the problem has no facts."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate and clear sentences",
+        "description": "Sentences are correct and short.",
+        "anchors": {
+          "met": "Short sentences with correct verbs and numbers.",
+          "notMet": "Long unclear sentences or wrong numbers."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "register",
+        "label": "Neutral professional tone",
+        "description": "The tone suits a note to teammates.",
+        "anchors": {
+          "met": "Neutral, with a polite request for feedback.",
+          "notMet": "Too informal or too certain."
+        },
+        "dimension": "register"
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

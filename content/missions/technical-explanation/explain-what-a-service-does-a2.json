@@ -199,6 +199,67 @@
           "explanation": "Chủ ngữ ngôi thứ ba số ít cần thêm s: sends."
         }
       ]
+    },
+    {
+      "id": "ewasda-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "service",
+        "queue",
+        "send",
+        "data"
+      ],
+      "exercises": [
+        {
+          "id": "ewasda-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "service",
+              "value": "dịch vụ"
+            },
+            {
+              "key": "queue",
+              "value": "hàng đợi"
+            },
+            {
+              "key": "send",
+              "value": "gửi"
+            },
+            {
+              "key": "data",
+              "value": "dữ liệu"
+            }
+          ],
+          "correctAnswer": [
+            "service - dịch vụ",
+            "queue - hàng đợi",
+            "send - gửi",
+            "data - dữ liệu"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "ewasda-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The Mail ___ sends emails.",
+          "correctAnswer": [
+            "Service"
+          ],
+          "explanation": "\"service\" nghĩa là dịch vụ."
+        },
+        {
+          "id": "ewasda-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The service uses a ___.",
+          "correctAnswer": [
+            "queue"
+          ],
+          "explanation": "\"queue\" nghĩa là hàng đợi."
+        }
+      ]
     }
   ],
   "performanceTask": {

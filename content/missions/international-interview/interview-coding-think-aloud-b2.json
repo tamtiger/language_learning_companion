@@ -195,6 +195,67 @@
           "explanation": "Nhắc đề, chọn hướng, nêu độ phức tạp, kiểm tra biên."
         }
       ]
+    },
+    {
+      "id": "ictab-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "restate",
+        "brute force",
+        "complexity",
+        "edge case"
+      ],
+      "exercises": [
+        {
+          "id": "ictab-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "restate",
+              "value": "nhắc lại"
+            },
+            {
+              "key": "brute force",
+              "value": "cách giải đơn giản nhất"
+            },
+            {
+              "key": "complexity",
+              "value": "độ phức tạp"
+            },
+            {
+              "key": "edge case",
+              "value": "trường hợp biên"
+            }
+          ],
+          "correctAnswer": [
+            "restate - nhắc lại",
+            "brute force - cách giải đơn giản nhất",
+            "complexity - độ phức tạp",
+            "edge case - trường hợp biên"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "ictab-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Let me ___ the problem to be sure.",
+          "correctAnswer": [
+            "restate"
+          ],
+          "explanation": "\"restate\" nghĩa là nhắc lại."
+        },
+        {
+          "id": "ictab-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: A ___ approach would compare every pair.",
+          "correctAnswer": [
+            "brute force"
+          ],
+          "explanation": "\"brute force\" nghĩa là cách giải đơn giản nhất."
+        }
+      ]
     }
   ],
   "performanceTask": {

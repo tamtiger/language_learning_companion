@@ -326,6 +326,67 @@
           "explanation": "Vướng mắc, người phụ trách, bước tiếp theo."
         }
       ]
+    },
+    {
+      "id": "lsbb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "blocker",
+        "owner",
+        "estimate",
+        "in review"
+      ],
+      "exercises": [
+        {
+          "id": "lsbb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "blocker",
+              "value": "vướng mắc chặn tiến độ"
+            },
+            {
+              "key": "owner",
+              "value": "người phụ trách"
+            },
+            {
+              "key": "estimate",
+              "value": "ước lượng thời gian"
+            },
+            {
+              "key": "in review",
+              "value": "đang chờ review"
+            }
+          ],
+          "correctAnswer": [
+            "blocker - vướng mắc chặn tiến độ",
+            "owner - người phụ trách",
+            "estimate - ước lượng thời gian",
+            "in review - đang chờ review"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lsbb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The staging database is a ___ for testing.",
+          "correctAnswer": [
+            "blocker"
+          ],
+          "explanation": "\"blocker\" nghĩa là vướng mắc chặn tiến độ."
+        },
+        {
+          "id": "lsbb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I will ask for an ___.",
+          "correctAnswer": [
+            "estimate"
+          ],
+          "explanation": "\"estimate\" nghĩa là ước lượng thời gian."
+        }
+      ]
     }
   ],
   "performanceTask": {

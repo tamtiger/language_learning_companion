@@ -1,0 +1,769 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "explain-what-you-learned-b1",
+  "title": "Explain what you learned about a new tool (B1)",
+  "summary": "Chia sẻ trong một phút điều bạn vừa học về một công cụ mới: nó làm gì, bạn thử gì, khó khăn nào và điều khuyên đồng đội.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nói công cụ làm gì bằng một câu",
+    "Kể điều bạn đã thử và kết quả",
+    "Đưa một lời khuyên cho đồng đội"
+  ],
+  "capabilities": [
+    "technology-learning"
+  ],
+  "workflowTags": [
+    "teach-back",
+    "tool-learning-share",
+    "learning-summary"
+  ],
+  "sections": [
+    {
+      "id": "ewl-source",
+      "type": "source",
+      "title": "Team learning slot",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Setting: weekly learning slot. Host: This week, Mina tried a new tool called Taskflow for running scripts on a schedule. Mina, what did you learn? Notes: say what the tool does, what you tried, one difficulty and one tip for teammates."
+    },
+    {
+      "id": "ewl-language",
+      "type": "language-support",
+      "title": "Language for sharing what you learned",
+      "vocabulary": [
+        {
+          "word": "schedule",
+          "ipa": "/ˈsked.ʒuːl/",
+          "definition": "lịch chạy",
+          "technicalMeaning": "Thời điểm tool tự chạy một việc.",
+          "collocations": [
+            "run on a schedule",
+            "set a schedule"
+          ],
+          "example": "The tool runs scripts on a schedule.",
+          "commonMistake": "Nói on a schedule, không nói in a schedule."
+        },
+        {
+          "word": "setup",
+          "ipa": "/ˈset.ʌp/",
+          "definition": "bước thiết lập",
+          "technicalMeaning": "Các bước cài đặt ban đầu.",
+          "collocations": [
+            "quick setup",
+            "the setup took"
+          ],
+          "example": "The setup took ten minutes.",
+          "commonMistake": "Danh từ viết setup, động từ viết set up."
+        },
+        {
+          "word": "learning curve",
+          "ipa": "/ˈlɝː.nɪŋ kɝːv/",
+          "definition": "độ khó khi mới học",
+          "technicalMeaning": "Mức công sức cần để dùng thành thạo.",
+          "collocations": [
+            "a steep learning curve",
+            "a gentle learning curve"
+          ],
+          "example": "The tool has a gentle learning curve.",
+          "commonMistake": "Nói a steep hoặc gentle learning curve."
+        },
+        {
+          "word": "tip",
+          "ipa": "/tɪp/",
+          "definition": "lời khuyên nhỏ",
+          "technicalMeaning": "Mẹo thực tế giúp người khác làm dễ hơn.",
+          "collocations": [
+            "a useful tip",
+            "one tip"
+          ],
+          "example": "My one tip is to start with a small script.",
+          "commonMistake": "Nói a tip for + người."
+        },
+        {
+          "word": "pitfall",
+          "ipa": "/ˈpɪt.fɑːl/",
+          "definition": "cái bẫy dễ mắc",
+          "technicalMeaning": "Lỗi hoặc khó khăn người mới hay gặp.",
+          "collocations": [
+            "a common pitfall",
+            "avoid the pitfall"
+          ],
+          "example": "A common pitfall is the time zone setting.",
+          "commonMistake": "Pitfall là một từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "___ is a tool that ___.",
+          "meaning": "Nói tool làm gì.",
+          "tone": "neutral",
+          "example": "Taskflow is a tool that runs scripts on a schedule.",
+          "alternatives": [
+            "___ helps you ___."
+          ]
+        },
+        {
+          "phrase": "I tried ___, and it ___.",
+          "meaning": "Kể điều đã thử và kết quả.",
+          "tone": "neutral",
+          "example": "I tried a daily backup script, and it ran without problems.",
+          "alternatives": [
+            "I started with ___."
+          ]
+        },
+        {
+          "phrase": "The hardest part was ___, because ___.",
+          "meaning": "Nêu khó khăn.",
+          "tone": "neutral",
+          "example": "The hardest part was the time zone setting, because the default is UTC.",
+          "alternatives": [
+            "One difficulty was ___."
+          ]
+        },
+        {
+          "phrase": "My tip for you is to ___.",
+          "meaning": "Đưa lời khuyên.",
+          "tone": "neutral",
+          "example": "My tip for you is to start with a small script and check the logs.",
+          "alternatives": [
+            "If you try it, ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ewl-check",
+      "type": "auto-check",
+      "title": "Check your sharing language",
+      "exercises": [
+        {
+          "id": "ewl-first",
+          "type": "choice",
+          "question": "Which sentence says what a tool does?",
+          "options": [
+            "Taskflow is a tool that runs scripts on a schedule.",
+            "I think it was a good week for me.",
+            "Everybody should try new things."
+          ],
+          "correctAnswer": [
+            "Taskflow is a tool that runs scripts on a schedule."
+          ],
+          "explanation": "Câu đầu nói công cụ làm gì."
+        },
+        {
+          "id": "ewl-fix-fill",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"The tool run scripts on a schedule.\" sai dạng động từ. Điền dạng đúng thay cho \"run\".",
+          "correctAnswer": [
+            "runs"
+          ],
+          "explanation": "Chủ ngữ số ít cần runs."
+        },
+        {
+          "id": "ewl-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp phần chia sẻ.",
+          "options": [
+            "a tip for teammates",
+            "what the tool does",
+            "one difficulty",
+            "what I tried"
+          ],
+          "correctAnswer": [
+            "what the tool does",
+            "what I tried",
+            "one difficulty",
+            "a tip for teammates"
+          ],
+          "explanation": "Công cụ, đã thử, khó khăn, lời khuyên."
+        }
+      ]
+    },
+    {
+      "id": "ewylb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "schedule",
+        "setup",
+        "learning curve",
+        "tip"
+      ],
+      "exercises": [
+        {
+          "id": "ewylb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "schedule",
+              "value": "lịch chạy"
+            },
+            {
+              "key": "setup",
+              "value": "bước thiết lập"
+            },
+            {
+              "key": "learning curve",
+              "value": "độ khó khi mới học"
+            },
+            {
+              "key": "tip",
+              "value": "lời khuyên nhỏ"
+            }
+          ],
+          "correctAnswer": [
+            "schedule - lịch chạy",
+            "setup - bước thiết lập",
+            "learning curve - độ khó khi mới học",
+            "tip - lời khuyên nhỏ"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "ewylb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The tool runs scripts on a ___.",
+          "correctAnswer": [
+            "schedule"
+          ],
+          "explanation": "\"schedule\" nghĩa là lịch chạy."
+        },
+        {
+          "id": "ewylb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ took ten minutes.",
+          "correctAnswer": [
+            "setup"
+          ],
+          "explanation": "\"setup\" nghĩa là bước thiết lập."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "ewl-task",
+    "mode": "spoken",
+    "title": "Share what you learned in one minute",
+    "scenario": "Trong buổi chia sẻ hằng tuần, bạn kể ngắn về một công cụ mới mà bạn vừa thử.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: công cụ làm gì, bạn đã thử gì, một khó khăn và một lời khuyên. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about one minute: what the tool does, what you tried, one difficulty and one tip for your teammates.",
+    "modelResponse": "This week I tried a tool called Taskflow. Taskflow is a tool that runs scripts on a schedule, for example every night at two o'clock. I tried a daily backup script, and it ran without problems after a ten-minute setup. The hardest part was the time zone setting, because the default is UTC, so my first job ran at the wrong hour. I found the answer in the documentation, and now I always set the time zone in the file. The tool has a gentle learning curve, and the logs are easy to read. My tip for you is to start with a small script and check the logs after the first run. If you try it, please tell me what you think.",
+    "retryPrompt": "Share again in English. Keep the four parts and make the difficulty more specific.",
+    "transferPrompt": "Share what you learned about a different tool, with the same four parts.",
+    "reviewPrompt": "Share about another tool without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Taskflow scheduler",
+        "brief": "Chia sẻ về một công cụ chạy script theo lịch.",
+        "artifacts": [
+          {
+            "id": "ewl-baseline-ctx",
+            "type": "source",
+            "title": "Taskflow scheduler",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Taskflow runs scripts on a schedule. Mina tried a backup script. Difficulty: the default time zone is UTC. Tip: check the logs after the first run."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Linthelp linter",
+        "brief": "Sửa bài với một công cụ kiểm tra code.",
+        "artifacts": [
+          {
+            "id": "ewl-retry-ctx",
+            "type": "source",
+            "title": "Linthelp linter",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Linthelp checks code style. Ravi tried it on one folder. Difficulty: too many warnings at first. Tip: enable three rules at a time."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Dockerkit containers",
+        "brief": "Tình huống mới: công cụ đóng gói ứng dụng.",
+        "artifacts": [
+          {
+            "id": "ewl-transfer-ctx",
+            "type": "source",
+            "title": "Dockerkit containers",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Dockerkit packages an app with its settings. Lena tried a small web app. Difficulty: the image was very large. Tip: start from a small base image."
+          }
+        ]
+      },
+      "review": {
+        "title": "Metricview dashboards",
+        "brief": "Ôn lại với một công cụ vẽ biểu đồ số liệu.",
+        "artifacts": [
+          {
+            "id": "ewl-review-ctx",
+            "type": "source",
+            "title": "Metricview dashboards",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Metricview draws charts from logs. Omar tried a response time chart. Difficulty: the query language was new. Tip: copy an example query first."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "what the tool does",
+        "what I tried",
+        "one difficulty",
+        "one tip"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "clear structure",
+      "specific difficulty",
+      "useful tip"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four parts in order",
+        "description": "The share follows tool, trial, difficulty, tip.",
+        "anchors": {
+          "met": "All four parts are easy to find.",
+          "notMet": "A part is missing or the order is mixed."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "specificity",
+        "label": "Specific trial and difficulty",
+        "description": "The trial and the difficulty have detail.",
+        "anchors": {
+          "met": "Names what you tried and what exactly was hard.",
+          "notMet": "Says \"it was good\" or \"it was hard\" only."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "range",
+        "label": "Learning vocabulary",
+        "description": "Uses words such as setup, learning curve and tip.",
+        "anchors": {
+          "met": "Uses at least three terms from the lesson.",
+          "notMet": "Uses only \"good\" and \"bad\"."
+        },
+        "dimension": "range"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "ewl-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Taskflow is a tool that runs scripts on a schedule.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the tool do?",
+            "options": [
+              "Runs jobs at set times",
+              "Writes new scripts",
+              "Deletes old servers for the team"
+            ],
+            "correctAnswer": "Runs jobs at set times"
+          },
+          {
+            "id": "ewl-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I tried a daily backup script, and it ran without problems.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What was the result?",
+            "options": [
+              "It worked well",
+              "It failed badly",
+              "It was too slow"
+            ],
+            "correctAnswer": "It worked well"
+          },
+          {
+            "id": "ewl-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The hardest part was the time zone setting.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What was difficult?",
+            "options": [
+              "A clock-related option",
+              "A missing license for the team",
+              "A broken laptop"
+            ],
+            "correctAnswer": "A clock-related option"
+          },
+          {
+            "id": "ewl-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My tip for you is to start with a small script.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the advice?",
+            "options": [
+              "Begin with something small",
+              "Avoid scripts entirely for the team",
+              "Wait for a bigger team"
+            ],
+            "correctAnswer": "Begin with something small"
+          }
+        ],
+        "training": [
+          {
+            "id": "ewl-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The setup took about ten minutes.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How long was the setup?",
+            "options": [
+              "A short time",
+              "A whole day",
+              "Several weeks"
+            ],
+            "correctAnswer": "A short time",
+            "feedback": "About ten minutes là khoảng mười phút."
+          },
+          {
+            "id": "ewl-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The tool has a gentle learning curve.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How hard is it to learn?",
+            "options": [
+              "Quite easy",
+              "Extremely hard",
+              "Impossible"
+            ],
+            "correctAnswer": "Quite easy",
+            "feedback": "Gentle learning curve là dễ làm quen."
+          },
+          {
+            "id": "ewl-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My first job ran at the wrong hour because the default is UTC.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "Why was the hour wrong?",
+            "options": [
+              "A default clock setting",
+              "A power cut at work",
+              "A wrong password for the team"
+            ],
+            "correctAnswer": "A default clock setting",
+            "feedback": "Because nêu nguyên nhân."
+          },
+          {
+            "id": "ewl-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I found the answer in the documentation.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Where did the speaker find the answer?",
+            "options": [
+              "In the official guide",
+              "From a stranger for the team",
+              "In a dream at work"
+            ],
+            "correctAnswer": "In the official guide",
+            "feedback": "Documentation là tài liệu chính thức."
+          },
+          {
+            "id": "ewl-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Now I always set the time zone in the file.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker do now?",
+            "options": [
+              "Sets the zone explicitly",
+              "Ignores the zone",
+              "Uses a different tool for the team"
+            ],
+            "correctAnswer": "Sets the zone explicitly",
+            "feedback": "Now I always mô tả thói quen mới."
+          },
+          {
+            "id": "ewl-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "A common pitfall is skipping the logs after the first run.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What mistake is mentioned?",
+            "options": [
+              "Not reading the output",
+              "Writing too many scripts",
+              "Using the wrong keyboard"
+            ],
+            "correctAnswer": "Not reading the output",
+            "feedback": "Pitfall là cái bẫy dễ mắc."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "ewl-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Linthelp is a tool that checks code style in a folder.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does Linthelp do?",
+            "options": [
+              "Reviews code style",
+              "Builds web pages for the team",
+              "Sends emails"
+            ],
+            "correctAnswer": "Reviews code style"
+          },
+          {
+            "id": "ewl-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I tried it on one folder, and it found forty warnings.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "How many warnings appeared?",
+            "options": [
+              "40 warnings",
+              "4 warnings",
+              "400 warnings"
+            ],
+            "correctAnswer": "40 warnings"
+          },
+          {
+            "id": "ewl-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The hardest part was the number of rules at the start.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What was hard?",
+            "options": [
+              "Too many rules",
+              "Too few users for the team",
+              "No internet"
+            ],
+            "correctAnswer": "Too many rules"
+          },
+          {
+            "id": "ewl-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My tip for you is to enable three rules at a time.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker recommend?",
+            "options": [
+              "Switch rules on gradually",
+              "Switch every rule off for the team",
+              "Skip the config file"
+            ],
+            "correctAnswer": "Switch rules on gradually"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "ewl-cue-schedule",
+          "articulatoryCue": "Đọc schedule bằng âm đầu /sk/ kiểu Mỹ và nhấn âm đầu của từ này.",
+          "meaningRisk": "Đọc sai schedule làm người nghe phải dừng lại để hiểu.",
+          "triggerItemIds": [
+            "ewl-pre-1",
+            "ewl-pre-3"
+          ]
+        },
+        {
+          "id": "ewl-cue-learning",
+          "articulatoryCue": "Nhấn âm đầu của learning và đọc rõ âm cuối của curve.",
+          "meaningRisk": "Nuốt âm cuối làm learning curve nghe mơ hồ.",
+          "triggerItemIds": [
+            "ewl-train-2",
+            "ewl-train-1"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "ewl-chunk-what",
+          "function": "what the tool does",
+          "text": "___ is a tool that ___.",
+          "meaning": "Nói tool làm gì.",
+          "slots": [
+            "tool",
+            "purpose"
+          ],
+          "stressPattern": "TOOL",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Taskflow is a tool that runs scripts on a schedule.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "ewl-chunk-tried",
+          "function": "what I tried",
+          "text": "I tried ___, and it ___.",
+          "meaning": "Kể điều đã thử.",
+          "slots": [
+            "trial",
+            "result"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I tried a daily backup script, and it ran without problems.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "ewl-chunk-hard",
+          "function": "difficulty",
+          "text": "The hardest part was ___, because ___.",
+          "meaning": "Nêu khó khăn.",
+          "slots": [
+            "difficulty",
+            "reason"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "The hardest part was the time zone setting, because the default is UTC.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "ewl-chunk-tip",
+          "function": "tip",
+          "text": "My tip for you is to ___.",
+          "meaning": "Đưa lời khuyên.",
+          "slots": [
+            "advice"
+          ],
+          "stressPattern": "TIP",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "My tip for you is to start with a small script and check the logs.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nói công cụ làm gì trong một câu.",
+        "Mình kể một việc đã thử và một khó khăn thật.",
+        "Mình kết thúc bằng một lời khuyên."
+      ],
+      "interactionTurns": [
+        {
+          "id": "ewl-turn-why",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not catch the difficulty. What was the problem?",
+          "expectedFunction": "restate the difficulty in one sentence"
+        },
+        {
+          "id": "ewl-turn-use",
+          "kind": "follow-up",
+          "prompt": "Would you recommend it for our team?",
+          "expectedFunction": "answer with one reason and one condition"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

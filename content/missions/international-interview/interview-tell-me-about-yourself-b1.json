@@ -195,6 +195,67 @@
           "explanation": "Thứ tự hiện tại, kết quả, trước đó, lý do."
         }
       ]
+    },
+    {
+      "id": "itmayb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "currently",
+        "background",
+        "responsible for",
+        "led to"
+      ],
+      "exercises": [
+        {
+          "id": "itmayb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "currently",
+              "value": "hiện tại"
+            },
+            {
+              "key": "background",
+              "value": "nền tảng, quá trình"
+            },
+            {
+              "key": "responsible for",
+              "value": "chịu trách nhiệm về"
+            },
+            {
+              "key": "led to",
+              "value": "dẫn tới"
+            }
+          ],
+          "correctAnswer": [
+            "currently - hiện tại",
+            "background - nền tảng, quá trình",
+            "responsible for - chịu trách nhiệm về",
+            "led to - dẫn tới"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "itmayb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I ___ work on a payment API.",
+          "correctAnswer": [
+            "currently"
+          ],
+          "explanation": "\"currently\" nghĩa là hiện tại."
+        },
+        {
+          "id": "itmayb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I have a ___ in backend development.",
+          "correctAnswer": [
+            "background"
+          ],
+          "explanation": "\"background\" nghĩa là nền tảng, quá trình."
+        }
+      ]
     }
   ],
   "performanceTask": {

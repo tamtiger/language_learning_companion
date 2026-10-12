@@ -1,0 +1,782 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "explain-a-bug-to-a-colleague-b1",
+  "title": "Explain a bug to a colleague (B1)",
+  "summary": "Giải thích một lỗi cho đồng nghiệp trong một phút: triệu chứng, nguyên nhân, cách sửa và cách kiểm tra.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Mô tả triệu chứng bằng lời đơn giản",
+    "Nêu nguyên nhân và cách sửa",
+    "Nói cách kiểm tra rằng lỗi đã hết"
+  ],
+  "capabilities": [
+    "technical-explanation"
+  ],
+  "workflowTags": [
+    "bug-explanation",
+    "symptom-cause-fix",
+    "plain-english"
+  ],
+  "sections": [
+    {
+      "id": "ebc-source",
+      "type": "source",
+      "title": "Bug report",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Bug report 214. Title: Wrong total on the cart page. Symptom: when a customer adds two items with a discount code, the total is higher than the sum of the items. Cause found: the discount is applied before the tax is added, but the code adds the tax again afterwards. Fix: apply the tax once, after the discount. Check: a test with two items and one discount code."
+    },
+    {
+      "id": "ebc-language",
+      "type": "language-support",
+      "title": "Language for explaining a bug",
+      "vocabulary": [
+        {
+          "word": "symptom",
+          "ipa": "/ˈsɪmp.təm/",
+          "definition": "triệu chứng",
+          "technicalMeaning": "Điều người dùng hoặc đội nhìn thấy khi có lỗi.",
+          "collocations": [
+            "the symptom is",
+            "describe a symptom"
+          ],
+          "example": "The symptom is a wrong total on the cart page.",
+          "commonMistake": "Symptom là điều quan sát, không phải nguyên nhân."
+        },
+        {
+          "word": "root cause",
+          "ipa": "/ˈruːt kɑːz/",
+          "definition": "nguyên nhân gốc",
+          "technicalMeaning": "Lý do sâu nhất khiến lỗi xảy ra.",
+          "collocations": [
+            "find the root cause",
+            "the root cause was"
+          ],
+          "example": "The root cause was a double tax calculation.",
+          "commonMistake": "Viết root cause thành hai từ."
+        },
+        {
+          "word": "reproduce",
+          "ipa": "/ˌriː.prəˈduːs/",
+          "definition": "tái hiện",
+          "technicalMeaning": "Làm lại lỗi theo các bước để nhìn thấy nó.",
+          "collocations": [
+            "reproduce the bug",
+            "cannot reproduce"
+          ],
+          "example": "I can reproduce the bug with two items.",
+          "commonMistake": "Nhấn âm tiết thứ ba: re-pro-DUCE."
+        },
+        {
+          "word": "regression",
+          "ipa": "/rɪˈɡreʃ.ən/",
+          "definition": "lỗi do thay đổi mới",
+          "technicalMeaning": "Điều từng chạy đúng nhưng hỏng sau một thay đổi.",
+          "collocations": [
+            "a regression test",
+            "cause a regression"
+          ],
+          "example": "We added a regression test for this case.",
+          "commonMistake": "Nói a regression test, không nói a regress test."
+        },
+        {
+          "word": "patch",
+          "ipa": "/pætʃ/",
+          "definition": "bản vá",
+          "technicalMeaning": "Thay đổi nhỏ để sửa lỗi.",
+          "collocations": [
+            "apply a patch",
+            "ship a patch"
+          ],
+          "example": "We will ship a patch tomorrow.",
+          "commonMistake": "Nói apply a patch, không nói do a patch."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The symptom is ___. It happens when ___.",
+          "meaning": "Mô tả triệu chứng và điều kiện.",
+          "tone": "neutral",
+          "example": "The symptom is a wrong total. It happens when a discount code is used.",
+          "alternatives": [
+            "Users see ___ when ___."
+          ]
+        },
+        {
+          "phrase": "The root cause was ___, because ___.",
+          "meaning": "Nêu nguyên nhân.",
+          "tone": "neutral",
+          "example": "The root cause was a double tax calculation, because the code added tax twice.",
+          "alternatives": [
+            "It happens because ___."
+          ]
+        },
+        {
+          "phrase": "To fix it, we ___. This means ___.",
+          "meaning": "Nêu cách sửa và ý nghĩa.",
+          "tone": "neutral",
+          "example": "To fix it, we apply the tax once. This means the total matches the items.",
+          "alternatives": [
+            "The fix is to ___."
+          ]
+        },
+        {
+          "phrase": "To check, I ___. If ___, the bug is gone.",
+          "meaning": "Nêu cách kiểm tra.",
+          "tone": "neutral",
+          "example": "To check, I run a test with two items. If the total is correct, the bug is gone.",
+          "alternatives": [
+            "We will verify by ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ebc-check",
+      "type": "auto-check",
+      "title": "Check your bug explanation",
+      "exercises": [
+        {
+          "id": "ebc-order",
+          "type": "choice",
+          "question": "Which order explains a bug clearly?",
+          "options": [
+            "Symptom, cause, fix, check",
+            "Fix, hobby, cause, goodbye",
+            "Check, hope, guess, symptom"
+          ],
+          "correctAnswer": [
+            "Symptom, cause, fix, check"
+          ],
+          "explanation": "Thứ tự triệu chứng, nguyên nhân, cách sửa, kiểm tra giúp người nghe theo kịp."
+        },
+        {
+          "id": "ebc-plain",
+          "type": "choice",
+          "question": "Which sentence explains the cause in plain English?",
+          "options": [
+            "The tax is added twice, so the total is too high.",
+            "The tax service has a non-idempotent side effect.",
+            "It is a race condition in the pricing layer."
+          ],
+          "correctAnswer": [
+            "The tax is added twice, so the total is too high."
+          ],
+          "explanation": "Lời đơn giản nêu rõ chuyện gì xảy ra."
+        },
+        {
+          "id": "ebc-fix-fill",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"The bug happen when a code is used.\" sai một từ. Điền dạng đúng thay cho \"happen\".",
+          "correctAnswer": [
+            "happens"
+          ],
+          "explanation": "Chủ ngữ số ít cần happens."
+        },
+        {
+          "id": "ebc-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp phần giải thích.",
+          "options": [
+            "how to check the fix",
+            "what users see",
+            "why it happens",
+            "how we fix it"
+          ],
+          "correctAnswer": [
+            "what users see",
+            "why it happens",
+            "how we fix it",
+            "how to check the fix"
+          ],
+          "explanation": "Triệu chứng, nguyên nhân, cách sửa, kiểm tra."
+        }
+      ]
+    },
+    {
+      "id": "eabtacb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "symptom",
+        "root cause",
+        "reproduce",
+        "regression"
+      ],
+      "exercises": [
+        {
+          "id": "eabtacb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "symptom",
+              "value": "triệu chứng"
+            },
+            {
+              "key": "root cause",
+              "value": "nguyên nhân gốc"
+            },
+            {
+              "key": "reproduce",
+              "value": "tái hiện"
+            },
+            {
+              "key": "regression",
+              "value": "lỗi do thay đổi mới"
+            }
+          ],
+          "correctAnswer": [
+            "symptom - triệu chứng",
+            "root cause - nguyên nhân gốc",
+            "reproduce - tái hiện",
+            "regression - lỗi do thay đổi mới"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "eabtacb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ is a wrong total on the cart page.",
+          "correctAnswer": [
+            "symptom"
+          ],
+          "explanation": "\"symptom\" nghĩa là triệu chứng."
+        },
+        {
+          "id": "eabtacb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ was a double tax calculation.",
+          "correctAnswer": [
+            "root cause"
+          ],
+          "explanation": "\"root cause\" nghĩa là nguyên nhân gốc."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "ebc-task",
+    "mode": "spoken",
+    "title": "Explain a bug in one minute",
+    "scenario": "Một đồng nghiệp ở bộ phận khác hỏi vì sao tổng tiền trong giỏ hàng bị sai; bạn giải thích lỗi bằng lời đơn giản.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: triệu chứng, nguyên nhân, cách sửa và cách kiểm tra. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about one minute: explain the symptom, the root cause, the fix and how you will check it.",
+    "modelResponse": "Let me explain the bug in simple words. The symptom is a wrong total on the cart page. It happens when a customer adds two items and uses a discount code, and then the total is higher than the sum of the items. The root cause was a double tax calculation, because the code applied the discount and then added the tax two times. To fix it, we apply the tax only once, after the discount. This means the total now matches the items on the screen. To check the fix, I run a test with two items and one discount code, and I also add a regression test for this case. If the total is correct, the bug is gone. We plan to ship the patch tomorrow morning.",
+    "retryPrompt": "Explain the bug again in English. Keep the four parts and use simpler words for the cause.",
+    "transferPrompt": "Explain a different bug, such as a report that shows yesterday's data, with the same four parts.",
+    "reviewPrompt": "Explain another bug without looking at your old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Wrong total on the cart page",
+        "brief": "Đồng nghiệp hỏi vì sao tổng tiền sai.",
+        "artifacts": [
+          {
+            "id": "ebc-baseline-ctx",
+            "type": "source",
+            "title": "Wrong total on the cart page",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Bug report 214. Wrong total on the cart page. Symptom: with two items and a discount code the total is too high. Cause: the tax is added twice. Fix: apply the tax once. Check: a test with two items."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Report shows old data",
+        "brief": "Sửa bài với lỗi báo cáo hiển thị dữ liệu cũ.",
+        "artifacts": [
+          {
+            "id": "ebc-retry-ctx",
+            "type": "source",
+            "title": "Report shows old data",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Bug report 231. Sales report shows yesterday's numbers. Symptom: the numbers update only after noon. Cause: the report reads a cache that refreshes every twelve hours. Fix: refresh the cache every ten minutes. Check: compare the report with the database."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Emails sent twice",
+        "brief": "Tình huống mới: khách nhận hai email.",
+        "artifacts": [
+          {
+            "id": "ebc-transfer-ctx",
+            "type": "source",
+            "title": "Emails sent twice",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Bug report 245. Customers receive two order emails. Symptom: two identical emails within a minute. Cause: the job retries after a timeout even when the first email was sent. Fix: store a send flag per order. Check: force a timeout in a test."
+          }
+        ]
+      },
+      "review": {
+        "title": "Search finds nothing",
+        "brief": "Ôn lại với lỗi tìm kiếm không có kết quả.",
+        "artifacts": [
+          {
+            "id": "ebc-review-ctx",
+            "type": "source",
+            "title": "Search finds nothing",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Bug report 252. Search returns no results for words with accents. Symptom: searching for the word with an accent shows an empty list. Cause: the index removes accents but the query does not. Fix: normalize the query the same way. Check: a test with accented words."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "symptom",
+        "root cause",
+        "fix",
+        "check"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "plain words",
+      "clear cause",
+      "how to verify"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four parts in order",
+        "description": "Symptom, cause, fix and check in order.",
+        "anchors": {
+          "met": "All four parts are easy to find.",
+          "notMet": "A part is missing or the order is mixed."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "clarity",
+        "label": "Plain explanation",
+        "description": "The cause is explained in words a colleague can follow.",
+        "anchors": {
+          "met": "Uses simple words and short sentences for the cause.",
+          "notMet": "Uses heavy jargon without explanation."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "range",
+        "label": "Bug vocabulary",
+        "description": "Uses words such as symptom, root cause and regression test.",
+        "anchors": {
+          "met": "Uses at least three bug-explanation terms.",
+          "notMet": "Repeats \"problem\" and \"fix\"."
+        },
+        "dimension": "range"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "ebc-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The symptom is a wrong total on the cart page.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker describing?",
+            "options": [
+              "What users observe",
+              "Why it happens for the team",
+              "How to fix it"
+            ],
+            "correctAnswer": "What users observe"
+          },
+          {
+            "id": "ebc-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The root cause was a double tax calculation.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What went wrong?",
+            "options": [
+              "A figure was added twice",
+              "A price was deleted for the team",
+              "A page was removed"
+            ],
+            "correctAnswer": "A figure was added twice"
+          },
+          {
+            "id": "ebc-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "To fix it, we apply the tax only once.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the fix?",
+            "options": [
+              "Use the tax a single time",
+              "Remove the discount code for the team",
+              "Hide the total at work"
+            ],
+            "correctAnswer": "Use the tax a single time"
+          },
+          {
+            "id": "ebc-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "To check, I run a test with two items.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How will the speaker verify?",
+            "options": [
+              "By running a test",
+              "By asking a customer",
+              "By waiting a week"
+            ],
+            "correctAnswer": "By running a test"
+          }
+        ],
+        "training": [
+          {
+            "id": "ebc-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I can reproduce the bug with two items and one code.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What can the speaker do?",
+            "options": [
+              "Make the bug happen again",
+              "Sell the items",
+              "Delete the code for the team"
+            ],
+            "correctAnswer": "Make the bug happen again",
+            "feedback": "Reproduce là tái hiện lỗi."
+          },
+          {
+            "id": "ebc-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It happens when a customer uses a discount code.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "When does the bug appear?",
+            "options": [
+              "Only with a discount",
+              "Every single time",
+              "Never during checkout"
+            ],
+            "correctAnswer": "Only with a discount",
+            "feedback": "When nêu điều kiện của lỗi."
+          },
+          {
+            "id": "ebc-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The code adds the tax two times, so the total is too high.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the result?",
+            "options": [
+              "An amount above the right one",
+              "An amount below the right one",
+              "No amount at all"
+            ],
+            "correctAnswer": "An amount above the right one",
+            "feedback": "So nêu hậu quả."
+          },
+          {
+            "id": "ebc-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This means the total now matches the items on the screen.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What changes after the fix?",
+            "options": [
+              "The numbers agree",
+              "The page is slower",
+              "The items disappear"
+            ],
+            "correctAnswer": "The numbers agree",
+            "feedback": "This means nêu ý nghĩa của cách sửa."
+          },
+          {
+            "id": "ebc-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We add a regression test for this case.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the purpose of the new test?",
+            "options": [
+              "To stop the bug returning",
+              "To make the page faster for the team",
+              "To remove old code"
+            ],
+            "correctAnswer": "To stop the bug returning",
+            "feedback": "Regression test bảo vệ khỏi lỗi quay lại."
+          },
+          {
+            "id": "ebc-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We plan to ship the patch tomorrow morning.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "When will the patch go out?",
+            "options": [
+              "Early the next day",
+              "Late next week",
+              "Right this minute for the team"
+            ],
+            "correctAnswer": "Early the next day",
+            "feedback": "Tomorrow morning là sáng mai."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "ebc-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The symptom is a report that shows old numbers.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What do users notice?",
+            "options": [
+              "Outdated figures",
+              "Missing buttons for the team",
+              "A slow login"
+            ],
+            "correctAnswer": "Outdated figures"
+          },
+          {
+            "id": "ebc-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The root cause was a cache that refreshes only twice a day.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What caused it?",
+            "options": [
+              "Rare cache updates",
+              "A broken keyboard for the team",
+              "A rude customer"
+            ],
+            "correctAnswer": "Rare cache updates"
+          },
+          {
+            "id": "ebc-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "To fix it, we refresh the cache every ten minutes.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What changes?",
+            "options": [
+              "More frequent updates",
+              "A new database for the team",
+              "Less data at work"
+            ],
+            "correctAnswer": "More frequent updates"
+          },
+          {
+            "id": "ebc-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "If the report matches the database, the bug is gone.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What shows the bug is gone?",
+            "options": [
+              "Both sources agree",
+              "The page looks nicer",
+              "The team is happy"
+            ],
+            "correctAnswer": "Both sources agree"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "ebc-cue-symptom",
+          "articulatoryCue": "Nhấn âm đầu của symptom và nghe rõ âm cuối p của từ này để phân biệt với từ khác.",
+          "meaningRisk": "Nuốt âm cuối làm symptom nghe như một từ khác.",
+          "triggerItemIds": [
+            "ebc-pre-1",
+            "ebc-post-1"
+          ]
+        },
+        {
+          "id": "ebc-cue-cause",
+          "articulatoryCue": "Đọc rõ âm cuối của root cause và nhấn từ cause khi nêu nguyên nhân.",
+          "meaningRisk": "Thiếu nhấn làm người nghe không nhận ra nguyên nhân.",
+          "triggerItemIds": [
+            "ebc-pre-2",
+            "ebc-post-2"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "ebc-chunk-symptom",
+          "function": "symptom",
+          "text": "The symptom is ___. It happens when ___.",
+          "meaning": "Mô tả triệu chứng và điều kiện.",
+          "slots": [
+            "symptom",
+            "condition"
+          ],
+          "stressPattern": "SYMPTOM",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "The symptom is a wrong total. It happens when a discount code is used.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "ebc-chunk-cause",
+          "function": "root cause",
+          "text": "The root cause was ___, because ___.",
+          "meaning": "Nêu nguyên nhân.",
+          "slots": [
+            "cause",
+            "reason"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "The root cause was a double tax calculation, because the code added tax twice.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "ebc-chunk-fix",
+          "function": "fix",
+          "text": "To fix it, we ___. This means ___.",
+          "meaning": "Nêu cách sửa.",
+          "slots": [
+            "fix",
+            "meaning"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "To fix it, we apply the tax once. This means the total matches the items.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "ebc-chunk-check",
+          "function": "check",
+          "text": "To check, I ___. If ___, the bug is gone.",
+          "meaning": "Nêu cách kiểm tra.",
+          "slots": [
+            "test",
+            "result"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "To check, I run a test with two items. If the total is correct, the bug is gone.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nêu triệu chứng trước khi nói nguyên nhân.",
+        "Mình giải thích nguyên nhân bằng lời đơn giản.",
+        "Mình nói rõ cách kiểm tra rằng lỗi đã hết."
+      ],
+      "interactionTurns": [
+        {
+          "id": "ebc-turn-why",
+          "kind": "clarification",
+          "prompt": "Sorry, I do not follow. Why does the tax get added twice?",
+          "expectedFunction": "explain the cause again in simpler words"
+        },
+        {
+          "id": "ebc-turn-risk",
+          "kind": "follow-up",
+          "prompt": "Could this bug affect other pages?",
+          "expectedFunction": "answer with what you know and what you will check"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

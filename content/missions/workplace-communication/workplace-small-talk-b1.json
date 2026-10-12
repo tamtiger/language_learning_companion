@@ -192,6 +192,67 @@
           "explanation": "Trả lời, hỏi lại, phản ứng, kết thúc."
         }
       ]
+    },
+    {
+      "id": "wstb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "weekend",
+        "catch up",
+        "sounds like",
+        "by the way"
+      ],
+      "exercises": [
+        {
+          "id": "wstb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "weekend",
+              "value": "cuối tuần"
+            },
+            {
+              "key": "catch up",
+              "value": "hỏi thăm, cập nhật chuyện"
+            },
+            {
+              "key": "sounds like",
+              "value": "nghe có vẻ"
+            },
+            {
+              "key": "by the way",
+              "value": "nhân tiện"
+            }
+          ],
+          "correctAnswer": [
+            "weekend - cuối tuần",
+            "catch up - hỏi thăm, cập nhật chuyện",
+            "sounds like - nghe có vẻ",
+            "by the way - nhân tiện"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wstb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I had a relaxing ___.",
+          "correctAnswer": [
+            "weekend"
+          ],
+          "explanation": "\"weekend\" nghĩa là cuối tuần."
+        },
+        {
+          "id": "wstb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: It was good to ___ with you.",
+          "correctAnswer": [
+            "catch up"
+          ],
+          "explanation": "\"catch up\" nghĩa là hỏi thăm, cập nhật chuyện."
+        }
+      ]
     }
   ],
   "performanceTask": {

@@ -5,9 +5,17 @@
   "summary": "Build a mental model and implementation plan directly from English API documentation.",
   "cefrLevel": "B2",
   "durationMinutes": 30,
-  "learningObjectives": ["Explain an unfamiliar API and plan a safe first implementation without translation."],
-  "capabilities": ["technology-learning"],
-  "workflowTags": ["api-learning", "documentation", "implementation-plan"],
+  "learningObjectives": [
+    "Explain an unfamiliar API and plan a safe first implementation without translation."
+  ],
+  "capabilities": [
+    "technology-learning"
+  ],
+  "workflowTags": [
+    "api-learning",
+    "documentation",
+    "implementation-plan"
+  ],
   "sourceRegistry": [
     {
       "sourceId": "rfc-9110",
@@ -37,7 +45,12 @@
     }
   ],
   "sections": [
-    { "id": "brief", "type": "brief", "title": "Your mission", "body": "Learn the fictional Pulse API well enough to plan a reliable integration." },
+    {
+      "id": "brief",
+      "type": "brief",
+      "title": "Your mission",
+      "body": "Learn the fictional Pulse API well enough to plan a reliable integration."
+    },
     {
       "id": "source",
       "type": "source",
@@ -46,7 +59,10 @@
       "content": "Pulse accepts events through POST /v1/events. Each request needs an Authorization bearer token and a unique Idempotency-Key. Successful acceptance returns 202 with an event_id; processing is asynchronous and is not complete at acceptance. Query GET /v1/events/{event_id} until status is processed or failed. The API allows 60 requests per minute and returns 429 with Retry-After when the limit is exceeded. Temporary unavailability returns 503 and may also include Retry-After; that response does not by itself mean the client exceeded a rate limit. A Retry-After value uses either delay seconds or an HTTP-date. Reusing an idempotency key returns the original event rather than creating a duplicate. This quickstart does not define a polling interval, maximum polling duration, idempotency-key retention period or same-key/different-payload behavior; these are open questions to confirm before production rather than defaults to invent.",
       "provenance": {
         "origin": "synthetic",
-        "sourceIds": ["rfc-9110", "rfc-6585"],
+        "sourceIds": [
+          "rfc-9110",
+          "rfc-6585"
+        ],
         "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
       }
     },
@@ -54,18 +70,235 @@
       "id": "language",
       "type": "language-support",
       "title": "Documentation-to-plan language",
-      "vocabulary": [],
+      "vocabulary": [
+        {
+          "word": "guarantee",
+          "ipa": "/ˌɡer.ənˈtiː/",
+          "definition": "đảm bảo",
+          "technicalMeaning": "Điều tài liệu cam kết chắc chắn đúng.",
+          "collocations": [
+            "guarantee that",
+            "no guarantee"
+          ],
+          "example": "The docs guarantee that events are signed.",
+          "commonMistake": "Nhấn âm tiết cuối: guar-an-TEE."
+        },
+        {
+          "word": "asynchronous",
+          "ipa": "/eɪˈsɪŋ.krə.nəs/",
+          "definition": "bất đồng bộ",
+          "technicalMeaning": "Kết quả không có ngay mà trả về sau.",
+          "collocations": [
+            "an asynchronous job",
+            "handled asynchronously"
+          ],
+          "example": "The API starts an asynchronous job and returns 202.",
+          "commonMistake": "Nhấn âm tiết thứ hai: a-SYN-chro-nous."
+        },
+        {
+          "word": "payload",
+          "ipa": "/ˈpeɪ.loʊd/",
+          "definition": "nội dung gói dữ liệu",
+          "technicalMeaning": "Phần dữ liệu chính trong yêu cầu hoặc phản hồi.",
+          "collocations": [
+            "the request payload",
+            "a JSON payload"
+          ],
+          "example": "The payload contains the order id.",
+          "commonMistake": "Viết payload thành một từ."
+        },
+        {
+          "word": "deprecation",
+          "ipa": "/ˌdep.rəˈkeɪ.ʃən/",
+          "definition": "việc khuyến cáo bỏ",
+          "technicalMeaning": "Thông báo một tính năng sẽ bị xóa.",
+          "collocations": [
+            "a deprecation notice",
+            "deprecation date"
+          ],
+          "example": "The deprecation notice gives a ninety-day window.",
+          "commonMistake": "Nhấn âm tiết thứ ba: dep-re-CA-tion."
+        },
+        {
+          "word": "rate limit",
+          "ipa": "/ˈreɪt ˌlɪm.ɪt/",
+          "definition": "giới hạn số yêu cầu",
+          "technicalMeaning": "Số lần gọi API tối đa trong một khoảng thời gian.",
+          "collocations": [
+            "hit the rate limit",
+            "respect the rate limit"
+          ],
+          "example": "We hit the rate limit during the import.",
+          "commonMistake": "Viết rate limit thành hai từ."
+        }
+      ],
       "expressions": [
-        { "phrase": "The documentation guarantees ___, but it does not define ___.", "meaning": "Separate an explicit API contract from an unresolved detail.", "tone": "neutral", "example": "The documentation guarantees asynchronous acceptance, but it does not define the polling interval.", "alternatives": ["The documented behavior is ___; ___ remains an open question."] },
-        { "phrase": "A ___ response indicates ___, whereas ___ indicates ___.", "meaning": "Contrast two response classes without merging their causes.", "tone": "formal", "example": "A 429 response indicates rate limiting, whereas 503 indicates temporary unavailability.", "alternatives": ["Unlike ___, ___ means ___."] },
-        { "phrase": "Before production, I would confirm ___.", "meaning": "Turn an undocumented behavior into a concrete follow-up instead of an invented default.", "tone": "neutral", "example": "Before production, I would confirm the polling limits and idempotency-key retention period.", "alternatives": ["I would treat ___ as an open question and verify it with the API owner."] }
+        {
+          "phrase": "The documentation guarantees ___, but it does not define ___.",
+          "meaning": "Separate an explicit API contract from an unresolved detail.",
+          "tone": "neutral",
+          "example": "The documentation guarantees asynchronous acceptance, but it does not define the polling interval.",
+          "alternatives": [
+            "The documented behavior is ___; ___ remains an open question."
+          ]
+        },
+        {
+          "phrase": "A ___ response indicates ___, whereas ___ indicates ___.",
+          "meaning": "Contrast two response classes without merging their causes.",
+          "tone": "formal",
+          "example": "A 429 response indicates rate limiting, whereas 503 indicates temporary unavailability.",
+          "alternatives": [
+            "Unlike ___, ___ means ___."
+          ]
+        },
+        {
+          "phrase": "Before production, I would confirm ___.",
+          "meaning": "Turn an undocumented behavior into a concrete follow-up instead of an invented default.",
+          "tone": "neutral",
+          "example": "Before production, I would confirm the polling limits and idempotency-key retention period.",
+          "alternatives": [
+            "I would treat ___ as an open question and verify it with the API owner."
+          ]
+        }
       ]
     },
-    { "id": "check", "type": "auto-check", "title": "Check the mental model", "exercises": [
-      { "id": "api-async", "type": "choice", "question": "Why must the client query event status?", "options": ["A 202 response means the event was processed and the final result is already stored.", "The bearer token expires immediately.", "A 202 response means the event was accepted but processing is not complete."], "correctAnswer": ["A 202 response means the event was accepted but processing is not complete."], "explanation": "Acceptance and final processing are separate states." },
-      { "id": "api-retry-class", "type": "choice", "question": "Which statement distinguishes 429 from 503 correctly?", "options": ["429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting.", "429 means the service is temporarily unavailable; 503 means the caller exceeded a rate limit of 60 requests per minute.", "503 means the event was processed successfully and needs no retry."], "correctAnswer": ["429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting."], "explanation": "The quickstart assigns different causes to the two statuses even though either response can carry Retry-After." },
-      { "id": "api-open-question", "type": "choice", "question": "Which implementation detail remains an open question?", "options": ["The polling interval and maximum polling duration.", "Whether 202 means processing is complete.", "Whether POST /v1/events requires authentication for every request."], "correctAnswer": ["The polling interval and maximum polling duration."], "explanation": "The quickstart states the 202 and authentication behavior but explicitly leaves polling bounds undefined." }
-    ] }
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Check the mental model",
+      "exercises": [
+        {
+          "id": "api-async",
+          "type": "choice",
+          "question": "Why must the client query event status?",
+          "options": [
+            "A 202 response means the event was processed and the final result is already stored.",
+            "The bearer token expires immediately.",
+            "A 202 response means the event was accepted but processing is not complete."
+          ],
+          "correctAnswer": [
+            "A 202 response means the event was accepted but processing is not complete."
+          ],
+          "explanation": "Acceptance and final processing are separate states."
+        },
+        {
+          "id": "api-retry-class",
+          "type": "choice",
+          "question": "Which statement distinguishes 429 from 503 correctly?",
+          "options": [
+            "429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting.",
+            "429 means the service is temporarily unavailable; 503 means the caller exceeded a rate limit of 60 requests per minute.",
+            "503 means the event was processed successfully and needs no retry."
+          ],
+          "correctAnswer": [
+            "429 means the caller exceeded a rate limit; 503 means temporary unavailability and is not proof of rate limiting."
+          ],
+          "explanation": "The quickstart assigns different causes to the two statuses even though either response can carry Retry-After."
+        },
+        {
+          "id": "api-open-question",
+          "type": "choice",
+          "question": "Which implementation detail remains an open question?",
+          "options": [
+            "The polling interval and maximum polling duration.",
+            "Whether 202 means processing is complete.",
+            "Whether POST /v1/events requires authentication for every request."
+          ],
+          "correctAnswer": [
+            "The polling interval and maximum polling duration."
+          ],
+          "explanation": "The quickstart states the 202 and authentication behavior but explicitly leaves polling bounds undefined."
+        },
+        {
+          "id": "lafdb-fix",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"The API returns 202, which mean the job is asynchronous.\" dùng sai dạng động từ. Điền dạng đúng thay cho \"mean\".",
+          "correctAnswer": [
+            "means"
+          ],
+          "explanation": "Which + động từ số ít: means."
+        },
+        {
+          "id": "lafdb-order",
+          "type": "ordering",
+          "question": "Sắp xếp các bước học một API mới.",
+          "options": [
+            "write a small test call",
+            "read the guarantees",
+            "note what is undefined",
+            "check the error codes"
+          ],
+          "correctAnswer": [
+            "read the guarantees",
+            "check the error codes",
+            "note what is undefined",
+            "write a small test call"
+          ],
+          "explanation": "Đọc cam kết, xem mã lỗi, ghi điều chưa rõ, viết lời gọi thử."
+        }
+      ]
+    },
+    {
+      "id": "lafdb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "guarantee",
+        "asynchronous",
+        "payload",
+        "deprecation"
+      ],
+      "exercises": [
+        {
+          "id": "lafdb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "guarantee",
+              "value": "đảm bảo"
+            },
+            {
+              "key": "asynchronous",
+              "value": "bất đồng bộ"
+            },
+            {
+              "key": "payload",
+              "value": "nội dung gói dữ liệu"
+            },
+            {
+              "key": "deprecation",
+              "value": "việc khuyến cáo bỏ"
+            }
+          ],
+          "correctAnswer": [
+            "guarantee - đảm bảo",
+            "asynchronous - bất đồng bộ",
+            "payload - nội dung gói dữ liệu",
+            "deprecation - việc khuyến cáo bỏ"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lafdb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The docs ___ that events are signed.",
+          "correctAnswer": [
+            "guarantee"
+          ],
+          "explanation": "\"guarantee\" nghĩa là đảm bảo."
+        },
+        {
+          "id": "lafdb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The API starts an ___ job and returns 202.",
+          "correctAnswer": [
+            "asynchronous"
+          ],
+          "explanation": "\"asynchronous\" nghĩa là bất đồng bộ."
+        }
+      ]
+    }
   ],
   "performanceTask": {
     "id": "api-learning-task",
@@ -82,22 +315,86 @@
       "baseline": {
         "title": "Pulse Events API",
         "brief": "Read once and build the request lifecycle from memory.",
-        "artifacts": [{ "id": "api-baseline-pulse", "type": "source", "title": "Pulse quickstart", "format": "technical-doc", "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous and is not complete at acceptance. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. A 503 indicates temporary unavailability and may also include Retry-After; it is not proof of rate limiting. Reusing a key returns the original event. Polling cadence and timeout, key retention, and same-key/different-payload behavior are not defined and must be confirmed before production.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
+        "artifacts": [
+          {
+            "id": "api-baseline-pulse",
+            "type": "source",
+            "title": "Pulse quickstart",
+            "format": "technical-doc",
+            "content": "POST /v1/events requires a bearer token and unique Idempotency-Key. Acceptance returns 202 with event_id; processing is asynchronous and is not complete at acceptance. Poll GET /v1/events/{event_id}. A 429 response includes Retry-After. A 503 indicates temporary unavailability and may also include Retry-After; it is not proof of rate limiting. Reusing a key returns the original event. Polling cadence and timeout, key retention, and same-key/different-payload behavior are not defined and must be confirmed before production.",
+            "provenance": {
+              "origin": "synthetic",
+              "sourceIds": [
+                "rfc-9110",
+                "rfc-6585"
+              ],
+              "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+            }
+          }
+        ]
       },
       "retry": {
         "title": "Pulse reliability notes",
         "brief": "Repair the weakest part of your mental model with focused evidence.",
-        "artifacts": [{ "id": "api-retry-pulse", "type": "source", "title": "Reliability contract", "format": "technical-doc", "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. When a 429 response includes Retry-After, wait for that interval and do not create a new key for the same logical event.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
+        "artifacts": [
+          {
+            "id": "api-retry-pulse",
+            "type": "source",
+            "title": "Reliability contract",
+            "format": "technical-doc",
+            "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. When a 429 response includes Retry-After, wait for that interval and do not create a new key for the same logical event.",
+            "provenance": {
+              "origin": "synthetic",
+              "sourceIds": [
+                "rfc-9110",
+                "rfc-6585"
+              ],
+              "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+            }
+          }
+        ]
       },
       "transfer": {
         "title": "Jobs API",
         "brief": "Unseen API with the same asynchronous function but different fields.",
-        "artifacts": [{ "id": "api-transfer-jobs", "type": "source", "title": "Jobs quickstart", "format": "technical-doc", "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref; acceptance is not completion. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. Rate limiting returns 429 with Retry-After. Temporary unavailability returns 503 and may also include Retry-After; a 503 is not proof that the caller exceeded a rate limit.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
+        "artifacts": [
+          {
+            "id": "api-transfer-jobs",
+            "type": "source",
+            "title": "Jobs quickstart",
+            "format": "technical-doc",
+            "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref; acceptance is not completion. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. Rate limiting returns 429 with Retry-After. Temporary unavailability returns 503 and may also include Retry-After; a 503 is not proof that the caller exceeded a rate limit.",
+            "provenance": {
+              "origin": "synthetic",
+              "sourceIds": [
+                "rfc-9110",
+                "rfc-6585"
+              ],
+              "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+            }
+          }
+        ]
       },
       "review": {
         "title": "Exports API",
         "brief": "Delayed retrieval from a new asynchronous API.",
-        "artifacts": [{ "id": "api-review-exports", "type": "source", "title": "Exports quickstart", "format": "technical-doc", "content": "POST /exports accepts a report request and returns 202 with export_id; acceptance is not completion. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again.", "provenance": { "origin": "synthetic", "sourceIds": ["rfc-9110", "rfc-6585"], "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs." } }]
+        "artifacts": [
+          {
+            "id": "api-review-exports",
+            "type": "source",
+            "title": "Exports quickstart",
+            "format": "technical-doc",
+            "content": "POST /exports accepts a report request and returns 202 with export_id; acceptance is not completion. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again.",
+            "provenance": {
+              "origin": "synthetic",
+              "sourceIds": [
+                "rfc-9110",
+                "rfc-6585"
+              ],
+              "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
+            }
+          }
+        ]
       }
     },
     "readingLadder": {
@@ -110,27 +407,107 @@
         "content": "POST /tasks requires Authorization and Request-Key. It returns 202 plus task_id; acceptance is not completion. Poll GET /tasks/{task_id} until done or failed. Reusing Request-Key returns the original task. When the service returns 429, wait for Retry-After. The polling interval and maximum polling duration are not defined; confirm both before production.",
         "provenance": {
           "origin": "synthetic",
-          "sourceIds": ["rfc-9110", "rfc-6585"],
+          "sourceIds": [
+            "rfc-9110",
+            "rfc-6585"
+          ],
           "adaptationNote": "API product names, endpoints, headers, identifiers, rate limits and metrics are fictional training data; only HTTP status-code and Retry-After semantics are referenced from the cited RFCs."
         }
       },
       "extractionItems": [
-        { "id": "quanta-lifecycle", "question": "What does 202 mean here?", "options": ["The task completed and the result is ready", "The task was accepted for asynchronous processing", "The request was rejected until Authorization is added"], "correctAnswer": "The task was accepted for asynchronous processing", "feedback": "Acceptance and final completion are separate states." },
-        { "id": "quanta-safety", "question": "What prevents duplicates?", "options": ["Generate a new key for every retry", "Poll GET /tasks/{task_id} until the task is done", "Reuse Request-Key for the same logical task"], "correctAnswer": "Reuse Request-Key for the same logical task", "feedback": "The request key identifies one logical operation." },
-        { "id": "quanta-limit", "question": "How should 429 be handled?", "options": ["Wait for Retry-After", "Poll faster", "Poll GET /tasks/{task_id}"], "correctAnswer": "Wait for Retry-After", "feedback": "The server supplies the backoff interval." }
+        {
+          "id": "quanta-lifecycle",
+          "question": "What does 202 mean here?",
+          "options": [
+            "The task completed and the result is ready",
+            "The task was accepted for asynchronous processing",
+            "The request was rejected until Authorization is added"
+          ],
+          "correctAnswer": "The task was accepted for asynchronous processing",
+          "feedback": "Acceptance and final completion are separate states."
+        },
+        {
+          "id": "quanta-safety",
+          "question": "What prevents duplicates?",
+          "options": [
+            "Generate a new key for every retry",
+            "Poll GET /tasks/{task_id} until the task is done",
+            "Reuse Request-Key for the same logical task"
+          ],
+          "correctAnswer": "Reuse Request-Key for the same logical task",
+          "feedback": "The request key identifies one logical operation."
+        },
+        {
+          "id": "quanta-limit",
+          "question": "How should 429 be handled?",
+          "options": [
+            "Wait for Retry-After",
+            "Poll faster",
+            "Poll GET /tasks/{task_id}"
+          ],
+          "correctAnswer": "Wait for Retry-After",
+          "feedback": "The server supplies the backoff interval."
+        }
       ],
       "applicationPrompt": "Explain the lifecycle in plain English, turn each documented behavior into an implementation or test step, and record undocumented polling bounds as open questions.",
-      "applicationChecklist": ["I separated acceptance from completion.", "I connected idempotency to retries.", "I recorded the polling interval and maximum duration as open questions instead of inventing defaults, and I handled the documented rate limit."]
+      "applicationChecklist": [
+        "I separated acceptance from completion.",
+        "I connected idempotency to retries.",
+        "I recorded the polling interval and maximum duration as open questions instead of inventing defaults, and I handled the documented rate limit."
+      ]
     },
-    "outputContract": { "timeLimitSeconds": 300, "requiredElements": ["request lifecycle", "idempotency or deduplication", "documented response distinctions", "documented behavior versus unsupported assumptions", "ordered implementation and test plan"], "minWords": 120, "maxWords": 180 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 120 },
-    "feedbackPriorities": ["Mental model", "Traceability to docs", "Implementation safety"],
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "request lifecycle",
+        "idempotency or deduplication",
+        "documented response distinctions",
+        "documented behavior versus unsupported assumptions",
+        "ordered implementation and test plan"
+      ],
+      "minWords": 120,
+      "maxWords": 180
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 120
+    },
+    "feedbackPriorities": [
+      "Mental model",
+      "Traceability to docs",
+      "Implementation safety"
+    ],
     "rubric": [
-      { "id": "model", "label": "Accurate mental model", "description": "Explains the current evidence packet's request lifecycle and final state correctly." },
-      { "id": "safety", "label": "Reliability controls", "description": "Covers the current packet's deduplication control and distinguishes its documented response classes." },
-      { "id": "unknowns", "label": "Open questions", "description": "Separates documented behavior from unsupported assumptions and names explicit open questions when the current packet provides them." },
-      { "id": "application", "label": "Executable plan", "description": "Turns the current evidence packet into ordered implementation and test steps without inventing undocumented API defaults." }
+      {
+        "id": "model",
+        "label": "Accurate mental model",
+        "description": "Explains the current evidence packet's request lifecycle and final state correctly."
+      },
+      {
+        "id": "safety",
+        "label": "Reliability controls",
+        "description": "Covers the current packet's deduplication control and distinguishes its documented response classes."
+      },
+      {
+        "id": "unknowns",
+        "label": "Open questions",
+        "description": "Separates documented behavior from unsupported assumptions and names explicit open questions when the current packet provides them."
+      },
+      {
+        "id": "application",
+        "label": "Executable plan",
+        "description": "Turns the current evidence packet into ordered implementation and test steps without inventing undocumented API defaults."
+      }
     ]
   },
-  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7
+    ]
+  }
 }

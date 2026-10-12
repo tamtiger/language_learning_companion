@@ -204,6 +204,67 @@
           "explanation": "Mẫu nói: a team of five people."
         }
       ]
+    },
+    {
+      "id": "idyja-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "work as",
+        "every day",
+        "code",
+        "team"
+      ],
+      "exercises": [
+        {
+          "id": "idyja-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "work as",
+              "value": "làm nghề"
+            },
+            {
+              "key": "every day",
+              "value": "mỗi ngày"
+            },
+            {
+              "key": "code",
+              "value": "mã nguồn"
+            },
+            {
+              "key": "team",
+              "value": "nhóm"
+            }
+          ],
+          "correctAnswer": [
+            "work as - làm nghề",
+            "every day - mỗi ngày",
+            "code - mã nguồn",
+            "team - nhóm"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "idyja-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I ___ a web developer.",
+          "correctAnswer": [
+            "work as"
+          ],
+          "explanation": "\"work as\" nghĩa là làm nghề."
+        },
+        {
+          "id": "idyja-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: ___, I write code.",
+          "correctAnswer": [
+            "Every day"
+          ],
+          "explanation": "\"every day\" nghĩa là mỗi ngày."
+        }
+      ]
     }
   ],
   "performanceTask": {

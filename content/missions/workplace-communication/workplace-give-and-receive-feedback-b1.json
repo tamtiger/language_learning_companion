@@ -192,6 +192,67 @@
           "explanation": "Ví dụ, tác động, đề xuất, cảm ơn."
         }
       ]
+    },
+    {
+      "id": "wgarfb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "specific",
+        "impact",
+        "suggest",
+        "constructive"
+      ],
+      "exercises": [
+        {
+          "id": "wgarfb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "specific",
+              "value": "cụ thể"
+            },
+            {
+              "key": "impact",
+              "value": "tác động"
+            },
+            {
+              "key": "suggest",
+              "value": "đề xuất"
+            },
+            {
+              "key": "constructive",
+              "value": "mang tính xây dựng"
+            }
+          ],
+          "correctAnswer": [
+            "specific - cụ thể",
+            "impact - tác động",
+            "suggest - đề xuất",
+            "constructive - mang tính xây dựng"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wgarfb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Let me give a ___ example.",
+          "correctAnswer": [
+            "specific"
+          ],
+          "explanation": "\"specific\" nghĩa là cụ thể."
+        },
+        {
+          "id": "wgarfb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ was that people lost the thread.",
+          "correctAnswer": [
+            "impact"
+          ],
+          "explanation": "\"impact\" nghĩa là tác động."
+        }
+      ]
     }
   ],
   "performanceTask": {

@@ -346,6 +346,67 @@
           "explanation": "Điểm tốt, điểm sai, nguyên nhân, hành động."
         }
       ]
+    },
+    {
+      "id": "lrwwwb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "root cause",
+        "rollback",
+        "alert fatigue",
+        "action item"
+      ],
+      "exercises": [
+        {
+          "id": "lrwwwb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "root cause",
+              "value": "nguyên nhân gốc"
+            },
+            {
+              "key": "rollback",
+              "value": "quay lại phiên bản trước"
+            },
+            {
+              "key": "alert fatigue",
+              "value": "quá tải cảnh báo"
+            },
+            {
+              "key": "action item",
+              "value": "việc cần làm sau họp"
+            }
+          ],
+          "correctAnswer": [
+            "root cause - nguyên nhân gốc",
+            "rollback - quay lại phiên bản trước",
+            "alert fatigue - quá tải cảnh báo",
+            "action item - việc cần làm sau họp"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lrwwwb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We identified two ___.",
+          "correctAnswer": [
+            "root causes"
+          ],
+          "explanation": "\"root cause\" nghĩa là nguyên nhân gốc."
+        },
+        {
+          "id": "lrwwwb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We had no ___ plan.",
+          "correctAnswer": [
+            "rollback"
+          ],
+          "explanation": "\"rollback\" nghĩa là quay lại phiên bản trước."
+        }
+      ]
     }
   ],
   "performanceTask": {

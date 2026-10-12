@@ -324,6 +324,67 @@
           "explanation": "Ước lượng, chia nhỏ, kiểm tra năng lực, cam kết."
         }
       ]
+    },
+    {
+      "id": "lspeb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "story point",
+        "capacity",
+        "split",
+        "commit"
+      ],
+      "exercises": [
+        {
+          "id": "lspeb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "story point",
+              "value": "điểm ước lượng"
+            },
+            {
+              "key": "capacity",
+              "value": "năng lực của đội"
+            },
+            {
+              "key": "split",
+              "value": "chia nhỏ"
+            },
+            {
+              "key": "commit",
+              "value": "cam kết"
+            }
+          ],
+          "correctAnswer": [
+            "story point - điểm ước lượng",
+            "capacity - năng lực của đội",
+            "split - chia nhỏ",
+            "commit - cam kết"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lspeb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Our ___ is twenty-four points.",
+          "correctAnswer": [
+            "capacity"
+          ],
+          "explanation": "\"capacity\" nghĩa là năng lực của đội."
+        },
+        {
+          "id": "lspeb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Can we ___ it into two parts?",
+          "correctAnswer": [
+            "split"
+          ],
+          "explanation": "\"split\" nghĩa là chia nhỏ."
+        }
+      ]
     }
   ],
   "performanceTask": {

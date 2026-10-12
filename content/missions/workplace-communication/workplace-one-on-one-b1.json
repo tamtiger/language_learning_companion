@@ -192,6 +192,67 @@
           "explanation": "Tiến độ, vướng mắc, xin hướng dẫn, hành động."
         }
       ]
+    },
+    {
+      "id": "wooob-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "progress",
+        "challenge",
+        "priority",
+        "guidance"
+      ],
+      "exercises": [
+        {
+          "id": "wooob-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "progress",
+              "value": "tiến độ"
+            },
+            {
+              "key": "challenge",
+              "value": "thách thức"
+            },
+            {
+              "key": "priority",
+              "value": "ưu tiên"
+            },
+            {
+              "key": "guidance",
+              "value": "sự hướng dẫn"
+            }
+          ],
+          "correctAnswer": [
+            "progress - tiến độ",
+            "challenge - thách thức",
+            "priority - ưu tiên",
+            "guidance - sự hướng dẫn"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wooob-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I made good ___ on the import tool.",
+          "correctAnswer": [
+            "progress"
+          ],
+          "explanation": "\"progress\" nghĩa là tiến độ."
+        },
+        {
+          "id": "wooob-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: My main ___ is the test environment.",
+          "correctAnswer": [
+            "challenge"
+          ],
+          "explanation": "\"challenge\" nghĩa là thách thức."
+        }
+      ]
     }
   ],
   "performanceTask": {

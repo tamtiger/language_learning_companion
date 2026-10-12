@@ -293,6 +293,67 @@
           "explanation": "Yêu cầu đầu, dùng next_cursor, lặp đến khi hết."
         }
       ]
+    },
+    {
+      "id": "rarpb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "endpoint",
+        "cursor",
+        "optional",
+        "expire"
+      ],
+      "exercises": [
+        {
+          "id": "rarpb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "endpoint",
+              "value": "điểm cuối của API"
+            },
+            {
+              "key": "cursor",
+              "value": "con trỏ phân trang"
+            },
+            {
+              "key": "optional",
+              "value": "không bắt buộc"
+            },
+            {
+              "key": "expire",
+              "value": "hết hạn"
+            }
+          ],
+          "correctAnswer": [
+            "endpoint - điểm cuối của API",
+            "cursor - con trỏ phân trang",
+            "optional - không bắt buộc",
+            "expire - hết hạn"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rarpb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: This ___ returns a list of orders.",
+          "correctAnswer": [
+            "endpoint"
+          ],
+          "explanation": "\"endpoint\" nghĩa là điểm cuối của API."
+        },
+        {
+          "id": "rarpb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Pass next_cursor as the ___.",
+          "correctAnswer": [
+            "cursor"
+          ],
+          "explanation": "\"cursor\" nghĩa là con trỏ phân trang."
+        }
+      ]
     }
   ],
   "performanceTask": {

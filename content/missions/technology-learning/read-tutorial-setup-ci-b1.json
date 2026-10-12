@@ -312,6 +312,67 @@
           "explanation": "Tạo tệp, thêm kiểm tra, xử lý secret, bảo vệ nhánh."
         }
       ]
+    },
+    {
+      "id": "rtscb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "workflow",
+        "trigger",
+        "secret",
+        "lock file"
+      ],
+      "exercises": [
+        {
+          "id": "rtscb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "workflow",
+              "value": "quy trình tự động"
+            },
+            {
+              "key": "trigger",
+              "value": "điều kiện kích hoạt"
+            },
+            {
+              "key": "secret",
+              "value": "giá trị bí mật"
+            },
+            {
+              "key": "lock file",
+              "value": "tệp khóa phiên bản"
+            }
+          ],
+          "correctAnswer": [
+            "workflow - quy trình tự động",
+            "trigger - điều kiện kích hoạt",
+            "secret - giá trị bí mật",
+            "lock file - tệp khóa phiên bản"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rtscb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ runs on every pull request.",
+          "correctAnswer": [
+            "workflow"
+          ],
+          "explanation": "\"workflow\" nghĩa là quy trình tự động."
+        },
+        {
+          "id": "rtscb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ is a pull request.",
+          "correctAnswer": [
+            "trigger"
+          ],
+          "explanation": "\"trigger\" nghĩa là điều kiện kích hoạt."
+        }
+      ]
     }
   ],
   "performanceTask": {

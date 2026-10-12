@@ -192,6 +192,67 @@
           "explanation": "Tình huống, hành động, kết quả, bài học."
         }
       ]
+    },
+    {
+      "id": "ibsbb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "competency",
+        "disagree",
+        "resolve",
+        "outcome"
+      ],
+      "exercises": [
+        {
+          "id": "ibsbb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "competency",
+              "value": "năng lực"
+            },
+            {
+              "key": "disagree",
+              "value": "bất đồng"
+            },
+            {
+              "key": "resolve",
+              "value": "giải quyết"
+            },
+            {
+              "key": "outcome",
+              "value": "kết quả"
+            }
+          ],
+          "correctAnswer": [
+            "competency - năng lực",
+            "disagree - bất đồng",
+            "resolve - giải quyết",
+            "outcome - kết quả"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "ibsbb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We ___ about the database choice.",
+          "correctAnswer": [
+            "disagreed"
+          ],
+          "explanation": "\"disagree\" nghĩa là bất đồng."
+        },
+        {
+          "id": "ibsbb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We ___ it with a small test.",
+          "correctAnswer": [
+            "resolved"
+          ],
+          "explanation": "\"resolve\" nghĩa là giải quyết."
+        }
+      ]
     }
   ],
   "performanceTask": {

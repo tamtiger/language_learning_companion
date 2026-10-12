@@ -192,6 +192,67 @@
           "explanation": "Hỏi về đội, thành công, bước tiếp, rồi cảm ơn."
         }
       ]
+    },
+    {
+      "id": "iatib-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "onboarding",
+        "expectation",
+        "measure",
+        "growth"
+      ],
+      "exercises": [
+        {
+          "id": "iatib-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "onboarding",
+              "value": "quá trình làm quen khi mới vào"
+            },
+            {
+              "key": "expectation",
+              "value": "kỳ vọng"
+            },
+            {
+              "key": "measure",
+              "value": "đo lường"
+            },
+            {
+              "key": "growth",
+              "value": "sự phát triển"
+            }
+          ],
+          "correctAnswer": [
+            "onboarding - quá trình làm quen khi mới vào",
+            "expectation - kỳ vọng",
+            "measure - đo lường",
+            "growth - sự phát triển"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "iatib-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: What does ___ look like here?",
+          "correctAnswer": [
+            "onboarding"
+          ],
+          "explanation": "\"onboarding\" nghĩa là quá trình làm quen khi mới vào."
+        },
+        {
+          "id": "iatib-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: What are your ___ for the first quarter?",
+          "correctAnswer": [
+            "expectations"
+          ],
+          "explanation": "\"expectation\" nghĩa là kỳ vọng."
+        }
+      ]
     }
   ],
   "performanceTask": {

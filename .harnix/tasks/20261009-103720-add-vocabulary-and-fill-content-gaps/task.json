@@ -4,8 +4,8 @@
   "id": "20261009-103720-add-vocabulary-and-fill-content-gaps",
   "title": "Thêm từ vựng chuyên ngành và lấp ô trống ma trận nội dung",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Mỗi capability đạt độ phủ B1 đến B2 với từ vựng và nhiều loại bài tập.",
   "nonGoals": [
     "Không đổi schema (đã làm ở task schema)"
@@ -14,26 +14,38 @@
     {
       "id": "ac-1",
       "text": "Mỗi mission có 8-15 từ hoặc collocation chuyên ngành, được ôn trong delayed review.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-check-vocab-coverage-1"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Lấp ô trống ma trận: workplace nói và B2, technical-reading B2, explanation B1 và viết, interview B1, technology-learning B1.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-check-vocab-coverage-1"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Mỗi capability đạt tối thiểu 6 mission trải B1 đến B2; nếu chưa đạt thì README thu hẹp lời hứa cho khớp.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-check-vocab-coverage-1"
+      ]
     },
     {
       "id": "ac-4",
       "text": "Auto-check đa dạng hơn: fill, ordering, error-correction chiếm tối thiểu 30%.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-check-vocab-coverage-1"
+      ]
     }
   ],
   "validationPlan": [
@@ -73,7 +85,28 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-vocab-coverage-1",
+      "checkId": "check-vocab-coverage",
+      "recordedAt": "2026-10-12T08:43:10.399+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/coverageMatrix.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "064b14be3f389d49ecc0b03800d9df9ffa62d1ab13608dd08b4ef041761a2d27"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T08:44:03.932+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "0c2f9f1e8c6582e72172c439dc2d1f221eae20fb009f90a23f23927a845a78d5"
+    }
+  ],
   "relevantPaths": [
     "content",
     "src/content",
@@ -82,5 +115,6 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:09.899+07:00"
+  "updatedAt": "2026-10-12T08:44:34.100+07:00",
+  "completedAt": "2026-10-12T08:44:34.100+07:00"
 }

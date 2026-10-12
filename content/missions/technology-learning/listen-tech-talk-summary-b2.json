@@ -338,6 +338,67 @@
           "explanation": "Luận điểm, bằng chứng, hạn chế, việc sẽ thử."
         }
       ]
+    },
+    {
+      "id": "lttsb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "median",
+        "cache",
+        "in parallel",
+        "claim"
+      ],
+      "exercises": [
+        {
+          "id": "lttsb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "median",
+              "value": "trung vị"
+            },
+            {
+              "key": "cache",
+              "value": "bộ nhớ đệm"
+            },
+            {
+              "key": "in parallel",
+              "value": "chạy song song"
+            },
+            {
+              "key": "claim",
+              "value": "tuyên bố"
+            }
+          ],
+          "correctAnswer": [
+            "median - trung vị",
+            "cache - bộ nhớ đệm",
+            "in parallel - chạy song song",
+            "claim - tuyên bố"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lttsb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ build is six minutes.",
+          "correctAnswer": [
+            "median"
+          ],
+          "explanation": "\"median\" nghĩa là trung vị."
+        },
+        {
+          "id": "lttsb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We ___ dependencies between runs.",
+          "correctAnswer": [
+            "cache"
+          ],
+          "explanation": "\"cache\" nghĩa là bộ nhớ đệm."
+        }
+      ]
     }
   ],
   "performanceTask": {

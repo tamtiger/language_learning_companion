@@ -5,30 +5,267 @@
   "summary": "Phản biện lịch sự, xử lý câu hỏi tiếp theo và chốt quyết định có owner.",
   "cefrLevel": "B2",
   "durationMinutes": 25,
-  "learningObjectives": ["Nghe ra evidence và owner", "Phản biện bằng functional chunks", "Repair và recap quyết định"],
-  "capabilities": ["international-meetings"],
-  "workflowTags": ["meeting", "disagreement", "learning-loop", "p0-pilot"],
+  "learningObjectives": [
+    "Nghe ra evidence và owner",
+    "Phản biện bằng functional chunks",
+    "Repair và recap quyết định"
+  ],
+  "capabilities": [
+    "international-meetings"
+  ],
+  "workflowTags": [
+    "meeting",
+    "disagreement",
+    "learning-loop",
+    "p0-pilot"
+  ],
   "sections": [
-    { "id": "source", "type": "source", "title": "Meeting proposal", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Proposal: skip the three-hour load test to keep Friday's launch. Current evidence: staging has handled only 20% of forecast traffic. Minh can run the critical scenario at forecast traffic from 13:00 to 16:00. The go/no-go threshold is p95 latency at or below 500ms and an error rate below 1%. Lan is the release owner and will lead the decision at 16:15. Rollback ownership is not assigned, and all new assignments remain proposals until the group confirms them." },
+    {
+      "id": "source",
+      "type": "source",
+      "title": "Meeting proposal",
+      "format": "meeting-notes",
+      "content": "Synthetic training artifact — non-production. Proposal: skip the three-hour load test to keep Friday's launch. Current evidence: staging has handled only 20% of forecast traffic. Minh can run the critical scenario at forecast traffic from 13:00 to 16:00. The go/no-go threshold is p95 latency at or below 500ms and an error rate below 1%. Lan is the release owner and will lead the decision at 16:15. Rollback ownership is not assigned, and all new assignments remain proposals until the group confirms them."
+    },
     {
       "id": "language",
       "type": "language-support",
       "title": "Constructive disagreement language",
-      "vocabulary": [],
+      "vocabulary": [
+        {
+          "word": "reservation",
+          "ipa": "/ˌrez.ɚˈveɪ.ʃən/",
+          "definition": "sự e ngại lịch sự",
+          "technicalMeaning": "Nói nhẹ nhàng rằng bạn chưa chắc đồng ý.",
+          "collocations": [
+            "have a reservation",
+            "a reservation about"
+          ],
+          "example": "I have a reservation about the deadline.",
+          "commonMistake": "Nói a reservation about, không nói reservation for khi nêu e ngại."
+        },
+        {
+          "word": "conditional",
+          "ipa": "/kənˈdɪʃ.ən.əl/",
+          "definition": "có điều kiện",
+          "technicalMeaning": "Chỉ đúng khi điều kiện đưa ra được đáp ứng.",
+          "collocations": [
+            "conditional on",
+            "a conditional approval"
+          ],
+          "example": "The launch is conditional on the security review.",
+          "commonMistake": "Nói conditional on, không nói conditional with."
+        },
+        {
+          "word": "recap",
+          "ipa": "/ˈriː.kæp/",
+          "definition": "tóm tắt lại",
+          "technicalMeaning": "Nhắc lại các điểm đã thống nhất khi kết thúc họp.",
+          "collocations": [
+            "a quick recap",
+            "recap the decisions"
+          ],
+          "example": "Let me recap the decisions before we finish.",
+          "commonMistake": "Danh từ và động từ đều viết recap."
+        },
+        {
+          "word": "alignment",
+          "ipa": "/əˈlaɪn.mənt/",
+          "definition": "sự thống nhất",
+          "technicalMeaning": "Các bên cùng hiểu và đồng ý hướng đi.",
+          "collocations": [
+            "reach alignment",
+            "alignment on"
+          ],
+          "example": "We need alignment on the scope.",
+          "commonMistake": "Nói alignment on + chủ đề."
+        },
+        {
+          "word": "action owner",
+          "ipa": "/ˈæk.ʃən ˈoʊ.nɚ/",
+          "definition": "người phụ trách việc cần làm",
+          "technicalMeaning": "Người chịu trách nhiệm hoàn thành một hành động đã thống nhất.",
+          "collocations": [
+            "name an action owner",
+            "the action owner"
+          ],
+          "example": "Each action needs an action owner and a date.",
+          "commonMistake": "Viết action owner thành hai từ."
+        }
+      ],
       "expressions": [
-        { "phrase": "I see the ___ concern; I’m not comfortable with ___ because ___.", "meaning": "Acknowledge a shared goal before stating an evidence-backed concern.", "tone": "neutral", "example": "I see the schedule concern; I’m not comfortable skipping the test because staging covers only 20% of forecast traffic.", "alternatives": ["I understand ___; my concern is ___ because ___."] },
-        { "phrase": "Could we ___ and make ___ conditional on ___?", "meaning": "Offer a collaborative alternative with an explicit condition.", "tone": "neutral", "example": "Could we run the scenario and make launch conditional on meeting both thresholds?", "alternatives": ["Would it work to ___, provided that ___?"] },
-        { "phrase": "Subject to agreement, ___ could ___ by ___.", "meaning": "Recap an owner and deadline without presenting an unconfirmed assignment as decided.", "tone": "formal", "example": "Subject to agreement, Minh could complete the test by 16:00.", "alternatives": ["My proposal, pending confirmation, is that ___ completes ___ by ___."] }
+        {
+          "phrase": "I see the ___ concern; I’m not comfortable with ___ because ___.",
+          "meaning": "Acknowledge a shared goal before stating an evidence-backed concern.",
+          "tone": "neutral",
+          "example": "I see the schedule concern; I’m not comfortable skipping the test because staging covers only 20% of forecast traffic.",
+          "alternatives": [
+            "I understand ___; my concern is ___ because ___."
+          ]
+        },
+        {
+          "phrase": "Could we ___ and make ___ conditional on ___?",
+          "meaning": "Offer a collaborative alternative with an explicit condition.",
+          "tone": "neutral",
+          "example": "Could we run the scenario and make launch conditional on meeting both thresholds?",
+          "alternatives": [
+            "Would it work to ___, provided that ___?"
+          ]
+        },
+        {
+          "phrase": "Subject to agreement, ___ could ___ by ___.",
+          "meaning": "Recap an owner and deadline without presenting an unconfirmed assignment as decided.",
+          "tone": "formal",
+          "example": "Subject to agreement, Minh could complete the test by 16:00.",
+          "alternatives": [
+            "My proposal, pending confirmation, is that ___ completes ___ by ___."
+          ]
+        }
       ]
     },
-    { "id": "check", "type": "auto-check", "title": "Disagree and close the decision constructively", "exercises": [
-      { "id": "disagree-check", "type": "choice", "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?", "options": ["That is wrong, and I will not discuss it until you explain why you skipped the load test.", "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.", "I agree with the deadline, so the evidence does not matter.", "I see the schedule concern, but you are being careless, and your plan to skip the load test shows you do not care about quality."], "correctAnswer": ["I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."], "explanation": "Acknowledge mục tiêu chung rồi nêu concern kèm evidence thay vì công kích hoặc bỏ qua risk." },
-      { "id": "meeting-threshold", "type": "choice", "question": "Which result supports a go decision under the current proposal?", "options": ["p95 is 480ms and the error rate is 0.8%.", "p95 is 480ms and the error rate is 1.4%.", "The test finishes at 16:00 but no metrics are recorded."], "correctAnswer": ["p95 is 480ms and the error rate is 0.8%."], "explanation": "Both supplied thresholds must pass: p95 at or below 500ms and error rate below 1%." },
-      { "id": "meeting-confirmation", "type": "choice", "question": "How should the recap distinguish Lan from Minh and the rollback owner?", "options": ["Lan's decision role and time are confirmed; Minh and the rollback assignment remain proposals pending group confirmation.", "All three roles are confirmed because Lan is the release owner, so Minh and the rollback assignment need no further group approval from anyone.", "All three roles remain proposals, including Lan's stated decision role."], "correctAnswer": ["Lan's decision role and time are confirmed; Minh and the rollback assignment remain proposals pending group confirmation."], "explanation": "The evidence confirms Lan's existing release-owner role and decision time, while new assignments for Minh and rollback ownership still require group confirmation." }
-    ] }
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Disagree and close the decision constructively",
+      "exercises": [
+        {
+          "id": "disagree-check",
+          "type": "choice",
+          "question": "Mở đầu nào phản biện rõ nhưng không đối đầu?",
+          "options": [
+            "That is wrong, and I will not discuss it until you explain why you skipped the load test.",
+            "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic.",
+            "I agree with the deadline, so the evidence does not matter.",
+            "I see the schedule concern, but you are being careless, and your plan to skip the load test shows you do not care about quality."
+          ],
+          "correctAnswer": [
+            "I see the schedule concern; I’m not comfortable skipping the load test because staging covers only 20% of forecast traffic."
+          ],
+          "explanation": "Acknowledge mục tiêu chung rồi nêu concern kèm evidence thay vì công kích hoặc bỏ qua risk."
+        },
+        {
+          "id": "meeting-threshold",
+          "type": "choice",
+          "question": "Which result supports a go decision under the current proposal?",
+          "options": [
+            "p95 is 480ms and the error rate is 0.8%.",
+            "p95 is 480ms and the error rate is 1.4%.",
+            "The test finishes at 16:00 but no metrics are recorded."
+          ],
+          "correctAnswer": [
+            "p95 is 480ms and the error rate is 0.8%."
+          ],
+          "explanation": "Both supplied thresholds must pass: p95 at or below 500ms and error rate below 1%."
+        },
+        {
+          "id": "meeting-confirmation",
+          "type": "choice",
+          "question": "How should the recap distinguish Lan from Minh and the rollback owner?",
+          "options": [
+            "Lan's decision role and time are confirmed; Minh and the rollback assignment remain proposals pending group confirmation.",
+            "All three roles are confirmed because Lan is the release owner, so Minh and the rollback assignment need no further group approval from anyone.",
+            "All three roles remain proposals, including Lan's stated decision role."
+          ],
+          "correctAnswer": [
+            "Lan's decision role and time are confirmed; Minh and the rollback assignment remain proposals pending group confirmation."
+          ],
+          "explanation": "The evidence confirms Lan's existing release-owner role and decision time, while new assignments for Minh and rollback ownership still require group confirmation."
+        },
+        {
+          "id": "mdarb-fix",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"Subject on agreement, we ship on Friday.\" dùng sai một từ. Điền từ đúng thay cho \"on\" đầu tiên.",
+          "correctAnswer": [
+            "to"
+          ],
+          "explanation": "Cụm cố định là subject to agreement."
+        },
+        {
+          "id": "mdarb-order",
+          "type": "ordering",
+          "question": "Sắp xếp phần recap cuối cuộc họp.",
+          "options": [
+            "I will send the notes today",
+            "we agreed to ship on Friday",
+            "the open risk is security",
+            "let me recap quickly"
+          ],
+          "correctAnswer": [
+            "let me recap quickly",
+            "we agreed to ship on Friday",
+            "the open risk is security",
+            "I will send the notes today"
+          ],
+          "explanation": "Mở đầu recap, quyết định, rủi ro, hành động."
+        }
+      ]
+    },
+    {
+      "id": "mdarb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "reservation",
+        "conditional",
+        "recap",
+        "alignment"
+      ],
+      "exercises": [
+        {
+          "id": "mdarb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "reservation",
+              "value": "sự e ngại lịch sự"
+            },
+            {
+              "key": "conditional",
+              "value": "có điều kiện"
+            },
+            {
+              "key": "recap",
+              "value": "tóm tắt lại"
+            },
+            {
+              "key": "alignment",
+              "value": "sự thống nhất"
+            }
+          ],
+          "correctAnswer": [
+            "reservation - sự e ngại lịch sự",
+            "conditional - có điều kiện",
+            "recap - tóm tắt lại",
+            "alignment - sự thống nhất"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "mdarb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I have a ___ about the deadline.",
+          "correctAnswer": [
+            "reservation"
+          ],
+          "explanation": "\"reservation\" nghĩa là sự e ngại lịch sự."
+        },
+        {
+          "id": "mdarb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The launch is ___ on the security review.",
+          "correctAnswer": [
+            "conditional"
+          ],
+          "explanation": "\"conditional\" nghĩa là có điều kiện."
+        }
+      ]
+    }
   ],
   "performanceTask": {
-    "id": "meeting-disagree-recap", "mode": "spoken", "title": "Challenge and close the decision",
+    "id": "meeting-disagree-recap",
+    "mode": "spoken",
+    "title": "Challenge and close the decision",
     "scenario": "Trong cuộc họp release, nhóm muốn bỏ một quality gate để giữ deadline.",
     "baselinePrompt": "Trong 60–90 giây, dựa trên meeting evidence đang hiển thị và phản hồi mà chưa xem model hoặc chunk bank.",
     "performancePrompt": "In 60–90 seconds in English, acknowledge the goal, state a disagreement with evidence, propose a go/no-go threshold, and recap the owner, deadline and confirmation state; distinguish confirmed roles from new assignments that are still proposals.",
@@ -37,60 +274,559 @@
     "transferPrompt": "In 60–90 seconds, use the security-review evidence, push back, and recap the alternative plan without looking at the model or chunks.",
     "reviewPrompt": "In 60–90 seconds, use the new accessibility evidence and propose an owner and deadline without looking at the model or chunks.",
     "practiceContexts": {
-      "baseline": { "title": "Load-test decision", "brief": "You are a backend engineer in a release meeting.", "artifacts": [{ "id": "load-note", "type": "source", "title": "Release note", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Friday launch; staging handled 20% of forecast traffic; Minh can run the critical scenario at forecast traffic from 13:00 to 16:00. Go requires p95 at or below 500ms and error rate below 1%. Lan is the release owner and leads the decision at 16:15; rollback ownership is not assigned; proposed assignments require group confirmation." }] },
-      "retry": { "title": "Failover rehearsal decision", "brief": "Keep the communicative function but use different evidence.", "artifacts": [{ "id": "failover-note", "type": "source", "title": "Reliability note", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Tuesday cutover; failover has not been rehearsed; rehearsal takes 45 minutes; Priya is available to own rollback if the group confirms the assignment." }] },
-      "transfer": { "title": "Security-review decision", "brief": "A new situation; do not reuse the facts from the load test.", "artifacts": [{ "id": "security-note", "type": "source", "title": "Demo note", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Customer demo is tomorrow; security review found two unresolved high-risk permissions; a scoped demo environment can be ready by 15:00; security owner is Elena." }] },
-      "review": { "title": "Accessibility-check decision", "brief": "Delayed retrieval with a new quality gate.", "artifacts": [{ "id": "a11y-note", "type": "source", "title": "Launch note", "format": "meeting-notes", "content": "Synthetic training artifact — non-production. Public launch is Monday; keyboard navigation fails in checkout; a fix can be verified Friday; frontend owner is Noor." }] }
+      "baseline": {
+        "title": "Load-test decision",
+        "brief": "You are a backend engineer in a release meeting.",
+        "artifacts": [
+          {
+            "id": "load-note",
+            "type": "source",
+            "title": "Release note",
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Friday launch; staging handled 20% of forecast traffic; Minh can run the critical scenario at forecast traffic from 13:00 to 16:00. Go requires p95 at or below 500ms and error rate below 1%. Lan is the release owner and leads the decision at 16:15; rollback ownership is not assigned; proposed assignments require group confirmation."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Failover rehearsal decision",
+        "brief": "Keep the communicative function but use different evidence.",
+        "artifacts": [
+          {
+            "id": "failover-note",
+            "type": "source",
+            "title": "Reliability note",
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Tuesday cutover; failover has not been rehearsed; rehearsal takes 45 minutes; Priya is available to own rollback if the group confirms the assignment."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Security-review decision",
+        "brief": "A new situation; do not reuse the facts from the load test.",
+        "artifacts": [
+          {
+            "id": "security-note",
+            "type": "source",
+            "title": "Demo note",
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Customer demo is tomorrow; security review found two unresolved high-risk permissions; a scoped demo environment can be ready by 15:00; security owner is Elena."
+          }
+        ]
+      },
+      "review": {
+        "title": "Accessibility-check decision",
+        "brief": "Delayed retrieval with a new quality gate.",
+        "artifacts": [
+          {
+            "id": "a11y-note",
+            "type": "source",
+            "title": "Launch note",
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Public launch is Monday; keyboard navigation fails in checkout; a fix can be verified Friday; frontend owner is Noor."
+          }
+        ]
+      }
     },
     "learningLoop": {
       "version": "v1",
       "perception": {
         "pretest": [
-          { "id": "meet-pre-1", "audio": { "kind": "speech-synthesis", "text": "We skipped the test.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Team đã làm gì?", "options": ["Skipped several tests", "Passed one test", "Skipped one test"], "correctAnswer": "Skipped one test" },
-          { "id": "meet-pre-2", "audio": { "kind": "speech-synthesis", "text": "We skipped the tests.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Team đã làm gì?", "options": ["Rescheduled several tests", "Skipped several tests", "Skipped one test"], "correctAnswer": "Skipped several tests" },
-          { "id": "meet-pre-3", "audio": { "kind": "speech-synthesis", "text": "I understand the deadline, but I am concerned about the risk.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Speaker đang làm function nào?", "options": ["Delay the decision to later", "Acknowledge then disagree", "Agree without any concern"], "correctAnswer": "Acknowledge then disagree" },
-          { "id": "meet-pre-4", "audio": { "kind": "speech-synthesis", "text": "My proposal is that Minh runs the test and Lan could own rollback, pending confirmation.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Điều gì đang được đề xuất?", "options": ["A confirmed assignment", "Confirmed owners for the test and rollback plan", "Test and rollback owners, pending confirmation"], "correctAnswer": "Test and rollback owners, pending confirmation" }
+          {
+            "id": "meet-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We skipped the test.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Aria",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Team đã làm gì?",
+            "options": [
+              "Skipped several tests",
+              "Passed one test",
+              "Skipped one test"
+            ],
+            "correctAnswer": "Skipped one test"
+          },
+          {
+            "id": "meet-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We skipped the tests.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Team đã làm gì?",
+            "options": [
+              "Rescheduled several tests",
+              "Skipped several tests",
+              "Skipped one test"
+            ],
+            "correctAnswer": "Skipped several tests"
+          },
+          {
+            "id": "meet-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I understand the deadline, but I am concerned about the risk.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Jenny",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Speaker đang làm function nào?",
+            "options": [
+              "Delay the decision to later",
+              "Acknowledge then disagree",
+              "Agree without any concern"
+            ],
+            "correctAnswer": "Acknowledge then disagree"
+          },
+          {
+            "id": "meet-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My proposal is that Minh runs the test and Lan could own rollback, pending confirmation.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Điều gì đang được đề xuất?",
+            "options": [
+              "A confirmed assignment",
+              "Confirmed owners for the test and rollback plan",
+              "Test and rollback owners, pending confirmation"
+            ],
+            "correctAnswer": "Test and rollback owners, pending confirmation"
+          }
         ],
         "training": [
-          { "id": "meet-train-1", "audio": { "kind": "speech-synthesis", "text": "The test failed.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Một hay nhiều test?", "options": ["Several tests", "One test", "Every test"], "correctAnswer": "One test", "feedback": "Không có /s/ ở cuối test, nên đây là một test." },
-          { "id": "meet-train-2", "audio": { "kind": "speech-synthesis", "text": "The tests failed.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Một hay nhiều test?", "options": ["One test, run twice", "One test", "Several tests"], "correctAnswer": "Several tests", "feedback": "Âm /s/ cuối tests mang thông tin số nhiều." },
-          { "id": "meet-train-3", "audio": { "kind": "speech-synthesis", "text": "I see the schedule concern, but skipping review creates risk.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Sau chữ but, người nói lo ngại điều gì?", "options": ["Risk from a late review", "Missing the schedule", "Risk from skipping review"], "correctAnswer": "Risk from skipping review", "feedback": "Trọng âm rơi vào skipping review và risk." },
-          { "id": "meet-train-4", "audio": { "kind": "speech-synthesis", "text": "Could we run the critical scenario today?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đưa ra gì?", "options": ["A final decision", "An alternative", "A rejection without action"], "correctAnswer": "An alternative", "feedback": "Could we mở một alternative mang tính hợp tác." },
-          { "id": "meet-train-5", "audio": { "kind": "speech-synthesis", "text": "My proposal is that Sam tests recovery by four.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] }, "question": "Owner và deadline được đề xuất là gì?", "options": ["Sam by five", "Lan after recovery testing", "Sam by four"], "correctAnswer": "Sam by four", "feedback": "Nghe content words proposal, Sam, recovery và four." },
-          { "id": "meet-train-6", "audio": { "kind": "speech-synthesis", "text": "Let me rephrase that: launch is conditional on the result.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Speaker đang làm gì?", "options": ["Changing the subject", "Ending the meeting", "Repairing the message"], "correctAnswer": "Repairing the message", "feedback": "Let me rephrase that báo hiệu conversation repair." }
+          {
+            "id": "meet-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The test failed.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Aria",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Một hay nhiều test?",
+            "options": [
+              "Several tests",
+              "One test",
+              "Every test"
+            ],
+            "correctAnswer": "One test",
+            "feedback": "Không có /s/ ở cuối test, nên đây là một test."
+          },
+          {
+            "id": "meet-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The tests failed.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Một hay nhiều test?",
+            "options": [
+              "One test, run twice",
+              "One test",
+              "Several tests"
+            ],
+            "correctAnswer": "Several tests",
+            "feedback": "Âm /s/ cuối tests mang thông tin số nhiều."
+          },
+          {
+            "id": "meet-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I see the schedule concern, but skipping review creates risk.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Jenny",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Sau chữ but, người nói lo ngại điều gì?",
+            "options": [
+              "Risk from a late review",
+              "Missing the schedule",
+              "Risk from skipping review"
+            ],
+            "correctAnswer": "Risk from skipping review",
+            "feedback": "Trọng âm rơi vào skipping review và risk."
+          },
+          {
+            "id": "meet-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could we run the critical scenario today?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Speaker đưa ra gì?",
+            "options": [
+              "A final decision",
+              "An alternative",
+              "A rejection without action"
+            ],
+            "correctAnswer": "An alternative",
+            "feedback": "Could we mở một alternative mang tính hợp tác."
+          },
+          {
+            "id": "meet-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My proposal is that Sam tests recovery by four.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Aria",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Owner và deadline được đề xuất là gì?",
+            "options": [
+              "Sam by five",
+              "Lan after recovery testing",
+              "Sam by four"
+            ],
+            "correctAnswer": "Sam by four",
+            "feedback": "Nghe content words proposal, Sam, recovery và four."
+          },
+          {
+            "id": "meet-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Let me rephrase that: launch is conditional on the result.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Speaker đang làm gì?",
+            "options": [
+              "Changing the subject",
+              "Ending the meeting",
+              "Repairing the message"
+            ],
+            "correctAnswer": "Repairing the message",
+            "feedback": "Let me rephrase that báo hiệu conversation repair."
+          }
         ],
         "posttest": [
-          { "id": "meet-post-1", "audio": { "kind": "speech-synthesis", "text": "The recovery checks failed.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Bao nhiêu check được nói tới?", "options": ["Only one check", "No checks at all", "Several checks"], "correctAnswer": "Several checks" },
-          { "id": "meet-post-2", "audio": { "kind": "speech-synthesis", "text": "I understand the support deadline, but the recovery owner is still missing.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] }, "question": "Speaker đang làm gì?", "options": ["Approve the shortcut", "Agree to the deadline as set", "Acknowledge then disagree"], "correctAnswer": "Acknowledge then disagree" },
-          { "id": "meet-post-3", "audio": { "kind": "speech-synthesis", "text": "Could we stage the rollout instead?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] }, "question": "Đây là gì?", "options": ["Complaint", "Alternative", "Refusal"], "correctAnswer": "Alternative" },
-          { "id": "meet-post-4", "audio": { "kind": "speech-synthesis", "text": "My proposal is that Sam tests by two and Rae owns rollback.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "Proposal recap có gì?", "options": ["Concern only", "Deadline without an owner", "Owner and deadline"], "correctAnswer": "Owner and deadline" }
+          {
+            "id": "meet-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The recovery checks failed.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Bao nhiêu check được nói tới?",
+            "options": [
+              "Only one check",
+              "No checks at all",
+              "Several checks"
+            ],
+            "correctAnswer": "Several checks"
+          },
+          {
+            "id": "meet-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I understand the support deadline, but the recovery owner is still missing.",
+              "locale": "en-US",
+              "voiceHints": [
+                "Jenny",
+                "Guy",
+                "English"
+              ]
+            },
+            "question": "Speaker đang làm gì?",
+            "options": [
+              "Approve the shortcut",
+              "Agree to the deadline as set",
+              "Acknowledge then disagree"
+            ],
+            "correctAnswer": "Acknowledge then disagree"
+          },
+          {
+            "id": "meet-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could we stage the rollout instead?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "Sonia",
+                "Ryan",
+                "English"
+              ]
+            },
+            "question": "Đây là gì?",
+            "options": [
+              "Complaint",
+              "Alternative",
+              "Refusal"
+            ],
+            "correctAnswer": "Alternative"
+          },
+          {
+            "id": "meet-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My proposal is that Sam tests by two and Rae owns rollback.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Proposal recap có gì?",
+            "options": [
+              "Concern only",
+              "Deadline without an owner",
+              "Owner and deadline"
+            ],
+            "correctAnswer": "Owner and deadline"
+          }
         ]
       },
       "pronunciationCues": [
-        { "id": "meet-cue-final-s", "ipa": "/s/", "articulatoryCue": "Giữ luồng khí ngắn ở cuối tests/checks; đừng thêm nguyên âm sau /s/.", "meaningRisk": "Bỏ /s/ làm người nghe hiểu một test thay vì nhiều tests.", "triggerItemIds": ["meet-pre-2", "meet-train-2", "meet-post-1"] },
-        { "id": "meet-cue-stress", "articulatoryCue": "Nhấn content words mang decision: RISK, ALTERNATIVE, OWNER, DEADLINE.", "meaningRisk": "Trọng âm đều làm concern và decision khó bắt nhanh trong meeting.", "triggerItemIds": ["meet-pre-3", "meet-train-3", "meet-post-2"] }
+        {
+          "id": "meet-cue-final-s",
+          "ipa": "/s/",
+          "articulatoryCue": "Giữ luồng khí ngắn ở cuối tests/checks; đừng thêm nguyên âm sau /s/.",
+          "meaningRisk": "Bỏ /s/ làm người nghe hiểu một test thay vì nhiều tests.",
+          "triggerItemIds": [
+            "meet-pre-2",
+            "meet-train-2",
+            "meet-post-1"
+          ]
+        },
+        {
+          "id": "meet-cue-stress",
+          "articulatoryCue": "Nhấn content words mang decision: RISK, ALTERNATIVE, OWNER, DEADLINE.",
+          "meaningRisk": "Trọng âm đều làm concern và decision khó bắt nhanh trong meeting.",
+          "triggerItemIds": [
+            "meet-pre-3",
+            "meet-train-3",
+            "meet-post-2"
+          ]
+        }
       ],
       "chunks": [
-        { "id": "meet-chunk-ack", "function": "acknowledge", "text": "I see the ___ concern, but I’m concerned about ___ because ___.", "meaning": "Công nhận mục tiêu rồi nêu concern có evidence.", "slots": ["shared goal", "risk", "evidence"], "stressPattern": "CONCERN · CONCERNED", "modelAudio": { "kind": "speech-synthesis", "text": "I see the schedule concern, but I’m concerned about skipping the test because staging covers only twenty percent.", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } },
-        { "id": "meet-chunk-alt", "function": "propose", "text": "Could we ___ and make ___ conditional on ___?", "meaning": "Đưa ra alternative có điều kiện.", "slots": ["action", "decision", "evidence"], "stressPattern": "CONDITIONAL", "modelAudio": { "kind": "speech-synthesis", "text": "Could we run the critical scenario and make launch conditional on the result?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
-        { "id": "meet-chunk-repair", "function": "repair", "text": "Let me rephrase that: ___.", "meaning": "Sửa thông điệp khi người nghe chưa hiểu.", "slots": ["clear decision"], "stressPattern": "REPHRASE", "modelAudio": { "kind": "speech-synthesis", "text": "Let me rephrase that: launch is conditional on the result.", "locale": "en-US", "voiceHints": ["Jenny", "Guy", "English"] } },
-        { "id": "meet-chunk-recap", "function": "recap", "text": "Subject to agreement, ___ could ___ by ___; ___ remains pending confirmation.", "meaning": "Recap action, owner và deadline trong proposal boundary rõ ràng.", "slots": ["action owner", "action", "deadline", "unconfirmed assignment"], "stressPattern": "AGREEMENT · PENDING · CONFIRMATION", "modelAudio": { "kind": "speech-synthesis", "text": "Subject to agreement, Minh could run the test by four; rollback ownership remains pending confirmation.", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } }
+        {
+          "id": "meet-chunk-ack",
+          "function": "acknowledge",
+          "text": "I see the ___ concern, but I’m concerned about ___ because ___.",
+          "meaning": "Công nhận mục tiêu rồi nêu concern có evidence.",
+          "slots": [
+            "shared goal",
+            "risk",
+            "evidence"
+          ],
+          "stressPattern": "CONCERN · CONCERNED",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I see the schedule concern, but I’m concerned about skipping the test because staging covers only twenty percent.",
+            "locale": "en-US",
+            "voiceHints": [
+              "Aria",
+              "Guy",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "meet-chunk-alt",
+          "function": "propose",
+          "text": "Could we ___ and make ___ conditional on ___?",
+          "meaning": "Đưa ra alternative có điều kiện.",
+          "slots": [
+            "action",
+            "decision",
+            "evidence"
+          ],
+          "stressPattern": "CONDITIONAL",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Could we run the critical scenario and make launch conditional on the result?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "Sonia",
+              "Ryan",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "meet-chunk-repair",
+          "function": "repair",
+          "text": "Let me rephrase that: ___.",
+          "meaning": "Sửa thông điệp khi người nghe chưa hiểu.",
+          "slots": [
+            "clear decision"
+          ],
+          "stressPattern": "REPHRASE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Let me rephrase that: launch is conditional on the result.",
+            "locale": "en-US",
+            "voiceHints": [
+              "Jenny",
+              "Guy",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "meet-chunk-recap",
+          "function": "recap",
+          "text": "Subject to agreement, ___ could ___ by ___; ___ remains pending confirmation.",
+          "meaning": "Recap action, owner và deadline trong proposal boundary rõ ràng.",
+          "slots": [
+            "action owner",
+            "action",
+            "deadline",
+            "unconfirmed assignment"
+          ],
+          "stressPattern": "AGREEMENT · PENDING · CONFIRMATION",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Subject to agreement, Minh could run the test by four; rollback ownership remains pending confirmation.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "Sonia",
+              "Ryan",
+              "English"
+            ]
+          }
+        }
       ],
-      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
-      "listenBackChecklist": ["Shared goal và disagreement đều nghe rõ.", "Critical evidence không bị mất âm cuối.", "Alternative và recap có owner/deadline."],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Shared goal và disagreement đều nghe rõ.",
+        "Critical evidence không bị mất âm cuối.",
+        "Alternative và recap có owner/deadline."
+      ],
       "interactionTurns": [
-        { "id": "meet-turn-clarify", "kind": "clarification", "prompt": "What exactly would make the launch safe enough?", "expectedFunction": "clarify the condition and evidence", "audio": { "kind": "speech-synthesis", "text": "What exactly would make the launch safe enough?", "locale": "en-GB", "voiceHints": ["Sonia", "Ryan", "English"] } },
-        { "id": "meet-turn-repair", "kind": "misunderstanding", "prompt": "So you want to cancel the launch completely?", "expectedFunction": "repair the misunderstanding and restate the conditional alternative", "audio": { "kind": "speech-synthesis", "text": "So you want to cancel the launch completely?", "locale": "en-US", "voiceHints": ["Aria", "Guy", "English"] } }
+        {
+          "id": "meet-turn-clarify",
+          "kind": "clarification",
+          "prompt": "What exactly would make the launch safe enough?",
+          "expectedFunction": "clarify the condition and evidence",
+          "audio": {
+            "kind": "speech-synthesis",
+            "text": "What exactly would make the launch safe enough?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "Sonia",
+              "Ryan",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "meet-turn-repair",
+          "kind": "misunderstanding",
+          "prompt": "So you want to cancel the launch completely?",
+          "expectedFunction": "repair the misunderstanding and restate the conditional alternative",
+          "audio": {
+            "kind": "speech-synthesis",
+            "text": "So you want to cancel the launch completely?",
+            "locale": "en-US",
+            "voiceHints": [
+              "Aria",
+              "Guy",
+              "English"
+            ]
+          }
+        }
       ]
     },
-    "outputContract": { "timeLimitSeconds": 90, "requiredElements": ["acknowledgement", "evidence", "conditional alternative", "owner", "deadline", "confirmed versus proposed status"], "targetSeconds": 60 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 60 },
-    "feedbackPriorities": ["tone", "evidence", "closure"],
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "acknowledgement",
+        "evidence",
+        "conditional alternative",
+        "owner",
+        "deadline",
+        "confirmed versus proposed status"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 60
+    },
+    "feedbackPriorities": [
+      "tone",
+      "evidence",
+      "closure"
+    ],
     "rubric": [
-      { "id": "tone", "label": "Constructive tone", "description": "Acknowledges the shared goal before disagreeing." },
-      { "id": "case", "label": "Evidence and conditional alternative", "description": "Uses the current evidence packet to support the concern and offer a practical conditional alternative." },
-      { "id": "recap", "label": "Confirmed versus proposed recap", "description": "Preserves confirmed owner/timing facts and keeps each new assignment explicitly pending group confirmation." }
+      {
+        "id": "tone",
+        "label": "Constructive tone",
+        "description": "Acknowledges the shared goal before disagreeing."
+      },
+      {
+        "id": "case",
+        "label": "Evidence and conditional alternative",
+        "description": "Uses the current evidence packet to support the concern and offer a practical conditional alternative."
+      },
+      {
+        "id": "recap",
+        "label": "Confirmed versus proposed recap",
+        "description": "Preserves confirmed owner/timing facts and keeps each new assignment explicitly pending group confirmation."
+      }
     ]
   },
-  "reviewPolicy": { "intervalDays": [2, 7] }
+  "reviewPolicy": {
+    "intervalDays": [
+      2,
+      7
+    ]
+  }
 }

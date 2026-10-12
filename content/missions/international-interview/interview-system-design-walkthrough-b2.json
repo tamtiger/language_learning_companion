@@ -192,6 +192,67 @@
           "explanation": "Làm rõ, phác thảo, trade-off, kiểm tra."
         }
       ]
+    },
+    {
+      "id": "isdwb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "requirement",
+        "assume",
+        "trade-off",
+        "replicate"
+      ],
+      "exercises": [
+        {
+          "id": "isdwb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "requirement",
+              "value": "yêu cầu"
+            },
+            {
+              "key": "assume",
+              "value": "giả định"
+            },
+            {
+              "key": "trade-off",
+              "value": "sự đánh đổi"
+            },
+            {
+              "key": "replicate",
+              "value": "sao chép dữ liệu"
+            }
+          ],
+          "correctAnswer": [
+            "requirement - yêu cầu",
+            "assume - giả định",
+            "trade-off - sự đánh đổi",
+            "replicate - sao chép dữ liệu"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "isdwb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Let me clarify the ___ first.",
+          "correctAnswer": [
+            "requirements"
+          ],
+          "explanation": "\"requirement\" nghĩa là yêu cầu."
+        },
+        {
+          "id": "isdwb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I ___ ten times more reads than writes.",
+          "correctAnswer": [
+            "assume"
+          ],
+          "explanation": "\"assume\" nghĩa là giả định."
+        }
+      ]
     }
   ],
   "performanceTask": {

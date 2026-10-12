@@ -5,21 +5,124 @@
   "summary": "Read an English runbook and extract executable steps without translation.",
   "cefrLevel": "B1",
   "durationMinutes": 25,
-  "learningObjectives": ["Identify prerequisites, commands, success signals and recovery steps directly in English."],
-  "capabilities": ["technical-reading"],
-  "workflowTags": ["documentation", "runbook"],
+  "learningObjectives": [
+    "Identify prerequisites, commands, success signals and recovery steps directly in English."
+  ],
+  "capabilities": [
+    "technical-reading"
+  ],
+  "workflowTags": [
+    "documentation",
+    "runbook"
+  ],
   "sections": [
-    { "id": "brief", "type": "brief", "title": "Your mission", "body": "A teammate asks you to perform a safe cache migration using only the English runbook." },
-    { "id": "source", "type": "source", "title": "Cache migration runbook", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Before running the migration, confirm that the queue depth is below 100, create a configuration snapshot and enable read-only mode. Run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, verify that the restored cache reports healthy, then disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it." },
+    {
+      "id": "brief",
+      "type": "brief",
+      "title": "Your mission",
+      "body": "A teammate asks you to perform a safe cache migration using only the English runbook."
+    },
+    {
+      "id": "source",
+      "type": "source",
+      "title": "Cache migration runbook",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Before running the migration, confirm that the queue depth is below 100, create a configuration snapshot and enable read-only mode. Run cachectl migrate --target v2. A successful migration prints MIGRATION_COMPLETE and the new cache reports healthy within two minutes. If health remains degraded, run cachectl rollback --snapshot latest, verify that the restored cache reports healthy, then disable read-only mode and notify the on-call engineer. Do not retry migration until the incident owner approves it."
+    },
     {
       "id": "runbook-language",
       "type": "language-support",
       "title": "Reusable runbook language",
-      "vocabulary": [],
+      "vocabulary": [
+        {
+          "word": "prerequisite",
+          "ipa": "/ˌpriːˈrek.wə.zɪt/",
+          "definition": "điều kiện tiên quyết",
+          "technicalMeaning": "Việc phải làm hoặc có trước khi bắt đầu.",
+          "collocations": [
+            "a prerequisite for",
+            "check the prerequisites"
+          ],
+          "example": "A backup is a prerequisite for the migration.",
+          "commonMistake": "Nói a prerequisite for, không nói prerequisite of."
+        },
+        {
+          "word": "runbook",
+          "ipa": "/ˈrʌn.bʊk/",
+          "definition": "tài liệu hướng dẫn vận hành",
+          "technicalMeaning": "Các bước chuẩn để xử lý một việc vận hành.",
+          "collocations": [
+            "follow the runbook",
+            "update the runbook"
+          ],
+          "example": "Follow the runbook step by step.",
+          "commonMistake": "Viết runbook thành một từ."
+        },
+        {
+          "word": "threshold",
+          "ipa": "/ˈθreʃ.hoʊld/",
+          "definition": "ngưỡng",
+          "technicalMeaning": "Giá trị mà khi vượt qua thì cần hành động.",
+          "collocations": [
+            "an error threshold",
+            "exceed the threshold"
+          ],
+          "example": "Stop if errors exceed the threshold.",
+          "commonMistake": "Đọc /θ/ bằng cách đặt lưỡi giữa răng."
+        },
+        {
+          "word": "degraded",
+          "ipa": "/dɪˈɡreɪ.dɪd/",
+          "definition": "suy giảm chất lượng",
+          "technicalMeaning": "Hệ thống vẫn chạy nhưng kém hơn bình thường.",
+          "collocations": [
+            "degraded performance",
+            "remain degraded"
+          ],
+          "example": "The service stayed degraded for ten minutes.",
+          "commonMistake": "Nhấn âm tiết thứ hai: de-GRAD-ed."
+        },
+        {
+          "word": "verify",
+          "ipa": "/ˈver.ə.faɪ/",
+          "definition": "xác nhận",
+          "technicalMeaning": "Kiểm tra để chắc kết quả đúng.",
+          "collocations": [
+            "verify the result",
+            "verify before"
+          ],
+          "example": "Verify the backup before you start.",
+          "commonMistake": "Nói verify + danh từ, không nói verify for."
+        }
+      ],
       "expressions": [
-        { "phrase": "Before running ___, confirm ___, save ___ and enable ___.", "meaning": "Gom mọi prerequisite cần hoàn tất trước command.", "tone": "neutral", "example": "Before running the migration, confirm queue depth, save a snapshot and enable read-only mode.", "alternatives": ["Prerequisites: ___, ___ and ___."] },
-        { "phrase": "Success requires ___ and ___ within ___.", "meaning": "Nêu đầy đủ các tín hiệu thành công cùng time limit.", "tone": "neutral", "example": "Success requires MIGRATION_COMPLETE and healthy status within two minutes.", "alternatives": ["Verify both ___ and ___ before continuing."] },
-        { "phrase": "If ___ remains degraded, roll back to ___; verify ___ before disabling ___.", "meaning": "Giữ đúng thứ tự recovery trước khi mở lại write traffic.", "tone": "formal", "example": "If health remains degraded, roll back to the snapshot; verify the restored cache is healthy before disabling read-only mode.", "alternatives": ["On failure, restore ___ and confirm ___ before ___."] }
+        {
+          "phrase": "Before running ___, confirm ___, save ___ and enable ___.",
+          "meaning": "Gom mọi prerequisite cần hoàn tất trước command.",
+          "tone": "neutral",
+          "example": "Before running the migration, confirm queue depth, save a snapshot and enable read-only mode.",
+          "alternatives": [
+            "Prerequisites: ___, ___ and ___."
+          ]
+        },
+        {
+          "phrase": "Success requires ___ and ___ within ___.",
+          "meaning": "Nêu đầy đủ các tín hiệu thành công cùng time limit.",
+          "tone": "neutral",
+          "example": "Success requires MIGRATION_COMPLETE and healthy status within two minutes.",
+          "alternatives": [
+            "Verify both ___ and ___ before continuing."
+          ]
+        },
+        {
+          "phrase": "If ___ remains degraded, roll back to ___; verify ___ before disabling ___.",
+          "meaning": "Giữ đúng thứ tự recovery trước khi mở lại write traffic.",
+          "tone": "formal",
+          "example": "If health remains degraded, roll back to the snapshot; verify the restored cache is healthy before disabling read-only mode.",
+          "alternatives": [
+            "On failure, restore ___ and confirm ___ before ___."
+          ]
+        }
       ]
     },
     {
@@ -27,9 +130,140 @@
       "type": "auto-check",
       "title": "Confirm the safety sequence",
       "exercises": [
-        { "id": "runbook-prerequisite", "type": "choice", "question": "What must happen before the migration command?", "options": ["Confirm queue depth below 100, create a snapshot and enable read-only mode.", "Create a snapshot, run the migration and enable read-only mode afterward to protect the cache.", "Notify the incident owner and retry until the cache is healthy."], "correctAnswer": ["Confirm queue depth below 100, create a snapshot and enable read-only mode."], "explanation": "All three prerequisites must be complete before cachectl migrate runs." },
-        { "id": "runbook-success", "type": "choice", "question": "Which evidence proves that the migration succeeded?", "options": ["MIGRATION_COMPLETE plus healthy cache status within two minutes.", "The command starts without errors and queue depth remains below 100 during the run.", "Read-only mode is enabled and the on-call engineer is notified."], "correctAnswer": ["MIGRATION_COMPLETE plus healthy cache status within two minutes."], "explanation": "The runbook requires both the completion message and healthy status inside the stated time window." },
-        { "id": "runbook-recovery-order", "type": "ordering", "question": "Put the degraded-health recovery steps in the documented safe order.", "options": ["Disable read-only mode.", "Notify the on-call engineer and wait for approval before retrying.", "Run cachectl rollback --snapshot latest.", "Verify that the restored cache reports healthy."], "correctAnswer": ["Run cachectl rollback --snapshot latest.", "Verify that the restored cache reports healthy.", "Disable read-only mode.", "Notify the on-call engineer and wait for approval before retrying."], "explanation": "Health is verified after rollback and before read-only mode is disabled; notification and approval protect any later retry." }
+        {
+          "id": "runbook-prerequisite",
+          "type": "choice",
+          "question": "What must happen before the migration command?",
+          "options": [
+            "Confirm queue depth below 100, create a snapshot and enable read-only mode.",
+            "Create a snapshot, run the migration and enable read-only mode afterward to protect the cache.",
+            "Notify the incident owner and retry until the cache is healthy."
+          ],
+          "correctAnswer": [
+            "Confirm queue depth below 100, create a snapshot and enable read-only mode."
+          ],
+          "explanation": "All three prerequisites must be complete before cachectl migrate runs."
+        },
+        {
+          "id": "runbook-success",
+          "type": "choice",
+          "question": "Which evidence proves that the migration succeeded?",
+          "options": [
+            "MIGRATION_COMPLETE plus healthy cache status within two minutes.",
+            "The command starts without errors and queue depth remains below 100 during the run.",
+            "Read-only mode is enabled and the on-call engineer is notified."
+          ],
+          "correctAnswer": [
+            "MIGRATION_COMPLETE plus healthy cache status within two minutes."
+          ],
+          "explanation": "The runbook requires both the completion message and healthy status inside the stated time window."
+        },
+        {
+          "id": "runbook-recovery-order",
+          "type": "ordering",
+          "question": "Put the degraded-health recovery steps in the documented safe order.",
+          "options": [
+            "Disable read-only mode.",
+            "Notify the on-call engineer and wait for approval before retrying.",
+            "Run cachectl rollback --snapshot latest.",
+            "Verify that the restored cache reports healthy."
+          ],
+          "correctAnswer": [
+            "Run cachectl rollback --snapshot latest.",
+            "Verify that the restored cache reports healthy.",
+            "Disable read-only mode.",
+            "Notify the on-call engineer and wait for approval before retrying."
+          ],
+          "explanation": "Health is verified after rollback and before read-only mode is disabled; notification and approval protect any later retry."
+        },
+        {
+          "id": "tdab-fix",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"Before to run the migration, confirm the backup.\" dùng sai dạng động từ. Điền dạng đúng thay cho \"to run\".",
+          "correctAnswer": [
+            "running"
+          ],
+          "explanation": "Before + V-ing."
+        },
+        {
+          "id": "tdab-order",
+          "type": "ordering",
+          "question": "Sắp xếp các bước thực hiện một runbook.",
+          "options": [
+            "verify the result",
+            "run the migration",
+            "confirm the backup",
+            "enable the new setting"
+          ],
+          "correctAnswer": [
+            "confirm the backup",
+            "run the migration",
+            "enable the new setting",
+            "verify the result"
+          ],
+          "explanation": "Xác nhận sao lưu, chạy migration, bật cấu hình, kiểm tra."
+        }
+      ]
+    },
+    {
+      "id": "tdab-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "prerequisite",
+        "runbook",
+        "threshold",
+        "degraded"
+      ],
+      "exercises": [
+        {
+          "id": "tdab-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "prerequisite",
+              "value": "điều kiện tiên quyết"
+            },
+            {
+              "key": "runbook",
+              "value": "tài liệu hướng dẫn vận hành"
+            },
+            {
+              "key": "threshold",
+              "value": "ngưỡng"
+            },
+            {
+              "key": "degraded",
+              "value": "suy giảm chất lượng"
+            }
+          ],
+          "correctAnswer": [
+            "prerequisite - điều kiện tiên quyết",
+            "runbook - tài liệu hướng dẫn vận hành",
+            "threshold - ngưỡng",
+            "degraded - suy giảm chất lượng"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "tdab-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: A backup is a ___ for the migration.",
+          "correctAnswer": [
+            "prerequisite"
+          ],
+          "explanation": "\"prerequisite\" nghĩa là điều kiện tiên quyết."
+        },
+        {
+          "id": "tdab-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Follow the ___ step by step.",
+          "correctAnswer": [
+            "runbook"
+          ],
+          "explanation": "\"runbook\" nghĩa là tài liệu hướng dẫn vận hành."
+        }
       ]
     }
   ],
@@ -108,21 +342,93 @@
         "content": "Synthetic training artifact — non-production. Confirm the error budget is green and save the current flag allocation. Run flagctl set checkout-v2 --percent 10. Success requires error_rate below 1% for fifteen minutes. If the threshold is exceeded, restore the saved allocation and notify the release owner."
       },
       "extractionItems": [
-        { "id": "flag-prerequisite", "question": "What must be true before rollout?", "options": ["The flag is already at 100% for all users", "The error budget is green", "The threshold is exceeded"], "correctAnswer": "The error budget is green", "feedback": "The prerequisite appears before the command." },
-        { "id": "flag-success", "question": "What proves success?", "options": ["The command exits immediately without printing any errors", "Error rate falls below 10% in the first minute", "Error rate stays below 1% for fifteen minutes"], "correctAnswer": "Error rate stays below 1% for fifteen minutes", "feedback": "A command exit is not the operational success signal." },
-        { "id": "flag-recovery", "question": "What is the recovery action?", "options": ["Increase traffic to 50% and retry the rollout", "Confirm the error budget is green and save the current flag allocation", "Restore the saved allocation and notify the release owner"], "correctAnswer": "Restore the saved allocation and notify the release owner", "feedback": "Recovery combines rollback and escalation." }
+        {
+          "id": "flag-prerequisite",
+          "question": "What must be true before rollout?",
+          "options": [
+            "The flag is already at 100% for all users",
+            "The error budget is green",
+            "The threshold is exceeded"
+          ],
+          "correctAnswer": "The error budget is green",
+          "feedback": "The prerequisite appears before the command."
+        },
+        {
+          "id": "flag-success",
+          "question": "What proves success?",
+          "options": [
+            "The command exits immediately without printing any errors",
+            "Error rate falls below 10% in the first minute",
+            "Error rate stays below 1% for fifteen minutes"
+          ],
+          "correctAnswer": "Error rate stays below 1% for fifteen minutes",
+          "feedback": "A command exit is not the operational success signal."
+        },
+        {
+          "id": "flag-recovery",
+          "question": "What is the recovery action?",
+          "options": [
+            "Increase traffic to 50% and retry the rollout",
+            "Confirm the error budget is green and save the current flag allocation",
+            "Restore the saved allocation and notify the release owner"
+          ],
+          "correctAnswer": "Restore the saved allocation and notify the release owner",
+          "feedback": "Recovery combines rollback and escalation."
+        }
       ],
       "applicationPrompt": "Explain the displayed feature-flag rollout as prerequisite → action → success signal → recovery.",
-      "applicationChecklist": ["I preserved the safety sequence.", "I named a measurable success signal.", "I included rollback and owner notification."]
+      "applicationChecklist": [
+        "I preserved the safety sequence.",
+        "I named a measurable success signal.",
+        "I included rollback and owner notification."
+      ]
     },
-    "outputContract": { "timeLimitSeconds": 240, "requiredElements": ["prerequisite", "command", "success signal", "recovery"], "minWords": 45, "maxWords": 100 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
-    "feedbackPriorities": ["Accuracy", "Safety sequence", "Paraphrasing"],
+    "outputContract": {
+      "timeLimitSeconds": 240,
+      "requiredElements": [
+        "prerequisite",
+        "command",
+        "success signal",
+        "recovery"
+      ],
+      "minWords": 45,
+      "maxWords": 100
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 90
+    },
+    "feedbackPriorities": [
+      "Accuracy",
+      "Safety sequence",
+      "Paraphrasing"
+    ],
     "rubric": [
-      { "id": "sequence", "label": "Correct sequence", "description": "Keeps prerequisite, action, verification and recovery in order." },
-      { "id": "safety", "label": "Safety conditions", "description": "Includes the prerequisite, success condition and recovery or escalation supplied by the displayed procedure." },
-      { "id": "independence", "label": "English processing", "description": "Paraphrases actions without a Vietnamese translation step." }
+      {
+        "id": "sequence",
+        "label": "Correct sequence",
+        "description": "Keeps prerequisite, action, verification and recovery in order."
+      },
+      {
+        "id": "safety",
+        "label": "Safety conditions",
+        "description": "Includes the prerequisite, success condition and recovery or escalation supplied by the displayed procedure."
+      },
+      {
+        "id": "independence",
+        "label": "English processing",
+        "description": "Paraphrases actions without a Vietnamese translation step."
+      }
     ]
   },
-  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7
+    ]
+  }
 }

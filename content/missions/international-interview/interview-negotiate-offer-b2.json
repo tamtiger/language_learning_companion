@@ -195,6 +195,67 @@
           "explanation": "Cảm ơn, nêu mong muốn, đề xuất linh hoạt, chốt bước tiếp."
         }
       ]
+    },
+    {
+      "id": "inob-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "compensation",
+        "counteroffer",
+        "flexible",
+        "benchmark"
+      ],
+      "exercises": [
+        {
+          "id": "inob-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "compensation",
+              "value": "tổng thu nhập và quyền lợi"
+            },
+            {
+              "key": "counteroffer",
+              "value": "đề xuất ngược lại"
+            },
+            {
+              "key": "flexible",
+              "value": "linh hoạt"
+            },
+            {
+              "key": "benchmark",
+              "value": "mức tham chiếu"
+            }
+          ],
+          "correctAnswer": [
+            "compensation - tổng thu nhập và quyền lợi",
+            "counteroffer - đề xuất ngược lại",
+            "flexible - linh hoạt",
+            "benchmark - mức tham chiếu"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "inob-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I would like to discuss the ___.",
+          "correctAnswer": [
+            "compensation"
+          ],
+          "explanation": "\"compensation\" nghĩa là tổng thu nhập và quyền lợi."
+        },
+        {
+          "id": "inob-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I would like to make a ___.",
+          "correctAnswer": [
+            "counteroffer"
+          ],
+          "explanation": "\"counteroffer\" nghĩa là đề xuất ngược lại."
+        }
+      ]
     }
   ],
   "performanceTask": {

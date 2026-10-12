@@ -121,22 +121,24 @@ perception pretest → training có feedback → posttest
 
 ## Nội dung hiện có
 
-Có 41 capability mission v3. Mỗi mục tiêu có một bài A2 lối vào rồi các bài B1/B2; hai mục tiêu phỏng vấn và công việc có thêm lộ trình riêng, cùng 12 bài luyện nghe hội thoại và đọc tài liệu dài (viết biên bản, tóm tắt sau khi nghe hoặc đọc):
+Có 46 capability mission v3. Mỗi mục tiêu có một bài A2 lối vào rồi các bài B1/B2; hai mục tiêu phỏng vấn và công việc có thêm lộ trình riêng, cùng 12 bài luyện nghe hội thoại và đọc tài liệu dài (viết biên bản, tóm tắt sau khi nghe hoặc đọc):
 
 | Capability | Hai mission | Mode |
 |---|---|---|
 | Giao tiếp công việc | Ask a teammate for help (A2); actionable issue update; clarification request; code review comment (written). Nói: give and receive feedback, 1:1, small talk, performance review | Written và Spoken |
 | Đọc tài liệu kỹ thuật | Read a README and write the steps (A2); documentation to actions; log diagnosis | Written |
 | Họp quốc tế | Join a meeting and ask to repeat (A2); Daily Standup; disagree and recap | Spoken |
-| Giải thích kỹ thuật | Explain what a service does (A2); technical trade-off; architecture walkthrough | Spoken |
+| Giải thích kỹ thuật | Explain what a service does (A2); explain a bug to a colleague; technical trade-off; architecture walkthrough. Viết: short design note, architecture decision record. Nghe: design review | Spoken và Written |
 | Phỏng vấn quốc tế | Describe your job (A2); tell me about yourself; behavioral story bank; system design walkthrough; coding think-aloud; ask the interviewer; negotiate offer; technical decision; behavioral ownership | Spoken |
-| Học công nghệ bằng tiếng Anh | Learn a tool from short docs (A2); API learning plan; troubleshooting from docs | Written |
+| Học công nghệ bằng tiếng Anh | Learn a tool from short docs (A2); learn from an error message; API learning plan; troubleshooting from docs. Nói: explain what you learned. Nghe: tech talk. Đọc: CI tutorial | Written và Spoken |
+
+Mỗi mission có 8 đến 15 từ hoặc collocation chuyên ngành kèm phần ôn từ vựng (ghép từ-nghĩa, điền từ), và ít nhất 30% bài tự kiểm không phải trắc nghiệm. Mỗi capability có ít nhất sáu mission B1/B2 (có cả B1 và B2).
 
 Người mới mở Today sẽ thấy bài A2 của từng kỹ năng trước; Thư viện đánh dấu "Lối vào A2", gợi ý bài tiếp theo và có nút "Bắt đầu với A2". Bài A2 chỉ còn được đề xuất mới khi bạn chưa học bài cao hơn cùng kỹ năng.
 
-Ngoài 41 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
+Ngoài 46 mission trên, sáu pronunciation lesson knowledge/reference vẫn chạy được
 và chỉ hoàn thành khi mọi auto-check đều đúng; kết quả quiz không đánh giá phát âm
-khi nói. Taxonomy authoring đặt 41 mission v3 tại
+khi nói. Taxonomy authoring đặt 46 mission v3 tại
 `content/missions/<primary-capability>/<lesson-id>.json` và 6 pronunciation lesson
 v1 tại `content/reference/pronunciation/<lesson-id>.json`. Cấu trúc thư mục giúp
 tổ chức biên soạn, không quyết định semantics hoặc runtime behavior; content

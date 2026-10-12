@@ -195,6 +195,67 @@
           "explanation": "Quan sát, lý do, đề xuất, lời mời giúp."
         }
       ]
+    },
+    {
+      "id": "wcrcb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "nit",
+        "edge case",
+        "suggest",
+        "readability"
+      ],
+      "exercises": [
+        {
+          "id": "wcrcb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "nit",
+              "value": "góp ý nhỏ"
+            },
+            {
+              "key": "edge case",
+              "value": "trường hợp biên"
+            },
+            {
+              "key": "suggest",
+              "value": "đề xuất"
+            },
+            {
+              "key": "readability",
+              "value": "độ dễ đọc"
+            }
+          ],
+          "correctAnswer": [
+            "nit - góp ý nhỏ",
+            "edge case - trường hợp biên",
+            "suggest - đề xuất",
+            "readability - độ dễ đọc"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wcrcb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: ___: the variable name could be clearer.",
+          "correctAnswer": [
+            "Nit"
+          ],
+          "explanation": "\"nit\" nghĩa là góp ý nhỏ."
+        },
+        {
+          "id": "wcrcb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: This misses the ___ of an empty code.",
+          "correctAnswer": [
+            "edge case"
+          ],
+          "explanation": "\"edge case\" nghĩa là trường hợp biên."
+        }
+      ]
     }
   ],
   "performanceTask": {

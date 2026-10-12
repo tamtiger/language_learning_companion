@@ -312,6 +312,67 @@
           "explanation": "Log, stack trace, tách sự thật khỏi phỏng đoán, bước kiểm tra."
         }
       ]
+    },
+    {
+      "id": "rsttb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "stack trace",
+        "timeout",
+        "observed",
+        "correlate"
+      ],
+      "exercises": [
+        {
+          "id": "rsttb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "stack trace",
+              "value": "dấu vết ngăn xếp lỗi"
+            },
+            {
+              "key": "timeout",
+              "value": "quá thời gian chờ"
+            },
+            {
+              "key": "observed",
+              "value": "đã quan sát được"
+            },
+            {
+              "key": "correlate",
+              "value": "có liên quan về thời gian"
+            }
+          ],
+          "correctAnswer": [
+            "stack trace - dấu vết ngăn xếp lỗi",
+            "timeout - quá thời gian chờ",
+            "observed - đã quan sát được",
+            "correlate - có liên quan về thời gian"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rsttb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ shows where the error was raised.",
+          "correctAnswer": [
+            "stack trace"
+          ],
+          "explanation": "\"stack trace\" nghĩa là dấu vết ngăn xếp lỗi."
+        },
+        {
+          "id": "rsttb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We ___ that weekly exports are fast.",
+          "correctAnswer": [
+            "observed"
+          ],
+          "explanation": "\"observed\" nghĩa là đã quan sát được."
+        }
+      ]
     }
   ],
   "performanceTask": {

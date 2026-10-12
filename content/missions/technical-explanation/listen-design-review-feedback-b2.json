@@ -338,6 +338,67 @@
           "explanation": "Đề xuất, mối lo, quyết định, câu hỏi mở."
         }
       ]
+    },
+    {
+      "id": "ldrfb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "concern",
+        "objection",
+        "condition",
+        "allow list"
+      ],
+      "exercises": [
+        {
+          "id": "ldrfb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "concern",
+              "value": "mối lo ngại"
+            },
+            {
+              "key": "objection",
+              "value": "sự phản đối"
+            },
+            {
+              "key": "condition",
+              "value": "điều kiện"
+            },
+            {
+              "key": "allow list",
+              "value": "danh sách cho phép"
+            }
+          ],
+          "correctAnswer": [
+            "concern - mối lo ngại",
+            "objection - sự phản đối",
+            "condition - điều kiện",
+            "allow list - danh sách cho phép"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "ldrfb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Marcus raised a ___ about operations.",
+          "correctAnswer": [
+            "concern"
+          ],
+          "explanation": "\"concern\" nghĩa là mối lo ngại."
+        },
+        {
+          "id": "ldrfb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: There was no ___ to the direction.",
+          "correctAnswer": [
+            "objection"
+          ],
+          "explanation": "\"objection\" nghĩa là sự phản đối."
+        }
+      ]
     }
   ],
   "performanceTask": {

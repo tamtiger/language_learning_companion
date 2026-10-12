@@ -307,6 +307,67 @@
           "explanation": "Tiêu đề, các bước, mong đợi và thực tế, môi trường."
         }
       ]
+    },
+    {
+      "id": "rgitb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "reproduce",
+        "workaround",
+        "expected",
+        "environment"
+      ],
+      "exercises": [
+        {
+          "id": "rgitb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "reproduce",
+              "value": "tái hiện lỗi"
+            },
+            {
+              "key": "workaround",
+              "value": "cách tạm thời để tránh lỗi"
+            },
+            {
+              "key": "expected",
+              "value": "kết quả mong đợi"
+            },
+            {
+              "key": "environment",
+              "value": "môi trường"
+            }
+          ],
+          "correctAnswer": [
+            "reproduce - tái hiện lỗi",
+            "workaround - cách tạm thời để tránh lỗi",
+            "expected - kết quả mong đợi",
+            "environment - môi trường"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rgitb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: I can ___ this bug.",
+          "correctAnswer": [
+            "reproduce"
+          ],
+          "explanation": "\"reproduce\" nghĩa là tái hiện lỗi."
+        },
+        {
+          "id": "rgitb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: There is a ___ for this bug.",
+          "correctAnswer": [
+            "workaround"
+          ],
+          "explanation": "\"workaround\" nghĩa là cách tạm thời để tránh lỗi."
+        }
+      ]
     }
   ],
   "performanceTask": {

@@ -9,7 +9,7 @@ import {
   type DurableCapabilityPhase
 } from '@/domain/progress/progress'
 import { CapabilityTask } from '@/features/practice/CapabilityTask'
-import { ListenBackChecklist } from '@/features/practice/ListenBackChecklist'
+import { ListenBackChecklist } from '@/features/practice/ListenBackChecklist'
 import { isBlocked } from '../../helpers/aria'
 import { rateAllMet } from '../../helpers/flow'
 
@@ -335,7 +335,7 @@ describe('CapabilityTask session evidence', () => {
       await user.click(screen.getByLabelText(item.correctAnswer))
     }
     await user.click(screen.getByRole('button', { name: /sang explain/i }))
-    await user.type(screen.getByRole('textbox'), 'A safe sequence with a measurable signal and rollback owner.')
+    await user.type(screen.getByLabelText(/bản giải thích tạm thời/i), 'A safe sequence with a measurable signal and rollback owner.')
     for (const checkbox of screen.getAllByRole('checkbox')) await user.click(checkbox)
     await user.click(screen.getByRole('button', { name: /hoàn thành reading ladder/i }))
 

@@ -305,6 +305,67 @@
           "explanation": "Lên 2.8.0, cài 3.0.0, chạy codemod."
         }
       ]
+    },
+    {
+      "id": "rcbcb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "breaking change",
+        "deprecated",
+        "codemod",
+        "migrate"
+      ],
+      "exercises": [
+        {
+          "id": "rcbcb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "breaking change",
+              "value": "thay đổi gây lỗi khi nâng cấp"
+            },
+            {
+              "key": "deprecated",
+              "value": "đã bị khuyến cáo bỏ"
+            },
+            {
+              "key": "codemod",
+              "value": "công cụ tự sửa code hàng loạt"
+            },
+            {
+              "key": "migrate",
+              "value": "chuyển sang phiên bản mới"
+            }
+          ],
+          "correctAnswer": [
+            "breaking change - thay đổi gây lỗi khi nâng cấp",
+            "deprecated - đã bị khuyến cáo bỏ",
+            "codemod - công cụ tự sửa code hàng loạt",
+            "migrate - chuyển sang phiên bản mới"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rcbcb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Version 3 has two ___.",
+          "correctAnswer": [
+            "breaking changes"
+          ],
+          "explanation": "\"breaking change\" nghĩa là thay đổi gây lỗi khi nâng cấp."
+        },
+        {
+          "id": "rcbcb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The old submit style is ___.",
+          "correctAnswer": [
+            "deprecated"
+          ],
+          "explanation": "\"deprecated\" nghĩa là đã bị khuyến cáo bỏ."
+        }
+      ]
     }
   ],
   "performanceTask": {

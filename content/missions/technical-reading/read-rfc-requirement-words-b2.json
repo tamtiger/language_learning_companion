@@ -293,6 +293,67 @@
           "explanation": "MUST bắt buộc, SHOULD khuyến nghị, MAY tùy chọn."
         }
       ]
+    },
+    {
+      "id": "rrrwb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "mandatory",
+        "idempotent",
+        "backoff",
+        "compatible"
+      ],
+      "exercises": [
+        {
+          "id": "rrrwb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "mandatory",
+              "value": "bắt buộc"
+            },
+            {
+              "key": "idempotent",
+              "value": "có tính lũy đẳng"
+            },
+            {
+              "key": "backoff",
+              "value": "chờ lâu dần giữa các lần thử"
+            },
+            {
+              "key": "compatible",
+              "value": "tương thích"
+            }
+          ],
+          "correctAnswer": [
+            "mandatory - bắt buộc",
+            "idempotent - có tính lũy đẳng",
+            "backoff - chờ lâu dần giữa các lần thử",
+            "compatible - tương thích"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "rrrwb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Sending a key is ___.",
+          "correctAnswer": [
+            "mandatory"
+          ],
+          "explanation": "\"mandatory\" nghĩa là bắt buộc."
+        },
+        {
+          "id": "rrrwb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The server treats repeated requests as ___.",
+          "correctAnswer": [
+            "idempotent"
+          ],
+          "explanation": "\"idempotent\" nghĩa là có tính lũy đẳng."
+        }
+      ]
     }
   ],
   "performanceTask": {

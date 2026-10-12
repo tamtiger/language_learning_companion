@@ -10,8 +10,15 @@
     "Separate observed impact from an unconfirmed cause.",
     "Write an actionable handoff update with owner, next step and request."
   ],
-  "capabilities": ["workplace-communication"],
-  "workflowTags": ["issue-update", "incident", "handoff", "async-communication"],
+  "capabilities": [
+    "workplace-communication"
+  ],
+  "workflowTags": [
+    "issue-update",
+    "incident",
+    "handoff",
+    "async-communication"
+  ],
   "sections": [
     {
       "id": "signal-workflow",
@@ -23,13 +30,114 @@
       "id": "issue-update-language",
       "type": "language-support",
       "title": "Reusable incident-update language",
-      "vocabulary": [],
+      "vocabulary": [
+        {
+          "word": "rollout",
+          "ipa": "/ˈroʊl.aʊt/",
+          "definition": "đợt triển khai",
+          "technicalMeaning": "Việc đưa thay đổi ra cho người dùng từng bước.",
+          "collocations": [
+            "a gradual rollout",
+            "pause the rollout"
+          ],
+          "example": "We paused the rollout at ten percent.",
+          "commonMistake": "Danh từ viết rollout, động từ viết roll out."
+        },
+        {
+          "word": "latency",
+          "ipa": "/ˈleɪ.tən.si/",
+          "definition": "độ trễ",
+          "technicalMeaning": "Thời gian chờ của yêu cầu.",
+          "collocations": [
+            "high latency",
+            "latency increased"
+          ],
+          "example": "Latency increased after the release.",
+          "commonMistake": "Latency không đếm được."
+        },
+        {
+          "word": "status page",
+          "ipa": "/ˈsteɪ.t̬əs peɪdʒ/",
+          "definition": "trang trạng thái",
+          "technicalMeaning": "Trang công khai báo tình trạng dịch vụ.",
+          "collocations": [
+            "update the status page",
+            "post on the status page"
+          ],
+          "example": "We posted an update on the status page.",
+          "commonMistake": "Viết status page thành hai từ."
+        },
+        {
+          "word": "recovery",
+          "ipa": "/rɪˈkʌv.ɚ.i/",
+          "definition": "sự phục hồi",
+          "technicalMeaning": "Dịch vụ trở lại hoạt động bình thường.",
+          "collocations": [
+            "full recovery",
+            "recovery time"
+          ],
+          "example": "Recovery took twelve minutes.",
+          "commonMistake": "Nhấn âm tiết thứ hai: re-COV-er-y."
+        },
+        {
+          "word": "affected",
+          "ipa": "/əˈfek.tɪd/",
+          "definition": "bị ảnh hưởng",
+          "technicalMeaning": "Người dùng hoặc hệ thống chịu tác động của sự cố.",
+          "collocations": [
+            "affected users",
+            "be affected by"
+          ],
+          "example": "About ten percent of users were affected.",
+          "commonMistake": "Nói be affected by + nguyên nhân."
+        }
+      ],
       "expressions": [
-        { "phrase": "At ___, ___ rose from ___ to ___.", "meaning": "Nêu fact có timestamp và phân biệt giá trị ban đầu với giá trị mới.", "tone": "neutral", "example": "At 22:08, the checkout 503 rate rose from 0.7% to 31%.", "alternatives": ["At ___, monitoring showed ___."] },
-        { "phrase": "This is affecting ___ by ___.", "meaning": "Nối technical signal với impact hữu ích cho audience.", "tone": "neutral", "example": "This is affecting checkout by reducing the success rate to 68%.", "alternatives": ["The current impact is ___."] },
-        { "phrase": "We are checking whether ___; this is not confirmed.", "meaning": "Nêu hypothesis nhưng giữ ranh giới bằng chứng.", "tone": "neutral", "example": "We are checking whether the timeout change exhausted the pool; this is not confirmed.", "alternatives": ["The strongest lead is ___, but the cause is not confirmed."] },
-        { "phrase": "___ owns ___ and is currently ___.", "meaning": "Nêu owner cùng action đang diễn ra.", "tone": "neutral", "example": "Lan owns diagnosis and is currently comparing pool metrics with the release diff.", "alternatives": ["Current owner: ___; next action: ___."] },
-        { "phrase": "___, please decide by ___ whether ___.", "meaning": "Đưa ra một request có owner, decision và deadline.", "tone": "formal", "example": "Platform lead, please decide by 22:30 whether to assign rollback access.", "alternatives": ["Could ___ confirm by ___ whether ___?"] }
+        {
+          "phrase": "At ___, ___ rose from ___ to ___.",
+          "meaning": "Nêu fact có timestamp và phân biệt giá trị ban đầu với giá trị mới.",
+          "tone": "neutral",
+          "example": "At 22:08, the checkout 503 rate rose from 0.7% to 31%.",
+          "alternatives": [
+            "At ___, monitoring showed ___."
+          ]
+        },
+        {
+          "phrase": "This is affecting ___ by ___.",
+          "meaning": "Nối technical signal với impact hữu ích cho audience.",
+          "tone": "neutral",
+          "example": "This is affecting checkout by reducing the success rate to 68%.",
+          "alternatives": [
+            "The current impact is ___."
+          ]
+        },
+        {
+          "phrase": "We are checking whether ___; this is not confirmed.",
+          "meaning": "Nêu hypothesis nhưng giữ ranh giới bằng chứng.",
+          "tone": "neutral",
+          "example": "We are checking whether the timeout change exhausted the pool; this is not confirmed.",
+          "alternatives": [
+            "The strongest lead is ___, but the cause is not confirmed."
+          ]
+        },
+        {
+          "phrase": "___ owns ___ and is currently ___.",
+          "meaning": "Nêu owner cùng action đang diễn ra.",
+          "tone": "neutral",
+          "example": "Lan owns diagnosis and is currently comparing pool metrics with the release diff.",
+          "alternatives": [
+            "Current owner: ___; next action: ___."
+          ]
+        },
+        {
+          "phrase": "___, please decide by ___ whether ___.",
+          "meaning": "Đưa ra một request có owner, decision và deadline.",
+          "tone": "formal",
+          "example": "Platform lead, please decide by 22:30 whether to assign rollback access.",
+          "alternatives": [
+            "Could ___ confirm by ___ whether ___?"
+          ]
+        }
       ]
     },
     {
@@ -53,7 +161,9 @@
             "Push delivery fell to 72% because the new batch size exhausted worker memory; Jo is now confirming the fix.",
             "Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."
           ],
-          "correctAnswer": ["Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."],
+          "correctAnswer": [
+            "Push delivery fell to 72% after release 5.8; Jo is checking whether the new batch size increased memory use."
+          ],
           "explanation": "The timing and delivery rate are observed; the memory explanation remains a hypothesis being checked."
         },
         {
@@ -65,7 +175,9 @@
             "Could everyone keep an eye on the dashboard and tell us if anything else looks wrong later?",
             "Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."
           ],
-          "correctAnswer": ["Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."],
+          "correctAnswer": [
+            "Release lead, please decide by 14:25 whether to pause the rollout while Jo compares memory."
+          ],
           "explanation": "It names the decision owner, requested decision and useful deadline."
         },
         {
@@ -77,8 +189,98 @@
             "Push delivery fell after release 5.8, so the new batch size caused delayed password resets.",
             "Push delivery is at 72%; the team is investigating, but customer impact is not yet known."
           ],
-          "correctAnswer": ["Push delivery is at 72%, so password-reset notifications may arrive late."],
+          "correctAnswer": [
+            "Push delivery is at 72%, so password-reset notifications may arrive late."
+          ],
           "explanation": "It connects the observed delivery rate to the supplied customer impact without turning the batch-size hypothesis into a cause or hiding known impact."
+        },
+        {
+          "id": "wiub-fix",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"Push delivery fell on 72%.\" dùng sai một giới từ. Điền giới từ đúng thay cho \"on\".",
+          "correctAnswer": [
+            "to"
+          ],
+          "explanation": "Fell to + giá trị mới."
+        },
+        {
+          "id": "wiub-order",
+          "type": "ordering",
+          "question": "Sắp xếp các phần của một cập nhật sự cố.",
+          "options": [
+            "the next update is at 15:30",
+            "the impact is on checkout",
+            "the likely cause is not confirmed",
+            "delivery fell to 72 percent"
+          ],
+          "correctAnswer": [
+            "delivery fell to 72 percent",
+            "the impact is on checkout",
+            "the likely cause is not confirmed",
+            "the next update is at 15:30"
+          ],
+          "explanation": "Sự kiện, tác động, nguyên nhân chưa xác nhận, lần cập nhật tới."
+        }
+      ]
+    },
+    {
+      "id": "wiub-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "rollout",
+        "latency",
+        "status page",
+        "recovery"
+      ],
+      "exercises": [
+        {
+          "id": "wiub-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "rollout",
+              "value": "đợt triển khai"
+            },
+            {
+              "key": "latency",
+              "value": "độ trễ"
+            },
+            {
+              "key": "status page",
+              "value": "trang trạng thái"
+            },
+            {
+              "key": "recovery",
+              "value": "sự phục hồi"
+            }
+          ],
+          "correctAnswer": [
+            "rollout - đợt triển khai",
+            "latency - độ trễ",
+            "status page - trang trạng thái",
+            "recovery - sự phục hồi"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "wiub-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We paused the ___ at ten percent.",
+          "correctAnswer": [
+            "rollout"
+          ],
+          "explanation": "\"rollout\" nghĩa là đợt triển khai."
+        },
+        {
+          "id": "wiub-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: ___ increased after the release.",
+          "correctAnswer": [
+            "Latency"
+          ],
+          "explanation": "\"latency\" nghĩa là độ trễ."
         }
       ]
     }
@@ -199,7 +401,13 @@
     },
     "outputContract": {
       "timeLimitSeconds": 300,
-      "requiredElements": ["observed fact", "impact", "cautious hypothesis", "action and owner", "decision request"],
+      "requiredElements": [
+        "observed fact",
+        "impact",
+        "cautious hypothesis",
+        "action and owner",
+        "decision request"
+      ],
       "minWords": 70,
       "maxWords": 110
     },
@@ -210,7 +418,11 @@
       "maxHints": 1,
       "preparationSeconds": 90
     },
-    "feedbackPriorities": ["Evidence boundary", "Audience action", "Conciseness"],
+    "feedbackPriorities": [
+      "Evidence boundary",
+      "Audience action",
+      "Conciseness"
+    ],
     "rubric": [
       {
         "id": "evidence-boundary",
@@ -229,5 +441,11 @@
       }
     ]
   },
-  "reviewPolicy": { "intervalDays": [1, 3, 7] }
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7
+    ]
+  }
 }

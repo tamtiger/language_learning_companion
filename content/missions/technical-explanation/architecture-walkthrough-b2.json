@@ -5,30 +5,268 @@
   "summary": "Giải thích luồng hệ thống, ranh giới, failure path và trade-off bằng tiếng Anh dễ theo dõi.",
   "cefrLevel": "B2",
   "durationMinutes": 20,
-  "learningObjectives": ["Tổ chức explanation theo luồng", "Nêu component responsibility", "Giải thích trade-off và failure"],
-  "capabilities": ["technical-explanation"],
-  "workflowTags": ["architecture", "walkthrough"],
+  "learningObjectives": [
+    "Tổ chức explanation theo luồng",
+    "Nêu component responsibility",
+    "Giải thích trade-off và failure"
+  ],
+  "capabilities": [
+    "technical-explanation"
+  ],
+  "workflowTags": [
+    "architecture",
+    "walkthrough"
+  ],
   "sections": [
-    { "id": "source", "type": "source", "title": "Order pipeline", "format": "technical-doc", "content": "Synthetic training artifact — non-production. Client → API gateway → order service → event broker → inventory and payment consumers. The gateway authenticates and routes the request. In one transaction, the order service validates and records the order plus an outbox entry; an outbox publisher then sends the event to the broker. Delivery is at-least-once, so a duplicate event is possible and both consumers use the event ID to process idempotently. Inventory reserves stock and payment authorizes the charge independently. If only one consumer succeeds, the order status is partial; it becomes complete only after both report success. The API returns accepted before downstream completion, reducing request wait but making status pending or partial. Failed message deliveries are retried twice; after both retries are exhausted, the message enters a dead-letter queue for operator inspection before replay." },
+    {
+      "id": "source",
+      "type": "source",
+      "title": "Order pipeline",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Client → API gateway → order service → event broker → inventory and payment consumers. The gateway authenticates and routes the request. In one transaction, the order service validates and records the order plus an outbox entry; an outbox publisher then sends the event to the broker. Delivery is at-least-once, so a duplicate event is possible and both consumers use the event ID to process idempotently. Inventory reserves stock and payment authorizes the charge independently. If only one consumer succeeds, the order status is partial; it becomes complete only after both report success. The API returns accepted before downstream completion, reducing request wait but making status pending or partial. Failed message deliveries are retried twice; after both retries are exhausted, the message enters a dead-letter queue for operator inspection before replay."
+    },
     {
       "id": "language",
       "type": "language-support",
       "title": "Architecture explanation language",
-      "vocabulary": [],
+      "vocabulary": [
+        {
+          "word": "request path",
+          "ipa": "/rɪˈkwest pæθ/",
+          "definition": "đường đi của yêu cầu",
+          "technicalMeaning": "Chuỗi thành phần mà một yêu cầu đi qua từ lúc vào đến lúc trả kết quả.",
+          "collocations": [
+            "trace the request path",
+            "the request path includes"
+          ],
+          "example": "The request path starts at the gateway.",
+          "commonMistake": "Nói the request path, không đảo thành path request."
+        },
+        {
+          "word": "gateway",
+          "ipa": "/ˈɡeɪt.weɪ/",
+          "definition": "cổng vào",
+          "technicalMeaning": "Thành phần nhận mọi yêu cầu từ bên ngoài rồi chuyển tiếp.",
+          "collocations": [
+            "an API gateway",
+            "behind the gateway"
+          ],
+          "example": "Every call enters through the gateway.",
+          "commonMistake": "Nhấn âm đầu: GATE-way."
+        },
+        {
+          "word": "downstream",
+          "ipa": "/ˌdaʊnˈstriːm/",
+          "definition": "phía sau trong luồng xử lý",
+          "technicalMeaning": "Dịch vụ nhận dữ liệu sau một thành phần khác.",
+          "collocations": [
+            "a downstream service",
+            "downstream dependency"
+          ],
+          "example": "A downstream service stores the order.",
+          "commonMistake": "Nói downstream service, không nói down service."
+        },
+        {
+          "word": "throughput",
+          "ipa": "/ˈθruː.pʊt/",
+          "definition": "thông lượng",
+          "technicalMeaning": "Số yêu cầu hệ thống xử lý được trong một đơn vị thời gian.",
+          "collocations": [
+            "high throughput",
+            "increase throughput"
+          ],
+          "example": "The cache increases throughput during peak hours.",
+          "commonMistake": "Throughput không đếm được, không thêm s."
+        },
+        {
+          "word": "failover",
+          "ipa": "/ˈfeɪl.oʊ.vɚ/",
+          "definition": "chuyển sang hệ thống dự phòng",
+          "technicalMeaning": "Tự động dùng bản dự phòng khi thành phần chính hỏng.",
+          "collocations": [
+            "automatic failover",
+            "trigger a failover"
+          ],
+          "example": "Failover moves traffic to the second region.",
+          "commonMistake": "Danh từ viết failover, động từ viết fail over."
+        }
+      ],
       "expressions": [
-        { "phrase": "A request first enters ___, which ___.", "meaning": "Introduce a component and its responsibility together.", "tone": "neutral", "example": "A request first enters the gateway, which authenticates and routes it.", "alternatives": ["The flow starts at ___, where ___."] },
-        { "phrase": "Once ___, the system ___.", "meaning": "Signal a clear transition between stages.", "tone": "neutral", "example": "Once the outbox entry is committed, the publisher sends the event.", "alternatives": ["From that point, ___."] },
-        { "phrase": "This improves ___, but it requires ___.", "meaning": "Connect an architectural benefit to its operational cost.", "tone": "neutral", "example": "This improves request latency, but it requires idempotent consumers and status tracking.", "alternatives": ["The benefit is ___; the trade-off is ___."] }
+        {
+          "phrase": "A request first enters ___, which ___.",
+          "meaning": "Introduce a component and its responsibility together.",
+          "tone": "neutral",
+          "example": "A request first enters the gateway, which authenticates and routes it.",
+          "alternatives": [
+            "The flow starts at ___, where ___."
+          ]
+        },
+        {
+          "phrase": "Once ___, the system ___.",
+          "meaning": "Signal a clear transition between stages.",
+          "tone": "neutral",
+          "example": "Once the outbox entry is committed, the publisher sends the event.",
+          "alternatives": [
+            "From that point, ___."
+          ]
+        },
+        {
+          "phrase": "This improves ___, but it requires ___.",
+          "meaning": "Connect an architectural benefit to its operational cost.",
+          "tone": "neutral",
+          "example": "This improves request latency, but it requires idempotent consumers and status tracking.",
+          "alternatives": [
+            "The benefit is ___; the trade-off is ___."
+          ]
+        }
       ]
     },
-    { "id": "check", "type": "auto-check", "title": "Trace the architecture precisely", "exercises": [
-      { "id": "architecture-check", "type": "choice", "question": "Câu nào giúp người nghe theo dõi luồng tốt nhất?", "options": ["There are many services, and each one stores its own data.", "Once the outbox publisher sends the event, two consumers process inventory and payment independently.", "It is an event-driven design, so services react to events as they arrive.", "Many services take part in this design, and each of them reacts to events in its own time and in its own way."], "correctAnswer": ["Once the outbox publisher sends the event, two consumers process inventory and payment independently."], "explanation": "Transition chỉ rõ thời điểm, component và hành động thay vì chỉ gắn nhãn architecture." },
-      { "id": "architecture-duplicate", "type": "choice", "question": "Why must both consumers be idempotent?", "options": ["At-least-once delivery can send the same event more than once.", "The gateway authenticates every request twice.", "A partial order is always replayed from the browser, so each consumer sees it again."], "correctAnswer": ["At-least-once delivery can send the same event more than once."], "explanation": "Idempotent handling prevents a duplicate delivery from reserving stock or authorizing payment twice." },
-      { "id": "architecture-partial", "type": "choice", "question": "What status should the order have if inventory succeeds but payment has not succeeded?", "options": ["Partial", "Complete", "Deleted"], "correctAnswer": ["Partial"], "explanation": "The evidence says completion requires both independent consumers to report success." }
-    ] }
+    {
+      "id": "check",
+      "type": "auto-check",
+      "title": "Trace the architecture precisely",
+      "exercises": [
+        {
+          "id": "architecture-check",
+          "type": "choice",
+          "question": "Câu nào giúp người nghe theo dõi luồng tốt nhất?",
+          "options": [
+            "There are many services, and each one stores its own data.",
+            "Once the outbox publisher sends the event, two consumers process inventory and payment independently.",
+            "It is an event-driven design, so services react to events as they arrive.",
+            "Many services take part in this design, and each of them reacts to events in its own time and in its own way."
+          ],
+          "correctAnswer": [
+            "Once the outbox publisher sends the event, two consumers process inventory and payment independently."
+          ],
+          "explanation": "Transition chỉ rõ thời điểm, component và hành động thay vì chỉ gắn nhãn architecture."
+        },
+        {
+          "id": "architecture-duplicate",
+          "type": "choice",
+          "question": "Why must both consumers be idempotent?",
+          "options": [
+            "At-least-once delivery can send the same event more than once.",
+            "The gateway authenticates every request twice.",
+            "A partial order is always replayed from the browser, so each consumer sees it again."
+          ],
+          "correctAnswer": [
+            "At-least-once delivery can send the same event more than once."
+          ],
+          "explanation": "Idempotent handling prevents a duplicate delivery from reserving stock or authorizing payment twice."
+        },
+        {
+          "id": "architecture-partial",
+          "type": "choice",
+          "question": "What status should the order have if inventory succeeds but payment has not succeeded?",
+          "options": [
+            "Partial",
+            "Complete",
+            "Deleted"
+          ],
+          "correctAnswer": [
+            "Partial"
+          ],
+          "explanation": "The evidence says completion requires both independent consumers to report success."
+        },
+        {
+          "id": "awb-fix",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"The request enters on the gateway.\" dùng sai một giới từ. Điền giới từ đúng thay cho \"on\".",
+          "correctAnswer": [
+            "through"
+          ],
+          "explanation": "Yêu cầu đi qua cổng nên dùng through (hoặc via).",
+          "acceptedAnswers": [
+            "via"
+          ]
+        },
+        {
+          "id": "awb-order",
+          "type": "ordering",
+          "question": "Sắp xếp luồng xử lý một yêu cầu.",
+          "options": [
+            "the service reads the data",
+            "the response goes back to the user",
+            "the gateway receives the request",
+            "the cache is checked first"
+          ],
+          "correctAnswer": [
+            "the gateway receives the request",
+            "the cache is checked first",
+            "the service reads the data",
+            "the response goes back to the user"
+          ],
+          "explanation": "Cổng nhận yêu cầu, kiểm tra cache, dịch vụ đọc dữ liệu, rồi trả phản hồi."
+        }
+      ]
+    },
+    {
+      "id": "awb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "request path",
+        "gateway",
+        "downstream",
+        "throughput"
+      ],
+      "exercises": [
+        {
+          "id": "awb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "request path",
+              "value": "đường đi của yêu cầu"
+            },
+            {
+              "key": "gateway",
+              "value": "cổng vào"
+            },
+            {
+              "key": "downstream",
+              "value": "phía sau trong luồng xử lý"
+            },
+            {
+              "key": "throughput",
+              "value": "thông lượng"
+            }
+          ],
+          "correctAnswer": [
+            "request path - đường đi của yêu cầu",
+            "gateway - cổng vào",
+            "downstream - phía sau trong luồng xử lý",
+            "throughput - thông lượng"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "awb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ starts at the gateway.",
+          "correctAnswer": [
+            "request path"
+          ],
+          "explanation": "\"request path\" nghĩa là đường đi của yêu cầu."
+        },
+        {
+          "id": "awb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Every call enters through the ___.",
+          "correctAnswer": [
+            "gateway"
+          ],
+          "explanation": "\"gateway\" nghĩa là cổng vào."
+        }
+      ]
+    }
   ],
   "performanceTask": {
-    "id": "architecture-walkthrough", "mode": "spoken", "title": "Explain an architecture flow",
+    "id": "architecture-walkthrough",
+    "mode": "spoken",
+    "title": "Explain an architecture flow",
     "scenario": "Một kỹ sư mới cần hiểu request flow và cách hệ thống xử lý failure.",
     "baselinePrompt": "Trong 90–120 giây, giải thích sơ đồ bằng tiếng Anh mà chưa xem model hoặc chunk.",
     "performancePrompt": "In 90–120 seconds in English, explain from the entry point to the consumers: state each responsibility, the outbox handoff, at-least-once delivery with idempotent handling, the async trade-off, partial status and the message-delivery failure path.",
@@ -37,60 +275,499 @@
     "transferPrompt": "In 90–120 seconds, without looking at the model or chunks, explain a file-upload pipeline from the new facts.",
     "reviewPrompt": "In 90–120 seconds, from the new review brief, walk through the happy path, the trade-off and the failure path.",
     "practiceContexts": {
-      "baseline": { "title": "Order event pipeline", "brief": "Onboard an engineer to the order flow.", "artifacts": [{ "id": "arch-order", "type": "source", "title": "Order flow", "format": "technical-doc", "content": "Synthetic training artifact — non-production. The gateway authenticates and routes the request. The order service records the order and an outbox entry in one transaction; an outbox publisher sends the event. Delivery is at-least-once, so inventory and payment use the event ID to deduplicate events. They run independently: one success produces partial status, and both successes produce complete status. The API returns accepted before downstream completion, improving request latency while requiring pending or partial status. Failed message deliveries retry twice, then the message enters a dead-letter queue for inspection before replay." }] },
-      "retry": { "title": "Image processing pipeline", "brief": "Keep the function but change the component and the failure.", "artifacts": [{ "id": "arch-image", "type": "source", "title": "Image flow", "format": "technical-doc", "content": "Synthetic training artifact — non-production. The upload API validates image metadata and stores the object. A queue then gives the resize worker the job. Returning after storage improves upload latency, but the preview can remain pending for up to 30 seconds. The worker retries twice; poison jobs enter a quarantine queue for operator inspection." }] },
-      "transfer": { "title": "File scanning pipeline", "brief": "An unseen flow; do not use the model.", "artifacts": [{ "id": "arch-file", "type": "source", "title": "Upload flow", "format": "technical-doc", "content": "Synthetic training artifact — non-production. The browser uses a signed upload to write directly to object storage. A storage event enters the scan queue, and an antivirus worker marks the file clean. Direct upload reduces API load, but the download remains locked while scanning is pending. A scan timeout sends the file to manual review." }] },
-      "review": { "title": "Notification pipeline", "brief": "Delayed retrieval with a new topology.", "artifacts": [{ "id": "arch-notify", "type": "source", "title": "Notification flow", "format": "technical-doc", "content": "Synthetic training artifact — non-production. The service publishes one event to a notification topic. Email and SMS consumers format and send each channel independently. This isolates channel failures, but delivery is eventual and requires queue operations. Each consumer enforces its channel rate limit; exhausted retries enter a dead-letter queue and trigger an operator alert." }] }
+      "baseline": {
+        "title": "Order event pipeline",
+        "brief": "Onboard an engineer to the order flow.",
+        "artifacts": [
+          {
+            "id": "arch-order",
+            "type": "source",
+            "title": "Order flow",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. The gateway authenticates and routes the request. The order service records the order and an outbox entry in one transaction; an outbox publisher sends the event. Delivery is at-least-once, so inventory and payment use the event ID to deduplicate events. They run independently: one success produces partial status, and both successes produce complete status. The API returns accepted before downstream completion, improving request latency while requiring pending or partial status. Failed message deliveries retry twice, then the message enters a dead-letter queue for inspection before replay."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Image processing pipeline",
+        "brief": "Keep the function but change the component and the failure.",
+        "artifacts": [
+          {
+            "id": "arch-image",
+            "type": "source",
+            "title": "Image flow",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. The upload API validates image metadata and stores the object. A queue then gives the resize worker the job. Returning after storage improves upload latency, but the preview can remain pending for up to 30 seconds. The worker retries twice; poison jobs enter a quarantine queue for operator inspection."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "File scanning pipeline",
+        "brief": "An unseen flow; do not use the model.",
+        "artifacts": [
+          {
+            "id": "arch-file",
+            "type": "source",
+            "title": "Upload flow",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. The browser uses a signed upload to write directly to object storage. A storage event enters the scan queue, and an antivirus worker marks the file clean. Direct upload reduces API load, but the download remains locked while scanning is pending. A scan timeout sends the file to manual review."
+          }
+        ]
+      },
+      "review": {
+        "title": "Notification pipeline",
+        "brief": "Delayed retrieval with a new topology.",
+        "artifacts": [
+          {
+            "id": "arch-notify",
+            "type": "source",
+            "title": "Notification flow",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. The service publishes one event to a notification topic. Email and SMS consumers format and send each channel independently. This isolates channel failures, but delivery is eventual and requires queue operations. Each consumer enforces its channel rate limit; exhausted retries enter a dead-letter queue and trigger an operator alert."
+          }
+        ]
+      }
     },
-    "outputContract": { "timeLimitSeconds": 120, "requiredElements": ["request flow", "component responsibilities", "status or consistency semantics", "trade-off", "failure or recovery path"], "targetSeconds": 90 },
-    "independenceContract": { "noVietnamese": true, "noTranslation": true, "noModelAnswer": true, "maxHints": 1, "preparationSeconds": 90 },
-    "feedbackPriorities": ["structure", "accuracy", "trade-off"],
+    "outputContract": {
+      "timeLimitSeconds": 120,
+      "requiredElements": [
+        "request flow",
+        "component responsibilities",
+        "status or consistency semantics",
+        "trade-off",
+        "failure or recovery path"
+      ],
+      "targetSeconds": 90
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 90
+    },
+    "feedbackPriorities": [
+      "structure",
+      "accuracy",
+      "trade-off"
+    ],
     "rubric": [
-      { "id": "flow", "label": "Traceable flow", "description": "Uses transitions so the listener can follow the request end to end." },
-      { "id": "responsibility", "label": "Component responsibilities", "description": "Explains only the major component responsibilities supplied by the current evidence packet." },
-      { "id": "tradeoff", "label": "Trade-off and failure", "description": "Uses the current evidence packet to name one benefit, one status or consistency cost, and its supplied failure or recovery path." }
+      {
+        "id": "flow",
+        "label": "Traceable flow",
+        "description": "Uses transitions so the listener can follow the request end to end."
+      },
+      {
+        "id": "responsibility",
+        "label": "Component responsibilities",
+        "description": "Explains only the major component responsibilities supplied by the current evidence packet."
+      },
+      {
+        "id": "tradeoff",
+        "label": "Trade-off and failure",
+        "description": "Uses the current evidence packet to name one benefit, one status or consistency cost, and its supplied failure or recovery path."
+      }
     ],
     "learningLoop": {
       "version": "v1",
       "perception": {
         "pretest": [
-          { "id": "arch-pre-1", "audio": { "kind": "speech-synthesis", "text": "Failed message deliveries enter the dead letter queue after both retries fail.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "Where does a message go after both delivery retries fail?", "options": ["The payment consumer", "A dead-letter queue", "A second retry queue"], "correctAnswer": "A dead-letter queue" },
-          { "id": "arch-pre-2", "audio": { "kind": "speech-synthesis", "text": "The API returns before downstream processing finishes.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "When does the API return?", "options": ["After every consumer finishes", "Before downstream completion", "Only after payment is authorized"], "correctAnswer": "Before downstream completion" },
-          { "id": "arch-pre-3", "audio": { "kind": "speech-synthesis", "text": "Inventory and payment run independently.", "locale": "en-US", "voiceHints": ["English"] }, "question": "How do the consumers run?", "options": ["One after the other", "Independently of each other", "In one transaction"], "correctAnswer": "Independently of each other" },
-          { "id": "arch-pre-4", "audio": { "kind": "speech-synthesis", "text": "The client sees acceptance before final completion.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What does the client see first?", "options": ["Final completion", "Acceptance", "A failure message"], "correctAnswer": "Acceptance" }
+          {
+            "id": "arch-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Failed message deliveries enter the dead letter queue after both retries fail.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Where does a message go after both delivery retries fail?",
+            "options": [
+              "The payment consumer",
+              "A dead-letter queue",
+              "A second retry queue"
+            ],
+            "correctAnswer": "A dead-letter queue"
+          },
+          {
+            "id": "arch-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The API returns before downstream processing finishes.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "When does the API return?",
+            "options": [
+              "After every consumer finishes",
+              "Before downstream completion",
+              "Only after payment is authorized"
+            ],
+            "correctAnswer": "Before downstream completion"
+          },
+          {
+            "id": "arch-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Inventory and payment run independently.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English"
+              ]
+            },
+            "question": "How do the consumers run?",
+            "options": [
+              "One after the other",
+              "Independently of each other",
+              "In one transaction"
+            ],
+            "correctAnswer": "Independently of each other"
+          },
+          {
+            "id": "arch-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The client sees acceptance before final completion.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the client see first?",
+            "options": [
+              "Final completion",
+              "Acceptance",
+              "A failure message"
+            ],
+            "correctAnswer": "Acceptance"
+          }
         ],
         "training": [
-          { "id": "arch-train-1", "audio": { "kind": "speech-synthesis", "text": "A request first enters the gateway.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the entry point?", "options": ["The worker", "The API gateway", "The queue"], "correctAnswer": "The API gateway", "feedback": "Listen for FIRST and GATEWAY as the flow anchor." },
-          { "id": "arch-train-2", "audio": { "kind": "speech-synthesis", "text": "Once validated, the service publishes an event.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What happens after validation?", "options": ["The request is rolled back", "An event is published", "The service rejects the request"], "correctAnswer": "An event is published", "feedback": "Once validated signals the next stage." },
-          { "id": "arch-train-3", "audio": { "kind": "speech-synthesis", "text": "This reduces latency, but completion becomes eventual.", "locale": "en-US", "voiceHints": ["English"] }, "question": "What trade-off is stated?", "options": ["Lower latency versus immediate completion", "Higher cost versus encryption", "Lower latency versus eventual completion"], "correctAnswer": "Lower latency versus eventual completion", "feedback": "Stress REDUCES LATENCY and EVENTUAL to expose both sides." },
-          { "id": "arch-train-4", "audio": { "kind": "speech-synthesis", "text": "Operators inspect failed deliveries before replay.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What happens before replay?", "options": ["Automatic replay", "Operator inspection", "Browser caching"], "correctAnswer": "Operator inspection", "feedback": "Keep the final consonants in failed deliveries audible." },
-          { "id": "arch-train-5", "audio": { "kind": "speech-synthesis", "text": "From that point, two consumers work in parallel.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "What does from that point signal?", "options": ["A retry limit", "A transition", "A rollback"], "correctAnswer": "A transition", "feedback": "Use transition phrases to make topology traceable." },
-          { "id": "arch-train-6", "audio": { "kind": "speech-synthesis", "text": "The main cost is operational complexity.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What is the cost?", "options": ["A higher storage bill", "More complex operations", "Slower validation"], "correctAnswer": "More complex operations", "feedback": "Stress MAIN COST before the consequence." }
+          {
+            "id": "arch-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "A request first enters the gateway.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the entry point?",
+            "options": [
+              "The worker",
+              "The API gateway",
+              "The queue"
+            ],
+            "correctAnswer": "The API gateway",
+            "feedback": "Listen for FIRST and GATEWAY as the flow anchor."
+          },
+          {
+            "id": "arch-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Once validated, the service publishes an event.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What happens after validation?",
+            "options": [
+              "The request is rolled back",
+              "An event is published",
+              "The service rejects the request"
+            ],
+            "correctAnswer": "An event is published",
+            "feedback": "Once validated signals the next stage."
+          },
+          {
+            "id": "arch-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This reduces latency, but completion becomes eventual.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English"
+              ]
+            },
+            "question": "What trade-off is stated?",
+            "options": [
+              "Lower latency versus immediate completion",
+              "Higher cost versus encryption",
+              "Lower latency versus eventual completion"
+            ],
+            "correctAnswer": "Lower latency versus eventual completion",
+            "feedback": "Stress REDUCES LATENCY and EVENTUAL to expose both sides."
+          },
+          {
+            "id": "arch-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Operators inspect failed deliveries before replay.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What happens before replay?",
+            "options": [
+              "Automatic replay",
+              "Operator inspection",
+              "Browser caching"
+            ],
+            "correctAnswer": "Operator inspection",
+            "feedback": "Keep the final consonants in failed deliveries audible."
+          },
+          {
+            "id": "arch-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "From that point, two consumers work in parallel.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does from that point signal?",
+            "options": [
+              "A retry limit",
+              "A transition",
+              "A rollback"
+            ],
+            "correctAnswer": "A transition",
+            "feedback": "Use transition phrases to make topology traceable."
+          },
+          {
+            "id": "arch-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The main cost is operational complexity.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the cost?",
+            "options": [
+              "A higher storage bill",
+              "More complex operations",
+              "Slower validation"
+            ],
+            "correctAnswer": "More complex operations",
+            "feedback": "Stress MAIN COST before the consequence."
+          }
         ],
         "posttest": [
-          { "id": "arch-post-1", "audio": { "kind": "speech-synthesis", "text": "Deliveries of report events that still fail after two retries move to the dead letter queue.", "locale": "en-GB", "voiceHints": ["English UK"] }, "question": "Where do report event deliveries go after two retries?", "options": ["The report event consumer", "A dead-letter queue", "The browser cache"], "correctAnswer": "A dead-letter queue" },
-          { "id": "arch-post-2", "audio": { "kind": "speech-synthesis", "text": "The benefit is a fast request; the cost is a pending result.", "locale": "en-US", "voiceHints": ["English"] }, "question": "Which trade-off is stated?", "options": ["Pending request versus fast result", "Fast request versus pending result", "Fast request versus higher memory use"], "correctAnswer": "Fast request versus pending result" },
-          { "id": "arch-post-3", "audio": { "kind": "speech-synthesis", "text": "The client sees pending status while the worker creates the report.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] }, "question": "What does the client see?", "options": ["Final payment status", "Pending status", "The report"], "correctAnswer": "Pending status" },
-          { "id": "arch-post-4", "audio": { "kind": "speech-synthesis", "text": "Operators inspect failed report event deliveries before replay.", "locale": "en-US", "voiceHints": ["English US"] }, "question": "What happens before replay?", "options": ["Consumer replay without review", "Operator inspection", "Automatic publication"], "correctAnswer": "Operator inspection" }
+          {
+            "id": "arch-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Deliveries of report events that still fail after two retries move to the dead letter queue.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "Where do report event deliveries go after two retries?",
+            "options": [
+              "The report event consumer",
+              "A dead-letter queue",
+              "The browser cache"
+            ],
+            "correctAnswer": "A dead-letter queue"
+          },
+          {
+            "id": "arch-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The benefit is a fast request; the cost is a pending result.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English"
+              ]
+            },
+            "question": "Which trade-off is stated?",
+            "options": [
+              "Pending request versus fast result",
+              "Fast request versus pending result",
+              "Fast request versus higher memory use"
+            ],
+            "correctAnswer": "Fast request versus pending result"
+          },
+          {
+            "id": "arch-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The client sees pending status while the worker creates the report.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the client see?",
+            "options": [
+              "Final payment status",
+              "Pending status",
+              "The report"
+            ],
+            "correctAnswer": "Pending status"
+          },
+          {
+            "id": "arch-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Operators inspect failed report event deliveries before replay.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What happens before replay?",
+            "options": [
+              "Consumer replay without review",
+              "Operator inspection",
+              "Automatic publication"
+            ],
+            "correctAnswer": "Operator inspection"
+          }
         ]
       },
       "pronunciationCues": [
-        { "id": "arch-cue-finals", "articulatoryCue": "Giữ âm cuối trong failed deliveries, retries và costs.", "meaningRisk": "Mất plural/final sounds làm số lượng và trạng thái khó hiểu.", "triggerItemIds": ["arch-pre-1", "arch-post-1"] },
-        { "id": "arch-cue-contrast", "articulatoryCue": "Chia thought groups: BENEFIT | BUT COST | FAILURE PATH.", "meaningRisk": "Trọng âm đều làm trade-off bị chìm.", "triggerItemIds": ["arch-pre-2", "arch-post-2"] }
+        {
+          "id": "arch-cue-finals",
+          "articulatoryCue": "Giữ âm cuối trong failed deliveries, retries và costs.",
+          "meaningRisk": "Mất plural/final sounds làm số lượng và trạng thái khó hiểu.",
+          "triggerItemIds": [
+            "arch-pre-1",
+            "arch-post-1"
+          ]
+        },
+        {
+          "id": "arch-cue-contrast",
+          "articulatoryCue": "Chia thought groups: BENEFIT | BUT COST | FAILURE PATH.",
+          "meaningRisk": "Trọng âm đều làm trade-off bị chìm.",
+          "triggerItemIds": [
+            "arch-pre-2",
+            "arch-post-2"
+          ]
+        }
       ],
       "chunks": [
-        { "id": "arch-chunk-1", "function": "start flow", "text": "A request first enters ___, which ___.", "meaning": "Nêu entry point và responsibility.", "slots": ["component", "action"], "stressPattern": "FIRST · ENTERS", "modelAudio": { "kind": "speech-synthesis", "text": "A request first enters the gateway, which authenticates it.", "locale": "en-US", "voiceHints": ["English US"] } },
-        { "id": "arch-chunk-2", "function": "transition", "text": "Once ___, the system ___.", "meaning": "Chuyển sang stage kế tiếp.", "slots": ["condition", "action"], "modelAudio": { "kind": "speech-synthesis", "text": "Once validated, the system publishes an event.", "locale": "en-GB", "voiceHints": ["English UK"] } },
-        { "id": "arch-chunk-3", "function": "trade-off", "text": "This improves ___, but it means ___.", "meaning": "Nêu benefit và cost.", "slots": ["benefit", "cost"], "stressPattern": "IMPROVES · MEANS", "modelAudio": { "kind": "speech-synthesis", "text": "This improves latency, but it means completion is eventual.", "locale": "en-US", "voiceHints": ["English"] } },
-        { "id": "arch-chunk-4", "function": "failure", "text": "If message delivery still fails after ___ retries, the message moves to ___.", "meaning": "Nêu đúng transport failure path, không nhập với business-processing failure.", "slots": ["retry limit", "destination"], "modelAudio": { "kind": "speech-synthesis", "text": "If message delivery still fails after two retries, the message moves to the dead letter queue.", "locale": "en-AU", "voiceHints": ["English Australia", "English"] } }
+        {
+          "id": "arch-chunk-1",
+          "function": "start flow",
+          "text": "A request first enters ___, which ___.",
+          "meaning": "Nêu entry point và responsibility.",
+          "slots": [
+            "component",
+            "action"
+          ],
+          "stressPattern": "FIRST · ENTERS",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "A request first enters the gateway, which authenticates it.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "arch-chunk-2",
+          "function": "transition",
+          "text": "Once ___, the system ___.",
+          "meaning": "Chuyển sang stage kế tiếp.",
+          "slots": [
+            "condition",
+            "action"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Once validated, the system publishes an event.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "arch-chunk-3",
+          "function": "trade-off",
+          "text": "This improves ___, but it means ___.",
+          "meaning": "Nêu benefit và cost.",
+          "slots": [
+            "benefit",
+            "cost"
+          ],
+          "stressPattern": "IMPROVES · MEANS",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "This improves latency, but it means completion is eventual.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "arch-chunk-4",
+          "function": "failure",
+          "text": "If message delivery still fails after ___ retries, the message moves to ___.",
+          "meaning": "Nêu đúng transport failure path, không nhập với business-processing failure.",
+          "slots": [
+            "retry limit",
+            "destination"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "If message delivery still fails after two retries, the message moves to the dead letter queue.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        }
       ],
-      "shadowingSteps": ["listen", "chunk-shadow", "full-shadow", "delayed-imitation", "variation"],
-      "listenBackChecklist": ["Flow có entry point và transitions rõ.", "Responsibilities không chỉ là tên component.", "Benefit, cost và failure path nghe rõ."],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Flow có entry point và transitions rõ.",
+        "Responsibilities không chỉ là tên component.",
+        "Benefit, cost và failure path nghe rõ."
+      ],
       "interactionTurns": [
-        { "id": "arch-turn-interrupt", "kind": "interruption", "prompt": "Sorry to interrupt—what does the client know at that point?", "expectedFunction": "answer one status question briefly" },
-        { "id": "arch-turn-clarify", "kind": "clarification", "prompt": "What happens if message delivery still fails after both retries?", "expectedFunction": "clarify delivery retries and the final message destination" }
+        {
+          "id": "arch-turn-interrupt",
+          "kind": "interruption",
+          "prompt": "Sorry to interrupt—what does the client know at that point?",
+          "expectedFunction": "answer one status question briefly"
+        },
+        {
+          "id": "arch-turn-clarify",
+          "kind": "clarification",
+          "prompt": "What happens if message delivery still fails after both retries?",
+          "expectedFunction": "clarify delivery retries and the final message destination"
+        }
       ]
     }
   },
-  "reviewPolicy": { "intervalDays": [2, 7] }
+  "reviewPolicy": {
+    "intervalDays": [
+      2,
+      7
+    ]
+  }
 }

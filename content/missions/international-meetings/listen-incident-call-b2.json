@@ -338,6 +338,67 @@
           "explanation": "Tác động, nguyên nhân, giảm nhẹ, lần cập nhật tiếp theo."
         }
       ]
+    },
+    {
+      "id": "licb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "impact",
+        "mitigate",
+        "investigating",
+        "stakeholder"
+      ],
+      "exercises": [
+        {
+          "id": "licb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "impact",
+              "value": "tác động"
+            },
+            {
+              "key": "mitigate",
+              "value": "giảm nhẹ"
+            },
+            {
+              "key": "investigating",
+              "value": "đang điều tra"
+            },
+            {
+              "key": "stakeholder",
+              "value": "bên liên quan"
+            }
+          ],
+          "correctAnswer": [
+            "impact - tác động",
+            "mitigate - giảm nhẹ",
+            "investigating - đang điều tra",
+            "stakeholder - bên liên quan"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "licb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ is about thirty percent of customers.",
+          "correctAnswer": [
+            "impact"
+          ],
+          "explanation": "\"impact\" nghĩa là tác động."
+        },
+        {
+          "id": "licb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We ___ the issue by pausing the job.",
+          "correctAnswer": [
+            "mitigated"
+          ],
+          "explanation": "\"mitigate\" nghĩa là giảm nhẹ."
+        }
+      ]
     }
   ],
   "performanceTask": {

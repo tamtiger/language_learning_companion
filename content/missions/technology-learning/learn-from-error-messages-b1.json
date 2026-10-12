@@ -1,0 +1,373 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "learn-from-error-messages-b1",
+  "title": "Learn from an error message (B1)",
+  "summary": "Đọc một thông báo lỗi dài của công cụ mới, hiểu nó nói gì và viết ghi chú: ý nghĩa, nguyên nhân có thể và bước thử tiếp theo.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Tách thông báo lỗi thành tên lỗi, vị trí và gợi ý",
+    "Nêu nguyên nhân có thể",
+    "Viết bước thử tiếp theo để tự giải quyết"
+  ],
+  "capabilities": [
+    "technology-learning"
+  ],
+  "workflowTags": [
+    "error-message-reading",
+    "meaning-cause-next-step",
+    "self-help"
+  ],
+  "sections": [
+    {
+      "id": "lem-source",
+      "type": "source",
+      "title": "Tool error output",
+      "format": "code-snippet",
+      "content": "Synthetic training artifact — non-production. Error output from the tool \"datasync\". Error E0412: cannot open the config file. Path: ./datasync.yml. Reason: the file has an indentation error on line 7. Hint: use two spaces, not tabs, in YAML files. Run datasync check to validate the file. Documentation: see the page called Configuration file."
+    },
+    {
+      "id": "lem-language",
+      "type": "language-support",
+      "title": "Language for reading error messages",
+      "vocabulary": [
+        {
+          "word": "error code",
+          "ipa": "/ˈer.ɚ koʊd/",
+          "definition": "mã lỗi",
+          "technicalMeaning": "Ký hiệu giúp tìm lỗi trong tài liệu.",
+          "collocations": [
+            "look up the error code",
+            "error code E0412"
+          ],
+          "example": "Look up the error code in the documentation.",
+          "commonMistake": "Viết error code thành hai từ."
+        },
+        {
+          "word": "indentation",
+          "ipa": "/ˌɪn.denˈteɪ.ʃən/",
+          "definition": "thụt đầu dòng",
+          "technicalMeaning": "Khoảng trắng đầu dòng quyết định cấu trúc của tệp.",
+          "collocations": [
+            "an indentation error",
+            "check the indentation"
+          ],
+          "example": "The file has an indentation error on line 7.",
+          "commonMistake": "Nhấn âm tiết thứ ba: in-den-TA-tion."
+        },
+        {
+          "word": "validate",
+          "ipa": "/ˈvæl.ə.deɪt/",
+          "definition": "kiểm tra tính hợp lệ",
+          "technicalMeaning": "Chạy công cụ để chắc tệp đúng định dạng.",
+          "collocations": [
+            "validate the file",
+            "validate the config"
+          ],
+          "example": "Run the command to validate the file.",
+          "commonMistake": "Nói validate the file, không nói validate for the file."
+        },
+        {
+          "word": "hint",
+          "ipa": "/hɪnt/",
+          "definition": "gợi ý",
+          "technicalMeaning": "Câu của công cụ gợi ý cách sửa.",
+          "collocations": [
+            "read the hint",
+            "a helpful hint"
+          ],
+          "example": "The hint says to use spaces, not tabs.",
+          "commonMistake": "Nói read the hint, không nói see the hints."
+        },
+        {
+          "word": "line number",
+          "ipa": "/ˈlaɪn ˌnʌm.bɚ/",
+          "definition": "số dòng",
+          "technicalMeaning": "Vị trí lỗi trong tệp.",
+          "collocations": [
+            "the line number",
+            "go to line number"
+          ],
+          "example": "The line number is seven.",
+          "commonMistake": "Viết line number thành hai từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The error says that ___.",
+          "meaning": "Nói lại điều thông báo lỗi nói.",
+          "tone": "neutral",
+          "example": "The error says that the config file cannot be opened.",
+          "alternatives": [
+            "According to the message, ___."
+          ]
+        },
+        {
+          "phrase": "The likely cause is ___, on line ___.",
+          "meaning": "Nêu nguyên nhân và vị trí.",
+          "tone": "neutral",
+          "example": "The likely cause is an indentation error on line 7.",
+          "alternatives": [
+            "This probably happens because ___."
+          ]
+        },
+        {
+          "phrase": "The hint suggests ___.",
+          "meaning": "Nêu gợi ý của công cụ.",
+          "tone": "neutral",
+          "example": "The hint suggests using two spaces instead of tabs.",
+          "alternatives": [
+            "The tool recommends ___."
+          ]
+        },
+        {
+          "phrase": "My next step is to ___, and then ___.",
+          "meaning": "Nêu bước tiếp theo.",
+          "tone": "neutral",
+          "example": "My next step is to run datasync check, and then fix the line.",
+          "alternatives": [
+            "First I will ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lem-check",
+      "type": "auto-check",
+      "title": "Check error message language",
+      "exercises": [
+        {
+          "id": "lem-meaning",
+          "type": "choice",
+          "question": "Which sentence explains an error clearly?",
+          "options": [
+            "The error says the config file has an indentation error on line 7.",
+            "The tool is bad and does not work today.",
+            "Something is probably wrong with my computer."
+          ],
+          "correctAnswer": [
+            "The error says the config file has an indentation error on line 7."
+          ],
+          "explanation": "Câu rõ nêu thông báo, vị trí và loại lỗi."
+        },
+        {
+          "id": "lem-fix-fill",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"The hint suggest using spaces.\" sai dạng động từ. Điền dạng đúng thay cho \"suggest\".",
+          "correctAnswer": [
+            "suggests"
+          ],
+          "explanation": "Chủ ngữ số ít cần suggests."
+        },
+        {
+          "id": "lem-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các bước đọc một thông báo lỗi.",
+          "options": [
+            "run the check command",
+            "read the error code and message",
+            "note the line number",
+            "read the hint"
+          ],
+          "correctAnswer": [
+            "read the error code and message",
+            "note the line number",
+            "read the hint",
+            "run the check command"
+          ],
+          "explanation": "Đọc mã lỗi, ghi số dòng, đọc gợi ý, chạy lệnh kiểm tra."
+        }
+      ]
+    },
+    {
+      "id": "lfemb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "error code",
+        "indentation",
+        "validate",
+        "hint"
+      ],
+      "exercises": [
+        {
+          "id": "lfemb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "error code",
+              "value": "mã lỗi"
+            },
+            {
+              "key": "indentation",
+              "value": "thụt đầu dòng"
+            },
+            {
+              "key": "validate",
+              "value": "kiểm tra tính hợp lệ"
+            },
+            {
+              "key": "hint",
+              "value": "gợi ý"
+            }
+          ],
+          "correctAnswer": [
+            "error code - mã lỗi",
+            "indentation - thụt đầu dòng",
+            "validate - kiểm tra tính hợp lệ",
+            "hint - gợi ý"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "lfemb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: Look up the ___ in the documentation.",
+          "correctAnswer": [
+            "error code"
+          ],
+          "explanation": "\"error code\" nghĩa là mã lỗi."
+        },
+        {
+          "id": "lfemb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The file has an ___ error on line 7.",
+          "correctAnswer": [
+            "indentation"
+          ],
+          "explanation": "\"indentation\" nghĩa là thụt đầu dòng."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "lem-task",
+    "mode": "written",
+    "title": "Write notes on an error message",
+    "scenario": "Bạn gặp một thông báo lỗi của công cụ mới và viết ghi chú để tự giải quyết và chia sẻ lại cho đội.",
+    "baselinePrompt": "Từ thông báo lỗi ngắn, hãy viết ghi chú bằng tiếng Anh (60 đến 110 từ): lỗi nói gì, nguyên nhân có thể và bước thử tiếp theo. Chưa xem bài mẫu.",
+    "performancePrompt": "Write notes in English, 60 to 110 words: what the error says, the likely cause and your next step.",
+    "modelResponse": "Notes on error E0412 from datasync. The error says that the config file ./datasync.yml cannot be opened. The reason is an indentation error on line 7, and the hint suggests using two spaces instead of tabs. The likely cause is that I copied a block from a web page that contained tabs. My next step is to run datasync check to validate the file, and then replace the tabs on line 7 with two spaces. If the error stays, I will read the Configuration file page in the documentation and ask the team with the exact error code and line number.",
+    "retryPrompt": "Write the notes again in English. Keep the three parts and make the next step more specific.",
+    "transferPrompt": "Write notes for a different error message, using the same three parts.",
+    "reviewPrompt": "Write notes for another error message without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Config file error",
+        "brief": "Viết ghi chú cho lỗi tệp cấu hình.",
+        "artifacts": [
+          {
+            "id": "lem-baseline-ctx",
+            "type": "source",
+            "title": "Config file error",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Error output. Error E0412: cannot open the config file ./datasync.yml. Reason: indentation error on line 7. Hint: use two spaces, not tabs. Run datasync check to validate."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Port in use error",
+        "brief": "Sửa bài với lỗi cổng đã bị dùng.",
+        "artifacts": [
+          {
+            "id": "lem-retry-ctx",
+            "type": "source",
+            "title": "Port in use error",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Error output. Error P0098: cannot start the server. Reason: port 8080 is already in use by another process. Hint: stop the other process or choose a different port with --port. Run devserve ports to list the ports."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Permission error",
+        "brief": "Tình huống mới: lỗi quyền truy cập.",
+        "artifacts": [
+          {
+            "id": "lem-transfer-ctx",
+            "type": "source",
+            "title": "Permission error",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Error output. Error A0031: cannot write to ./output. Reason: permission denied for the current user. Hint: check the folder owner or run the tool in a different folder. Run buildkit doctor for a report."
+          }
+        ]
+      },
+      "review": {
+        "title": "Version mismatch error",
+        "brief": "Ôn lại với lỗi phiên bản không khớp.",
+        "artifacts": [
+          {
+            "id": "lem-review-ctx",
+            "type": "source",
+            "title": "Version mismatch error",
+            "format": "code-snippet",
+            "content": "Synthetic training artifact — non-production. Error output. Error V0207: plugin requires version 3 or newer of the core tool. Found: version 2.9. Hint: upgrade the core tool with the package manager. Run pluginctl versions to compare."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "what the error says",
+        "likely cause",
+        "next step"
+      ],
+      "minWords": 60,
+      "maxWords": 110
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "accurate reading",
+      "likely cause",
+      "specific next step"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Meaning, cause, next step",
+        "description": "The notes have all three parts.",
+        "anchors": {
+          "met": "The reader sees the message, the likely cause and a concrete next step.",
+          "notMet": "A part is missing or the next step is vague."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "accuracy",
+        "label": "Accurate reading",
+        "description": "Codes, paths and line numbers match the message.",
+        "anchors": {
+          "met": "The error code, file and line number are correct.",
+          "notMet": "Details are wrong or invented."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "register",
+        "label": "Cautious language",
+        "description": "Uses cautious words for the cause.",
+        "anchors": {
+          "met": "Uses \"likely\" or \"probably\" for guesses.",
+          "notMet": "States a guess as certain."
+        },
+        "dimension": "register"
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

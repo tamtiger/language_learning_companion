@@ -1,0 +1,374 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "write-an-architecture-decision-record-b2",
+  "title": "Write an architecture decision record (B2)",
+  "summary": "Write a concise architecture decision record with context, decision, alternatives and consequences.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "State the context and the forces behind a decision",
+    "Record the decision and the alternatives rejected",
+    "Describe positive and negative consequences honestly"
+  ],
+  "capabilities": [
+    "technical-explanation"
+  ],
+  "workflowTags": [
+    "architecture-decision-record",
+    "decision-consequences",
+    "alternatives-considered"
+  ],
+  "sections": [
+    {
+      "id": "adr-source",
+      "type": "source",
+      "title": "Decision notes",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how to send events between the order service and the shipping service. Context: the order service calls the shipping service directly; when shipping is slow, orders fail. Options discussed: keep direct calls with retries; use a message queue; use a shared database table. The team leans toward a message queue. Constraint: the team has no experience operating a queue and has two months."
+    },
+    {
+      "id": "adr-language",
+      "type": "language-support",
+      "title": "Language for decision records",
+      "vocabulary": [
+        {
+          "word": "decision record",
+          "ipa": "/dɪˈsɪʒ.ən ˈrek.ɚd/",
+          "definition": "bản ghi quyết định",
+          "technicalMeaning": "Văn bản ngắn ghi một quyết định kiến trúc và lý do.",
+          "collocations": [
+            "write a decision record",
+            "a decision record for"
+          ],
+          "example": "We wrote a decision record for the queue.",
+          "commonMistake": "Viết decision record thành hai từ."
+        },
+        {
+          "word": "context",
+          "ipa": "/ˈkɑːn.tekst/",
+          "definition": "bối cảnh",
+          "technicalMeaning": "Tình huống và lực tác động dẫn tới quyết định.",
+          "collocations": [
+            "the context is",
+            "in this context"
+          ],
+          "example": "The context is a slow shipping service.",
+          "commonMistake": "Nhấn âm đầu: CON-text."
+        },
+        {
+          "word": "alternative",
+          "ipa": "/ɔːlˈtɝː.nə.t̬ɪv/",
+          "definition": "phương án thay thế",
+          "technicalMeaning": "Lựa chọn khác đã được cân nhắc.",
+          "collocations": [
+            "reject an alternative",
+            "alternatives considered"
+          ],
+          "example": "We rejected the shared table alternative.",
+          "commonMistake": "Nhấn âm tiết thứ hai: al-TER-na-tive."
+        },
+        {
+          "word": "consequence",
+          "ipa": "/ˈkɑːn.sə.kwens/",
+          "definition": "hệ quả",
+          "technicalMeaning": "Điều xảy ra sau quyết định, tốt hoặc xấu.",
+          "collocations": [
+            "a positive consequence",
+            "accept the consequences"
+          ],
+          "example": "One consequence is extra operational work.",
+          "commonMistake": "Nói a consequence of + quyết định."
+        },
+        {
+          "word": "supersede",
+          "ipa": "/ˌsuː.pɚˈsiːd/",
+          "definition": "thay thế bản cũ",
+          "technicalMeaning": "Một quyết định mới thay cho quyết định trước.",
+          "collocations": [
+            "supersede a decision",
+            "superseded by"
+          ],
+          "example": "This record supersedes the earlier decision.",
+          "commonMistake": "Viết supersede với đuôi -sede."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "The context is ___, and the constraint is ___.",
+          "meaning": "Nêu bối cảnh và ràng buộc.",
+          "tone": "neutral",
+          "example": "The context is a slow shipping service, and the constraint is a two-month timeline.",
+          "alternatives": [
+            "We face ___ and must ___."
+          ]
+        },
+        {
+          "phrase": "We decided to ___ because ___.",
+          "meaning": "Ghi quyết định và lý do.",
+          "tone": "neutral",
+          "example": "We decided to use a message queue because it isolates slow consumers.",
+          "alternatives": [
+            "The decision is to ___."
+          ]
+        },
+        {
+          "phrase": "We rejected ___ because ___.",
+          "meaning": "Ghi phương án bị loại.",
+          "tone": "neutral",
+          "example": "We rejected a shared table because it couples both services to one schema.",
+          "alternatives": [
+            "We did not choose ___ since ___."
+          ]
+        },
+        {
+          "phrase": "As a consequence, ___; the downside is ___.",
+          "meaning": "Ghi hệ quả tốt và xấu.",
+          "tone": "neutral",
+          "example": "As a consequence, orders no longer fail when shipping is slow; the downside is extra operational work.",
+          "alternatives": [
+            "This gives us ___ but costs ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "adr-check",
+      "type": "auto-check",
+      "title": "Check decision record language",
+      "exercises": [
+        {
+          "id": "adr-good",
+          "type": "choice",
+          "question": "Which sentence records a rejected alternative with a reason?",
+          "options": [
+            "We rejected a shared table because it couples both services to one schema.",
+            "We looked at a few other things too.",
+            "The shared table was a bit unpopular."
+          ],
+          "correctAnswer": [
+            "We rejected a shared table because it couples both services to one schema."
+          ],
+          "explanation": "Phương án bị loại cần có lý do cụ thể."
+        },
+        {
+          "id": "adr-fix-fill",
+          "type": "fill",
+          "question": "Sửa lỗi: câu \"We decided using a queue because it isolates slow consumers.\" sai dạng động từ. Điền dạng đúng thay cho \"using\".",
+          "correctAnswer": [
+            "to use"
+          ],
+          "explanation": "Decide + to-infinitive."
+        },
+        {
+          "id": "adr-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các phần của decision record.",
+          "options": [
+            "consequences",
+            "decision",
+            "context",
+            "alternatives rejected"
+          ],
+          "correctAnswer": [
+            "context",
+            "decision",
+            "alternatives rejected",
+            "consequences"
+          ],
+          "explanation": "Bối cảnh, quyết định, phương án bị loại, hệ quả."
+        }
+      ]
+    },
+    {
+      "id": "waadrb-vocabulary-review",
+      "type": "vocabulary-review",
+      "title": "Ôn lại từ vựng của bài",
+      "wordRefs": [
+        "decision record",
+        "context",
+        "alternative",
+        "consequence"
+      ],
+      "exercises": [
+        {
+          "id": "waadrb-vr-match",
+          "type": "matching",
+          "question": "Ghép từ với nghĩa của nó.",
+          "matchingPairs": [
+            {
+              "key": "decision record",
+              "value": "bản ghi quyết định"
+            },
+            {
+              "key": "context",
+              "value": "bối cảnh"
+            },
+            {
+              "key": "alternative",
+              "value": "phương án thay thế"
+            },
+            {
+              "key": "consequence",
+              "value": "hệ quả"
+            }
+          ],
+          "correctAnswer": [
+            "decision record - bản ghi quyết định",
+            "context - bối cảnh",
+            "alternative - phương án thay thế",
+            "consequence - hệ quả"
+          ],
+          "explanation": "Ôn lại các từ đã học trong bài này."
+        },
+        {
+          "id": "waadrb-vr-fill-1",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: We wrote a ___ for the queue.",
+          "correctAnswer": [
+            "decision record"
+          ],
+          "explanation": "\"decision record\" nghĩa là bản ghi quyết định."
+        },
+        {
+          "id": "waadrb-vr-fill-2",
+          "type": "fill",
+          "question": "Điền từ còn thiếu: The ___ is a slow shipping service.",
+          "correctAnswer": [
+            "context"
+          ],
+          "explanation": "\"context\" nghĩa là bối cảnh."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "adr-task",
+    "mode": "written",
+    "title": "Write a decision record",
+    "scenario": "Your team has chosen an approach; you write the decision record so that future engineers understand why.",
+    "baselinePrompt": "From the short team notes, write a decision record in English (90 to 150 words): context, decision, alternatives rejected and consequences. Do not look at the model answer yet.",
+    "performancePrompt": "Write an architecture decision record in English, 90 to 150 words: the context, the decision, the alternatives you rejected and the consequences, good and bad.",
+    "modelResponse": "Decision record: events between the order and shipping services. Context: the order service calls the shipping service directly, and when shipping is slow, customer orders fail. The team has two months and no experience operating a queue. Decision: we decided to use a managed message queue, because it isolates slow consumers and lets orders succeed independently. Alternatives rejected: direct calls with retries, because retries add load during an outage; and a shared database table, because it couples both services to one schema. Consequences: orders no longer fail when shipping is slow, and we can add consumers later. The downside is new operational work, so we will add alerts and a training session before launch. Review date: three months after release.",
+    "retryPrompt": "Write the record again in English. Keep the structure and make the consequences more balanced.",
+    "transferPrompt": "Write a decision record for a different decision, such as choosing a database.",
+    "reviewPrompt": "Write a decision record for another decision without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Events between services",
+        "brief": "A decision about sending events between two services.",
+        "artifacts": [
+          {
+            "id": "adr-baseline-ctx",
+            "type": "source",
+            "title": "Events between services",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how orders notify shipping. Context: direct calls fail when shipping is slow. Options: retries, message queue, shared table. Constraint: two months, no queue experience."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Choosing a database",
+        "brief": "Retry with a database decision.",
+        "artifacts": [
+          {
+            "id": "adr-retry-ctx",
+            "type": "source",
+            "title": "Choosing a database",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: store for user sessions. Context: sessions are lost when a server restarts. Options: server memory, key-value store, SQL table. Constraint: low latency and a small team."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Logging format",
+        "brief": "A new situation: the format of logs.",
+        "artifacts": [
+          {
+            "id": "adr-transfer-ctx",
+            "type": "source",
+            "title": "Logging format",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: log format. Context: logs are plain text and hard to search. Options: keep text, JSON logs, a vendor agent. Constraint: five services in three languages."
+          }
+        ]
+      },
+      "review": {
+        "title": "Feature flags",
+        "brief": "Review with a decision about feature flags.",
+        "artifacts": [
+          {
+            "id": "adr-review-ctx",
+            "type": "source",
+            "title": "Feature flags",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how to release safely. Context: releases happen on Fridays and break often. Options: release branches, feature flags, canary servers. Constraint: no dedicated release engineer."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 420,
+      "requiredElements": [
+        "context",
+        "decision",
+        "alternatives rejected",
+        "consequences"
+      ],
+      "minWords": 90,
+      "maxWords": 150
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "reasons for the decision",
+      "honest consequences",
+      "concise wording"
+    ],
+    "rubric": [
+      {
+        "id": "content",
+        "label": "Context, decision, alternatives, consequences",
+        "description": "The record has all four parts.",
+        "anchors": {
+          "met": "Each alternative has a reason and the consequences include a downside.",
+          "notMet": "A part is missing or the downside is ignored."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "accuracy",
+        "label": "Precise language",
+        "description": "Sentences are precise and use decision vocabulary.",
+        "anchors": {
+          "met": "Uses \"because\" and \"as a consequence\" correctly.",
+          "notMet": "Reasons are vague or missing."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "register",
+        "label": "Neutral, durable tone",
+        "description": "The tone suits a record that others read later.",
+        "anchors": {
+          "met": "Neutral and complete, without team slang.",
+          "notMet": "Uses chatty or time-bound phrases like \"recently\"."
+        },
+        "dimension": "register"
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

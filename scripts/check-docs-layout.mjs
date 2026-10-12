@@ -143,7 +143,7 @@ export function checkDocsLayout(root) {
   if (missions !== null) {
     for (const file of docs.filter((name) => ['README.md', 'docs/CONTENT.md', 'docs/ARCHITECTURE.md'].includes(name))) {
       const text = readFileSync(join(root, file), 'utf8')
-      if (/six mission|6 mission(?! v3)/i.test(text)) errors.push(`${file} còn số mission cũ`)
+      if (/six mission|\b6 mission(?! v3)/i.test(text)) errors.push(`${file} còn số mission cũ`)
       const claims = [...text.matchAll(/\b(\d+|mười hai)\s+mission/giu)].map((m) => (m[1].toLowerCase() === 'mười hai' ? 12 : Number(m[1])))
       for (const claim of claims) {
         if (claim !== missions) errors.push(`${file} nêu ${claim} mission nhưng repo có ${missions}`)
