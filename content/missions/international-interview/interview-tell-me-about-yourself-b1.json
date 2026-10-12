@@ -1,0 +1,722 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-tell-me-about-yourself-b1",
+  "title": "Tell me about yourself in an interview (B1)",
+  "summary": "Trả lời câu mở đầu phỏng vấn trong một phút: hiện tại, quá khứ liên quan và lý do bạn muốn vị trí này.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Mở đầu bằng vai trò hiện tại",
+    "Nêu một thành tích có số liệu",
+    "Nối kinh nghiệm với vị trí đang ứng tuyển"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "self-introduction",
+    "present-past-future",
+    "career-summary"
+  ],
+  "sections": [
+    {
+      "id": "tmay-source",
+      "type": "source",
+      "title": "Interview opener",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Thanks for coming. Could you tell me about yourself? Notes on a strong answer: start with your current role, give one result with a number, add one earlier step, then say why this role fits you. Keep it under one minute."
+    },
+    {
+      "id": "tmay-language",
+      "type": "language-support",
+      "title": "Language for a career summary",
+      "vocabulary": [
+        {
+          "word": "currently",
+          "ipa": "/ˈkɝː.ənt.li/",
+          "definition": "hiện tại",
+          "technicalMeaning": "Nói về vai trò bạn đang làm.",
+          "collocations": [
+            "currently work on",
+            "currently responsible for"
+          ],
+          "example": "I currently work on a payment API.",
+          "commonMistake": "Đặt currently trước động từ chính, không đặt cuối câu."
+        },
+        {
+          "word": "background",
+          "ipa": "/ˈbæk.ɡraʊnd/",
+          "definition": "nền tảng, quá trình",
+          "technicalMeaning": "Kinh nghiệm và học vấn dẫn bạn tới vai trò hiện tại.",
+          "collocations": [
+            "a background in",
+            "my background"
+          ],
+          "example": "I have a background in backend development.",
+          "commonMistake": "Nói a background in + lĩnh vực, không nói background of."
+        },
+        {
+          "word": "responsible for",
+          "ipa": "/rɪˈspɑːn.sə.bəl fɔːr/",
+          "definition": "chịu trách nhiệm về",
+          "technicalMeaning": "Nói phần việc bạn sở hữu.",
+          "collocations": [
+            "be responsible for",
+            "responsible for the release"
+          ],
+          "example": "I was responsible for the billing service.",
+          "commonMistake": "Dùng giới từ for, không dùng of."
+        },
+        {
+          "word": "led to",
+          "ipa": "/led tuː/",
+          "definition": "dẫn tới",
+          "technicalMeaning": "Nối hành động của bạn với kết quả đo được.",
+          "collocations": [
+            "which led to",
+            "this led to"
+          ],
+          "example": "This led to thirty percent fewer failures.",
+          "commonMistake": "Dùng led (quá khứ), không dùng lead khi nói chuyện đã xảy ra."
+        },
+        {
+          "word": "looking for",
+          "ipa": "/ˈlʊk.ɪŋ fɔːr/",
+          "definition": "đang tìm kiếm",
+          "technicalMeaning": "Nói bạn muốn gì ở vai trò tiếp theo.",
+          "collocations": [
+            "looking for a role",
+            "looking for a chance"
+          ],
+          "example": "I am looking for a role with more ownership.",
+          "commonMistake": "Nói looking for, không nói looking to find for."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "I currently work as ___ at ___.",
+          "meaning": "Mở đầu bằng vai trò hiện tại.",
+          "tone": "neutral",
+          "example": "I currently work as a backend engineer at a fintech startup.",
+          "alternatives": [
+            "Right now, I am ___."
+          ]
+        },
+        {
+          "phrase": "One result I am proud of is ___.",
+          "meaning": "Nêu một thành tích có số liệu.",
+          "tone": "neutral",
+          "example": "One result I am proud of is a retry service that cut failures by thirty percent.",
+          "alternatives": [
+            "A result I am proud of is ___."
+          ]
+        },
+        {
+          "phrase": "Before that, I ___.",
+          "meaning": "Nối sang bước nghề nghiệp trước đó.",
+          "tone": "neutral",
+          "example": "Before that, I built internal tools for support teams.",
+          "alternatives": [
+            "Earlier in my career, I ___."
+          ]
+        },
+        {
+          "phrase": "I am looking for ___, and this role ___.",
+          "meaning": "Nối mong muốn của bạn với vị trí.",
+          "tone": "neutral",
+          "example": "I am looking for bigger systems, and this role has that scale.",
+          "alternatives": [
+            "This role fits me because ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tmay-check",
+      "type": "auto-check",
+      "title": "Check the structure of your answer",
+      "exercises": [
+        {
+          "id": "tmay-order",
+          "type": "choice",
+          "question": "Which order fits a one-minute answer?",
+          "options": [
+            "Present role, one result, earlier step, why this role",
+            "Childhood, school, every old job, hobbies",
+            "Salary hopes, benefits, start date, questions"
+          ],
+          "correctAnswer": [
+            "Present role, one result, earlier step, why this role"
+          ],
+          "explanation": "Câu trả lời một phút đi từ hiện tại, kết quả, bước trước đó rồi lý do chọn vị trí."
+        },
+        {
+          "id": "tmay-number",
+          "type": "choice",
+          "question": "Which sentence gives a result with a number?",
+          "options": [
+            "I improved the system a lot.",
+            "I cut failed payments by thirty percent.",
+            "I worked hard on many things."
+          ],
+          "correctAnswer": [
+            "I cut failed payments by thirty percent."
+          ],
+          "explanation": "Kết quả có số giúp người phỏng vấn hình dung được tác động."
+        },
+        {
+          "id": "tmay-fill",
+          "type": "fill",
+          "question": "Điền từ: I am ___ a role with more ownership.",
+          "correctAnswer": [
+            "looking for"
+          ],
+          "explanation": "Looking for là cụm đúng để nói bạn đang tìm một vai trò.",
+          "acceptedAnswers": [
+            "looking for a"
+          ]
+        },
+        {
+          "id": "tmay-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các phần của câu trả lời.",
+          "options": [
+            "why this role fits me",
+            "my current role",
+            "one result with a number",
+            "an earlier step"
+          ],
+          "correctAnswer": [
+            "my current role",
+            "one result with a number",
+            "an earlier step",
+            "why this role fits me"
+          ],
+          "explanation": "Thứ tự hiện tại, kết quả, trước đó, lý do."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "tmay-task",
+    "mode": "spoken",
+    "title": "Give a one-minute career summary",
+    "scenario": "Bạn phỏng vấn vị trí backend engineer; người phỏng vấn mở đầu bằng câu \"Tell me about yourself\".",
+    "baselinePrompt": "Trả lời bằng tiếng Anh trong khoảng một phút: vai trò hiện tại, một thành tích và lý do bạn muốn vị trí. Chưa xem bài mẫu hay cụm câu.",
+    "performancePrompt": "Answer in English in about one minute: your current role, one result with a number, one earlier step and why this role fits you.",
+    "modelResponse": "Thank you for having me. I currently work as a backend engineer at a small fintech team, where I am responsible for our payment API. One result I am proud of is a retry service that cut failed payments by thirty percent. Before that, I built internal tools for the support team, and I learned how to write clear tests and short design notes. I enjoy turning a messy problem into a simple, reliable system. I am looking for a role with bigger systems and more mentoring, and this role has both. I would be glad to talk about any of these projects in more detail, and I have a few questions about the team and its goals as well.",
+    "retryPrompt": "Answer again in English. Keep the same order and fix your weakest criterion.",
+    "transferPrompt": "Introduce yourself for a different role, such as a data engineer, and keep the same four-part order.",
+    "reviewPrompt": "Introduce yourself for another team without looking at your old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Backend Engineer at Northwind Apps",
+        "brief": "Phỏng vấn backend; người phỏng vấn mời bạn giới thiệu bản thân.",
+        "artifacts": [
+          {
+            "id": "tmay-baseline-ctx",
+            "type": "source",
+            "title": "Backend Engineer at Northwind Apps",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Could you tell me about yourself? The team runs a payment API and wants someone for reliability work."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Data Engineer at Fieldstone Labs",
+        "brief": "Sửa bài với vị trí data engineer ở một công ty khác.",
+        "artifacts": [
+          {
+            "id": "tmay-retry-ctx",
+            "type": "source",
+            "title": "Data Engineer at Fieldstone Labs",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Data Engineer, Fieldstone Labs. Interviewer: Please give me a short summary of your background. The team builds nightly data pipelines for sales reports."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "QA Lead at Brightwave",
+        "brief": "Tình huống mới: vị trí kiểm thử và chất lượng.",
+        "artifacts": [
+          {
+            "id": "tmay-transfer-ctx",
+            "type": "source",
+            "title": "QA Lead at Brightwave",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: QA Lead, Brightwave. Interviewer: To start, how would you describe yourself professionally? The team ships a mobile app every two weeks."
+          }
+        ]
+      },
+      "review": {
+        "title": "DevOps Engineer at Harborline",
+        "brief": "Ôn lại sau vài ngày với vị trí DevOps.",
+        "artifacts": [
+          {
+            "id": "tmay-review-ctx",
+            "type": "source",
+            "title": "DevOps Engineer at Harborline",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: DevOps Engineer, Harborline. Interviewer: Walk me through your career so far. The team moves services to containers and needs steady deployments."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "current role",
+        "result with a number",
+        "earlier step",
+        "why this role"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "structure",
+      "specificity",
+      "relevance to the role"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four-part order",
+        "description": "Answer follows present, result, earlier step, why this role.",
+        "anchors": {
+          "met": "The listener hears all four parts in order.",
+          "notMet": "Parts are missing or in a random order."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "specificity",
+        "label": "A result with a number",
+        "description": "The answer gives a concrete result.",
+        "anchors": {
+          "met": "One result includes a number or a clear before and after.",
+          "notMet": "Only general words such as \"improved a lot\"."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "relevance",
+        "label": "Link to the role",
+        "description": "The ending ties your goal to the role.",
+        "anchors": {
+          "met": "One sentence links your wish to what the role offers.",
+          "notMet": "The answer ends without a reason for the role."
+        },
+        "dimension": "range"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "tmay-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Right now, I work as a backend engineer on a payment system.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker describing?",
+            "options": [
+              "A past project failure",
+              "The present job",
+              "A salary hope"
+            ],
+            "correctAnswer": "The present job"
+          },
+          {
+            "id": "tmay-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "One result I am proud of is cutting failed payments by thirty percent.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "How much did failed payments drop?",
+            "options": [
+              "By nearly half",
+              "By roughly a tenth",
+              "By nearly a third"
+            ],
+            "correctAnswer": "By nearly a third"
+          },
+          {
+            "id": "tmay-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Before that, I built tools for the support team.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "When did the speaker build the tools?",
+            "options": [
+              "At an earlier job",
+              "Starting next year",
+              "During this week"
+            ],
+            "correctAnswer": "At an earlier job"
+          },
+          {
+            "id": "tmay-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I am looking for bigger systems, and this role has that scale.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Why does the speaker want the role?",
+            "options": [
+              "It pays much more",
+              "It is close to my home",
+              "It has larger systems"
+            ],
+            "correctAnswer": "It has larger systems"
+          }
+        ],
+        "training": [
+          {
+            "id": "tmay-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I am responsible for the billing service at my company.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker own?",
+            "options": [
+              "Customer payments work",
+              "The yearly hiring plan",
+              "The office move"
+            ],
+            "correctAnswer": "Customer payments work",
+            "feedback": "Responsible for nói phần việc bạn sở hữu."
+          },
+          {
+            "id": "tmay-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My background is in data work, and I moved to backend work two years ago.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What changed two years ago?",
+            "options": [
+              "The company name",
+              "The kind of work",
+              "The team size"
+            ],
+            "correctAnswer": "The kind of work",
+            "feedback": "Chú ý moved to: bước chuyển sang việc mới."
+          },
+          {
+            "id": "tmay-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This change led to forty percent fewer errors.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What did the change cause?",
+            "options": [
+              "More team meetings",
+              "Better software quality",
+              "Slower product releases"
+            ],
+            "correctAnswer": "Better software quality",
+            "feedback": "Led to nối hành động với kết quả."
+          },
+          {
+            "id": "tmay-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I currently lead a team of four engineers.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "How many engineers does the speaker lead?",
+            "options": [
+              "4 engineers",
+              "14 engineers",
+              "40 engineers"
+            ],
+            "correctAnswer": "4 engineers",
+            "feedback": "Chú ý four: số bốn, không phải fourteen hay forty."
+          },
+          {
+            "id": "tmay-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Earlier in my career, I wrote tests for a mobile app.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What did the speaker write earlier?",
+            "options": [
+              "Posts for a blog",
+              "Checks for an app",
+              "Plans for a long trip"
+            ],
+            "correctAnswer": "Checks for an app",
+            "feedback": "Earlier in my career đánh dấu bước trước."
+          },
+          {
+            "id": "tmay-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would like a role with more ownership and more mentoring.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker want?",
+            "options": [
+              "Less work overall",
+              "Autonomy and coaching",
+              "A move to a different city"
+            ],
+            "correctAnswer": "Autonomy and coaching",
+            "feedback": "Hai điều mong muốn nối bằng and."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "tmay-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I currently work as a data engineer at a retail company.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do now?",
+            "options": [
+              "Manages a team",
+              "Works with data",
+              "Designs products"
+            ],
+            "correctAnswer": "Works with data"
+          },
+          {
+            "id": "tmay-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "One result I am proud of is a report that now runs in ten minutes.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How long does the report take?",
+            "options": [
+              "2 hours",
+              "10 minutes",
+              "1 entire day"
+            ],
+            "correctAnswer": "10 minutes"
+          },
+          {
+            "id": "tmay-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Before that, I worked as a tester for a small startup.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What was the earlier role?",
+            "options": [
+              "A school teacher",
+              "A software tester",
+              "A fitness trainer"
+            ],
+            "correctAnswer": "A software tester"
+          },
+          {
+            "id": "tmay-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This role fits me because I enjoy reliability work.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "Why does it fit the speaker?",
+            "options": [
+              "They know the company founder",
+              "They want less travel",
+              "They like stable systems"
+            ],
+            "correctAnswer": "They like stable systems"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "tmay-cue-numbers",
+          "articulatoryCue": "Phân biệt thirty và thirteen: nhấn âm đầu của thirty, nhấn âm cuối của thirteen.",
+          "meaningRisk": "Nghe nhầm thirty và thirteen làm đổi kết quả bạn báo.",
+          "triggerItemIds": [
+            "tmay-pre-2",
+            "tmay-post-2"
+          ]
+        },
+        {
+          "id": "tmay-cue-current",
+          "articulatoryCue": "Nhấn âm đầu của currently và responsible để câu mở đầu rõ ràng.",
+          "meaningRisk": "Thiếu nhấn làm người nghe khó nhận ra vai trò hiện tại.",
+          "triggerItemIds": [
+            "tmay-pre-1",
+            "tmay-train-1"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "tmay-chunk-current",
+          "function": "current role",
+          "text": "I currently work as ___ at ___.",
+          "meaning": "Mở đầu bằng vai trò hiện tại.",
+          "slots": [
+            "role",
+            "company"
+          ],
+          "stressPattern": "CURRENTLY",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I currently work as a backend engineer at a fintech startup.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "tmay-chunk-result",
+          "function": "result with a number",
+          "text": "One result I am proud of is ___.",
+          "meaning": "Nêu một thành tích có số liệu.",
+          "slots": [
+            "result"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "One result I am proud of is a retry service that cut failures by thirty percent.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "tmay-chunk-before",
+          "function": "earlier step",
+          "text": "Before that, I ___.",
+          "meaning": "Nối sang bước trước đó.",
+          "slots": [
+            "earlier work"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Before that, I built internal tools for support teams.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "tmay-chunk-fit",
+          "function": "why this role",
+          "text": "I am looking for ___, and this role ___.",
+          "meaning": "Nối mong muốn với vị trí.",
+          "slots": [
+            "wish",
+            "reason"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I am looking for bigger systems, and this role has that scale.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình có đủ bốn phần: hiện tại, kết quả, trước đó, lý do.",
+        "Kết quả của mình có một con số rõ ràng.",
+        "Câu trả lời ngắn hơn một phút và không đọc lại."
+      ],
+      "interactionTurns": [
+        {
+          "id": "tmay-turn-clarify",
+          "kind": "clarification",
+          "prompt": "Sorry, could you tell me more about that result?",
+          "expectedFunction": "give the number and what you did in two sentences"
+        },
+        {
+          "id": "tmay-turn-follow",
+          "kind": "follow-up",
+          "prompt": "Why are you leaving your current job?",
+          "expectedFunction": "give a positive reason in one or two sentences"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

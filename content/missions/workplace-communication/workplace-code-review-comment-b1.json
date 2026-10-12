@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-code-review-comment-b1",
+  "title": "Write a clear code review comment (B1)",
+  "summary": "Viết một nhận xét code review lịch sự gồm quan sát, lý do và đề xuất cụ thể.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nêu quan sát cụ thể về đoạn code",
+    "Giải thích lý do ảnh hưởng đến người dùng hoặc đội",
+    "Đưa một đề xuất lịch sự bằng câu hỏi hoặc gợi ý"
+  ],
+  "capabilities": [
+    "workplace-communication"
+  ],
+  "workflowTags": [
+    "code-review-comment",
+    "pull-request-feedback",
+    "kind-suggestion"
+  ],
+  "sections": [
+    {
+      "id": "crc-source",
+      "type": "source",
+      "title": "Pull request snippet",
+      "format": "technical-doc",
+      "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the page address, does not check an empty value and does not have a test. Reviewer notes: describe what you see, say why it matters and suggest a fix in a kind tone."
+    },
+    {
+      "id": "crc-language",
+      "type": "language-support",
+      "title": "Language for review comments",
+      "vocabulary": [
+        {
+          "word": "nit",
+          "ipa": "/nɪt/",
+          "definition": "góp ý nhỏ",
+          "technicalMeaning": "Một nhận xét nhỏ không cần chặn việc merge.",
+          "collocations": [
+            "a small nit",
+            "nit:"
+          ],
+          "example": "Nit: the variable name could be clearer.",
+          "commonMistake": "Nit là từ viết tắt thân mật trong review, không dùng trong văn bản trang trọng."
+        },
+        {
+          "word": "edge case",
+          "ipa": "/ˈedʒ keɪs/",
+          "definition": "trường hợp biên",
+          "technicalMeaning": "Đầu vào hiếm khiến code chạy sai.",
+          "collocations": [
+            "miss an edge case",
+            "handle the edge case"
+          ],
+          "example": "This misses the edge case of an empty code.",
+          "commonMistake": "Nói handle the edge case, không nói handle with."
+        },
+        {
+          "word": "suggest",
+          "ipa": "/səˈdʒest/",
+          "definition": "đề xuất",
+          "technicalMeaning": "Gợi ý một cách sửa mà không ra lệnh.",
+          "collocations": [
+            "I suggest",
+            "could suggest"
+          ],
+          "example": "I suggest adding a check for empty input.",
+          "commonMistake": "Nói I suggest + V-ing."
+        },
+        {
+          "word": "readability",
+          "ipa": "/ˌriː.dəˈbɪl.ə.t̬i/",
+          "definition": "độ dễ đọc",
+          "technicalMeaning": "Mức độ người khác hiểu code nhanh.",
+          "collocations": [
+            "improve readability",
+            "for readability"
+          ],
+          "example": "This would improve readability.",
+          "commonMistake": "Không đếm được: some readability."
+        },
+        {
+          "word": "happy to",
+          "ipa": "/ˈhæp.i tuː/",
+          "definition": "sẵn lòng",
+          "technicalMeaning": "Cho thấy bạn sẵn sàng giúp thêm.",
+          "collocations": [
+            "happy to help",
+            "happy to review"
+          ],
+          "example": "I am happy to review the change again.",
+          "commonMistake": "Nói happy to + động từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "I noticed that ___.",
+          "meaning": "Mở đầu bằng quan sát.",
+          "tone": "neutral",
+          "example": "I noticed that applyDiscount does not check for an empty code.",
+          "alternatives": [
+            "It looks like ___."
+          ]
+        },
+        {
+          "phrase": "This matters because ___.",
+          "meaning": "Giải thích lý do.",
+          "tone": "neutral",
+          "example": "This matters because an empty code could remove the whole price.",
+          "alternatives": [
+            "The risk here is ___."
+          ]
+        },
+        {
+          "phrase": "Could we ___? / I suggest ___.",
+          "meaning": "Đề xuất lịch sự.",
+          "tone": "neutral",
+          "example": "Could we add a check and a short test for the empty case?",
+          "alternatives": [
+            "What do you think about ___?"
+          ]
+        },
+        {
+          "phrase": "Happy to ___ if that helps.",
+          "meaning": "Cho thấy sẵn lòng hỗ trợ.",
+          "tone": "neutral",
+          "example": "Happy to pair on the test if that helps.",
+          "alternatives": [
+            "Let me know if I can help."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "crc-check",
+      "type": "auto-check",
+      "title": "Check your review comment",
+      "exercises": [
+        {
+          "id": "crc-good",
+          "type": "choice",
+          "question": "Which comment is specific and kind?",
+          "options": [
+            "I noticed that an empty code is not checked, so the price could be wrong. Could we add a check?",
+            "This code is wrong and I would not merge it until it is rewritten.",
+            "Why did you write it like this? Please explain before I review more."
+          ],
+          "correctAnswer": [
+            "I noticed that an empty code is not checked, so the price could be wrong. Could we add a check?"
+          ],
+          "explanation": "Có quan sát, lý do và đề xuất lịch sự."
+        },
+        {
+          "id": "crc-nit",
+          "type": "choice",
+          "question": "When is \"Nit:\" a good label?",
+          "options": [
+            "For a small point that need not block the merge",
+            "For a serious security bug",
+            "For praise or thanks only"
+          ],
+          "correctAnswer": [
+            "For a small point that need not block the merge"
+          ],
+          "explanation": "Nit dành cho góp ý nhỏ."
+        },
+        {
+          "id": "crc-fill",
+          "type": "fill",
+          "question": "Điền từ: I suggest ___ a check for empty input.",
+          "correctAnswer": [
+            "adding"
+          ],
+          "explanation": "I suggest + V-ing.",
+          "acceptedAnswers": [
+            "using"
+          ]
+        },
+        {
+          "id": "crc-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp một comment review.",
+          "options": [
+            "a kind suggestion",
+            "what you notice",
+            "why it matters",
+            "an offer to help"
+          ],
+          "correctAnswer": [
+            "what you notice",
+            "why it matters",
+            "a kind suggestion",
+            "an offer to help"
+          ],
+          "explanation": "Quan sát, lý do, đề xuất, lời mời giúp."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "crc-task",
+    "mode": "written",
+    "title": "Write one review comment",
+    "scenario": "Bạn review một pull request thêm mã giảm giá vào trang thanh toán và cần viết một nhận xét cho tác giả.",
+    "baselinePrompt": "Viết một nhận xét review bằng tiếng Anh (50 đến 110 từ): quan sát, lý do và đề xuất lịch sự. Chưa xem bài mẫu.",
+    "performancePrompt": "Write one code review comment in English, 50 to 110 words: what you notice, why it matters and a kind suggestion.",
+    "modelResponse": "Thanks for the update, the checkout flow is easier to follow now. I noticed that applyDiscount reads the code from the page address but does not check for an empty value. This matters because an empty code could set the discount to the full price, and customers might get items for free. Could we add a check for empty input and return early? A short test for that case would also help us avoid a regression later. Nit: the variable name \"d\" could be clearer, for example \"discountCode\", for readability. Happy to pair on the test if that helps.",
+    "retryPrompt": "Write the comment again in English. Keep it kind and make the reason clearer.",
+    "transferPrompt": "Write a review comment for a different pull request, such as one that logs a user email.",
+    "reviewPrompt": "Write a review comment for another change without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Discount on checkout",
+        "brief": "Một pull request thêm mã giảm giá vào trang thanh toán.",
+        "artifacts": [
+          {
+            "id": "crc-baseline-ctx",
+            "type": "source",
+            "title": "Discount on checkout",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the page address, does not check an empty value and does not have a test."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Logging a user email",
+        "brief": "Sửa bài với một pull request ghi log có email người dùng.",
+        "artifacts": [
+          {
+            "id": "crc-retry-ctx",
+            "type": "source",
+            "title": "Logging a user email",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Pull request: improve error logs. Snippet: the function logFailure writes the full user email and the request body into the log file and has no test."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "A long function",
+        "brief": "Tình huống mới: một hàm rất dài khó đọc.",
+        "artifacts": [
+          {
+            "id": "crc-transfer-ctx",
+            "type": "source",
+            "title": "A long function",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Pull request: add an export button. Snippet: the function buildReport has two hundred lines, mixes data loading and formatting and has several nested loops."
+          }
+        ]
+      },
+      "review": {
+        "title": "A slow query in a loop",
+        "brief": "Ôn lại với một đoạn code gọi database trong vòng lặp.",
+        "artifacts": [
+          {
+            "id": "crc-review-ctx",
+            "type": "source",
+            "title": "A slow query in a loop",
+            "format": "technical-doc",
+            "content": "Synthetic training artifact — non-production. Pull request: show recent orders. Snippet: the function loadOrders runs one database query for every order inside a loop and has no limit on the number of rows."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 300,
+      "requiredElements": [
+        "observation",
+        "reason",
+        "suggestion"
+      ],
+      "minWords": 50,
+      "maxWords": 110
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "specific observation",
+      "clear reason",
+      "kind suggestion"
+    ],
+    "rubric": [
+      {
+        "id": "observation",
+        "label": "Specific observation",
+        "description": "The comment points to a concrete part of the code.",
+        "anchors": {
+          "met": "Names the function or line and what it does.",
+          "notMet": "Says \"this is wrong\" without any detail."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "reason",
+        "label": "Reason and suggestion",
+        "description": "The comment explains why it matters and suggests a fix.",
+        "anchors": {
+          "met": "Gives a reason and one clear suggestion.",
+          "notMet": "Gives a command or a reason with no fix."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "tone",
+        "label": "Kind tone",
+        "description": "The tone is respectful of the author.",
+        "anchors": {
+          "met": "Uses \"Could we\" or \"I suggest\" and offers help.",
+          "notMet": "Sounds blunt or personal."
+        },
+        "dimension": "register"
+      }
+    ]
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

@@ -1,0 +1,718 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-give-and-receive-feedback-b1",
+  "title": "Give and receive feedback at work (B1)",
+  "summary": "Đưa phản hồi cụ thể theo ví dụ-tác động-đề xuất và đón nhận phản hồi bằng cách tóm tắt, cảm ơn và hỏi thêm.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Đưa phản hồi bằng ví dụ cụ thể và tác động",
+    "Đề xuất một thay đổi nhỏ",
+    "Đón nhận phản hồi bằng cách tóm tắt và hỏi thêm"
+  ],
+  "capabilities": [
+    "workplace-communication"
+  ],
+  "workflowTags": [
+    "feedback-conversation",
+    "situation-impact-suggestion",
+    "receiving-feedback"
+  ],
+  "sections": [
+    {
+      "id": "fbk-source",
+      "type": "source",
+      "title": "Feedback after a demo",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Setting: after a team demo. Colleague: Can I share some feedback on the demo? Notes: use one specific example, describe its impact, offer a small suggestion. When you receive feedback, summarize it, say thank you and ask one question."
+    },
+    {
+      "id": "fbk-language",
+      "type": "language-support",
+      "title": "Language for feedback",
+      "vocabulary": [
+        {
+          "word": "specific",
+          "ipa": "/spəˈsɪf.ɪk/",
+          "definition": "cụ thể",
+          "technicalMeaning": "Nêu một ví dụ có thật thay vì nhận xét chung chung.",
+          "collocations": [
+            "a specific example",
+            "be specific"
+          ],
+          "example": "Let me give a specific example.",
+          "commonMistake": "Nhấn âm tiết thứ hai: spe-CIF-ic."
+        },
+        {
+          "word": "impact",
+          "ipa": "/ˈɪm.pækt/",
+          "definition": "tác động",
+          "technicalMeaning": "Điều xảy ra vì hành vi hoặc kết quả đó.",
+          "collocations": [
+            "the impact on",
+            "positive impact"
+          ],
+          "example": "The impact was that people lost the thread.",
+          "commonMistake": "Danh từ nhấn âm đầu: IM-pact."
+        },
+        {
+          "word": "suggest",
+          "ipa": "/səˈdʒest/",
+          "definition": "đề xuất",
+          "technicalMeaning": "Gợi ý một thay đổi nhỏ để làm tốt hơn.",
+          "collocations": [
+            "suggest a change",
+            "I suggest that"
+          ],
+          "example": "I suggest starting with the main result.",
+          "commonMistake": "Nói I suggest + V-ing hoặc that-clause."
+        },
+        {
+          "word": "constructive",
+          "ipa": "/kənˈstrʌk.tɪv/",
+          "definition": "mang tính xây dựng",
+          "technicalMeaning": "Phản hồi giúp người nhận cải thiện.",
+          "collocations": [
+            "constructive feedback",
+            "constructive tone"
+          ],
+          "example": "I hope this feedback is constructive.",
+          "commonMistake": "Nhấn âm tiết thứ hai: con-STRUC-tive."
+        },
+        {
+          "word": "take on board",
+          "ipa": "/teɪk ɑːn bɔːrd/",
+          "definition": "tiếp thu",
+          "technicalMeaning": "Chấp nhận và sẽ áp dụng góp ý.",
+          "collocations": [
+            "take it on board",
+            "take your point on board"
+          ],
+          "example": "I will take that on board.",
+          "commonMistake": "Dùng take ... on board, không nói take on the board."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Can I share some feedback on ___?",
+          "meaning": "Xin phép đưa phản hồi.",
+          "tone": "neutral",
+          "example": "Can I share some feedback on the demo?",
+          "alternatives": [
+            "Do you have a minute for feedback on ___?"
+          ]
+        },
+        {
+          "phrase": "When you ___, the impact was ___. Next time, you could ___.",
+          "meaning": "Cấu trúc ví dụ, tác động, đề xuất.",
+          "tone": "neutral",
+          "example": "When you showed ten slides, the impact was that people lost focus. Next time, you could start with the main result.",
+          "alternatives": [
+            "One example is ___, and it led to ___."
+          ]
+        },
+        {
+          "phrase": "So what I hear is ___. Thank you for pointing that out.",
+          "meaning": "Tóm tắt phản hồi bạn nhận được.",
+          "tone": "neutral",
+          "example": "So what I hear is that the demo needs a clearer start. Thank you for pointing that out.",
+          "alternatives": [
+            "If I understand correctly, ___."
+          ]
+        },
+        {
+          "phrase": "Could you give me an example of ___?",
+          "meaning": "Hỏi thêm ví dụ khi nhận phản hồi.",
+          "tone": "neutral",
+          "example": "Could you give me an example of a better opening?",
+          "alternatives": [
+            "What would that look like in practice?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fbk-check",
+      "type": "auto-check",
+      "title": "Check your feedback language",
+      "exercises": [
+        {
+          "id": "fbk-specific",
+          "type": "choice",
+          "question": "Which feedback is specific and useful?",
+          "options": [
+            "The demo opened with ten slides, so the main result came late.",
+            "The demo was kind of bad.",
+            "You should be more confident."
+          ],
+          "correctAnswer": [
+            "The demo opened with ten slides, so the main result came late."
+          ],
+          "explanation": "Phản hồi tốt có ví dụ và tác động."
+        },
+        {
+          "id": "fbk-receive",
+          "type": "choice",
+          "question": "How can you respond well to feedback?",
+          "options": [
+            "Summarize it and ask one question",
+            "Explain why the person is wrong",
+            "Stay silent and leave"
+          ],
+          "correctAnswer": [
+            "Summarize it and ask one question"
+          ],
+          "explanation": "Tóm tắt giúp bạn xác nhận đã hiểu đúng."
+        },
+        {
+          "id": "fbk-fill",
+          "type": "fill",
+          "question": "Điền từ: I will take that ___ board.",
+          "correctAnswer": [
+            "on"
+          ],
+          "explanation": "Take on board là cụm cố định."
+        },
+        {
+          "id": "fbk-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp phản hồi theo thứ tự.",
+          "options": [
+            "a small suggestion",
+            "the impact",
+            "a specific example",
+            "a thank you"
+          ],
+          "correctAnswer": [
+            "a specific example",
+            "the impact",
+            "a small suggestion",
+            "a thank you"
+          ],
+          "explanation": "Ví dụ, tác động, đề xuất, cảm ơn."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "fbk-task",
+    "mode": "spoken",
+    "title": "Give feedback, then respond to feedback",
+    "scenario": "Sau buổi demo, bạn đưa phản hồi cho đồng nghiệp rồi nhận lại một phản hồi về chính bạn.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: đưa một phản hồi cụ thể với ví dụ, tác động và đề xuất, rồi đáp lại một phản hồi bằng cách tóm tắt và hỏi thêm. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about one minute: give one piece of feedback with an example, impact and suggestion, then respond to feedback by summarizing it and asking one question.",
+    "modelResponse": "Can I share some feedback on the demo? When you showed ten slides before the result, the impact was that people lost focus and the main point came late. Next time, you could start with the result and use two or three slides after that. I think the content was strong, and the live example was very clear. Now, about my part. You said my update was too long. So what I hear is that I should lead with the decision and keep the details short. Thank you for pointing that out. Could you give me an example of a better opening? I will take that on board and try a shorter version in the next meeting.",
+    "retryPrompt": "Speak again in English. Keep the example-impact-suggestion order and make your example more specific.",
+    "transferPrompt": "Give and receive feedback about a code review conversation instead of a demo.",
+    "reviewPrompt": "Give and receive feedback in another situation without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Feedback after a demo",
+        "brief": "Sau demo, đồng nghiệp xin phản hồi và bạn cũng nhận phản hồi.",
+        "artifacts": [
+          {
+            "id": "fbk-baseline-ctx",
+            "type": "source",
+            "title": "Feedback after a demo",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: after a team demo. Colleague: Can I share some feedback on the demo? Afterwards you will also receive feedback on your update."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Feedback on a pull request",
+        "brief": "Sửa bài với tình huống review code của đồng nghiệp.",
+        "artifacts": [
+          {
+            "id": "fbk-retry-ctx",
+            "type": "source",
+            "title": "Feedback on a pull request",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: after a code review. Colleague: Could we talk about my last pull request? You noticed it had no tests."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Feedback on a design doc",
+        "brief": "Tình huống mới: tài liệu thiết kế khó đọc.",
+        "artifacts": [
+          {
+            "id": "fbk-transfer-ctx",
+            "type": "source",
+            "title": "Feedback on a design doc",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: after a design review. Colleague: I would value your thoughts on my design doc. You found the diagrams unclear."
+          }
+        ]
+      },
+      "review": {
+        "title": "Feedback on a customer call",
+        "brief": "Ôn lại với cuộc gọi khách hàng.",
+        "artifacts": [
+          {
+            "id": "fbk-review-ctx",
+            "type": "source",
+            "title": "Feedback on a customer call",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: after a customer call. Colleague: How did the call feel to you? You noticed they spoke very fast and the customer was lost."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "specific example",
+        "impact",
+        "suggestion",
+        "summary and question"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "specific example",
+      "constructive tone",
+      "active listening"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Example, impact, suggestion",
+        "description": "Feedback follows the three-part order.",
+        "anchors": {
+          "met": "The feedback has a real example, its impact and a suggestion.",
+          "notMet": "Only general words such as \"good\" or \"bad\"."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "listening",
+        "label": "Receives feedback",
+        "description": "Summarizes and asks a question.",
+        "anchors": {
+          "met": "Restates the feedback and asks for an example.",
+          "notMet": "Defends or stays silent."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "tone",
+        "label": "Constructive tone",
+        "description": "The tone is kind and professional.",
+        "anchors": {
+          "met": "Uses \"could\" and \"thank you\".",
+          "notMet": "Sounds like criticism of the person."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "fbk-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Can I share some feedback on the demo?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker doing?",
+            "options": [
+              "Asking permission",
+              "Giving an order for the team",
+              "Saying goodbye"
+            ],
+            "correctAnswer": "Asking permission"
+          },
+          {
+            "id": "fbk-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "When you showed ten slides, the impact was that people lost focus.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What was the effect?",
+            "options": [
+              "The audience drifted away",
+              "The demo ended early for the team",
+              "The room was too hot"
+            ],
+            "correctAnswer": "The audience drifted away"
+          },
+          {
+            "id": "fbk-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Next time, you could start with the main result.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is suggested?",
+            "options": [
+              "A different opening",
+              "A longer demo for the team",
+              "A new topic"
+            ],
+            "correctAnswer": "A different opening"
+          },
+          {
+            "id": "fbk-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "So what I hear is that my update was too long.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do?",
+            "options": [
+              "Restates the point",
+              "Disagrees strongly",
+              "Changes the subject"
+            ],
+            "correctAnswer": "Restates the point"
+          }
+        ],
+        "training": [
+          {
+            "id": "fbk-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I think the live example was very clear.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is praised?",
+            "options": [
+              "A real-time demo",
+              "The long agenda",
+              "The slide colors"
+            ],
+            "correctAnswer": "A real-time demo",
+            "feedback": "Phản hồi tốt cũng nêu điểm mạnh."
+          },
+          {
+            "id": "fbk-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The impact was that the main point came too late.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What was the problem?",
+            "options": [
+              "The key idea arrived late",
+              "The audio failed",
+              "The room was full for the team"
+            ],
+            "correctAnswer": "The key idea arrived late",
+            "feedback": "The impact was that nêu hậu quả."
+          },
+          {
+            "id": "fbk-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I suggest starting with the decision and keeping details short.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What advice is given?",
+            "options": [
+              "Lead with the decision",
+              "Add more details",
+              "Skip the decision for the team"
+            ],
+            "correctAnswer": "Lead with the decision",
+            "feedback": "I suggest + V-ing là cách đề xuất."
+          },
+          {
+            "id": "fbk-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thank you for pointing that out. I will take it on board.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How does the speaker react?",
+            "options": [
+              "Accepts the advice",
+              "Rejects the idea for the team",
+              "Asks to cancel"
+            ],
+            "correctAnswer": "Accepts the advice",
+            "feedback": "Take on board là tiếp thu."
+          },
+          {
+            "id": "fbk-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could you give me an example of a better opening?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is requested?",
+            "options": [
+              "A sample to learn from",
+              "A day off at work",
+              "A new project for the team"
+            ],
+            "correctAnswer": "A sample to learn from",
+            "feedback": "Hỏi thêm ví dụ để hiểu rõ."
+          },
+          {
+            "id": "fbk-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "If I understand correctly, you would like fewer slides.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker checking?",
+            "options": [
+              "Their own understanding",
+              "The meeting time",
+              "The slide count only for the team"
+            ],
+            "correctAnswer": "Their own understanding",
+            "feedback": "If I understand correctly là cách xác nhận."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "fbk-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Do you have a minute for feedback on my design doc?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker ask for?",
+            "options": [
+              "A short conversation",
+              "A new job for the team",
+              "A holiday"
+            ],
+            "correctAnswer": "A short conversation"
+          },
+          {
+            "id": "fbk-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "One example is the second diagram, and it led to confusion in the review.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What caused confusion?",
+            "options": [
+              "An unclear diagram",
+              "A missing agenda for the team",
+              "A broken laptop"
+            ],
+            "correctAnswer": "An unclear diagram"
+          },
+          {
+            "id": "fbk-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I suggest adding one sentence under each diagram.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the suggestion?",
+            "options": [
+              "Short explanations",
+              "Fewer diagrams in total",
+              "A bigger font"
+            ],
+            "correctAnswer": "Short explanations"
+          },
+          {
+            "id": "fbk-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What would that look like in practice?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker want?",
+            "options": [
+              "A concrete picture",
+              "A faster answer for the team",
+              "A new tool at work"
+            ],
+            "correctAnswer": "A concrete picture"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "fbk-cue-specific",
+          "articulatoryCue": "Nhấn âm thứ hai của specific và constructive để phản hồi nghe rõ và nhẹ nhàng.",
+          "meaningRisk": "Nhấn sai làm từ chính khó nhận ra.",
+          "triggerItemIds": [
+            "fbk-train-1",
+            "fbk-pre-2"
+          ]
+        },
+        {
+          "id": "fbk-cue-suggest",
+          "articulatoryCue": "Nhấn âm thứ hai của suggest ở câu đề xuất để nghe như gợi ý.",
+          "meaningRisk": "Nhấn âm đầu làm câu nghe như mệnh lệnh.",
+          "triggerItemIds": [
+            "fbk-pre-3",
+            "fbk-train-3"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "fbk-chunk-ask",
+          "function": "ask permission",
+          "text": "Can I share some feedback on ___?",
+          "meaning": "Xin phép đưa phản hồi.",
+          "slots": [
+            "topic"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Can I share some feedback on the demo?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "fbk-chunk-impact",
+          "function": "example and impact",
+          "text": "When you ___, the impact was ___.",
+          "meaning": "Nêu ví dụ và tác động.",
+          "slots": [
+            "example",
+            "impact"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "When you showed ten slides, the impact was that people lost focus.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "fbk-chunk-suggest",
+          "function": "suggestion",
+          "text": "Next time, you could ___.",
+          "meaning": "Đề xuất một thay đổi.",
+          "slots": [
+            "change"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Next time, you could start with the main result.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "fbk-chunk-hear",
+          "function": "receive feedback",
+          "text": "So what I hear is ___. Thank you for pointing that out.",
+          "meaning": "Tóm tắt và cảm ơn.",
+          "slots": [
+            "summary"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "So what I hear is that the demo needs a clearer start. Thank you for pointing that out.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình đưa một ví dụ thật, một tác động và một đề xuất.",
+        "Mình tóm tắt phản hồi nhận được và cảm ơn.",
+        "Giọng mình nhẹ nhàng, không phán xét con người."
+      ],
+      "interactionTurns": [
+        {
+          "id": "fbk-turn-defend",
+          "kind": "follow-up",
+          "prompt": "I disagree. I think the long intro was needed. What do you think?",
+          "expectedFunction": "respond calmly and ask one clarifying question"
+        },
+        {
+          "id": "fbk-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not follow the example. Could you say it again?",
+          "expectedFunction": "restate your example in one sentence"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

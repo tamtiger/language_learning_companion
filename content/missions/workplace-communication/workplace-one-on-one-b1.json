@@ -1,0 +1,720 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-one-on-one-b1",
+  "title": "Run your side of a 1:1 meeting (B1)",
+  "summary": "Trong cuộc 1:1 với quản lý: báo tiến độ ngắn, nêu một vướng mắc và xin hướng dẫn, rồi chốt hành động tiếp theo.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Báo tiến độ ngắn gọn bằng ba ý",
+    "Nêu vướng mắc và điều bạn cần từ quản lý",
+    "Chốt hành động và thời hạn trước khi kết thúc"
+  ],
+  "capabilities": [
+    "workplace-communication"
+  ],
+  "workflowTags": [
+    "one-on-one-meeting",
+    "manager-sync",
+    "ask-for-guidance"
+  ],
+  "sections": [
+    {
+      "id": "oo-source",
+      "type": "source",
+      "title": "1:1 agenda",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Setting: weekly 1:1 between a developer and a manager. Manager: What would you like to talk about today? Notes: start with progress, then one challenge, then ask for guidance, and finish with who does what by when."
+    },
+    {
+      "id": "oo-language",
+      "type": "language-support",
+      "title": "Language for a 1:1",
+      "vocabulary": [
+        {
+          "word": "progress",
+          "ipa": "/ˈprɑː.ɡres/",
+          "definition": "tiến độ",
+          "technicalMeaning": "Mức độ công việc đã hoàn thành so với kế hoạch.",
+          "collocations": [
+            "make progress",
+            "a progress update"
+          ],
+          "example": "I made good progress on the import tool.",
+          "commonMistake": "Danh từ nhấn âm đầu: PROG-ress."
+        },
+        {
+          "word": "challenge",
+          "ipa": "/ˈtʃæl.ɪndʒ/",
+          "definition": "thách thức",
+          "technicalMeaning": "Điều khó đang làm chậm công việc của bạn.",
+          "collocations": [
+            "face a challenge",
+            "the main challenge"
+          ],
+          "example": "My main challenge is the test environment.",
+          "commonMistake": "Nói a challenge, không nói a challenging khi là danh từ."
+        },
+        {
+          "word": "priority",
+          "ipa": "/praɪˈɔːr.ə.t̬i/",
+          "definition": "ưu tiên",
+          "technicalMeaning": "Việc quan trọng nhất cần làm trước.",
+          "collocations": [
+            "top priority",
+            "set priorities"
+          ],
+          "example": "Which task is the top priority this week?",
+          "commonMistake": "Nhấn âm tiết thứ hai: pri-OR-i-ty."
+        },
+        {
+          "word": "guidance",
+          "ipa": "/ˈɡaɪ.dəns/",
+          "definition": "sự hướng dẫn",
+          "technicalMeaning": "Lời khuyên giúp bạn quyết định hướng đi.",
+          "collocations": [
+            "ask for guidance",
+            "need some guidance"
+          ],
+          "example": "I would like some guidance on this decision.",
+          "commonMistake": "Guidance không đếm được: some guidance."
+        },
+        {
+          "word": "follow up",
+          "ipa": "/ˌfɑː.loʊ ˈʌp/",
+          "definition": "theo dõi tiếp",
+          "technicalMeaning": "Làm việc tiếp theo sau cuộc họp.",
+          "collocations": [
+            "follow up on",
+            "a follow-up"
+          ],
+          "example": "I will follow up by email tomorrow.",
+          "commonMistake": "Động từ viết follow up, danh từ viết follow-up."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Since our last 1:1, I have ___.",
+          "meaning": "Mở đầu báo tiến độ.",
+          "tone": "neutral",
+          "example": "Since our last 1:1, I have finished the import tool and started the tests.",
+          "alternatives": [
+            "Over the past week, I ___."
+          ]
+        },
+        {
+          "phrase": "My main challenge right now is ___.",
+          "meaning": "Nêu vướng mắc chính.",
+          "tone": "neutral",
+          "example": "My main challenge right now is the unstable test environment.",
+          "alternatives": [
+            "One thing slowing me down is ___."
+          ]
+        },
+        {
+          "phrase": "I would like some guidance on ___.",
+          "meaning": "Xin hướng dẫn.",
+          "tone": "neutral",
+          "example": "I would like some guidance on whether to fix it now or after the release.",
+          "alternatives": [
+            "What would you do in my position?"
+          ]
+        },
+        {
+          "phrase": "So the next step is ___, and I will ___ by ___.",
+          "meaning": "Chốt hành động và thời hạn.",
+          "tone": "neutral",
+          "example": "So the next step is a decision on the environment, and I will send a plan by Thursday.",
+          "alternatives": [
+            "To confirm, I will ___ by ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oo-check",
+      "type": "auto-check",
+      "title": "Check your 1:1 language",
+      "exercises": [
+        {
+          "id": "oo-open",
+          "type": "choice",
+          "question": "Which sentence starts a progress update well?",
+          "options": [
+            "Since our last 1:1, I have finished the import tool.",
+            "Everything is fine, I think.",
+            "I was busy with many things."
+          ],
+          "correctAnswer": [
+            "Since our last 1:1, I have finished the import tool."
+          ],
+          "explanation": "Mở đầu bằng việc đã hoàn thành cụ thể."
+        },
+        {
+          "id": "oo-ask",
+          "type": "choice",
+          "question": "Which sentence asks for guidance?",
+          "options": [
+            "What would you do in my position?",
+            "Tell me what to do.",
+            "I do not need any help."
+          ],
+          "correctAnswer": [
+            "What would you do in my position?"
+          ],
+          "explanation": "Câu hỏi mở xin ý kiến quản lý."
+        },
+        {
+          "id": "oo-fill",
+          "type": "fill",
+          "question": "Điền từ: I will follow ___ by email tomorrow.",
+          "correctAnswer": [
+            "up"
+          ],
+          "explanation": "Follow up là cụm động từ."
+        },
+        {
+          "id": "oo-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp một cuộc 1:1.",
+          "options": [
+            "next steps with dates",
+            "progress since last time",
+            "a request for guidance",
+            "one main challenge"
+          ],
+          "correctAnswer": [
+            "progress since last time",
+            "one main challenge",
+            "a request for guidance",
+            "next steps with dates"
+          ],
+          "explanation": "Tiến độ, vướng mắc, xin hướng dẫn, hành động."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "oo-task",
+    "mode": "spoken",
+    "title": "Run your side of a 1:1",
+    "scenario": "Bạn họp 1:1 hằng tuần với quản lý; quản lý hỏi bạn muốn bàn điều gì.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: báo tiến độ, nêu một vướng mắc, xin hướng dẫn và chốt hành động tiếp theo. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about one minute: give a progress update, name one challenge, ask for guidance and confirm the next step with a date.",
+    "modelResponse": "Thanks for meeting with me. Since our last 1:1, I have finished the import tool and started the tests. Progress is good, and I expect to demo it next week. My main challenge right now is the unstable test environment, because it fails about one run in five and slows every review. I would like some guidance on whether to fix it now or after the release. What would you do in my position? Also, I think the top priority this week should be the customer report, so I plan to pause the cleanup work. So the next step is a decision on the environment, and I will send a short plan by Thursday. Does that sound right to you, or should I change anything?",
+    "retryPrompt": "Speak again in English. Keep the four parts and make the challenge more specific.",
+    "transferPrompt": "Run a 1:1 for a different situation, such as a late project with unclear requirements.",
+    "reviewPrompt": "Run another 1:1 without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Weekly 1:1 about a tool",
+        "brief": "Cuộc 1:1 hằng tuần; bạn vừa làm xong một công cụ nhập dữ liệu.",
+        "artifacts": [
+          {
+            "id": "oo-baseline-ctx",
+            "type": "source",
+            "title": "Weekly 1:1 about a tool",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: weekly 1:1. Manager: What would you like to talk about today? You finished an import tool and the test environment is unstable."
+          }
+        ]
+      },
+      "retry": {
+        "title": "1:1 about unclear requirements",
+        "brief": "Sửa bài với dự án có yêu cầu chưa rõ.",
+        "artifacts": [
+          {
+            "id": "oo-retry-ctx",
+            "type": "source",
+            "title": "1:1 about unclear requirements",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: weekly 1:1. Manager: How is the project going? The requirements for the export feature changed twice this week."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "1:1 about workload",
+        "brief": "Một tình huống mới: bạn có quá nhiều việc.",
+        "artifacts": [
+          {
+            "id": "oo-transfer-ctx",
+            "type": "source",
+            "title": "1:1 about workload",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: weekly 1:1. Manager: Anything on your mind? You have three urgent tasks and one is due tomorrow."
+          }
+        ]
+      },
+      "review": {
+        "title": "1:1 about learning goals",
+        "brief": "Ôn lại với buổi 1:1 về mục tiêu học.",
+        "artifacts": [
+          {
+            "id": "oo-review-ctx",
+            "type": "source",
+            "title": "1:1 about learning goals",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: monthly 1:1. Manager: What do you want to learn next? You are interested in cloud tools but have no time to practice."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "progress update",
+        "one challenge",
+        "request for guidance",
+        "next step with date"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "clear structure",
+      "specific challenge",
+      "confirmed action"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four parts",
+        "description": "Progress, challenge, guidance and next step.",
+        "anchors": {
+          "met": "The manager hears all four parts in order.",
+          "notMet": "A part is missing, such as no next step."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "specificity",
+        "label": "Specific challenge",
+        "description": "The challenge has detail and impact.",
+        "anchors": {
+          "met": "Names the problem and how it affects the work.",
+          "notMet": "Says \"things are hard\" with no detail."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "ownership",
+        "label": "Owns the next step",
+        "description": "You propose an action and a date.",
+        "anchors": {
+          "met": "Says \"I will ... by ...\" with a date.",
+          "notMet": "Waits for the manager to decide everything."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "oo-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Since our last 1:1, I have finished the import tool.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker report?",
+            "options": [
+              "Completed work",
+              "A new idea",
+              "A late request"
+            ],
+            "correctAnswer": "Completed work"
+          },
+          {
+            "id": "oo-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My main challenge right now is the unstable test environment.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the problem?",
+            "options": [
+              "Unreliable testing",
+              "A lost laptop",
+              "A tight budget for the team"
+            ],
+            "correctAnswer": "Unreliable testing"
+          },
+          {
+            "id": "oo-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would like some guidance on whether to fix it now or later.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker want?",
+            "options": [
+              "Advice on timing",
+              "A new job",
+              "A longer meeting"
+            ],
+            "correctAnswer": "Advice on timing"
+          },
+          {
+            "id": "oo-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I will send a short plan by Thursday.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "When is the plan due?",
+            "options": [
+              "On Thursday",
+              "On Tuesday for the team",
+              "On Sunday at work"
+            ],
+            "correctAnswer": "On Thursday"
+          }
+        ],
+        "training": [
+          {
+            "id": "oo-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thanks for meeting with me. I have a short update.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker about to do?",
+            "options": [
+              "Share news",
+              "Ask for leave",
+              "Close the call"
+            ],
+            "correctAnswer": "Share news",
+            "feedback": "Short update là cập nhật ngắn."
+          },
+          {
+            "id": "oo-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The tests fail about one run in five.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How often do the tests fail?",
+            "options": [
+              "Occasionally",
+              "Never at work",
+              "Every time for the team"
+            ],
+            "correctAnswer": "Occasionally",
+            "feedback": "One in five là một trên năm."
+          },
+          {
+            "id": "oo-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This slows every review and delays the demo.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the effect?",
+            "options": [
+              "Delays to the schedule",
+              "Cheaper releases for the team",
+              "Happier users"
+            ],
+            "correctAnswer": "Delays to the schedule",
+            "feedback": "Slows và delays nêu tác động."
+          },
+          {
+            "id": "oo-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What would you do in my position?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker asking?",
+            "options": [
+              "For an opinion",
+              "For a salary for the team",
+              "For a title"
+            ],
+            "correctAnswer": "For an opinion",
+            "feedback": "In my position là ở vị trí của tôi."
+          },
+          {
+            "id": "oo-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I think the top priority this week should be the customer report.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker prioritize?",
+            "options": [
+              "A customer deliverable",
+              "A team party",
+              "A tool upgrade for the team"
+            ],
+            "correctAnswer": "A customer deliverable",
+            "feedback": "Top priority là ưu tiên cao nhất."
+          },
+          {
+            "id": "oo-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "To confirm, I will update the plan and share it tomorrow.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is confirmed?",
+            "options": [
+              "An action and a date",
+              "A salary change for the team",
+              "A new hire at work"
+            ],
+            "correctAnswer": "An action and a date",
+            "feedback": "To confirm chốt hành động."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "oo-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Over the past week, I fixed two bugs and wrote a design note.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does the speaker mention?",
+            "options": [
+              "Finished tasks",
+              "Future hopes for the team",
+              "Team rules"
+            ],
+            "correctAnswer": "Finished tasks"
+          },
+          {
+            "id": "oo-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "One thing slowing me down is a missing access request.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the blocker?",
+            "options": [
+              "Waiting for permission",
+              "A broken chair for the team",
+              "A noisy room"
+            ],
+            "correctAnswer": "Waiting for permission"
+          },
+          {
+            "id": "oo-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would like some guidance on how to prioritize these two tasks.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What advice is needed?",
+            "options": [
+              "Which job comes first",
+              "Which phone to buy for the team",
+              "Which room to book"
+            ],
+            "correctAnswer": "Which job comes first"
+          },
+          {
+            "id": "oo-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "So the next step is a quick call, and I will book it today.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What will the speaker do today?",
+            "options": [
+              "Schedule a call",
+              "Write a report for the team",
+              "Leave early"
+            ],
+            "correctAnswer": "Schedule a call"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "oo-cue-progress",
+          "articulatoryCue": "Nhấn âm đầu của progress và challenge để phần báo cáo nghe rõ.",
+          "meaningRisk": "Nhấn sai làm progress nghe giống động từ.",
+          "triggerItemIds": [
+            "oo-train-1",
+            "oo-pre-2"
+          ]
+        },
+        {
+          "id": "oo-cue-guidance",
+          "articulatoryCue": "Đọc rõ guidance và position, nhấn âm thứ hai của position.",
+          "meaningRisk": "Nuốt âm làm câu hỏi xin hướng dẫn khó nghe.",
+          "triggerItemIds": [
+            "oo-pre-3",
+            "oo-train-4"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "oo-chunk-since",
+          "function": "progress",
+          "text": "Since our last 1:1, I have ___.",
+          "meaning": "Mở đầu báo tiến độ.",
+          "slots": [
+            "done"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Since our last 1:1, I have finished the import tool and started the tests.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "oo-chunk-challenge",
+          "function": "challenge",
+          "text": "My main challenge right now is ___.",
+          "meaning": "Nêu vướng mắc.",
+          "slots": [
+            "challenge"
+          ],
+          "stressPattern": "CHALLENGE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "My main challenge right now is the unstable test environment.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "oo-chunk-guidance",
+          "function": "ask for guidance",
+          "text": "I would like some guidance on ___.",
+          "meaning": "Xin hướng dẫn.",
+          "slots": [
+            "decision"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I would like some guidance on whether to fix it now or after the release.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "oo-chunk-next",
+          "function": "next step",
+          "text": "So the next step is ___, and I will ___ by ___.",
+          "meaning": "Chốt hành động.",
+          "slots": [
+            "step",
+            "action",
+            "date"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "So the next step is a decision, and I will send a plan by Thursday.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình báo tiến độ trước rồi mới nêu vướng mắc.",
+        "Mình nói rõ vướng mắc ảnh hưởng gì.",
+        "Mình chốt hành động và ngày cụ thể."
+      ],
+      "interactionTurns": [
+        {
+          "id": "oo-turn-probe",
+          "kind": "follow-up",
+          "prompt": "How serious is the delay if you fix it later?",
+          "expectedFunction": "explain the impact in one or two sentences"
+        },
+        {
+          "id": "oo-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I missed the date. When will you send the plan?",
+          "expectedFunction": "restate the action and the date"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

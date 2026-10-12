@@ -1,0 +1,717 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "workplace-small-talk-b1",
+  "title": "Make small talk with colleagues (B1)",
+  "summary": "Mở và giữ một đoạn trò chuyện xã giao ngắn: hỏi thăm, kể một chuyện nhỏ, hỏi lại và kết thúc tự nhiên.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Mở đầu trò chuyện bằng câu hỏi thân thiện",
+    "Kể một chuyện nhỏ và hỏi lại người kia",
+    "Kết thúc trò chuyện tự nhiên"
+  ],
+  "capabilities": [
+    "workplace-communication"
+  ],
+  "workflowTags": [
+    "small-talk",
+    "team-rapport",
+    "casual-conversation"
+  ],
+  "sections": [
+    {
+      "id": "smt-source",
+      "type": "source",
+      "title": "Coffee machine chat",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Setting: near the coffee machine on Monday morning. Colleague: Hi, how was your weekend? Notes: answer in two or three sentences, add one detail, ask a question back, react to the answer and end politely."
+    },
+    {
+      "id": "smt-language",
+      "type": "language-support",
+      "title": "Language for small talk",
+      "vocabulary": [
+        {
+          "word": "weekend",
+          "ipa": "/ˈwiːk.end/",
+          "definition": "cuối tuần",
+          "technicalMeaning": "Thời gian nghỉ cuối tuần, chủ đề trò chuyện quen thuộc.",
+          "collocations": [
+            "over the weekend",
+            "a relaxing weekend"
+          ],
+          "example": "I had a relaxing weekend.",
+          "commonMistake": "Nhấn âm đầu: WEEK-end."
+        },
+        {
+          "word": "catch up",
+          "ipa": "/ˌkætʃ ˈʌp/",
+          "definition": "hỏi thăm, cập nhật chuyện",
+          "technicalMeaning": "Trò chuyện để biết chuyện gần đây của nhau.",
+          "collocations": [
+            "catch up with",
+            "a quick catch-up"
+          ],
+          "example": "It was good to catch up with you.",
+          "commonMistake": "Động từ viết catch up, danh từ viết catch-up."
+        },
+        {
+          "word": "sounds like",
+          "ipa": "/saʊndz laɪk/",
+          "definition": "nghe có vẻ",
+          "technicalMeaning": "Phản ứng với điều người khác vừa kể.",
+          "collocations": [
+            "sounds like fun",
+            "sounds like a plan"
+          ],
+          "example": "That sounds like fun!",
+          "commonMistake": "Nói sounds like + danh từ, không nói sounds like to."
+        },
+        {
+          "word": "by the way",
+          "ipa": "/baɪ ðə weɪ/",
+          "definition": "nhân tiện",
+          "technicalMeaning": "Chuyển chủ đề nhẹ nhàng.",
+          "collocations": [
+            "by the way, did you",
+            "oh, by the way"
+          ],
+          "example": "By the way, did you see the new menu?",
+          "commonMistake": "Dùng by the way, không dùng in the way."
+        },
+        {
+          "word": "I should get back",
+          "ipa": "/aɪ ʃʊd ɡet bæk/",
+          "definition": "tôi nên quay lại làm việc",
+          "technicalMeaning": "Cách lịch sự để kết thúc trò chuyện.",
+          "collocations": [
+            "I should get back to work",
+            "I need to get back"
+          ],
+          "example": "I should get back to my desk.",
+          "commonMistake": "Nói get back to + nơi hoặc việc."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "How was your ___?",
+          "meaning": "Hỏi thăm mở đầu.",
+          "tone": "neutral",
+          "example": "How was your weekend?",
+          "alternatives": [
+            "Did you have a good ___?"
+          ]
+        },
+        {
+          "phrase": "It was great, thanks. I ___. How about you?",
+          "meaning": "Trả lời ngắn rồi hỏi lại.",
+          "tone": "neutral",
+          "example": "It was great, thanks. I went hiking with friends. How about you?",
+          "alternatives": [
+            "Pretty good. I ___. And you?"
+          ]
+        },
+        {
+          "phrase": "That sounds like ___! ___?",
+          "meaning": "Phản ứng và hỏi tiếp.",
+          "tone": "neutral",
+          "example": "That sounds like fun! Where did you go?",
+          "alternatives": [
+            "Oh nice! ___?"
+          ]
+        },
+        {
+          "phrase": "It was good to catch up. I should get back to ___.",
+          "meaning": "Kết thúc lịch sự.",
+          "tone": "neutral",
+          "example": "It was good to catch up. I should get back to my tasks.",
+          "alternatives": [
+            "Anyway, I will let you get back to ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "smt-check",
+      "type": "auto-check",
+      "title": "Check your small talk",
+      "exercises": [
+        {
+          "id": "smt-reply",
+          "type": "choice",
+          "question": "Which reply keeps the conversation going?",
+          "options": [
+            "It was good. I went hiking. How about you?",
+            "Fine, thanks. Nothing much to say.",
+            "I do not want to talk about it."
+          ],
+          "correctAnswer": [
+            "It was good. I went hiking. How about you?"
+          ],
+          "explanation": "Trả lời kèm một chi tiết và hỏi lại."
+        },
+        {
+          "id": "smt-end",
+          "type": "choice",
+          "question": "Which sentence ends the chat politely?",
+          "options": [
+            "It was good to catch up. I should get back to work.",
+            "Stop talking, please, I am busy.",
+            "I am leaving now, bye then."
+          ],
+          "correctAnswer": [
+            "It was good to catch up. I should get back to work."
+          ],
+          "explanation": "Kết thúc nhẹ nhàng và có lý do."
+        },
+        {
+          "id": "smt-fill",
+          "type": "fill",
+          "question": "Điền từ: That sounds ___ fun!",
+          "correctAnswer": [
+            "like"
+          ],
+          "explanation": "Sounds like + danh từ."
+        },
+        {
+          "id": "smt-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp cuộc trò chuyện.",
+          "options": [
+            "end politely",
+            "answer with one detail",
+            "ask a question back",
+            "react to the reply"
+          ],
+          "correctAnswer": [
+            "answer with one detail",
+            "ask a question back",
+            "react to the reply",
+            "end politely"
+          ],
+          "explanation": "Trả lời, hỏi lại, phản ứng, kết thúc."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "smt-task",
+    "mode": "spoken",
+    "title": "Keep a short small talk going",
+    "scenario": "Sáng thứ Hai ở máy pha cà phê, đồng nghiệp hỏi cuối tuần của bạn; bạn trò chuyện ngắn rồi quay lại làm việc.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng 40 giây: trả lời bằng một chi tiết, hỏi lại đồng nghiệp, phản ứng và kết thúc lịch sự. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about 40 seconds: answer with one detail, ask your colleague a question, react to the answer and end the chat politely.",
+    "modelResponse": "It was great, thanks. I went hiking with some friends on Saturday, and the weather was perfect. On Sunday, I just rested and cooked a big lunch. How about you? Did you do anything fun? Oh, that sounds like fun! Where did you go, and how long did it take to get there? By the way, did you try the new coffee flavor in the kitchen? I heard it is quite good. Anyway, it was good to catch up. I should get back to my tasks, but let us have lunch together this week.",
+    "retryPrompt": "Speak again in English. Keep the same order and ask a more interesting question.",
+    "transferPrompt": "Make small talk in a different moment, such as before a meeting starts.",
+    "reviewPrompt": "Make small talk with a new colleague without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Weekend chat at the coffee machine",
+        "brief": "Sáng thứ Hai, đồng nghiệp hỏi cuối tuần của bạn.",
+        "artifacts": [
+          {
+            "id": "smt-baseline-ctx",
+            "type": "source",
+            "title": "Weekend chat at the coffee machine",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: near the coffee machine on Monday morning. Colleague: Hi, how was your weekend?"
+          }
+        ]
+      },
+      "retry": {
+        "title": "Chat before a meeting",
+        "brief": "Sửa bài với cuộc trò chuyện trước một buổi họp.",
+        "artifacts": [
+          {
+            "id": "smt-retry-ctx",
+            "type": "source",
+            "title": "Chat before a meeting",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: a video call that has not started. Colleague: Hi! Are you ready for the meeting? Everyone else is late."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Chat in the lunch queue",
+        "brief": "Tình huống mới: xếp hàng ăn trưa với đồng nghiệp mới.",
+        "artifacts": [
+          {
+            "id": "smt-transfer-ctx",
+            "type": "source",
+            "title": "Chat in the lunch queue",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: lunch queue. New colleague: This place is busy today. Have you eaten here before?"
+          }
+        ]
+      },
+      "review": {
+        "title": "Chat after a team event",
+        "brief": "Ôn lại với buổi trò chuyện sau sự kiện của đội.",
+        "artifacts": [
+          {
+            "id": "smt-review-ctx",
+            "type": "source",
+            "title": "Chat after a team event",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Setting: after the quarterly team event. Colleague: That was a nice evening. Did you enjoy the activity?"
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 75,
+      "requiredElements": [
+        "answer with a detail",
+        "question back",
+        "reaction",
+        "polite ending"
+      ],
+      "targetSeconds": 45
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "natural flow",
+      "questions back",
+      "friendly tone"
+    ],
+    "rubric": [
+      {
+        "id": "flow",
+        "label": "Natural flow",
+        "description": "The chat has an answer, a question back, a reaction and an ending.",
+        "anchors": {
+          "met": "All four moves appear in a natural order.",
+          "notMet": "Answers briefly and stops, or ends abruptly."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "interest",
+        "label": "Asks and reacts",
+        "description": "Shows interest in the other person.",
+        "anchors": {
+          "met": "Asks a follow-up question and reacts to the reply.",
+          "notMet": "Only talks about yourself."
+        },
+        "dimension": "range"
+      },
+      {
+        "id": "tone",
+        "label": "Friendly tone",
+        "description": "The tone is warm and relaxed.",
+        "anchors": {
+          "met": "Uses friendly phrases such as \"That sounds like fun\".",
+          "notMet": "Sounds flat or formal like a report."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "smt-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Hi, how was your weekend? Did you do anything fun?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker doing?",
+            "options": [
+              "Starting a friendly chat",
+              "Giving a work order for the team",
+              "Ending a meeting"
+            ],
+            "correctAnswer": "Starting a friendly chat"
+          },
+          {
+            "id": "smt-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It was great, thanks. I went hiking with some friends.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What did the speaker do?",
+            "options": [
+              "An outdoor activity",
+              "A work project",
+              "A long trip abroad for the team"
+            ],
+            "correctAnswer": "An outdoor activity"
+          },
+          {
+            "id": "smt-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "That sounds like fun! Where did you go?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How does the speaker react?",
+            "options": [
+              "With interest",
+              "With anger",
+              "With boredom for the team"
+            ],
+            "correctAnswer": "With interest"
+          },
+          {
+            "id": "smt-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "It was good to catch up. I should get back to my tasks.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker doing?",
+            "options": [
+              "Ending the chat kindly",
+              "Starting a new topic for the team",
+              "Asking for a favor"
+            ],
+            "correctAnswer": "Ending the chat kindly"
+          }
+        ],
+        "training": [
+          {
+            "id": "smt-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Pretty good, thanks. I mostly rested at home. And you?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker ask?",
+            "options": [
+              "A question in return",
+              "A favor at work",
+              "The time for the team"
+            ],
+            "correctAnswer": "A question in return",
+            "feedback": "And you? hỏi lại người kia."
+          },
+          {
+            "id": "smt-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We went to the lake, and the weather was lovely.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is described?",
+            "options": [
+              "A nice outing",
+              "A cancelled plan",
+              "A broken car"
+            ],
+            "correctAnswer": "A nice outing",
+            "feedback": "Lovely nghĩa là rất dễ chịu."
+          },
+          {
+            "id": "smt-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Oh nice! How long did it take to get there?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the follow-up about?",
+            "options": [
+              "Travel time",
+              "Ticket price",
+              "Room size"
+            ],
+            "correctAnswer": "Travel time",
+            "feedback": "How long hỏi về thời gian."
+          },
+          {
+            "id": "smt-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "By the way, did you try the new coffee in the kitchen?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do?",
+            "options": [
+              "Changes the topic gently",
+              "Says goodbye",
+              "Gives a warning for the team"
+            ],
+            "correctAnswer": "Changes the topic gently",
+            "feedback": "By the way chuyển chủ đề nhẹ nhàng."
+          },
+          {
+            "id": "smt-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I heard it is quite good, but I have not tried it yet.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker's experience?",
+            "options": [
+              "Only second-hand news",
+              "A personal taste for the team",
+              "A bad memory"
+            ],
+            "correctAnswer": "Only second-hand news",
+            "feedback": "I heard nghĩa là nghe nói."
+          },
+          {
+            "id": "smt-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Anyway, let us have lunch together this week.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is suggested?",
+            "options": [
+              "A future meal together",
+              "A cancelled meeting for the team",
+              "A work report"
+            ],
+            "correctAnswer": "A future meal together",
+            "feedback": "Anyway báo hiệu sắp kết thúc."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "smt-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Hi, how is your week going so far?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker asking?",
+            "options": [
+              "How things are going",
+              "Where the exit is for the team",
+              "What time it is"
+            ],
+            "correctAnswer": "How things are going"
+          },
+          {
+            "id": "smt-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Pretty busy, but good. I started a new project on Monday.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "How is the week?",
+            "options": [
+              "Busy but positive",
+              "Quiet and dull",
+              "Cancelled entirely"
+            ],
+            "correctAnswer": "Busy but positive"
+          },
+          {
+            "id": "smt-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Oh, that sounds like a big change. Are you excited about it?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker want to know?",
+            "options": [
+              "Their feelings about it",
+              "The project budget for the team",
+              "The next deadline"
+            ],
+            "correctAnswer": "Their feelings about it"
+          },
+          {
+            "id": "smt-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Anyway, I will let you get back to your work. Nice chatting!",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is happening?",
+            "options": [
+              "The chat is closing",
+              "The chat is starting",
+              "A quarrel begins"
+            ],
+            "correctAnswer": "The chat is closing"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "smt-cue-weekend",
+          "articulatoryCue": "Nhấn âm đầu của weekend và hiking để câu trả lời nghe tự nhiên.",
+          "meaningRisk": "Nhấn sai làm hiking nghe giống một từ khác.",
+          "triggerItemIds": [
+            "smt-pre-1",
+            "smt-pre-2"
+          ]
+        },
+        {
+          "id": "smt-cue-sounds",
+          "articulatoryCue": "Lên giọng ở câu hỏi sau sounds like và kéo dài âm của sounds.",
+          "meaningRisk": "Giọng phẳng làm phản ứng nghe thiếu quan tâm.",
+          "triggerItemIds": [
+            "smt-pre-3",
+            "smt-post-3"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "smt-chunk-how",
+          "function": "greeting",
+          "text": "How was your ___?",
+          "meaning": "Hỏi thăm mở đầu.",
+          "slots": [
+            "topic"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "How was your weekend?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "smt-chunk-reply",
+          "function": "reply and ask back",
+          "text": "It was great, thanks. I ___. How about you?",
+          "meaning": "Trả lời và hỏi lại.",
+          "slots": [
+            "detail"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "It was great, thanks. I went hiking with some friends. How about you?",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "smt-chunk-react",
+          "function": "react",
+          "text": "That sounds like ___! ___?",
+          "meaning": "Phản ứng rồi hỏi tiếp.",
+          "slots": [
+            "reaction",
+            "question"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "That sounds like fun! Where did you go?",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "smt-chunk-end",
+          "function": "end politely",
+          "text": "It was good to catch up. I should get back to ___.",
+          "meaning": "Kết thúc lịch sự.",
+          "slots": [
+            "task"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "It was good to catch up. I should get back to my tasks.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình trả lời có một chi tiết và hỏi lại.",
+        "Mình phản ứng với câu trả lời của đồng nghiệp.",
+        "Mình kết thúc nhẹ nhàng, không đột ngột."
+      ],
+      "interactionTurns": [
+        {
+          "id": "smt-turn-ask",
+          "kind": "follow-up",
+          "prompt": "I went to my parents' house. Do you travel a lot?",
+          "expectedFunction": "answer briefly and keep the chat going"
+        },
+        {
+          "id": "smt-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not catch that. What did you say about the weekend?",
+          "expectedFunction": "repeat your answer more slowly"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

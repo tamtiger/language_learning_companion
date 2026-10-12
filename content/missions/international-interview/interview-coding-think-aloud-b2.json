@@ -1,0 +1,723 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-coding-think-aloud-b2",
+  "title": "Think aloud while solving a coding problem (B2)",
+  "summary": "Nói to khi giải bài code: nhắc lại đề, nêu ví dụ, chọn hướng giải, độ phức tạp và các trường hợp biên.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nhắc lại đề bài và ví dụ trước khi viết code",
+    "Giải thích hướng giải và độ phức tạp",
+    "Nói về trường hợp biên và cách kiểm tra"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "coding-interview",
+    "think-aloud",
+    "edge-cases"
+  ],
+  "sections": [
+    {
+      "id": "cta-source",
+      "type": "source",
+      "title": "Coding prompt",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interview: Software Engineer, Marlowe Data. Interviewer: Given a list of user IDs, return the IDs that appear more than once. Please think aloud while you work. Notes: restate the problem, try an example, choose an approach, state time and space cost, then test edge cases."
+    },
+    {
+      "id": "cta-language",
+      "type": "language-support",
+      "title": "Language for thinking aloud",
+      "vocabulary": [
+        {
+          "word": "restate",
+          "ipa": "/ˌriːˈsteɪt/",
+          "definition": "nhắc lại",
+          "technicalMeaning": "Nói lại đề bằng lời của bạn để chắc chắn hiểu đúng.",
+          "collocations": [
+            "restate the problem",
+            "restate the goal"
+          ],
+          "example": "Let me restate the problem to be sure.",
+          "commonMistake": "Nhấn âm tiết thứ hai: re-STATE."
+        },
+        {
+          "word": "brute force",
+          "ipa": "/ˌbruːt ˈfɔːrs/",
+          "definition": "cách giải đơn giản nhất",
+          "technicalMeaning": "Cách thử mọi khả năng, thường chậm nhưng dễ đúng.",
+          "collocations": [
+            "a brute force approach",
+            "brute force first"
+          ],
+          "example": "A brute force approach would compare every pair.",
+          "commonMistake": "Viết brute force thành hai từ."
+        },
+        {
+          "word": "complexity",
+          "ipa": "/kəmˈplek.sə.t̬i/",
+          "definition": "độ phức tạp",
+          "technicalMeaning": "Mức thời gian hoặc bộ nhớ thuật toán cần khi dữ liệu lớn dần.",
+          "collocations": [
+            "time complexity",
+            "space complexity"
+          ],
+          "example": "The time complexity is linear.",
+          "commonMistake": "Nói time complexity, không nói complex of time."
+        },
+        {
+          "word": "edge case",
+          "ipa": "/ˈedʒ keɪs/",
+          "definition": "trường hợp biên",
+          "technicalMeaning": "Đầu vào hiếm hoặc cực đoan có thể làm hỏng lời giải.",
+          "collocations": [
+            "an edge case",
+            "handle edge cases"
+          ],
+          "example": "An empty list is an edge case.",
+          "commonMistake": "Nói handle edge cases, không nói handle for edge cases."
+        },
+        {
+          "word": "iterate",
+          "ipa": "/ˈɪt̬.ə.reɪt/",
+          "definition": "duyệt qua",
+          "technicalMeaning": "Đi qua từng phần tử của một tập dữ liệu.",
+          "collocations": [
+            "iterate over",
+            "iterate through"
+          ],
+          "example": "I iterate over the list once.",
+          "commonMistake": "Nói iterate over hoặc through, không nói iterate in."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Let me restate the problem to make sure I understand: ___.",
+          "meaning": "Nhắc lại đề bài.",
+          "tone": "neutral",
+          "example": "Let me restate the problem to make sure I understand: I need the IDs that appear more than once.",
+          "alternatives": [
+            "So the goal is ___, right?"
+          ]
+        },
+        {
+          "phrase": "A simple approach would be ___, but that costs ___.",
+          "meaning": "Nêu cách đơn giản và chi phí của nó.",
+          "tone": "neutral",
+          "example": "A simple approach would be comparing every pair, but that costs quadratic time.",
+          "alternatives": [
+            "The straightforward way is ___."
+          ]
+        },
+        {
+          "phrase": "I can improve this by ___, which brings the time down to ___.",
+          "meaning": "Giải thích cách cải thiện.",
+          "tone": "neutral",
+          "example": "I can improve this by using a set, which brings the time down to linear.",
+          "alternatives": [
+            "To speed this up, I would ___."
+          ]
+        },
+        {
+          "phrase": "Let me check an edge case: ___.",
+          "meaning": "Chuyển sang kiểm tra trường hợp biên.",
+          "tone": "neutral",
+          "example": "Let me check an edge case: an empty list should return an empty result.",
+          "alternatives": [
+            "What if ___?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cta-check",
+      "type": "auto-check",
+      "title": "Check how you think aloud",
+      "exercises": [
+        {
+          "id": "cta-first",
+          "type": "choice",
+          "question": "What should you do before writing code?",
+          "options": [
+            "Restate the problem and try an example",
+            "Type the final answer quickly",
+            "Ask to skip the question"
+          ],
+          "correctAnswer": [
+            "Restate the problem and try an example"
+          ],
+          "explanation": "Nhắc lại đề và thử ví dụ giúp tránh hiểu sai."
+        },
+        {
+          "id": "cta-complexity",
+          "type": "choice",
+          "question": "Which phrase gives a complexity?",
+          "options": [
+            "It runs in linear time.",
+            "It reads quite nicely.",
+            "It uses short names."
+          ],
+          "correctAnswer": [
+            "It runs in linear time."
+          ],
+          "explanation": "Linear time là cách nói độ phức tạp thời gian."
+        },
+        {
+          "id": "cta-fill",
+          "type": "fill",
+          "question": "Điền từ: I iterate ___ the list once.",
+          "correctAnswer": [
+            "over"
+          ],
+          "explanation": "Iterate over là cụm thường dùng.",
+          "acceptedAnswers": [
+            "through"
+          ]
+        },
+        {
+          "id": "cta-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các bước khi giải bài.",
+          "options": [
+            "test edge cases",
+            "restate the problem",
+            "state the complexity",
+            "choose an approach"
+          ],
+          "correctAnswer": [
+            "restate the problem",
+            "choose an approach",
+            "state the complexity",
+            "test edge cases"
+          ],
+          "explanation": "Nhắc đề, chọn hướng, nêu độ phức tạp, kiểm tra biên."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "cta-task",
+    "mode": "spoken",
+    "title": "Think aloud through one problem",
+    "scenario": "The interviewer gives a coding problem and asks you to talk through your thinking before and while you code.",
+    "baselinePrompt": "Think aloud in English for about 90 seconds: restate the problem, try an example, choose an approach, state its complexity and test one edge case. Do not look at the model answer yet.",
+    "performancePrompt": "Speak in English for about 90 seconds: restate the problem, give an example, explain your approach and its complexity, and test one edge case.",
+    "modelResponse": "Let me restate the problem to make sure I understand: I need the user IDs that appear more than once in a list. For example, with one, two, two, three, the answer is two. A simple approach would be comparing every pair, but that costs quadratic time, which is too slow for a large list. I can improve this by using a set to remember the IDs I have seen. As I iterate over the list once, I check each ID. If it is already in the set, I add it to the result, and otherwise I store it. That brings the time down to linear, with extra space for the set. Let me check an edge case: an empty list should return an empty result, and an ID that appears three times should be returned only once, so I would keep the result in a set too. Finally, I would write a few tests, including a list with no duplicates. Does this approach sound reasonable before I start coding?",
+    "retryPrompt": "Think aloud again in English. Keep the same order and make your complexity statement clearer.",
+    "transferPrompt": "Think aloud through a different problem, such as finding the first non-repeating character.",
+    "reviewPrompt": "Think aloud through a new coding problem without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Duplicate user IDs",
+        "brief": "A coding round with a list problem.",
+        "artifacts": [
+          {
+            "id": "cta-baseline-ctx",
+            "type": "source",
+            "title": "Duplicate user IDs",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Software Engineer, Marlowe Data. Interviewer: Given a list of user IDs, return the IDs that appear more than once. Please think aloud."
+          }
+        ]
+      },
+      "retry": {
+        "title": "First unique character",
+        "brief": "Retry with a string problem.",
+        "artifacts": [
+          {
+            "id": "cta-retry-ctx",
+            "type": "source",
+            "title": "First unique character",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Copperline. Interviewer: Given a string, return the index of the first character that appears only once. Talk me through your thinking."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Merge sorted logs",
+        "brief": "A new problem about combining two sorted lists.",
+        "artifacts": [
+          {
+            "id": "cta-transfer-ctx",
+            "type": "source",
+            "title": "Merge sorted logs",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Platform Engineer, Aldersgate. Interviewer: You have two sorted lists of log timestamps. Merge them into one sorted list and explain your plan."
+          }
+        ]
+      },
+      "review": {
+        "title": "Valid brackets",
+        "brief": "Review with a stack problem.",
+        "artifacts": [
+          {
+            "id": "cta-review-ctx",
+            "type": "source",
+            "title": "Valid brackets",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Engineer, Fernhill Labs. Interviewer: Given a string of brackets, decide if every bracket is closed in the right order. Think aloud as you work."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 120,
+      "requiredElements": [
+        "restated problem",
+        "example",
+        "approach and complexity",
+        "edge case"
+      ],
+      "targetSeconds": 90
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "structure",
+      "clarity of reasoning",
+      "edge cases"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Order of thinking",
+        "description": "The candidate restates, exemplifies, chooses, states the cost and tests.",
+        "anchors": {
+          "met": "The listener follows all steps in order before the code starts.",
+          "notMet": "The candidate starts coding or skips the restatement."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "reasoning",
+        "label": "Complexity and improvement",
+        "description": "A simple approach and an improvement are compared.",
+        "anchors": {
+          "met": "States the cost of the first idea and why the better idea is faster.",
+          "notMet": "Gives the final idea without explaining the cost."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "edge",
+        "label": "Edge cases",
+        "description": "At least one edge case is tested aloud.",
+        "anchors": {
+          "met": "Names a specific input such as an empty list and the expected result.",
+          "notMet": "Says \"I would test more\" without any case."
+        },
+        "dimension": "range"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "cta-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Let me restate the problem to make sure I understand.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker doing?",
+            "options": [
+              "Repeating the task",
+              "Starting the code for the team",
+              "Asking for a hint"
+            ],
+            "correctAnswer": "Repeating the task"
+          },
+          {
+            "id": "cta-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "A simple approach would be comparing every pair, but that costs quadratic time.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the downside?",
+            "options": [
+              "It gets slow on big lists",
+              "It is hard to read aloud for the team",
+              "It needs special tools"
+            ],
+            "correctAnswer": "It gets slow on big lists"
+          },
+          {
+            "id": "cta-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I can improve this by using a set to remember what I have seen.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What helps the improvement?",
+            "options": [
+              "Remembering visited items",
+              "Sorting the whole list for the team",
+              "Reading the list twice"
+            ],
+            "correctAnswer": "Remembering visited items"
+          },
+          {
+            "id": "cta-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Let me check an edge case: an empty list should return an empty result.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What case is checked?",
+            "options": [
+              "No items at all",
+              "Too many items for the team",
+              "One huge item"
+            ],
+            "correctAnswer": "No items at all"
+          }
+        ],
+        "training": [
+          {
+            "id": "cta-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "For example, with one, two, two, three, the answer is two.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker giving?",
+            "options": [
+              "A sample input",
+              "A final bug report",
+              "A schedule"
+            ],
+            "correctAnswer": "A sample input",
+            "feedback": "For example mở đầu ví dụ để kiểm tra hiểu đề."
+          },
+          {
+            "id": "cta-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I iterate over the list once and check each item.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "How many passes over the list?",
+            "options": [
+              "A single pass",
+              "Two passes for the team",
+              "No pass at work"
+            ],
+            "correctAnswer": "A single pass",
+            "feedback": "Once nghĩa là một lần."
+          },
+          {
+            "id": "cta-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "That brings the time down to linear, with extra space for the set.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the cost of the speedup?",
+            "options": [
+              "More memory",
+              "More meetings",
+              "More typing"
+            ],
+            "correctAnswer": "More memory",
+            "feedback": "Extra space là chi phí bộ nhớ."
+          },
+          {
+            "id": "cta-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "An ID that appears three times should be returned only once.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What should the result contain?",
+            "options": [
+              "One copy of that ID",
+              "Three copies for the team",
+              "No copies at work"
+            ],
+            "correctAnswer": "One copy of that ID",
+            "feedback": "Only once nghĩa là chỉ một lần."
+          },
+          {
+            "id": "cta-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Before coding, I would like to confirm that the list fits in memory.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker verifying?",
+            "options": [
+              "A limit on input size",
+              "The meeting length for the team",
+              "The salary range"
+            ],
+            "correctAnswer": "A limit on input size",
+            "feedback": "Confirm là xác nhận giả định."
+          },
+          {
+            "id": "cta-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Finally, I would write a few tests, including a list with no duplicates.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker plan last?",
+            "options": [
+              "Writing tests",
+              "Leaving early",
+              "Renaming files"
+            ],
+            "correctAnswer": "Writing tests",
+            "feedback": "Finally đánh dấu bước cuối."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "cta-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Let me restate the goal: I need the first character that appears only once.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is restated?",
+            "options": [
+              "The goal of the task",
+              "The salary offer for the team",
+              "The test result"
+            ],
+            "correctAnswer": "The goal of the task"
+          },
+          {
+            "id": "cta-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The straightforward way is nested loops, which is quadratic.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is described?",
+            "options": [
+              "A slow first idea",
+              "A final answer for the team",
+              "A new question"
+            ],
+            "correctAnswer": "A slow first idea"
+          },
+          {
+            "id": "cta-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "To speed this up, I would count each letter in a map.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What tool is used to speed up?",
+            "options": [
+              "A counting map",
+              "A new server",
+              "A longer deadline"
+            ],
+            "correctAnswer": "A counting map"
+          },
+          {
+            "id": "cta-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What if the string is empty or every letter repeats?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker exploring?",
+            "options": [
+              "Unusual inputs",
+              "Office hours for the team",
+              "Team names"
+            ],
+            "correctAnswer": "Unusual inputs"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "cta-cue-restate",
+          "articulatoryCue": "Nhấn âm tiết thứ hai trong restate và quadratic để người nghe nhận ra từ khóa.",
+          "meaningRisk": "Nhấn sai làm restate nghe giống một từ khác.",
+          "triggerItemIds": [
+            "cta-pre-1",
+            "cta-pre-2"
+          ]
+        },
+        {
+          "id": "cta-cue-linear",
+          "articulatoryCue": "Đọc rõ linear và edge ở các câu về độ phức tạp và trường hợp biên.",
+          "meaningRisk": "Nuốt âm làm lẫn linear với một từ khác.",
+          "triggerItemIds": [
+            "cta-train-3",
+            "cta-pre-4"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "cta-chunk-restate",
+          "function": "restate the problem",
+          "text": "Let me restate the problem to make sure I understand: ___.",
+          "meaning": "Nhắc lại đề bài.",
+          "slots": [
+            "problem"
+          ],
+          "stressPattern": "RESTATE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Let me restate the problem to make sure I understand.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "cta-chunk-simple",
+          "function": "first approach and cost",
+          "text": "A simple approach would be ___, but that costs ___.",
+          "meaning": "Nêu cách đơn giản và chi phí.",
+          "slots": [
+            "approach",
+            "cost"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "A simple approach would be comparing every pair, but that costs quadratic time.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "cta-chunk-improve",
+          "function": "improvement",
+          "text": "I can improve this by ___, which brings the time down to ___.",
+          "meaning": "Giải thích cách cải thiện.",
+          "slots": [
+            "idea",
+            "new cost"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I can improve this by using a set to remember what I have seen.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "cta-chunk-edge",
+          "function": "edge case",
+          "text": "Let me check an edge case: ___.",
+          "meaning": "Chuyển sang trường hợp biên.",
+          "slots": [
+            "case"
+          ],
+          "stressPattern": "EDGE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Let me check an edge case: an empty list should return an empty result.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nhắc lại đề và nêu một ví dụ trước khi code.",
+        "Mình nêu chi phí của cách đơn giản và cách cải thiện.",
+        "Mình nói to ít nhất một trường hợp biên cụ thể."
+      ],
+      "interactionTurns": [
+        {
+          "id": "cta-turn-probe",
+          "kind": "follow-up",
+          "prompt": "Can you explain why the set makes it faster?",
+          "expectedFunction": "explain lookup cost in one or two sentences"
+        },
+        {
+          "id": "cta-turn-interrupt",
+          "kind": "interruption",
+          "prompt": "Let us skip the tests. What is the space cost?",
+          "expectedFunction": "state the space cost briefly"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

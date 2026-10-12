@@ -1,0 +1,717 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-ask-the-interviewer-b1",
+  "title": "Ask the interviewer good questions (B1)",
+  "summary": "Đặt ba câu hỏi ngược lại cho người phỏng vấn về đội, cách đo thành công và cơ hội phát triển, rồi kết thúc lịch sự.",
+  "cefrLevel": "B1",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Hỏi về cách làm việc của đội",
+    "Hỏi cách vai trò được đánh giá thành công",
+    "Kết thúc cuộc phỏng vấn lịch sự và nêu bước tiếp theo"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "questions-for-interviewer",
+    "team-culture",
+    "interview-closing"
+  ],
+  "sections": [
+    {
+      "id": "ati-source",
+      "type": "source",
+      "title": "End of interview",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interview: Frontend Engineer, Sunfield Apps. Interviewer: That is all from my side. Do you have any questions for me? Notes: ask about how the team works, how success is measured in the first months, and what growth looks like. Thank the interviewer at the end."
+    },
+    {
+      "id": "ati-language",
+      "type": "language-support",
+      "title": "Language for questions and closing",
+      "vocabulary": [
+        {
+          "word": "onboarding",
+          "ipa": "/ˈɑːn.bɔːr.dɪŋ/",
+          "definition": "quá trình làm quen khi mới vào",
+          "technicalMeaning": "Những tuần đầu giúp người mới nắm công việc và đội.",
+          "collocations": [
+            "the onboarding process",
+            "onboarding plan"
+          ],
+          "example": "What does onboarding look like here?",
+          "commonMistake": "Nhấn âm đầu: ON-boarding."
+        },
+        {
+          "word": "expectation",
+          "ipa": "/ˌek.spekˈteɪ.ʃən/",
+          "definition": "kỳ vọng",
+          "technicalMeaning": "Điều công ty mong người ở vị trí này đạt được.",
+          "collocations": [
+            "clear expectations",
+            "meet expectations"
+          ],
+          "example": "What are your expectations for the first quarter?",
+          "commonMistake": "Dùng số nhiều expectations khi nói chung về nhiều kỳ vọng."
+        },
+        {
+          "word": "measure",
+          "ipa": "/ˈmeʒ.ɚ/",
+          "definition": "đo lường",
+          "technicalMeaning": "Đánh giá mức độ thành công bằng tiêu chí rõ ràng.",
+          "collocations": [
+            "measure success",
+            "how you measure"
+          ],
+          "example": "How do you measure success in this role?",
+          "commonMistake": "Nói measure success, không nói measure of success khi hỏi."
+        },
+        {
+          "word": "growth",
+          "ipa": "/ɡroʊθ/",
+          "definition": "sự phát triển",
+          "technicalMeaning": "Cơ hội học hỏi và lên vai trò cao hơn.",
+          "collocations": [
+            "career growth",
+            "room for growth"
+          ],
+          "example": "What does growth look like for engineers?",
+          "commonMistake": "Phát âm /θ/ ở cuối bằng cách đặt lưỡi giữa hai hàm răng."
+        },
+        {
+          "word": "next steps",
+          "ipa": "/ˌnekst ˈsteps/",
+          "definition": "các bước tiếp theo",
+          "technicalMeaning": "Những việc sẽ xảy ra sau buổi phỏng vấn.",
+          "collocations": [
+            "the next steps",
+            "explain the next steps"
+          ],
+          "example": "Could you tell me about the next steps?",
+          "commonMistake": "Dùng số nhiều next steps."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Could you tell me more about ___?",
+          "meaning": "Hỏi thêm về một chủ đề.",
+          "tone": "neutral",
+          "example": "Could you tell me more about how the team works day to day?",
+          "alternatives": [
+            "I would like to understand ___."
+          ]
+        },
+        {
+          "phrase": "How do you measure success in ___?",
+          "meaning": "Hỏi tiêu chí thành công.",
+          "tone": "neutral",
+          "example": "How do you measure success in this role during the first three months?",
+          "alternatives": [
+            "What does success look like in ___?"
+          ]
+        },
+        {
+          "phrase": "What does growth look like for ___?",
+          "meaning": "Hỏi cơ hội phát triển.",
+          "tone": "neutral",
+          "example": "What does growth look like for engineers on this team?",
+          "alternatives": [
+            "What are the paths for ___?"
+          ]
+        },
+        {
+          "phrase": "Thank you for your time. Could you explain the next steps?",
+          "meaning": "Kết thúc và hỏi bước tiếp theo.",
+          "tone": "neutral",
+          "example": "Thank you for your time. Could you explain the next steps?",
+          "alternatives": [
+            "Thank you. What happens next?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ati-check",
+      "type": "auto-check",
+      "title": "Check your questions",
+      "exercises": [
+        {
+          "id": "ati-good",
+          "type": "choice",
+          "question": "Which question shows real interest in the role?",
+          "options": [
+            "How do you measure success in this role?",
+            "Can I leave early on Fridays?",
+            "Is the coffee free?"
+          ],
+          "correctAnswer": [
+            "How do you measure success in this role?"
+          ],
+          "explanation": "Hỏi tiêu chí thành công cho thấy bạn nghĩ đến kết quả công việc."
+        },
+        {
+          "id": "ati-avoid",
+          "type": "choice",
+          "question": "Which question is better to ask later, not in the first interview?",
+          "options": [
+            "How many days off will I get?",
+            "How does the team review code?",
+            "What is the first project?"
+          ],
+          "correctAnswer": [
+            "How many days off will I get?"
+          ],
+          "explanation": "Câu hỏi về quyền lợi nên để khi đã có offer."
+        },
+        {
+          "id": "ati-fill",
+          "type": "fill",
+          "question": "Điền từ: What does growth ___ like for engineers?",
+          "correctAnswer": [
+            "look"
+          ],
+          "explanation": "Look like là cách hỏi về hình dung của điều gì."
+        },
+        {
+          "id": "ati-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp phần kết của cuộc phỏng vấn.",
+          "options": [
+            "ask about next steps",
+            "thank the interviewer",
+            "ask about the team",
+            "ask about success"
+          ],
+          "correctAnswer": [
+            "ask about the team",
+            "ask about success",
+            "ask about next steps",
+            "thank the interviewer"
+          ],
+          "explanation": "Hỏi về đội, thành công, bước tiếp, rồi cảm ơn."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "ati-task",
+    "mode": "spoken",
+    "title": "Ask three questions and close the interview",
+    "scenario": "Người phỏng vấn hỏi \"Do you have any questions for me?\"; bạn hỏi ba câu và kết thúc lịch sự.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: đặt ba câu hỏi về đội, cách đo thành công và cơ hội phát triển, rồi cảm ơn và hỏi bước tiếp theo. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about one minute: ask three questions about the team, success and growth, then thank the interviewer and ask about the next steps.",
+    "modelResponse": "Yes, I have a few questions. First, could you tell me more about how the team works day to day, for example how you plan work and review code? Second, how do you measure success in this role during the first three months? I would like to understand what you expect from me early on. Third, what does growth look like for engineers on this team, and how do people usually move to more senior roles? Thank you for your answers, they were very helpful. I am excited about the product and about the way the team works together. Thank you for your time today. Could you explain the next steps, and when I can expect to hear from you?",
+    "retryPrompt": "Answer again in English with the same three questions. Make each question shorter and clearer.",
+    "transferPrompt": "Ask three questions at the end of a different interview, such as for a data role.",
+    "reviewPrompt": "Ask questions at the end of another interview without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Frontend role at Sunfield Apps",
+        "brief": "Cuối buổi phỏng vấn frontend; người phỏng vấn mời bạn đặt câu hỏi.",
+        "artifacts": [
+          {
+            "id": "ati-baseline-ctx",
+            "type": "source",
+            "title": "Frontend role at Sunfield Apps",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Frontend Engineer, Sunfield Apps. Interviewer: That is all from my side. Do you have any questions for me?"
+          }
+        ]
+      },
+      "retry": {
+        "title": "Data role at Pinegrove",
+        "brief": "Sửa bài với cuối buổi phỏng vấn vị trí dữ liệu.",
+        "artifacts": [
+          {
+            "id": "ati-retry-ctx",
+            "type": "source",
+            "title": "Data role at Pinegrove",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Data Analyst, Pinegrove. Interviewer: We have covered a lot. What questions do you have about the role?"
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Mobile role at Zephyr Works",
+        "brief": "Một buổi phỏng vấn mới cho vị trí mobile.",
+        "artifacts": [
+          {
+            "id": "ati-transfer-ctx",
+            "type": "source",
+            "title": "Mobile role at Zephyr Works",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Mobile Engineer, Zephyr Works. Interviewer: Before we finish, is there anything you would like to ask us?"
+          }
+        ]
+      },
+      "review": {
+        "title": "Cloud role at Eastbank",
+        "brief": "Ôn lại với buổi phỏng vấn vị trí hạ tầng.",
+        "artifacts": [
+          {
+            "id": "ati-review-ctx",
+            "type": "source",
+            "title": "Cloud role at Eastbank",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Cloud Engineer, Eastbank. Interviewer: I think we are nearly out of time. Do you have any final questions?"
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 90,
+      "requiredElements": [
+        "team question",
+        "success question",
+        "growth question",
+        "thanks and next steps"
+      ],
+      "targetSeconds": 60
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "question quality",
+      "politeness",
+      "clear closing"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Three questions and a close",
+        "description": "The answer has three questions and a polite closing.",
+        "anchors": {
+          "met": "The listener hears three clear questions, thanks and a next-steps question.",
+          "notMet": "Fewer than three questions or no closing."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "quality",
+        "label": "Question quality",
+        "description": "Questions are specific to the role and show real interest.",
+        "anchors": {
+          "met": "Questions are open and about work, such as how success is measured.",
+          "notMet": "Questions are about benefits only or can be answered with yes or no."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "tone",
+        "label": "Polite tone",
+        "description": "The tone is friendly and professional.",
+        "anchors": {
+          "met": "Uses \"Could you\" and \"Thank you\" naturally.",
+          "notMet": "Sounds demanding or abrupt."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "ati-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could you tell me more about how the team works day to day?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker want to learn?",
+            "options": [
+              "How the team operates",
+              "How much the job pays",
+              "Where the office is"
+            ],
+            "correctAnswer": "How the team operates"
+          },
+          {
+            "id": "ati-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "How do you measure success in this role during the first three months?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the question about?",
+            "options": [
+              "Early goals",
+              "Holiday rules",
+              "Office snacks"
+            ],
+            "correctAnswer": "Early goals"
+          },
+          {
+            "id": "ati-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What does growth look like for engineers on this team?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What topic is raised?",
+            "options": [
+              "Moving up and learning",
+              "Working from home for the team",
+              "Using new laptops"
+            ],
+            "correctAnswer": "Moving up and learning"
+          },
+          {
+            "id": "ati-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thank you for your time. Could you explain the next steps?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker asking?",
+            "options": [
+              "What happens afterwards",
+              "Who the founders are for the team",
+              "Where to park at work"
+            ],
+            "correctAnswer": "What happens afterwards"
+          }
+        ],
+        "training": [
+          {
+            "id": "ati-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What does the onboarding process look like for new engineers?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker ask about?",
+            "options": [
+              "The first weeks at work",
+              "Last year's sales for the team",
+              "The office rent"
+            ],
+            "correctAnswer": "The first weeks at work",
+            "feedback": "Onboarding là quá trình làm quen khi mới vào."
+          },
+          {
+            "id": "ati-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What are your expectations for this role in the first quarter?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is being asked?",
+            "options": [
+              "What the company hopes for",
+              "What the team ate for the team",
+              "What the price is"
+            ],
+            "correctAnswer": "What the company hopes for",
+            "feedback": "Expectations là kỳ vọng."
+          },
+          {
+            "id": "ati-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "How does the team review code before a release?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What process is mentioned?",
+            "options": [
+              "Checking work before launch",
+              "Planning a company trip for the team",
+              "Hiring a new manager"
+            ],
+            "correctAnswer": "Checking work before launch",
+            "feedback": "Review code là kiểm tra code trước khi phát hành."
+          },
+          {
+            "id": "ati-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could you tell me more about the biggest challenge for the team?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker ask about?",
+            "options": [
+              "A major difficulty",
+              "A holiday plan",
+              "A product color for the team"
+            ],
+            "correctAnswer": "A major difficulty",
+            "feedback": "Challenge là thách thức lớn."
+          },
+          {
+            "id": "ati-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would like to understand how people move to senior roles here.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker curious about?",
+            "options": [
+              "Promotion paths",
+              "Parking rules for the team",
+              "Lunch options"
+            ],
+            "correctAnswer": "Promotion paths",
+            "feedback": "Move to senior roles là lên vai trò cao hơn."
+          },
+          {
+            "id": "ati-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thank you for your answers, they were very helpful.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker do?",
+            "options": [
+              "Expresses gratitude",
+              "Raises a complaint for the team",
+              "Changes the topic"
+            ],
+            "correctAnswer": "Expresses gratitude",
+            "feedback": "Thank you for ... là câu cảm ơn."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "ati-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could you tell me more about the testing process on this team?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker asking about?",
+            "options": [
+              "How quality is checked",
+              "How lunch is booked for the team",
+              "How travel is paid"
+            ],
+            "correctAnswer": "How quality is checked"
+          },
+          {
+            "id": "ati-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "How do you measure success for a new engineer?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is being asked?",
+            "options": [
+              "What good results look like",
+              "How long a day is for the team",
+              "Who sits nearby"
+            ],
+            "correctAnswer": "What good results look like"
+          },
+          {
+            "id": "ati-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What does growth look like for someone in this role?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker interested in?",
+            "options": [
+              "Future opportunities",
+              "Past mistakes",
+              "Seat locations for the team"
+            ],
+            "correctAnswer": "Future opportunities"
+          },
+          {
+            "id": "ati-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thank you for your time. When can I expect to hear from you?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker want to know?",
+            "options": [
+              "When a reply arrives",
+              "Who the manager is",
+              "Where the office is for the team"
+            ],
+            "correctAnswer": "When a reply arrives"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "ati-cue-growth",
+          "articulatoryCue": "Đọc âm cuối của growth và measure thật rõ bằng cách đặt lưỡi giữa răng ở cuối growth.",
+          "meaningRisk": "Nuốt âm cuối làm growth nghe giống một từ khác.",
+          "triggerItemIds": [
+            "ati-pre-3",
+            "ati-post-3"
+          ]
+        },
+        {
+          "id": "ati-cue-expect",
+          "articulatoryCue": "Nhấn âm thứ hai của expectations và onboarding để câu hỏi nghe tự tin.",
+          "meaningRisk": "Thiếu nhấn làm câu hỏi nghe mơ hồ.",
+          "triggerItemIds": [
+            "ati-train-1",
+            "ati-train-2"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "ati-chunk-team",
+          "function": "question about the team",
+          "text": "Could you tell me more about ___?",
+          "meaning": "Hỏi thêm về một chủ đề.",
+          "slots": [
+            "topic"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Could you tell me more about how the team works day to day?",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "ati-chunk-success",
+          "function": "question about success",
+          "text": "How do you measure success in ___?",
+          "meaning": "Hỏi tiêu chí thành công.",
+          "slots": [
+            "role"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "How do you measure success in this role during the first three months?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "ati-chunk-growth",
+          "function": "question about growth",
+          "text": "What does growth look like for ___?",
+          "meaning": "Hỏi cơ hội phát triển.",
+          "slots": [
+            "group"
+          ],
+          "stressPattern": "GROWTH",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "What does growth look like for engineers on this team?",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "ati-chunk-close",
+          "function": "closing",
+          "text": "Thank you for your time. Could you explain the next steps?",
+          "meaning": "Kết thúc lịch sự.",
+          "slots": [
+            "follow-up"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Thank you for your time. Could you explain the next steps?",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình hỏi đủ ba câu: đội, thành công, phát triển.",
+        "Câu hỏi của mình mở và cụ thể cho vai trò.",
+        "Mình cảm ơn và hỏi bước tiếp theo."
+      ],
+      "interactionTurns": [
+        {
+          "id": "ati-turn-clarify",
+          "kind": "clarification",
+          "prompt": "Sorry, could you repeat the second question?",
+          "expectedFunction": "repeat the second question in simpler words"
+        },
+        {
+          "id": "ati-turn-followup",
+          "kind": "follow-up",
+          "prompt": "Is there anything that worries you about the role?",
+          "expectedFunction": "answer honestly and positively in one or two sentences"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

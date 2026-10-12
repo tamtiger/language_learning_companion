@@ -1,0 +1,731 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-behavioral-story-bank-b2",
+  "title": "Pick a story from your story bank (B2)",
+  "summary": "Chọn câu chuyện phù hợp trong kho câu chuyện của bạn và kể theo bốn bước: tình huống, hành động, kết quả, bài học.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Nhận ra năng lực mà câu hỏi đang kiểm tra",
+    "Chọn câu chuyện của mình khớp với câu hỏi",
+    "Kể ngắn gọn theo cấu trúc bốn bước"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "story-bank",
+    "behavioral-question",
+    "story-selection"
+  ],
+  "sections": [
+    {
+      "id": "bsb-source",
+      "type": "source",
+      "title": "Behavioral question card",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interview: Senior Engineer, Cedarpoint. Interviewer: Tell me about a time you disagreed with a teammate about a technical choice. Question type: conflict. A strong answer picks one story from your own bank, names the situation, your action, a measured result and one lesson."
+    },
+    {
+      "id": "bsb-language",
+      "type": "language-support",
+      "title": "Language for matching a question to a story",
+      "vocabulary": [
+        {
+          "word": "competency",
+          "ipa": "/ˈkɑːm.pə.tən.si/",
+          "definition": "năng lực",
+          "technicalMeaning": "Điều người phỏng vấn muốn kiểm tra, ví dụ conflict hoặc ownership.",
+          "collocations": [
+            "a core competency",
+            "test a competency"
+          ],
+          "example": "This question tests conflict handling.",
+          "commonMistake": "Nhấn trọng âm ở âm tiết thứ hai: com-PE-tency."
+        },
+        {
+          "word": "disagree",
+          "ipa": "/ˌdɪs.əˈɡriː/",
+          "definition": "bất đồng",
+          "technicalMeaning": "Có ý kiến khác đồng nghiệp trong một quyết định.",
+          "collocations": [
+            "disagree with",
+            "respectfully disagree"
+          ],
+          "example": "We disagreed about the database choice.",
+          "commonMistake": "Nói disagree with + người, không nói disagree to."
+        },
+        {
+          "word": "resolve",
+          "ipa": "/rɪˈzɑːlv/",
+          "definition": "giải quyết",
+          "technicalMeaning": "Tìm ra cách để hai bên cùng chấp nhận.",
+          "collocations": [
+            "resolve a conflict",
+            "resolve the issue"
+          ],
+          "example": "We resolved it with a small test.",
+          "commonMistake": "Nhấn âm tiết thứ hai: re-SOLVE."
+        },
+        {
+          "word": "outcome",
+          "ipa": "/ˈaʊt.kʌm/",
+          "definition": "kết quả",
+          "technicalMeaning": "Điều thay đổi được sau hành động của bạn.",
+          "collocations": [
+            "a clear outcome",
+            "the outcome was"
+          ],
+          "example": "The outcome was a faster release.",
+          "commonMistake": "Nói the outcome was, không nói the outcome is when kể chuyện đã qua."
+        },
+        {
+          "word": "takeaway",
+          "ipa": "/ˈteɪk.ə.weɪ/",
+          "definition": "bài học rút ra",
+          "technicalMeaning": "Điều bạn làm khác đi từ sau câu chuyện.",
+          "collocations": [
+            "my takeaway",
+            "a key takeaway"
+          ],
+          "example": "My takeaway was to test before we argue.",
+          "commonMistake": "Takeaway là một từ, không tách thành take away khi là danh từ."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "This question is testing ___, so I will use my story about ___.",
+          "meaning": "Nói rõ bạn chọn chuyện nào và vì sao.",
+          "tone": "neutral",
+          "example": "This question is testing conflict, so I will use my story about a database choice.",
+          "alternatives": [
+            "The best story I have for this is ___."
+          ]
+        },
+        {
+          "phrase": "The situation was ___, and my role was ___.",
+          "meaning": "Mở đầu câu chuyện bằng tình huống và vai trò.",
+          "tone": "neutral",
+          "example": "The situation was a delayed release, and my role was tech lead.",
+          "alternatives": [
+            "At the time, I was ___."
+          ]
+        },
+        {
+          "phrase": "What I did was ___, which led to ___.",
+          "meaning": "Nối hành động với kết quả.",
+          "tone": "neutral",
+          "example": "What I did was run a small test, which led to a clear decision.",
+          "alternatives": [
+            "I decided to ___, and as a result ___."
+          ]
+        },
+        {
+          "phrase": "My takeaway was ___.",
+          "meaning": "Kết thúc bằng bài học.",
+          "tone": "neutral",
+          "example": "My takeaway was to share evidence before opinions.",
+          "alternatives": [
+            "What I learned was ___."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bsb-check",
+      "type": "auto-check",
+      "title": "Check story matching",
+      "exercises": [
+        {
+          "id": "bsb-competency",
+          "type": "choice",
+          "question": "Interviewer: \"Tell me about a time you disagreed with a teammate.\" Which competency is this?",
+          "options": [
+            "Conflict",
+            "Mentoring",
+            "Delivery"
+          ],
+          "correctAnswer": [
+            "Conflict"
+          ],
+          "explanation": "Bất đồng với đồng nghiệp là câu hỏi về xử lý xung đột."
+        },
+        {
+          "id": "bsb-pick",
+          "type": "choice",
+          "question": "Which story from a bank fits the conflict question best?",
+          "options": [
+            "A debate about a database choice that ended with a test",
+            "A release that shipped one day late",
+            "A new hire I helped in her first month"
+          ],
+          "correctAnswer": [
+            "A debate about a database choice that ended with a test"
+          ],
+          "explanation": "Chọn chuyện có một bất đồng thật và cách giải quyết."
+        },
+        {
+          "id": "bsb-fill",
+          "type": "fill",
+          "question": "Điền từ: What I did was run a test, ___ led to a clear decision.",
+          "correctAnswer": [
+            "which"
+          ],
+          "explanation": "Which nối một mệnh đề về kết quả."
+        },
+        {
+          "id": "bsb-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các bước kể chuyện.",
+          "options": [
+            "takeaway",
+            "situation and role",
+            "result with a number",
+            "my action"
+          ],
+          "correctAnswer": [
+            "situation and role",
+            "my action",
+            "result with a number",
+            "takeaway"
+          ],
+          "explanation": "Tình huống, hành động, kết quả, bài học."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "bsb-task",
+    "mode": "spoken",
+    "title": "Tell one story from your own bank",
+    "scenario": "The interviewer asks a behavioral question; you choose a story from your own bank and tell it in four steps.",
+    "baselinePrompt": "Answer in English in about 90 seconds with one real story from your own bank: name what the question tests, the situation, your action, the result and your takeaway. Do not look at the model answer yet.",
+    "performancePrompt": "Answer in English in about 90 seconds with one real story: name what the question tests, the situation, your action, the result and your takeaway.",
+    "modelResponse": "This question is testing conflict, so I will use my story about a database choice. The situation was a delayed release, and my role was tech lead. Two senior engineers disagreed about which database to use, and the argument slowed us down for a week. What I did was ask both of them to run a small test on our real traffic, which led to a clear decision in two days. We chose the simpler option, and the release shipped on time. I also wrote a short note that explained why we chose it, so the discussion did not repeat. My takeaway was to share evidence before opinions, because it keeps the conversation calm and keeps the team focused on the result. Since then, I use the same approach in every design review, and my teammates now bring their own data to the first meeting. That small habit has saved us many hours of debate and has made our decisions easier to explain to managers who were not in the room.",
+    "retryPrompt": "Tell the story again in English. Keep four steps and make the result more specific.",
+    "transferPrompt": "Answer a different question, such as a time you failed, with another story from your own bank.",
+    "reviewPrompt": "Answer a new behavioral question with one of your stories, without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Conflict question at Cedarpoint",
+        "brief": "A senior engineer interview with a question about disagreeing with a teammate.",
+        "artifacts": [
+          {
+            "id": "bsb-baseline-ctx",
+            "type": "source",
+            "title": "Conflict question at Cedarpoint",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Senior Engineer, Cedarpoint. Interviewer: Tell me about a time you disagreed with a teammate about a technical choice. Question type: conflict."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Failure question at Riverbend",
+        "brief": "Retry with a question about a project that failed.",
+        "artifacts": [
+          {
+            "id": "bsb-retry-ctx",
+            "type": "source",
+            "title": "Failure question at Riverbend",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Staff Engineer, Riverbend. Interviewer: Describe a project that did not go as planned. What did you do? Question type: failure."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Mentoring question at Lumenworks",
+        "brief": "A new situation: a question about helping a teammate grow.",
+        "artifacts": [
+          {
+            "id": "bsb-transfer-ctx",
+            "type": "source",
+            "title": "Mentoring question at Lumenworks",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Tech Lead, Lumenworks. Interviewer: Tell me about a time you helped a teammate grow. Question type: mentoring."
+          }
+        ]
+      },
+      "review": {
+        "title": "Ownership question at Stonebridge",
+        "brief": "Review with a question about taking ownership of a problem.",
+        "artifacts": [
+          {
+            "id": "bsb-review-ctx",
+            "type": "source",
+            "title": "Ownership question at Stonebridge",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Engineer, Stonebridge. Interviewer: Give an example of when you took ownership of a problem nobody asked you to fix. Question type: ownership."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 120,
+      "requiredElements": [
+        "question competency",
+        "situation and role",
+        "personal action",
+        "measured result",
+        "takeaway"
+      ],
+      "targetSeconds": 90
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "story choice",
+      "ownership",
+      "measured result"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four steps and story choice",
+        "description": "The story fits the question and follows four steps.",
+        "anchors": {
+          "met": "The story matches the competency and has situation, action, result, takeaway.",
+          "notMet": "The story does not fit the question or steps are missing."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "ownership",
+        "label": "Personal action",
+        "description": "The listener hears what you did, not only what the team did.",
+        "anchors": {
+          "met": "Uses \"I\" for key decisions and actions.",
+          "notMet": "Uses only \"we\" so your part is unclear."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "result",
+        "label": "Measured result and takeaway",
+        "description": "The result is concrete and the takeaway is real.",
+        "anchors": {
+          "met": "The result has a number or a clear change, and the takeaway is specific.",
+          "notMet": "No result, or a generic lesson such as \"teamwork is important\"."
+        },
+        "dimension": "range"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "bsb-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This question is testing conflict, so I will use my story about a database choice.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do first?",
+            "options": [
+              "Names the skill tested",
+              "Gives the final result",
+              "Asks for a short break"
+            ],
+            "correctAnswer": "Names the skill tested"
+          },
+          {
+            "id": "bsb-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The situation was a delayed release, and my role was tech lead.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What was the speaker's role?",
+            "options": [
+              "Product owner",
+              "Technical leader",
+              "A very junior tester"
+            ],
+            "correctAnswer": "Technical leader"
+          },
+          {
+            "id": "bsb-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What I did was run a small test, which led to a decision in two days.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How long did the decision take?",
+            "options": [
+              "2 days",
+              "2 weeks",
+              "2 hours"
+            ],
+            "correctAnswer": "2 days"
+          },
+          {
+            "id": "bsb-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My takeaway was to share evidence before opinions.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the lesson?",
+            "options": [
+              "Argue less often",
+              "Avoid all tests",
+              "Show data first"
+            ],
+            "correctAnswer": "Show data first"
+          }
+        ],
+        "training": [
+          {
+            "id": "bsb-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Two senior engineers disagreed about the design, and it slowed us down.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What was the problem?",
+            "options": [
+              "The design was already finished",
+              "The conflict caused delay",
+              "The team was too small"
+            ],
+            "correctAnswer": "The conflict caused delay",
+            "feedback": "Chú ý slowed us down: hậu quả của bất đồng."
+          },
+          {
+            "id": "bsb-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I asked both of them to run a test on real traffic.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What did the speaker request?",
+            "options": [
+              "A trial with live data",
+              "A new larger meeting room",
+              "A vote by email"
+            ],
+            "correctAnswer": "A trial with live data",
+            "feedback": "Hành động cá nhân bắt đầu bằng I."
+          },
+          {
+            "id": "bsb-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "We chose the simpler option, and the release shipped on time.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What was the result?",
+            "options": [
+              "The product was cancelled",
+              "The team grew bigger",
+              "The launch was punctual"
+            ],
+            "correctAnswer": "The launch was punctual",
+            "feedback": "Kết quả đi sau chữ and."
+          },
+          {
+            "id": "bsb-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I wrote a short note so the discussion would not repeat.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "Why did the speaker write the note?",
+            "options": [
+              "To ask for a bigger raise",
+              "To stop the same debate",
+              "To close the project"
+            ],
+            "correctAnswer": "To stop the same debate",
+            "feedback": "So nối mục đích của hành động."
+          },
+          {
+            "id": "bsb-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The project failed because we did not test the first release.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What caused the failure?",
+            "options": [
+              "A late client call",
+              "Too many outside reviewers",
+              "Skipped early testing"
+            ],
+            "correctAnswer": "Skipped early testing",
+            "feedback": "Because nêu nguyên nhân."
+          },
+          {
+            "id": "bsb-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Afterwards, I started a weekly review for new engineers.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What did the speaker begin?",
+            "options": [
+              "A new product launch",
+              "Regular check-ins",
+              "A holiday plan"
+            ],
+            "correctAnswer": "Regular check-ins",
+            "feedback": "Afterwards đánh dấu hành động sau câu chuyện."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "bsb-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "This question is testing failure, so I will use my story about a missed deadline.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the question test?",
+            "options": [
+              "Helping others",
+              "A past mistake",
+              "Shipping on time"
+            ],
+            "correctAnswer": "A past mistake"
+          },
+          {
+            "id": "bsb-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My role was incident lead, and I had one day to restore the service.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What was the time limit?",
+            "options": [
+              "7 full days",
+              "24 hours",
+              "1 hour"
+            ],
+            "correctAnswer": "24 hours"
+          },
+          {
+            "id": "bsb-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "What I did was split the work, which led to a fix before noon.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "When was the fix ready?",
+            "options": [
+              "Late at night",
+              "Before midday",
+              "Next Monday"
+            ],
+            "correctAnswer": "Before midday"
+          },
+          {
+            "id": "bsb-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "My takeaway was to practice the recovery plan before a real incident.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the lesson?",
+            "options": [
+              "Avoid every single incident",
+              "Rehearse the plan early",
+              "Skip the review"
+            ],
+            "correctAnswer": "Rehearse the plan early"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "bsb-cue-resolve",
+          "articulatoryCue": "Nhấn âm tiết thứ hai trong resolve và outcome để người nghe bắt được kết quả.",
+          "meaningRisk": "Nhấn sai làm resolve nghe giống một từ khác.",
+          "triggerItemIds": [
+            "bsb-pre-3",
+            "bsb-train-3"
+          ]
+        },
+        {
+          "id": "bsb-cue-takeaway",
+          "articulatoryCue": "Nhấn từ takeaway ở câu cuối để người nghe nhận ra bài học.",
+          "meaningRisk": "Thiếu nhấn làm bài học bị chìm trong câu cuối.",
+          "triggerItemIds": [
+            "bsb-pre-4",
+            "bsb-post-4"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "bsb-chunk-pick",
+          "function": "story choice",
+          "text": "This question is testing ___, so I will use ___.",
+          "meaning": "Nói câu hỏi kiểm tra gì và chọn chuyện nào.",
+          "slots": [
+            "skill",
+            "story"
+          ],
+          "stressPattern": "TESTING",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "This question is testing conflict, so I will use my story about a database choice.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "bsb-chunk-situation",
+          "function": "situation and role",
+          "text": "The situation was ___, and my role was ___.",
+          "meaning": "Mở đầu bằng tình huống và vai trò.",
+          "slots": [
+            "situation",
+            "role"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "The situation was a delayed release, and my role was tech lead.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "bsb-chunk-action",
+          "function": "action and result",
+          "text": "What I did was ___, which led to ___.",
+          "meaning": "Nối hành động với kết quả.",
+          "slots": [
+            "action",
+            "result"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "What I did was run a small test, which led to a decision in two days.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "bsb-chunk-takeaway",
+          "function": "takeaway",
+          "text": "My takeaway was ___.",
+          "meaning": "Kết thúc bằng bài học.",
+          "slots": [
+            "lesson"
+          ],
+          "stressPattern": "TAKEAWAY",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "My takeaway was to share evidence before opinions.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình nói rõ năng lực câu hỏi kiểm tra trước khi kể.",
+        "Mình dùng I cho hành động chính của mình.",
+        "Kết quả có số hoặc thay đổi rõ ràng và bài học cụ thể."
+      ],
+      "interactionTurns": [
+        {
+          "id": "bsb-turn-probe",
+          "kind": "follow-up",
+          "prompt": "What would you do differently if it happened again?",
+          "expectedFunction": "name one change in one or two sentences"
+        },
+        {
+          "id": "bsb-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I missed your role. What was your part in that decision?",
+          "expectedFunction": "restate your personal role and action"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  },
+  "storyBank": {
+    "competencies": [
+      "conflict",
+      "failure",
+      "ownership",
+      "mentoring"
+    ],
+    "minStories": 2
+  }
+}

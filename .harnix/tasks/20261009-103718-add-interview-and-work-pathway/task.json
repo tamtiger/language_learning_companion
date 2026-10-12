@@ -4,8 +4,8 @@
   "id": "20261009-103718-add-interview-and-work-pathway",
   "title": "Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài",
   "mode": "full",
-  "status": "planning",
-  "checkpoint": "planning",
+  "status": "completed",
+  "checkpoint": "finishing",
   "goal": "Mục tiêu 5 được phủ: người học luyện được phỏng vấn bằng câu chuyện của chính mình và các tình huống làm việc.",
   "nonGoals": [
     "Không thêm chấm nói tự động bằng AI"
@@ -14,20 +14,29 @@
     {
       "id": "ac-1",
       "text": "Bộ mission phỏng vấn: tell me about yourself (B1), story bank cho behavioral, system design walkthrough, coding think-aloud, hỏi lại interviewer, đàm phán offer (B2).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-interview-content-2",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-2",
       "text": "Bộ mission làm việc: nhận và góp feedback, performance review, 1:1, viết code review comment, small talk (workplace nói).",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-interview-content-2",
+        "ev-check-suite-2"
+      ]
     },
     {
       "id": "ac-3",
       "text": "Tất cả qua cổng chất lượng và không trùng kịch bản với mission khác.",
-      "status": "pending",
-      "evidenceIds": []
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-interview-content-2",
+        "ev-check-suite-2"
+      ]
     }
   ],
   "validationPlan": [
@@ -64,7 +73,48 @@
       ]
     }
   ],
-  "evidence": [],
+  "evidence": [
+    {
+      "id": "ev-check-interview-content-1",
+      "checkId": "check-interview-content",
+      "recordedAt": "2026-10-12T08:11:40.665+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/interviewPathway.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "c7b7a39dedddfd61c1cdd32c6b85b51ba90d16e948eae0d101073849100fe95b"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T08:12:32.801+07:00",
+      "result": "fail",
+      "exitCode": 1,
+      "summary": "npm test — exit 1",
+      "artifactPaths": [],
+      "inputDigest": "42e7892ea2ea20ae9010f7301690a168927bd361ea66b034b3299a30cc57ad87"
+    },
+    {
+      "id": "ev-check-interview-content-2",
+      "checkId": "check-interview-content",
+      "recordedAt": "2026-10-12T08:14:23.245+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npx vitest run tests/content/interviewPathway.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "cd16b11215b9cc175ca562b16e91cc2e00569780d1951331bf63ec96e40c356d"
+    },
+    {
+      "id": "ev-check-suite-2",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-12T08:15:14.885+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "c62dba033215e4dfe2412f32f5c45fdb0dfd8134c6f59ca5696c04be80a039bb"
+    }
+  ],
   "relevantPaths": [
     "content/missions",
     "src/content"
@@ -72,5 +122,6 @@
   "relevantSpecs": [],
   "epicId": "20261009-103708-learning-companion-remediation",
   "createdAt": "2026-10-09T10:37:08.274+07:00",
-  "updatedAt": "2026-10-09T11:37:08.495+07:00"
+  "updatedAt": "2026-10-12T08:15:17.697+07:00",
+  "completedAt": "2026-10-12T08:15:17.697+07:00"
 }

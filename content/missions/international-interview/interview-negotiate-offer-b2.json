@@ -1,0 +1,722 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-negotiate-offer-b2",
+  "title": "Negotiate a job offer politely (B2)",
+  "summary": "Cảm ơn, nêu mong muốn dựa trên dữ kiện, đề xuất một con số hoặc điều kiện và giữ quan hệ tốt khi đàm phán offer.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Bày tỏ sự biết ơn trước khi đề xuất",
+    "Nêu mong muốn dựa trên dữ kiện thị trường và kinh nghiệm",
+    "Đề xuất một phương án linh hoạt và chốt bước tiếp theo"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "offer-negotiation",
+    "compensation-talk",
+    "polite-counter"
+  ],
+  "sections": [
+    {
+      "id": "neg-source",
+      "type": "source",
+      "title": "Offer call",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you the role at ninety thousand a year, plus the standard benefits. Notes: thank the recruiter, ask for time, state your expectation with evidence, propose a range and keep the tone collaborative."
+    },
+    {
+      "id": "neg-language",
+      "type": "language-support",
+      "title": "Language for negotiating an offer",
+      "vocabulary": [
+        {
+          "word": "compensation",
+          "ipa": "/ˌkɑːm.penˈseɪ.ʃən/",
+          "definition": "tổng thu nhập và quyền lợi",
+          "technicalMeaning": "Lương cùng thưởng và các quyền lợi khác của vị trí.",
+          "collocations": [
+            "total compensation",
+            "compensation package"
+          ],
+          "example": "I would like to discuss the compensation.",
+          "commonMistake": "Nhấn âm tiết thứ ba: com-pen-SA-tion."
+        },
+        {
+          "word": "counteroffer",
+          "ipa": "/ˈkaʊn.t̬ɚ.ɑː.fɚ/",
+          "definition": "đề xuất ngược lại",
+          "technicalMeaning": "Mức hoặc điều kiện bạn đề nghị sau khi nhận offer.",
+          "collocations": [
+            "make a counteroffer",
+            "a fair counteroffer"
+          ],
+          "example": "I would like to make a counteroffer.",
+          "commonMistake": "Viết counteroffer thành một từ."
+        },
+        {
+          "word": "flexible",
+          "ipa": "/ˈflek.sə.bəl/",
+          "definition": "linh hoạt",
+          "technicalMeaning": "Sẵn sàng điều chỉnh để hai bên cùng chấp nhận.",
+          "collocations": [
+            "be flexible on",
+            "flexible about"
+          ],
+          "example": "I am flexible on the start date.",
+          "commonMistake": "Nói flexible on hoặc about, không nói flexible with the salary."
+        },
+        {
+          "word": "benchmark",
+          "ipa": "/ˈbentʃ.mɑːrk/",
+          "definition": "mức tham chiếu",
+          "technicalMeaning": "Dữ liệu thị trường dùng để so sánh mức lương.",
+          "collocations": [
+            "market benchmark",
+            "a benchmark for"
+          ],
+          "example": "The benchmark for this role is higher.",
+          "commonMistake": "Nhấn âm đầu: BENCH-mark."
+        },
+        {
+          "word": "sign",
+          "ipa": "/saɪn/",
+          "definition": "ký, đồng ý chính thức",
+          "technicalMeaning": "Chấp nhận offer bằng văn bản.",
+          "collocations": [
+            "sign the offer",
+            "ready to sign"
+          ],
+          "example": "I am ready to sign if we agree on this.",
+          "commonMistake": "Âm g trong sign là âm câm."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Thank you for the offer. I am excited about ___.",
+          "meaning": "Bắt đầu bằng sự biết ơn.",
+          "tone": "neutral",
+          "example": "Thank you for the offer. I am excited about the team and the product.",
+          "alternatives": [
+            "I really appreciate the offer."
+          ]
+        },
+        {
+          "phrase": "Based on ___, I was hoping for ___.",
+          "meaning": "Nêu mong muốn dựa trên dữ kiện.",
+          "tone": "neutral",
+          "example": "Based on my experience and market data, I was hoping for a figure closer to one hundred and five thousand.",
+          "alternatives": [
+            "Given ___, I would like to ask for ___."
+          ]
+        },
+        {
+          "phrase": "I am flexible on ___ if we can ___.",
+          "meaning": "Đề xuất phương án linh hoạt.",
+          "tone": "neutral",
+          "example": "I am flexible on the start date if we can adjust the base figure.",
+          "alternatives": [
+            "I could be flexible on ___."
+          ]
+        },
+        {
+          "phrase": "Could we discuss this and find a number that works for both sides?",
+          "meaning": "Giữ tính hợp tác.",
+          "tone": "neutral",
+          "example": "Could we discuss this and find a number that works for both sides?",
+          "alternatives": [
+            "Is there room to meet in the middle?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "neg-check",
+      "type": "auto-check",
+      "title": "Check your negotiation language",
+      "exercises": [
+        {
+          "id": "neg-first",
+          "type": "choice",
+          "question": "What should you say first when you hear an offer?",
+          "options": [
+            "Thank them and show interest",
+            "Reject it immediately",
+            "Ask when you can leave"
+          ],
+          "correctAnswer": [
+            "Thank them and show interest"
+          ],
+          "explanation": "Cảm ơn trước giúp giữ quan hệ tốt."
+        },
+        {
+          "id": "neg-evidence",
+          "type": "choice",
+          "question": "Which sentence supports your request with evidence?",
+          "options": [
+            "Based on market data, I was hoping for a higher figure.",
+            "I just feel it should be higher.",
+            "My friend earns much more."
+          ],
+          "correctAnswer": [
+            "Based on market data, I was hoping for a higher figure."
+          ],
+          "explanation": "Dữ kiện thị trường làm đề xuất có cơ sở."
+        },
+        {
+          "id": "neg-fill",
+          "type": "fill",
+          "question": "Điền từ: I am flexible ___ the start date.",
+          "correctAnswer": [
+            "on"
+          ],
+          "explanation": "Flexible on + điều có thể điều chỉnh.",
+          "acceptedAnswers": [
+            "about"
+          ]
+        },
+        {
+          "id": "neg-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các bước đàm phán.",
+          "options": [
+            "propose a flexible option",
+            "thank the recruiter",
+            "state your expectation with evidence",
+            "agree on next steps"
+          ],
+          "correctAnswer": [
+            "thank the recruiter",
+            "state your expectation with evidence",
+            "propose a flexible option",
+            "agree on next steps"
+          ],
+          "explanation": "Cảm ơn, nêu mong muốn, đề xuất linh hoạt, chốt bước tiếp."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "neg-task",
+    "mode": "spoken",
+    "title": "Make a polite counteroffer",
+    "scenario": "A recruiter calls with an offer; you thank them, explain your expectation with evidence, propose an option and agree on next steps.",
+    "baselinePrompt": "Respond in English for about 90 seconds: thank the recruiter, state your expectation with evidence, propose a flexible option and agree on next steps. Do not look at the model answer yet.",
+    "performancePrompt": "Speak in English for about 90 seconds: thank the recruiter, state your expectation based on evidence, propose a flexible option and agree on the next steps.",
+    "modelResponse": "Thank you very much for the offer. I am excited about the team and the product, and I would love to join the company. Based on my experience and the market benchmark for this role, I was hoping for a base figure closer to one hundred and five thousand. I have led two major releases and I have mentored three engineers, so I believe that figure reflects the value I can bring in the first year. That said, I am flexible on the structure of the package. For example, I would consider a lower base if we can include a signing bonus or an earlier review after six months. Could we discuss this and find a number that works for both sides? If we can agree on a direction, I am ready to sign this week. When would be a good time to continue the conversation, and who should I speak with about the details? Either way, thank you again for your time and for the trust you have shown in me today.",
+    "retryPrompt": "Respond again in English. Keep the same order and make your evidence more specific.",
+    "transferPrompt": "Negotiate a different offer, such as a lead role with a lower base and larger equity.",
+    "reviewPrompt": "Negotiate a new offer without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Offer for a backend role",
+        "brief": "A recruiter offers a base figure and standard benefits.",
+        "artifacts": [
+          {
+            "id": "neg-baseline-ctx",
+            "type": "source",
+            "title": "Offer for a backend role",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you ninety thousand a year, plus standard benefits and a start date next month."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Offer with low equity",
+        "brief": "Retry with an offer where equity is the issue.",
+        "artifacts": [
+          {
+            "id": "neg-retry-ctx",
+            "type": "source",
+            "title": "Offer with low equity",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Call: Offer for Senior Engineer, Fairhaven Labs. Recruiter: The package is one hundred thousand and a small equity grant. We would like your answer by Friday."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Lead role with heavy travel",
+        "brief": "A new situation: the role has more duties than expected.",
+        "artifacts": [
+          {
+            "id": "neg-transfer-ctx",
+            "type": "source",
+            "title": "Lead role with heavy travel",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Call: Offer for Engineering Lead, Northcape. Recruiter: The role includes managing five people and travel once a month. The base is one hundred and ten thousand."
+          }
+        ]
+      },
+      "review": {
+        "title": "Remote role with a relocation ask",
+        "brief": "Review with a remote role and a relocation question.",
+        "artifacts": [
+          {
+            "id": "neg-review-ctx",
+            "type": "source",
+            "title": "Remote role with a relocation ask",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Call: Offer for Platform Engineer, Willowbrook. Recruiter: The role is remote, but we need you in the office twice a year. The base is ninety-five thousand."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 120,
+      "requiredElements": [
+        "thanks",
+        "expectation with evidence",
+        "flexible option",
+        "next steps"
+      ],
+      "targetSeconds": 90
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "evidence",
+      "collaborative tone",
+      "clear next step"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Four-part response",
+        "description": "The response follows thanks, evidence, option and next steps.",
+        "anchors": {
+          "met": "All four parts appear in order.",
+          "notMet": "A part is missing, such as no next step."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "evidence",
+        "label": "Evidence for the request",
+        "description": "The request is based on facts, not feelings.",
+        "anchors": {
+          "met": "Cites experience, results or market data.",
+          "notMet": "Says \"I want more\" without a reason."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "tone",
+        "label": "Collaborative tone",
+        "description": "The tone stays friendly and open.",
+        "anchors": {
+          "met": "Uses \"could we\" and offers flexibility.",
+          "notMet": "Sounds like an ultimatum."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "neg-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Thank you very much for the offer. I am excited about the team.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do first?",
+            "options": [
+              "Accepts it on the spot",
+              "Expresses gratitude",
+              "Asks for a delay"
+            ],
+            "correctAnswer": "Expresses gratitude"
+          },
+          {
+            "id": "neg-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Based on the market benchmark for this role, I was hoping for a higher base.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What supports the request?",
+            "options": [
+              "Data about the market",
+              "A friend's opinion for the team",
+              "A personal wish"
+            ],
+            "correctAnswer": "Data about the market"
+          },
+          {
+            "id": "neg-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I am flexible on the structure of the package.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker willing to change?",
+            "options": [
+              "How the package is built",
+              "Which company to join",
+              "The length of the call for the team"
+            ],
+            "correctAnswer": "How the package is built"
+          },
+          {
+            "id": "neg-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "When would be a good time to continue the conversation?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker want?",
+            "options": [
+              "To set a follow-up",
+              "To end the call",
+              "To change the role"
+            ],
+            "correctAnswer": "To set a follow-up"
+          }
+        ],
+        "training": [
+          {
+            "id": "neg-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would like to discuss the compensation, including benefits and bonus.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What topic is raised?",
+            "options": [
+              "Pay and extras",
+              "Office design for the team",
+              "Team lunches"
+            ],
+            "correctAnswer": "Pay and extras",
+            "feedback": "Compensation gồm lương, thưởng và quyền lợi."
+          },
+          {
+            "id": "neg-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I have led two major releases and mentored three engineers.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What does the speaker use as proof?",
+            "options": [
+              "Past achievements",
+              "A new degree",
+              "A recommendation letter"
+            ],
+            "correctAnswer": "Past achievements",
+            "feedback": "Led và mentored là kết quả đã làm."
+          },
+          {
+            "id": "neg-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would consider a lower base if we can include a signing bonus.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What trade is suggested?",
+            "options": [
+              "Less base for a bonus",
+              "More hours for less pay",
+              "Remote work for equity"
+            ],
+            "correctAnswer": "Less base for a bonus",
+            "feedback": "If nối điều kiện của đề xuất."
+          },
+          {
+            "id": "neg-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I could also accept an earlier review after six months.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "When would the review happen?",
+            "options": [
+              "After half a year",
+              "After two years for the team",
+              "After one week"
+            ],
+            "correctAnswer": "After half a year",
+            "feedback": "After six months là sau nửa năm."
+          },
+          {
+            "id": "neg-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Could we find a number that works for both sides?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What tone does the speaker use?",
+            "options": [
+              "A joint search for agreement",
+              "A final demand for the team right now",
+              "A cold refusal at work"
+            ],
+            "correctAnswer": "A joint search for agreement",
+            "feedback": "Both sides cho thấy tinh thần hợp tác."
+          },
+          {
+            "id": "neg-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "If we agree on a direction, I am ready to sign this week.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker willing to do?",
+            "options": [
+              "Commit quickly",
+              "Wait another month",
+              "Walk away today"
+            ],
+            "correctAnswer": "Commit quickly",
+            "feedback": "Ready to sign là sẵn sàng ký."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "neg-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I really appreciate the offer, and I am excited about the role.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "How does the speaker sound?",
+            "options": [
+              "Grateful and positive",
+              "Angry and rushed",
+              "Bored and distant for the team"
+            ],
+            "correctAnswer": "Grateful and positive"
+          },
+          {
+            "id": "neg-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Given my experience, I would like to ask for a figure closer to ninety-five thousand.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is requested?",
+            "options": [
+              "A higher base",
+              "A longer holiday",
+              "A bigger team"
+            ],
+            "correctAnswer": "A higher base"
+          },
+          {
+            "id": "neg-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I could be flexible on the start date if we adjust the base.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What can move?",
+            "options": [
+              "When work begins",
+              "Where the office sits",
+              "Who the manager is"
+            ],
+            "correctAnswer": "When work begins"
+          },
+          {
+            "id": "neg-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Is there room to meet in the middle?",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the speaker proposing?",
+            "options": [
+              "A compromise",
+              "A pause at work",
+              "A complaint for the team"
+            ],
+            "correctAnswer": "A compromise"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "neg-cue-offer",
+          "articulatoryCue": "Nhấn âm đầu của offer và excited để sự biết ơn nghe thật lòng.",
+          "meaningRisk": "Giọng phẳng làm lời cảm ơn nghe lạnh.",
+          "triggerItemIds": [
+            "neg-pre-1",
+            "neg-post-1"
+          ]
+        },
+        {
+          "id": "neg-cue-flexible",
+          "articulatoryCue": "Đọc rõ flexible và package, nhấn âm đầu của hai từ.",
+          "meaningRisk": "Nuốt âm làm người nghe không bắt được điều bạn sẵn sàng đổi.",
+          "triggerItemIds": [
+            "neg-pre-3",
+            "neg-train-3"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "neg-chunk-thanks",
+          "function": "gratitude",
+          "text": "Thank you for the offer. I am excited about ___.",
+          "meaning": "Bắt đầu bằng biết ơn.",
+          "slots": [
+            "reason"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Thank you for the offer. I am excited about the team and the product.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "neg-chunk-based",
+          "function": "evidence",
+          "text": "Based on ___, I was hoping for ___.",
+          "meaning": "Nêu mong muốn có cơ sở.",
+          "slots": [
+            "evidence",
+            "figure"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Based on my experience, I was hoping for a figure closer to one hundred and five thousand.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "neg-chunk-flexible",
+          "function": "flexible option",
+          "text": "I am flexible on ___ if we can ___.",
+          "meaning": "Đề xuất phương án linh hoạt.",
+          "slots": [
+            "item",
+            "condition"
+          ],
+          "stressPattern": "FLEXIBLE",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "I am flexible on the start date if we can adjust the base figure.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "neg-chunk-both",
+          "function": "collaborative close",
+          "text": "Could we find a number that works for both sides?",
+          "meaning": "Giữ tinh thần hợp tác.",
+          "slots": [
+            "number"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Could we find a number that works for both sides?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình cảm ơn trước khi đề xuất.",
+        "Mình nêu mong muốn kèm kinh nghiệm hoặc dữ kiện thị trường.",
+        "Giọng mình hợp tác và kết thúc bằng bước tiếp theo."
+      ],
+      "interactionTurns": [
+        {
+          "id": "neg-turn-push",
+          "kind": "interruption",
+          "prompt": "That is above our budget. What is the lowest figure you would accept?",
+          "expectedFunction": "respond with a range and a flexible option"
+        },
+        {
+          "id": "neg-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not catch the bonus part. Could you say it again?",
+          "expectedFunction": "repeat the bonus proposal clearly"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

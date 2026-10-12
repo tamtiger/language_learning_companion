@@ -34,7 +34,7 @@ describe('CatalogPage learning feature discovery', () => {
     render(<CatalogPage onStartLesson={() => undefined} />)
 
     await user.selectOptions(screen.getByLabelText('Capability'), 'international-interview')
-    await user.selectOptions(screen.getByLabelText('CEFR'), 'B1')
+    await user.selectOptions(screen.getByLabelText('CEFR'), 'C1')
     expect(screen.getByRole('status').textContent).toMatch(/không có bài học phù hợp/i)
 
     await user.click(screen.getByRole('button', { name: /xóa bộ lọc/i }))

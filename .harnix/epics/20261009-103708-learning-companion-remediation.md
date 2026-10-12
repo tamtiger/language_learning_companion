@@ -11,7 +11,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ## Next task
 
-- `20261009-103718-add-interview-and-work-pathway` — Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài (`planning`)
+- `20261009-103719-add-listening-and-long-reading` — Thêm luyện nghe hội thoại và bài đọc dài (`planning`)
 
 ## Members (16 tasks)
 
@@ -27,7 +27,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 | 8 | `20261009-103715-add-offline-pwa-and-audio-reliability` | Offline thật (PWA), bền dữ liệu trên Safari và audio mẫu tin cậy | `full` | `completed` |
 | 9 | `20261009-103716-extend-curriculum-schema` | Mở rộng schema chương trình để nhận nội dung mới | `full` | `completed` |
 | 10 | `20261009-103717-add-a2-entry-missions` | Thêm mission A2 làm lối vào cho người mới | `full` | `completed` |
-| 11 | `20261009-103718-add-interview-and-work-pathway` | Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài | `full` | `planning` |
+| 11 | `20261009-103718-add-interview-and-work-pathway` | Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài | `full` | `completed` |
 | 12 | `20261009-103719-add-listening-and-long-reading` | Thêm luyện nghe hội thoại và bài đọc dài | `full` | `planning` |
 | 13 | `20261009-103720-add-vocabulary-and-fill-content-gaps` | Thêm từ vựng chuyên ngành và lấp ô trống ma trận nội dung | `full` | `planning` |
 | 14 | `20261009-103721-split-missions-into-sessions` | Chia mission thành các phiên học ngắn có checkpoint | `full` | `planning` |
@@ -98,7 +98,7 @@ Sửa nền đo lường, logic, trợ năng, offline và nợ kỹ thuật (đ�
 
 ### 11. `20261009-103718-add-interview-and-work-pathway` — Thêm lộ trình phỏng vấn và làm việc ở công ty nước ngoài
 
-- **Trạng thái:** `planning`
+- **Trạng thái:** `completed`
 - **Mục tiêu:** Mục tiêu 5 được phủ: người học luyện được phỏng vấn bằng câu chuyện của chính mình và các tình huống làm việc.
 - **Tiêu chí nghiệm thu:** 3 tiêu chí
 

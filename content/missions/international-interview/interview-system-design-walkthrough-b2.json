@@ -1,0 +1,721 @@
+{
+  "schemaVersion": "v3",
+  "lessonId": "interview-system-design-walkthrough-b2",
+  "title": "Walk through a system design question (B2)",
+  "summary": "Làm rõ yêu cầu, phác thảo thiết kế, nêu một trade-off chính và hỏi lại người phỏng vấn trong khoảng 90 giây.",
+  "cefrLevel": "B2",
+  "durationMinutes": 15,
+  "learningObjectives": [
+    "Làm rõ yêu cầu và giả định trước khi thiết kế",
+    "Trình bày thiết kế theo luồng ghi và đọc",
+    "Nêu một trade-off và kiểm tra hướng đi với người phỏng vấn"
+  ],
+  "capabilities": [
+    "international-interview"
+  ],
+  "workflowTags": [
+    "system-design-interview",
+    "requirements-first",
+    "design-tradeoff"
+  ],
+  "sections": [
+    {
+      "id": "sdw-source",
+      "type": "source",
+      "title": "System design prompt",
+      "format": "dialogue",
+      "content": "Synthetic training artifact — non-production. Interview: Senior Backend Engineer, Tidewater Cloud. Interviewer: Design a service that turns long web addresses into short links. Notes for candidates: ask about scale first, sketch the main parts, explain one trade-off, then check the direction with the interviewer."
+    },
+    {
+      "id": "sdw-language",
+      "type": "language-support",
+      "title": "Language for a design walkthrough",
+      "vocabulary": [
+        {
+          "word": "requirement",
+          "ipa": "/rɪˈkwaɪr.mənt/",
+          "definition": "yêu cầu",
+          "technicalMeaning": "Điều hệ thống phải làm hoặc phải đạt trước khi thiết kế.",
+          "collocations": [
+            "clarify requirements",
+            "a functional requirement"
+          ],
+          "example": "Let me clarify the requirements first.",
+          "commonMistake": "Nhấn âm tiết thứ hai: re-QUIRE-ment."
+        },
+        {
+          "word": "assume",
+          "ipa": "/əˈsuːm/",
+          "definition": "giả định",
+          "technicalMeaning": "Nói rõ điều bạn coi là đúng khi chưa có dữ liệu.",
+          "collocations": [
+            "I assume that",
+            "assume the traffic"
+          ],
+          "example": "I assume ten times more reads than writes.",
+          "commonMistake": "Nói assume that + mệnh đề, không nói assume about."
+        },
+        {
+          "word": "trade-off",
+          "ipa": "/ˈtreɪd.ɑːf/",
+          "definition": "sự đánh đổi",
+          "technicalMeaning": "Lựa chọn trong đó được cái này thì mất cái kia.",
+          "collocations": [
+            "the main trade-off",
+            "a trade-off between"
+          ],
+          "example": "The trade-off is between speed and cost.",
+          "commonMistake": "Dùng giới từ between ... and, không dùng among."
+        },
+        {
+          "word": "replicate",
+          "ipa": "/ˈrep.lə.keɪt/",
+          "definition": "sao chép dữ liệu",
+          "technicalMeaning": "Giữ nhiều bản dữ liệu ở nhiều nơi để chịu lỗi.",
+          "collocations": [
+            "replicate the data",
+            "replicated across zones"
+          ],
+          "example": "We replicate the store across two zones.",
+          "commonMistake": "Động từ có âm cuối /eɪt/, danh từ replica có âm cuối khác."
+        },
+        {
+          "word": "bottleneck",
+          "ipa": "/ˈbɑː.t̬əl.nek/",
+          "definition": "điểm nghẽn",
+          "technicalMeaning": "Thành phần chậm nhất giới hạn cả hệ thống.",
+          "collocations": [
+            "a bottleneck in",
+            "remove a bottleneck"
+          ],
+          "example": "The database could become a bottleneck.",
+          "commonMistake": "Nhấn âm đầu: BOT-tle-neck."
+        }
+      ],
+      "expressions": [
+        {
+          "phrase": "Before I design anything, let me clarify ___.",
+          "meaning": "Mở đầu bằng việc làm rõ yêu cầu.",
+          "tone": "neutral",
+          "example": "Before I design anything, let me clarify the expected scale.",
+          "alternatives": [
+            "First, I would like to confirm ___."
+          ]
+        },
+        {
+          "phrase": "At a high level, I would use ___, ___ and ___.",
+          "meaning": "Phác thảo các thành phần chính.",
+          "tone": "neutral",
+          "example": "At a high level, I would use an API service, a key generator and a store.",
+          "alternatives": [
+            "The main parts are ___."
+          ]
+        },
+        {
+          "phrase": "The main trade-off is between ___ and ___.",
+          "meaning": "Nêu trade-off chính.",
+          "tone": "neutral",
+          "example": "The main trade-off is between random codes and counters.",
+          "alternatives": [
+            "The key decision here is ___."
+          ]
+        },
+        {
+          "phrase": "Does this direction match what you had in mind?",
+          "meaning": "Kiểm tra hướng đi với người phỏng vấn.",
+          "tone": "neutral",
+          "example": "Does this direction match what you had in mind, or should I go deeper on storage?",
+          "alternatives": [
+            "Would you like me to go deeper on ___?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sdw-check",
+      "type": "auto-check",
+      "title": "Check the flow of your walkthrough",
+      "exercises": [
+        {
+          "id": "sdw-first",
+          "type": "choice",
+          "question": "What should a strong candidate do first?",
+          "options": [
+            "Ask about scale and requirements",
+            "Draw the database tables",
+            "Name a favorite technology"
+          ],
+          "correctAnswer": [
+            "Ask about scale and requirements"
+          ],
+          "explanation": "Làm rõ yêu cầu và quy mô trước khi chọn công nghệ."
+        },
+        {
+          "id": "sdw-tradeoff",
+          "type": "choice",
+          "question": "Which sentence names a trade-off?",
+          "options": [
+            "Counters avoid collisions but need coordination.",
+            "We will use a cache in front of the store.",
+            "The service returns a short link to the user."
+          ],
+          "correctAnswer": [
+            "Counters avoid collisions but need coordination."
+          ],
+          "explanation": "Trade-off nêu cả cái được và cái mất."
+        },
+        {
+          "id": "sdw-fill",
+          "type": "fill",
+          "question": "Điền từ: The trade-off is ___ speed and cost.",
+          "correctAnswer": [
+            "between"
+          ],
+          "explanation": "Trade-off đi với between ... and."
+        },
+        {
+          "id": "sdw-ordering",
+          "type": "ordering",
+          "question": "Sắp xếp các bước của một walkthrough.",
+          "options": [
+            "check the direction with the interviewer",
+            "clarify requirements",
+            "explain one trade-off",
+            "sketch the main parts"
+          ],
+          "correctAnswer": [
+            "clarify requirements",
+            "sketch the main parts",
+            "explain one trade-off",
+            "check the direction with the interviewer"
+          ],
+          "explanation": "Làm rõ, phác thảo, trade-off, kiểm tra."
+        }
+      ]
+    }
+  ],
+  "performanceTask": {
+    "id": "sdw-task",
+    "mode": "spoken",
+    "title": "Walk through a design in 90 seconds",
+    "scenario": "The interviewer asks you to design a service; you clarify, sketch, explain one trade-off and check the direction.",
+    "baselinePrompt": "Walk through your design in English in about 90 seconds: clarify requirements, sketch the main parts, explain one trade-off and check the direction. Do not look at the model answer yet.",
+    "performancePrompt": "Speak in English for about 90 seconds: clarify requirements and assumptions, sketch the main parts, explain one trade-off and ask the interviewer if the direction fits.",
+    "modelResponse": "Let me start by clarifying the requirements. We need to create short links and redirect users quickly, and I assume about one hundred million links with ten times more reads than writes. At a high level, I would use an API service, a key generator and a key-value store. The API receives a long address, asks the generator for a unique code, saves the pair and returns the short link. For reads, a cache sits in front of the store, because most clicks go to a small set of popular links. The main trade-off is between random codes and counters. Random codes are harder to guess, but they can collide, so I would check before saving. Counters avoid collisions, but they need coordination across servers, so I would give each server its own counter range. For reliability, I would replicate the store across two zones and monitor redirect latency. If we had more time, I would discuss analytics and abuse protection. Does this direction match what you had in mind?",
+    "retryPrompt": "Walk through the design again in English. Keep the four steps and make the trade-off clearer.",
+    "transferPrompt": "Design a different service, such as a notification system, using the same four steps.",
+    "reviewPrompt": "Walk through a new design question without looking at old notes.",
+    "practiceContexts": {
+      "baseline": {
+        "title": "Short link service",
+        "brief": "A system design round for a backend role.",
+        "artifacts": [
+          {
+            "id": "sdw-baseline-ctx",
+            "type": "source",
+            "title": "Short link service",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Senior Backend Engineer, Tidewater Cloud. Interviewer: Design a service that turns long web addresses into short links. Expected load: hundreds of millions of links."
+          }
+        ]
+      },
+      "retry": {
+        "title": "Notification service",
+        "brief": "Retry with a different design question.",
+        "artifacts": [
+          {
+            "id": "sdw-retry-ctx",
+            "type": "source",
+            "title": "Notification service",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Platform Engineer, Quillstone. Interviewer: Design a notification service that sends messages by email and phone. Messages must not be sent twice."
+          }
+        ]
+      },
+      "transfer": {
+        "title": "Rate limiter",
+        "brief": "A new situation: protect an API from heavy users.",
+        "artifacts": [
+          {
+            "id": "sdw-transfer-ctx",
+            "type": "source",
+            "title": "Rate limiter",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Brightforge. Interviewer: Design a rate limiter for a public API. Limits differ by customer plan."
+          }
+        ]
+      },
+      "review": {
+        "title": "File upload service",
+        "brief": "Review with a service that stores large files.",
+        "artifacts": [
+          {
+            "id": "sdw-review-ctx",
+            "type": "source",
+            "title": "File upload service",
+            "format": "dialogue",
+            "content": "Synthetic training artifact — non-production. Interview: Staff Engineer, Gridlock Systems. Interviewer: Design a file upload service for videos up to two gigabytes. Users have unreliable networks."
+          }
+        ]
+      }
+    },
+    "outputContract": {
+      "timeLimitSeconds": 120,
+      "requiredElements": [
+        "requirements and assumptions",
+        "main parts",
+        "one trade-off",
+        "direction check"
+      ],
+      "targetSeconds": 90
+    },
+    "independenceContract": {
+      "noVietnamese": true,
+      "noTranslation": true,
+      "noModelAnswer": true,
+      "maxHints": 1,
+      "preparationSeconds": 45
+    },
+    "feedbackPriorities": [
+      "structure",
+      "trade-off reasoning",
+      "checking with the interviewer"
+    ],
+    "rubric": [
+      {
+        "id": "structure",
+        "label": "Requirements, parts, trade-off, check",
+        "description": "The walkthrough follows the four steps.",
+        "anchors": {
+          "met": "The listener hears requirements, main parts, one trade-off and a direction check in order.",
+          "notMet": "Jumps straight to tools or skips the requirement step."
+        },
+        "dimension": "task"
+      },
+      {
+        "id": "tradeoff",
+        "label": "Trade-off reasoning",
+        "description": "The trade-off names what is gained and what is lost.",
+        "anchors": {
+          "met": "Both options are named with one gain and one cost each.",
+          "notMet": "Names one option only or gives no reason."
+        },
+        "dimension": "accuracy"
+      },
+      {
+        "id": "interaction",
+        "label": "Checks direction",
+        "description": "The candidate invites the interviewer to guide the next step.",
+        "anchors": {
+          "met": "Ends with a clear question to the interviewer.",
+          "notMet": "Ends with no question or stops abruptly."
+        },
+        "dimension": "register"
+      }
+    ],
+    "learningLoop": {
+      "version": "v1",
+      "perception": {
+        "pretest": [
+          {
+            "id": "sdw-pre-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Before I design anything, let me clarify the expected scale.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What does the speaker do first?",
+            "options": [
+              "Chooses a database",
+              "Confirms the expected load",
+              "Ends the discussion for the team"
+            ],
+            "correctAnswer": "Confirms the expected load"
+          },
+          {
+            "id": "sdw-pre-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I assume ten times more reads than writes.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is the speaker doing?",
+            "options": [
+              "Stating an assumption",
+              "Reporting a bug",
+              "Asking for money for the team"
+            ],
+            "correctAnswer": "Stating an assumption"
+          },
+          {
+            "id": "sdw-pre-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "A cache sits in front of the store, because most clicks go to popular links.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "Why is the cache used?",
+            "options": [
+              "Popular links are requested often",
+              "Storage is very expensive for the team",
+              "Users forget their links"
+            ],
+            "correctAnswer": "Popular links are requested often"
+          },
+          {
+            "id": "sdw-pre-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Does this direction match what you had in mind?",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker asking?",
+            "options": [
+              "Whether the plan fits",
+              "Where the office is",
+              "How long the break is"
+            ],
+            "correctAnswer": "Whether the plan fits"
+          }
+        ],
+        "training": [
+          {
+            "id": "sdw-train-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The main trade-off is between random codes and counters.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is being compared?",
+            "options": [
+              "Two ways to make codes",
+              "Two job offers",
+              "Two office layouts for the team"
+            ],
+            "correctAnswer": "Two ways to make codes",
+            "feedback": "Between ... and nêu hai lựa chọn."
+          },
+          {
+            "id": "sdw-train-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Random codes are harder to guess, but they can collide.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the drawback of random codes?",
+            "options": [
+              "They may repeat",
+              "They are too long to store",
+              "They need manual entry"
+            ],
+            "correctAnswer": "They may repeat",
+            "feedback": "But đánh dấu mặt hạn chế."
+          },
+          {
+            "id": "sdw-train-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Counters avoid collisions, but they need coordination across servers.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the cost of counters?",
+            "options": [
+              "Servers must stay in sync",
+              "Codes are easier to guess",
+              "Reads become slower"
+            ],
+            "correctAnswer": "Servers must stay in sync",
+            "feedback": "Coordination là cái giá của counters."
+          },
+          {
+            "id": "sdw-train-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would give each server its own counter range.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What does this approach reduce?",
+            "options": [
+              "Need to share state",
+              "Amount of memory used",
+              "Number of customers"
+            ],
+            "correctAnswer": "Need to share state",
+            "feedback": "Own range nghĩa là mỗi server tự dùng một dải số."
+          },
+          {
+            "id": "sdw-train-5",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I would replicate the store across two zones for reliability.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is the purpose of the copies?",
+            "options": [
+              "Surviving a zone failure",
+              "Making reads cheaper for the team",
+              "Hiding the design"
+            ],
+            "correctAnswer": "Surviving a zone failure",
+            "feedback": "Replicate để chịu lỗi."
+          },
+          {
+            "id": "sdw-train-6",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The database could become a bottleneck at peak traffic.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the concern?",
+            "options": [
+              "Slowdown under heavy load",
+              "A missing license",
+              "A wrong address format for the team"
+            ],
+            "correctAnswer": "Slowdown under heavy load",
+            "feedback": "Bottleneck là điểm nghẽn khi tải cao."
+          }
+        ],
+        "posttest": [
+          {
+            "id": "sdw-post-1",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Let me clarify the requirements, and then I will sketch the design.",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What happens first?",
+            "options": [
+              "Gathering requirements",
+              "Drawing the design for the team",
+              "Closing the talk"
+            ],
+            "correctAnswer": "Gathering requirements"
+          },
+          {
+            "id": "sdw-post-2",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "I assume about a million requests per day.",
+              "locale": "en-US",
+              "voiceHints": [
+                "English US"
+              ]
+            },
+            "question": "What is assumed?",
+            "options": [
+              "The daily traffic",
+              "The server price for the team",
+              "The team size"
+            ],
+            "correctAnswer": "The daily traffic"
+          },
+          {
+            "id": "sdw-post-3",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "The trade-off is between latency and consistency.",
+              "locale": "en-GB",
+              "voiceHints": [
+                "English UK"
+              ]
+            },
+            "question": "What is the speaker contrasting?",
+            "options": [
+              "Speed and accuracy of data",
+              "Cost and salary",
+              "Design and meetings for the team"
+            ],
+            "correctAnswer": "Speed and accuracy of data"
+          },
+          {
+            "id": "sdw-post-4",
+            "audio": {
+              "kind": "speech-synthesis",
+              "text": "Would you like me to go deeper on storage or on caching?",
+              "locale": "en-AU",
+              "voiceHints": [
+                "English Australia",
+                "English"
+              ]
+            },
+            "question": "What is offered?",
+            "options": [
+              "A choice of topics",
+              "A lunch menu",
+              "An extra deadline for the team"
+            ],
+            "correctAnswer": "A choice of topics"
+          }
+        ]
+      },
+      "pronunciationCues": [
+        {
+          "id": "sdw-cue-clarify",
+          "articulatoryCue": "Nhấn âm đầu của clarify và requirements để câu mở đầu nghe rõ ràng.",
+          "meaningRisk": "Nuốt âm làm người phỏng vấn không nhận ra bạn đang làm rõ yêu cầu.",
+          "triggerItemIds": [
+            "sdw-pre-1",
+            "sdw-post-1"
+          ]
+        },
+        {
+          "id": "sdw-cue-tradeoff",
+          "articulatoryCue": "Nhấn hai vế của trade-off: giữ giọng rõ ở between và ở từ sau and.",
+          "meaningRisk": "Mất nhấn làm người nghe không biết hai lựa chọn nào đang được so sánh.",
+          "triggerItemIds": [
+            "sdw-train-1",
+            "sdw-post-3"
+          ]
+        }
+      ],
+      "chunks": [
+        {
+          "id": "sdw-chunk-clarify",
+          "function": "clarify requirements",
+          "text": "Before I design anything, let me clarify ___.",
+          "meaning": "Làm rõ yêu cầu trước khi thiết kế.",
+          "slots": [
+            "topic"
+          ],
+          "stressPattern": "CLARIFY",
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Before I design anything, let me clarify the expected scale.",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        },
+        {
+          "id": "sdw-chunk-parts",
+          "function": "main parts",
+          "text": "At a high level, I would use ___, ___ and ___.",
+          "meaning": "Phác thảo các thành phần chính.",
+          "slots": [
+            "part one",
+            "part two",
+            "part three"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "At a high level, I would use an API service, a key generator and a store.",
+            "locale": "en-AU",
+            "voiceHints": [
+              "English Australia",
+              "English"
+            ]
+          }
+        },
+        {
+          "id": "sdw-chunk-tradeoff",
+          "function": "trade-off",
+          "text": "The main trade-off is between ___ and ___.",
+          "meaning": "Nêu trade-off chính.",
+          "slots": [
+            "option one",
+            "option two"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "The main trade-off is between random codes and counters.",
+            "locale": "en-US",
+            "voiceHints": [
+              "English US"
+            ]
+          }
+        },
+        {
+          "id": "sdw-chunk-check",
+          "function": "direction check",
+          "text": "Does this direction match what you had in mind?",
+          "meaning": "Kiểm tra hướng đi.",
+          "slots": [
+            "topic to go deeper"
+          ],
+          "modelAudio": {
+            "kind": "speech-synthesis",
+            "text": "Does this direction match what you had in mind?",
+            "locale": "en-GB",
+            "voiceHints": [
+              "English UK"
+            ]
+          }
+        }
+      ],
+      "shadowingSteps": [
+        "listen",
+        "chunk-shadow",
+        "full-shadow",
+        "delayed-imitation",
+        "variation"
+      ],
+      "listenBackChecklist": [
+        "Mình làm rõ yêu cầu và nói giả định trước khi thiết kế.",
+        "Mình nêu hai lựa chọn của trade-off và cái giá của mỗi bên.",
+        "Mình kết thúc bằng một câu hỏi cho người phỏng vấn."
+      ],
+      "interactionTurns": [
+        {
+          "id": "sdw-turn-scale",
+          "kind": "interruption",
+          "prompt": "Let us say traffic grows a hundred times. What breaks first?",
+          "expectedFunction": "name the first bottleneck and one fix"
+        },
+        {
+          "id": "sdw-turn-repair",
+          "kind": "clarification",
+          "prompt": "Sorry, I did not follow the counter idea. Could you explain it again?",
+          "expectedFunction": "explain the counter range idea in simpler words"
+        }
+      ]
+    }
+  },
+  "reviewPolicy": {
+    "intervalDays": [
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
+  }
+}

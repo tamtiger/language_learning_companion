@@ -14,7 +14,7 @@ Taxonomy authoring hiện tại:
 content/
 ├── missions/
 │   └── <primary-capability>/
-│       └── <lesson-id>.json       # 18 mission schema v3
+│       └── <lesson-id>.json       # 29 mission schema v3
 └── reference/
     └── pronunciation/
         └── <lesson-id>.json       # 6 knowledge/reference lesson schema v1
@@ -35,8 +35,10 @@ catalog tiếp tục khám phá toàn bộ corpus bằng glob `content/**/*.json
 - `international-interview`
 - `technology-learning`
 
-Mỗi mission v3 có đúng một primary capability; catalog hiện có 18 mission, ba
-mission cho mỗi capability (một bài A2 lối vào, hai bài B1/B2). `workflowTags` mô tả workflow như `issue-update`,
+Mỗi mission v3 có đúng một primary capability; catalog hiện có 29 mission. Mỗi capability
+có một bài A2 lối vào; `international-interview` và `workplace-communication` có thêm lộ trình riêng
+(phỏng vấn: tell me about yourself, story bank, system design, coding think-aloud, hỏi lại, đàm phán offer;
+công việc: feedback, 1:1, small talk, performance review, code review comment). `workflowTags` mô tả workflow như `issue-update`,
 `documentation`, `standup`, `tradeoff`, `interview`, `api-learning`.
 
 ## Lesson v3
@@ -259,7 +261,7 @@ pronunciation v1 vẫn là knowledge/reference: rule, dictionary notation và qu
 không phải audio perception, spoken production hay evidence về pronunciation
 accuracy.
 
-`practiceContexts` đã được rollout tới toàn bộ 18 mission v3 với evidence packet
+`practiceContexts` đã được rollout tới toàn bộ 29 mission v3 với evidence packet
 riêng cho baseline/retry/transfer/review. Đây là coverage của content contract và
 generic flow, không phải bằng chứng efficacy.
 
