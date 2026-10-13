@@ -2,11 +2,11 @@
   "schemaVersion": "v3",
   "lessonId": "behavioral-interview-ownership-b2",
   "title": "Show ownership in a behavioral interview",
-  "summary": "Kể STAR story có hành động cá nhân, kết quả đo được và reflection.",
+  "summary": "Kể câu chuyện theo STAR (Situation, Task, Action, Result) cộng reflection, có hành động cá nhân, kết quả đo được và bài học.",
   "cefrLevel": "B2",
   "durationMinutes": 18,
   "learningObjectives": [
-    "Dùng STAR ngắn gọn",
+    "Dùng STAR ngắn gọn (Situation, Task, Action, Result)",
     "Phân biệt I và we",
     "Nêu kết quả đo được"
   ],
@@ -33,14 +33,14 @@
         {
           "word": "ownership",
           "ipa": "/ˈoʊ.nɚ.ʃɪp/",
-          "definition": "trách nhiệm sở hữu",
+          "definition": "tinh thần làm chủ, chịu trách nhiệm đến cùng",
           "technicalMeaning": "Việc nhận trách nhiệm cho một vấn đề từ đầu đến cuối.",
           "collocations": [
             "take ownership",
             "show ownership"
           ],
           "example": "I took ownership of the release problem.",
-          "commonMistake": "Nói take ownership of + vấn đề, không nói take ownership for."
+          "commonMistake": "Thường nói take ownership of + vấn đề (take ownership of the release problem)."
         },
         {
           "word": "accountable",
@@ -94,7 +94,7 @@
       "expressions": [
         {
           "phrase": "My responsibility was to ___.",
-          "meaning": "Define personal scope without erasing the team’s contribution.",
+          "meaning": "Nêu phần việc của riêng bạn mà không xóa đóng góp của nhóm.",
           "tone": "neutral",
           "example": "My responsibility was to coordinate the rollback and keep each recovery step visible.",
           "alternatives": [
@@ -103,7 +103,7 @@
         },
         {
           "phrase": "I decided to ___ because ___.",
-          "meaning": "Make a personal decision and its reason explicit.",
+          "meaning": "Nêu quyết định cá nhân và lý do.",
           "tone": "neutral",
           "example": "I decided to create a checklist because ownership had been unclear.",
           "alternatives": [
@@ -112,7 +112,7 @@
         },
         {
           "phrase": "After the change, ___ fell from ___ to ___.",
-          "meaning": "Report a measured sequence without claiming an unsupported guarantee.",
+          "meaning": "Báo cáo kết quả đo được theo trình tự quan sát, không khẳng định chắc chắn quá mức.",
           "tone": "neutral",
           "example": "After the change, recovery time fell from forty to twelve minutes.",
           "alternatives": [
@@ -138,7 +138,7 @@
           "correctAnswer": [
             "I introduced a rollback checklist; in the next incident, recovery time fell from 40 to 12 minutes."
           ],
-          "explanation": "Câu này nêu hành động cá nhân và kết quả đo được mà không biến một lần cải thiện thành guarantee."
+          "explanation": "Câu này nêu hành động cá nhân và kết quả đo được mà không khẳng định chắc chắn quá mức từ một lần cải thiện."
         },
         {
           "id": "ownership-team-boundary",
@@ -215,7 +215,7 @@
           "matchingPairs": [
             {
               "key": "ownership",
-              "value": "trách nhiệm sở hữu"
+              "value": "tinh thần làm chủ, chịu trách nhiệm đến cùng"
             },
             {
               "key": "accountable",
@@ -231,7 +231,7 @@
             }
           ],
           "correctAnswer": [
-            "ownership - trách nhiệm sở hữu",
+            "ownership - tinh thần làm chủ, chịu trách nhiệm đến cùng",
             "accountable - chịu trách nhiệm giải trình",
             "initiative - sự chủ động",
             "measurable - đo lường được"
@@ -241,18 +241,19 @@
         {
           "id": "biob-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I took ___ of the release problem.",
+          "question": "Điền từ còn thiếu (tinh thần làm chủ): I took ___ of the release problem.",
           "correctAnswer": [
             "ownership"
           ],
-          "explanation": "\"ownership\" nghĩa là trách nhiệm sở hữu."
+          "explanation": "\"ownership\" nghĩa là tinh thần làm chủ, chịu trách nhiệm đến cùng."
         },
         {
           "id": "biob-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I was ___ for the fix.",
+          "question": "Điền từ còn thiếu (chịu trách nhiệm giải trình): I was ___ for the fix.",
           "correctAnswer": [
-            "accountable"
+            "accountable",
+            "responsible"
           ],
           "explanation": "\"accountable\" nghĩa là chịu trách nhiệm giải trình."
         }
@@ -264,10 +265,10 @@
     "mode": "spoken",
     "title": "Tell an ownership story",
     "scenario": "Interviewer hỏi về lúc bạn chủ động xử lý một production problem.",
-    "baselinePrompt": "Trong 90–120 giây, trả lời cold question mà chưa xem model/chunks.",
+    "baselinePrompt": "Trong 90–120 giây, kể bằng tiếng Anh một câu chuyện ownership từ dữ kiện đã cho, chưa xem bài mẫu hay các cụm câu.",
     "performancePrompt": "In 90–120 seconds in English, keep the situation and task short, make your personal actions clear without erasing the team’s role, and state a measurable result and the lesson learned.",
-    "modelResponse": "During a payment rollback, recovery took forty minutes because ownership was unclear. I want to keep the background short and focus on what I personally did. My responsibility was to coordinate the recovery, but I also treated the unclear ownership as a process problem that needed follow-up. After the incident, I created a rollback checklist and named a rollback owner so the next response would have an explicit path. In the next incident, recovery took twelve minutes instead of forty. That change cut recovery time by about seventy percent. I do not claim that result alone, because the team carried out the recovery and my part was the coordination and the follow-up. The named owner also meant that nobody had to ask who was in charge during the next incident. Looking back, I learned that ownership has two parts: helping the team resolve the immediate problem and improving the process that made recovery slow. Next time, I would confirm both recovery and rollback ownership before release.",
-    "retryPrompt": "Trong 90–120 giây, kể incident queue backlog mới; rút gọn context và làm rõ I-action/result.",
+    "modelResponse": "During a payment rollback, recovery took forty minutes because ownership was unclear. I will keep the background short and focus on what I personally did. My responsibility was to coordinate the recovery, but I also treated the unclear ownership as a process problem that needed follow-up. After the incident, I created a rollback checklist and named a rollback owner so the next response would have an explicit path. In the next incident, recovery took twelve minutes instead of forty. That change cut recovery time by about seventy percent. I cannot say the checklist was the only reason, but it was the change we made between the two incidents, and the team carried out the recovery while my part was the coordination and the follow-up. The named owner also meant that nobody had to ask who was in charge during the next incident. Looking back, I learned that ownership has two parts: helping the team resolve the immediate problem and improving the process that made recovery slow. Next time, I would confirm both recovery and rollback ownership before release. I would also ask the team to review the checklist after each incident, so that we keep improving it together.",
+    "retryPrompt": "Trong 90–120 giây, kể bằng tiếng Anh sự cố queue backlog mới; rút gọn bối cảnh và làm rõ hành động I và kết quả.",
     "transferPrompt": "In 90–120 seconds, without looking at the model or chunks, tell a story about preventing a certificate expiry from becoming an incident.",
     "reviewPrompt": "In 90–120 seconds, tell a new ownership story about a data-quality risk using STAR and evidence.",
     "practiceContexts": {
@@ -529,7 +530,7 @@
                 "English UK"
               ]
             },
-            "question": "What part of STAR is this?",
+            "question": "What function is this?",
             "options": [
               "Reflection",
               "Situation",

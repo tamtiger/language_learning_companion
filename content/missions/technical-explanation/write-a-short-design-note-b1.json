@@ -7,7 +7,7 @@
   "durationMinutes": 15,
   "learningObjectives": [
     "Nêu vấn đề hiện tại bằng dữ kiện",
-    "Đề xuất một giải pháp đơn giản",
+    "Đề xuất một giải pháp đơn giản và nêu một đánh đổi",
     "Nêu một rủi ro và cách giảm"
   ],
   "capabilities": [
@@ -53,7 +53,7 @@
             "a background job queue"
           ],
           "example": "Large exports run as background jobs.",
-          "commonMistake": "Viết background job thành hai từ."
+          "commonMistake": "Viết liền thành backgroundjob. Dạng đúng là hai từ: background job."
         },
         {
           "word": "trade-off",
@@ -80,16 +80,16 @@
           "commonMistake": "Nói a risk of + danh từ."
         },
         {
-          "word": "mitigation",
-          "ipa": "/ˌmɪt.əˈɡeɪ.ʃən/",
-          "definition": "biện pháp giảm nhẹ",
-          "technicalMeaning": "Cách làm giảm khả năng hoặc tác động của rủi ro.",
+          "word": "timeout",
+          "ipa": "/ˈtaɪm.aʊt/",
+          "definition": "hết thời gian chờ",
+          "technicalMeaning": "Yêu cầu bị dừng vì chạy quá lâu.",
           "collocations": [
-            "a mitigation step",
-            "mitigation plan"
+            "a timeout error",
+            "fail with a timeout"
           ],
-          "example": "A mitigation is to limit the number of exports.",
-          "commonMistake": "Nhấn âm tiết thứ ba: mit-i-GA-tion."
+          "example": "Large exports fail with a timeout after thirty seconds.",
+          "commonMistake": "Nói the export times out (động từ), không nói the export timeout."
         }
       ],
       "expressions": [
@@ -223,7 +223,7 @@
         {
           "id": "wasdnb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is to run exports in the background.",
+          "question": "Điền từ còn thiếu (đề xuất): The ___ is to run exports in the background.",
           "correctAnswer": [
             "proposal"
           ],
@@ -232,9 +232,10 @@
         {
           "id": "wasdnb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Large exports run as ___.",
+          "question": "Điền từ còn thiếu (tác vụ chạy nền): Large exports run as ___.",
           "correctAnswer": [
-            "background jobs"
+            "background jobs",
+            "background tasks"
           ],
           "explanation": "\"background job\" nghĩa là tác vụ chạy nền."
         }
@@ -248,9 +249,9 @@
     "scenario": "Trưởng nhóm nhờ bạn viết một ghi chú thiết kế ngắn về xuất báo cáo lớn bị timeout.",
     "baselinePrompt": "Từ yêu cầu ngắn, hãy viết một design note bằng tiếng Anh (70 đến 120 từ): vấn đề, đề xuất và một rủi ro. Chưa xem bài mẫu.",
     "performancePrompt": "Write a short design note in English, 70 to 120 words: the problem with facts, your proposal, one risk and how to reduce it.",
-    "modelResponse": "Design note: large report exports. Currently, exports with more than fifty thousand rows fail after thirty seconds. About one export in ten is that large, and users retry, which increases the load. I propose that we run large exports as background jobs and send an email with a download link when the file is ready, because users do not need to wait on the page. The main trade-off is a more complex flow in exchange for fewer failures. The main risk is a full queue during busy hours. We can reduce it by limiting the number of exports per user. I would like your feedback on the link expiry time.",
+    "modelResponse": "Design note: large report exports. Currently, exports with more than fifty thousand rows fail after thirty seconds. About one export in ten is that large, and users retry, which increases the load. I propose that we run large exports as background jobs. We would send an email with a download link when the file is ready, because users do not need to wait on the page. The main trade-off is a more complex flow in exchange for fewer failures. The main risk is a full queue during busy hours. We can reduce it by limiting the number of exports per user. I would like your feedback on the link expiry time.",
     "retryPrompt": "Write the note again in English. Keep the structure and make the problem more specific.",
-    "transferPrompt": "Write a design note for a different problem, such as slow search, with the same structure.",
+    "transferPrompt": "Write a design note for a different problem, such as users who receive the same alert twice, with the same structure.",
     "reviewPrompt": "Write a design note for another problem without looking at old notes.",
     "practiceContexts": {
       "baseline": {

@@ -17,7 +17,7 @@
       "technicalMeaning": "A bounded rehearsal activity; this app records quiz answers only. Correct quiz answers are knowledge evidence, not proof that the routine was performed.",
       "collocations": ["practice shadowing", "shadowing technique"],
       "example": "She uses one short status update for a ten-minute shadowing routine.",
-      "commonMistake": "Do not equate copying one model with mastery or a native accent. Understand the message first and focus on one cue."
+      "commonMistake": "Do not equate copying one model with mastery or a native accent. Understand the message first and focus on one cue. Khi bắt chước nhanh, người nói tiếng Việt hay làm rơi âm cuối (ví dụ /t/ trong fixed); hãy chọn đúng một điểm như vậy làm focus cho mỗi lần luyện."
     },
     {
       "word": "routine",
@@ -41,7 +41,7 @@
   "reading": {
     "title": "[Hướng dẫn do sản phẩm biên soạn] Optional 10-minute shadowing routine",
     "sourceType": "Hướng dẫn do sản phẩm biên soạn",
-    "content": "This 15-minute knowledge lesson explains an optional 10-minute routine; completing the quiz does not verify that you performed it. A model may use a General American reference, but the goal is not to copy an accent.\n\n0–2 min: Listen for meaning. Do not speak yet.\n2–3 min: Read the transcript and mark one focus word.\n3–5 min: Shadow short chunks.\n5–7 min: Shadow the full sentence with a short lag.\n7–9 min: Record one delayed imitation locally, then listen back.\n9–10 min: Change one fact and say the new version.\n\nUse fictional or public material and never include company secrets. Quiz completion is knowledge evidence only: it can show that you identified the routine and safety rules, but the app does not observe whether you performed the steps. Separately observed completed steps would be process evidence. Neither kind of evidence proves accent accuracy or mastery, and neither establishes learning efficacy."
+    "content": "This 15-minute knowledge lesson explains an optional 10-minute routine; completing the quiz does not verify that you performed it. A model may use a General American reference, but the goal is not to copy an accent.\n\n0–2 min: Listen for meaning to one short model sentence (a device voice or audio you have the right to use). Do not speak yet.\n2–3 min: Read the transcript and mark one focus word.\n3–5 min: Shadow short chunks.\n5–7 min: Shadow the full sentence with a short lag.\n7–9 min: Record one delayed imitation locally, then listen back and compare it with the model on the one focus word you marked.\n9–10 min: Change one fact and say the new version.\n\nUse fictional or public material and never include company secrets. Quiz completion is knowledge evidence only: it can show that you identified the routine and safety rules, but the app does not observe whether you performed the steps. Separately observed completed steps would be process evidence. Neither kind of evidence proves accent accuracy or mastery, and neither establishes learning efficacy."
   },
   "exercises": [
     {
@@ -51,8 +51,8 @@
       "options": [
         "Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules",
         "Người học đã đạt pronunciation mastery sau khi hoàn thành quiz và routine",
-        "Người học có native accent và phát âm đã cải thiện rõ rệt sau bài này",
-        "Người học đã thực hiện đầy đủ routine shadowing hằng ngày và phát âm đã cải thiện rõ rệt"
+        "Người học đã thực hiện đủ sáu bước của routine vì app ghi nhận từng bước",
+        "Người học sẽ nói rõ hơn trong cuộc họp thật vì đã hoàn thành bài này"
       ],
       "correctAnswer": ["Người học đã trả lời đúng các câu hỏi kiến thức về quy trình và safety rules"],
       "explanation": "Quiz completion là knowledge evidence only; app không quan sát learner có thực hiện routine hay không. Pronunciation accuracy và efficacy cần observer evidence phù hợp."
@@ -63,12 +63,12 @@
       "question": "Input nào an toàn nhất cho local shadowing practice?",
       "options": [
         "Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data",
-        "Một production incident transcript có customer data và tên khách hàng thật",
+        "Một đoạn postmortem nội bộ đã xóa tên khách hàng nhưng còn tên dự án và hostname",
         "Một đoạn proprietary audio được sao chép khi chưa rõ quyền sử dụng",
-        "Một đoạn ghi âm cuộc họp nội bộ có chứa API key và email khách hàng, lấy từ kho lưu trữ công ty"
+        "Một đoạn ghi âm họp nội bộ đã cắt bỏ API key nhưng còn nhắc tên khách hàng"
       ],
       "correctAnswer": ["Một fictional workplace sentence ngắn, đã hiểu nghĩa và không có confidential data"],
-      "explanation": "Practice input phải đủ ngắn, hiểu được, không chứa secret/PII và có quyền sử dụng rõ."
+      "explanation": "Practice input phải đủ ngắn, hiểu được, không chứa secret/PII và có quyền sử dụng rõ. Tài liệu nội bộ đã che một phần vẫn có thể lộ thông tin mật."
     },
     {
       "id": "e6-3",
@@ -93,7 +93,7 @@
         },
         {
           "key": "Bước 5",
-          "value": "Record a delayed imitation and listen back locally"
+          "value": "Record a delayed imitation, listen back locally and compare on the focus word"
         },
         {
           "key": "Bước 6",
@@ -105,7 +105,7 @@
         "Bước 2 - Read the transcript and mark one focus word",
         "Bước 3 - Shadow short chunks",
         "Bước 4 - Shadow the full sentence with a short lag",
-        "Bước 5 - Record a delayed imitation and listen back locally",
+        "Bước 5 - Record a delayed imitation, listen back locally and compare on the focus word",
         "Bước 6 - Change one fact and produce a variation"
       ],
       "explanation": "Routine đi từ hiểu nghĩa đến rehearsal, delayed imitation, listen-back và variation; không có bước nào tự chứng minh mastery."

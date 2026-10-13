@@ -46,7 +46,7 @@
         {
           "word": "challenge",
           "ipa": "/ˈtʃæl.ɪndʒ/",
-          "definition": "thách thức",
+          "definition": "vướng mắc, thách thức",
           "technicalMeaning": "Điều khó đang làm chậm công việc của bạn.",
           "collocations": [
             "face a challenge",
@@ -139,7 +139,7 @@
         {
           "id": "oo-open",
           "type": "choice",
-          "question": "Which sentence starts a progress update well?",
+          "question": "Câu nào mở đầu phần báo tiến độ tốt?",
           "options": [
             "Since our last 1:1, I have finished the import tool.",
             "Everything is fine, I think.",
@@ -153,7 +153,7 @@
         {
           "id": "oo-ask",
           "type": "choice",
-          "question": "Which sentence asks for guidance?",
+          "question": "Câu nào xin hướng dẫn?",
           "options": [
             "What would you do in my position?",
             "Tell me what to do.",
@@ -215,7 +215,7 @@
             },
             {
               "key": "challenge",
-              "value": "thách thức"
+              "value": "vướng mắc, thách thức"
             },
             {
               "key": "priority",
@@ -228,7 +228,7 @@
           ],
           "correctAnswer": [
             "progress - tiến độ",
-            "challenge - thách thức",
+            "challenge - vướng mắc, thách thức",
             "priority - ưu tiên",
             "guidance - sự hướng dẫn"
           ],
@@ -237,7 +237,7 @@
         {
           "id": "wooob-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I made good ___ on the import tool.",
+          "question": "Điền từ còn thiếu (tiến độ): I made good ___ on the import tool.",
           "correctAnswer": [
             "progress"
           ],
@@ -246,9 +246,11 @@
         {
           "id": "wooob-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: My main ___ is the test environment.",
+          "question": "Điền từ còn thiếu (vướng mắc): My main ___ is the test environment.",
           "correctAnswer": [
-            "challenge"
+            "challenge",
+            "problem",
+            "issue"
           ],
           "explanation": "\"challenge\" nghĩa là thách thức."
         }
@@ -264,7 +266,7 @@
     "performancePrompt": "Speak in English for about one minute: give a progress update, name one challenge, ask for guidance and confirm the next step with a date.",
     "modelResponse": "Thanks for meeting with me. Since our last 1:1, I have finished the import tool and started the tests. Progress is good, and I expect to demo it next week. My main challenge right now is the unstable test environment, because it fails about one run in five and slows every review. I would like some guidance on whether to fix it now or after the release. What would you do in my position? Also, I think the top priority this week should be the customer report, so I plan to pause the cleanup work. So the next step is a decision on the environment, and I will send a short plan by Thursday. Does that sound right to you, or should I change anything?",
     "retryPrompt": "Speak again in English. Keep the four parts and make the challenge more specific.",
-    "transferPrompt": "Run a 1:1 for a different situation, such as a late project with unclear requirements.",
+    "transferPrompt": "Run a 1:1 for a different situation, such as having too many urgent tasks.",
     "reviewPrompt": "Run another 1:1 without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +278,7 @@
             "type": "source",
             "title": "Weekly 1:1 about a tool",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: weekly 1:1. Manager: What would you like to talk about today? You finished an import tool and the test environment is unstable."
+            "content": "Synthetic training artifact — non-production. Setting: weekly 1:1. Manager: What would you like to talk about today? You finished the import tool and started the tests. You expect to demo the tool next week. The test environment is unstable: about one test run in five fails and it slows every review. You are not sure whether to fix it now or after the release. The customer report is this week's top priority, and the cleanup work can wait. You can send the manager a short plan by Thursday."
           }
         ]
       },
@@ -361,7 +363,7 @@
           "met": "Names the problem and how it affects the work.",
           "notMet": "Says \"things are hard\" with no detail."
         },
-        "dimension": "accuracy"
+        "dimension": "task"
       },
       {
         "id": "ownership",
@@ -371,7 +373,7 @@
           "met": "Says \"I will ... by ...\" with a date.",
           "notMet": "Waits for the manager to decide everything."
         },
-        "dimension": "register"
+        "dimension": "task"
       }
     ],
     "learningLoop": {
@@ -410,8 +412,8 @@
             "question": "What is the problem?",
             "options": [
               "Unreliable testing",
-              "A lost laptop",
-              "A tight budget for the team"
+              "A slow deployment",
+              "A missing feature request"
             ],
             "correctAnswer": "Unreliable testing"
           },
@@ -428,8 +430,8 @@
             "question": "What does the speaker want?",
             "options": [
               "Advice on timing",
-              "A new job",
-              "A longer meeting"
+              "Approval for a delay",
+              "A decision on the budget"
             ],
             "correctAnswer": "Advice on timing"
           },
@@ -446,8 +448,8 @@
             "question": "When is the plan due?",
             "options": [
               "On Thursday",
-              "On Tuesday for the team",
-              "On Sunday at work"
+              "On Tuesday",
+              "On Saturday"
             ],
             "correctAnswer": "On Thursday"
           }
@@ -457,7 +459,7 @@
             "id": "oo-train-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Thanks for meeting with me. I have a short update.",
+              "text": "Thanks for meeting with me. I have a short progress update.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -471,7 +473,7 @@
               "Close the call"
             ],
             "correctAnswer": "Share news",
-            "feedback": "Short update là cập nhật ngắn."
+            "feedback": "Progress update là cập nhật tiến độ."
           },
           {
             "id": "oo-train-2",
@@ -486,8 +488,8 @@
             "question": "How often do the tests fail?",
             "options": [
               "Occasionally",
-              "Never at work",
-              "Every time for the team"
+              "Almost every run",
+              "Only after a release"
             ],
             "correctAnswer": "Occasionally",
             "feedback": "One in five là một trên năm."
@@ -505,8 +507,8 @@
             "question": "What is the effect?",
             "options": [
               "Delays to the schedule",
-              "Cheaper releases for the team",
-              "Happier users"
+              "Higher cloud costs",
+              "Fewer test cases"
             ],
             "correctAnswer": "Delays to the schedule",
             "feedback": "Slows và delays nêu tác động."
@@ -525,8 +527,8 @@
             "question": "What is the speaker asking?",
             "options": [
               "For an opinion",
-              "For a salary for the team",
-              "For a title"
+              "For a promotion",
+              "For permission"
             ],
             "correctAnswer": "For an opinion",
             "feedback": "In my position là ở vị trí của tôi."
@@ -544,8 +546,8 @@
             "question": "What does the speaker prioritize?",
             "options": [
               "A customer deliverable",
-              "A team party",
-              "A tool upgrade for the team"
+              "A team training day",
+              "A tool upgrade"
             ],
             "correctAnswer": "A customer deliverable",
             "feedback": "Top priority là ưu tiên cao nhất."
@@ -563,8 +565,8 @@
             "question": "What is confirmed?",
             "options": [
               "An action and a date",
-              "A salary change for the team",
-              "A new hire at work"
+              "A change of priorities",
+              "A new test plan"
             ],
             "correctAnswer": "An action and a date",
             "feedback": "To confirm chốt hành động."
@@ -585,7 +587,7 @@
             "question": "What does the speaker mention?",
             "options": [
               "Finished tasks",
-              "Future hopes for the team",
+              "Planned tasks",
               "Team rules"
             ],
             "correctAnswer": "Finished tasks"
@@ -603,8 +605,8 @@
             "question": "What is the blocker?",
             "options": [
               "Waiting for permission",
-              "A broken chair for the team",
-              "A noisy room"
+              "A broken laptop",
+              "A noisy office"
             ],
             "correctAnswer": "Waiting for permission"
           },
@@ -621,8 +623,8 @@
             "question": "What advice is needed?",
             "options": [
               "Which job comes first",
-              "Which phone to buy for the team",
-              "Which room to book"
+              "Which tool to buy",
+              "Which meeting to skip"
             ],
             "correctAnswer": "Which job comes first"
           },
@@ -640,8 +642,8 @@
             "question": "What will the speaker do today?",
             "options": [
               "Schedule a call",
-              "Write a report for the team",
-              "Leave early"
+              "Write a short report",
+              "Cancel the call"
             ],
             "correctAnswer": "Schedule a call"
           }

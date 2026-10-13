@@ -2,7 +2,7 @@
   "schemaVersion": "v3",
   "lessonId": "learn-from-error-messages-b1",
   "title": "Learn from an error message (B1)",
-  "summary": "Đọc một thông báo lỗi dài của công cụ mới, hiểu nó nói gì và viết ghi chú: ý nghĩa, nguyên nhân có thể và bước thử tiếp theo.",
+  "summary": "Đọc một thông báo lỗi của công cụ mới, hiểu nó nói gì và viết ghi chú: ý nghĩa, nguyên nhân có thể và bước thử tiếp theo.",
   "cefrLevel": "B1",
   "durationMinutes": 14,
   "learningObjectives": [
@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Tool error output",
       "format": "code-snippet",
-      "content": "Synthetic training artifact — non-production. Error output from the tool \"datasync\". Error E0412: cannot open the config file. Path: ./datasync.yml. Reason: the file has an indentation error on line 7. Hint: use two spaces, not tabs, in YAML files. Run datasync check to validate the file. Documentation: see the page called Configuration file."
+      "content": "Synthetic training artifact — non-production. Error output from the tool \"datasync\". Error E0412: cannot parse the config file. Path: ./datasync.yml. Reason: the file has an indentation error on line 7. Hint: use two spaces, not tabs, in YAML files. Run datasync check to validate the file. Documentation: see the page called Configuration file."
     },
     {
       "id": "lem-language",
@@ -41,7 +41,7 @@
             "error code E0412"
           ],
           "example": "Look up the error code in the documentation.",
-          "commonMistake": "Viết error code thành hai từ."
+          "commonMistake": "Sai: viết dính thành errorcode. Đúng: error code (hai từ)."
         },
         {
           "word": "indentation",
@@ -77,7 +77,7 @@
             "a helpful hint"
           ],
           "example": "The hint says to use spaces, not tabs.",
-          "commonMistake": "Nói read the hint, không nói see the hints."
+          "commonMistake": "Hint đếm được (one hint, two hints); đừng nhầm với advice là danh từ không đếm được."
         },
         {
           "word": "line number",
@@ -89,7 +89,7 @@
             "go to line number"
           ],
           "example": "The line number is seven.",
-          "commonMistake": "Viết line number thành hai từ."
+          "commonMistake": "Sai: viết dính thành linenumber. Đúng: line number (hai từ)."
         }
       ],
       "expressions": [
@@ -97,13 +97,13 @@
           "phrase": "The error says that ___.",
           "meaning": "Nói lại điều thông báo lỗi nói.",
           "tone": "neutral",
-          "example": "The error says that the config file cannot be opened.",
+          "example": "The error says that the config file cannot be parsed.",
           "alternatives": [
             "According to the message, ___."
           ]
         },
         {
-          "phrase": "The likely cause is ___, on line ___.",
+          "phrase": "The likely cause is ___.",
           "meaning": "Nêu nguyên nhân và vị trí.",
           "tone": "neutral",
           "example": "The likely cause is an indentation error on line 7.",
@@ -142,8 +142,8 @@
           "question": "Which sentence explains an error clearly?",
           "options": [
             "The error says the config file has an indentation error on line 7.",
-            "The tool is bad and does not work today.",
-            "Something is probably wrong with my computer."
+            "The error says the config file is missing, so you must create a new one.",
+            "The error says the file needs tabs on line 7 instead of two spaces."
           ],
           "correctAnswer": [
             "The error says the config file has an indentation error on line 7."
@@ -162,7 +162,7 @@
         {
           "id": "lem-ordering",
           "type": "ordering",
-          "question": "Sắp xếp các bước đọc một thông báo lỗi.",
+          "question": "Sắp xếp các bước đọc một thông báo lỗi theo thứ tự thông tin xuất hiện trong thông báo E0412.",
           "options": [
             "run the check command",
             "read the error code and message",
@@ -223,7 +223,7 @@
         {
           "id": "lfemb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Look up the ___ in the documentation.",
+          "question": "Điền từ còn thiếu (mã lỗi): Look up the ___ in the documentation.",
           "correctAnswer": [
             "error code"
           ],
@@ -232,7 +232,7 @@
         {
           "id": "lfemb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The file has an ___ error on line 7.",
+          "question": "Điền từ còn thiếu (thụt đầu dòng): The file has an ___ error on line 7.",
           "correctAnswer": [
             "indentation"
           ],
@@ -246,9 +246,9 @@
     "mode": "written",
     "title": "Write notes on an error message",
     "scenario": "Bạn gặp một thông báo lỗi của công cụ mới và viết ghi chú để tự giải quyết và chia sẻ lại cho đội.",
-    "baselinePrompt": "Từ thông báo lỗi ngắn, hãy viết ghi chú bằng tiếng Anh (60 đến 110 từ): lỗi nói gì, nguyên nhân có thể và bước thử tiếp theo. Chưa xem bài mẫu.",
+    "baselinePrompt": "Từ thông báo lỗi, hãy viết ghi chú bằng tiếng Anh (60 đến 110 từ): lỗi nói gì, nguyên nhân có thể và bước thử tiếp theo. Chưa xem bài mẫu.",
     "performancePrompt": "Write notes in English, 60 to 110 words: what the error says, the likely cause and your next step.",
-    "modelResponse": "Notes on error E0412 from datasync. The error says that the config file ./datasync.yml cannot be opened. The reason is an indentation error on line 7, and the hint suggests using two spaces instead of tabs. The likely cause is that I copied a block from a web page that contained tabs. My next step is to run datasync check to validate the file, and then replace the tabs on line 7 with two spaces. If the error stays, I will read the Configuration file page in the documentation and ask the team with the exact error code and line number.",
+    "modelResponse": "Notes on error E0412 from datasync. The error says that the config file ./datasync.yml cannot be parsed. Line 7 has an unexpected tab character, and the hint suggests using two spaces instead of tabs. The likely cause is an indentation error, maybe from a block I copied that contained tabs. My next step is to run datasync check to validate the file, and then replace the tabs on line 7 with two spaces. If the error stays, I will ask the team and include the exact error code and line number.",
     "retryPrompt": "Write the notes again in English. Keep the three parts and make the next step more specific.",
     "transferPrompt": "Write notes for a different error message, using the same three parts.",
     "reviewPrompt": "Write notes for another error message without looking at old notes.",
@@ -262,7 +262,7 @@
             "type": "source",
             "title": "Config file error",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Error output. Error E0412: cannot open the config file ./datasync.yml. Reason: indentation error on line 7. Hint: use two spaces, not tabs. Run datasync check to validate."
+            "content": "Synthetic training artifact — non-production. Error output. Error E0412: cannot parse the config file ./datasync.yml. Line 7: unexpected tab character. Hint: use two spaces, not tabs. Run datasync check to validate."
           }
         ]
       },
@@ -275,7 +275,7 @@
             "type": "source",
             "title": "Port in use error",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Error output. Error P0098: cannot start the server. Reason: port 8080 is already in use by another process. Hint: stop the other process or choose a different port with --port. Run devserve ports to list the ports."
+            "content": "Synthetic training artifact — non-production. Error output. Error P0098: cannot start the server. Detail: port 8080 is already in use. Hint: stop the other process or choose a different port with --port. Run devserve ports to list the ports."
           }
         ]
       },
@@ -288,7 +288,7 @@
             "type": "source",
             "title": "Permission error",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Error output. Error A0031: cannot write to ./output. Reason: permission denied for the current user. Hint: check the folder owner or run the tool in a different folder. Run buildkit doctor for a report."
+            "content": "Synthetic training artifact — non-production. Error output. Error A0031: cannot write to ./output. Detail: permission denied. Hint: check the folder owner or run the tool in a different folder. Run buildkit doctor for a report."
           }
         ]
       },

@@ -2,13 +2,13 @@
   "schemaVersion": "v3",
   "lessonId": "technical-interview-decision-b2",
   "title": "Answer a technical interview with evidence",
-  "summary": "Giải thích một technical decision, contribution, trade-off và measured result.",
+  "summary": "Giải thích một quyết định kỹ thuật, đóng góp cá nhân, trade-off và kết quả đo được.",
   "cefrLevel": "B2",
   "durationMinutes": 18,
   "learningObjectives": [
-    "Cấu trúc decision story",
-    "Làm rõ contribution",
-    "Dùng evidence và reflection"
+    "Cấu trúc câu chuyện về một quyết định",
+    "Làm rõ đóng góp của bản thân",
+    "Dùng bằng chứng và nêu bài học"
   ],
   "capabilities": [
     "international-interview"
@@ -63,7 +63,7 @@
         {
           "word": "justify",
           "ipa": "/ˈdʒʌs.tə.faɪ/",
-          "definition": "biện minh bằng lý do",
+          "definition": "giải thích là hợp lý",
           "technicalMeaning": "Giải thích vì sao quyết định là hợp lý.",
           "collocations": [
             "justify a decision",
@@ -87,20 +87,20 @@
         {
           "word": "rationale",
           "ipa": "/ˌræʃ.əˈnæl/",
-          "definition": "lý lẽ nền tảng",
+          "definition": "cơ sở lý luận, lý do của quyết định",
           "technicalMeaning": "Chuỗi lý do dẫn tới quyết định.",
           "collocations": [
             "the rationale behind",
             "explain the rationale"
           ],
           "example": "The rationale behind the choice was lower risk.",
-          "commonMistake": "Nói the rationale behind + quyết định."
+          "commonMistake": "Nói the rationale behind + quyết định; trọng âm rơi vào âm cuối (-NALE)."
         }
       ],
       "expressions": [
         {
           "phrase": "Given ___, I compared ___ with ___.",
-          "meaning": "Frame the constraint before comparing options.",
+          "meaning": "Nêu ràng buộc trước khi so sánh các phương án.",
           "tone": "neutral",
           "example": "Given the two-week deadline, I compared caching with batching.",
           "alternatives": [
@@ -109,7 +109,7 @@
         },
         {
           "phrase": "I chose ___ because ___, although ___.",
-          "meaning": "State a decision, rationale and acknowledged cost.",
+          "meaning": "Nêu quyết định, lý do và chi phí đã thừa nhận.",
           "tone": "neutral",
           "example": "I chose batching because it removed repeated reads, although it added batch-formation delay.",
           "alternatives": [
@@ -118,7 +118,7 @@
         },
         {
           "phrase": "The change moved ___ from ___ to ___.",
-          "meaning": "Report a measurable before-and-after result.",
+          "meaning": "Báo cáo kết quả đo được trước và sau.",
           "tone": "neutral",
           "example": "The change moved p95 latency from 1.8 seconds to 520 milliseconds.",
           "alternatives": [
@@ -229,7 +229,7 @@
             },
             {
               "key": "justify",
-              "value": "biện minh bằng lý do"
+              "value": "giải thích là hợp lý"
             },
             {
               "key": "alternative",
@@ -239,7 +239,7 @@
           "correctAnswer": [
             "criteria - tiêu chí",
             "evidence - bằng chứng",
-            "justify - biện minh bằng lý do",
+            "justify - giải thích là hợp lý",
             "alternative - phương án thay thế"
           ],
           "explanation": "Ôn lại các từ đã học trong bài này."
@@ -247,18 +247,21 @@
         {
           "id": "tidb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Our ___ were cost, speed and risk.",
+          "question": "Điền từ còn thiếu (tiêu chí): Our ___ were cost, speed and risk.",
           "correctAnswer": [
-            "criteria"
+            "criteria",
+            "priorities"
           ],
           "explanation": "\"criteria\" nghĩa là tiêu chí."
         },
         {
           "id": "tidb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ came from a two-week test.",
+          "question": "Điền từ còn thiếu (bằng chứng): The ___ came from a two-week test.",
           "correctAnswer": [
-            "evidence"
+            "evidence",
+            "data",
+            "results"
           ],
           "explanation": "\"evidence\" nghĩa là bằng chứng."
         }
@@ -270,10 +273,10 @@
     "mode": "spoken",
     "title": "Tell the decision story",
     "scenario": "Answer: Tell me about a technical decision you made under a deadline.",
-    "baselinePrompt": "Speak for 90–120 seconds from the notes without model/chunks.",
+    "baselinePrompt": "Nói 90–120 giây từ ghi chú, không xem bài mẫu hay các cụm câu.",
     "performancePrompt": "In English, speak for 90–120 seconds: context, options and constraint, your decision, its cost and mitigation, measured result and reflection.",
-    "modelResponse": "Two weeks before the campaign launch, API p95 latency was 1.8 seconds against a target below 700 milliseconds. I needed an option that could meet the target without creating avoidable risk under that deadline. I profiled the request and found an N-plus-one query path. I then compared caching with batching. Caching could reduce repeated reads, but it would add invalidation risk; batching addressed the repeated reads directly, so I chose batching. The cost was up to twenty-five milliseconds of batch-formation delay. I mitigated the partial-failure cost by mapping each item-level error back to its original request. I also added load tests so the decision had a measurable verification step. After the change, p95 latency fell to 520 milliseconds and database load fell by twenty-eight percent. That result met the latency target. It also confirmed that fixing the root cause was better than adding a cache on top of the problem. Looking back, I would add query-count alerts earlier. I would also share the query-count dashboard with the whole team.",
-    "retryPrompt": "Trong 90–120 giây, dùng database migration case mới và làm rõ option, constraint, rationale và cost.",
+    "modelResponse": "Two weeks before the campaign launch, API p95 latency was 1.8 seconds against a target below 700 milliseconds. I needed an option that could meet the target without creating avoidable risk under that deadline. I profiled the request and found an N-plus-one query path. I then compared caching with batching. Caching could reduce repeated reads, but it would add invalidation risk; batching addressed the repeated reads directly, so I chose batching. The cost was up to twenty-five milliseconds of batch-formation delay. I mitigated the partial-failure cost by mapping each item-level error back to its original request. I also added load tests so the decision had a measurable verification step. After the change, p95 latency fell to 520 milliseconds and database load fell by twenty-eight percent. That result met the latency target. It also came from fixing the repeated reads directly. Looking back, I would add query-count alerts earlier, because they would have shown the problem sooner. I would also share the query-count dashboard with the whole team, so others could spot similar patterns. I would also write a short note about the trade-off, so the next engineer understands why we chose batching over caching under that deadline.",
+    "retryPrompt": "Trong 90–120 giây, kể bằng tiếng Anh một ca database migration mới và làm rõ phương án, ràng buộc, lý do và chi phí.",
     "transferPrompt": "In 90–120 seconds, without looking at the model or chunks, explain a decision that reduced deployment failures.",
     "reviewPrompt": "In 90–120 seconds, answer a new technical-decision question about build performance.",
     "practiceContexts": {
@@ -488,7 +491,7 @@
             "options": [
               "It removed the root cause",
               "I chose batching",
-              "It was the easiest option for the team"
+              "It was the easiest option available"
             ],
             "correctAnswer": "It removed the root cause",
             "feedback": "Stress CHOSE, BATCHING and ROOT CAUSE; keep BECAUSE light."

@@ -2,11 +2,11 @@
   "schemaVersion": "v3",
   "lessonId": "learn-api-from-docs-b2",
   "title": "Learn a new API in English",
-  "summary": "Build a mental model and implementation plan directly from English API documentation.",
+  "summary": "Xây dựng mô hình tư duy và kế hoạch triển khai trực tiếp từ tài liệu API tiếng Anh.",
   "cefrLevel": "B2",
   "durationMinutes": 24,
   "learningObjectives": [
-    "Explain an unfamiliar API and plan a safe first implementation without translation."
+    "Giải thích một API chưa quen và lập kế hoạch triển khai đầu tiên an toàn mà không cần dịch."
   ],
   "capabilities": [
     "technology-learning"
@@ -49,7 +49,7 @@
       "id": "brief",
       "type": "brief",
       "title": "Your mission",
-      "body": "Learn the fictional Pulse API well enough to plan a reliable integration."
+      "body": "Học API Pulse (hư cấu) đủ tốt để lập kế hoạch tích hợp đáng tin cậy."
     },
     {
       "id": "source",
@@ -80,7 +80,7 @@
             "guarantee that",
             "no guarantee"
           ],
-          "example": "The docs guarantee that events are signed.",
+          "example": "The docs guarantee that reusing a key returns the original event.",
           "commonMistake": "Nhấn âm tiết cuối: guar-an-TEE."
         },
         {
@@ -96,28 +96,28 @@
           "commonMistake": "Nhấn âm tiết thứ hai: a-SYN-chro-nous."
         },
         {
-          "word": "payload",
-          "ipa": "/ˈpeɪ.loʊd/",
-          "definition": "nội dung gói dữ liệu",
-          "technicalMeaning": "Phần dữ liệu chính trong yêu cầu hoặc phản hồi.",
+          "word": "idempotency",
+          "ipa": "/ˌaɪ.dem.ˈpoʊ.tən.si/",
+          "definition": "tính gọi lặp an toàn",
+          "technicalMeaning": "Gửi lại cùng một yêu cầu với cùng key không tạo thêm kết quả mới.",
           "collocations": [
-            "the request payload",
-            "a JSON payload"
+            "an idempotency key",
+            "idempotency-key retention"
           ],
-          "example": "The payload contains the order id.",
-          "commonMistake": "Viết payload thành một từ."
+          "example": "The idempotency key prevents duplicate events.",
+          "commonMistake": "Nhấn âm tiết thứ ba: i-dem-PO-ten-cy."
         },
         {
-          "word": "deprecation",
-          "ipa": "/ˌdep.rəˈkeɪ.ʃən/",
-          "definition": "việc khuyến cáo bỏ",
-          "technicalMeaning": "Thông báo một tính năng sẽ bị xóa.",
+          "word": "polling",
+          "ipa": "/ˈpoʊ.lɪŋ/",
+          "definition": "thăm dò định kỳ",
+          "technicalMeaning": "Gọi lặp lại một endpoint để hỏi trạng thái cho tới khi xong.",
           "collocations": [
-            "a deprecation notice",
-            "deprecation date"
+            "poll the status",
+            "a polling interval"
           ],
-          "example": "The deprecation notice gives a ninety-day window.",
-          "commonMistake": "Nhấn âm tiết thứ ba: dep-re-CA-tion."
+          "example": "The client polls the event status until it is processed.",
+          "commonMistake": "Đừng nhầm poll /poʊl/ với pull /pʊl/."
         },
         {
           "word": "rate limit",
@@ -129,13 +129,13 @@
             "respect the rate limit"
           ],
           "example": "We hit the rate limit during the import.",
-          "commonMistake": "Viết rate limit thành hai từ."
+          "commonMistake": "Sai: viết dính thành ratelimit. Đúng: rate limit (hai từ)."
         }
       ],
       "expressions": [
         {
           "phrase": "The documentation guarantees ___, but it does not define ___.",
-          "meaning": "Separate an explicit API contract from an unresolved detail.",
+          "meaning": "Tách cam kết rõ ràng của API khỏi chi tiết chưa được xác định.",
           "tone": "neutral",
           "example": "The documentation guarantees asynchronous acceptance, but it does not define the polling interval.",
           "alternatives": [
@@ -144,7 +144,7 @@
         },
         {
           "phrase": "A ___ response indicates ___, whereas ___ indicates ___.",
-          "meaning": "Contrast two response classes without merging their causes.",
+          "meaning": "Đối chiếu hai nhóm phản hồi mà không gộp nguyên nhân của chúng.",
           "tone": "formal",
           "example": "A 429 response indicates rate limiting, whereas 503 indicates temporary unavailability.",
           "alternatives": [
@@ -153,7 +153,7 @@
         },
         {
           "phrase": "Before production, I would confirm ___.",
-          "meaning": "Turn an undocumented behavior into a concrete follow-up instead of an invented default.",
+          "meaning": "Biến hành vi chưa được tài liệu hóa thành việc cần xác nhận thay vì tự đặt giá trị mặc định.",
           "tone": "neutral",
           "example": "Before production, I would confirm the polling limits and idempotency-key retention period.",
           "alternatives": [
@@ -221,7 +221,7 @@
         {
           "id": "lafdb-order",
           "type": "ordering",
-          "question": "Sắp xếp các bước học một API mới.",
+          "question": "Sắp xếp các bước học một API mới theo thứ tự thông tin xuất hiện trong quickstart Pulse, rồi đến bước thử.",
           "options": [
             "write a small test call",
             "read the guarantees",
@@ -245,8 +245,8 @@
       "wordRefs": [
         "guarantee",
         "asynchronous",
-        "payload",
-        "deprecation"
+        "idempotency",
+        "polling"
       ],
       "exercises": [
         {
@@ -263,26 +263,26 @@
               "value": "bất đồng bộ"
             },
             {
-              "key": "payload",
-              "value": "nội dung gói dữ liệu"
+              "key": "idempotency",
+              "value": "tính gọi lặp an toàn"
             },
             {
-              "key": "deprecation",
-              "value": "việc khuyến cáo bỏ"
+              "key": "polling",
+              "value": "thăm dò định kỳ"
             }
           ],
           "correctAnswer": [
             "guarantee - đảm bảo",
             "asynchronous - bất đồng bộ",
-            "payload - nội dung gói dữ liệu",
-            "deprecation - việc khuyến cáo bỏ"
+            "idempotency - tính gọi lặp an toàn",
+            "polling - thăm dò định kỳ"
           ],
           "explanation": "Ôn lại các từ đã học trong bài này."
         },
         {
           "id": "lafdb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The docs ___ that events are signed.",
+          "question": "Điền từ còn thiếu (đảm bảo): The docs ___ that reusing a key returns the original event.",
           "correctAnswer": [
             "guarantee"
           ],
@@ -291,7 +291,7 @@
         {
           "id": "lafdb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The API starts an ___ job and returns 202.",
+          "question": "Điền từ còn thiếu (bất đồng bộ): The API starts an ___ job and returns 202.",
           "correctAnswer": [
             "asynchronous"
           ],
@@ -304,7 +304,7 @@
     "id": "api-learning-task",
     "mode": "written",
     "title": "Explain and plan the integration",
-    "scenario": "A teammate will implement Pulse tomorrow and needs your English mental model and plan.",
+    "scenario": "Một đồng nghiệp sẽ triển khai Pulse vào ngày mai và cần mô hình tư duy và kế hoạch bằng tiếng Anh của bạn.",
     "baselinePrompt": "Read the quickstart once, hide it, then explain how the API works and outline implementation without translating it.",
     "performancePrompt": "Write 120–180 words in English: explain the request lifecycle and idempotency, distinguish 429 from 503, identify open questions, and give a four-step implementation/test plan.",
     "modelResponse": "Pulse accepts an authenticated event and returns 202, so acceptance is not completion. The client generates one idempotency key per logical event, stores it with the event_id and queries status until processed or failed; reusing the key returns the original event. A 429 means rate limiting, while a 503 means temporary unavailability, and the client respects Retry-After when present. The implementation plan has four steps. First, wrap POST and GET while preserving the key-to-event mapping. Second, test duplicate submissions. Third, add status polling only after the API owner confirms cadence and timeout, then test processed and failed processing as terminal states. Fourth, handle and test 429 and 503 separately, including Retry-After recovery. The quickstart does not define polling bounds, idempotency-key retention or same-key/different-payload behavior, so I would record those as open questions and confirm them before production.",
@@ -342,7 +342,7 @@
             "type": "source",
             "title": "Reliability contract",
             "format": "technical-doc",
-            "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. When a 429 response includes Retry-After, wait for that interval and do not create a new key for the same logical event.",
+            "content": "202 means accepted, not processed. Store event_id and one key per logical event. Poll until processed or failed. A 429 response means a rate limit: wait for Retry-After and do not create a new key for the same logical event. A 503 means temporary unavailability, may also include Retry-After, and is not proof of rate limiting. Polling cadence and timeout are not defined; confirm them before production.",
             "provenance": {
               "origin": "synthetic",
               "sourceIds": [
@@ -363,7 +363,7 @@
             "type": "source",
             "title": "Jobs quickstart",
             "format": "technical-doc",
-            "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref; acceptance is not completion. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. Rate limiting returns 429 with Retry-After. Temporary unavailability returns 503 and may also include Retry-After; a 503 is not proof that the caller exceeded a rate limit.",
+            "content": "POST /v2/jobs requires X-Request-Token and returns 202 with job_ref; acceptance is not completion. Query GET /v2/jobs/{job_ref} until complete or failed. Duplicate tokens return the existing job. Rate limiting returns 429 with Retry-After. Temporary unavailability returns 503 and may also include Retry-After; a 503 is not proof that the caller exceeded a rate limit. The polling interval and the token retention period are not defined; confirm them before production.",
             "provenance": {
               "origin": "synthetic",
               "sourceIds": [
@@ -384,7 +384,7 @@
             "type": "source",
             "title": "Exports quickstart",
             "format": "technical-doc",
-            "content": "POST /exports accepts a report request and returns 202 with export_id; acceptance is not completion. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again.",
+            "content": "POST /exports accepts a report request and returns 202 with export_id; acceptance is not completion. Supply Client-Request-Id to deduplicate. Poll /exports/{export_id}; download_url appears only at ready. On 429, wait for Retry-After before polling again. A 503 means temporary unavailability and may also include Retry-After; it is not proof of rate limiting. The polling interval and maximum export duration are not defined; confirm them before production.",
             "provenance": {
               "origin": "synthetic",
               "sourceIds": [
@@ -453,7 +453,8 @@
       "applicationChecklist": [
         "I separated acceptance from completion.",
         "I connected idempotency to retries.",
-        "I recorded the polling interval and maximum duration as open questions instead of inventing defaults, and I handled the documented rate limit."
+        "I recorded the polling interval and maximum duration as open questions instead of inventing defaults.",
+        "I handled the documented rate limit."
       ]
     },
     "outputContract": {

@@ -53,7 +53,7 @@
             "assume the traffic"
           ],
           "example": "I assume ten times more reads than writes.",
-          "commonMistake": "Nói assume that + mệnh đề, không nói assume about."
+          "commonMistake": "Nói \"I assume + mệnh đề hoặc cụm danh từ\" (I assume ten times more reads); không nói assume about."
         },
         {
           "word": "trade-off",
@@ -77,7 +77,7 @@
             "replicated across zones"
           ],
           "example": "We replicate the store across two zones.",
-          "commonMistake": "Động từ có âm cuối /eɪt/, danh từ replica có âm cuối khác."
+          "commonMistake": "Động từ replicate đọc âm cuối /eɪt/ (REP-li-kate); danh từ là replica (bản sao) hoặc replication (quá trình sao chép)."
         },
         {
           "word": "bottleneck",
@@ -142,7 +142,7 @@
           "question": "What should a strong candidate do first?",
           "options": [
             "Ask about scale and requirements",
-            "Draw the database tables",
+            "Draw the detailed database tables",
             "Name a favorite technology"
           ],
           "correctAnswer": [
@@ -156,7 +156,7 @@
           "question": "Which sentence names a trade-off?",
           "options": [
             "Counters avoid collisions but need coordination.",
-            "We will use a cache in front of the store.",
+            "We will put a cache in front of the main key-value store.",
             "The service returns a short link to the user."
           ],
           "correctAnswer": [
@@ -237,18 +237,20 @@
         {
           "id": "isdwb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Let me clarify the ___ first.",
+          "question": "Điền từ còn thiếu (yêu cầu): Let me clarify the ___ first.",
           "correctAnswer": [
-            "requirements"
+            "requirements",
+            "requirement"
           ],
           "explanation": "\"requirement\" nghĩa là yêu cầu."
         },
         {
           "id": "isdwb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I ___ ten times more reads than writes.",
+          "question": "Điền từ còn thiếu (giả định): I ___ ten times more reads than writes.",
           "correctAnswer": [
-            "assume"
+            "assume",
+            "expect"
           ],
           "explanation": "\"assume\" nghĩa là giả định."
         }
@@ -262,9 +264,9 @@
     "scenario": "The interviewer asks you to design a service; you clarify, sketch, explain one trade-off and check the direction.",
     "baselinePrompt": "Walk through your design in English in about 90 seconds: clarify requirements, sketch the main parts, explain one trade-off and check the direction. Do not look at the model answer yet.",
     "performancePrompt": "Speak in English for about 90 seconds: clarify requirements and assumptions, sketch the main parts, explain one trade-off and ask the interviewer if the direction fits.",
-    "modelResponse": "Let me start by clarifying the requirements. We need to create short links and redirect users quickly, and I assume about one hundred million links with ten times more reads than writes. At a high level, I would use an API service, a key generator and a key-value store. The API receives a long address, asks the generator for a unique code, saves the pair and returns the short link. For reads, a cache sits in front of the store, because most clicks go to a small set of popular links. The main trade-off is between random codes and counters. Random codes are harder to guess, but they can collide, so I would check before saving. Counters avoid collisions, but they need coordination across servers, so I would give each server its own counter range. For reliability, I would replicate the store across two zones and monitor redirect latency. If we had more time, I would discuss analytics and abuse protection. Does this direction match what you had in mind?",
+    "modelResponse": "Let me start by clarifying the requirements. We need to create short links and redirect users quickly, and I assume about one hundred million links with ten times more reads than writes. I also assume that links do not expire, which keeps the design simple, and that the service must stay available, so I would avoid a single point of failure. At a high level, I would use an API service, a key generator and a key-value store. The API receives a long address, asks the generator for a unique code, saves the pair and returns the short link. For reads, a cache sits in front of the store, because most clicks go to a small set of popular links. The main trade-off is between random codes and counters. Random codes are harder to guess, but they can collide, so I would check before saving. Counters avoid collisions, but they need coordination across servers, so I would give each server its own counter range. For reliability, I would replicate the store across two zones and monitor redirect latency. If we had more time, I would discuss analytics and abuse protection. Does this direction match what you had in mind?",
     "retryPrompt": "Walk through the design again in English. Keep the four steps and make the trade-off clearer.",
-    "transferPrompt": "Design a different service, such as a notification system, using the same four steps.",
+    "transferPrompt": "Design a different service, such as a rate limiter, using the same four steps.",
     "reviewPrompt": "Walk through a new design question without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +278,7 @@
             "type": "source",
             "title": "Short link service",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Senior Backend Engineer, Tidewater Cloud. Interviewer: Design a service that turns long web addresses into short links. Expected load: hundreds of millions of links."
+            "content": "Synthetic training artifact — non-production. Interview: Senior Backend Engineer, Tidewater Cloud. Interviewer: Design a service that turns long web addresses into short links. Expected load: about one hundred million links, with ten times more reads than writes."
           }
         ]
       },
@@ -392,7 +394,7 @@
             "options": [
               "Chooses a database",
               "Confirms the expected load",
-              "Ends the discussion for the team"
+              "Ends the discussion"
             ],
             "correctAnswer": "Confirms the expected load"
           },
@@ -411,7 +413,7 @@
             "options": [
               "Stating an assumption",
               "Reporting a bug",
-              "Asking for money for the team"
+              "Asking for a bigger budget"
             ],
             "correctAnswer": "Stating an assumption"
           },
@@ -428,8 +430,8 @@
             "question": "Why is the cache used?",
             "options": [
               "Popular links are requested often",
-              "Storage is very expensive for the team",
-              "Users forget their links"
+              "Storage is very expensive these days",
+              "Users often forget their links"
             ],
             "correctAnswer": "Popular links are requested often"
           },
@@ -446,7 +448,7 @@
             "question": "What is the speaker asking?",
             "options": [
               "Whether the plan fits",
-              "Where the office is",
+              "Where the main office is located",
               "How long the break is"
             ],
             "correctAnswer": "Whether the plan fits"
@@ -467,8 +469,8 @@
             "question": "What is being compared?",
             "options": [
               "Two ways to make codes",
-              "Two job offers",
-              "Two office layouts for the team"
+              "Two job offers to compare",
+              "Two office layouts"
             ],
             "correctAnswer": "Two ways to make codes",
             "feedback": "Between ... and nêu hai lựa chọn."
@@ -505,7 +507,7 @@
             "question": "What is the cost of counters?",
             "options": [
               "Servers must stay in sync",
-              "Codes are easier to guess",
+              "Codes become much easier to guess",
               "Reads become slower"
             ],
             "correctAnswer": "Servers must stay in sync",
@@ -544,7 +546,7 @@
             "question": "What is the purpose of the copies?",
             "options": [
               "Surviving a zone failure",
-              "Making reads cheaper for the team",
+              "Making every read much cheaper",
               "Hiding the design"
             ],
             "correctAnswer": "Surviving a zone failure",
@@ -563,8 +565,8 @@
             "question": "What is the concern?",
             "options": [
               "Slowdown under heavy load",
-              "A missing license",
-              "A wrong address format for the team"
+              "A missing software license key",
+              "A wrong address format"
             ],
             "correctAnswer": "Slowdown under heavy load",
             "feedback": "Bottleneck là điểm nghẽn khi tải cao."
@@ -585,7 +587,7 @@
             "question": "What happens first?",
             "options": [
               "Gathering requirements",
-              "Drawing the design for the team",
+              "Drawing the final design",
               "Closing the talk"
             ],
             "correctAnswer": "Gathering requirements"
@@ -603,7 +605,7 @@
             "question": "What is assumed?",
             "options": [
               "The daily traffic",
-              "The server price for the team",
+              "The monthly server price",
               "The team size"
             ],
             "correctAnswer": "The daily traffic"
@@ -620,11 +622,11 @@
             },
             "question": "What is the speaker contrasting?",
             "options": [
-              "Speed and accuracy of data",
-              "Cost and salary",
-              "Design and meetings for the team"
+              "Speed and matching data copies",
+              "Cost and salary levels",
+              "Design and weekly team meetings"
             ],
-            "correctAnswer": "Speed and accuracy of data"
+            "correctAnswer": "Speed and matching data copies"
           },
           {
             "id": "sdw-post-4",
@@ -640,8 +642,8 @@
             "question": "What is offered?",
             "options": [
               "A choice of topics",
-              "A lunch menu",
-              "An extra deadline for the team"
+              "A lunch menu for later",
+              "An extra deadline"
             ],
             "correctAnswer": "A choice of topics"
           }
@@ -650,7 +652,7 @@
       "pronunciationCues": [
         {
           "id": "sdw-cue-clarify",
-          "articulatoryCue": "Nhấn âm đầu của clarify và requirements để câu mở đầu nghe rõ ràng.",
+          "articulatoryCue": "Nhấn âm đầu của clarify và âm thứ hai của requirements (re-QUIRE-ments) để câu mở đầu nghe rõ ràng.",
           "meaningRisk": "Nuốt âm làm người phỏng vấn không nhận ra bạn đang làm rõ yêu cầu.",
           "triggerItemIds": [
             "sdw-pre-1",

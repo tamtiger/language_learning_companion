@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Bug report",
       "format": "technical-doc",
-      "content": "Synthetic training artifact — non-production. Bug report 214. Title: Wrong total on the cart page. Symptom: when a customer adds two items with a discount code, the total is higher than the sum of the items. Cause found: the discount is applied before the tax is added, but the code adds the tax again afterwards. Fix: apply the tax once, after the discount. Check: a test with two items and one discount code."
+      "content": "Synthetic training artifact — non-production. Bug report 214. Title: Wrong total on the cart page. Symptom: when a customer adds two items with a discount code, the total is higher than the sum of the items. Cause found: the discount is applied before the tax is added, but the code adds the tax again afterwards. Fix: apply the tax once, after the discount. Check: a test with two items and one discount code. Plan: add a regression test and ship the patch tomorrow morning."
     },
     {
       "id": "ebc-language",
@@ -53,7 +53,7 @@
             "the root cause was"
           ],
           "example": "The root cause was a double tax calculation.",
-          "commonMistake": "Viết root cause thành hai từ."
+          "commonMistake": "Viết liền thành rootcause. Dạng đúng là hai từ: root cause."
         },
         {
           "word": "reproduce",
@@ -65,7 +65,7 @@
             "cannot reproduce"
           ],
           "example": "I can reproduce the bug with two items.",
-          "commonMistake": "Nhấn âm tiết thứ ba: re-pro-DUCE."
+          "commonMistake": "Nhấn nhầm âm tiết đầu: RE-produce. Trọng âm đúng ở âm tiết thứ ba: re-pro-DUCE."
         },
         {
           "word": "regression",
@@ -106,7 +106,7 @@
           "phrase": "The root cause was ___, because ___.",
           "meaning": "Nêu nguyên nhân.",
           "tone": "neutral",
-          "example": "The root cause was a double tax calculation, because the code added tax twice.",
+          "example": "The root cause was a double tax calculation, because the code added the tax again after the discount.",
           "alternatives": [
             "It happens because ___."
           ]
@@ -142,8 +142,8 @@
           "question": "Which order explains a bug clearly?",
           "options": [
             "Symptom, cause, fix, check",
-            "Fix, hobby, cause, goodbye",
-            "Check, hope, guess, symptom"
+            "Cause, symptom, check, fix",
+            "Fix, check, symptom, cause"
           ],
           "correctAnswer": [
             "Symptom, cause, fix, check"
@@ -167,7 +167,7 @@
         {
           "id": "ebc-fix-fill",
           "type": "fill",
-          "question": "Sửa lỗi: câu \"The bug happen when a code is used.\" sai một từ. Điền dạng đúng thay cho \"happen\".",
+          "question": "Sửa lỗi: câu \"The bug happen when a discount code is used.\" sai một từ. Điền dạng đúng thay cho \"happen\".",
           "correctAnswer": [
             "happens"
           ],
@@ -237,7 +237,7 @@
         {
           "id": "eabtacb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is a wrong total on the cart page.",
+          "question": "Điền từ còn thiếu (triệu chứng): The ___ is a wrong total on the cart page.",
           "correctAnswer": [
             "symptom"
           ],
@@ -246,9 +246,10 @@
         {
           "id": "eabtacb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ was a double tax calculation.",
+          "question": "Điền từ còn thiếu (nguyên nhân gốc): The ___ was a double tax calculation.",
           "correctAnswer": [
-            "root cause"
+            "root cause",
+            "cause"
           ],
           "explanation": "\"root cause\" nghĩa là nguyên nhân gốc."
         }
@@ -264,7 +265,7 @@
     "performancePrompt": "Speak in English for about one minute: explain the symptom, the root cause, the fix and how you will check it.",
     "modelResponse": "Let me explain the bug in simple words. The symptom is a wrong total on the cart page. It happens when a customer adds two items and uses a discount code, and then the total is higher than the sum of the items. The root cause was a double tax calculation, because the code applied the discount and then added the tax two times. To fix it, we apply the tax only once, after the discount. This means the total now matches the items on the screen. To check the fix, I run a test with two items and one discount code, and I also add a regression test for this case. If the total is correct, the bug is gone. We plan to ship the patch tomorrow morning.",
     "retryPrompt": "Explain the bug again in English. Keep the four parts and use simpler words for the cause.",
-    "transferPrompt": "Explain a different bug, such as a report that shows yesterday's data, with the same four parts.",
+    "transferPrompt": "Explain a different bug, such as customers who receive the same email twice, with the same four parts.",
     "reviewPrompt": "Explain another bug without looking at your old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +277,7 @@
             "type": "source",
             "title": "Wrong total on the cart page",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Bug report 214. Wrong total on the cart page. Symptom: with two items and a discount code the total is too high. Cause: the tax is added twice. Fix: apply the tax once. Check: a test with two items."
+            "content": "Synthetic training artifact — non-production. Bug report 214. Wrong total on the cart page. Symptom: with two items and a discount code the total is too high. Cause: the tax is added twice. Fix: apply the tax once. Check: a test with two items. Plan: add a regression test and ship the patch tomorrow morning."
           }
         ]
       },
@@ -391,8 +392,8 @@
             "question": "What is the speaker describing?",
             "options": [
               "What users observe",
-              "Why it happens for the team",
-              "How to fix it"
+              "Why the bug happens",
+              "How to fix the bug"
             ],
             "correctAnswer": "What users observe"
           },
@@ -409,8 +410,8 @@
             "question": "What went wrong?",
             "options": [
               "A figure was added twice",
-              "A price was deleted for the team",
-              "A page was removed"
+              "The tax was never added",
+              "A discount was ignored"
             ],
             "correctAnswer": "A figure was added twice"
           },
@@ -428,8 +429,8 @@
             "question": "What is the fix?",
             "options": [
               "Use the tax a single time",
-              "Remove the discount code for the team",
-              "Hide the total at work"
+              "Remove the discount code",
+              "Hide the total from users"
             ],
             "correctAnswer": "Use the tax a single time"
           },
@@ -466,8 +467,8 @@
             "question": "What can the speaker do?",
             "options": [
               "Make the bug happen again",
-              "Sell the items",
-              "Delete the code for the team"
+              "Fix the bug for good",
+              "Explain the bug to a customer"
             ],
             "correctAnswer": "Make the bug happen again",
             "feedback": "Reproduce là tái hiện lỗi."
@@ -476,7 +477,7 @@
             "id": "ebc-train-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "It happens when a customer uses a discount code.",
+              "text": "It happens only when a customer uses a discount code.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -544,7 +545,7 @@
             "question": "What is the purpose of the new test?",
             "options": [
               "To stop the bug returning",
-              "To make the page faster for the team",
+              "To make the page load faster",
               "To remove old code"
             ],
             "correctAnswer": "To stop the bug returning",
@@ -564,7 +565,7 @@
             "options": [
               "Early the next day",
               "Late next week",
-              "Right this minute for the team"
+              "Within the next hour"
             ],
             "correctAnswer": "Early the next day",
             "feedback": "Tomorrow morning là sáng mai."
@@ -584,7 +585,7 @@
             "question": "What do users notice?",
             "options": [
               "Outdated figures",
-              "Missing buttons for the team",
+              "Missing buttons",
               "A slow login"
             ],
             "correctAnswer": "Outdated figures"
@@ -603,8 +604,8 @@
             "question": "What caused it?",
             "options": [
               "Rare cache updates",
-              "A broken keyboard for the team",
-              "A rude customer"
+              "A broken report page",
+              "A wrong tax rate"
             ],
             "correctAnswer": "Rare cache updates"
           },
@@ -621,8 +622,8 @@
             "question": "What changes?",
             "options": [
               "More frequent updates",
-              "A new database for the team",
-              "Less data at work"
+              "A new database",
+              "Less data in reports"
             ],
             "correctAnswer": "More frequent updates"
           },
@@ -640,7 +641,7 @@
             "options": [
               "Both sources agree",
               "The page looks nicer",
-              "The team is happy"
+              "Nobody reports it today"
             ],
             "correctAnswer": "Both sources agree"
           }
@@ -649,8 +650,8 @@
       "pronunciationCues": [
         {
           "id": "ebc-cue-symptom",
-          "articulatoryCue": "Nhấn âm đầu của symptom và nghe rõ âm cuối p của từ này để phân biệt với từ khác.",
-          "meaningRisk": "Nuốt âm cuối làm symptom nghe như một từ khác.",
+          "articulatoryCue": "Nhấn âm đầu SYMP và giữ âm /p/ ở giữa từ (symp-tom). Đừng đọc thành \"sim-tom\".",
+          "meaningRisk": "Nuốt âm /p/ làm symptom nghe như một từ lạ.",
           "triggerItemIds": [
             "ebc-pre-1",
             "ebc-post-1"
@@ -658,8 +659,8 @@
         },
         {
           "id": "ebc-cue-cause",
-          "articulatoryCue": "Đọc rõ âm cuối của root cause và nhấn từ cause khi nêu nguyên nhân.",
-          "meaningRisk": "Thiếu nhấn làm người nghe không nhận ra nguyên nhân.",
+          "articulatoryCue": "Nhấn ROOT trong root cause và đọc rõ âm cuối /z/ của cause.",
+          "meaningRisk": "Mất âm cuối /z/ hoặc đọc đều làm người nghe khó nhận ra cụm nguyên nhân.",
           "triggerItemIds": [
             "ebc-pre-2",
             "ebc-post-2"
@@ -697,7 +698,7 @@
           ],
           "modelAudio": {
             "kind": "speech-synthesis",
-            "text": "The root cause was a double tax calculation, because the code added tax twice.",
+            "text": "The root cause was a double tax calculation, because the code added the tax again after the discount.",
             "locale": "en-GB",
             "voiceHints": [
               "English UK"

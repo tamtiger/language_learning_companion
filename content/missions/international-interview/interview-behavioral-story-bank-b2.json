@@ -41,7 +41,7 @@
             "test a competency"
           ],
           "example": "This question tests conflict handling.",
-          "commonMistake": "Nhấn trọng âm ở âm tiết thứ hai: com-PE-tency."
+          "commonMistake": "Nhấn âm đầu: COM-pe-ten-cy."
         },
         {
           "word": "disagree",
@@ -94,10 +94,10 @@
       ],
       "expressions": [
         {
-          "phrase": "This question is testing ___, so I will use my story about ___.",
-          "meaning": "Nói rõ bạn chọn chuyện nào và vì sao.",
+          "phrase": "That is a good question about ___. A good example is ___.",
+          "meaning": "Nói rõ câu hỏi kiểm tra điều gì và chọn chuyện nào.",
           "tone": "neutral",
-          "example": "This question is testing conflict, so I will use my story about a database choice.",
+          "example": "That is a good question about handling disagreement. A good example is my story about a database choice.",
           "alternatives": [
             "The best story I have for this is ___."
           ]
@@ -156,8 +156,8 @@
           "question": "Which story from a bank fits the conflict question best?",
           "options": [
             "A debate about a database choice that ended with a test",
-            "A release that shipped one day late",
-            "A new hire I helped in her first month"
+            "A release that shipped one day late because of a missed review",
+            "A new hire I helped in her first month on the team"
           ],
           "correctAnswer": [
             "A debate about a database choice that ended with a test"
@@ -237,18 +237,21 @@
         {
           "id": "ibsbb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We ___ about the database choice.",
+          "question": "Điền từ còn thiếu (bất đồng): We ___ about the database choice.",
           "correctAnswer": [
-            "disagreed"
+            "disagreed",
+            "argued"
           ],
           "explanation": "\"disagree\" nghĩa là bất đồng."
         },
         {
           "id": "ibsbb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We ___ it with a small test.",
+          "question": "Điền từ còn thiếu (giải quyết): We ___ it with a small test.",
           "correctAnswer": [
-            "resolved"
+            "resolved",
+            "solved",
+            "settled"
           ],
           "explanation": "\"resolve\" nghĩa là giải quyết."
         }
@@ -262,9 +265,9 @@
     "scenario": "The interviewer asks a behavioral question; you choose a story from your own bank and tell it in four steps.",
     "baselinePrompt": "Answer in English in about 90 seconds with one real story from your own bank: name what the question tests, the situation, your action, the result and your takeaway. Do not look at the model answer yet.",
     "performancePrompt": "Answer in English in about 90 seconds with one real story: name what the question tests, the situation, your action, the result and your takeaway.",
-    "modelResponse": "This question is testing conflict, so I will use my story about a database choice. The situation was a delayed release, and my role was tech lead. Two senior engineers disagreed about which database to use, and the argument slowed us down for a week. What I did was ask both of them to run a small test on our real traffic, which led to a clear decision in two days. We chose the simpler option, and the release shipped on time. I also wrote a short note that explained why we chose it, so the discussion did not repeat. My takeaway was to share evidence before opinions, because it keeps the conversation calm and keeps the team focused on the result. Since then, I use the same approach in every design review, and my teammates now bring their own data to the first meeting. That small habit has saved us many hours of debate and has made our decisions easier to explain to managers who were not in the room.",
+    "modelResponse": "That is a good question about handling disagreement. A good example is a time I disagreed with a senior teammate about a database choice. The situation was a delayed release, and my role was tech lead. We disagreed about which database to use, and the argument slowed the team down for a week. What I did was suggest that we both run a small test on our real traffic, which led to a clear decision in two days. We chose the simpler option, and the release shipped on time. I also wrote a short note that explained why we chose it, so the discussion did not repeat. My takeaway was to share evidence before opinions, because it keeps the conversation calm and keeps the team focused on the result. Since then, I use the same approach in every design review, and I ask my teammates for their data first so that we can compare options fairly. Looking back, I would also invite the other engineer to design the test with me, so that we own the result together. That small habit has made our decisions easier to explain to managers who were not in the room.",
     "retryPrompt": "Tell the story again in English. Keep four steps and make the result more specific.",
-    "transferPrompt": "Answer a different question, such as a time you failed, with another story from your own bank.",
+    "transferPrompt": "Answer a different question, such as a time you helped a teammate grow, with another story from your own bank.",
     "reviewPrompt": "Answer a new behavioral question with one of your stories, without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +279,7 @@
             "type": "source",
             "title": "Conflict question at Cedarpoint",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Senior Engineer, Cedarpoint. Interviewer: Tell me about a time you disagreed with a teammate about a technical choice. Question type: conflict."
+            "content": "Synthetic training artifact — non-production. Interview: Senior Engineer, Cedarpoint. Interviewer: Tell me about a time you disagreed with a teammate about a technical choice. Your notes: you were tech lead on a delayed release. You disagreed with a senior teammate about which database to use. The argument slowed the team for a week. You suggested that you both run a small test on real traffic. The test led to a clear decision in two days. You chose the simpler option and the release shipped on time. You wrote a short note that explained the choice. You now ask teammates for their data first in every design review."
           }
         ]
       },
@@ -289,7 +292,7 @@
             "type": "source",
             "title": "Failure question at Riverbend",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Staff Engineer, Riverbend. Interviewer: Describe a project that did not go as planned. What did you do? Question type: failure."
+            "content": "Synthetic training artifact — non-production. Interview: Staff Engineer, Riverbend. Interviewer: Describe a project that did not go as planned. What did you do?"
           }
         ]
       },
@@ -302,7 +305,7 @@
             "type": "source",
             "title": "Mentoring question at Lumenworks",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Tech Lead, Lumenworks. Interviewer: Tell me about a time you helped a teammate grow. Question type: mentoring."
+            "content": "Synthetic training artifact — non-production. Interview: Tech Lead, Lumenworks. Interviewer: Tell me about a time you helped a teammate grow."
           }
         ]
       },
@@ -315,7 +318,7 @@
             "type": "source",
             "title": "Ownership question at Stonebridge",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Engineer, Stonebridge. Interviewer: Give an example of when you took ownership of a problem nobody asked you to fix. Question type: ownership."
+            "content": "Synthetic training artifact — non-production. Interview: Engineer, Stonebridge. Interviewer: Give an example of when you took ownership of a problem nobody asked you to fix."
           }
         ]
       }
@@ -383,7 +386,7 @@
             "id": "bsb-pre-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "This question is testing conflict, so I will use my story about a database choice.",
+              "text": "That is a good question about handling disagreement. A good example is my story about a database choice.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -420,7 +423,7 @@
             "id": "bsb-pre-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "What I did was run a small test, which led to a decision in two days.",
+              "text": "What I did was run a small test to resolve it, which led to a decision in two days.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -458,7 +461,7 @@
             "id": "bsb-train-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Two senior engineers disagreed about the design, and it slowed us down.",
+              "text": "A teammate and I disagreed about the design, and it slowed us down.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -478,7 +481,7 @@
             "id": "bsb-train-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "I asked both of them to run a test on real traffic.",
+              "text": "I suggested that we both run a test on real traffic.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -497,7 +500,7 @@
             "id": "bsb-train-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "We chose the simpler option, and the release shipped on time.",
+              "text": "We chose the simpler option, and the outcome was a release that shipped on time.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -507,9 +510,9 @@
             "options": [
               "The product was cancelled",
               "The team grew bigger",
-              "The launch was punctual"
+              "The release met its date"
             ],
-            "correctAnswer": "The launch was punctual",
+            "correctAnswer": "The release met its date",
             "feedback": "Kết quả đi sau chữ and."
           },
           {
@@ -536,26 +539,26 @@
             "id": "bsb-train-5",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "The project failed because we did not test the first release.",
+              "text": "We disagreed because we had different goals for the release.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
               ]
             },
-            "question": "What caused the failure?",
+            "question": "What caused the disagreement?",
             "options": [
-              "A late client call",
-              "Too many outside reviewers",
-              "Skipped early testing"
+              "A late release date",
+              "Conflicting aims",
+              "Too many outside reviewers"
             ],
-            "correctAnswer": "Skipped early testing",
+            "correctAnswer": "Conflicting aims",
             "feedback": "Because nêu nguyên nhân."
           },
           {
             "id": "bsb-train-6",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Afterwards, I started a weekly review for new engineers.",
+              "text": "Afterwards, I started a weekly design review with the team.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -564,10 +567,10 @@
             "question": "What did the speaker begin?",
             "options": [
               "A new product launch",
-              "Regular check-ins",
+              "Regular design reviews",
               "A holiday plan"
             ],
-            "correctAnswer": "Regular check-ins",
+            "correctAnswer": "Regular design reviews",
             "feedback": "Afterwards đánh dấu hành động sau câu chuyện."
           }
         ],
@@ -576,7 +579,7 @@
             "id": "bsb-post-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "This question is testing failure, so I will use my story about a missed deadline.",
+              "text": "That is a good question about handling disagreement. A good example is my story about an API design.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -585,16 +588,16 @@
             "question": "What does the question test?",
             "options": [
               "Helping others",
-              "A past mistake",
-              "Shipping on time"
+              "Dealing with conflict",
+              "Designing a new API"
             ],
-            "correctAnswer": "A past mistake"
+            "correctAnswer": "Dealing with conflict"
           },
           {
             "id": "bsb-post-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "My role was incident lead, and I had one day to restore the service.",
+              "text": "My role was backend lead, and we had one day to choose a design.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -613,13 +616,13 @@
             "id": "bsb-post-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "What I did was split the work, which led to a fix before noon.",
+              "text": "What I did was split the options, which led to a choice before noon.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
               ]
             },
-            "question": "When was the fix ready?",
+            "question": "When was the choice made?",
             "options": [
               "Late at night",
               "Before midday",
@@ -631,7 +634,7 @@
             "id": "bsb-post-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "My takeaway was to practice the recovery plan before a real incident.",
+              "text": "My takeaway was to agree on the criteria before we compare designs.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -639,19 +642,19 @@
             },
             "question": "What is the lesson?",
             "options": [
-              "Avoid every single incident",
-              "Rehearse the plan early",
+              "Avoid every single design",
+              "Agree on criteria first",
               "Skip the review"
             ],
-            "correctAnswer": "Rehearse the plan early"
+            "correctAnswer": "Agree on criteria first"
           }
         ]
       },
       "pronunciationCues": [
         {
           "id": "bsb-cue-resolve",
-          "articulatoryCue": "Nhấn âm tiết thứ hai trong resolve và outcome để người nghe bắt được kết quả.",
-          "meaningRisk": "Nhấn sai làm resolve nghe giống một từ khác.",
+          "articulatoryCue": "Nhấn âm tiết thứ hai trong resolve (re-SOLVE) và âm đầu trong outcome (OUT-come) để người nghe bắt được kết quả.",
+          "meaningRisk": "Nhấn sai âm tiết làm người nghe khó nhận ra resolve và outcome, hai từ chỉ kết quả.",
           "triggerItemIds": [
             "bsb-pre-3",
             "bsb-train-3"
@@ -671,16 +674,16 @@
         {
           "id": "bsb-chunk-pick",
           "function": "story choice",
-          "text": "This question is testing ___, so I will use ___.",
+          "text": "That is a good question about ___. A good example is ___.",
           "meaning": "Nói câu hỏi kiểm tra gì và chọn chuyện nào.",
           "slots": [
             "skill",
             "story"
           ],
-          "stressPattern": "TESTING",
+          "stressPattern": "EXAMPLE",
           "modelAudio": {
             "kind": "speech-synthesis",
-            "text": "This question is testing conflict, so I will use my story about a database choice.",
+            "text": "That is a good question about handling disagreement. A good example is my story about a database choice.",
             "locale": "en-GB",
             "voiceHints": [
               "English UK"

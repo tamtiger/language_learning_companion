@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Decision notes",
       "format": "technical-doc",
-      "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how to send events between the order service and the shipping service. Context: the order service calls the shipping service directly; when shipping is slow, orders fail. Options discussed: keep direct calls with retries; use a message queue; use a shared database table. The team leans toward a message queue. Constraint: the team has no experience operating a queue and has two months."
+      "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how to send events between the order service and the shipping service. Context: the order service calls the shipping service directly; when shipping is slow, orders fail. Options discussed: keep direct calls with retries; use a message queue; use a shared database table. The team has chosen a message queue. A queue isolates slow consumers; a shared table couples both services to one schema. Constraint: the team has no experience operating a queue and has two months."
     },
     {
       "id": "adr-language",
@@ -35,13 +35,13 @@
           "word": "decision record",
           "ipa": "/dɪˈsɪʒ.ən ˈrek.ɚd/",
           "definition": "bản ghi quyết định",
-          "technicalMeaning": "Văn bản ngắn ghi một quyết định kiến trúc và lý do.",
+          "technicalMeaning": "Văn bản ngắn (thường gọi là ADR) ghi một quyết định kiến trúc và lý do.",
           "collocations": [
             "write a decision record",
             "a decision record for"
           ],
           "example": "We wrote a decision record for the queue.",
-          "commonMistake": "Viết decision record thành hai từ."
+          "commonMistake": "Viết liền thành decisionrecord. Dạng đúng là hai từ: decision record."
         },
         {
           "word": "context",
@@ -223,18 +223,20 @@
         {
           "id": "waadrb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We wrote a ___ for the queue.",
+          "question": "Điền từ còn thiếu (bản ghi quyết định): We wrote a ___ for the queue.",
           "correctAnswer": [
-            "decision record"
+            "decision record",
+            "decision document"
           ],
           "explanation": "\"decision record\" nghĩa là bản ghi quyết định."
         },
         {
           "id": "waadrb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is a slow shipping service.",
+          "question": "Điền từ còn thiếu (bối cảnh): The ___ is a slow shipping service.",
           "correctAnswer": [
-            "context"
+            "context",
+            "background"
           ],
           "explanation": "\"context\" nghĩa là bối cảnh."
         }
@@ -248,9 +250,9 @@
     "scenario": "Your team has chosen an approach; you write the decision record so that future engineers understand why.",
     "baselinePrompt": "From the short team notes, write a decision record in English (90 to 150 words): context, decision, alternatives rejected and consequences. Do not look at the model answer yet.",
     "performancePrompt": "Write an architecture decision record in English, 90 to 150 words: the context, the decision, the alternatives you rejected and the consequences, good and bad.",
-    "modelResponse": "Decision record: events between the order and shipping services. Context: the order service calls the shipping service directly, and when shipping is slow, customer orders fail. The team has two months and no experience operating a queue. Decision: we decided to use a managed message queue, because it isolates slow consumers and lets orders succeed independently. Alternatives rejected: direct calls with retries, because retries add load during an outage; and a shared database table, because it couples both services to one schema. Consequences: orders no longer fail when shipping is slow, and we can add consumers later. The downside is new operational work, so we will add alerts and a training session before launch. Review date: three months after release.",
+    "modelResponse": "Decision record: events between the order and shipping services. Context: the order service calls the shipping service directly, and when shipping is slow, customer orders fail. The team has two months and no experience operating a queue. Decision: we decided to use a message queue, because it isolates slow consumers and lets orders succeed independently. Alternatives rejected: direct calls with retries, because orders would still depend on a slow shipping service; and a shared database table, because it couples both services to one schema. Consequences: orders no longer fail when shipping is slow, and slow shipping stays out of the order path. The downside is new operational work, because the team has no experience operating a queue; we propose alerts and a short training session before launch.",
     "retryPrompt": "Write the record again in English. Keep the structure and make the consequences more balanced.",
-    "transferPrompt": "Write a decision record for a different decision, such as choosing a database.",
+    "transferPrompt": "Write a decision record for a different decision, such as the format of application logs.",
     "reviewPrompt": "Write a decision record for another decision without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -262,7 +264,7 @@
             "type": "source",
             "title": "Events between services",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how orders notify shipping. Context: direct calls fail when shipping is slow. Options: retries, message queue, shared table. Constraint: two months, no queue experience."
+            "content": "Synthetic training artifact — non-production. Team notes. Decision needed: how orders notify shipping. Context: direct calls fail when shipping is slow. Options: retries, message queue, shared table. Constraint: two months, no queue experience. Team choice: a message queue. A queue isolates slow consumers; a shared table couples both services to one schema."
           }
         ]
       },

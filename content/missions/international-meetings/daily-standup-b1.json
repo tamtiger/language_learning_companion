@@ -51,7 +51,7 @@
       "type": "source",
       "title": "A concise team update",
       "format": "meeting-notes",
-      "content": "Sprint Goal: make signup and payment ready for partner beta. Yesterday: completed signup validation and tests. Today: deploy to staging and reproduce the payment timeout so the team can identify the failing dependency. Blocker: payment dashboard access; platform team has the request; fallback is pairing with Linh.",
+      "content": "Sprint Goal: make signup and payment ready for partner beta. Yesterday: completed signup validation and tests. Today: deploy to staging and reproduce the payment timeout so the team can identify the failing dependency. Blocker: payment dashboard access, which prevents the provider comparison; platform team has the request; fallback is pairing with Linh.",
       "provenance": {
         "origin": "synthetic",
         "sourceIds": [
@@ -76,7 +76,7 @@
             "progress toward the sprint goal"
           ],
           "example": "Our sprint goal is to release the new search page.",
-          "commonMistake": "Viết sprint goal thành hai từ."
+          "commonMistake": "Viết hai từ rời sprint goal, không viết liền thành \"sprintgoal\"."
         },
         {
           "word": "on track",
@@ -100,7 +100,7 @@
             "remove a dependency"
           ],
           "example": "We have a dependency on the platform team.",
-          "commonMistake": "Nói a dependency on, không nói dependency of."
+          "commonMistake": "Nói a dependency on the platform team, không nói dependency to."
         },
         {
           "word": "ETA",
@@ -112,19 +112,19 @@
             "what is the ETA"
           ],
           "example": "Could you give me an ETA for the fix?",
-          "commonMistake": "Đọc từng chữ cái: E-T-A."
+          "commonMistake": "Đọc từng chữ cái /ˌiː.tiːˈeɪ/ (E-T-A), không đọc thành một từ."
         },
         {
-          "word": "pair up",
-          "ipa": "/per ʌp/",
-          "definition": "làm việc cùng nhau",
-          "technicalMeaning": "Hai người cùng làm một việc để gỡ vướng mắc.",
+          "word": "pair with",
+          "ipa": "/per wɪð/",
+          "definition": "làm việc cặp cùng",
+          "technicalMeaning": "Hai người cùng làm một việc (pair programming) để gỡ vướng mắc.",
           "collocations": [
-            "pair up with",
-            "pair up on"
+            "pair with a teammate",
+            "pair on a bug"
           ],
-          "example": "I will pair up with Dev on the tests.",
-          "commonMistake": "Nói pair up with + người."
+          "example": "I will pair with Dev on the tests.",
+          "commonMistake": "Nói pair with + người, không nói pair to."
         }
       ],
       "expressions": [
@@ -218,9 +218,10 @@
           "type": "fill",
           "question": "Sửa lỗi: câu \"I am blocked of the review.\" dùng sai một giới từ. Điền giới từ đúng thay cho \"of\".",
           "correctAnswer": [
-            "by"
+            "by",
+            "on"
           ],
-          "explanation": "Blocked by + nguyên nhân."
+          "explanation": "Blocked by/on + nguyên nhân."
         },
         {
           "id": "dsb-order",
@@ -286,18 +287,22 @@
         {
           "id": "dsb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Our ___ is to release the new search page.",
+          "question": "Điền từ còn thiếu (mục tiêu sprint): Our ___ is to release the new search page.",
           "correctAnswer": [
-            "sprint goal"
+            "sprint goal",
+            "goal",
+            "aim"
           ],
           "explanation": "\"sprint goal\" nghĩa là mục tiêu sprint."
         },
         {
           "id": "dsb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The export feature is ___ for Friday.",
+          "question": "Điền từ còn thiếu (đúng tiến độ): The export feature is ___ for Friday.",
           "correctAnswer": [
-            "on track"
+            "on track",
+            "on schedule",
+            "scheduled"
           ],
           "explanation": "\"on track\" nghĩa là đúng tiến độ."
         }
@@ -311,7 +316,7 @@
     "scenario": "Tình huống mô phỏng: bạn cập nhật cho một distributed engineering team bằng quy ước ba phần của nhóm.",
     "baselinePrompt": "Trong 30–60 giây, dùng quy ước nhóm yesterday, today và blocker mà chưa xem model/chunks.",
     "performancePrompt": "Trong 30–60 giây, nói bằng tiếng Anh và dùng facts chính: Sprint Goal progress, completed outcome, priority/expected result, blocker impact và next action.",
-    "modelResponse": "Signup validation and tests are complete, moving us toward the partner-beta Sprint Goal. Today, I will deploy to staging and reproduce the payment timeout so we can identify the failing dependency. Dashboard access is blocking the comparison, so I asked Platform and will pair with Linh if access is delayed. I have no other blockers right now.",
+    "modelResponse": "Signup validation and tests are complete, which moves us toward the partner-beta Sprint Goal. Today, I will deploy to staging and reproduce the payment timeout so we can identify the failing dependency. I am blocked by payment dashboard access, which prevents the provider comparison. I have asked Platform, and meanwhile I will pair with Linh if access is delayed. I have no other blockers right now, so the rest of the plan stays on track.",
     "retryPrompt": "Trong 30–60 giây, dùng search-index case mới và sửa criterion cần tập trung.",
     "transferPrompt": "Trong 30–60 giây, không xem model/chunks: cập nhật incident 503 với plan, estimate và collaborator.",
     "reviewPrompt": "Trong 30–60 giây, từ brief mới, deliver a concise standup linked to the Sprint Goal, with no blocker and one risk.",
@@ -325,7 +330,7 @@
             "type": "source",
             "title": "Work notes",
             "format": "meeting-notes",
-            "content": "Sprint Goal: make signup and payment ready for partner beta. Done: signup validation + tests. Today: deploy + reproduce payment timeout so the team can identify the failing dependency. Blocker: dashboard access. Asked Platform; pair with Linh if delayed.",
+            "content": "Sprint Goal: make signup and payment ready for partner beta. Done: signup validation + tests. Today: deploy + reproduce payment timeout so the team can identify the failing dependency. Blocker: dashboard access, which prevents provider comparison. Asked Platform; pair with Linh if delayed.",
             "provenance": {
               "origin": "synthetic",
               "sourceIds": [
@@ -513,10 +518,10 @@
             "question": "What is the fallback?",
             "options": [
               "Ask Linh to approve access",
-              "Pair with Linh",
-              "Access is delayed"
+              "Work together with Linh",
+              "Wait for the platform team"
             ],
-            "correctAnswer": "Pair with Linh"
+            "correctAnswer": "Work together with Linh"
           }
         ],
         "training": [
@@ -590,8 +595,8 @@
             },
             "question": "What makes this actionable?",
             "options": [
-              "A complaint with no next step",
-              "A vague concern",
+              "Request but no fallback",
+              "Fallback but no request",
               "Request plus fallback"
             ],
             "correctAnswer": "Request plus fallback",
@@ -686,11 +691,11 @@
             },
             "question": "What blocks verification?",
             "options": [
-              "Verification",
+              "Missing test data",
               "A slow code review queue",
-              "Test credentials"
+              "Credentials for testing"
             ],
-            "correctAnswer": "Test credentials"
+            "correctAnswer": "Credentials for testing"
           },
           {
             "id": "stand-post-4",

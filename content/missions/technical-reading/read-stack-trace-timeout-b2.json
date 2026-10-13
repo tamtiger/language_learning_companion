@@ -38,17 +38,17 @@
         {
           "id": "trace",
           "heading": "Stack trace from the worker",
-          "content": "TimeoutError: query exceeded 30000 ms\n    at Pool.query (db/pool.js:88)\n    at loadOrders (reports/orders.js:41)\n    at buildMonthlyReport (reports/monthly.js:17)\n    at handleExport (api/export.js:63)\nCaused by: statement timeout on connection 12. The top frame, Pool.query, shows where the error was raised, but the useful clue is the second frame: loadOrders loads every order of the month in one query, with no limit and no filter by date index."
+          "content": "TimeoutError: query exceeded 30000 ms\n    at Pool.query (db/pool.js:88)\n    at loadOrders (reports/orders.js:41)\n    at buildMonthlyReport (reports/monthly.js:17)\n    at handleExport (api/export.js:63)\nCaused by: statement timeout on connection 12. The top frame, Pool.query, shows where the error was raised, but the useful clue is the second frame: loadOrders runs one query for the whole month, and the code has no row limit."
         },
         {
           "id": "metrics",
           "heading": "Database metrics",
-          "content": "Between 13:50 and 14:10 the primary database CPU was between forty and fifty percent, which is normal. Connections in use were 38 of 50, which is higher than the usual 20, because slow exports keep their connections open for thirty seconds. The orders table has 2.4 million rows. The index on created_at exists, but the query in loadOrders sorts by customer name first, so the database cannot use that index. Weekly reports are fast because they read about fifty thousand rows."
+          "content": "Between 13:50 and 14:10 the primary database CPU was between forty and fifty percent, which is normal. Connections in use were 38 of 50, which is higher than the usual 20; slow exports keep their connections open for thirty seconds. The orders table has 2.4 million rows, and the log shows the monthly query reading rows=2400000, so it scans the whole table. The index on created_at exists. The engineer suspects that the sort by customer name stops the database from using that index, but this is not confirmed. Weekly reports are fast; they read about fifty thousand rows."
         },
         {
           "id": "deploys",
           "heading": "Recent deploy history",
-          "content": "Tuesday 10:12: export-service 4.2.0 released. Change: monthly report now includes customer names, which needs a join with the customers table. Tuesday 16:40: no further changes. Previous release 4.1.3 was on Thursday last week. The first timeout in the logs appears on Tuesday at 10:31, about twenty minutes after the 4.2.0 release. No infrastructure changes were made this week, and the database version is unchanged since March."
+          "content": "Tuesday 10:12: export-service 4.2.0 released. Change: monthly report now includes customer names, which needs a join with the customers table. Tuesday 13:30: no further changes. Previous release 4.1.3 was on Thursday last week. The first timeout in the logs appears on Tuesday at 10:31, about twenty minutes after the 4.2.0 release. No infrastructure changes were made this week, and the database version is unchanged since March."
         },
         {
           "id": "notes",
@@ -63,7 +63,7 @@
           "question": "What is the main problem in this incident?",
           "options": [
             "Monthly report exports time out",
-            "The database is down for the team",
+            "The database is down",
             "Users cannot log in"
           ],
           "correctAnswer": [
@@ -81,7 +81,7 @@
             "question": "How long does a failing export wait before it fails?",
             "options": [
               "Thirty seconds",
-              "Three seconds for the team",
+              "Three seconds",
               "Three minutes"
             ],
             "correctAnswer": [
@@ -112,16 +112,16 @@
           "exercise": {
             "id": "rst-q3",
             "type": "choice",
-            "question": "Why can the database not use the created_at index?",
+            "question": "What do the metrics confirm about the created_at index?",
             "options": [
-              "The query sorts by customer name first",
-              "The index does not exist for the team right now",
-              "The table is too small"
+              "The index exists, but it is not confirmed that the query uses it",
+              "The index is missing from the orders table",
+              "The sort by customer name is confirmed to block the index"
             ],
             "correctAnswer": [
-              "The query sorts by customer name first"
+              "The index exists, but it is not confirmed that the query uses it"
             ],
-            "explanation": "Phần metrics giải thích lý do."
+            "explanation": "Metrics nói index tồn tại; việc sort chặn index mới chỉ là phỏng đoán cho đến khi xem query plan."
           }
         },
         {
@@ -132,8 +132,8 @@
             "question": "When did the first timeout appear?",
             "options": [
               "About twenty minutes after release 4.2.0",
-              "Before release 4.2.0 for the team right now",
-              "After the weekend at work"
+              "Twenty minutes before release 4.2.0",
+              "After release 4.1.3 on Thursday"
             ],
             "correctAnswer": [
               "About twenty minutes after release 4.2.0"
@@ -150,7 +150,7 @@
             "options": [
               "The join and sort block the index",
               "Weekly exports are fast",
-              "The table has 2.4 million rows for the team"
+              "The table has 2.4 million rows"
             ],
             "correctAnswer": [
               "The join and sort block the index"
@@ -175,7 +175,7 @@
             "the top frame"
           ],
           "example": "The stack trace shows where the error was raised.",
-          "commonMistake": "Viết stack trace thành hai từ."
+          "commonMistake": "Nói \"read a stack trace\"; không nói \"read a stack track\"."
         },
         {
           "word": "timeout",
@@ -204,14 +204,14 @@
         {
           "word": "correlate",
           "ipa": "/ˈkɔːr.ə.leɪt/",
-          "definition": "có liên quan về thời gian",
-          "technicalMeaning": "Hai sự kiện xảy ra cùng lúc nhưng chưa chắc có quan hệ nhân quả.",
+          "definition": "có tương quan (với)",
+          "technicalMeaning": "Hai sự kiện thay đổi cùng nhau (thường cùng thời điểm) nhưng chưa chắc có quan hệ nhân quả.",
           "collocations": [
             "correlate with",
             "a correlation"
           ],
           "example": "The timeouts correlate with the release.",
-          "commonMistake": "Nói correlate with."
+          "commonMistake": "Nói \"correlate with\"; không nói \"correlate to\"."
         },
         {
           "word": "query plan",
@@ -277,7 +277,7 @@
           "options": [
             "The logs show a timeout after thirty seconds.",
             "The join probably breaks the index.",
-            "The developer must have forgotten a limit. for the team"
+            "The developer must have forgotten a limit."
           ],
           "correctAnswer": [
             "The logs show a timeout after thirty seconds."
@@ -343,32 +343,37 @@
             },
             {
               "key": "correlate",
-              "value": "có liên quan về thời gian"
+              "value": "có tương quan (với)"
             }
           ],
           "correctAnswer": [
             "stack trace - dấu vết ngăn xếp lỗi",
             "timeout - quá thời gian chờ",
             "observed - đã quan sát được",
-            "correlate - có liên quan về thời gian"
+            "correlate - có tương quan (với)"
           ],
           "explanation": "Ôn lại các từ đã học trong bài này."
         },
         {
           "id": "rsttb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ shows where the error was raised.",
+          "question": "Điền từ còn thiếu (dấu vết ngăn xếp lỗi): The ___ shows where the error was raised.",
           "correctAnswer": [
-            "stack trace"
+            "stack trace",
+            "stacktrace",
+            "stack-trace"
           ],
           "explanation": "\"stack trace\" nghĩa là dấu vết ngăn xếp lỗi."
         },
         {
           "id": "rsttb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We ___ that weekly exports are fast.",
+          "question": "Điền từ còn thiếu (đã quan sát được): We ___ that weekly exports are fast.",
           "correctAnswer": [
-            "observed"
+            "observed",
+            "noticed",
+            "saw",
+            "found"
           ],
           "explanation": "\"observed\" nghĩa là đã quan sát được."
         }
@@ -384,7 +389,7 @@
     "performancePrompt": "Write a short diagnosis in English, 60 to 120 words: what the evidence shows, your hypothesis and the next check.",
     "modelResponse": "Diagnosis for incident 2291. Observed: monthly report exports time out after thirty seconds, about one in four requests fails, weekly exports are fast, and the first timeout appeared twenty minutes after release 4.2.0. The stack trace points to loadOrders, which reads 2.4 million rows with no limit. Hypothesis: the new join with customer names and the sort by name prevent the use of the created_at index. This is not confirmed yet. Next check: run EXPLAIN on the query and test a version that filters by date before the join.",
     "retryPrompt": "Write the diagnosis again in English. Keep the structure and mark guesses more clearly.",
-    "transferPrompt": "Write a diagnosis for a different failure, using observed facts, a hypothesis and a next check.",
+    "transferPrompt": "Write a diagnosis for a different incident, using observed facts, a hypothesis and a next check.",
     "reviewPrompt": "Write a diagnosis for another failure without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -396,7 +401,7 @@
             "type": "source",
             "title": "Export timeout evidence",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Excerpt. 13:58:34 ERROR export request r-501 timeout after 30s. Trace: Pool.query, loadOrders, buildMonthlyReport. Table orders has 2.4 million rows. First timeout after release 4.2.0."
+            "content": "Synthetic training artifact — non-production. Excerpt. Incident 2291. Monthly report exports fail with a timeout after 30s; about one in four export requests fails; weekly exports are fast (51000 rows, 0.9s). 13:58:34 ERROR export request r-501 timeout after 30s. Trace: Pool.query, loadOrders, buildMonthlyReport. Table orders has 2.4 million rows and loadOrders runs one query with no row limit. Release 4.2.0 added customer names with a join, and the first timeout appeared twenty minutes after it. Engineer note: the join and the sort by name may stop the database from using the created_at index; the query plan is not checked yet."
           }
         ]
       },
@@ -409,7 +414,7 @@
             "type": "source",
             "title": "Login failure evidence",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Excerpt. 09:05:11 ERROR auth login failed reason=certificate expired. Trace: verifyToken, loadKeys, fetchCertificate. Certificate expired at 09:00. Failures start at 09:01. No deploy this week."
+            "content": "Synthetic training artifact — non-production. Excerpt. 09:05:11 ERROR auth login failed reason=token invalid. Trace: verifyToken, loadKeys, fetchCertificate. Failures start at 09:01. No deploy this week. The certificate file was last changed in March."
           }
         ]
       },

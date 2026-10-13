@@ -7,6 +7,7 @@
   "learningObjectives": [
     "Nhận biết dấu trọng âm chính ˈ trong phiên âm broad General American",
     "Đối chiếu một thuật ngữ kỹ thuật với headword và phiên âm trong mục từ điển",
+    "Nhận biết ý nghĩa của dấu chấm ngăn âm tiết, ký hiệu t̬ và ɚ trong phiên âm",
     "Giải thích vì sao phiên âm tham chiếu không phải là cách phát âm tiếng Anh hợp lệ duy nhất"
   ],
   "vocabulary": [
@@ -17,7 +18,7 @@
       "technicalMeaning": "A software engineer who builds applications, services, or tools.",
       "collocations": ["frontend developer", "backend developer", "lead developer"],
       "example": "He works as a backend developer at a tech company.",
-      "commonMistake": "Do not assign stress from spelling alone. Check the U.S. dictionary entry and locate the primary-stress mark before using the word."
+      "commonMistake": "Do not assign stress from spelling alone. Check the U.S. dictionary entry and locate the primary-stress mark before using the word. Người nói tiếng Việt hay đọc đều cả bốn âm tiết (de-ve-lo-per); trong phiên âm, âm tiết /vel/ mạnh nhất còn /ə/ và /pɚ/ phải ngắn và yếu."
     },
     {
       "word": "database",
@@ -26,7 +27,7 @@
       "technicalMeaning": "A storage system (SQL or NoSQL) that organizes and manages data.",
       "collocations": ["relational database", "query a database", "database administrator"],
       "example": "The application queries the database for user profile details.",
-      "commonMistake": "In this reference form, the word ends in /s/. Do not add a vowel after the final consonant."
+      "commonMistake": "Người nói tiếng Việt hay nuốt phụ âm cuối nên database bị đọc thành /ˈdeɪ.t̬ə.beɪ/. Hãy đọc rõ /s/ ở cuối từ, đừng để từ kết thúc ở /beɪ/."
     }
   ],
   "expressions": [
@@ -41,7 +42,7 @@
   "reading": {
     "title": "[Tình huống mô phỏng] Kiểm tra cách đọc trước buổi demo",
     "sourceType": "Tình huống mô phỏng",
-    "content": "Before a cross-team demo, Linh sees the words developer and database in the agenda. Instead of guessing from spelling, she opens a trusted dictionary, selects the U.S. entry, and checks the primary-stress mark. She treats the device voice as a synthetic aid, not as a human accent sample. The broad General American transcription is a reference for this lesson, not the only acceptable English pronunciation."
+    "content": "Before a cross-team demo, Linh sees the words developer and database in the agenda. Instead of guessing from spelling, she opens a trusted dictionary, selects the U.S. entry, and checks the primary-stress mark. She treats the device voice as a synthetic aid, not as a human accent sample. The broad General American transcription is a reference for this lesson, not the only acceptable English pronunciation.\n\nSymbol notes: a dot (.) separates syllables; t̬ is a /t/ made as a very quick tap between vowels, as in database; ɚ is a vowel with an r-sound, as in developer."
   },
   "exercises": [
     {
@@ -80,14 +81,28 @@
     {
       "id": "q3",
       "type": "choice",
-      "question": "Ký hiệu nào đặt trước âm tiết mang trọng âm chính?",
+      "question": "Trong /dɪˈvel.ə.pɚ/, âm tiết nào mang trọng âm chính?",
       "options": [
-        "ˈ (primary stress)",
-        "ˌ (secondary stress)",
-        "ː (âm dài)"
+        "dɪ (âm tiết đầu)",
+        "vel (âm tiết thứ hai)",
+        "ə (âm tiết thứ ba)",
+        "pɚ (âm tiết cuối)"
       ],
-      "correctAnswer": ["ˈ (primary stress)"],
-      "explanation": "ˈ đánh dấu primary stress; ˌ thường đánh dấu secondary stress."
+      "correctAnswer": ["vel (âm tiết thứ hai)"],
+      "explanation": "Dấu ˈ đứng ngay trước vel nên âm tiết thứ hai mang trọng âm chính; các âm tiết còn lại, nhất là /ə/ và /pɚ/, đọc nhẹ và ngắn."
+    },
+    {
+      "id": "q4",
+      "type": "choice",
+      "question": "Ký hiệu t̬ trong /ˈdeɪ.t̬ə.beɪs/ cho biết điều gì?",
+      "options": [
+        "Âm /t/ bật rất nhanh giữa hai nguyên âm (tap)",
+        "Âm /t/ bị bỏ hẳn khi nói",
+        "Âm /t/ bật mạnh, có hơi như đầu từ top",
+        "Âm /t/ kéo dài thành hai âm tiết"
+      ],
+      "correctAnswer": ["Âm /t/ bật rất nhanh giữa hai nguyên âm (tap)"],
+      "explanation": "t̬ là cách ghi /t/ được đọc rất nhanh giữa hai nguyên âm trong General American; nó vẫn là một phụ âm, không bị bỏ và không tạo thêm âm tiết."
     }
   ]
 }

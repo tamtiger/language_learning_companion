@@ -65,7 +65,7 @@
             "sounds like a plan"
           ],
           "example": "That sounds like fun!",
-          "commonMistake": "Nói sounds like + danh từ, không nói sounds like to."
+          "commonMistake": "Nói \"sounds like\" + danh từ hoặc mệnh đề; trước tính từ có thể bỏ like: \"That sounds fun.\""
         },
         {
           "word": "by the way",
@@ -77,7 +77,7 @@
             "oh, by the way"
           ],
           "example": "By the way, did you see the new menu?",
-          "commonMistake": "Dùng by the way, không dùng in the way."
+          "commonMistake": "Đặt \"by the way\" ở đầu câu rồi thêm dấu phẩy; tránh dùng trong văn bản trang trọng."
         },
         {
           "word": "I should get back",
@@ -139,7 +139,7 @@
         {
           "id": "smt-reply",
           "type": "choice",
-          "question": "Which reply keeps the conversation going?",
+          "question": "Câu trả lời nào giúp cuộc trò chuyện tiếp tục?",
           "options": [
             "It was good. I went hiking. How about you?",
             "Fine, thanks. Nothing much to say.",
@@ -153,10 +153,10 @@
         {
           "id": "smt-end",
           "type": "choice",
-          "question": "Which sentence ends the chat politely?",
+          "question": "Câu nào kết thúc cuộc trò chuyện lịch sự?",
           "options": [
             "It was good to catch up. I should get back to work.",
-            "Stop talking, please, I am busy.",
+            "Stop talking, please, I am too busy to chat with anyone.",
             "I am leaving now, bye then."
           ],
           "correctAnswer": [
@@ -167,7 +167,7 @@
         {
           "id": "smt-fill",
           "type": "fill",
-          "question": "Điền từ: That sounds ___ fun!",
+          "question": "Điền từ: That sounds ___ a fun weekend!",
           "correctAnswer": [
             "like"
           ],
@@ -237,7 +237,7 @@
         {
           "id": "wstb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I had a relaxing ___.",
+          "question": "Điền từ còn thiếu (cuối tuần): I had a relaxing ___.",
           "correctAnswer": [
             "weekend"
           ],
@@ -246,9 +246,11 @@
         {
           "id": "wstb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: It was good to ___ with you.",
+          "question": "Điền từ còn thiếu (hỏi thăm, cập nhật chuyện): It was good to ___ with you.",
           "correctAnswer": [
-            "catch up"
+            "catch up",
+            "chat",
+            "talk"
           ],
           "explanation": "\"catch up\" nghĩa là hỏi thăm, cập nhật chuyện."
         }
@@ -260,11 +262,11 @@
     "mode": "spoken",
     "title": "Keep a short small talk going",
     "scenario": "Sáng thứ Hai ở máy pha cà phê, đồng nghiệp hỏi cuối tuần của bạn; bạn trò chuyện ngắn rồi quay lại làm việc.",
-    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng 40 giây: trả lời bằng một chi tiết, hỏi lại đồng nghiệp, phản ứng và kết thúc lịch sự. Chưa xem bài mẫu.",
-    "performancePrompt": "Speak in English for about 40 seconds: answer with one detail, ask your colleague a question, react to the answer and end the chat politely.",
-    "modelResponse": "It was great, thanks. I went hiking with some friends on Saturday, and the weather was perfect. On Sunday, I just rested and cooked a big lunch. How about you? Did you do anything fun? Oh, that sounds like fun! Where did you go, and how long did it take to get there? By the way, did you try the new coffee flavor in the kitchen? I heard it is quite good. Anyway, it was good to catch up. I should get back to my tasks, but let us have lunch together this week.",
+    "baselinePrompt": "Nói bằng tiếng Anh trong khoảng 45 đến 60 giây: trả lời bằng một chi tiết, hỏi lại đồng nghiệp, phản ứng và kết thúc lịch sự. Chưa xem bài mẫu.",
+    "performancePrompt": "Speak in English for about 45 to 60 seconds: answer with one detail, ask your colleague a question, react to the answer and end the chat politely.",
+    "modelResponse": "It was great, thanks. I went hiking with some friends on Saturday, and the weather was perfect. On Sunday, I just rested and cooked a big lunch. How about you? Oh, that sounds like fun! Two hours is quite a long drive. Did you stay overnight? By the way, did you try the new coffee flavor in the kitchen? I heard it is quite good. Anyway, it was good to catch up. I should get back to my tasks, but let us have lunch together this week.",
     "retryPrompt": "Speak again in English. Keep the same order and ask a more interesting question.",
-    "transferPrompt": "Make small talk in a different moment, such as before a meeting starts.",
+    "transferPrompt": "Make small talk in a different moment, such as in the lunch queue with a new colleague.",
     "reviewPrompt": "Make small talk with a new colleague without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +278,7 @@
             "type": "source",
             "title": "Weekend chat at the coffee machine",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: near the coffee machine on Monday morning. Colleague: Hi, how was your weekend?"
+            "content": "Synthetic training artifact — non-production. Setting: near the coffee machine on Monday morning. Colleague: Hi, how was your weekend? Your weekend: you went hiking with some friends on Saturday and the weather was perfect; on Sunday you rested and cooked a big lunch. After you ask back, the colleague says: I went to a lake with my family. It took two hours to drive there. There is a new coffee flavor in the kitchen, and you heard it is quite good."
           }
         ]
       },
@@ -289,7 +291,7 @@
             "type": "source",
             "title": "Chat before a meeting",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: a video call that has not started. Colleague: Hi! Are you ready for the meeting? Everyone else is late."
+            "content": "Synthetic training artifact — non-production. Setting: a video call that has not started. Colleague: Hi! Are you ready for the meeting? Everyone else is late. After your reply, the colleague says: I was busy preparing slides all morning."
           }
         ]
       },
@@ -302,7 +304,7 @@
             "type": "source",
             "title": "Chat in the lunch queue",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: lunch queue. New colleague: This place is busy today. Have you eaten here before?"
+            "content": "Synthetic training artifact — non-production. Setting: lunch queue. New colleague: This place is busy today. Have you eaten here before? After your reply, the colleague says: I joined last week, so I am still learning where everything is."
           }
         ]
       },
@@ -315,7 +317,7 @@
             "type": "source",
             "title": "Chat after a team event",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: after the quarterly team event. Colleague: That was a nice evening. Did you enjoy the activity?"
+            "content": "Synthetic training artifact — non-production. Setting: after the quarterly team event. Colleague: That was a nice evening. Did you enjoy the activity? After your reply, the colleague says: I loved the cooking game. My team won by two points."
           }
         ]
       }
@@ -391,7 +393,7 @@
             "question": "What is the speaker doing?",
             "options": [
               "Starting a friendly chat",
-              "Giving a work order for the team",
+              "Asking for a status update",
               "Ending a meeting"
             ],
             "correctAnswer": "Starting a friendly chat"
@@ -409,8 +411,8 @@
             "question": "What did the speaker do?",
             "options": [
               "An outdoor activity",
-              "A work project",
-              "A long trip abroad for the team"
+              "A work project at home",
+              "A long trip abroad"
             ],
             "correctAnswer": "An outdoor activity"
           },
@@ -428,8 +430,8 @@
             "question": "How does the speaker react?",
             "options": [
               "With interest",
-              "With anger",
-              "With boredom for the team"
+              "With surprise",
+              "With boredom"
             ],
             "correctAnswer": "With interest"
           },
@@ -446,7 +448,7 @@
             "question": "What is the speaker doing?",
             "options": [
               "Ending the chat kindly",
-              "Starting a new topic for the team",
+              "Starting a new work topic",
               "Asking for a favor"
             ],
             "correctAnswer": "Ending the chat kindly"
@@ -466,8 +468,8 @@
             "question": "What does the speaker ask?",
             "options": [
               "A question in return",
-              "A favor at work",
-              "The time for the team"
+              "A request for some help",
+              "A change of topic"
             ],
             "correctAnswer": "A question in return",
             "feedback": "And you? hỏi lại người kia."
@@ -524,8 +526,8 @@
             "question": "What does the speaker do?",
             "options": [
               "Changes the topic gently",
-              "Says goodbye",
-              "Gives a warning for the team"
+              "Says goodbye and walks away",
+              "Gives a warning"
             ],
             "correctAnswer": "Changes the topic gently",
             "feedback": "By the way chuyển chủ đề nhẹ nhàng."
@@ -544,8 +546,8 @@
             "question": "What is the speaker's experience?",
             "options": [
               "Only second-hand news",
-              "A personal taste for the team",
-              "A bad memory"
+              "A personal opinion",
+              "A bad experience"
             ],
             "correctAnswer": "Only second-hand news",
             "feedback": "I heard nghĩa là nghe nói."
@@ -563,7 +565,7 @@
             "question": "What is suggested?",
             "options": [
               "A future meal together",
-              "A cancelled meeting for the team",
+              "A cancelled team meeting",
               "A work report"
             ],
             "correctAnswer": "A future meal together",
@@ -584,7 +586,7 @@
             "question": "What is the speaker asking?",
             "options": [
               "How things are going",
-              "Where the exit is for the team",
+              "Where the exit is",
               "What time it is"
             ],
             "correctAnswer": "How things are going"
@@ -621,7 +623,7 @@
             "question": "What does the speaker want to know?",
             "options": [
               "Their feelings about it",
-              "The project budget for the team",
+              "The project budget",
               "The next deadline"
             ],
             "correctAnswer": "Their feelings about it"
@@ -650,7 +652,7 @@
         {
           "id": "smt-cue-weekend",
           "articulatoryCue": "Nhấn âm đầu của weekend và hiking để câu trả lời nghe tự nhiên.",
-          "meaningRisk": "Nhấn sai làm hiking nghe giống một từ khác.",
+          "meaningRisk": "Nhấn sai âm tiết làm weekend và hiking khó nhận ra.",
           "triggerItemIds": [
             "smt-pre-1",
             "smt-pre-2"
@@ -658,7 +660,7 @@
         },
         {
           "id": "smt-cue-sounds",
-          "articulatoryCue": "Lên giọng ở câu hỏi sau sounds like và kéo dài âm của sounds.",
+          "articulatoryCue": "Nhấn rõ từ fun trong \"That sounds like fun!\" rồi xuống giọng ở cuối câu hỏi \"Where did you go?\".",
           "meaningRisk": "Giọng phẳng làm phản ứng nghe thiếu quan tâm.",
           "triggerItemIds": [
             "smt-pre-3",

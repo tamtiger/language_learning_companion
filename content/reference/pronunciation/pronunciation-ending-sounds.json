@@ -1,13 +1,14 @@
 {
   "schemaVersion": "v1",
   "lessonId": "pronunciation-ending-sounds",
-  "title": "Nhận diện cách đọc đuôi -ed trong General American",
+  "title": "Nhận diện cách đọc đuôi -ed và -s/-es trong General American",
   "cefrLevel": "B1",
   "durationMinutes": 15,
   "learningObjectives": [
     "Phân loại ba cách đọc phổ biến của regular -ed: /t/, /d/ và /ɪd/",
-    "Dùng âm cuối của base verb để giải thích cách phân loại fixed, deployed và tested",
-    "Nhận biết khi -ed tạo thêm một âm tiết thay vì suy luận trực tiếp từ spelling"
+    "Dùng âm cuối của base verb để giải thích cách phân loại fixed, deployed, tested, cached, logged và queued",
+    "Phân loại ba cách đọc của đuôi -s/-es: /s/, /z/ và /ɪz/ trong servers, fixes và tests",
+    "Nhận biết khi đuôi tạo thêm một âm tiết thay vì suy luận trực tiếp từ spelling"
   ],
   "vocabulary": [
     {
@@ -17,7 +18,7 @@
       "technicalMeaning": "Resolved a software bug or issue in the codebase.",
       "collocations": ["fixed a bug", "fixed the crash"],
       "example": "He fixed the memory leak in the production build.",
-      "commonMistake": "The regular -ed ending is /t/ after the voiceless /s/ in fix. Do not add a separate vowel after it."
+      "commonMistake": "Người nói tiếng Việt hay bỏ hoặc nuốt phụ âm cuối nên fixed bị đọc thành /fɪk/ hoặc /fɪks/. Hãy đọc đủ cụm /kst/: /k/, rồi /s/, rồi /t/ ở cuối cùng; regular -ed ở đây là /t/ vì fix kết thúc bằng âm vô thanh /s/."
     },
     {
       "word": "deployed",
@@ -26,7 +27,7 @@
       "technicalMeaning": "Released software updates to a server, cloud environment, or app store.",
       "collocations": ["deployed to production", "deployed successfully"],
       "example": "We deployed the new API updates yesterday afternoon.",
-      "commonMistake": "Deploy ends in a voiced sound, so regular -ed is /d/ in this reference form; it is not a separate /ɪd/ syllable."
+      "commonMistake": "Deploy ends in a voiced sound, so regular -ed is /d/ in this reference form; it is not a separate /ɪd/ syllable. Người học hay bỏ /d/ cuối (deployed thành /dɪˈplɔɪ/); hãy đọc /d/ ngắn, nhẹ nhưng có mặt."
     },
     {
       "word": "tested",
@@ -35,7 +36,61 @@
       "technicalMeaning": "Ran one or more checks against software behavior or a release candidate.",
       "collocations": ["tested the patch", "tested in staging"],
       "example": "We tested the patch in Chrome and Firefox.",
-      "commonMistake": "Because test ends in /t/, regular -ed adds the syllable /ɪd/ in this reference form."
+      "commonMistake": "Because test ends in /t/, regular -ed adds the syllable /ɪd/ in this reference form. Hãy đọc đủ hai âm tiết /tes/ và /tɪd/, đừng nuốt thành /tes/ hoặc /test/."
+    },
+    {
+      "word": "cached",
+      "ipa": "/kæʃt/",
+      "definition": "Stored a copy of data so it can be used again quickly.",
+      "technicalMeaning": "Kept a copy of data or a response in fast storage to avoid repeated work.",
+      "collocations": ["cached response", "cached the result"],
+      "example": "The service cached the response for five minutes.",
+      "commonMistake": "Spelling ends in -ed after e, but cache ends in the voiceless sound /ʃ/, so -ed is /t/ and the word has one syllable. Đừng đọc thành hai âm tiết /kæ.ʃɪd/."
+    },
+    {
+      "word": "logged",
+      "ipa": "/lɑːɡd/",
+      "definition": "Recorded an event or message in a log.",
+      "technicalMeaning": "Wrote an event, error or message to an application or system log.",
+      "collocations": ["logged an error", "logged in"],
+      "example": "The API logged an error before it restarted.",
+      "commonMistake": "Log ends in the voiced sound /ɡ/, so -ed is /d/. Cụm /ɡd/ ở cuối cũng hay bị bỏ mất /d/; hãy đọc đủ và giữ một âm tiết."
+    },
+    {
+      "word": "queued",
+      "ipa": "/kjuːd/",
+      "definition": "Put something in a waiting line to be handled later.",
+      "technicalMeaning": "Added a job or message to a queue for later processing.",
+      "collocations": ["queued a job", "queued for processing"],
+      "example": "The worker queued the email job after the upload.",
+      "commonMistake": "Queue ends in a vowel, which is voiced, so -ed is /d/ and the word has one syllable. Đừng đọc thành /kjuː/ vì sẽ mất dấu hiệu thì quá khứ."
+    },
+    {
+      "word": "servers",
+      "ipa": "/ˈsɝː.vɚz/",
+      "definition": "Computers or programs that provide a service to other computers.",
+      "technicalMeaning": "Machines or processes that handle requests from clients.",
+      "collocations": ["web servers", "restart the servers"],
+      "example": "We restarted both servers after the update.",
+      "commonMistake": "Server ends in the voiced sound /ɚ/, so plural -s is /z/, not /s/. Người nói tiếng Việt hay bỏ âm cuối số nhiều nên server và servers nghe giống nhau; hãy giữ /z/ ở cuối."
+    },
+    {
+      "word": "fixes",
+      "ipa": "/ˈfɪk.sɪz/",
+      "definition": "Changes that repair problems.",
+      "technicalMeaning": "Patches or commits that resolve bugs; also the third-person form of the verb fix.",
+      "collocations": ["bug fixes", "ships fixes"],
+      "example": "The release includes three fixes for the login flow.",
+      "commonMistake": "Fix ends in the sibilant /s/, so -es adds a syllable: /ɪz/. Đừng đọc fixes thành /fɪks/; phải có hai âm tiết."
+    },
+    {
+      "word": "queries",
+      "ipa": "/ˈkwɪr.iz/",
+      "definition": "Requests for information from a database.",
+      "technicalMeaning": "Requests sent to a database or search system; also the verb form that means runs such requests.",
+      "collocations": ["slow queries", "run queries"],
+      "example": "Two slow queries caused the timeout.",
+      "commonMistake": "Query becomes queries with -ies, but the ending is still a voiced /z/ after a vowel. Không đọc thành /kwɪr.is/ và đừng nuốt /z/."
     }
   ],
   "expressions": [
@@ -50,34 +105,34 @@
   "reading": {
     "title": "[Tình huống mô phỏng] Release update",
     "sourceType": "Tình huống mô phỏng",
-    "content": "Reference rule (use the base verb's final sound, not its spelling): /ɪd/ after /t/ or /d/; /t/ after a voiceless sound except /t/; /d/ after a voiced sound except /d/, including vowels.\n\nRelease update — 16:30\nFixed: the login redirect loop.\nTested: the patch in Chrome and Firefox.\nDeployed: build 2.4.1 to staging.\nNext: monitor authentication errors for 30 minutes."
+    "content": "Reference rule for -ed (use the base verb's final sound, not its spelling): /ɪd/ after /t/ or /d/; /t/ after a voiceless sound except /t/; /d/ after a voiced sound except /d/, including vowels.\nReference rule for -s/-es: /ɪz/ after /s z ʃ ʒ tʃ dʒ/; /s/ after other voiceless sounds; /z/ after voiced sounds, including vowels.\n\nRelease update — 16:30\nFixed: the login redirect loop.\nTested: the patch in Chrome and Firefox.\nDeployed: build 2.4.1 to staging.\nCached: the config response for five minutes.\nNext: monitor authentication errors for 30 minutes."
   },
   "exercises": [
     {
       "id": "e2-1",
       "type": "choice",
-      "question": "Trong broad General American, regular -ed trong fixed được phân loại thành allomorph nào?",
+      "question": "Trong broad General American, regular -ed trong fixed được phân loại thành cách đọc nào?",
       "options": [
         "/ɪd/",
         "/t/",
         "/d/",
-        "/s/"
+        "/ed/"
       ],
       "correctAnswer": ["/t/"],
-      "explanation": "Base verb fix kết thúc bằng âm vô thanh /s/, nên regular -ed được phân loại là /t/."
+      "explanation": "Base verb fix kết thúc bằng âm vô thanh /s/, nên regular -ed được phân loại là /t/. Âm /t/ cuối này phải được đọc, không bỏ."
     },
     {
       "id": "e2-2",
       "type": "choice",
-      "question": "Trong broad General American, regular -ed trong deployed được phân loại thành allomorph nào?",
+      "question": "Trong broad General American, regular -ed trong deployed được phân loại thành cách đọc nào?",
       "options": [
         "/ɪd/",
         "/t/",
         "/d/",
-        "/z/"
+        "/ed/"
       ],
       "correctAnswer": ["/d/"],
-      "explanation": "Deploy kết thúc bằng một âm hữu thanh, nên regular -ed được phân loại là /d/."
+      "explanation": "Deploy kết thúc bằng một âm hữu thanh, nên regular -ed được phân loại là /d/ và không tạo thêm âm tiết."
     },
     {
       "id": "e2-3",
@@ -102,7 +157,58 @@
         "deployed - /d/",
         "tested - /ɪd/"
       ],
-      "explanation": "Chỉ tested có thêm syllable /ɪd/ trong ba ví dụ này vì test kết thúc bằng /t/."
+      "explanation": "Chỉ tested có thêm một âm tiết /ɪd/ trong ba ví dụ này vì test kết thúc bằng /t/."
+    },
+    {
+      "id": "e2-4",
+      "type": "choice",
+      "question": "Từ cached viết là -ed sau chữ e. Cách đọc đuôi -ed của nó là gì?",
+      "options": [
+        "/ɪd/, vì từ viết kết thúc bằng e rồi d",
+        "/t/, vì cache kết thúc bằng âm vô thanh /ʃ/",
+        "/d/, vì cache có chữ e câm ở cuối",
+        "/z/, vì cache là danh từ trong hệ thống"
+      ],
+      "correctAnswer": ["/t/, vì cache kết thúc bằng âm vô thanh /ʃ/"],
+      "explanation": "Phải dựa vào âm cuối của base verb, không dựa vào spelling: cache kết thúc bằng /ʃ/ vô thanh nên -ed là /t/ và cached là /kæʃt/, một âm tiết. Tương tự logged là /d/ (sau /ɡ/ hữu thanh) và queued là /d/ (sau nguyên âm)."
+    },
+    {
+      "id": "e2-5",
+      "type": "choice",
+      "question": "Trong fixes, đuôi -es được đọc thế nào?",
+      "options": [
+        "/s/",
+        "/z/",
+        "/ɪz/",
+        "/ɪs/"
+      ],
+      "correctAnswer": ["/ɪz/"],
+      "explanation": "Fix kết thúc bằng âm gió /s/ nên -es tạo thêm một âm tiết /ɪz/: /ˈfɪk.sɪz/. Đọc thành /fɪks/ làm mất dấu hiệu số nhiều hoặc ngôi thứ ba."
+    },
+    {
+      "id": "e2-6",
+      "type": "matching",
+      "question": "Nối mỗi từ với cách đọc đuôi -s/-es tham chiếu:",
+      "matchingPairs": [
+        {
+          "key": "servers",
+          "value": "/z/"
+        },
+        {
+          "key": "tests",
+          "value": "/s/"
+        },
+        {
+          "key": "fixes",
+          "value": "/ɪz/"
+        }
+      ],
+      "correctAnswer": [
+        "servers - /z/",
+        "tests - /s/",
+        "fixes - /ɪz/"
+      ],
+      "explanation": "Server kết thúc bằng âm hữu thanh /ɚ/ nên đuôi là /z/; test kết thúc bằng /t/ vô thanh nên đuôi là /s/; fix kết thúc bằng âm gió /s/ nên đuôi là /ɪz/ và tạo thêm một âm tiết."
     }
   ]
 }

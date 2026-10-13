@@ -6,6 +6,22 @@ Mọi thay đổi đáng chú ý của dự án được ghi tại đây theo c�
 
 Chưa có thay đổi nào được phát hành sau 1.2.0.
 
+## [1.2.1] - 2026-10-13
+
+Rà soát và sửa chất lượng nội dung 46 mission và 6 bài phát âm; không đổi schema hay giao diện.
+
+### Fixed
+
+- Sửa trọng âm và IPA sai trong các cue phát âm (clarify/requirements, expectations, competency, outcome, excited, responsible, allow list, symptom) và lời hướng dẫn âm cuối sai cho người nói tiếng Việt.
+- Bỏ các cụm đệm ("for the team", "at work", "right now") khỏi lựa chọn của bài tập; distractor nay là hiểu nhầm có thật nên không còn lộ đáp án.
+- Câu điền của phần ôn từ vựng có gợi ý nghĩa tiếng Việt và nhận các đáp án đồng nghĩa hợp lệ.
+- Đồng bộ số từ trong đề với hợp đồng đầu ra, `transferPrompt` với context transfer, và mẫu trả lời với dữ kiện có trong packet bài; sửa mâu thuẫn trong bài đọc stack trace và hội thoại nghe.
+- Sửa các lỗi tiếng Anh, bản dịch tiếng Việt và thứ tự bài tập trong báo cáo rà soát.
+
+### Added
+
+- Bài phát âm đuôi -s/-es, các lỗi đặc thù của người Việt và test chống tái phát `tests/content/contentRegression.test.ts`.
+
 ## [1.2.0] - 2026-10-12
 
 Gộp toàn bộ epic "learning-companion-remediation" (16 task) thành một bản phát hành.

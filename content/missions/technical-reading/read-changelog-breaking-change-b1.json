@@ -28,7 +28,7 @@
         {
           "id": "v3",
           "heading": "Version 3.0.0 (released 2026-02-10)",
-          "content": "Synthetic training artifact — non-production. This is a major release. BREAKING: the submit handler now receives one object with the form values instead of separate arguments. Code that wrote onSubmit(name, email) must change to onSubmit(values) and read values.name and values.email. BREAKING: Node 16 is no longer supported; use Node 18 or newer. Added: a new validate option that can run asynchronous checks, such as checking whether a username is already taken. Changed: error messages are now strings, not objects. A codemod is available to update most call sites automatically: run npx formkit-migrate and review the changes before you commit."
+          "content": "Synthetic training artifact — non-production. This is a major release. BREAKING: the submit handler now receives one object with the form values instead of separate arguments. Code that wrote onSubmit(name, email) must change to onSubmit(values) and read values.name and values.email. BREAKING: Node 16 is no longer supported; use Node 18 or newer. Added: the validate option can now run asynchronous checks, such as checking whether a username is already taken. Changed: error messages are now strings, not objects. A codemod is available to update most call sites automatically: run npx formkit-migrate and review the changes before you commit."
         },
         {
           "id": "v28",
@@ -38,7 +38,7 @@
         {
           "id": "v27",
           "heading": "Version 2.7.1 (released 2025-12-05)",
-          "content": "Fixed: a crash when a field was removed while its validation was still running. Fixed: the touched state was not reset when reset was called twice in a row. Fixed: a typing error in the TypeScript definition of the validate option, which accepted only synchronous functions. Documentation: added an example for multi-step forms and corrected the description of the dirty state. No API changes in this release, so it is safe to install without code changes."
+          "content": "Fixed: a crash when a field was removed while its validation was still running. Fixed: the touched state was not reset when reset was called twice in a row. Fixed: an error in the TypeScript type definition of the validate option, which accepted only synchronous functions. Documentation: added an example for multi-step forms and corrected the description of the dirty state. No API changes in this release, so it is safe to install without code changes."
         },
         {
           "id": "v27b",
@@ -76,7 +76,7 @@
             "question": "How must the submit handler change in 3.0.0?",
             "options": [
               "It receives one object with the values",
-              "It receives three arguments for the team",
+              "It still receives name and email, in a new order",
               "It is removed completely"
             ],
             "correctAnswer": [
@@ -93,7 +93,7 @@
             "question": "What happens to the old submit style in 2.8.0?",
             "options": [
               "It prints a deprecation warning",
-              "It stops working immediately for the team",
+              "It stops working and throws an error",
               "It becomes much faster"
             ],
             "correctAnswer": [
@@ -111,7 +111,7 @@
             "options": [
               "Yes, it has no API changes",
               "No, it needs a codemod",
-              "No, it requires Node 18 for the team"
+              "No, it requires Node 18 or newer"
             ],
             "correctAnswer": [
               "Yes, it has no API changes"
@@ -127,8 +127,8 @@
             "question": "What changed about the default debounce in 2.7.0?",
             "options": [
               "It doubled to 200 milliseconds",
-              "It was removed at work",
-              "It became 50 milliseconds for the team"
+              "It was removed, so you must set it yourself",
+              "It was halved to 50 milliseconds"
             ],
             "correctAnswer": [
               "It doubled to 200 milliseconds"
@@ -144,7 +144,7 @@
             "question": "What should you do before moving to 3.0.0?",
             "options": [
               "Upgrade to 2.8.0 and fix warnings",
-              "Delete the form tests for the team",
+              "Skip 2.8.0 and install 3.0.0 directly",
               "Switch to Node 16"
             ],
             "correctAnswer": [
@@ -174,7 +174,7 @@
         },
         {
           "word": "deprecated",
-          "ipa": "/ˈdep.rə.keɪ.t̬ɪd/",
+          "ipa": "/ˈdep.rə.keɪ.tɪd/",
           "definition": "đã bị khuyến cáo bỏ",
           "technicalMeaning": "Còn dùng được nhưng sẽ bị xóa trong tương lai.",
           "collocations": [
@@ -194,7 +194,7 @@
             "a codemod for"
           ],
           "example": "Run the codemod to update call sites.",
-          "commonMistake": "Codemod là một từ."
+          "commonMistake": "Viết codemod thành một từ, không viết \"code mod\"."
         },
         {
           "word": "migrate",
@@ -218,7 +218,7 @@
             "safe to upgrade"
           ],
           "example": "Version 2.7.1 is safe to install.",
-          "commonMistake": "Nói safe to + động từ."
+          "commonMistake": "Nói \"safe to install\" hoặc \"safe to upgrade\"; không nói \"safe for install\"."
         }
       ],
       "expressions": [
@@ -271,8 +271,8 @@
           "question": "What does \"deprecated\" mean?",
           "options": [
             "It still works but will be removed later",
-            "It was removed yesterday for the team right now",
-            "It is a new feature"
+            "It was already removed in the latest version",
+            "It is a faster version of an old feature"
           ],
           "correctAnswer": [
             "It still works but will be removed later"
@@ -350,18 +350,21 @@
         {
           "id": "rcbcb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Version 3 has two ___.",
+          "question": "Điền từ còn thiếu (thay đổi gây lỗi khi nâng cấp): Version 3 has two ___.",
           "correctAnswer": [
-            "breaking changes"
+            "breaking changes",
+            "incompatible changes"
           ],
           "explanation": "\"breaking change\" nghĩa là thay đổi gây lỗi khi nâng cấp."
         },
         {
           "id": "rcbcb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The old submit style is ___.",
+          "question": "Điền từ còn thiếu (đã bị khuyến cáo bỏ): The old submit style is ___.",
           "correctAnswer": [
-            "deprecated"
+            "deprecated",
+            "obsolete",
+            "outdated"
           ],
           "explanation": "\"deprecated\" nghĩa là đã bị khuyến cáo bỏ."
         }
@@ -373,11 +376,11 @@
     "mode": "written",
     "title": "Write upgrade notes for your team",
     "scenario": "Bạn đọc changelog của một thư viện và viết ghi chú nâng cấp cho đồng đội.",
-    "baselinePrompt": "Đọc đoạn changelog ngắn rồi viết ghi chú nâng cấp bằng tiếng Anh (60 đến 110 từ): thay đổi gây lỗi, cách sửa và thứ tự nâng cấp. Chưa xem bài mẫu.",
-    "performancePrompt": "Write upgrade notes in English, 60 to 110 words: the breaking changes, how to fix them and the order of the upgrade.",
-    "modelResponse": "Upgrade notes for FormKit 3.0.0. There are two breaking changes. First, the submit handler now receives one object, so onSubmit(name, email) becomes onSubmit(values). Second, Node 16 is no longer supported, so we need Node 18 or newer. Errors are also plain strings now. Plan: move to 2.8.0 first and remove the deprecation warnings, then update Node, install 3.0.0 and run the codemod with npx formkit-migrate. After that, run the form tests and check the asynchronous validation. If we cannot update Node yet, we stay on 2.8.x.",
+    "baselinePrompt": "Đọc đoạn changelog ngắn rồi viết ghi chú nâng cấp bằng tiếng Anh (60 đến 120 từ): thay đổi gây lỗi, cách sửa và thứ tự nâng cấp. Chưa xem bài mẫu.",
+    "performancePrompt": "Write upgrade notes in English, 60 to 120 words: the breaking changes, how to fix them and the order of the upgrade.",
+    "modelResponse": "Upgrade notes for FormKit 3.0.0. There are two breaking changes. First, the submit handler now receives one object, so onSubmit(name, email) becomes onSubmit(values). Second, Node 16 is no longer supported, so we need Node 18 or newer. Errors are also plain strings now. Plan: move to 2.8.0 first and remove the deprecation warnings, then update Node, install 3.0.0 and run the codemod with npx formkit-migrate. After that, run the form tests. If we cannot update Node yet, we stay on 2.8.x.",
     "retryPrompt": "Write the notes again in English. Keep the structure and make the order of the steps clearer.",
-    "transferPrompt": "Write upgrade notes for a different changelog, using the same structure.",
+    "transferPrompt": "Write upgrade notes for a different changelog (a table library), using the same structure.",
     "reviewPrompt": "Write upgrade notes for another changelog without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -389,7 +392,7 @@
             "type": "source",
             "title": "FormKit 3.0.0 excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. 3.0.0: BREAKING onSubmit receives one object. BREAKING Node 16 not supported. Codemod: npx formkit-migrate. 2.8.0: old submit style deprecated, prints a warning."
+            "content": "Synthetic training artifact — non-production. Excerpt. 3.0.0: BREAKING onSubmit receives one object instead of separate arguments. BREAKING Node 16 not supported; use Node 18 or newer. Changed: error messages are now plain strings. Codemod: npx formkit-migrate. 2.8.0: old submit style deprecated, prints a warning. Upgrade: move to 2.8.0 first and remove the warnings, then update Node, install 3.0.0 and run the codemod. Run the form tests afterwards. Teams that cannot update Node yet stay on 2.8.x."
           }
         ]
       },
@@ -402,7 +405,7 @@
             "type": "source",
             "title": "ChartLite 5.0.0 excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. 5.0.0: BREAKING the colors option is renamed palette. BREAKING the export method is async. Deprecated in 4.9: the theme string. Run npx chartlite-migrate before building."
+            "content": "Synthetic training artifact — non-production. Excerpt. 5.0.0: BREAKING the colors option is renamed palette; rename it in your config. BREAKING the export method is async; add await to every export call. Deprecated in 4.9: the theme string. Upgrade: move to 4.9 first and remove the warnings, then install 5.0.0 and run npx chartlite-migrate before building."
           }
         ]
       },
@@ -415,7 +418,7 @@
             "type": "source",
             "title": "TableGrid 2.0.0 excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. 2.0.0: BREAKING rows must have a unique id. BREAKING the sort callback is removed. 1.9.0: the sort callback is deprecated and logs a warning. Upgrade to 1.9.x first."
+            "content": "Synthetic training artifact — non-production. Excerpt. 2.0.0: BREAKING rows must have a unique id; add an id to every row. BREAKING the sort callback is removed; use the sortBy option. 1.9.0: the sort callback is deprecated and logs a warning. Upgrade: move to 1.9.x first, then install 2.0.0."
           }
         ]
       },
@@ -428,7 +431,7 @@
             "type": "source",
             "title": "AuthKit 4.0.0 excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. 4.0.0: BREAKING sessions expire after 24 hours by default. BREAKING the login method returns a user object, not a token. 3.5.0: the token return is deprecated. A guide describes the steps."
+            "content": "Synthetic training artifact — non-production. Excerpt. 4.0.0: BREAKING sessions expire after 24 hours by default; set sessionHours for longer sessions. BREAKING the login method returns a user object, not a token; read the user from that object. 3.5.0: the token return is deprecated. Upgrade: move to 3.5.0 first and stop using the token, then install 4.0.0."
           }
         ]
       }

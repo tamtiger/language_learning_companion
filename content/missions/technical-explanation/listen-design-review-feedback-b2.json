@@ -58,7 +58,7 @@
         },
         {
           "speakerId": "marcus",
-          "text": "I like the direction. My concern is operations. A new service means new deployments, new alerts and one more thing to be on call for. Is a queue and a few more workers on the existing servers not simpler?"
+          "text": "I like the direction. My concern is operations. A new service means new deployments, new alerts and one more thing to be on call for. Wouldn't a queue and a few more workers on the existing servers be simpler?"
         },
         {
           "speakerId": "elena",
@@ -86,7 +86,7 @@
         },
         {
           "speakerId": "elena",
-          "text": "I do not have a final answer. I will talk to the privacy team this week and update the document. Let us approve the direction today, with the security and retry conditions, and review storage next Tuesday."
+          "text": "I do not have a final answer. I will talk to the privacy team this week and update the document. Let us approve the direction today, with your pipeline and retry conditions, and I will add the security section. We can review storage next Tuesday."
         }
       ],
       "gist": [
@@ -96,7 +96,7 @@
           "question": "What is the main topic?",
           "options": [
             "A proposal to create a separate worker service",
-            "A plan to remove all background jobs for the team",
+            "A plan to remove all background jobs",
             "A report about a security incident"
           ],
           "correctAnswer": [
@@ -112,8 +112,8 @@
           "question": "What is Marcus's first concern?",
           "options": [
             "The extra operational work",
-            "The price of storage for the team",
-            "The design diagrams"
+            "The cost of cloud storage",
+            "The quality of the diagrams"
           ],
           "correctAnswer": [
             "The extra operational work"
@@ -126,8 +126,8 @@
           "question": "Why does Elena prefer a separate service?",
           "options": [
             "It avoids shared memory problems",
-            "It is cheaper to build for the team",
-            "It needs no new alerts"
+            "It is cheaper to build and run",
+            "It needs no new alerts or deployments"
           ],
           "correctAnswer": [
             "It avoids shared memory problems"
@@ -140,8 +140,8 @@
           "question": "What security control does Aisha ask for?",
           "options": [
             "An allow list of domains",
-            "A new password policy for the team",
-            "A bigger server"
+            "A new password policy",
+            "A larger server pool"
           ],
           "correctAnswer": [
             "An allow list of domains"
@@ -154,8 +154,8 @@
           "question": "What is Marcus's second condition?",
           "options": [
             "A limit on retries",
-            "A daily report",
-            "A faster upload for the team"
+            "A limit on upload size",
+            "A faster upload queue"
           ],
           "correctAnswer": [
             "A limit on retries"
@@ -168,8 +168,8 @@
           "question": "What remains an open question?",
           "options": [
             "How long originals are stored",
-            "Which language to use for the team",
-            "Who writes the tests"
+            "Which team owns the retries",
+            "Who owns the allow list"
           ],
           "correctAnswer": [
             "How long originals are stored"
@@ -229,7 +229,7 @@
         },
         {
           "word": "allow list",
-          "ipa": "/ˈəlaʊ lɪst/",
+          "ipa": "/əˈlaʊ lɪst/",
           "definition": "danh sách cho phép",
           "technicalMeaning": "Danh sách các mục duy nhất được chấp nhận.",
           "collocations": [
@@ -237,7 +237,7 @@
             "add to the allow list"
           ],
           "example": "We use an allow list of domains.",
-          "commonMistake": "Viết allow list thành hai từ."
+          "commonMistake": "Nhấn nhầm âm tiết đầu: AL-low list. Trọng âm đúng ở âm tiết thứ hai: al-LOW list."
         },
         {
           "word": "open question",
@@ -249,7 +249,7 @@
             "list open questions"
           ],
           "example": "Storage is still an open question.",
-          "commonMistake": "Open question là cụm cố định."
+          "commonMistake": "Nói \"question open\". Trật tự đúng là open question (tính từ đứng trước danh từ)."
         }
       ],
       "expressions": [
@@ -302,7 +302,7 @@
           "question": "Which sentence is a balanced summary line?",
           "options": [
             "The direction was approved on two conditions: a shared pipeline and a retry limit.",
-            "Marcus won the argument and the design was rejected by the group. for the team right now",
+            "Marcus won the argument, so the design was rejected by the group.",
             "The review was long and boring, and nobody learned anything new."
           ],
           "correctAnswer": [
@@ -315,7 +315,8 @@
           "type": "fill",
           "question": "Điền từ: One open ___ remains: file storage.",
           "correctAnswer": [
-            "question"
+            "question",
+            "issue"
           ],
           "explanation": "Open question là câu hỏi còn mở."
         },
@@ -383,7 +384,7 @@
         {
           "id": "ldrfb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Marcus raised a ___ about operations.",
+          "question": "Điền từ còn thiếu (mối lo ngại): Marcus raised a ___ about operations.",
           "correctAnswer": [
             "concern"
           ],
@@ -392,7 +393,7 @@
         {
           "id": "ldrfb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: There was no ___ to the direction.",
+          "question": "Điền từ còn thiếu (sự phản đối): There was no ___ to the direction.",
           "correctAnswer": [
             "objection"
           ],
@@ -406,11 +407,11 @@
     "mode": "written",
     "title": "Write a design review summary",
     "scenario": "After a design review, you write a short summary for people who could not attend.",
-    "baselinePrompt": "From the rough notes of a design review, write a summary in English (60 to 110 words): concerns, decision and open questions. Do not look at the model answer yet.",
-    "performancePrompt": "Write a design review summary in English, 60 to 110 words: the proposal, the main concerns, the decision with its conditions and the open questions.",
-    "modelResponse": "Design review summary. Proposal: move image processing from the web servers to a separate worker service. Concerns: Marcus raised the extra operational work, and Aisha raised a server-side request forgery risk because workers download files from user links. Elena explained that shared memory caused two incidents last quarter. Decision: the direction was approved on two conditions, a shared deployment pipeline and a limit of five retries with growing delays. Elena will add a security section with a domain allow list and a network policy. Open question: how long original files are stored. We will review it next Tuesday.",
+    "baselinePrompt": "From the rough notes of a design review, write a summary in English (60 to 120 words): concerns, decision and open questions. Do not look at the model answer yet.",
+    "performancePrompt": "Write a design review summary in English, 60 to 120 words: the proposal, the main concerns, the decision with its conditions and the open questions.",
+    "modelResponse": "Design review summary. Proposal: move image processing from the web servers to a separate worker service. Concerns: Marcus raised the extra operational work, and Aisha raised a server-side request forgery risk because workers download files from user links. Elena explained that shared memory caused two incidents last quarter. Decision: the direction was approved on two conditions, a shared deployment pipeline and a limit of five retries with growing delays. Elena will add a security section with a domain allow list and a network policy. Open question: how long original files are stored. We will review storage next Tuesday.",
     "retryPrompt": "Write the summary again in English. Keep the structure and make the conditions clearer.",
-    "transferPrompt": "Write a summary for a different design review, such as a database migration.",
+    "transferPrompt": "Write a summary for a different design review, such as a new API gateway.",
     "reviewPrompt": "Write a summary for another design review without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -421,7 +422,7 @@
             "id": "ldr-baseline-ctx",
             "type": "source",
             "title": "Raw notes: worker service review",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Proposal: separate image worker service. Concerns: ops work (Marcus), SSRF risk (Aisha). Approved with two conditions: shared pipeline, retry limit. Open: storage period. Elena adds security section."
           }
         ]
@@ -434,7 +435,7 @@
             "id": "ldr-retry-ctx",
             "type": "source",
             "title": "Raw notes: database migration review",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Proposal: move orders to a new database engine. Concerns: downtime (Paulo), data check cost (Mei). Approved if migration runs in two steps and rollback is tested. Open: who owns the cutover date."
           }
         ]
@@ -447,7 +448,7 @@
             "id": "ldr-transfer-ctx",
             "type": "source",
             "title": "Raw notes: new API gateway review",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Proposal: one gateway for all public APIs. Concerns: single point of failure (Ines), latency (Joel). Approved with two nodes in two zones. Open: rate limits per customer."
           }
         ]
@@ -460,7 +461,7 @@
             "id": "ldr-review-ctx",
             "type": "source",
             "title": "Raw notes: caching layer review",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Proposal: add a cache for product pages. Concerns: stale prices (Kai), memory cost (Dina). Approved with a five minute expiry and a manual purge tool. Open: cache keys for different countries."
           }
         ]

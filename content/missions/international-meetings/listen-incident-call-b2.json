@@ -6,7 +6,7 @@
   "cefrLevel": "B2",
   "durationMinutes": 20,
   "learningObjectives": [
-    "Follow fast speech in an incident call",
+    "Follow a live incident call at natural speed",
     "Separate impact, cause, mitigation and next update",
     "Write a clear status update in English"
   ],
@@ -96,8 +96,8 @@
           "question": "What is happening on this call?",
           "options": [
             "A live incident is being handled",
-            "A product demo is planned",
-            "A quarterly review is starting for the team"
+            "A product demo is being planned",
+            "A quarterly review is starting"
           ],
           "correctAnswer": [
             "A live incident is being handled"
@@ -112,7 +112,7 @@
           "question": "How many customers are affected?",
           "options": [
             "About thirty percent",
-            "About three percent for the team",
+            "About three percent",
             "Every customer"
           ],
           "correctAnswer": [
@@ -126,8 +126,8 @@
           "question": "What does Ben think caused the spike?",
           "options": [
             "A heavy query in a pricing job",
-            "A broken release for the team right now",
-            "A network cable at work"
+            "A broken release from last week",
+            "A failed network switch"
           ],
           "correctAnswer": [
             "A heavy query in a pricing job"
@@ -140,8 +140,8 @@
           "question": "Why does Ben not stop the job completely?",
           "options": [
             "The price list would be half updated",
-            "The job is already finished for the team",
-            "He lacks permission"
+            "The job is already finished",
+            "He does not have permission"
           ],
           "correctAnswer": [
             "The price list would be half updated"
@@ -154,8 +154,8 @@
           "question": "Why does Nora decide not to roll back?",
           "options": [
             "The last release is not related",
-            "Rollback takes a day",
-            "Customers asked her not to for the team"
+            "Rollback would take a full day",
+            "Customers asked her not to roll back"
           ],
           "correctAnswer": [
             "The last release is not related"
@@ -237,7 +237,7 @@
             "key stakeholders"
           ],
           "example": "I will update the stakeholders.",
-          "commonMistake": "Stakeholder viết thành một từ."
+          "commonMistake": "Viết liền một từ stakeholder, không tách thành \"stake holder\"."
         },
         {
           "word": "resolve",
@@ -302,7 +302,7 @@
           "question": "Which sentence is a good status update line?",
           "options": [
             "Impact: checkout is slow for about thirty percent of customers.",
-            "Everything is bad right now. for the team right now",
+            "Everything is broken and we are worried.",
             "Ben is working on something."
           ],
           "correctAnswer": [
@@ -315,7 +315,11 @@
           "type": "fill",
           "question": "Điền từ: We are still ___ the cause.",
           "correctAnswer": [
-            "investigating"
+            "investigating",
+            "analyzing",
+            "analysing",
+            "identifying",
+            "confirming"
           ],
           "explanation": "Still investigating cho biết chưa biết chắc nguyên nhân."
         },
@@ -324,16 +328,16 @@
           "type": "ordering",
           "question": "Sắp xếp một status update.",
           "options": [
-            "next update time",
-            "impact",
-            "mitigation",
-            "likely cause"
+            "Next update at 14:30.",
+            "Impact: checkout is slow for about thirty percent of customers.",
+            "Mitigation: the job is paused and CPU is dropping.",
+            "Likely cause: a heavy query in the pricing job."
           ],
           "correctAnswer": [
-            "impact",
-            "likely cause",
-            "mitigation",
-            "next update time"
+            "Impact: checkout is slow for about thirty percent of customers.",
+            "Likely cause: a heavy query in the pricing job.",
+            "Mitigation: the job is paused and CPU is dropping.",
+            "Next update at 14:30."
           ],
           "explanation": "Tác động, nguyên nhân, giảm nhẹ, lần cập nhật tiếp theo."
         }
@@ -383,18 +387,21 @@
         {
           "id": "licb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is about thirty percent of customers.",
+          "question": "Điền từ còn thiếu (tác động): The ___ is about thirty percent of customers.",
           "correctAnswer": [
-            "impact"
+            "impact",
+            "effect"
           ],
           "explanation": "\"impact\" nghĩa là tác động."
         },
         {
           "id": "licb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We ___ the issue by pausing the job.",
+          "question": "Điền từ còn thiếu (giảm nhẹ; quá khứ): We ___ the issue by pausing the job.",
           "correctAnswer": [
-            "mitigated"
+            "mitigated",
+            "mitigate",
+            "contained"
           ],
           "explanation": "\"mitigate\" nghĩa là giảm nhẹ."
         }
@@ -406,11 +413,11 @@
     "mode": "written",
     "title": "Write an incident status update",
     "scenario": "During an incident, you write a status update for the stakeholders channel.",
-    "baselinePrompt": "From the rough notes of an incident call, write a status update in English (60 to 110 words): impact, likely cause, mitigation and next update. Do not look at the model answer yet.",
-    "performancePrompt": "Write a status update in English, 60 to 110 words: the impact, the likely cause, the mitigation and the time of the next update.",
-    "modelResponse": "Status update, 14:20. Impact: checkout is slow for about thirty percent of customers, and support has forty-two open tickets. No orders have been lost. Likely cause: a pricing job is running a heavy query without a limit, and the primary database CPU reached ninety-five percent. Mitigation: the job is paused, CPU is now seventy percent and falling. We are not rolling back because the last release is not related. Support has published a banner on the site. Next update at 14:30, or earlier if the situation changes.",
+    "baselinePrompt": "From the rough notes of an incident call, write a status update in English (60 to 120 words): impact, likely cause, mitigation and next update. Do not look at the model answer yet.",
+    "performancePrompt": "Write a status update in English, 60 to 120 words: the impact, the likely cause, the mitigation and the time of the next update.",
+    "modelResponse": "Status update, 14:20. Impact: checkout is slow for about thirty percent of customers, and support has forty-two open tickets. No orders have been lost. Likely cause: a heavy query in the pricing job. Mitigation: we paused the job, and CPU dropped from ninety-five to seventy percent. We are still investigating the cause and will confirm it in the next update. Next update at 14:30, or earlier if the situation changes.",
     "retryPrompt": "Write the update again in English. Keep the structure and make the impact more specific.",
-    "transferPrompt": "Write a status update for a different incident, such as failed logins.",
+    "transferPrompt": "Write a status update for a different incident, such as delayed emails.",
     "reviewPrompt": "Write a status update for another incident without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -421,7 +428,7 @@
             "id": "lic-baseline-ctx",
             "type": "source",
             "title": "Raw notes: slow checkout",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. 14:20. Checkout slow, about 30% of customers, 42 tickets, no lost orders. Cause likely pricing job heavy query. Paused job, CPU 95 then 70. Next update 14:30."
           }
         ]
@@ -434,7 +441,7 @@
             "id": "lic-retry-ctx",
             "type": "source",
             "title": "Raw notes: failed logins",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. 09:05. Login fails for mobile users, about 15% of logins. Cause likely expired certificate. Mitigation: certificate renewed, testing now. Next update 09:20."
           }
         ]
@@ -447,7 +454,7 @@
             "id": "lic-transfer-ctx",
             "type": "source",
             "title": "Raw notes: email delay",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. 16:40. Order emails delayed up to 30 minutes for all customers. Cause likely queue backlog after a deploy. Mitigation: added workers, backlog falling. Next update 17:00."
           }
         ]
@@ -460,8 +467,8 @@
             "id": "lic-review-ctx",
             "type": "source",
             "title": "Raw notes: search outage",
-            "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Raw notes. 11:15. Search returns no results for English queries. Cause unknown, investigating index. Mitigation: switched to the old index for half of traffic. Next update 11:30."
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Raw notes. 11:15. Search returns no results for English queries. Cause likely a faulty index build, still investigating. Mitigation: switched to the old index for half of traffic. Next update 11:30."
           }
         ]
       }

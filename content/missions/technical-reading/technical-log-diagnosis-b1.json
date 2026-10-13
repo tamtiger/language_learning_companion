@@ -40,7 +40,7 @@
             "compare timestamps"
           ],
           "example": "The timestamp shows the error at 22:08.",
-          "commonMistake": "Viết timestamp thành một từ."
+          "commonMistake": "Viết \"time stamp\" thành hai từ; dạng chuẩn trong log là timestamp."
         },
         {
           "word": "hypothesis",
@@ -61,7 +61,7 @@
           "technicalMeaning": "Hết tài nguyên có thể dùng.",
           "collocations": [
             "the pool is exhausted",
-            "memory exhausted"
+            "exhausted resources"
           ],
           "example": "The connection pool was exhausted at 22:07.",
           "commonMistake": "Nói the pool is exhausted, không nói the pool is exhaust."
@@ -80,7 +80,7 @@
         },
         {
           "word": "severity",
-          "ipa": "/səˈver.ə.t̬i/",
+          "ipa": "/səˈver.ə.ti/",
           "definition": "mức nghiêm trọng",
           "technicalMeaning": "Mức độ ảnh hưởng của sự cố.",
           "collocations": [
@@ -88,7 +88,7 @@
             "assess the severity"
           ],
           "example": "We rated the severity as high.",
-          "commonMistake": "Severity không đếm được."
+          "commonMistake": "Nói \"high severity\", không nói \"high serious\"."
         }
       ],
       "expressions": [
@@ -159,12 +159,12 @@
           "type": "choice",
           "question": "Bước nào có thể làm yếu pool-exhaustion hypothesis nếu kết quả bình thường?",
           "options": [
-            "Compare pool wait and release metrics with a healthy window.",
-            "Repeat that the pool was exhausted in the incident channel until the team agrees.",
-            "Assume the unnamed pool is the database pool and restart it."
+            "Compare pool wait and release metrics for this window with a healthy window.",
+            "Restart the service and conclude that the pool was the cause if checkout recovers.",
+            "Assume the unnamed pool is the database pool and increase its maximum size."
           ],
           "correctAnswer": [
-            "Compare pool wait and release metrics with a healthy window."
+            "Compare pool wait and release metrics for this window with a healthy window."
           ],
           "explanation": "Normal wait and release metrics would point away from pool exhaustion; repeating or assuming the cause cannot test the hypothesis."
         },
@@ -241,18 +241,21 @@
         {
           "id": "tldb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ shows the error at 22:08.",
+          "question": "Điền từ còn thiếu (dấu thời gian): The ___ shows the error at 22:08.",
           "correctAnswer": [
-            "timestamp"
+            "timestamp",
+            "time stamp"
           ],
           "explanation": "\"timestamp\" nghĩa là dấu thời gian."
         },
         {
           "id": "tldb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Our ___ is that the pool is exhausted.",
+          "question": "Điền từ còn thiếu (giả thuyết): Our ___ is that the pool is exhausted.",
           "correctAnswer": [
-            "hypothesis"
+            "hypothesis",
+            "theory",
+            "assumption"
           ],
           "explanation": "\"hypothesis\" nghĩa là giả thuyết."
         }
@@ -264,9 +267,9 @@
     "mode": "written",
     "title": "Write an evidence-based diagnosis",
     "scenario": "Checkout trả 503 và bạn cần gửi chẩn đoán ban đầu cho on-call engineer.",
-    "baselinePrompt": "Read the log once, hide it, then write the initial diagnosis in English from memory.",
-    "performancePrompt": "Viết bằng tiếng Anh symptom, probable cause, evidence và next verification step. Phân biệt fact với hypothesis.",
-    "modelResponse": "Checkout request 91 returned HTTP 503 at 10:03. Immediately beforehand, an unnamed pool reported active=50 and max=50. My hypothesis is that pool exhaustion contributed to the failure, but the excerpt does not identify the pool type or explain why capacity was exhausted. Next, inspect wait time and connection-release metrics for the same request window, then compare them with a healthy window. If those signals stay normal, reject the pool-exhaustion hypothesis and investigate the payment-provider retries instead.",
+    "baselinePrompt": "Read the log once, hide it, then write the initial diagnosis in English from memory, 70 to 130 words.",
+    "performancePrompt": "Viết bằng tiếng Anh (70 đến 130 từ) symptom, evidence, một cautious hypothesis và next verification step. Phân biệt fact với hypothesis.",
+    "modelResponse": "Checkout request 91 returned HTTP 503 at 10:03. In the same minute, an unnamed pool reported active=50 and max=50. My hypothesis is that pool exhaustion contributed to the failure, but the excerpt does not identify the pool type or explain why capacity was exhausted. Next, inspect wait time and connection-release metrics for the same request window, then compare them with a healthy window. If those signals stay normal, reject the pool-exhaustion hypothesis and investigate the payment-provider retries instead.",
     "retryPrompt": "Sửa chẩn đoán để mỗi hypothesis có evidence và một bước kiểm chứng.",
     "transferPrompt": "Đọc unseen worker log được hiển thị rồi viết bằng tiếng Anh fact, một cautious hypothesis và verification step. Không suy ra một memory trend từ chỉ một sample.",
     "reviewPrompt": "Từ một unseen log mới, tóm tắt fact, hypothesis và verification step sau khi source đã ẩn.",
@@ -362,14 +365,14 @@
           "question": "What observation would best test whether reduced consumer capacity caused the backlog?",
           "options": [
             "Restore consumer capacity and check whether processing throughput rises while backlog and oldest age fall",
-            "Ask why ten consumers stopped, then wait for the team to explain it before checking any backlog or age numbers",
+            "Count the messages that arrived after 11:00 and conclude that arrivals alone caused the backlog",
             "Compare the baseline queue depth of ninety with the depth at 11:00 and check whether they match"
           ],
           "correctAnswer": "Restore consumer capacity and check whether processing throughput rises while backlog and oldest age fall",
-          "feedback": "A throughput increase together with a falling backlog tests the proposed cause; asking why consumers stopped investigates a different question."
+          "feedback": "A throughput increase together with a falling backlog tests the proposed cause; counting arrivals alone tests a different explanation."
         }
       ],
-      "applicationPrompt": "Apply fact → cautious hypothesis → falsifiable check to the displayed queue latency logs. Compare processing throughput with message arrivals, then check whether the backlog and oldest age fall after consumer capacity is restored.",
+      "applicationPrompt": "Apply fact → cautious hypothesis → falsifiable check to the displayed queue latency logs. Read the backlog, the oldest age and the processing throughput before you choose a hypothesis.",
       "applicationChecklist": [
         "I kept facts separate from hypotheses.",
         "I cited the strongest signal.",
@@ -403,17 +406,32 @@
       {
         "id": "symptom",
         "label": "Observed symptom",
-        "description": "Names the failure and relevant context accurately."
+        "description": "Names the failure and relevant context accurately.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The symptom, request id, status and time match the log.",
+          "notMet": "The symptom is vague or details are wrong."
+        }
       },
       {
         "id": "evidence",
         "label": "Evidence-backed hypothesis",
-        "description": "Connects a log signal to a cautious probable cause."
+        "description": "Connects a log signal to a cautious probable cause.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "One log signal supports a hypothesis that is marked as unconfirmed.",
+          "notMet": "A cause is stated as fact or has no log evidence."
+        }
       },
       {
         "id": "verification",
         "label": "Verification step",
-        "description": "Proposes a concrete next check that could confirm or reject the hypothesis."
+        "description": "Proposes a concrete next check that could confirm or reject the hypothesis.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The check says what to compare and what result would reject the hypothesis.",
+          "notMet": "No check, or a check that cannot reject the hypothesis."
+        }
       }
     ]
   },

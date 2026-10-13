@@ -41,7 +41,7 @@
             "call a service"
           ],
           "example": "The Mail Service sends emails.",
-          "commonMistake": "Nhấn trọng âm ở âm tiết đầu: SER-vice."
+          "commonMistake": "Nhấn nhầm âm tiết thứ hai: ser-VICE. Trọng âm đúng ở âm tiết đầu: SER-vice."
         },
         {
           "word": "queue",
@@ -244,7 +244,7 @@
         {
           "id": "ewasda-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The Mail ___ sends emails.",
+          "question": "Điền từ còn thiếu (dịch vụ): The Mail ___ sends emails.",
           "correctAnswer": [
             "Service"
           ],
@@ -253,7 +253,7 @@
         {
           "id": "ewasda-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The service uses a ___.",
+          "question": "Điền từ còn thiếu (hàng đợi): The service uses a ___.",
           "correctAnswer": [
             "queue"
           ],
@@ -269,7 +269,7 @@
     "scenario": "Tình huống mô phỏng: đồng nghiệp mới hỏi một dịch vụ làm gì; bạn trả lời bằng vài câu ngắn.",
     "baselinePrompt": "Trong 20–40 giây, nói bằng tiếng Anh: dịch vụ làm gì, dùng gì và gửi dữ liệu cho ai. Chưa xem bài mẫu hay các cụm câu.",
     "performancePrompt": "Speak in English for 20 to 40 seconds: what the service does, what it uses, and where it sends data. (Làm gì, dùng gì, gửi cho ai.)",
-    "modelResponse": "This service sends emails to users. It uses a queue to keep each email safe. It gets data from the Orders Service. When an email is ready, it sends a status message to the Alerts Service. The queue helps the service stay calm when many users wait. That is all for this service.",
+    "modelResponse": "This service sends emails to users. It uses a queue to keep each email safe. It gets data from the Orders Service. When an email is ready, it sends a status message to the Alerts Service. The Alerts Service gets the status message. That is all for this service.",
     "retryPrompt": "Speak again in English for 20 to 40 seconds. Fix your weakest criterion.",
     "transferPrompt": "In 20 to 40 seconds, explain a new service: what it does, what it uses and where it sends data.",
     "reviewPrompt": "In 20 to 40 seconds, explain another service without looking at the old notes.",
@@ -296,7 +296,7 @@
             "type": "source",
             "title": "Search Service",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Service: Search Service. It finds products for users. It uses an index to find them fast. It gets data from the Catalog Service. It sends the results to the Web Page."
+            "content": "Synthetic training artifact — non-production. Service: Search Service. It finds products for users. It uses an index to find them fast. It gets data from the Catalog Service. It sends the results to the Web App."
           }
         ]
       },
@@ -425,8 +425,8 @@
             "question": "What does the service use?",
             "options": [
               "A waiting list",
-              "A new screen",
-              "A paper report"
+              "A new database",
+              "A status report"
             ],
             "correctAnswer": "A waiting list"
           },
@@ -444,8 +444,8 @@
             "question": "Where does the data come from?",
             "options": [
               "A different service",
-              "The user phone",
-              "A paper form"
+              "The user's browser",
+              "A shared folder"
             ],
             "correctAnswer": "A different service"
           },
@@ -482,8 +482,8 @@
             "question": "What does the service send?",
             "options": [
               "Data files",
-              "A phone",
-              "A chair"
+              "Emails to users",
+              "Error reports"
             ],
             "correctAnswer": "Data files",
             "feedback": "Chú ý sends data: dịch vụ gửi dữ liệu."
@@ -550,7 +550,7 @@
             "id": "svc-train-5",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "It sends the results to the Web Page.",
+              "text": "It sends the results to the Web App.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -559,11 +559,11 @@
             },
             "question": "Where do the results go?",
             "options": [
-              "Into the web page",
-              "To the old desk",
-              "To the next year"
+              "Into the web app",
+              "Into the database",
+              "Back to the user"
             ],
-            "correctAnswer": "Into the web page",
+            "correctAnswer": "Into the web app",
             "feedback": "Chú ý to: nơi dữ liệu đi tới."
           },
           {
@@ -579,8 +579,8 @@
             "question": "What does the queue do?",
             "options": [
               "Keeps messages safe",
-              "Makes messages louder",
-              "Counts all the users"
+              "Sends messages faster",
+              "Counts the messages"
             ],
             "correctAnswer": "Keeps messages safe",
             "feedback": "Chú ý keeps ... safe: queue giữ tin an toàn."
@@ -601,8 +601,8 @@
             "question": "What does the service send?",
             "options": [
               "Messages about status",
-              "Phone calls",
-              "Paper maps"
+              "Reports about errors",
+              "Lists of emails"
             ],
             "correctAnswer": "Messages about status"
           },
@@ -619,8 +619,8 @@
             "question": "What does the service use?",
             "options": [
               "A waiting line",
-              "A mouse",
-              "A phone"
+              "A short report",
+              "A mail server"
             ],
             "correctAnswer": "A waiting line"
           },
@@ -628,7 +628,7 @@
             "id": "svc-post-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "It gets data from the Orders Service.",
+              "text": "It gets data from the Users Service.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -636,30 +636,30 @@
             },
             "question": "Which service sends data in?",
             "options": [
+              "The users one",
               "The orders one",
-              "The alerts one",
-              "The search one"
+              "The alerts one"
             ],
-            "correctAnswer": "The orders one"
+            "correctAnswer": "The users one"
           },
           {
             "id": "svc-post-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "It sends the status to the Alerts Service.",
+              "text": "It sends the result to the Orders Service.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
                 "English"
               ]
             },
-            "question": "Which service gets the status?",
+            "question": "Which service gets the result?",
             "options": [
-              "The alerts one",
               "The orders one",
+              "The alerts one",
               "The search one"
             ],
-            "correctAnswer": "The alerts one"
+            "correctAnswer": "The orders one"
           }
         ]
       },
@@ -675,7 +675,7 @@
         },
         {
           "id": "svc-cue-sends",
-          "articulatoryCue": "Giữ âm s ở cuối sends để người nghe biết dịch vụ gửi, không phải người gửi.",
+          "articulatoryCue": "Giữ âm cuối của sends: nó đọc là /z/ sau /d/ (nghe như \"sendz\"). Âm này cho người nghe biết đây là động từ ngôi thứ ba.",
           "meaningRisk": "Mất âm s cuối làm câu nghe như sai ngữ pháp và khó nhận ra động từ.",
           "triggerItemIds": [
             "svc-pre-1",

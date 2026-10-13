@@ -6,7 +6,7 @@
   "durationMinutes": 15,
   "learningObjectives": [
     "Phân biệt dấu primary stress ˈ và secondary stress ˌ trong mục từ điển",
-    "Xác định âm tiết mang primary stress trong architecture, repository và engineer",
+    "Xác định âm tiết mang primary stress trong architecture, repository, engineer và authentication",
     "Dùng dictionary entry có dialect label thay vì suy luận trọng âm từ spelling"
   ],
   "vocabulary": [
@@ -17,7 +17,7 @@
       "technicalMeaning": "The conceptual model that defines the structure and behavior of a software system.",
       "collocations": ["software architecture", "system architecture", "clean architecture"],
       "example": "We need to discuss the microservices architecture of the new platform.",
-      "commonMistake": "Do not infer primary stress from spelling. Locate the ˈ mark in the U.S. dictionary entry."
+      "commonMistake": "Do not infer primary stress from spelling. Locate the ˈ mark in the U.S. dictionary entry. Người nói tiếng Việt hay đọc đều từng âm tiết (ar-chi-tec-ture); trong từ này âm tiết đầu /ˈɑːr/ mạnh nhất, còn /kə/ và /tʃɚ/ yếu và ngắn, và âm r ở cuối vẫn phải có."
     },
     {
       "word": "repository",
@@ -26,7 +26,7 @@
       "technicalMeaning": "A storage location for software code, usually managed by Git.",
       "collocations": ["git repository", "remote repository", "public repository"],
       "example": "Please clone the repository before starting your task.",
-      "commonMistake": "Use the dialect-labelled dictionary entry to locate primary stress instead of treating spelling as a syllable guide."
+      "commonMistake": "Use the dialect-labelled dictionary entry to locate primary stress instead of treating spelling as a syllable guide. Từ có năm âm tiết nên dễ bị nhấn đều; hãy nhấn âm tiết thứ hai /ˈpɑː/ và đọc âm tiết đầu /rɪ/ thật nhẹ."
     },
     {
       "word": "engineer",
@@ -35,7 +35,16 @@
       "technicalMeaning": "A professional responsible for engineering decisions, implementation, or operation within a defined scope.",
       "collocations": ["software engineer", "platform engineer", "senior engineer"],
       "example": "A platform engineer will review the deployment plan.",
-      "commonMistake": "Do not infer the primary stress from spelling; locate the ˈ mark in the U.S. dictionary entry."
+      "commonMistake": "Do not infer the primary stress from spelling; locate the ˈ mark in the U.S. dictionary entry. Người học hay nhấn âm tiết đầu vì giống từ có chữ engine; trong từ này trọng âm chính nằm ở âm tiết cuối /ˈnɪr/ và âm r cuối cần được giữ."
+    },
+    {
+      "word": "authentication",
+      "ipa": "/ɔːˌθen.tɪˈkeɪ.ʃən/",
+      "definition": "The process of proving who someone is.",
+      "technicalMeaning": "Verifying the identity of a user or service before allowing access to a system.",
+      "collocations": ["two-factor authentication", "authentication error", "authentication service"],
+      "example": "The authentication service returned a timeout error.",
+      "commonMistake": "Từ có năm âm tiết, trọng âm chính ở /ˈkeɪ/ (âm tiết thứ tư) và trọng âm phụ ở /ˌθen/. Âm /θ/ không phải /t/ hay /th/ tiếng Việt: đặt đầu lưỡi giữa hai hàm răng và thổi hơi nhẹ."
     }
   ],
   "expressions": [
@@ -50,7 +59,7 @@
   "reading": {
     "title": "[Tình huống mô phỏng] Chuẩn bị architecture review",
     "sourceType": "Tình huống mô phỏng",
-    "content": "Maya is preparing an architecture review for a cross-team audience. Her notes contain the words architecture, repository, and engineer. She checks a U.S. dictionary entry for each word and marks the primary-stressed syllable. Her goal is consistent, comprehensible delivery—not copying one speaker's identity or treating one accent as the only valid English."
+    "content": "Maya is preparing an architecture review for a cross-team audience. Her notes contain the words architecture, repository, engineer and authentication. She checks a U.S. dictionary entry for each word and marks the primary-stressed syllable. Her goal is consistent, comprehensible delivery—not copying one speaker's identity or treating one accent as the only valid English."
   },
   "exercises": [
     {
@@ -74,7 +83,7 @@
         "Âm tiết đầu",
         "Âm tiết thứ hai",
         "Âm tiết thứ ba",
-        "Âm tiết cuối cùng"
+        "Âm tiết cuối"
       ],
       "correctAnswer": ["Âm tiết thứ hai"],
       "explanation": "Dấu ˈ đứng trước âm tiết thứ hai trong transcription tham chiếu."
@@ -115,6 +124,19 @@
       ],
       "correctAnswer": ["Âm tiết đầu mang secondary stress (trọng âm phụ)"],
       "explanation": "Ký hiệu ˌ đánh dấu secondary stress (trọng âm phụ); ký hiệu ˈ trước âm tiết cuối đánh dấu primary stress (trọng âm chính)."
+    },
+    {
+      "id": "e3-5",
+      "type": "choice",
+      "question": "Trong /ɔːˌθen.tɪˈkeɪ.ʃən/, primary stress của authentication nằm ở đâu?",
+      "options": [
+        "Âm tiết thứ hai (/ˌθen/)",
+        "Âm tiết thứ ba (/tɪ/)",
+        "Âm tiết thứ tư (/ˈkeɪ/)",
+        "Âm tiết cuối (/ʃən/)"
+      ],
+      "correctAnswer": ["Âm tiết thứ tư (/ˈkeɪ/)"],
+      "explanation": "Dấu ˈ đứng trước /keɪ/, âm tiết thứ tư. Dấu ˌ trước /θen/ chỉ là trọng âm phụ nên không phải trọng âm chính."
     }
   ]
 }

@@ -58,7 +58,7 @@
           "question": "What is the issue about?",
           "options": [
             "A date picker saves the wrong day",
-            "A button has the wrong color for the team",
+            "A button shows the wrong color in dark mode",
             "A server runs out of memory"
           ],
           "correctAnswer": [
@@ -76,8 +76,8 @@
             "question": "In which time zones does the bug appear?",
             "options": [
               "West of UTC, such as Pacific Time",
-              "East of UTC only at work",
-              "In every time zone for the team right now"
+              "East of UTC, such as Tokyo",
+              "Only when the computer uses UTC"
             ],
             "correctAnswer": [
               "West of UTC, such as Pacific Time"
@@ -93,7 +93,7 @@
             "question": "What is the cause?",
             "options": [
               "A date created at midnight UTC is shown in local time",
-              "The user clicked the wrong day for the team right now",
+              "The picker reads the date in local time and saves it in UTC",
               "The server clock was wrong"
             ],
             "correctAnswer": [
@@ -111,7 +111,7 @@
             "options": [
               "Tests that compare exact timestamps",
               "The library license",
-              "The color of the picker for the team"
+              "The browser version of every user"
             ],
             "correctAnswer": [
               "Tests that compare exact timestamps"
@@ -127,7 +127,7 @@
             "question": "When will the fix be released?",
             "options": [
               "In version 3.4.1 next Tuesday",
-              "In version 4.0 next year for the team",
+              "In version 4.0 with the next major release",
               "It will not be released"
             ],
             "correctAnswer": [
@@ -170,7 +170,7 @@
             "steps to reproduce"
           ],
           "example": "I can reproduce this bug.",
-          "commonMistake": "Nhấn âm tiết thứ ba: re-pro-DUCE."
+          "commonMistake": "Nói \"reproduce the bug\"; không nói \"repeat the bug\"."
         },
         {
           "word": "workaround",
@@ -182,7 +182,7 @@
             "use a workaround"
           ],
           "example": "There is a workaround for this bug.",
-          "commonMistake": "Workaround là một từ."
+          "commonMistake": "Viết workaround một từ khi là danh từ, không viết \"work around\"."
         },
         {
           "word": "expected",
@@ -194,7 +194,7 @@
             "expected result"
           ],
           "example": "Expected: the first day of the month.",
-          "commonMistake": "Expected nói về mong đợi, actual nói về thực tế."
+          "commonMistake": "Nói \"expected behavior\"; không nói \"expect behavior\"."
         },
         {
           "word": "environment",
@@ -218,7 +218,7 @@
             "confirmed on"
           ],
           "example": "The maintainer confirmed the bug.",
-          "commonMistake": "Confirmed on + môi trường."
+          "commonMistake": "Nói \"confirmed on macOS 14\"; không nói \"confirmed at macOS 14\"."
         }
       ],
       "expressions": [
@@ -272,7 +272,7 @@
           "options": [
             "A way to see the bug again",
             "A price for the fix",
-            "A date for the release for the team"
+            "A date for the next release"
           ],
           "correctAnswer": [
             "A way to see the bug again"
@@ -291,7 +291,7 @@
         {
           "id": "rgi-c3",
           "type": "ordering",
-          "question": "Sắp xếp một báo cáo lỗi tốt.",
+          "question": "Sắp xếp các phần của một báo cáo lỗi theo thứ tự trong issue #482.",
           "options": [
             "expected and actual results",
             "a short title",
@@ -352,18 +352,21 @@
         {
           "id": "rgitb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I can ___ this bug.",
+          "question": "Điền từ còn thiếu (tái hiện lỗi): I can ___ this bug.",
           "correctAnswer": [
-            "reproduce"
+            "reproduce",
+            "replicate"
           ],
           "explanation": "\"reproduce\" nghĩa là tái hiện lỗi."
         },
         {
           "id": "rgitb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: There is a ___ for this bug.",
+          "question": "Điền từ còn thiếu (cách tạm thời để tránh lỗi): There is a ___ for this bug.",
           "correctAnswer": [
-            "workaround"
+            "workaround",
+            "work-around",
+            "temporary fix"
           ],
           "explanation": "\"workaround\" nghĩa là cách tạm thời để tránh lỗi."
         }
@@ -375,9 +378,9 @@
     "mode": "written",
     "title": "Write a helpful reply on an issue",
     "scenario": "Bạn đọc một issue và viết một câu trả lời giúp người báo lỗi và người duy trì thư viện.",
-    "baselinePrompt": "Đọc đoạn issue ngắn rồi viết một câu trả lời bằng tiếng Anh (60 đến 110 từ): xác nhận bạn tái hiện được, nêu môi trường và gợi ý cách tạm. Chưa xem bài mẫu.",
-    "performancePrompt": "Write a helpful reply on the issue in English, 60 to 110 words: say whether you can reproduce it, give your environment and suggest a workaround or next step.",
-    "modelResponse": "Thanks for the clear steps, Maria. I can reproduce this on Chrome 124 with the time zone set to Pacific Time and library version 3.4.0. Expected: the first day of the month. Actual: the last day of the previous month. It does not happen in UTC. As a workaround, you can set useLocalTime to true, but please check tests that compare exact timestamps. Pull request #490 should fix the root cause and is planned for 3.4.1 next Tuesday. I can test the fix on our staging site and report the result here.",
+    "baselinePrompt": "Đọc đoạn issue ngắn rồi viết một câu trả lời bằng tiếng Anh (60 đến 120 từ): xác nhận bạn tái hiện được, nêu môi trường trong issue và gợi ý cách tạm. Chưa xem bài mẫu.",
+    "performancePrompt": "Write a helpful reply on the issue in English, 60 to 120 words: say whether you can reproduce it, give the environment from the issue and suggest a workaround or next step.",
+    "modelResponse": "Thanks for the clear steps, Maria. I can reproduce this on Chrome 124 with the time zone set to Pacific Time and library version 3.4.0. Expected: the first day of the month. Actual: the last day of the previous month. It does not happen in UTC. As a workaround, you can set useLocalTime to true, but please check tests that compare exact timestamps. Pull request #490 should fix the root cause and is planned for 3.4.1 next Tuesday. I can test the fix and report the result here.",
     "retryPrompt": "Write the reply again in English. Keep it friendly and make the workaround clearer.",
     "transferPrompt": "Write a reply for a different issue, using reproduction, environment and a workaround.",
     "reviewPrompt": "Write a reply for another issue without looking at old notes.",
@@ -391,7 +394,7 @@
             "type": "source",
             "title": "Issue #482: date picker",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Date picker saves the wrong day. Steps: set Pacific Time, click the first day, save. Expected: first day. Actual: last day of previous month. Version 3.4.0. Workaround: useLocalTime."
+            "content": "Synthetic training artifact — non-production. Issue excerpt. Title: Date picker saves the wrong day. Steps: set Pacific Time, click the first day, save. Expected: first day. Actual: last day of previous month. Version 3.4.0, Chrome 124, macOS 14. It does not happen in UTC. Workaround: useLocalTime, but check tests that compare exact timestamps. Fix: pull request #490, planned for 3.4.1 next Tuesday."
           }
         ]
       },

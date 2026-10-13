@@ -89,7 +89,7 @@
             "run npm install"
           ],
           "example": "I ran npm install, and it finished.",
-          "commonMistake": "Nhấn trọng âm ở âm tiết thứ hai: in-STALL."
+          "commonMistake": "Nói \"install a package\"; không nói \"install to a package\"."
         }
       ],
       "expressions": [
@@ -253,16 +253,17 @@
         {
           "id": "wafha-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I get an ___ when I start the app.",
+          "question": "Điền từ còn thiếu (lỗi): I get an ___ when I start the app.",
           "correctAnswer": [
-            "error"
+            "error",
+            "exception"
           ],
           "explanation": "\"error\" nghĩa là lỗi."
         },
         {
           "id": "wafha-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The config ___ is missing.",
+          "question": "Điền từ còn thiếu (tệp): The config ___ is missing.",
           "correctAnswer": [
             "file"
           ],
@@ -278,7 +279,7 @@
     "scenario": "Bạn gặp lỗi build trên máy và nhắn cho đồng nghiệp tên Mai để nhờ giúp.",
     "baselinePrompt": "Viết một tin nhắn ngắn cho Mai: nêu vấn đề, việc bạn đã thử và một câu hỏi. Hãy viết bằng tiếng Anh, chưa xem bài mẫu.",
     "performancePrompt": "Write 40 to 60 words in English: the problem, what you tried, and one question. (Nêu vấn đề, việc đã thử, một câu hỏi.)",
-    "modelResponse": "Hi Mai, I have a problem with the build. I get an error: config file not found. I ran npm install and npm start. The error is still there. Can you help me with the config file? I am free after lunch. Thank you for your help.",
+    "modelResponse": "Hi Mai, I have a problem with the build. I get an error: config file not found. I ran npm install and npm start. The error is still there. Can you help me with the config file? Thank you for your help.",
     "retryPrompt": "Write your message again in English. Fix your weakest criterion (tiêu chí yếu nhất). Keep it short.",
     "transferPrompt": "Write a new help message for a different error. Say the problem, what you tried, and ask one question.",
     "reviewPrompt": "Write a help message for a new problem. Do not look at your old messages.",

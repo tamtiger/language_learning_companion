@@ -1,7 +1,7 @@
 {
   "schemaVersion": "v3",
   "lessonId": "architecture-walkthrough-b2",
-  "title": "Walk through a system architecture",
+  "title": "Walk through a system architecture (B2)",
   "summary": "Giải thích luồng hệ thống, ranh giới, failure path và trade-off bằng tiếng Anh dễ theo dõi.",
   "cefrLevel": "B2",
   "durationMinutes": 17,
@@ -40,7 +40,7 @@
             "the request path includes"
           ],
           "example": "The request path starts at the gateway.",
-          "commonMistake": "Nói the request path, không đảo thành path request."
+          "commonMistake": "Nói \"path request\". Trật tự đúng là request path."
         },
         {
           "word": "gateway",
@@ -67,28 +67,28 @@
           "commonMistake": "Nói downstream service, không nói down service."
         },
         {
-          "word": "throughput",
-          "ipa": "/ˈθruː.pʊt/",
-          "definition": "thông lượng",
-          "technicalMeaning": "Số yêu cầu hệ thống xử lý được trong một đơn vị thời gian.",
+          "word": "idempotent",
+          "ipa": "/ˌaɪ.dəmˈpoʊ.tənt/",
+          "definition": "có tính lũy đẳng",
+          "technicalMeaning": "Xử lý cùng một sự kiện nhiều lần vẫn cho cùng một kết quả.",
           "collocations": [
-            "high throughput",
-            "increase throughput"
+            "an idempotent consumer",
+            "process events idempotently"
           ],
-          "example": "The cache increases throughput during peak hours.",
-          "commonMistake": "Throughput không đếm được, không thêm s."
+          "example": "Both consumers are idempotent, so a duplicate event is safe.",
+          "commonMistake": "Nhấn âm tiết thứ ba: id-em-PO-tent."
         },
         {
-          "word": "failover",
-          "ipa": "/ˈfeɪl.oʊ.vɚ/",
-          "definition": "chuyển sang hệ thống dự phòng",
-          "technicalMeaning": "Tự động dùng bản dự phòng khi thành phần chính hỏng.",
+          "word": "dead-letter queue",
+          "ipa": "/ˌded ˈlet.ɚ kjuː/",
+          "definition": "hàng đợi thư chết",
+          "technicalMeaning": "Hàng đợi giữ các thông điệp không gửi được sau khi đã thử lại hết số lần.",
           "collocations": [
-            "automatic failover",
-            "trigger a failover"
+            "send to a dead-letter queue",
+            "inspect the dead-letter queue"
           ],
-          "example": "Failover moves traffic to the second region.",
-          "commonMistake": "Danh từ viết failover, động từ viết fail over."
+          "example": "The message enters a dead-letter queue after two retries.",
+          "commonMistake": "Viết liền thành deadletter. Dạng đúng có dấu gạch nối: dead-letter queue."
         }
       ],
       "expressions": [
@@ -178,7 +178,8 @@
           ],
           "explanation": "Yêu cầu đi qua cổng nên dùng through (hoặc via).",
           "acceptedAnswers": [
-            "via"
+            "via",
+            "at"
           ]
         },
         {
@@ -186,18 +187,18 @@
           "type": "ordering",
           "question": "Sắp xếp luồng xử lý một yêu cầu.",
           "options": [
-            "the service reads the data",
-            "the response goes back to the user",
+            "the broker sends the event",
             "the gateway receives the request",
-            "the cache is checked first"
+            "the consumers process the event",
+            "the order service records the order"
           ],
           "correctAnswer": [
             "the gateway receives the request",
-            "the cache is checked first",
-            "the service reads the data",
-            "the response goes back to the user"
+            "the order service records the order",
+            "the broker sends the event",
+            "the consumers process the event"
           ],
-          "explanation": "Cổng nhận yêu cầu, kiểm tra cache, dịch vụ đọc dữ liệu, rồi trả phản hồi."
+          "explanation": "Cổng nhận yêu cầu, dịch vụ đơn hàng ghi nhận đơn, broker gửi sự kiện, rồi các consumer xử lý."
         }
       ]
     },
@@ -209,7 +210,7 @@
         "request path",
         "gateway",
         "downstream",
-        "throughput"
+        "idempotent"
       ],
       "exercises": [
         {
@@ -230,33 +231,35 @@
               "value": "phía sau trong luồng xử lý"
             },
             {
-              "key": "throughput",
-              "value": "thông lượng"
+              "key": "idempotent",
+              "value": "có tính lũy đẳng"
             }
           ],
           "correctAnswer": [
             "request path - đường đi của yêu cầu",
             "gateway - cổng vào",
             "downstream - phía sau trong luồng xử lý",
-            "throughput - thông lượng"
+            "idempotent - có tính lũy đẳng"
           ],
           "explanation": "Ôn lại các từ đã học trong bài này."
         },
         {
           "id": "awb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ starts at the gateway.",
+          "question": "Điền từ còn thiếu (đường đi của yêu cầu): The ___ starts at the gateway.",
           "correctAnswer": [
-            "request path"
+            "request path",
+            "request flow"
           ],
           "explanation": "\"request path\" nghĩa là đường đi của yêu cầu."
         },
         {
           "id": "awb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Every call enters through the ___.",
+          "question": "Điền từ còn thiếu (cổng vào): Every call enters through the ___.",
           "correctAnswer": [
-            "gateway"
+            "gateway",
+            "API gateway"
           ],
           "explanation": "\"gateway\" nghĩa là cổng vào."
         }
@@ -270,8 +273,8 @@
     "scenario": "Một kỹ sư mới cần hiểu request flow và cách hệ thống xử lý failure.",
     "baselinePrompt": "Trong 90–120 giây, giải thích sơ đồ bằng tiếng Anh mà chưa xem model hoặc chunk.",
     "performancePrompt": "In 90–120 seconds in English, explain from the entry point to the consumers: state each responsibility, the outbox handoff, at-least-once delivery with idempotent handling, the async trade-off, partial status and the message-delivery failure path.",
-    "modelResponse": "Let me walk through the request, starting with the happy path and then moving to failures. The gateway authenticates and routes it to the order service. In one transaction, the service records the order and an outbox entry; an outbox publisher then sends the event to the broker. Because delivery is at least once, inventory and payment consumers use the event ID to deduplicate events. They run independently, so the order can be partial when only one succeeds and becomes complete only after both succeed. The API can return accepted before that work finishes, which shortens request time but means the client initially sees pending or partial status. If message delivery fails, it is retried twice. After both retries, the message enters a dead-letter queue for inspection before replay; replay is safe because consumers deduplicate the event. This improves response latency but adds status tracking, duplicate-delivery handling and operational recovery. Overall, the design favors a fast response over immediate certainty, so the client must handle pending states.",
-    "retryPrompt": "Trong 90–120 giây, giải thích pipeline ảnh mới; dùng signposting rõ và ưu tiên criterion cần sửa.",
+    "modelResponse": "Let me walk through the request, starting with the happy path and then moving to failures. A request first enters the API gateway, which authenticates it and routes it to the order service. In one transaction, the order service validates the request, then records the order and an outbox entry. Once the outbox entry is recorded, an outbox publisher sends the event to the event broker. From there, the inventory and payment consumers receive the event. Because delivery is at least once, a duplicate event is possible, so both consumers use the event ID to process it idempotently. Inventory reserves stock and payment authorizes the charge, and they run independently. If only one consumer succeeds, the order status is partial. It becomes complete only after both report success. The API returns accepted before the downstream work finishes, which reduces request wait but means the client initially sees a pending or partial status. Now the failure path. If message delivery fails, it is retried twice. After both retries are exhausted, the message enters a dead-letter queue, where an operator inspects it before replay. This improves response latency, but it adds status tracking, duplicate-event handling and operational recovery. Overall, the design favors a fast response over immediate certainty, so the client must handle pending states.",
+    "retryPrompt": "In 90–120 seconds, explain the new image pipeline from the retry context; use clear signposting and work on your weakest criterion.",
     "transferPrompt": "In 90–120 seconds, without looking at the model or chunks, explain a file-upload pipeline from the new facts.",
     "reviewPrompt": "In 90–120 seconds, from the new review brief, walk through the happy path, the trade-off and the failure path.",
     "practiceContexts": {
@@ -284,7 +287,7 @@
             "type": "source",
             "title": "Order flow",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. The gateway authenticates and routes the request. The order service records the order and an outbox entry in one transaction; an outbox publisher sends the event. Delivery is at-least-once, so inventory and payment use the event ID to deduplicate events. They run independently: one success produces partial status, and both successes produce complete status. The API returns accepted before downstream completion, improving request latency while requiring pending or partial status. Failed message deliveries retry twice, then the message enters a dead-letter queue for inspection before replay."
+            "content": "Synthetic training artifact — non-production. The gateway authenticates and routes the request. The order service validates the request, then records the order and an outbox entry in one transaction; an outbox publisher sends the event. Delivery is at-least-once, so inventory and payment use the event ID to deduplicate events. They run independently: one success produces partial status, and both successes produce complete status. The API returns accepted before downstream completion, improving request latency while requiring pending or partial status. Failed message deliveries retry twice, then the message enters a dead-letter queue for inspection before replay. Flow: client, API gateway, order service, event broker, then the inventory and payment consumers. Inventory reserves stock and payment authorizes the charge. A duplicate event is possible."
           }
         ]
       },
@@ -497,7 +500,7 @@
             },
             "question": "What trade-off is stated?",
             "options": [
-              "Lower latency versus immediate completion",
+              "Higher latency versus eventual completion",
               "Higher cost versus encryption",
               "Lower latency versus eventual completion"
             ],
@@ -623,26 +626,26 @@
             "id": "arch-post-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Operators inspect failed report event deliveries before replay.",
+              "text": "Failed report events wait in the dead letter queue until an operator checks them.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
               ]
             },
-            "question": "What happens before replay?",
+            "question": "Who checks the failed messages?",
             "options": [
-              "Consumer replay without review",
-              "Operator inspection",
-              "Automatic publication"
+              "An operator",
+              "The dead letter queue",
+              "The client app"
             ],
-            "correctAnswer": "Operator inspection"
+            "correctAnswer": "An operator"
           }
         ]
       },
       "pronunciationCues": [
         {
           "id": "arch-cue-finals",
-          "articulatoryCue": "Giữ âm cuối trong failed deliveries, retries và costs.",
+          "articulatoryCue": "Giữ âm cuối trong failed deliveries và retries.",
           "meaningRisk": "Mất plural/final sounds làm số lượng và trạng thái khó hiểu.",
           "triggerItemIds": [
             "arch-pre-1",
@@ -766,8 +769,11 @@
   },
   "reviewPolicy": {
     "intervalDays": [
-      2,
-      7
-    ]
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
   }
 }

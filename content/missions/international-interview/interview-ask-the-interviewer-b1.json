@@ -53,7 +53,7 @@
             "meet expectations"
           ],
           "example": "What are your expectations for the first quarter?",
-          "commonMistake": "Dùng số nhiều expectations khi nói chung về nhiều kỳ vọng."
+          "commonMistake": "Nhấn âm thứ ba: ex-pec-TA-tion; khi hỏi chung thường dùng số nhiều expectations."
         },
         {
           "word": "measure",
@@ -162,7 +162,7 @@
           "correctAnswer": [
             "How many days off will I get?"
           ],
-          "explanation": "Câu hỏi về quyền lợi nên để khi đã có offer."
+          "explanation": "Câu hỏi về quyền lợi thường nên để khi đã có offer."
         },
         {
           "id": "ati-fill",
@@ -181,15 +181,17 @@
             "ask about next steps",
             "thank the interviewer",
             "ask about the team",
+            "ask about growth",
             "ask about success"
           ],
           "correctAnswer": [
             "ask about the team",
             "ask about success",
-            "ask about next steps",
-            "thank the interviewer"
+            "ask about growth",
+            "thank the interviewer",
+            "ask about next steps"
           ],
-          "explanation": "Hỏi về đội, thành công, bước tiếp, rồi cảm ơn."
+          "explanation": "Hỏi về đội, thành công, phát triển, rồi cảm ơn và hỏi bước tiếp theo."
         }
       ]
     },
@@ -237,7 +239,7 @@
         {
           "id": "iatib-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: What does ___ look like here?",
+          "question": "Điền từ còn thiếu (quá trình làm quen khi mới vào): What does ___ look like here?",
           "correctAnswer": [
             "onboarding"
           ],
@@ -246,7 +248,7 @@
         {
           "id": "iatib-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: What are your ___ for the first quarter?",
+          "question": "Điền từ còn thiếu (kỳ vọng): What are your ___ for the first quarter?",
           "correctAnswer": [
             "expectations"
           ],
@@ -262,9 +264,9 @@
     "scenario": "Người phỏng vấn hỏi \"Do you have any questions for me?\"; bạn hỏi ba câu và kết thúc lịch sự.",
     "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: đặt ba câu hỏi về đội, cách đo thành công và cơ hội phát triển, rồi cảm ơn và hỏi bước tiếp theo. Chưa xem bài mẫu.",
     "performancePrompt": "Speak in English for about one minute: ask three questions about the team, success and growth, then thank the interviewer and ask about the next steps.",
-    "modelResponse": "Yes, I have a few questions. First, could you tell me more about how the team works day to day, for example how you plan work and review code? Second, how do you measure success in this role during the first three months? I would like to understand what you expect from me early on. Third, what does growth look like for engineers on this team, and how do people usually move to more senior roles? Thank you for your answers, they were very helpful. I am excited about the product and about the way the team works together. Thank you for your time today. Could you explain the next steps, and when I can expect to hear from you?",
+    "modelResponse": "Yes, I have a few questions. First, could you tell me more about how the team works day to day, for example how you plan work and review code? Second, how do you measure success in this role during the first three months? I would like to understand what you expect from me early on, because I want to contribute to the team from the very start. Third, what does growth look like for engineers on this team, and how do people usually move to more senior roles? Thank you for your answers. They were very helpful. I am excited about the product and about the way the team works together. Thank you for your time today. Could you explain the next steps, and when I can expect to hear from you?",
     "retryPrompt": "Answer again in English with the same three questions. Make each question shorter and clearer.",
-    "transferPrompt": "Ask three questions at the end of a different interview, such as for a data role.",
+    "transferPrompt": "Ask three questions at the end of a different interview, such as for a mobile role.",
     "reviewPrompt": "Ask questions at the end of another interview without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -428,7 +430,7 @@
             "question": "What topic is raised?",
             "options": [
               "Moving up and learning",
-              "Working from home for the team",
+              "Working from home more often",
               "Using new laptops"
             ],
             "correctAnswer": "Moving up and learning"
@@ -446,8 +448,8 @@
             "question": "What is the speaker asking?",
             "options": [
               "What happens afterwards",
-              "Who the founders are for the team",
-              "Where to park at work"
+              "Who started the company",
+              "Where visitors can park"
             ],
             "correctAnswer": "What happens afterwards"
           }
@@ -465,11 +467,11 @@
             },
             "question": "What does the speaker ask about?",
             "options": [
-              "The first weeks at work",
-              "Last year's sales for the team",
-              "The office rent"
+              "The first weeks in the role",
+              "Last year's sales results",
+              "The monthly office rent"
             ],
-            "correctAnswer": "The first weeks at work",
+            "correctAnswer": "The first weeks in the role",
             "feedback": "Onboarding là quá trình làm quen khi mới vào."
           },
           {
@@ -486,8 +488,8 @@
             "question": "What is being asked?",
             "options": [
               "What the company hopes for",
-              "What the team ate for the team",
-              "What the price is"
+              "How much the role pays",
+              "Who the manager will be"
             ],
             "correctAnswer": "What the company hopes for",
             "feedback": "Expectations là kỳ vọng."
@@ -505,7 +507,7 @@
             "question": "What process is mentioned?",
             "options": [
               "Checking work before launch",
-              "Planning a company trip for the team",
+              "Testing servers after launch",
               "Hiring a new manager"
             ],
             "correctAnswer": "Checking work before launch",
@@ -525,7 +527,7 @@
             "options": [
               "A major difficulty",
               "A holiday plan",
-              "A product color for the team"
+              "A recent product launch"
             ],
             "correctAnswer": "A major difficulty",
             "feedback": "Challenge là thách thức lớn."
@@ -544,7 +546,7 @@
             "question": "What is the speaker curious about?",
             "options": [
               "Promotion paths",
-              "Parking rules for the team",
+              "Parking rules nearby",
               "Lunch options"
             ],
             "correctAnswer": "Promotion paths",
@@ -563,7 +565,7 @@
             "question": "What does the speaker do?",
             "options": [
               "Expresses gratitude",
-              "Raises a complaint for the team",
+              "Makes a complaint",
               "Changes the topic"
             ],
             "correctAnswer": "Expresses gratitude",
@@ -584,7 +586,7 @@
             "question": "What is the speaker asking about?",
             "options": [
               "How quality is checked",
-              "How lunch is booked for the team",
+              "How the budget is planned",
               "How travel is paid"
             ],
             "correctAnswer": "How quality is checked"
@@ -602,7 +604,7 @@
             "question": "What is being asked?",
             "options": [
               "What good results look like",
-              "How long a day is for the team",
+              "How long the workday is",
               "Who sits nearby"
             ],
             "correctAnswer": "What good results look like"
@@ -622,7 +624,7 @@
             "options": [
               "Future opportunities",
               "Past mistakes",
-              "Seat locations for the team"
+              "Where people sit"
             ],
             "correctAnswer": "Future opportunities"
           },
@@ -640,7 +642,7 @@
             "options": [
               "When a reply arrives",
               "Who the manager is",
-              "Where the office is for the team"
+              "Where the office is"
             ],
             "correctAnswer": "When a reply arrives"
           }
@@ -649,8 +651,8 @@
       "pronunciationCues": [
         {
           "id": "ati-cue-growth",
-          "articulatoryCue": "Đọc âm cuối của growth và measure thật rõ bằng cách đặt lưỡi giữa răng ở cuối growth.",
-          "meaningRisk": "Nuốt âm cuối làm growth nghe giống một từ khác.",
+          "articulatoryCue": "Đọc rõ âm /θ/ cuối growth bằng cách đặt đầu lưỡi giữa hai hàm răng; không đọc thành /s/ hoặc /f/.",
+          "meaningRisk": "Thay /θ/ bằng /s/ hay /f/ làm growth nghe sai và người nghe khó nhận ra từ.",
           "triggerItemIds": [
             "ati-pre-3",
             "ati-post-3"
@@ -658,7 +660,7 @@
         },
         {
           "id": "ati-cue-expect",
-          "articulatoryCue": "Nhấn âm thứ hai của expectations và onboarding để câu hỏi nghe tự tin.",
+          "articulatoryCue": "Nhấn âm thứ ba của expectations (-TAY-) và âm đầu của onboarding (ON-) để câu hỏi nghe tự tin.",
           "meaningRisk": "Thiếu nhấn làm câu hỏi nghe mơ hồ.",
           "triggerItemIds": [
             "ati-train-1",

@@ -63,7 +63,7 @@
           "question": "What does this endpoint do?",
           "options": [
             "Lists the account's orders, newest first",
-            "Creates a new order for a customer for the team",
+            "Creates a new order for a customer",
             "Deletes old orders from the system"
           ],
           "correctAnswer": [
@@ -80,12 +80,12 @@
             "type": "choice",
             "question": "What is the maximum value of limit?",
             "options": [
-              "100",
-              "20 for the team",
-              "10 at work"
+              "100 orders per page",
+              "20 orders (the default)",
+              "10 orders (the example)"
             ],
             "correctAnswer": [
-              "100"
+              "100 orders per page"
             ],
             "explanation": "Phần tham số: limit từ 1 đến 100."
           }
@@ -98,8 +98,8 @@
             "question": "What should you do when has_more is true?",
             "options": [
               "Send the next request with next_cursor",
-              "Wait for one hour",
-              "Start again without a cursor for the team"
+              "Wait one hour, then repeat the first request",
+              "Send the first request again without a cursor"
             ],
             "correctAnswer": [
               "Send the next request with next_cursor"
@@ -150,7 +150,7 @@
       "vocabulary": [
         {
           "word": "endpoint",
-          "ipa": "/ˈen.dpɔɪnt/",
+          "ipa": "/ˈend.pɔɪnt/",
           "definition": "điểm cuối của API",
           "technicalMeaning": "Một địa chỉ trong API nhận yêu cầu và trả kết quả.",
           "collocations": [
@@ -158,7 +158,7 @@
             "this endpoint returns"
           ],
           "example": "This endpoint returns a list of orders.",
-          "commonMistake": "Endpoint viết thành một từ."
+          "commonMistake": "Không viết \"end point\" thành hai từ; dạng chuẩn là endpoint."
         },
         {
           "word": "cursor",
@@ -170,13 +170,13 @@
             "pass the cursor"
           ],
           "example": "Pass next_cursor as the cursor.",
-          "commonMistake": "Không tự tạo cursor; chỉ dùng giá trị server trả."
+          "commonMistake": "Đừng nhầm cursor (con trỏ phân trang) với con trỏ chuột trên màn hình."
         },
         {
           "word": "optional",
           "ipa": "/ˈɑːp.ʃən.əl/",
           "definition": "không bắt buộc",
-          "technicalMeaning": "Tham số có thể bỏ qua vì đã có giá trị mặc định.",
+          "technicalMeaning": "Tham số có thể bỏ qua; nếu bỏ thì API dùng giá trị mặc định hoặc không áp dụng bộ lọc.",
           "collocations": [
             "an optional parameter",
             "optional field"
@@ -338,18 +338,21 @@
         {
           "id": "rarpb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: This ___ returns a list of orders.",
+          "question": "Điền từ còn thiếu (điểm cuối của API): This ___ returns a list of orders.",
           "correctAnswer": [
-            "endpoint"
+            "endpoint",
+            "api",
+            "route"
           ],
           "explanation": "\"endpoint\" nghĩa là điểm cuối của API."
         },
         {
           "id": "rarpb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Pass next_cursor as the ___.",
+          "question": "Điền từ còn thiếu (con trỏ phân trang): Pass next_cursor as the ___.",
           "correctAnswer": [
-            "cursor"
+            "cursor",
+            "cursor parameter"
           ],
           "explanation": "\"cursor\" nghĩa là con trỏ phân trang."
         }
@@ -363,7 +366,7 @@
     "scenario": "You read an API reference page and write a short note for a teammate who will build the integration.",
     "baselinePrompt": "Read the short API excerpt and write an integration note in English (60 to 120 words): how to call it, how to page through results and how to handle errors. Do not look at the model answer yet.",
     "performancePrompt": "Write an integration note in English, 60 to 120 words: how to call the endpoint, how pagination works and how to handle two errors.",
-    "modelResponse": "Integration note for the Orders API. Call the list endpoint from the server with a read-only secret key, never from a browser. Use limit up to 100 and the status filter when needed. To read all orders, send the first request without a cursor, then pass next_cursor to each following request until has_more is false. Cursors expire after one hour and return 410, so restart from the first page. If you receive 429, wait for the Retry-After value, and for 500, retry with a delay. Log the request id, and keep to one hundred requests per minute.",
+    "modelResponse": "Integration note for the Orders API. Call the list endpoint from the server with a read-only secret key, never from a browser. Use limit up to 100. To read all orders, send the first request without a cursor, then pass next_cursor to each following request until has_more is false. Cursors expire after one hour and return 410, so restart from the first page. If you receive 429, wait for the Retry-After value, and for 500, retry with a delay. Log the request id, and keep to one hundred requests per minute.",
     "retryPrompt": "Write the note again in English. Keep the structure and make the pagination steps clearer.",
     "transferPrompt": "Write an integration note for a different API excerpt, using the same structure.",
     "reviewPrompt": "Write an integration note for another API excerpt without looking at old notes.",
@@ -377,7 +380,7 @@
             "type": "source",
             "title": "List orders excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. GET /orders returns up to 100 orders. Use cursor from next_cursor to read the next page. Status 429 means wait for Retry-After. A secret key is required in the Authorization header."
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /orders returns up to 100 orders per page, newest first. Call it from the server with a read-only secret key in the Authorization header, never from a browser. The response has has_more and next_cursor. To read all orders, send the first request without a cursor, then pass next_cursor until has_more is false. A cursor expires after one hour and returns status 410; start again from the first page. Status 429 means wait for the Retry-After header. Status 500 means retry with a delay. Limit: one hundred requests per minute. Log the request id."
           }
         ]
       },
@@ -390,7 +393,7 @@
             "type": "source",
             "title": "List invoices excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. GET /invoices returns up to 50 invoices. Use page_token from next_page_token. Status 401 means the key is missing. Status 404 means the customer does not exist. Keys must stay on the server."
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /invoices returns up to 50 invoices. Use page_token from next_page_token and stop when it is empty. Status 401 means the key is missing. Status 404 means the customer does not exist. Keys must stay on the server."
           }
         ]
       },
@@ -403,7 +406,7 @@
             "type": "source",
             "title": "List events excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. GET /events returns events of the last thirty days. Use starting_after with the last event id. Status 400 means the date is invalid. Limit is 100 requests per minute."
+            "content": "Synthetic training artifact — non-production. Excerpt. GET /events returns events of the last thirty days. Use starting_after with the last event id. Status 400 means the date is invalid. Status 429 means too many requests; wait before the next request. The rate limit is 100 requests per minute."
           }
         ]
       },

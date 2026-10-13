@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Offer call",
       "format": "dialogue",
-      "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you the role at ninety thousand a year, plus the standard benefits. Notes: thank the recruiter, ask for time, state your expectation with evidence, propose a range and keep the tone collaborative."
+      "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you the role at ninety thousand a year, plus the standard benefits. Notes: thank the recruiter, state your expectation with evidence, propose a flexible option and keep the tone collaborative."
     },
     {
       "id": "neg-language",
@@ -65,7 +65,7 @@
             "flexible about"
           ],
           "example": "I am flexible on the start date.",
-          "commonMistake": "Nói flexible on hoặc about, không nói flexible with the salary."
+          "commonMistake": "Nói \"be flexible on/about/with + điều có thể điều chỉnh\" (ví dụ the start date)."
         },
         {
           "word": "benchmark",
@@ -173,7 +173,8 @@
           ],
           "explanation": "Flexible on + điều có thể điều chỉnh.",
           "acceptedAnswers": [
-            "about"
+            "about",
+            "with"
           ]
         },
         {
@@ -240,18 +241,21 @@
         {
           "id": "inob-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I would like to discuss the ___.",
+          "question": "Điền từ còn thiếu (tổng thu nhập và quyền lợi): I would like to discuss the ___.",
           "correctAnswer": [
-            "compensation"
+            "compensation",
+            "package"
           ],
           "explanation": "\"compensation\" nghĩa là tổng thu nhập và quyền lợi."
         },
         {
           "id": "inob-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I would like to make a ___.",
+          "question": "Điền từ còn thiếu (đề xuất ngược lại): I would like to make a ___.",
           "correctAnswer": [
-            "counteroffer"
+            "counteroffer",
+            "counter-offer",
+            "counter offer"
           ],
           "explanation": "\"counteroffer\" nghĩa là đề xuất ngược lại."
         }
@@ -265,9 +269,9 @@
     "scenario": "A recruiter calls with an offer; you thank them, explain your expectation with evidence, propose an option and agree on next steps.",
     "baselinePrompt": "Respond in English for about 90 seconds: thank the recruiter, state your expectation with evidence, propose a flexible option and agree on next steps. Do not look at the model answer yet.",
     "performancePrompt": "Speak in English for about 90 seconds: thank the recruiter, state your expectation based on evidence, propose a flexible option and agree on the next steps.",
-    "modelResponse": "Thank you very much for the offer. I am excited about the team and the product, and I would love to join the company. Based on my experience and the market benchmark for this role, I was hoping for a base figure closer to one hundred and five thousand. I have led two major releases and I have mentored three engineers, so I believe that figure reflects the value I can bring in the first year. That said, I am flexible on the structure of the package. For example, I would consider a lower base if we can include a signing bonus or an earlier review after six months. Could we discuss this and find a number that works for both sides? If we can agree on a direction, I am ready to sign this week. When would be a good time to continue the conversation, and who should I speak with about the details? Either way, thank you again for your time and for the trust you have shown in me today.",
+    "modelResponse": "Thank you very much for the offer. I am excited about the team and the product, and I would love to join the company. Based on my experience and the market benchmark for this role, I was hoping for a base figure closer to one hundred and five thousand. I have led two major releases and I have mentored three engineers, so I believe that figure reflects the value I can bring in the first year. That said, I am flexible on the structure of the package. For example, I would consider a lower base if we can include a signing bonus or an earlier review after six months. I also understand that the company has its own budget, so I would like to find a solution together. Could we discuss this and find a number that works for both sides? The start date next month works for me, and if we can agree on a direction, I am ready to sign this week. When would be a good time to continue the conversation, and who should I speak with about the details? Either way, thank you again for your time and for the trust you have shown in me today.",
     "retryPrompt": "Respond again in English. Keep the same order and make your evidence more specific.",
-    "transferPrompt": "Negotiate a different offer, such as a lead role with a lower base and larger equity.",
+    "transferPrompt": "Negotiate a different offer, such as a lead role with heavy travel and a larger team to manage.",
     "reviewPrompt": "Negotiate a new offer without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -279,7 +283,7 @@
             "type": "source",
             "title": "Offer for a backend role",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you ninety thousand a year, plus standard benefits and a start date next month."
+            "content": "Synthetic training artifact — non-production. Call: Offer for Backend Engineer, Ridgeway Systems. Recruiter: We are happy to offer you ninety thousand a year, plus standard benefits and a start date next month. Your notes: you led two major releases and mentored three engineers. Market data for this role is higher than the offer. You want about one hundred and five thousand. You are flexible on the structure of the package, a signing bonus, or an earlier review after six months."
           }
         ]
       },
@@ -413,7 +417,7 @@
             "question": "What supports the request?",
             "options": [
               "Data about the market",
-              "A friend's opinion for the team",
+              "A friend's opinion",
               "A personal wish"
             ],
             "correctAnswer": "Data about the market"
@@ -432,7 +436,7 @@
             "options": [
               "How the package is built",
               "Which company to join",
-              "The length of the call for the team"
+              "The length of the call"
             ],
             "correctAnswer": "How the package is built"
           },
@@ -470,7 +474,7 @@
             "question": "What topic is raised?",
             "options": [
               "Pay and extras",
-              "Office design for the team",
+              "Office design plans",
               "Team lunches"
             ],
             "correctAnswer": "Pay and extras",
@@ -499,7 +503,7 @@
             "id": "neg-train-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "I would consider a lower base if we can include a signing bonus.",
+              "text": "I could be flexible on the package, and I would consider a lower base if we can include a signing bonus.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -528,7 +532,7 @@
             "question": "When would the review happen?",
             "options": [
               "After half a year",
-              "After two years for the team",
+              "After two years",
               "After one week"
             ],
             "correctAnswer": "After half a year",
@@ -547,8 +551,8 @@
             "question": "What tone does the speaker use?",
             "options": [
               "A joint search for agreement",
-              "A final demand for the team right now",
-              "A cold refusal at work"
+              "A firm one-sided demand",
+              "A flat refusal to talk"
             ],
             "correctAnswer": "A joint search for agreement",
             "feedback": "Both sides cho thấy tinh thần hợp tác."
@@ -588,7 +592,7 @@
             "options": [
               "Grateful and positive",
               "Angry and rushed",
-              "Bored and distant for the team"
+              "Bored and distant"
             ],
             "correctAnswer": "Grateful and positive"
           },
@@ -642,8 +646,8 @@
             "question": "What is the speaker proposing?",
             "options": [
               "A compromise",
-              "A pause at work",
-              "A complaint for the team"
+              "A pause in the call",
+              "A formal complaint"
             ],
             "correctAnswer": "A compromise"
           }
@@ -652,7 +656,7 @@
       "pronunciationCues": [
         {
           "id": "neg-cue-offer",
-          "articulatoryCue": "Nhấn âm đầu của offer và excited để sự biết ơn nghe thật lòng.",
+          "articulatoryCue": "Nhấn âm đầu của offer và âm thứ hai của excited (ex-CI-ted) để sự biết ơn nghe thật lòng.",
           "meaningRisk": "Giọng phẳng làm lời cảm ơn nghe lạnh.",
           "triggerItemIds": [
             "neg-pre-1",
@@ -760,7 +764,7 @@
           "id": "neg-turn-push",
           "kind": "interruption",
           "prompt": "That is above our budget. What is the lowest figure you would accept?",
-          "expectedFunction": "respond with a range and a flexible option"
+          "expectedFunction": "respond with one number or condition and a flexible option"
         },
         {
           "id": "neg-turn-repair",

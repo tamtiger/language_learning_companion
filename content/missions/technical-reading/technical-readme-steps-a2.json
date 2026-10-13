@@ -41,7 +41,7 @@
             "next step"
           ],
           "example": "The first step is to install Node.",
-          "commonMistake": "Nói \"the first step\"; không nói \"the step first\"."
+          "commonMistake": "Nói \"The first step is to install Node\"; không nói \"The step one is install Node\"."
         },
         {
           "word": "copy",
@@ -53,7 +53,7 @@
             "copy and paste"
           ],
           "example": "I copy the example file to .env.",
-          "commonMistake": "Nói \"copy A to B\"; giới từ là to."
+          "commonMistake": "Nói \"copy A to B\"; không nói \"copy A in B\"."
         },
         {
           "word": "run",
@@ -65,7 +65,7 @@
             "run the app"
           ],
           "example": "I run npm install.",
-          "commonMistake": "Nói \"run npm install\"; không cần thêm từ \"the\" trước tên lệnh."
+          "commonMistake": "Nói \"run npm install\"; không nói \"make npm install\"."
         },
         {
           "word": "open",
@@ -77,7 +77,7 @@
             "open a file"
           ],
           "example": "I open the page in my browser.",
-          "commonMistake": "Nói \"open the page\"; không nói \"open to the page\"."
+          "commonMistake": "Nói \"open the page\"; không nói \"turn on the page\"."
         },
         {
           "word": "stop",
@@ -89,7 +89,7 @@
             "stop a server"
           ],
           "example": "To stop the app, I press Ctrl+C.",
-          "commonMistake": "Nói \"stop the app\"; không nói \"stop to the app\"."
+          "commonMistake": "Nói \"stop the app\"; không nói \"off the app\"."
         }
       ],
       "expressions": [
@@ -176,9 +176,10 @@
             "Then"
           ],
           "acceptedAnswers": [
-            "Next"
+            "Next",
+            "After that"
           ],
-          "explanation": "Then hoặc Next nối sang bước thứ hai."
+          "explanation": "Then, Next hoặc After that nối sang bước thứ hai."
         },
         {
           "id": "readme-stop-app",
@@ -254,18 +255,20 @@
         {
           "id": "trsa-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The first ___ is to install Node.",
+          "question": "Điền từ còn thiếu (bước): The first ___ is to install Node.",
           "correctAnswer": [
-            "step"
+            "step",
+            "task"
           ],
           "explanation": "\"step\" nghĩa là bước."
         },
         {
           "id": "trsa-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I ___ the example file to .env.",
+          "question": "Điền từ còn thiếu (sao chép): I ___ the example file to .env.",
           "correctAnswer": [
-            "copy"
+            "copy",
+            "duplicate"
           ],
           "explanation": "\"copy\" nghĩa là sao chép."
         }
@@ -319,7 +322,7 @@
             "type": "source",
             "title": "README: Quick API",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. README for Quick API. Step 1: Install Docker. Step 2: Run docker build -t quick-api . Step 3: Run docker run -p 8080:80 quick-api. Open http://localhost:8080 in your browser. To stop the container, press Ctrl+C."
+            "content": "Synthetic training artifact — non-production. README for Quick API. Step 1: Install Docker. Step 2: Run docker build -t quick-api . Step 3: Run docker run -p 8080:80 quick-api. Open http://localhost:8080 in your browser. You should see the Quick API welcome page. To stop the container, press Ctrl+C."
           }
         ]
       },

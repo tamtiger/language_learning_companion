@@ -56,7 +56,7 @@
             "update the runbook"
           ],
           "example": "Follow the runbook step by step.",
-          "commonMistake": "Viết runbook thành một từ."
+          "commonMistake": "Không viết \"run book\" thành hai từ; dạng chuẩn là runbook."
         },
         {
           "word": "threshold",
@@ -68,7 +68,7 @@
             "exceed the threshold"
           ],
           "example": "Stop if errors exceed the threshold.",
-          "commonMistake": "Đọc /θ/ bằng cách đặt lưỡi giữa răng."
+          "commonMistake": "Đọc /θ/ thành /t/ hoặc /s/ (\"treshold\"); đặt lưỡi giữa răng."
         },
         {
           "word": "degraded",
@@ -80,12 +80,12 @@
             "remain degraded"
           ],
           "example": "The service stayed degraded for ten minutes.",
-          "commonMistake": "Nhấn âm tiết thứ hai: de-GRAD-ed."
+          "commonMistake": "Nhấn âm tiết thứ hai và đọc \"de-GRAY-ded\", không đọc /æ/."
         },
         {
           "word": "verify",
           "ipa": "/ˈver.ə.faɪ/",
-          "definition": "xác nhận",
+          "definition": "xác minh",
           "technicalMeaning": "Kiểm tra để chắc kết quả đúng.",
           "collocations": [
             "verify the result",
@@ -188,20 +188,20 @@
         {
           "id": "tdab-order",
           "type": "ordering",
-          "question": "Sắp xếp các bước thực hiện một runbook.",
+          "question": "Sắp xếp các bước thực hiện theo runbook về cache migration.",
           "options": [
-            "verify the result",
-            "run the migration",
-            "confirm the backup",
-            "enable the new setting"
+            "verify that the new cache reports healthy",
+            "run cachectl migrate",
+            "confirm the queue depth is below 100",
+            "create a configuration snapshot"
           ],
           "correctAnswer": [
-            "confirm the backup",
-            "run the migration",
-            "enable the new setting",
-            "verify the result"
+            "confirm the queue depth is below 100",
+            "create a configuration snapshot",
+            "run cachectl migrate",
+            "verify that the new cache reports healthy"
           ],
-          "explanation": "Xác nhận sao lưu, chạy migration, bật cấu hình, kiểm tra."
+          "explanation": "Theo runbook: kiểm tra queue depth, tạo snapshot (điều kiện trước), chạy migration, rồi xác nhận cache healthy."
         }
       ]
     },
@@ -249,18 +249,23 @@
         {
           "id": "tdab-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: A backup is a ___ for the migration.",
+          "question": "Điền từ còn thiếu (điều kiện tiên quyết): A backup is a ___ for the migration.",
           "correctAnswer": [
-            "prerequisite"
+            "prerequisite",
+            "requirement"
           ],
           "explanation": "\"prerequisite\" nghĩa là điều kiện tiên quyết."
         },
         {
           "id": "tdab-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Follow the ___ step by step.",
+          "question": "Điền từ còn thiếu (tài liệu hướng dẫn vận hành): Follow the ___ step by step.",
           "correctAnswer": [
-            "runbook"
+            "runbook",
+            "playbook",
+            "guide",
+            "procedure",
+            "instructions"
           ],
           "explanation": "\"runbook\" nghĩa là tài liệu hướng dẫn vận hành."
         }
@@ -272,9 +277,9 @@
     "mode": "written",
     "title": "Produce an execution checklist",
     "scenario": "You must hand a safe four-step checklist to the engineer running the migration.",
-    "baselinePrompt": "Language-only cold attempt: read once and write the actions from memory without translating; treat the result as an unverified draft, not an execution checklist.",
-    "performancePrompt": "Using the displayed runbook, write four bullets in English covering all three prerequisites, command, success signal and rollback/escalation. Verify every step against the source before submitting.",
-    "modelResponse": "• Confirm queue depth is below 100, save a configuration snapshot and enable read-only mode. • Run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, roll back to the latest snapshot; verify the restored cache is healthy; only then disable read-only mode, notify on-call and wait for approval before retrying.",
+    "baselinePrompt": "Language-only cold attempt: read once and write the actions from memory as a four-bullet checklist in English, 45 to 100 words, without translating. Treat the result as an unverified draft, not an execution checklist.",
+    "performancePrompt": "Using the displayed runbook, write four bullets in English, 45 to 100 words, covering all three prerequisites, command, success signal and rollback/escalation. Verify every step against the source before submitting.",
+    "modelResponse": "• Confirm queue depth is below 100, save a configuration snapshot and enable read-only mode. • Run cachectl migrate --target v2. • Verify MIGRATION_COMPLETE and healthy status within two minutes. • If degraded, roll back to the latest snapshot; verify the restored cache is healthy; only then disable read-only mode, notify on-call and wait for incident-owner approval before retrying.",
     "retryPrompt": "Return to the source, correct one omitted safety condition, then rewrite without copying full sentences.",
     "transferPrompt": "Read the displayed database upgrade runbook and write a new four-part checklist in English. Extract every condition from that source without reusing cache-specific details.",
     "reviewPrompt": "Read a new short runbook and extract prerequisite, action, success signal and recovery without translation.",
@@ -327,7 +332,7 @@
             "type": "source",
             "title": "Certificate rotation procedure",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Verify the replacement certificate has at least 90 days remaining and save the current thumbprint. Run certctl rotate --service api. Confirm TLS_CHECK_OK from every region. If any region fails, restore the previous thumbprint and alert security operations."
+            "content": "Synthetic training artifact — non-production. Verify the replacement certificate has at least 90 days remaining and back up the current certificate. Run certctl rotate --service api. Confirm TLS_CHECK_OK from every region. If any region fails, restore the previous certificate and alert security operations."
           }
         ]
       }
@@ -410,17 +415,32 @@
       {
         "id": "sequence",
         "label": "Correct sequence",
-        "description": "Keeps prerequisite, action, verification and recovery in order."
+        "description": "Keeps prerequisite, action, verification and recovery in order.",
+        "dimension": "task",
+        "anchors": {
+          "met": "The four parts appear in the source order, so the engineer can follow them.",
+          "notMet": "A part is missing or the order is unsafe, for example rollback before verification."
+        }
       },
       {
         "id": "safety",
         "label": "Safety conditions",
-        "description": "Includes the prerequisite, success condition and recovery or escalation supplied by the displayed procedure."
+        "description": "Includes the prerequisite, success condition and recovery or escalation supplied by the displayed procedure.",
+        "dimension": "accuracy",
+        "anchors": {
+          "met": "Numbers, commands and signals match the source.",
+          "notMet": "A condition, number or command is wrong or missing."
+        }
       },
       {
         "id": "independence",
-        "label": "English processing",
-        "description": "Paraphrases actions without a Vietnamese translation step."
+        "label": "Own wording",
+        "description": "Paraphrases the actions instead of copying full sentences from the source.",
+        "dimension": "range",
+        "anchors": {
+          "met": "Actions are rewritten in short own sentences with the key terms kept.",
+          "notMet": "Full sentences are copied from the runbook."
+        }
       }
     ]
   },

@@ -7,7 +7,7 @@
   "durationMinutes": 16,
   "learningObjectives": [
     "Tóm tắt thành tích bằng kết quả đo được",
-    "Đón nhận điểm cần cải thiện một cách chuyên nghiệp",
+    "Nêu điểm cần cải thiện kèm kế hoạch và đón nhận phản hồi một cách chuyên nghiệp",
     "Đề xuất mục tiêu và hỗ trợ cần có cho kỳ tới"
   ],
   "capabilities": [
@@ -139,7 +139,7 @@
         {
           "id": "prv-result",
           "type": "choice",
-          "question": "Which statement connects a task to a measured result?",
+          "question": "Câu nào gắn một việc đã làm với kết quả đo được?",
           "options": [
             "I cut release time by thirty percent.",
             "I worked hard all year.",
@@ -153,11 +153,11 @@
         {
           "id": "prv-improve",
           "type": "choice",
-          "question": "How should you describe an area for improvement?",
+          "question": "Bạn nên mô tả một điểm cần cải thiện như thế nào?",
           "options": [
             "Name it and say your plan",
             "Say you have none",
-            "Blame the team for it"
+            "Blame the team for the problem"
           ],
           "correctAnswer": [
             "Name it and say your plan"
@@ -237,18 +237,22 @@
         {
           "id": "wprb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: One ___ was the new release process.",
+          "question": "Điền từ còn thiếu (thành tựu): One ___ was the new release process.",
           "correctAnswer": [
-            "accomplishment"
+            "accomplishment",
+            "achievement"
           ],
           "explanation": "\"accomplishment\" nghĩa là thành tựu."
         },
         {
           "id": "wprb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: One ___ is delegation.",
+          "question": "Điền từ còn thiếu (điểm cần cải thiện): One ___ is delegation.",
           "correctAnswer": [
-            "area for improvement"
+            "area for improvement",
+            "area of improvement",
+            "area to improve",
+            "weakness"
           ],
           "explanation": "\"area for improvement\" nghĩa là điểm cần cải thiện."
         }
@@ -262,9 +266,9 @@
     "scenario": "In a half-year review, your manager asks how you see the last six months; you summarize results, one area to improve and next goals.",
     "baselinePrompt": "Speak in English for about 90 seconds: summarize two achievements with results, name one area for improvement, set a goal and ask for the support you need. Do not look at the model answer yet.",
     "performancePrompt": "Speak in English for about 90 seconds: two achievements with results, one area for improvement with a plan, a goal for the next period and the support you need.",
-    "modelResponse": "Thank you for making time for this review. Over the last six months, my main accomplishments were the new release process and the onboarding guide. The release process cut our release time by thirty percent, which means fewer late nights for the whole team. The onboarding guide helped three new engineers become productive in two weeks instead of five. One area for improvement is delegation. I tend to keep release tasks for myself, so I plan to share ownership with two teammates and review their work together. For the next period, my objective is to lead one design review every month and to mentor a junior engineer. The support I need is a clearer mentoring plan and some protected time for it. I would also like your feedback on whether these goals match the priorities of the team. Is there anything you would like me to adjust before we agree on them? I also want to thank you for the support you gave me during the last project.",
+    "modelResponse": "Thank you for making time for this review. I will be open about both what went well and what I want to improve, so we can agree on clear goals together. Over the last six months, my main accomplishments were the new release process and the onboarding guide. The release process cut our release time by thirty percent, which means fewer late nights for the whole team. The onboarding guide helped three new engineers become productive in two weeks instead of five. One area for improvement is delegation. I tend to keep release tasks for myself, so I plan to share ownership with two teammates and review their work together. For the next period, my objective is to lead one design review every month and to mentor a junior engineer. The support I need is a clearer mentoring plan and some protected time for it. I would like your feedback on whether these goals match the priorities of the team. Is there anything you would like me to adjust before we agree on them?",
     "retryPrompt": "Speak again in English. Keep the order and make your results more measurable.",
-    "transferPrompt": "Summarize a review for a different role, such as a tester or a data analyst.",
+    "transferPrompt": "Summarize a review in which you ask for a move to a senior role.",
     "reviewPrompt": "Summarize a review for another period without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -276,7 +280,7 @@
             "type": "source",
             "title": "Half-year review at Lantern Software",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Half-year performance review, Lantern Software. Manager: Let us start with how you see the last six months."
+            "content": "Synthetic training artifact — non-production. Meeting: Half-year performance review, Lantern Software. Manager: Let us start with how you see the last six months. Your notes: your two main accomplishments were the new release process and the onboarding guide. The release process cut release time by thirty percent, so the team works fewer late nights. The guide helped three new engineers become productive in two weeks instead of five. You tend to keep release tasks for yourself. For the next period you want to lead one design review every month and mentor a junior engineer; you need a clearer mentoring plan and some protected time."
           }
         ]
       },
@@ -289,7 +293,7 @@
             "type": "source",
             "title": "Annual review for a tester",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Annual review, Quartz Mobile. Manager: Looking at your year as a tester, what stands out to you? Your main work was the test automation suite."
+            "content": "Synthetic training artifact — non-production. Meeting: Annual review, Quartz Mobile. Manager: Looking at your year as a tester, what stands out to you? Your main work was the test automation suite; it cut the regression run from two days to four hours."
           }
         ]
       },
@@ -302,7 +306,7 @@
             "type": "source",
             "title": "Review with a promotion goal",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Review, Emberwood Cloud. Manager: How do you see your next step here? You led two projects and mentored a new hire."
+            "content": "Synthetic training artifact — non-production. Meeting: Review, Emberwood Cloud. Manager: How do you see your next step here? You led two projects and mentored a new hire. The first project shipped two weeks early, and the new hire became productive in a month."
           }
         ]
       },
@@ -315,7 +319,7 @@
             "type": "source",
             "title": "Mid-year check for a data analyst",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Mid-year check, Streamline Retail. Manager: Tell me about your progress. Your main work was a sales dashboard used by four teams."
+            "content": "Synthetic training artifact — non-production. Meeting: Mid-year check, Streamline Retail. Manager: Tell me about your progress. Your main work was a sales dashboard used by four teams; weekly reports now take ten minutes instead of two hours."
           }
         ]
       }
@@ -361,7 +365,7 @@
           "met": "Each achievement has a result a manager can check.",
           "notMet": "Achievements are listed without results."
         },
-        "dimension": "accuracy"
+        "dimension": "task"
       },
       {
         "id": "tone",
@@ -391,8 +395,8 @@
             "question": "What is the speaker presenting?",
             "options": [
               "Key achievements",
-              "Future worries for the team",
-              "Team conflicts"
+              "Future worries",
+              "Conflicts in the team"
             ],
             "correctAnswer": "Key achievements"
           },
@@ -410,8 +414,8 @@
             "question": "What was the result?",
             "options": [
               "Faster releases",
-              "A larger team for the team",
-              "A new office"
+              "A larger team",
+              "Fewer bugs in production"
             ],
             "correctAnswer": "Faster releases"
           },
@@ -428,7 +432,7 @@
             "question": "What does the speaker plan?",
             "options": [
               "Spread responsibility",
-              "Hire an assistant for the team",
+              "Hire an extra assistant",
               "Leave the project"
             ],
             "correctAnswer": "Spread responsibility"
@@ -446,8 +450,8 @@
             "question": "What is requested?",
             "options": [
               "Guidance for growth",
-              "A higher salary for the team",
-              "A longer lunch"
+              "A salary review",
+              "A reduced workload"
             ],
             "correctAnswer": "Guidance for growth"
           }
@@ -467,8 +471,8 @@
             "question": "How does the speaker begin?",
             "options": [
               "With appreciation",
-              "With a complaint for the team",
-              "With a joke at work"
+              "With an apology",
+              "With a question"
             ],
             "correctAnswer": "With appreciation",
             "feedback": "Mở đầu bằng cảm ơn tạo không khí tốt."
@@ -477,20 +481,20 @@
             "id": "prv-train-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "The onboarding guide helped three engineers become productive in two weeks.",
+              "text": "The onboarding guide helped three engineers become productive in two weeks, not five weeks.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
               ]
             },
-            "question": "How long did ramp-up take?",
+            "question": "How long does ramp-up take now?",
             "options": [
-              "14 days",
-              "5 weeks",
-              "2 months"
+              "Two weeks",
+              "Five weeks",
+              "Two months"
             ],
-            "correctAnswer": "14 days",
-            "feedback": "Chú ý two weeks và so sánh với trước đó."
+            "correctAnswer": "Two weeks",
+            "feedback": "Chú ý two weeks (hiện tại) và five weeks (trước đó)."
           },
           {
             "id": "prv-train-3",
@@ -525,8 +529,8 @@
             "question": "How will the speaker improve?",
             "options": [
               "By working with others",
-              "By working alone for the team",
-              "By working less"
+              "By working alone",
+              "By working fewer hours"
             ],
             "correctAnswer": "By working with others",
             "feedback": "Plan to nêu kế hoạch hành động."
@@ -544,7 +548,7 @@
             "question": "How often is the goal?",
             "options": [
               "Once a month",
-              "Once a week for the team",
+              "Once a week",
               "Once a year"
             ],
             "correctAnswer": "Once a month",
@@ -564,7 +568,7 @@
             "options": [
               "Input from the manager",
               "A new schedule",
-              "A tour of the office for the team"
+              "A written progress report"
             ],
             "correctAnswer": "Input from the manager",
             "feedback": "Invite feedback thể hiện sự cởi mở."
@@ -575,7 +579,7 @@
             "id": "prv-post-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Looking back, the two results I am proud of are the test suite and the faster builds.",
+              "text": "Looking back, the two results I am proud of are the new alert rules and the faster deployments.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -594,13 +598,13 @@
             "id": "prv-post-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "As a result, bugs found after release dropped by half.",
+              "text": "As a result, customer tickets about outages dropped by half.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
               ]
             },
-            "question": "What happened to late bugs?",
+            "question": "What happened to the tickets?",
             "options": [
               "They fell sharply",
               "They doubled",
@@ -621,8 +625,8 @@
             "question": "What skill is named?",
             "options": [
               "Looking far ahead",
-              "Typing quickly",
-              "Speaking loudly for the team"
+              "Managing daily tasks",
+              "Presenting to clients"
             ],
             "correctAnswer": "Looking far ahead"
           },
@@ -630,7 +634,7 @@
             "id": "prv-post-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "My goal is to lead testing for a new product, and it would help if I had a mentor.",
+              "text": "My goal is to speak at one conference, and it would help if I had a practice partner.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -639,18 +643,18 @@
             },
             "question": "What helps the speaker?",
             "options": [
-              "A career coach",
-              "A bigger desk for the team",
-              "A new phone"
+              "A practice partner",
+              "One conference",
+              "More free time to prepare"
             ],
-            "correctAnswer": "A career coach"
+            "correctAnswer": "A practice partner"
           }
         ]
       },
       "pronunciationCues": [
         {
           "id": "prv-cue-accomplish",
-          "articulatoryCue": "Nhấn âm thứ hai của accomplishments và objective để nghe tự tin.",
+          "articulatoryCue": "Nhấn âm thứ hai của accomplishments (ac-COM-plish-ments) và objective (ob-JEC-tive).",
           "meaningRisk": "Nhấn sai làm từ chính khó nhận ra.",
           "triggerItemIds": [
             "prv-pre-1",
@@ -660,7 +664,7 @@
         {
           "id": "prv-cue-support",
           "articulatoryCue": "Nhấn âm thứ hai của support và improvement ở câu cuối.",
-          "meaningRisk": "Nhấn âm đầu làm câu nghe như danh từ khác.",
+          "meaningRisk": "Nhấn âm đầu làm từ khó nhận ra.",
           "triggerItemIds": [
             "prv-pre-4",
             "prv-pre-3"

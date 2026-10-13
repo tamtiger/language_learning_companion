@@ -46,14 +46,14 @@
         {
           "word": "brute force",
           "ipa": "/ˌbruːt ˈfɔːrs/",
-          "definition": "cách giải đơn giản nhất",
+          "definition": "vét cạn (thử mọi khả năng)",
           "technicalMeaning": "Cách thử mọi khả năng, thường chậm nhưng dễ đúng.",
           "collocations": [
             "a brute force approach",
             "brute force first"
           ],
           "example": "A brute force approach would compare every pair.",
-          "commonMistake": "Viết brute force thành hai từ."
+          "commonMistake": "Dùng brute force (hai từ) làm danh từ; trước danh từ khác thường viết brute-force approach."
         },
         {
           "word": "complexity",
@@ -182,17 +182,19 @@
           "question": "Sắp xếp các bước khi giải bài.",
           "options": [
             "test edge cases",
+            "try an example",
             "restate the problem",
             "state the complexity",
             "choose an approach"
           ],
           "correctAnswer": [
             "restate the problem",
+            "try an example",
             "choose an approach",
             "state the complexity",
             "test edge cases"
           ],
-          "explanation": "Nhắc đề, chọn hướng, nêu độ phức tạp, kiểm tra biên."
+          "explanation": "Nhắc đề, thử ví dụ, chọn hướng, nêu độ phức tạp, kiểm tra biên."
         }
       ]
     },
@@ -218,7 +220,7 @@
             },
             {
               "key": "brute force",
-              "value": "cách giải đơn giản nhất"
+              "value": "vét cạn (thử mọi khả năng)"
             },
             {
               "key": "complexity",
@@ -231,7 +233,7 @@
           ],
           "correctAnswer": [
             "restate - nhắc lại",
-            "brute force - cách giải đơn giản nhất",
+            "brute force - vét cạn (thử mọi khả năng)",
             "complexity - độ phức tạp",
             "edge case - trường hợp biên"
           ],
@@ -240,20 +242,24 @@
         {
           "id": "ictab-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Let me ___ the problem to be sure.",
+          "question": "Điền từ còn thiếu (nhắc lại): Let me ___ the problem to be sure.",
           "correctAnswer": [
-            "restate"
+            "restate",
+            "repeat"
           ],
           "explanation": "\"restate\" nghĩa là nhắc lại."
         },
         {
           "id": "ictab-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: A ___ approach would compare every pair.",
+          "question": "Điền từ còn thiếu (vét cạn): A ___ approach would compare every pair.",
           "correctAnswer": [
-            "brute force"
+            "brute force",
+            "brute-force",
+            "naive",
+            "simple"
           ],
-          "explanation": "\"brute force\" nghĩa là cách giải đơn giản nhất."
+          "explanation": "\"brute force\" nghĩa là vét cạn (thử mọi khả năng)."
         }
       ]
     }
@@ -265,9 +271,9 @@
     "scenario": "The interviewer gives a coding problem and asks you to talk through your thinking before and while you code.",
     "baselinePrompt": "Think aloud in English for about 90 seconds: restate the problem, try an example, choose an approach, state its complexity and test one edge case. Do not look at the model answer yet.",
     "performancePrompt": "Speak in English for about 90 seconds: restate the problem, give an example, explain your approach and its complexity, and test one edge case.",
-    "modelResponse": "Let me restate the problem to make sure I understand: I need the user IDs that appear more than once in a list. For example, with one, two, two, three, the answer is two. A simple approach would be comparing every pair, but that costs quadratic time, which is too slow for a large list. I can improve this by using a set to remember the IDs I have seen. As I iterate over the list once, I check each ID. If it is already in the set, I add it to the result, and otherwise I store it. That brings the time down to linear, with extra space for the set. Let me check an edge case: an empty list should return an empty result, and an ID that appears three times should be returned only once, so I would keep the result in a set too. Finally, I would write a few tests, including a list with no duplicates. Does this approach sound reasonable before I start coding?",
+    "modelResponse": "Let me restate the problem to make sure I understand: I need the user IDs that appear more than once in a list. For example, with one, two, two, three, the answer is two. Before coding, I would like to confirm that the list fits in memory. A simple approach would be comparing every pair, but that costs quadratic time, which is too slow for a large list. I can improve this by using a set to remember the IDs I have seen. As I iterate over the list once, I check each ID. If it is already in the set, I add it to the result, and otherwise I store it. That brings the time down to linear, with extra space for the set, so the space cost is linear in the number of unique IDs. Let me check an edge case: an empty list should return an empty result, and an ID that appears three times should be returned only once, so I would keep the result in a set too. Finally, I would write a few tests, including a list with no duplicates. Does this approach sound reasonable to you before I start coding, or would you like me to change anything?",
     "retryPrompt": "Think aloud again in English. Keep the same order and make your complexity statement clearer.",
-    "transferPrompt": "Think aloud through a different problem, such as finding the first non-repeating character.",
+    "transferPrompt": "Think aloud through a different problem, such as merging two sorted lists.",
     "reviewPrompt": "Think aloud through a new coding problem without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -279,7 +285,7 @@
             "type": "source",
             "title": "Duplicate user IDs",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Software Engineer, Marlowe Data. Interviewer: Given a list of user IDs, return the IDs that appear more than once. Please think aloud."
+            "content": "Synthetic training artifact — non-production. Interview: Software Engineer, Marlowe Data. Interviewer: Given a list of user IDs, return the IDs that appear more than once. Please think aloud. Example input: 1, 2, 2, 3. Expected output: 2."
           }
         ]
       },
@@ -394,7 +400,7 @@
             "question": "What is the speaker doing?",
             "options": [
               "Repeating the task",
-              "Starting the code for the team",
+              "Starting to write code",
               "Asking for a hint"
             ],
             "correctAnswer": "Repeating the task"
@@ -413,7 +419,7 @@
             "question": "What is the downside?",
             "options": [
               "It gets slow on big lists",
-              "It is hard to read aloud for the team",
+              "It is hard to read aloud",
               "It needs special tools"
             ],
             "correctAnswer": "It gets slow on big lists"
@@ -431,7 +437,7 @@
             "question": "What helps the improvement?",
             "options": [
               "Remembering visited items",
-              "Sorting the whole list for the team",
+              "Sorting the whole list first",
               "Reading the list twice"
             ],
             "correctAnswer": "Remembering visited items"
@@ -449,7 +455,7 @@
             "question": "What case is checked?",
             "options": [
               "No items at all",
-              "Too many items for the team",
+              "Too many items to count",
               "One huge item"
             ],
             "correctAnswer": "No items at all"
@@ -489,8 +495,8 @@
             "question": "How many passes over the list?",
             "options": [
               "A single pass",
-              "Two passes for the team",
-              "No pass at work"
+              "Two separate passes",
+              "A pass for each pair"
             ],
             "correctAnswer": "A single pass",
             "feedback": "Once nghĩa là một lần."
@@ -528,8 +534,8 @@
             "question": "What should the result contain?",
             "options": [
               "One copy of that ID",
-              "Three copies for the team",
-              "No copies at work"
+              "Three copies of that ID",
+              "No copy of that ID"
             ],
             "correctAnswer": "One copy of that ID",
             "feedback": "Only once nghĩa là chỉ một lần."
@@ -547,7 +553,7 @@
             "question": "What is the speaker verifying?",
             "options": [
               "A limit on input size",
-              "The meeting length for the team",
+              "The time limit of the round",
               "The salary range"
             ],
             "correctAnswer": "A limit on input size",
@@ -578,7 +584,7 @@
             "id": "cta-post-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Let me restate the goal: I need the first character that appears only once.",
+              "text": "Let me restate the goal: I need two numbers that add up to the target.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -587,7 +593,7 @@
             "question": "What is restated?",
             "options": [
               "The goal of the task",
-              "The salary offer for the team",
+              "The expected salary",
               "The test result"
             ],
             "correctAnswer": "The goal of the task"
@@ -606,7 +612,7 @@
             "question": "What is described?",
             "options": [
               "A slow first idea",
-              "A final answer for the team",
+              "A final working solution",
               "A new question"
             ],
             "correctAnswer": "A slow first idea"
@@ -615,7 +621,7 @@
             "id": "cta-post-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "To speed this up, I would count each letter in a map.",
+              "text": "To speed this up, I would store each number in a map.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -623,17 +629,17 @@
             },
             "question": "What tool is used to speed up?",
             "options": [
-              "A counting map",
+              "A lookup map",
               "A new server",
               "A longer deadline"
             ],
-            "correctAnswer": "A counting map"
+            "correctAnswer": "A lookup map"
           },
           {
             "id": "cta-post-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "What if the string is empty or every letter repeats?",
+              "text": "What if the list is empty or no pair adds up?",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -642,7 +648,7 @@
             "question": "What is the speaker exploring?",
             "options": [
               "Unusual inputs",
-              "Office hours for the team",
+              "Interview time limits",
               "Team names"
             ],
             "correctAnswer": "Unusual inputs"
@@ -662,7 +668,7 @@
         {
           "id": "cta-cue-linear",
           "articulatoryCue": "Đọc rõ linear và edge ở các câu về độ phức tạp và trường hợp biên.",
-          "meaningRisk": "Nuốt âm làm lẫn linear với một từ khác.",
+          "meaningRisk": "Nuốt âm giữa hoặc âm cuối làm linear khó nhận ra, người nghe có thể nghe sai độ phức tạp.",
           "triggerItemIds": [
             "cta-train-3",
             "cta-pre-4"

@@ -63,8 +63,8 @@
           "question": "What will you build in this tutorial?",
           "options": [
             "A workflow that runs tests on pull requests",
-            "A new web application for the team right now",
-            "A database server at work"
+            "A new web application that has a test and lint script",
+            "A hosting service where the repository is stored online"
           ],
           "correctAnswer": [
             "A workflow that runs tests on pull requests"
@@ -81,8 +81,8 @@
             "question": "When should the workflow run?",
             "options": [
               "On pull requests and pushes to main",
-              "Only once a week",
-              "Only when an admin asks for the team"
+              "Only when a developer pushes to any branch except main",
+              "Once a day, at the time you choose in the settings"
             ],
             "correctAnswer": [
               "On pull requests and pushes to main"
@@ -98,8 +98,8 @@
             "question": "Why use npm ci instead of npm install?",
             "options": [
               "It installs exact versions from the lock file",
-              "It is shorter to type for the team right now",
-              "It skips the tests"
+              "It updates every package to the newest version",
+              "It installs only the packages used by the tests"
             ],
             "correctAnswer": [
               "It installs exact versions from the lock file"
@@ -115,8 +115,8 @@
             "question": "Where should a test token be stored?",
             "options": [
               "In the repository secrets settings",
-              "In the workflow file for the team right now",
-              "In the README at work"
+              "In the workflow file, inside a comment line",
+              "In a file named .env in the repository root"
             ],
             "correctAnswer": [
               "In the repository secrets settings"
@@ -132,8 +132,8 @@
             "question": "What does branch protection require?",
             "options": [
               "A passing Checks workflow and a review",
-              "Only a review at work",
-              "Nothing before merging for the team right now"
+              "A passing build on the administrator's computer",
+              "Only one review, even if the checks fail"
             ],
             "correctAnswer": [
               "A passing Checks workflow and a review"
@@ -149,8 +149,8 @@
             "question": "What should you do if npm ci shows a lock file error?",
             "options": [
               "Run npm install and commit the lock file",
-              "Delete the workflow file for the team right now",
-              "Turn off the cache at work"
+              "Delete the lock file and the workflow folder",
+              "Turn off the cache and run the checks again"
             ],
             "correctAnswer": [
               "Run npm install and commit the lock file"
@@ -175,7 +175,7 @@
             "run the workflow"
           ],
           "example": "The workflow runs on every pull request.",
-          "commonMistake": "Workflow là một từ."
+          "commonMistake": "Viết workflow liền một từ, không viết work flow."
         },
         {
           "word": "trigger",
@@ -199,7 +199,7 @@
             "store a secret"
           ],
           "example": "Add the token as a secret.",
-          "commonMistake": "Nói store a secret, không nói write a secret in code."
+          "commonMistake": "Secret ở đây là danh từ đếm được: add a secret, two secrets; không phải tính từ."
         },
         {
           "word": "lock file",
@@ -211,7 +211,7 @@
             "the lock file changed"
           ],
           "example": "Commit the updated lock file.",
-          "commonMistake": "Viết lock file thành hai từ."
+          "commonMistake": "Sai: viết dính thành lockfile. Đúng như tutorial: lock file (hai từ)."
         },
         {
           "word": "merge",
@@ -223,7 +223,7 @@
             "ready to merge"
           ],
           "example": "Checks must pass before you merge.",
-          "commonMistake": "Nói merge into main, không nói merge to main."
+          "commonMistake": "Nói merge into main; merge to main cũng gặp nhưng into là dạng chuẩn hơn."
         }
       ],
       "expressions": [
@@ -276,8 +276,8 @@
           "question": "Which sentence tells you what NOT to do?",
           "options": [
             "Never write a token in the workflow file.",
-            "Create a folder in the root.",
-            "Run the tests after the lint step. for the team"
+            "Run npm run lint and then npm test in the workflow.",
+            "Create a folder called .ci in the root of the repository."
           ],
           "correctAnswer": [
             "Never write a token in the workflow file."
@@ -357,16 +357,17 @@
         {
           "id": "rtscb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ runs on every pull request.",
+          "question": "Điền từ còn thiếu (quy trình tự động): The ___ runs on every pull request.",
           "correctAnswer": [
-            "workflow"
+            "workflow",
+            "pipeline"
           ],
           "explanation": "\"workflow\" nghĩa là quy trình tự động."
         },
         {
           "id": "rtscb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is a pull request.",
+          "question": "Điền từ còn thiếu (điều kiện kích hoạt): The ___ is a pull request.",
           "correctAnswer": [
             "trigger"
           ],
@@ -380,11 +381,11 @@
     "mode": "written",
     "title": "Summarize the steps and one risk",
     "scenario": "Bạn đọc một tutorial và viết tóm tắt để đồng đội làm theo, kèm một rủi ro cần chú ý.",
-    "baselinePrompt": "Đọc đoạn tutorial ngắn rồi viết tóm tắt bằng tiếng Anh (60 đến 110 từ): các bước theo thứ tự và một rủi ro cần chú ý. Chưa xem bài mẫu.",
-    "performancePrompt": "Write a summary of the tutorial in English, 60 to 110 words: the steps in order and one risk to watch for.",
+    "baselinePrompt": "Đọc đoạn trích tutorial rồi viết tóm tắt bằng tiếng Anh (60 đến 120 từ): các bước theo thứ tự và một rủi ro cần chú ý. Chưa xem bài mẫu.",
+    "performancePrompt": "Write a summary of the tutorial in English, 60 to 120 words: the steps in order and one risk to watch for.",
     "modelResponse": "Summary of the CI tutorial. First, create a workflow file that runs on every pull request and every push to main. Then add four steps: check out the code, install Node 20 with the cache, run npm ci, and run the lint and test commands. After that, store test tokens in the repository secrets, never in the file. Finally, protect the main branch so that the Checks workflow and one review are required. One risk: pull requests from forks do not receive secrets, so token tests will fail for outside contributors.",
     "retryPrompt": "Write the summary again in English. Keep the order words and make the risk clearer.",
-    "transferPrompt": "Summarize a different tutorial, such as setting up a linter, with steps and one risk.",
+    "transferPrompt": "Summarize the Docker tutorial excerpt: the steps in order and one risk.",
     "reviewPrompt": "Summarize another tutorial without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -396,7 +397,7 @@
             "type": "source",
             "title": "CI tutorial excerpt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: create the workflow file. Step 2: add checkout, Node, npm ci, lint and test. Step 3: store tokens as secrets. Step 4: protect the main branch. Note: forks do not receive secrets."
+            "content": "Synthetic training artifact — non-production. Excerpt. Step 1: create the workflow file that runs on every pull request and every push to main. Step 2: add four steps: check out the code, install Node 20 with the cache, run npm ci, and run the lint and test commands. Step 3: store test tokens as secrets, never in the file. Step 4: protect the main branch so that the Checks workflow and one review are required. Note: pull requests from forks do not receive secrets, so token tests fail for outside contributors."
           }
         ]
       },
@@ -478,7 +479,7 @@
         "description": "Commands and names match the tutorial.",
         "dimension": "accuracy",
         "anchors": {
-          "met": "Commands such as npm ci and secret names are correct.",
+          "met": "Commands such as npm ci and names such as Checks are correct.",
           "notMet": "Commands or names are wrong."
         }
       },

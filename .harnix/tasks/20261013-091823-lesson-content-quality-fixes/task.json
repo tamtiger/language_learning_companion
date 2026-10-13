@@ -1,0 +1,209 @@
+{
+  "generator": "harnix",
+  "schemaVersion": 3,
+  "id": "20261013-091823-lesson-content-quality-fixes",
+  "title": "Sửa chất lượng nội dung bài học theo báo cáo rà soát",
+  "mode": "full",
+  "status": "completed",
+  "checkpoint": "finishing",
+  "goal": "Sửa toàn bộ các lỗi nội dung bài học đã nêu trong báo cáo rà soát (Blocker, Major, Minor) ở 46 mission và 6 bài pronunciation, và thêm test chống tái phát.",
+  "nonGoals": [],
+  "acceptanceCriteria": [
+    {
+      "id": "ac-1",
+      "text": "Mọi lỗi Blocker về trọng âm, IPA và đáp án tự mâu thuẫn trong báo cáo rà soát được sửa đúng và khớp IPA của chính bài.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-content-1"
+      ]
+    },
+    {
+      "id": "ac-2",
+      "text": "Không còn cụm đệm 'for the team', 'at work', 'right now' trong lựa chọn của bài tập, distractor được viết lại thành hiểu nhầm có thật và vẫn qua ngưỡng assessmentQuality.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-regression-1"
+      ]
+    },
+    {
+      "id": "ac-3",
+      "text": "Mọi câu fill của vocabulary-review có gợi ý nghĩa hoặc acceptedAnswers để đáp án hợp lệ khác không bị chấm sai.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-regression-1"
+      ]
+    },
+    {
+      "id": "ac-4",
+      "text": "transferPrompt khớp context transfer, số từ trong prompt khớp outputContract.maxWords và minSeconds khớp độ dài mẫu.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-regression-1"
+      ]
+    },
+    {
+      "id": "ac-5",
+      "text": "modelResponse chỉ dùng dữ kiện có trong packet baseline và hội thoại nghe khớp model, đáp án và ghi chú.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-content-1"
+      ]
+    },
+    {
+      "id": "ac-6",
+      "text": "Các lỗi Major về tiếng Anh, dịch tiếng Việt, đáp án và thứ tự bài tập trong báo cáo được sửa.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-content-1"
+      ]
+    },
+    {
+      "id": "ac-7",
+      "text": "Các lỗi Minor về commonMistake, rubric, metadata, nhãn nội bộ và nhất quán thuật ngữ trong báo cáo được sửa.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-content-1"
+      ]
+    },
+    {
+      "id": "ac-8",
+      "text": "Bài pronunciation dạy lỗi đặc thù của người Việt và có thêm nội dung âm cuối -s/-es.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-content-1"
+      ]
+    },
+    {
+      "id": "ac-9",
+      "text": "Có test chống tái phát cho cụm đệm, gợi ý fill, transferPrompt, số từ và các lỗi đã ghim; toàn bộ test, lint và build đều pass.",
+      "status": "met",
+      "evidenceIds": [
+        "ev-check-suite-1",
+        "ev-chk-regression-1"
+      ]
+    }
+  ],
+  "validationPlan": [
+    {
+      "id": "check-suite",
+      "description": "Toàn bộ test, lint và typecheck của dự án phải xanh",
+      "scope": "full",
+      "required": true,
+      "command": "npm run test",
+      "criterionIds": [
+        "ac-1",
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-5",
+        "ac-6",
+        "ac-7",
+        "ac-8",
+        "ac-9"
+      ],
+      "inputs": [
+        "**"
+      ]
+    },
+    {
+      "id": "chk-regression",
+      "description": "chk-regression",
+      "scope": "focused",
+      "required": true,
+      "command": "npm test -- tests/content/contentRegression.test.ts",
+      "criterionIds": [
+        "ac-2",
+        "ac-3",
+        "ac-4",
+        "ac-9"
+      ],
+      "inputs": [
+        "content/**",
+        "tests/content/**"
+      ]
+    },
+    {
+      "id": "chk-content",
+      "description": "chk-content",
+      "scope": "focused",
+      "required": true,
+      "command": "npm test -- tests/content",
+      "criterionIds": [
+        "ac-1",
+        "ac-5",
+        "ac-6",
+        "ac-7",
+        "ac-8"
+      ],
+      "inputs": [
+        "content/**",
+        "src/content/**",
+        "tests/content/**"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-chk-regression-1",
+      "checkId": "chk-regression",
+      "recordedAt": "2026-10-13T09:39:16.521+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test -- tests/content/contentRegression.test.ts — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "39ef43041cef6094c6ec75ce23c23f47e8abde567f419d59c63d0d2ede1d088d"
+    },
+    {
+      "id": "ev-chk-content-1",
+      "checkId": "chk-content",
+      "recordedAt": "2026-10-13T09:39:23.912+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test -- tests/content — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "039dd8d0cc8158c595fb0e7983f2261c5bdd0d621aea47f0a58acbf164dc8df7"
+    },
+    {
+      "id": "ev-check-suite-1",
+      "checkId": "check-suite",
+      "recordedAt": "2026-10-13T09:40:21.244+07:00",
+      "result": "pass",
+      "exitCode": 0,
+      "summary": "npm test — exit 0",
+      "artifactPaths": [],
+      "inputDigest": "d305447a6016df5acc1f2b0a26b4c7d69704a68e44710646265b14e94523fc10"
+    }
+  ],
+  "relevantPaths": [],
+  "relevantSpecs": [],
+  "createdAt": "2026-10-13T09:18:23.726+07:00",
+  "updatedAt": "2026-10-13T09:40:55.458+07:00",
+  "residualRisks": [
+    {
+      "id": "rk-native-review",
+      "text": "Chưa có người bản ngữ hoặc giáo viên rà soát các câu mới; các mục 'cần xác nhận' trong báo cáo vẫn cần kiểm.",
+      "severity": "medium"
+    },
+    {
+      "id": "rk-rubric-ids",
+      "text": "Không thêm tiêu chí rubric mới vì id rubric nằm trong digest hợp đồng chứng cứ (evidenceContract) và có test ghim; thêm tiêu chí accuracy cần một thay đổi hợp đồng có chủ đích.",
+      "severity": "low"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "dc-keep-p0-pilot",
+      "text": "Nhãn p0-pilot trong workflowTags là cờ chức năng (evidenceContract, useTaskState), không phải nhãn nội bộ; giữ nguyên.",
+      "rationale": "Báo cáo rà soát ban đầu nhầm; gỡ nhãn làm hỏng test pilot."
+    }
+  ],
+  "completedAt": "2026-10-13T09:40:55.458+07:00"
+}

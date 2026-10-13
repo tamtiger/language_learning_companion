@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Team sync",
       "format": "dialogue",
-      "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please."
+      "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please. Note: Anna’s last sentence is hard to hear."
     },
     {
       "id": "meeting-language",
@@ -41,7 +41,7 @@
             "a short update"
           ],
           "example": "My update is short.",
-          "commonMistake": "Nhấn trọng âm ở âm tiết đầu khi là danh từ: UP-date."
+          "commonMistake": "Là danh từ, nhấn âm đầu: UP-date; đừng nhấn âm sau như động từ up-DATE."
         },
         {
           "word": "repeat",
@@ -82,20 +82,20 @@
         {
           "word": "slowly",
           "ipa": "/ˈsloʊ.li/",
-          "definition": "chậm",
+          "definition": "chậm rãi",
           "technicalMeaning": "Nói với tốc độ chậm để người khác hiểu.",
           "collocations": [
             "speak slowly",
             "a bit slowly"
           ],
           "example": "Could you speak more slowly?",
-          "commonMistake": "Dùng slowly sau động từ speak, không dùng slow."
+          "commonMistake": "Dùng slowly sau động từ speak: speak slowly; dùng slower hoặc more slowly khi so sánh."
         }
       ],
       "expressions": [
         {
           "phrase": "Hello, I am ___ from ___.",
-          "meaning": "Chào và nói tên cùng nhóm của bạn.",
+          "meaning": "Chào, nói tên và nhóm của bạn.",
           "tone": "neutral",
           "example": "Hello, I am Linh from the app team.",
           "alternatives": [
@@ -173,7 +173,7 @@
         {
           "id": "meeting-fill-hear",
           "type": "fill",
-          "question": "Điền từ: Sorry, I cannot ___ you.",
+          "question": "Điền từ (nghe thấy): Sorry, I cannot ___ you.",
           "correctAnswer": [
             "hear"
           ],
@@ -253,18 +253,22 @@
         {
           "id": "mjara-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: My ___ is short.",
+          "question": "Điền từ còn thiếu (cập nhật): My ___ is short.",
           "correctAnswer": [
-            "update"
+            "update",
+            "report",
+            "talk"
           ],
           "explanation": "\"update\" nghĩa là cập nhật."
         },
         {
           "id": "mjara-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Could you ___ that, please?",
+          "question": "Điền từ còn thiếu (nhắc lại): Could you ___ that, please?",
           "correctAnswer": [
-            "repeat"
+            "repeat",
+            "clarify",
+            "explain"
           ],
           "explanation": "\"repeat\" nghĩa là nhắc lại."
         }
@@ -278,7 +282,7 @@
     "scenario": "Tình huống mô phỏng: bạn vào họp video với nhóm quốc tế, đưa một cập nhật ngắn và nhờ nhắc lại một câu.",
     "baselinePrompt": "Trong 20–40 giây, nói bằng tiếng Anh: chào, nói tên và một cập nhật ngắn. Chưa xem bài mẫu hay các cụm câu.",
     "performancePrompt": "Speak in English for 20 to 40 seconds: say hello, your name, one update, and ask Anna to repeat one sentence. (Chào, tên, một cập nhật, nhờ nhắc lại.)",
-    "modelResponse": "Hello, everyone. I am Linh from the app team. My update is short. I fixed the login bug yesterday. Today, I test the fix. I will send a note after the meeting. Sorry, Ken, I could not hear your last sentence. Could you repeat that, please? Thank you.",
+    "modelResponse": "Hello, everyone. I am Linh from the app team. My update is short. I fixed the login bug yesterday. Today, I will test the fix. I will send a note after the meeting. Sorry, Anna, I could not hear your last sentence. Could you repeat that, please? Thank you.",
     "retryPrompt": "Speak again in English for 20 to 40 seconds. Fix your weakest criterion.",
     "transferPrompt": "In 20 to 40 seconds, join a new meeting: say hello, your name, one update and one repeat request.",
     "reviewPrompt": "In 20 to 40 seconds, join another meeting without looking at the old notes: hello, name, one update and one repeat request.",
@@ -292,7 +296,7 @@
             "type": "source",
             "title": "Team sync",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please."
+            "content": "Synthetic training artifact — non-production. Meeting: Team sync, Tuesday 9:00. Host: Anna. People: Anna, Ken, you.\nAnna: Hello, everyone. Who has an update?\nKen: I fixed the login bug.\nAnna: Thank you, Ken. Your update, please. Note: Anna’s last sentence is hard to hear."
           }
         ]
       },
@@ -305,7 +309,7 @@
             "type": "source",
             "title": "Design review",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Design review, Wednesday 14:00. Host: Mia. People: Mia, Ravi, you.\nMia: Hi, everyone. Please share one update.\nRavi: I changed the button color. It is blue now.\nMia: Thank you, Ravi. Your turn."
+            "content": "Synthetic training artifact — non-production. Meeting: Design review, Wednesday 14:00. Host: Mia. People: Mia, Ravi, you.\nMia: Hi, everyone. Please share one update.\nRavi: I changed the button color. It is blue now.\nMia: Thank you, Ravi. Your turn. Note: Ravi speaks fast."
           }
         ]
       },
@@ -331,7 +335,7 @@
             "type": "source",
             "title": "Release call",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Meeting: Release call, Friday 16:00. Host: Elena. People: Elena, Chris, you.\nElena: Welcome. Chris, what is your update?\nChris: I tested the payment page. It works.\nElena: Great. Now you, please."
+            "content": "Synthetic training artifact — non-production. Meeting: Release call, Friday 16:00. Host: Elena. People: Elena, Chris, you.\nElena: Welcome. Chris, what is your update?\nChris: I tested the payment page. It works.\nElena: Great. Now you, please. Note: Elena’s last sentence is hard to hear."
           }
         ]
       }
@@ -501,7 +505,7 @@
             "id": "meet-train-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Could you speak a bit slower?",
+              "text": "Could you speak a bit more slowly?",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -515,7 +519,7 @@
               "A new topic"
             ],
             "correctAnswer": "Slower speech",
-            "feedback": "Slower là từ chính: người nói muốn nghe chậm hơn."
+            "feedback": "Slowly là từ chính: người nói muốn nghe chậm hơn."
           },
           {
             "id": "meet-train-3",
@@ -683,11 +687,12 @@
         },
         {
           "id": "meet-cue-hear",
-          "articulatoryCue": "Nhấn HEAR và lên giọng nhẹ ở cuối câu hỏi để nghe như một lời nhờ.",
-          "meaningRisk": "Giọng đi xuống làm câu nhờ nghe như một lời phàn nàn.",
+          "articulatoryCue": "Nhấn HEAR hoặc SLOWLY và lên giọng nhẹ ở cuối câu nhờ để nghe như một lời nhờ lịch sự.",
+          "meaningRisk": "Giọng cộc lốc, đi xuống làm lời nhờ nghe như một lời phàn nàn.",
           "triggerItemIds": [
             "meet-pre-3",
-            "meet-train-2"
+            "meet-train-2",
+            "meet-post-3"
           ]
         }
       ],
@@ -696,7 +701,7 @@
           "id": "meet-chunk-hello",
           "function": "greeting and name",
           "text": "Hello, I am ___ from ___.",
-          "meaning": "Chào và nói tên cùng nhóm của bạn.",
+          "meaning": "Chào, nói tên và nhóm của bạn.",
           "slots": [
             "name",
             "team"

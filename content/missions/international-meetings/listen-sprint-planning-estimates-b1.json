@@ -8,7 +8,7 @@
   "learningObjectives": [
     "Nghe các con số ước lượng và lý do",
     "Nhận ra quyết định chia nhỏ việc",
-    "Viết biên bản kế hoạch sprint ngắn"
+    "Viết ghi chú kế hoạch sprint ngắn"
   ],
   "capabilities": [
     "international-meetings"
@@ -126,8 +126,8 @@
           "question": "Why do they split the story?",
           "options": [
             "It is too large for one sprint",
-            "The customer cancelled it for the team",
-            "The endpoint is finished"
+            "The customer cancelled the feature",
+            "The endpoint is already finished"
           ],
           "correctAnswer": [
             "It is too large for one sprint"
@@ -140,8 +140,8 @@
           "question": "What does the first part include?",
           "options": [
             "The endpoint and a small file",
-            "The progress screen only for the team",
-            "Large accounts only"
+            "The progress screen and large accounts",
+            "Only the file builder"
           ],
           "correctAnswer": [
             "The endpoint and a small file"
@@ -154,8 +154,8 @@
           "question": "How many points does the team commit to?",
           "options": [
             "Twenty-four",
-            "Nineteen for the team",
-            "Thirty at work"
+            "Nineteen",
+            "Twenty-nine"
           ],
           "correctAnswer": [
             "Twenty-four"
@@ -192,7 +192,7 @@
         {
           "word": "capacity",
           "ipa": "/kəˈpæs.ə.t̬i/",
-          "definition": "năng lực của đội",
+          "definition": "sức chứa của đội",
           "technicalMeaning": "Số công việc đội có thể làm trong một sprint.",
           "collocations": [
             "team capacity",
@@ -288,7 +288,7 @@
           "question": "Which sentence explains an estimate?",
           "options": [
             "I would say eight points because the file builder is risky.",
-            "Let us have lunch after the meeting. for the team right now",
+            "Let us have lunch after the meeting.",
             "The board is updated every Friday."
           ],
           "correctAnswer": [
@@ -310,16 +310,16 @@
           "type": "ordering",
           "question": "Sắp xếp các bước của buổi planning.",
           "options": [
-            "commit to the sprint",
-            "estimate the story",
-            "split the story",
-            "check the capacity"
+            "Commitment: we commit to twenty-four points.",
+            "Estimate: development says eight points.",
+            "Capacity: we already have nineteen points.",
+            "Split: do the endpoint and a small file first."
           ],
           "correctAnswer": [
-            "estimate the story",
-            "split the story",
-            "check the capacity",
-            "commit to the sprint"
+            "Estimate: development says eight points.",
+            "Split: do the endpoint and a small file first.",
+            "Capacity: we already have nineteen points.",
+            "Commitment: we commit to twenty-four points."
           ],
           "explanation": "Ước lượng, chia nhỏ, kiểm tra năng lực, cam kết."
         }
@@ -347,7 +347,7 @@
             },
             {
               "key": "capacity",
-              "value": "năng lực của đội"
+              "value": "sức chứa của đội"
             },
             {
               "key": "split",
@@ -360,7 +360,7 @@
           ],
           "correctAnswer": [
             "story point - điểm ước lượng",
-            "capacity - năng lực của đội",
+            "capacity - sức chứa của đội",
             "split - chia nhỏ",
             "commit - cam kết"
           ],
@@ -369,18 +369,22 @@
         {
           "id": "lspeb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Our ___ is twenty-four points.",
+          "question": "Điền từ còn thiếu (sức chứa của đội): Our ___ is twenty-four points.",
           "correctAnswer": [
-            "capacity"
+            "capacity",
+            "velocity",
+            "limit"
           ],
-          "explanation": "\"capacity\" nghĩa là năng lực của đội."
+          "explanation": "\"capacity\" nghĩa là sức chứa của đội."
         },
         {
           "id": "lspeb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Can we ___ it into two parts?",
+          "question": "Điền từ còn thiếu (chia nhỏ): Can we ___ it into two parts?",
           "correctAnswer": [
-            "split"
+            "split",
+            "divide",
+            "break"
           ],
           "explanation": "\"split\" nghĩa là chia nhỏ."
         }
@@ -392,22 +396,22 @@
     "mode": "written",
     "title": "Write sprint planning decisions",
     "scenario": "Sau buổi planning, bạn viết các quyết định để gửi cho đội và khách hàng.",
-    "baselinePrompt": "Dựa vào ghi chú thô của một buổi planning, hãy viết các quyết định bằng tiếng Anh (60 đến 110 từ): ước lượng, việc được chia nhỏ và cam kết. Chưa xem bài mẫu.",
-    "performancePrompt": "Write sprint planning notes in English, 60 to 110 words: the estimates, what was split and what the team committed to.",
-    "modelResponse": "Sprint planning notes. The invoice export story was estimated at eight points by development and five points by testing, so the team split it. Part one, the endpoint and a small file for accounts under five hundred invoices, is three points for development and two for testing. Part two, the progress screen and large accounts, moves to the next sprint. The team already had nineteen points, so part one brings it to twenty-four, which matches our capacity. Decision: commit to twenty-four points. Jordan will update the board and tell the customer about the two steps.",
+    "baselinePrompt": "Dựa vào ghi chú thô của một buổi planning, hãy viết các quyết định bằng tiếng Anh (60 đến 120 từ): ước lượng, việc được chia nhỏ và cam kết. Chưa xem bài mẫu.",
+    "performancePrompt": "Write sprint planning notes in English, 60 to 120 words: the estimates, what was split and what the team committed to.",
+    "modelResponse": "Sprint planning notes. The search filters story was estimated at 13 points by development and 8 points by QA. It was too large, so the team split it into basic filters (5 points) and saved filters (8 points). The capacity is 30 points and 22 are already committed. Basic filters bring the total to 27, so the team commits to them now. Saved filters move to the next sprint.",
     "retryPrompt": "Write the notes again in English. Keep the structure and make the numbers easier to find.",
     "transferPrompt": "Write notes for a different planning meeting, using estimates, a split and a commitment.",
     "reviewPrompt": "Write notes for another planning meeting without looking at old notes.",
     "practiceContexts": {
       "baseline": {
         "title": "Raw notes: planning for a search page",
-        "brief": "Chuyển ghi chú thô thành biên bản.",
+        "brief": "Chuyển ghi chú thô thành ghi chú.",
         "artifacts": [
           {
             "id": "lsp-baseline-ctx",
             "type": "source",
             "title": "Raw notes: planning for a search page",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Story: search filters. Dev says 13 points, QA says 8. Too large, split into basic filters (5) and saved filters (8). Capacity 30, already 22. Commit basic filters now, saved filters next sprint."
           }
         ]
@@ -420,7 +424,7 @@
             "id": "lsp-retry-ctx",
             "type": "source",
             "title": "Raw notes: planning for onboarding",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Story: onboarding emails. Dev 5 points, QA 3. No split needed. Capacity 20, already 12. Commit now. Risk: email provider limits, owner Dara checks by Wednesday."
           }
         ]
@@ -433,8 +437,8 @@
             "id": "lsp-transfer-ctx",
             "type": "source",
             "title": "Raw notes: planning for reports",
-            "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Raw notes. Story: monthly sales report. Dev 8 points, QA 5. Split into numbers first (5) and charts (8). Capacity 26, already 20. Commit numbers; charts wait for design."
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: monthly sales report. Dev 13 points, QA 8. Split into numbers first (5) and charts (8). Capacity 26, already 20. Commit numbers; charts wait for design."
           }
         ]
       },
@@ -446,8 +450,8 @@
             "id": "lsp-review-ctx",
             "type": "source",
             "title": "Raw notes: planning for payments",
-            "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Raw notes. Story: pay by card. Dev 13 points, QA 8. Split into card form (5) and saved cards (13). Capacity 28, already 21. Commit card form; saved cards need legal review first."
+            "format": "meeting-notes",
+            "content": "Synthetic training artifact — non-production. Raw notes. Story: pay by card. Dev 13 points, QA 8. Split into card form (5) and saved cards (8). Capacity 28, already 21. Commit card form; saved cards need legal review first."
           }
         ]
       }

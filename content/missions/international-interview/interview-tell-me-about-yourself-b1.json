@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Interview opener",
       "format": "dialogue",
-      "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Thanks for coming. Could you tell me about yourself? Notes on a strong answer: start with your current role, give one result with a number, add one earlier step, then say why this role fits you. Keep it under one minute."
+      "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Thanks for coming. Could you tell me about yourself? Notes on a strong answer: start with your current role, give one result with a number, add one earlier step, then say why this role fits you. Keep it to about one minute."
     },
     {
       "id": "tmay-language",
@@ -46,7 +46,7 @@
         {
           "word": "background",
           "ipa": "/ˈbæk.ɡraʊnd/",
-          "definition": "nền tảng, quá trình",
+          "definition": "nền tảng, quá trình chuyên môn",
           "technicalMeaning": "Kinh nghiệm và học vấn dẫn bạn tới vai trò hiện tại.",
           "collocations": [
             "a background in",
@@ -89,7 +89,7 @@
             "looking for a chance"
           ],
           "example": "I am looking for a role with more ownership.",
-          "commonMistake": "Nói looking for, không nói looking to find for."
+          "commonMistake": "Nói \"be looking for + danh từ\" (looking for a role); không thêm to hay find."
         }
       ],
       "expressions": [
@@ -173,7 +173,7 @@
           ],
           "explanation": "Looking for là cụm đúng để nói bạn đang tìm một vai trò.",
           "acceptedAnswers": [
-            "looking for a"
+            "seeking"
           ]
         },
         {
@@ -218,7 +218,7 @@
             },
             {
               "key": "background",
-              "value": "nền tảng, quá trình"
+              "value": "nền tảng, quá trình chuyên môn"
             },
             {
               "key": "responsible for",
@@ -231,7 +231,7 @@
           ],
           "correctAnswer": [
             "currently - hiện tại",
-            "background - nền tảng, quá trình",
+            "background - nền tảng, quá trình chuyên môn",
             "responsible for - chịu trách nhiệm về",
             "led to - dẫn tới"
           ],
@@ -240,20 +240,21 @@
         {
           "id": "itmayb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I ___ work on a payment API.",
+          "question": "Điền từ còn thiếu (hiện tại): I ___ work on a payment API.",
           "correctAnswer": [
-            "currently"
+            "currently",
+            "now"
           ],
           "explanation": "\"currently\" nghĩa là hiện tại."
         },
         {
           "id": "itmayb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I have a ___ in backend development.",
+          "question": "Điền từ còn thiếu (nền tảng, quá trình chuyên môn chuyên môn): I have a ___ in backend development.",
           "correctAnswer": [
             "background"
           ],
-          "explanation": "\"background\" nghĩa là nền tảng, quá trình."
+          "explanation": "\"background\" nghĩa là nền tảng, quá trình chuyên môn."
         }
       ]
     }
@@ -265,9 +266,9 @@
     "scenario": "Bạn phỏng vấn vị trí backend engineer; người phỏng vấn mở đầu bằng câu \"Tell me about yourself\".",
     "baselinePrompt": "Trả lời bằng tiếng Anh trong khoảng một phút: vai trò hiện tại, một thành tích và lý do bạn muốn vị trí. Chưa xem bài mẫu hay cụm câu.",
     "performancePrompt": "Answer in English in about one minute: your current role, one result with a number, one earlier step and why this role fits you.",
-    "modelResponse": "Thank you for having me. I currently work as a backend engineer at a small fintech team, where I am responsible for our payment API. One result I am proud of is a retry service that cut failed payments by thirty percent. Before that, I built internal tools for the support team, and I learned how to write clear tests and short design notes. I enjoy turning a messy problem into a simple, reliable system. I am looking for a role with bigger systems and more mentoring, and this role has both. I would be glad to talk about any of these projects in more detail, and I have a few questions about the team and its goals as well.",
+    "modelResponse": "Thank you for having me. I currently work as a backend engineer on a small fintech team, where I am responsible for our payment API. One result I am proud of is a retry service that cut failed payments by thirty percent. Before that, I built internal tools for the support team, and I learned how to write clear tests and short design notes. I enjoy turning a messy problem into a simple, reliable system, and I think that fits the reliability work your team needs. I am looking for a role with bigger systems and more mentoring, and I believe this role could offer both. I would be glad to talk about any of these projects in more detail, and I have a few questions about the team and its goals as well.",
     "retryPrompt": "Answer again in English. Keep the same order and fix your weakest criterion.",
-    "transferPrompt": "Introduce yourself for a different role, such as a data engineer, and keep the same four-part order.",
+    "transferPrompt": "Introduce yourself for a different role, such as a QA lead, and keep the same four-part order.",
     "reviewPrompt": "Introduce yourself for another team without looking at your old notes.",
     "practiceContexts": {
       "baseline": {
@@ -279,7 +280,7 @@
             "type": "source",
             "title": "Backend Engineer at Northwind Apps",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Could you tell me about yourself? The team runs a payment API and wants someone for reliability work."
+            "content": "Synthetic training artifact — non-production. Interview: Backend Engineer, Northwind Apps. Interviewer: Could you tell me about yourself? The team runs a payment API and wants someone for reliability work. Your notes: current role is backend engineer on a small fintech team, responsible for the payment API. Result: a retry service cut failed payments by thirty percent. Earlier: built internal tools for the support team and learned to write clear tests and short design notes. Goal: bigger systems and more mentoring."
           }
         ]
       },
@@ -385,7 +386,7 @@
             "id": "tmay-pre-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Right now, I work as a backend engineer on a payment system.",
+              "text": "I currently work as a backend engineer on a payment system.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -537,7 +538,7 @@
             "id": "tmay-train-5",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Earlier in my career, I wrote tests for a mobile app.",
+              "text": "Earlier in my career, I wrote tests for a booking site.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -547,10 +548,10 @@
             "question": "What did the speaker write earlier?",
             "options": [
               "Posts for a blog",
-              "Checks for an app",
+              "Checks for a site",
               "Plans for a long trip"
             ],
-            "correctAnswer": "Checks for an app",
+            "correctAnswer": "Checks for a site",
             "feedback": "Earlier in my career đánh dấu bước trước."
           },
           {
@@ -578,7 +579,7 @@
             "id": "tmay-post-1",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "I currently work as a data engineer at a retail company.",
+              "text": "I currently work as a platform engineer at a retail company.",
               "locale": "en-GB",
               "voiceHints": [
                 "English UK"
@@ -587,16 +588,16 @@
             "question": "What does the speaker do now?",
             "options": [
               "Manages a team",
-              "Works with data",
+              "Runs shared platforms",
               "Designs products"
             ],
-            "correctAnswer": "Works with data"
+            "correctAnswer": "Runs shared platforms"
           },
           {
             "id": "tmay-post-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "One result I am proud of is a report that now runs in ten minutes.",
+              "text": "One result I am proud of is a report that now runs in thirteen minutes.",
               "locale": "en-AU",
               "voiceHints": [
                 "English Australia",
@@ -605,17 +606,17 @@
             },
             "question": "How long does the report take?",
             "options": [
-              "2 hours",
-              "10 minutes",
-              "1 entire day"
+              "13 minutes",
+              "30 minutes",
+              "3 minutes"
             ],
-            "correctAnswer": "10 minutes"
+            "correctAnswer": "13 minutes"
           },
           {
             "id": "tmay-post-3",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "Before that, I worked as a tester for a small startup.",
+              "text": "Before that, I worked as a support agent for a small startup.",
               "locale": "en-US",
               "voiceHints": [
                 "English US"
@@ -624,10 +625,10 @@
             "question": "What was the earlier role?",
             "options": [
               "A school teacher",
-              "A software tester",
+              "A customer helper",
               "A fitness trainer"
             ],
-            "correctAnswer": "A software tester"
+            "correctAnswer": "A customer helper"
           },
           {
             "id": "tmay-post-4",
@@ -661,7 +662,7 @@
         },
         {
           "id": "tmay-cue-current",
-          "articulatoryCue": "Nhấn âm đầu của currently và responsible để câu mở đầu rõ ràng.",
+          "articulatoryCue": "Nhấn âm đầu của currently và âm thứ hai của responsible (re-SPON-si-ble) để câu mở đầu rõ ràng.",
           "meaningRisk": "Thiếu nhấn làm người nghe khó nhận ra vai trò hiện tại.",
           "triggerItemIds": [
             "tmay-pre-1",
@@ -753,7 +754,7 @@
       "listenBackChecklist": [
         "Mình có đủ bốn phần: hiện tại, kết quả, trước đó, lý do.",
         "Kết quả của mình có một con số rõ ràng.",
-        "Câu trả lời ngắn hơn một phút và không đọc lại."
+        "Câu trả lời dài khoảng một phút và mình không đọc lại."
       ],
       "interactionTurns": [
         {

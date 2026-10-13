@@ -65,7 +65,7 @@
             "a gentle learning curve"
           ],
           "example": "The tool has a gentle learning curve.",
-          "commonMistake": "Nói a steep hoặc gentle learning curve."
+          "commonMistake": "Gentle learning curve là dễ làm quen, steep learning curve là khó lúc đầu; đừng nói high hay low learning curve."
         },
         {
           "word": "tip",
@@ -77,7 +77,7 @@
             "one tip"
           ],
           "example": "My one tip is to start with a small script.",
-          "commonMistake": "Nói a tip for + người."
+          "commonMistake": "Dùng a tip for + người hoặc a tip on + chủ đề."
         },
         {
           "word": "pitfall",
@@ -89,7 +89,7 @@
             "avoid the pitfall"
           ],
           "example": "A common pitfall is the time zone setting.",
-          "commonMistake": "Pitfall là một từ."
+          "commonMistake": "Viết pitfall liền một từ, không viết pit fall."
         }
       ],
       "expressions": [
@@ -223,7 +223,7 @@
         {
           "id": "ewylb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The tool runs scripts on a ___.",
+          "question": "Điền từ còn thiếu (lịch chạy): The tool runs scripts on a ___.",
           "correctAnswer": [
             "schedule"
           ],
@@ -232,7 +232,7 @@
         {
           "id": "ewylb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ took ten minutes.",
+          "question": "Điền từ còn thiếu (bước thiết lập): The ___ took ten minutes.",
           "correctAnswer": [
             "setup"
           ],
@@ -248,7 +248,7 @@
     "scenario": "Trong buổi chia sẻ hằng tuần, bạn kể ngắn về một công cụ mới mà bạn vừa thử.",
     "baselinePrompt": "Nói bằng tiếng Anh trong khoảng một phút: công cụ làm gì, bạn đã thử gì, một khó khăn và một lời khuyên. Chưa xem bài mẫu.",
     "performancePrompt": "Speak in English for about one minute: what the tool does, what you tried, one difficulty and one tip for your teammates.",
-    "modelResponse": "This week I tried a tool called Taskflow. Taskflow is a tool that runs scripts on a schedule, for example every night at two o'clock. I tried a daily backup script, and it ran without problems after a ten-minute setup. The hardest part was the time zone setting, because the default is UTC, so my first job ran at the wrong hour. I found the answer in the documentation, and now I always set the time zone in the file. The tool has a gentle learning curve, and the logs are easy to read. My tip for you is to start with a small script and check the logs after the first run. If you try it, please tell me what you think.",
+    "modelResponse": "This week I tried a new tool called Taskflow. Taskflow is a tool that runs scripts on a schedule, for example every night at two o'clock, so nobody has to start it by hand. I tried a daily backup script, and it ran without problems after a ten-minute setup. The hardest part was the time zone setting, because the default is UTC, so my first job ran at the wrong hour. I fixed it, and now I always set the time zone in the file. Overall, the tool has a gentle learning curve, so a new user can start quickly. My tip for you is to start with a small script and check the logs after the first run. If you try it, please tell me what you think.",
     "retryPrompt": "Share again in English. Keep the four parts and make the difficulty more specific.",
     "transferPrompt": "Share what you learned about a different tool, with the same four parts.",
     "reviewPrompt": "Share about another tool without looking at old notes.",
@@ -262,20 +262,20 @@
             "type": "source",
             "title": "Taskflow scheduler",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Taskflow runs scripts on a schedule. Mina tried a backup script. Difficulty: the default time zone is UTC. Tip: check the logs after the first run."
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Taskflow runs scripts on a schedule. Mina tried a daily backup script that runs every night at two o'clock. The setup took ten minutes and the script ran without problems. Difficulty: the default time zone is UTC, so the first job ran at the wrong hour. Fix: she now sets the time zone in the file. Mina says the learning curve is gentle. Tip: start with a small script and check the logs after the first run."
           }
         ]
       },
       "retry": {
-        "title": "Linthelp linter",
-        "brief": "Sửa bài với một công cụ kiểm tra code.",
+        "title": "Dbmigrate migrations",
+        "brief": "Sửa bài với một công cụ thay đổi cơ sở dữ liệu.",
         "artifacts": [
           {
             "id": "ewl-retry-ctx",
             "type": "source",
-            "title": "Linthelp linter",
+            "title": "Dbmigrate migrations",
             "format": "dialogue",
-            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Linthelp checks code style. Ravi tried it on one folder. Difficulty: too many warnings at first. Tip: enable three rules at a time."
+            "content": "Synthetic training artifact — non-production. Setting: learning slot. Tool: Dbmigrate applies database changes in order. Ravi tried it on a test database. Difficulty: one change failed halfway. Tip: back up the database first."
           }
         ]
       },
@@ -347,7 +347,7 @@
           "met": "Names what you tried and what exactly was hard.",
           "notMet": "Says \"it was good\" or \"it was hard\" only."
         },
-        "dimension": "accuracy"
+        "dimension": "task"
       },
       {
         "id": "range",
@@ -369,16 +369,16 @@
             "audio": {
               "kind": "speech-synthesis",
               "text": "Taskflow is a tool that runs scripts on a schedule.",
-              "locale": "en-GB",
+              "locale": "en-US",
               "voiceHints": [
-                "English UK"
+                "English US"
               ]
             },
             "question": "What does the tool do?",
             "options": [
               "Runs jobs at set times",
               "Writes new scripts",
-              "Deletes old servers for the team"
+              "Checks old servers for errors"
             ],
             "correctAnswer": "Runs jobs at set times"
           },
@@ -414,8 +414,8 @@
             "question": "What was difficult?",
             "options": [
               "A clock-related option",
-              "A missing license for the team",
-              "A broken laptop"
+              "A missing license key for the tool",
+              "A slow internet connection"
             ],
             "correctAnswer": "A clock-related option"
           },
@@ -432,8 +432,8 @@
             "question": "What is the advice?",
             "options": [
               "Begin with something small",
-              "Avoid scripts entirely for the team",
-              "Wait for a bigger team"
+              "Avoid scripts until you know more",
+              "Ask a bigger team to start"
             ],
             "correctAnswer": "Begin with something small"
           }
@@ -491,8 +491,8 @@
             "question": "Why was the hour wrong?",
             "options": [
               "A default clock setting",
-              "A power cut at work",
-              "A wrong password for the team"
+              "A power cut during the night",
+              "A wrong password in the file"
             ],
             "correctAnswer": "A default clock setting",
             "feedback": "Because nêu nguyên nhân."
@@ -511,8 +511,8 @@
             "question": "Where did the speaker find the answer?",
             "options": [
               "In the official guide",
-              "From a stranger for the team",
-              "In a dream at work"
+              "From a stranger on a forum",
+              "In an email from the manager"
             ],
             "correctAnswer": "In the official guide",
             "feedback": "Documentation là tài liệu chính thức."
@@ -531,7 +531,7 @@
             "options": [
               "Sets the zone explicitly",
               "Ignores the zone",
-              "Uses a different tool for the team"
+              "Uses a different tool now"
             ],
             "correctAnswer": "Sets the zone explicitly",
             "feedback": "Now I always mô tả thói quen mới."
@@ -571,8 +571,8 @@
             "question": "What does Linthelp do?",
             "options": [
               "Reviews code style",
-              "Builds web pages for the team",
-              "Sends emails"
+              "Builds web pages for users",
+              "Sends emails about errors"
             ],
             "correctAnswer": "Reviews code style"
           },
@@ -607,8 +607,8 @@
             "question": "What was hard?",
             "options": [
               "Too many rules",
-              "Too few users for the team",
-              "No internet"
+              "Too few users on the team",
+              "No internet access"
             ],
             "correctAnswer": "Too many rules"
           },
@@ -626,7 +626,7 @@
             "question": "What does the speaker recommend?",
             "options": [
               "Switch rules on gradually",
-              "Switch every rule off for the team",
+              "Switch every rule off at once",
               "Skip the config file"
             ],
             "correctAnswer": "Switch rules on gradually"
@@ -639,8 +639,7 @@
           "articulatoryCue": "Đọc schedule bằng âm đầu /sk/ kiểu Mỹ và nhấn âm đầu của từ này.",
           "meaningRisk": "Đọc sai schedule làm người nghe phải dừng lại để hiểu.",
           "triggerItemIds": [
-            "ewl-pre-1",
-            "ewl-pre-3"
+            "ewl-pre-1"
           ]
         },
         {
@@ -648,8 +647,7 @@
           "articulatoryCue": "Nhấn âm đầu của learning và đọc rõ âm cuối của curve.",
           "meaningRisk": "Nuốt âm cuối làm learning curve nghe mơ hồ.",
           "triggerItemIds": [
-            "ewl-train-2",
-            "ewl-train-1"
+            "ewl-train-2"
           ]
         }
       ],
@@ -667,9 +665,9 @@
           "modelAudio": {
             "kind": "speech-synthesis",
             "text": "Taskflow is a tool that runs scripts on a schedule.",
-            "locale": "en-GB",
+            "locale": "en-US",
             "voiceHints": [
-              "English UK"
+              "English US"
             ]
           }
         },

@@ -2,13 +2,13 @@
   "schemaVersion": "v3",
   "lessonId": "technology-troubleshooting-from-docs-b2",
   "title": "Troubleshoot a new technology from English docs",
-  "summary": "Đọc documentation, tạo hypothesis và thử nghiệm an toàn mà không cần bản dịch.",
+  "summary": "Đọc tài liệu, nêu giả thuyết và thử nghiệm an toàn mà không cần bản dịch.",
   "cefrLevel": "B2",
   "durationMinutes": 22,
   "learningObjectives": [
-    "Đọc điều kiện trong docs",
-    "Tạo hypothesis kiểm chứng được",
-    "Viết safe experiment"
+    "Đọc điều kiện trong tài liệu",
+    "Nêu giả thuyết có thể kiểm chứng",
+    "Viết một thử nghiệm an toàn"
   ],
   "capabilities": [
     "technology-learning"
@@ -64,7 +64,7 @@
             "isolate one variable"
           ],
           "example": "I isolated the problem by changing one setting at a time.",
-          "commonMistake": "Nói isolate the problem, không nói isolate to."
+          "commonMistake": "Isolate cần tân ngữ: isolate the problem; bị động là the problem was isolated."
         },
         {
           "word": "documented",
@@ -79,22 +79,22 @@
           "commonMistake": "Phân biệt documented với tested."
         },
         {
-          "word": "workaround",
-          "ipa": "/ˈwɝːk.ə.raʊnd/",
-          "definition": "cách tạm để tránh vấn đề",
-          "technicalMeaning": "Giải pháp tạm khi chưa sửa được tận gốc.",
+          "word": "hypothesis",
+          "ipa": "/haɪˈpɑː.θə.sɪs/",
+          "definition": "giả thuyết",
+          "technicalMeaning": "Lời giải thích có thể đúng và kiểm chứng được bằng một thử nghiệm.",
           "collocations": [
-            "a temporary workaround",
-            "apply a workaround"
+            "form a hypothesis",
+            "reject a hypothesis"
           ],
-          "example": "A workaround is to restart the worker.",
-          "commonMistake": "Workaround là một từ."
+          "example": "My hypothesis is that staging has maxAttempts set to one.",
+          "commonMistake": "Số nhiều là hypotheses, không phải hypothesises."
         }
       ],
       "expressions": [
         {
           "phrase": "The documentation establishes that ___.",
-          "meaning": "Separate a documented rule from a hypothesis about the current system.",
+          "meaning": "Tách quy tắc đã được tài liệu nêu khỏi giả thuyết về hệ thống hiện tại.",
           "tone": "neutral",
           "example": "The documentation establishes that maxAttempts includes the initial attempt.",
           "alternatives": [
@@ -103,7 +103,7 @@
         },
         {
           "phrase": "One testable hypothesis is ___.",
-          "meaning": "Frame a possible cause without presenting it as confirmed.",
+          "meaning": "Nêu nguyên nhân có thể mà không coi nó là đã xác nhận.",
           "tone": "neutral",
           "example": "One testable hypothesis is that staging has maxAttempts set to one.",
           "alternatives": [
@@ -112,7 +112,7 @@
         },
         {
           "phrase": "This hypothesis would be supported if ___ and rejected if ___.",
-          "meaning": "Define observable evidence for both outcomes.",
+          "meaning": "Xác định bằng chứng quan sát được cho cả hai kết quả.",
           "tone": "formal",
           "example": "This hypothesis would be supported if the effective value is one and rejected if it is already above one.",
           "alternatives": [
@@ -129,7 +129,7 @@
         {
           "id": "docs-troubleshoot-check",
           "type": "choice",
-          "question": "Vì sao job có thể không retry?",
+          "question": "Why might a job not be retried?",
           "options": [
             "The queue is asynchronous.",
             "maxAttempts may be set to 1.",
@@ -173,14 +173,16 @@
           "type": "fill",
           "question": "Sửa lỗi: câu \"I isolated the problem for changing one setting at a time.\" dùng sai một từ. Điền từ đúng thay cho \"for\".",
           "correctAnswer": [
-            "by"
+            "by",
+            "through",
+            "via"
           ],
           "explanation": "By + V-ing chỉ cách làm."
         },
         {
           "id": "ttfdb-order",
           "type": "ordering",
-          "question": "Sắp xếp các bước xử lý sự cố từ tài liệu.",
+          "question": "Sắp xếp các bước xử lý sự cố từ tài liệu, bắt đầu từ điều quan sát được; giả thuyết phải dựa trên tài liệu đã đọc.",
           "options": [
             "test the hypothesis",
             "read what the docs establish",
@@ -241,7 +243,7 @@
         {
           "id": "ttfdb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ is a slow first request.",
+          "question": "Điền từ còn thiếu (triệu chứng): The ___ is a slow first request.",
           "correctAnswer": [
             "symptom"
           ],
@@ -250,9 +252,10 @@
         {
           "id": "ttfdb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The ___ sets the timeout to ten seconds.",
+          "question": "Điền từ còn thiếu (cấu hình): The ___ sets the timeout to ten seconds.",
           "correctAnswer": [
-            "configuration"
+            "configuration",
+            "config"
           ],
           "explanation": "\"configuration\" nghĩa là cấu hình."
         }
@@ -263,11 +266,11 @@
     "id": "docs-troubleshooting",
     "mode": "written",
     "title": "Plan a safe troubleshooting experiment",
-    "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn có documentation và symptom, nhưng effective config chưa được xác nhận.",
-    "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan without the model.",
-    "performancePrompt": "Write in English: summarize the rule from the docs, state a hypothesis, a safe way to test it, the expected signal, the rejection signal and the rollback.",
-    "modelResponse": "The documentation says a handler that returns an error or throws an uncaught exception creates a failed attempt. maxAttempts is the total attempt count, including the initial attempt, so a value of one disables retries. My first hypothesis is that this environment has an effective value of one, but the documentation alone does not prove the current setting. I would inspect the effective staging configuration before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic job whose handler throws, with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect the handler’s observed return-or-throw behavior.",
-    "retryPrompt": "Sửa kế hoạch để tách doc fact, hypothesis, expected signal và cleanup.",
+    "scenario": "Một worker mới không retry như nhóm kỳ vọng; bạn có tài liệu và triệu chứng, nhưng cấu hình hiệu lực (effective config) chưa được xác nhận.",
+    "baselinePrompt": "Read the documentation once, hide it, then write a diagnostic plan of 100–180 words without the model.",
+    "performancePrompt": "Write 100–180 words in English: summarize the rule from the docs, state a hypothesis, a safe way to test it, the expected signal, the rejection signal and the rollback.",
+    "modelResponse": "The documentation says a handler that returns an error or throws an uncaught exception creates a failed attempt. maxAttempts is the total attempt count, including the initial attempt, so a value of one disables retries. My first hypothesis is that this environment has an effective value of one, but the documentation alone does not prove the current setting. I would inspect the effective configuration of this environment before changing anything. If it confirms the hypothesis, I would use an isolated queue to enqueue one synthetic job whose handler throws, with maxAttempts=3. The expected signal is three recorded failed attempts followed by dead-lettering. I would record the job ID, avoid production traffic, restore the previous configuration, remove the synthetic job and confirm normal dispatch after cleanup. If the effective value is already above one, I would reject this hypothesis and inspect the handler’s observed return-or-throw behavior.",
+    "retryPrompt": "Revise your plan to separate the documentation fact, the hypothesis, the expected signal and the cleanup.",
     "transferPrompt": "A cache’s docs say TTL=0 means no expiry. Write a safe test plan for a stale-data bug.",
     "reviewPrompt": "From unseen docs read once, form a hypothesis and a safe experiment with an expected signal.",
     "practiceContexts": {
@@ -280,7 +283,7 @@
             "type": "source",
             "title": "Retry documentation",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. A failed attempt occurs when the handler returns an error or throws an uncaught exception, and either outcome is eligible for retry. maxAttempts is the total number of attempts, including the initial attempt. After all configured attempts fail, the job moves to dead-letter. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment."
+            "content": "Synthetic training artifact — non-production. Symptom: a new worker does not retry failed jobs as the team expected. A failed attempt occurs when the handler returns an error or throws an uncaught exception, and either outcome is eligible for retry. maxAttempts is the total number of attempts, including the initial attempt. After all configured attempts fail, the job moves to dead-letter. Setting maxAttempts to 1 disables retries. Effective configuration may differ by environment."
           }
         ]
       },
@@ -293,7 +296,7 @@
             "type": "source",
             "title": "Staging configuration and relevant rule",
             "format": "code-snippet",
-            "content": "Synthetic training artifact — non-production. Documented rule: returning an error or throwing an uncaught exception creates a failed attempt; maxAttempts is the total attempt count including the initial attempt.\nenvironment=staging\nqueue=email\nmaxAttempts=1\nhandlerFailureMode=throw\ndeadLetter=true"
+            "content": "Synthetic training artifact — non-production. Documented rule: returning an error or throwing an uncaught exception creates a failed attempt; maxAttempts is the total attempt count including the initial attempt.\nenvironment=staging\nqueue=email\nhandlerFailureMode=throw\ndeadLetter=true\nSymptom: a failed email job went to dead-letter with no retry. The effective maxAttempts value was not captured."
           }
         ]
       },
@@ -361,7 +364,7 @@
           "question": "What verifies the behavior?",
           "options": [
             "Scheduler active and queued counts",
-            "A translated summary",
+            "A short summary of the documentation",
             "The configured concurrency value alone"
           ],
           "correctAnswer": "Scheduler active and queued counts",
@@ -370,7 +373,7 @@
       ],
       "applicationPrompt": "State the documented rule, form one hypothesis for a stalled batch, and design a reversible staging experiment with an expected signal.",
       "applicationChecklist": [
-        "I quoted no more than the necessary rule.",
+        "I restated only the necessary rule in my own words.",
         "My hypothesis is testable.",
         "The experiment has an expected signal and cleanup."
       ]

@@ -25,8 +25,8 @@
       "definition": "The job or purpose that something is made to do.",
       "technicalMeaning": "A named piece of code that you can run again and again to do one specific task.",
       "collocations": ["call a function", "function declaration"],
-      "example": "Function words like 'the' or infinitival 'to' are often reduced in neutral speech but can carry contrastive focus.",
-      "commonMistake": "The second syllable is reduced in this broad transcription. Do not use spelling alone to decide either word stress or sentence focus."
+      "example": "This function returns a promise, and the caller awaits it.",
+      "commonMistake": "Tiếng Việt mỗi âm tiết nặng gần như nhau, nên người học hay đọc đầy đủ cả the, to, can. Trong tiếng Anh, function word thường được đọc yếu (to là /tə/, the là /ðə/) và âm tiết thứ hai của function là /ʃən/, không đọc rõ nguyên âm. Do not use spelling alone to decide either word stress or sentence focus."
     }
   ],
   "expressions": [
@@ -41,7 +41,7 @@
   "reading": {
     "title": "[Tình huống mô phỏng] Focus trong standup",
     "sourceType": "Tình huống mô phỏng",
-    "content": "Context: A teammate thinks the authentication bug was only reported.\nUpdate: “I FIXED the authentication bug yesterday. Today I’m monitoring staging.”\nIn a neutral update, nouns and main verbs often carry prominence while articles and infinitival to are commonly reduced. Contrast can override that default: “I said TO staging, not FROM staging.” The intended contrast—not word class alone—determines focus."
+    "content": "Context: A teammate thinks the authentication bug was only reported.\nUpdate: “I FIXED the authentication bug yesterday. Today I’m monitoring staging.”\nIn a neutral update, nouns, main verbs, adjectives and adverbs often carry prominence while articles and infinitival to are commonly reduced. Contrast can override that default: “I said TO staging, not FROM staging.” The intended contrast—not word class alone—determines focus."
   },
   "exercises": [
     {
@@ -50,17 +50,17 @@
       "question": "Trong một neutral update không có contrast đặc biệt, nhóm nào thường mang prominence?",
       "options": [
         "Mọi giới từ và mạo từ",
-        "Danh từ và động từ chính",
-        "Mọi auxiliary",
-        "Mọi từ có nhiều hơn một syllable"
+        "Danh từ, động từ chính, tính từ",
+        "Mọi auxiliary và đại từ",
+        "Mọi âm tiết, nhấn đều như tiếng Việt"
       ],
-      "correctAnswer": ["Danh từ và động từ chính"],
-      "explanation": "Đây là xu hướng mặc định, không phải quy tắc bắt buộc; discourse contrast có thể thay đổi focus."
+      "correctAnswer": ["Danh từ, động từ chính, tính từ"],
+      "explanation": "Đây là xu hướng mặc định, không phải quy tắc bắt buộc (trạng từ cũng thường được nhấn); discourse contrast có thể thay đổi focus. Tiếng Anh nhấn theo nhịp, nên function words thường được đọc yếu thay vì đều như tiếng Việt."
     },
     {
       "id": "e4-2",
       "type": "choice",
-      "question": "Trong câu neutral 'I need to check the database', phần nào thường được reduced nếu không có contrast?",
+      "question": "Trong câu neutral 'I need to check the database', phần nào thường được đọc yếu (reduced) nếu không có contrast?",
       "options": [
         "need",
         "check",
@@ -68,7 +68,7 @@
         "database"
       ],
       "correctAnswer": ["to / the"],
-      "explanation": "To là infinitival marker và the là article trong câu này. Chúng thường được reduced khi không mang contrastive focus."
+      "explanation": "To là infinitival marker và the là article trong câu này. Chúng thường được đọc yếu khi không mang contrastive focus: to nghe gần như /tə/ và the nghe gần như /ðə/."
     },
     {
       "id": "e4-3",

@@ -63,7 +63,7 @@
           "question": "What is the main purpose of this document?",
           "options": [
             "It defines safe retry rules for clients",
-            "It describes how invoices are designed for the team",
+            "It describes how invoices are designed",
             "It explains how to price a product"
           ],
           "correctAnswer": [
@@ -82,7 +82,7 @@
             "options": [
               "Sending an idempotency key",
               "Adding random jitter",
-              "Limiting the total retry time"
+              "Retrying every request with a 400 status"
             ],
             "correctAnswer": [
               "Sending an idempotency key"
@@ -99,7 +99,7 @@
             "options": [
               "After five retries or two minutes",
               "After one hour of waiting",
-              "When a user cancels the app for the team"
+              "After exactly five retries, with no time limit"
             ],
             "correctAnswer": [
               "After five retries or two minutes"
@@ -116,7 +116,7 @@
             "options": [
               "It rejects the request with 422",
               "It creates a second invoice",
-              "It repeats the first response for the team"
+              "It returns the original response again"
             ],
             "correctAnswer": [
               "It rejects the request with 422"
@@ -132,8 +132,8 @@
             "question": "How strong is the word SHOULD?",
             "options": [
               "A strong recommendation with exceptions",
-              "An absolute rule at work",
-              "A purely optional feature for the team right now"
+              "An absolute rule with no exceptions",
+              "A purely optional feature"
             ],
             "correctAnswer": [
               "A strong recommendation with exceptions"
@@ -162,14 +162,14 @@
         },
         {
           "word": "idempotent",
-          "ipa": "/ˌaɪ.demˈpoʊ.t̬ənt/",
+          "ipa": "/ˌaɪ.demˈpoʊ.tənt/",
           "definition": "có tính lũy đẳng",
           "technicalMeaning": "Gửi lặp lại cho cùng kết quả như gửi một lần.",
           "collocations": [
             "an idempotent request",
             "idempotency key"
           ],
-          "example": "The server treats repeated requests as idempotent.",
+          "example": "Sending the same request twice is safe because the operation is idempotent.",
           "commonMistake": "Nhấn âm tiết thứ ba: i-dem-PO-tent."
         },
         {
@@ -182,11 +182,11 @@
             "use backoff"
           ],
           "example": "Use exponential backoff for retries.",
-          "commonMistake": "Backoff là một từ khi là danh từ."
+          "commonMistake": "Danh từ viết backoff, động từ viết back off."
         },
         {
           "word": "compatible",
-          "ipa": "/kəmˈpæt̬.ə.bəl/",
+          "ipa": "/kəmˈpæt.ə.bəl/",
           "definition": "tương thích",
           "technicalMeaning": "Làm việc đúng với một chuẩn hoặc hệ thống.",
           "collocations": [
@@ -234,7 +234,7 @@
           "tone": "neutral",
           "example": "It leaves the shorter retry limit to the implementer.",
           "alternatives": [
-            "It is optional to ___."
+            "___ is optional."
           ]
         },
         {
@@ -243,7 +243,7 @@
           "tone": "neutral",
           "example": "One open issue is partner clients that cannot store keys.",
           "alternatives": [
-            "It is not yet decided ___."
+            "It is not yet decided whether ___."
           ]
         }
       ]
@@ -338,16 +338,19 @@
         {
           "id": "rrrwb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: Sending a key is ___.",
+          "question": "Điền từ còn thiếu (bắt buộc): Sending a key is ___.",
           "correctAnswer": [
-            "mandatory"
+            "mandatory",
+            "required",
+            "compulsory",
+            "obligatory"
           ],
           "explanation": "\"mandatory\" nghĩa là bắt buộc."
         },
         {
           "id": "rrrwb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The server treats repeated requests as ___.",
+          "question": "Điền từ còn thiếu (có tính lũy đẳng): Sending the same request twice is safe because the operation is ___.",
           "correctAnswer": [
             "idempotent"
           ],
@@ -377,7 +380,7 @@
             "type": "source",
             "title": "Retry excerpt (RFC 0412)",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Excerpt. A client MUST send an idempotency key with every write request. A client SHOULD use exponential backoff. A client MAY limit the total retry time. A client MUST NOT retry after five attempts."
+            "content": "Synthetic training artifact — non-production. Excerpt. A client MUST send an idempotency key with every request that creates or changes an invoice, and keep the same key across retries. A client MUST NOT retry a 4xx error except 408 and 429. A client MUST stop after five retries or two minutes. A client SHOULD use exponential backoff with jitter and SHOULD log each retry with the key. A client MAY limit the total retry time to a shorter period. The server MUST store each key for at least twenty-four hours. Open issue: partner clients that cannot store keys across restarts may create duplicate invoices."
           }
         ]
       },

@@ -2,7 +2,7 @@
   "schemaVersion": "v3",
   "lessonId": "learn-a-tool-from-short-docs-a2",
   "title": "Learn a new tool from short docs (A2)",
-  "summary": "Đọc tài liệu bốn dòng của một công cụ dòng lệnh và viết công cụ làm gì, một lệnh ví dụ và một câu hỏi.",
+  "summary": "Đọc tài liệu ngắn của một công cụ dòng lệnh và viết công cụ làm gì, một lệnh ví dụ và một câu hỏi.",
   "cefrLevel": "A2",
   "durationMinutes": 14,
   "learningObjectives": [
@@ -252,18 +252,22 @@
         {
           "id": "latfsda-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I use a ___ to read log files.",
+          "question": "Điền từ còn thiếu (công cụ): I use a ___ to read log files.",
           "correctAnswer": [
-            "tool"
+            "tool",
+            "program",
+            "utility"
           ],
           "explanation": "\"tool\" nghĩa là công cụ."
         },
         {
           "id": "latfsda-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The --lines ___ shows more lines.",
+          "question": "Điền từ còn thiếu (tùy chọn): The --lines ___ shows more lines.",
           "correctAnswer": [
-            "option"
+            "option",
+            "flag",
+            "parameter"
           ],
           "explanation": "\"option\" nghĩa là tùy chọn."
         }
@@ -304,7 +308,7 @@
             "type": "source",
             "title": "Docs: jsonfmt",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Tool: jsonfmt. jsonfmt makes a JSON file easy to read. Usage: jsonfmt FILE. Option: --indent N sets the space size. The default is 2 spaces. Example: jsonfmt data.json --indent 4."
+            "content": "Synthetic training artifact — non-production. Tool: jsonfmt. jsonfmt makes a JSON file easy to read. Usage: jsonfmt FILE. Option: --indent N sets the indent size. The default is 2 spaces. Example: jsonfmt data.json --indent 4."
           }
         ]
       },

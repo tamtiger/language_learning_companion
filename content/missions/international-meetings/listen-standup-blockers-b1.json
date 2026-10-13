@@ -2,13 +2,13 @@
   "schemaVersion": "v3",
   "lessonId": "listen-standup-blockers-b1",
   "title": "Listen to a standup and write the notes (B1)",
-  "summary": "Nghe một cuộc standup ba người, tìm vướng mắc, người phụ trách và bước tiếp theo, rồi viết biên bản ngắn.",
+  "summary": "Nghe một cuộc standup ba người, tìm vướng mắc, người phụ trách và bước tiếp theo, rồi viết ghi chú ngắn.",
   "cefrLevel": "B1",
   "durationMinutes": 19,
   "learningObjectives": [
     "Nghe ý chính của một vòng standup",
     "Ghi vướng mắc, người phụ trách và thời hạn",
-    "Viết biên bản ngắn bằng tiếng Anh"
+    "Viết ghi chú ngắn bằng tiếng Anh"
   ],
   "capabilities": [
     "international-meetings"
@@ -116,8 +116,8 @@
           "question": "What is blocking Dev?",
           "options": [
             "A test database that is down",
-            "A rejected pull request for the team",
-            "A missing design file"
+            "A pull request the team rejected",
+            "A design file that is missing"
           ],
           "correctAnswer": [
             "A test database that is down"
@@ -130,8 +130,8 @@
           "question": "Who will contact the platform team?",
           "options": [
             "Chloe",
-            "Maya for the team",
-            "Sam at work"
+            "Maya",
+            "Dev"
           ],
           "correctAnswer": [
             "Chloe"
@@ -159,7 +159,7 @@
           "options": [
             "Check the export pull request",
             "Fix the login bug",
-            "Call the platform team for the team"
+            "Call the platform team"
           ],
           "correctAnswer": [
             "Check the export pull request"
@@ -203,7 +203,7 @@
             "action owner"
           ],
           "example": "The platform team owns the database.",
-          "commonMistake": "Nói owner of, không nói owner for."
+          "commonMistake": "Nói the owner of the database, không nói the owner the database."
         },
         {
           "word": "estimate",
@@ -239,7 +239,7 @@
             "follow up on"
           ],
           "example": "I will follow up with the platform team.",
-          "commonMistake": "Động từ viết follow up."
+          "commonMistake": "Động từ viết hai từ rời follow up; danh từ viết follow-up."
         }
       ],
       "expressions": [
@@ -292,7 +292,7 @@
           "question": "Which sentence names a blocker?",
           "options": [
             "I cannot test because the database is down.",
-            "I finished the export yesterday. for the team",
+            "I finished the export yesterday.",
             "I will join the demo on Friday."
           ],
           "correctAnswer": [
@@ -314,14 +314,14 @@
           "type": "ordering",
           "question": "Sắp xếp phần ghi chú theo thứ tự.",
           "options": [
-            "next step with a date",
-            "the blocker",
-            "the owner"
+            "Next step: ask the platform team for an estimate.",
+            "Blocker: the staging database is down.",
+            "Owner: Chloe will contact the platform team."
           ],
           "correctAnswer": [
-            "the blocker",
-            "the owner",
-            "next step with a date"
+            "Blocker: the staging database is down.",
+            "Owner: Chloe will contact the platform team.",
+            "Next step: ask the platform team for an estimate."
           ],
           "explanation": "Vướng mắc, người phụ trách, bước tiếp theo."
         }
@@ -371,18 +371,22 @@
         {
           "id": "lsbb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The staging database is a ___ for testing.",
+          "question": "Điền từ còn thiếu (vướng mắc chặn tiến độ): The staging database is a ___ for testing.",
           "correctAnswer": [
-            "blocker"
+            "blocker",
+            "problem",
+            "bottleneck"
           ],
           "explanation": "\"blocker\" nghĩa là vướng mắc chặn tiến độ."
         },
         {
           "id": "lsbb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I will ask for an ___.",
+          "question": "Điền từ còn thiếu (ước lượng thời gian): I will ask for an ___.",
           "correctAnswer": [
-            "estimate"
+            "estimate",
+            "ETA",
+            "update"
           ],
           "explanation": "\"estimate\" nghĩa là ước lượng thời gian."
         }
@@ -393,23 +397,23 @@
     "id": "lsb-task",
     "mode": "written",
     "title": "Write standup notes",
-    "scenario": "Sau một buổi standup, bạn viết biên bản để gửi cho cả đội.",
-    "baselinePrompt": "Dựa vào ghi chú thô của một buổi standup, hãy viết biên bản bằng tiếng Anh (60 đến 110 từ): vướng mắc, người phụ trách và bước tiếp theo. Chưa xem bài mẫu.",
-    "performancePrompt": "Write standup notes in English, 60 to 110 words: the blockers, the owners and the next steps with dates.",
-    "modelResponse": "Standup notes, Tuesday. Dev finished the export feature and will fix two review comments today. His blocker is the staging database, which has been down since Monday. Chloe will contact the platform team after the call and ask for an estimate. Chloe fixed the mobile login bug and starts the settings page, but she needs a design file from Sam. Maya will send the older mockup in ten minutes and review the export pull request this afternoon. Demo: Friday. Next standup: tomorrow, same time.",
+    "scenario": "Sau một buổi standup, bạn viết ghi chú để gửi cho cả đội.",
+    "baselinePrompt": "Dựa vào ghi chú thô của một buổi standup, hãy viết ghi chú bằng tiếng Anh (60 đến 120 từ): vướng mắc, người phụ trách và bước tiếp theo. Chưa xem bài mẫu.",
+    "performancePrompt": "Write standup notes in English, 60 to 120 words: the blockers, the owners and the next steps with dates.",
+    "modelResponse": "Payments standup notes. Ana finished the refund form and will run the tests tomorrow. Her blocker is access to the sandbox. Lee is the owner and will grant access by noon; Ana will ask him today. Raj is fixing a slow report. He needs a data sample from Ana by Wednesday. Next steps: Ana asks Lee for sandbox access today, and Ana sends Raj the data sample by Wednesday.",
     "retryPrompt": "Write the notes again in English. Keep the same structure and make each owner and date clearer.",
     "transferPrompt": "Write notes for a different standup, using the same three parts.",
     "reviewPrompt": "Write notes for another standup without looking at old notes.",
     "practiceContexts": {
       "baseline": {
         "title": "Raw notes: payments team standup",
-        "brief": "Chuyển ghi chú thô thành biên bản.",
+        "brief": "Chuyển ghi chú thô thành ghi chú.",
         "artifacts": [
           {
             "id": "lsb-baseline-ctx",
             "type": "source",
             "title": "Raw notes: payments team standup",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Ana: finished refund form, tests tomorrow. Blocker: no access to the sandbox, owner Lee, ask today. Raj: fixing a slow report, needs data sample from Ana by Wednesday. Lee: will grant sandbox access by noon."
           }
         ]
@@ -422,7 +426,7 @@
             "id": "lsb-retry-ctx",
             "type": "source",
             "title": "Raw notes: mobile team standup",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Kim: push notification bug fixed, in review. Blocker: certificate expired, owner Omar, renew by Friday. Omar: renewing certificate, needs approval from security. Tess: starts the onboarding screens."
           }
         ]
@@ -435,7 +439,7 @@
             "id": "lsb-transfer-ctx",
             "type": "source",
             "title": "Raw notes: data team standup",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Noor: nightly job failed twice, cause unknown. Blocker: logs missing, owner Ben, add logging today. Ben: adds logging, retests tomorrow. Eli: updates the dashboard, shares link Thursday."
           }
         ]
@@ -448,7 +452,7 @@
             "id": "lsb-review-ctx",
             "type": "source",
             "title": "Raw notes: support tools standup",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Sara: new ticket filter works, demo on Monday. Blocker: waiting for API key, owner Hugo, request sent yesterday. Hugo: follows up with vendor today. Mia: writes the user guide, draft due Friday."
           }
         ]

@@ -1,8 +1,8 @@
 {
   "schemaVersion": "v3",
   "lessonId": "technical-tradeoff-explanation-b2",
-  "title": "Explain and defend a technical trade-off",
-  "summary": "Recommend an engineering option, make consequences audible and repair an unclear explanation.",
+  "title": "Explain and defend a technical trade-off (B2)",
+  "summary": "Khuyến nghị một phương án kỹ thuật, làm rõ hệ quả và sửa lại lời giải thích chưa rõ.",
   "cefrLevel": "B2",
   "durationMinutes": 15,
   "learningObjectives": [
@@ -41,7 +41,7 @@
             "a hard constraint",
             "under the constraint"
           ],
-          "example": "The deciding constraint is latency.",
+          "example": "The main constraint is latency.",
           "commonMistake": "Nhấn âm tiết thứ hai: con-STRAINT."
         },
         {
@@ -81,31 +81,31 @@
           "commonMistake": "Overhead không đếm được."
         },
         {
-          "word": "rule out",
-          "ipa": "/ˌruːl ˈaʊt/",
-          "definition": "loại trừ",
-          "technicalMeaning": "Quyết định không chọn một phương án vì lý do rõ ràng.",
+          "word": "pending state",
+          "ipa": "/ˈpen.dɪŋ steɪt/",
+          "definition": "trạng thái chờ",
+          "technicalMeaning": "Trạng thái cho biết yêu cầu đã được nhận nhưng chưa xử lý xong.",
           "collocations": [
-            "rule out an option",
-            "ruled out because"
+            "show a pending state",
+            "stay in a pending state"
           ],
-          "example": "We ruled out the cache because of stale prices.",
-          "commonMistake": "Nói rule out + phương án."
+          "example": "The client sees a pending state until validation succeeds.",
+          "commonMistake": "Pending là tính từ chỉ trạng thái chưa xong: a pending state, không phải a pend state."
         }
       ],
       "expressions": [
         {
-          "phrase": "I recommend ___ because ___ is the deciding constraint.",
-          "meaning": "Lead with one recommendation tied to a named constraint.",
+          "phrase": "I recommend ___ because ___ is the deciding factor.",
+          "meaning": "Nêu một khuyến nghị gắn với yếu tố quyết định.",
           "tone": "neutral",
-          "example": "I recommend the queued worker because predictable latency is the deciding constraint.",
+          "example": "I recommend the queued worker because predictable latency is the deciding factor.",
           "alternatives": [
             "Given ___, my recommendation is ___."
           ]
         },
         {
           "phrase": "The benefit is ___; the cost is ___.",
-          "meaning": "State both sides of a trade-off explicitly.",
+          "meaning": "Nêu rõ cả hai mặt của một sự đánh đổi.",
           "tone": "neutral",
           "example": "The benefit is predictable request latency; the cost is delayed final status.",
           "alternatives": [
@@ -114,7 +114,7 @@
         },
         {
           "phrase": "We can mitigate ___ by ___.",
-          "meaning": "Connect the main risk to a plausible action.",
+          "meaning": "Nối rủi ro chính với một hành động hợp lý.",
           "tone": "neutral",
           "example": "We can mitigate delayed status by showing a clear pending state.",
           "alternatives": [
@@ -140,7 +140,7 @@
           "correctAnswer": [
             "Predictable request latency"
           ],
-          "explanation": "The queue moves validation latency out of the request path while publication remains blocked until validation succeeds."
+          "explanation": "Hàng đợi đưa độ trễ của bước xác thực ra khỏi đường xử lý yêu cầu, còn việc xuất bản vẫn bị chặn cho đến khi xác thực xong."
         },
         {
           "id": "tradeoff-bound",
@@ -154,7 +154,7 @@
           "correctAnswer": [
             "Synchronous validation adds up to 900 ms at peak."
           ],
-          "explanation": "Up to is an upper bound in the supplied evidence, not a guaranteed latency for every request."
+          "explanation": "\"Up to\" là giới hạn trên trong bằng chứng, không phải độ trễ được đảm bảo cho mọi yêu cầu."
         },
         {
           "id": "tradeoff-mitigation",
@@ -168,14 +168,15 @@
           "correctAnswer": [
             "Show a pending state and block publication until validation succeeds."
           ],
-          "explanation": "A pending state communicates the delay while blocking publication preserves the stated compliance requirement."
+          "explanation": "Trạng thái chờ báo cho người dùng biết về độ trễ, còn việc chặn xuất bản giữ đúng yêu cầu tuân thủ đã nêu."
         },
         {
           "id": "tteb-fix",
           "type": "fill",
           "question": "Sửa lỗi: câu \"We can mitigate the risk with adding a retry.\" dùng sai một từ. Điền từ đúng thay cho \"with\".",
           "correctAnswer": [
-            "by"
+            "by",
+            "through"
           ],
           "explanation": "Mitigate ... by + V-ing."
         },
@@ -184,16 +185,16 @@
           "type": "ordering",
           "question": "Sắp xếp một lập luận trade-off.",
           "options": [
-            "we can mitigate it with a retry",
-            "the cost is more complexity",
-            "the benefit is lower latency",
-            "I recommend the cache"
+            "we can mitigate it by showing a pending state",
+            "the cost is delayed final status",
+            "the benefit is predictable request latency",
+            "I recommend the queued worker"
           ],
           "correctAnswer": [
-            "I recommend the cache",
-            "the benefit is lower latency",
-            "the cost is more complexity",
-            "we can mitigate it with a retry"
+            "I recommend the queued worker",
+            "the benefit is predictable request latency",
+            "the cost is delayed final status",
+            "we can mitigate it by showing a pending state"
           ],
           "explanation": "Khuyến nghị, lợi ích, chi phí, giảm nhẹ."
         }
@@ -243,7 +244,7 @@
         {
           "id": "tteb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The deciding ___ is latency.",
+          "question": "Điền từ còn thiếu (ràng buộc): The main ___ for this release is predictable latency.",
           "correctAnswer": [
             "constraint"
           ],
@@ -252,7 +253,7 @@
         {
           "id": "tteb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The new design reduces ___ by forty percent.",
+          "question": "Điền từ còn thiếu (độ trễ): The new design reduces ___ by forty percent.",
           "correctAnswer": [
             "latency"
           ],
@@ -266,12 +267,12 @@
     "mode": "spoken",
     "title": "Recommend and defend one design",
     "scenario": "Explain an architecture recommendation to engineers and a product manager.",
-    "baselinePrompt": "In 60–90 seconds, use the decision evidence shown here and state the constraint, recommendation, cost and mitigation before support appears.",
+    "baselinePrompt": "In 60–90 seconds, use the decision evidence shown here and state the constraint, recommendation, cost and mitigation before you see the model or the chunks.",
     "performancePrompt": "In English, speak for 60–90 seconds: frame the decision, recommend one option, connect the benefit and cost to constraints, then mitigate the main risk.",
-    "modelResponse": "I recommend the queued worker because predictable request latency is the deciding release constraint. The synchronous option gives immediate status, but it adds up to nine hundred milliseconds at peak. By contrast, the queue keeps the request fast and supports retries for transient failures. The main cost is that the final result can remain pending for up to two minutes, so acceptance must not look like completion. I would mitigate that cost by showing a clear pending state and blocking publication until validation succeeds. For this release, that balance protects latency and the validation requirement; if immediate final status became the deciding constraint, we would need to revisit the choice.",
+    "modelResponse": "I recommend the queued worker because predictable request latency is the deciding factor for this release. The synchronous option gives an immediate answer, but it adds up to nine hundred milliseconds at peak. That makes request latency hard to predict. By contrast, the queue keeps the request fast and supports retries for transient failures. The main cost is that the final status can take up to two minutes, so acceptance must not look like completion. Compliance also requires validation before publication, so nothing is published until validation succeeds. I would mitigate the delay by showing a clear pending state while validation is still running. For this release, that balance protects predictable latency and the validation requirement. If immediate final status became the deciding factor, we would need to revisit the choice.",
     "retryPrompt": "In 60–90 seconds, use the retry context, lead with one recommendation and connect each consequence to a named constraint.",
-    "transferPrompt": "In 60–90 seconds, use the database context and make a new recommendation without model/chunks.",
-    "reviewPrompt": "In 60–90 seconds, use the build-versus-buy context and explain a fresh decision without model/chunks.",
+    "transferPrompt": "In 60–90 seconds, use the database context and make a new recommendation without looking at the model answer or the chunks.",
+    "reviewPrompt": "In 60–90 seconds, use the build-versus-buy context and explain a fresh decision without looking at the model answer or the chunks.",
     "practiceContexts": {
       "baseline": {
         "title": "Validation architecture",
@@ -354,7 +355,7 @@
             "id": "trade-pre-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "I recommend the queued worker because latency is the constraint.",
+              "text": "I recommend the queued worker because latency is the deciding factor.",
               "locale": "en-GB",
               "voiceHints": [
                 "Sonia",
@@ -362,7 +363,7 @@
                 "English"
               ]
             },
-            "question": "Deciding constraint là gì?",
+            "question": "Deciding factor là gì?",
             "options": [
               "The queued worker",
               "Latency",
@@ -394,7 +395,7 @@
             "id": "trade-pre-4",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "We can mitigate the delay with a pending state.",
+              "text": "We can mitigate the wait by showing users a pending state.",
               "locale": "en-GB",
               "voiceHints": [
                 "Sonia",
@@ -437,7 +438,7 @@
             "id": "trade-train-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "The deciding constraint is predictable latency.",
+              "text": "The deciding factor is predictable latency.",
               "locale": "en-GB",
               "voiceHints": [
                 "Sonia",
@@ -445,14 +446,14 @@
                 "English"
               ]
             },
-            "question": "Constraint quyết định là gì?",
+            "question": "Yếu tố quyết định là gì?",
             "options": [
               "Lower storage cost",
               "Predictable request latency",
               "Stronger validation rules"
             ],
             "correctAnswer": "Predictable request latency",
-            "feedback": "Nhấn deciding constraint và predictable latency."
+            "feedback": "Nhấn deciding factor và predictable latency."
           },
           {
             "id": "trade-train-3",
@@ -468,7 +469,7 @@
             },
             "question": "Cặp trade-off?",
             "options": [
-              "Delay versus retries",
+              "Delay versus cost",
               "Status versus storage",
               "Retries versus delay"
             ],
@@ -508,13 +509,13 @@
                 "English"
               ]
             },
-            "question": "Đây là gì?",
+            "question": "Câu này dùng để làm gì?",
             "options": [
-              "Evidence for the decision",
-              "Boundary for reconsideration",
-              "Current requirement"
+              "A reason to revisit it",
+              "Evidence for the choice",
+              "The current requirement"
             ],
-            "correctAnswer": "Boundary for reconsideration",
+            "correctAnswer": "A reason to revisit it",
             "feedback": "If clause defines when the decision should change."
           },
           {
@@ -564,7 +565,7 @@
             "id": "trade-post-2",
             "audio": {
               "kind": "speech-synthesis",
-              "text": "The deciding constraint is incident visibility.",
+              "text": "The deciding factor is incident visibility.",
               "locale": "en-US",
               "voiceHints": [
                 "Jenny",
@@ -594,9 +595,9 @@
             },
             "question": "Mitigation là gì?",
             "options": [
-              "Capture all successes and sample errors",
+              "Capture every success and sample the errors",
               "Keep critical evidence while limiting volume",
-              "Keep every log and ignore volume"
+              "Keep every log and ignore the storage volume"
             ],
             "correctAnswer": "Keep critical evidence while limiting volume"
           },
@@ -625,7 +626,7 @@
         {
           "id": "trade-cue-finals",
           "ipa": "/s/ · /z/",
-          "articulatoryCue": "Giữ âm cuối trong requests, retries, failures và costs; không thêm nguyên âm.",
+          "articulatoryCue": "Giữ âm cuối trong retries, failures và costs; không thêm nguyên âm.",
           "meaningRisk": "Mất plural endings làm số lượng constraint/consequence không rõ.",
           "triggerItemIds": [
             "trade-pre-3",
@@ -640,7 +641,7 @@
           "triggerItemIds": [
             "trade-pre-3",
             "trade-train-3",
-            "trade-post-2"
+            "trade-post-1"
           ]
         }
       ],
@@ -648,16 +649,16 @@
         {
           "id": "trade-chunk-rec",
           "function": "recommend",
-          "text": "I recommend ___ because ___ is the deciding constraint.",
+          "text": "I recommend ___ because ___ is the deciding factor.",
           "meaning": "Nêu option và constraint trước.",
           "slots": [
             "option",
             "constraint"
           ],
-          "stressPattern": "RECOMMEND · DECIDING CONSTRAINT",
+          "stressPattern": "RECOMMEND · DECIDING FACTOR",
           "modelAudio": {
             "kind": "speech-synthesis",
-            "text": "I recommend the queued worker because predictable latency is the deciding constraint.",
+            "text": "I recommend the queued worker because predictable latency is the deciding factor.",
             "locale": "en-US",
             "voiceHints": [
               "Aria",
@@ -818,8 +819,11 @@
   },
   "reviewPolicy": {
     "intervalDays": [
-      2,
-      7
-    ]
+      1,
+      3,
+      7,
+      14
+    ],
+    "interleave": true
   }
 }

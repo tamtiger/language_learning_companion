@@ -134,8 +134,8 @@
           "question": "Which problem is a process gap, not a technical bug?",
           "options": [
             "The checklist skipped config changes",
-            "The build was slow for the team right now",
-            "The tests failed at work"
+            "The build took too long",
+            "Some tests failed in CI"
           ],
           "correctAnswer": [
             "The checklist skipped config changes"
@@ -148,7 +148,7 @@
           "question": "Why did Lena not react to the alert immediately?",
           "options": [
             "It looked like many old alerts",
-            "She was on holiday for the team",
+            "She was away when it fired",
             "She did not see it"
           ],
           "correctAnswer": [
@@ -209,7 +209,7 @@
             "a root cause of"
           ],
           "example": "We identified two root causes.",
-          "commonMistake": "Viết root cause thành hai từ."
+          "commonMistake": "Viết hai từ rời root cause, không viết liền."
         },
         {
           "word": "rollback",
@@ -245,7 +245,7 @@
             "agree on action items"
           ],
           "example": "We agreed on two action items.",
-          "commonMistake": "Viết action item thành hai từ."
+          "commonMistake": "Viết hai từ rời action item, không viết liền."
         },
         {
           "word": "blameless",
@@ -254,10 +254,10 @@
           "technicalMeaning": "Tập trung vào quy trình thay vì cá nhân.",
           "collocations": [
             "a blameless review",
-            "stay blameless"
+            "run a blameless retro"
           ],
           "example": "We keep the retro blameless.",
-          "commonMistake": "Blameless là một từ, nhấn âm đầu."
+          "commonMistake": "Viết liền blameless; nhấn âm đầu BLAME-less, không nhấn -less."
         }
       ],
       "expressions": [
@@ -310,7 +310,7 @@
           "question": "Which sentence is blameless?",
           "options": [
             "The checklist did not include config changes.",
-            "Tom forgot the config change again. for the team",
+            "Tom forgot the config change again.",
             "Lena was careless with the alert."
           ],
           "correctAnswer": [
@@ -323,7 +323,8 @@
           "type": "fill",
           "question": "Điền từ: We had no rollback plan, ___ we fixed it live.",
           "correctAnswer": [
-            "so"
+            "so",
+            "and"
           ],
           "explanation": "So nêu hậu quả của thiếu sót."
         },
@@ -332,16 +333,16 @@
           "type": "ordering",
           "question": "Sắp xếp phần ghi chú retro.",
           "options": [
-            "actions with owners",
-            "what went well",
-            "what went wrong",
-            "root causes"
+            "Action: Tom will update the checklist.",
+            "What went well: the build was fast.",
+            "Root cause: there was no rollback plan.",
+            "What went wrong: the payment page was down for forty minutes."
           ],
           "correctAnswer": [
-            "what went well",
-            "what went wrong",
-            "root causes",
-            "actions with owners"
+            "What went well: the build was fast.",
+            "What went wrong: the payment page was down for forty minutes.",
+            "Root cause: there was no rollback plan.",
+            "Action: Tom will update the checklist."
           ],
           "explanation": "Điểm tốt, điểm sai, nguyên nhân, hành động."
         }
@@ -391,18 +392,22 @@
         {
           "id": "lrwwwb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We identified two ___.",
+          "question": "Điền từ còn thiếu (nguyên nhân gốc): We identified two ___.",
           "correctAnswer": [
-            "root causes"
+            "root causes",
+            "causes"
           ],
           "explanation": "\"root cause\" nghĩa là nguyên nhân gốc."
         },
         {
           "id": "lrwwwb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: We had no ___ plan.",
+          "question": "Điền từ còn thiếu (quay lại phiên bản trước): We had no ___ plan.",
           "correctAnswer": [
-            "rollback"
+            "rollback",
+            "recovery",
+            "backup",
+            "contingency"
           ],
           "explanation": "\"rollback\" nghĩa là quay lại phiên bản trước."
         }
@@ -414,11 +419,11 @@
     "mode": "written",
     "title": "Write retrospective notes",
     "scenario": "After a retro, you write the notes that list the causes and the agreed actions.",
-    "baselinePrompt": "From the rough notes of a retrospective, write notes in English (60 to 110 words): root causes, actions and owners. Do not look at the model answer yet.",
-    "performancePrompt": "Write retrospective notes in English, 60 to 110 words: the root causes, the agreed actions and the owner and date of each action.",
-    "modelResponse": "Retro notes: Thursday release. The payment page was down for forty minutes. Root causes: first, there was no rollback plan; second, the release checklist did not include config changes; third, alert fatigue meant the first alert was missed. Actions: Tom will add config changes and a rollback step to the checklist by the next sprint, and Lena will review it. Lena will clean up the alert rules within two weeks, with help from the team to decide which alerts matter. Priya will track both actions on the board and we will review them at the next retro.",
+    "baselinePrompt": "From the rough notes of a retrospective, write notes in English (60 to 120 words): root causes, actions and owners. Do not look at the model answer yet.",
+    "performancePrompt": "Write retrospective notes in English, 60 to 120 words: the root causes, the agreed actions and the owner and date of each action.",
+    "modelResponse": "Retro notes: Thursday release. The payment page was down for forty minutes. Root causes: there was no rollback plan, the release checklist missed config changes, and there was too much alert noise. Actions: Tom will update the checklist by the next sprint. Lena will clean up the alerts within two weeks. We will review both actions at the next retro, so the same problems do not return.",
     "retryPrompt": "Write the notes again in English. Keep the same structure and separate causes from actions more clearly.",
-    "transferPrompt": "Write notes for a different retro, such as a delayed project, with causes, actions and owners.",
+    "transferPrompt": "Write notes for a different retro, such as a data pipeline outage, with causes, actions and owners.",
     "reviewPrompt": "Write notes for another retro without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -429,7 +434,7 @@
             "id": "lrr-baseline-ctx",
             "type": "source",
             "title": "Raw notes: failed release retro",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Release Thursday, payment page down 40 minutes. Causes: no rollback plan, checklist missed config, alert noise. Actions: Tom checklist by next sprint, Lena alert cleanup two weeks."
           }
         ]
@@ -442,7 +447,7 @@
             "id": "lrr-retry-ctx",
             "type": "source",
             "title": "Raw notes: late project retro",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Project two weeks late. Causes: unclear scope, late design review, one person owned all deploys. Actions: Nina writes scope template by Friday, Omar shares deploy duty from next sprint."
           }
         ]
@@ -455,7 +460,7 @@
             "id": "lrr-transfer-ctx",
             "type": "source",
             "title": "Raw notes: data outage retro",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Pipeline stopped for six hours. Causes: disk full, no disk alert, runbook outdated. Actions: Ravi adds disk alert this week, Ines updates the runbook by Monday."
           }
         ]
@@ -468,7 +473,7 @@
             "id": "lrr-review-ctx",
             "type": "source",
             "title": "Raw notes: onboarding retro",
-            "format": "dialogue",
+            "format": "meeting-notes",
             "content": "Synthetic training artifact — non-production. Raw notes. Two new engineers waited three days for access. Causes: access request not started early, no onboarding checklist. Actions: Carla builds a checklist by Thursday, managers file requests before day one."
           }
         ]

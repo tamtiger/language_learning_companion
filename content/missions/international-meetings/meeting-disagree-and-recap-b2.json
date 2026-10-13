@@ -66,7 +66,7 @@
             "recap the decisions"
           ],
           "example": "Let me recap the decisions before we finish.",
-          "commonMistake": "Danh từ và động từ đều viết recap."
+          "commonMistake": "Là động từ, recap không cần giới từ: recap the decisions, không nói recap about the decisions."
         },
         {
           "word": "alignment",
@@ -78,7 +78,7 @@
             "alignment on"
           ],
           "example": "We need alignment on the scope.",
-          "commonMistake": "Nói alignment on + chủ đề."
+          "commonMistake": "Nói alignment on + chủ đề, không nói alignment about."
         },
         {
           "word": "action owner",
@@ -90,7 +90,7 @@
             "the action owner"
           ],
           "example": "Each action needs an action owner and a date.",
-          "commonMistake": "Viết action owner thành hai từ."
+          "commonMistake": "Viết hai từ rời action owner, không viết liền."
         }
       ],
       "expressions": [
@@ -163,7 +163,7 @@
           "question": "How should the recap distinguish Lan from Minh and the rollback owner?",
           "options": [
             "Lan's decision role and time are confirmed; Minh and the rollback assignment remain proposals pending group confirmation.",
-            "All three roles are confirmed because Lan is the release owner, so Minh and the rollback assignment need no further group approval from anyone.",
+            "All three roles are confirmed because Lan is the release owner.",
             "All three roles remain proposals, including Lan's stated decision role."
           ],
           "correctAnswer": [
@@ -186,17 +186,17 @@
           "question": "Sắp xếp phần recap cuối cuộc họp.",
           "options": [
             "I will send the notes today",
-            "we agreed to ship on Friday",
-            "the open risk is security",
+            "the proposal is to run the test first",
+            "the open risk is rollback ownership",
             "let me recap quickly"
           ],
           "correctAnswer": [
             "let me recap quickly",
-            "we agreed to ship on Friday",
-            "the open risk is security",
+            "the proposal is to run the test first",
+            "the open risk is rollback ownership",
             "I will send the notes today"
           ],
-          "explanation": "Mở đầu recap, quyết định, rủi ro, hành động."
+          "explanation": "Mở đầu recap, đề xuất, rủi ro còn mở, hành động."
         }
       ]
     },
@@ -244,18 +244,22 @@
         {
           "id": "mdarb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: I have a ___ about the deadline.",
+          "question": "Điền từ còn thiếu (sự e ngại lịch sự): I have a ___ about the deadline.",
           "correctAnswer": [
-            "reservation"
+            "reservation",
+            "concern",
+            "worry"
           ],
           "explanation": "\"reservation\" nghĩa là sự e ngại lịch sự."
         },
         {
           "id": "mdarb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: The launch is ___ on the security review.",
+          "question": "Điền từ còn thiếu (có điều kiện): The launch is ___ on the security review.",
           "correctAnswer": [
-            "conditional"
+            "conditional",
+            "dependent",
+            "contingent"
           ],
           "explanation": "\"conditional\" nghĩa là có điều kiện."
         }
@@ -269,7 +273,7 @@
     "scenario": "Trong cuộc họp release, nhóm muốn bỏ một quality gate để giữ deadline.",
     "baselinePrompt": "Trong 60–90 giây, dựa trên meeting evidence đang hiển thị và phản hồi mà chưa xem model hoặc chunk bank.",
     "performancePrompt": "In 60–90 seconds in English, acknowledge the goal, state a disagreement with evidence, propose a go/no-go threshold, and recap the owner, deadline and confirmation state; distinguish confirmed roles from new assignments that are still proposals.",
-    "modelResponse": "I understand why we want to protect Friday’s date. I’m not comfortable skipping the load test because staging has covered only twenty percent of forecast traffic. Could Minh run the critical scenario from one to four and make launch conditional on p95 staying at or below five hundred milliseconds and errors below one percent? Lan is the confirmed release owner and will lead the go/no-go decision at 4:15. Subject to group agreement, Minh could complete the test by four, and a rollback owner should be confirmed before the decision. To recap, Lan’s decision role and time are confirmed; Minh and rollback ownership remain proposed assignments pending confirmation. Does that work for everyone?",
+    "modelResponse": "I understand why we want to protect Friday’s date, and I do not want to delay the launch without a reason. But I’m not comfortable skipping the three-hour load test because staging has covered only twenty percent of forecast traffic. Could Minh run the critical scenario at forecast traffic from one to four p.m. and make launch conditional on p95 staying at or below five hundred milliseconds and errors below one percent? If either threshold fails, we should treat it as a no-go and discuss the date again. Lan is the confirmed release owner and will lead the go/no-go decision at 4:15. Subject to group agreement, Minh could complete the test by four. Rollback ownership is not assigned yet, so a rollback owner should be confirmed before the decision. To recap, Lan’s decision role and time are confirmed; Minh and rollback ownership remain proposed assignments pending confirmation. Does that work for everyone?",
     "retryPrompt": "Trong 60–90 giây, dùng retry evidence mới, sửa tiêu chí trọng tâm và kết thúc bằng proposed decision recap rõ ràng.",
     "transferPrompt": "In 60–90 seconds, use the security-review evidence, push back, and recap the alternative plan without looking at the model or chunks.",
     "reviewPrompt": "In 60–90 seconds, use the new accessibility evidence and propose an owner and deadline without looking at the model or chunks.",
@@ -296,7 +300,7 @@
             "type": "source",
             "title": "Reliability note",
             "format": "meeting-notes",
-            "content": "Synthetic training artifact — non-production. Tuesday cutover; failover has not been rehearsed; rehearsal takes 45 minutes; Priya is available to own rollback if the group confirms the assignment."
+            "content": "Synthetic training artifact — non-production. Tuesday cutover; failover has not been rehearsed; rehearsal takes 45 minutes; Priya is available to own rollback if the group confirms the assignment. The rehearsal can finish by Monday 17:00; go requires failover in under five minutes with no data loss."
           }
         ]
       },
@@ -649,17 +653,17 @@
         {
           "id": "meet-chunk-ack",
           "function": "acknowledge",
-          "text": "I see the ___ concern, but I’m concerned about ___ because ___.",
+          "text": "I see the ___ pressure, but I’m not comfortable with ___ because ___.",
           "meaning": "Công nhận mục tiêu rồi nêu concern có evidence.",
           "slots": [
             "shared goal",
             "risk",
             "evidence"
           ],
-          "stressPattern": "CONCERN · CONCERNED",
+          "stressPattern": "PRESSURE · COMFORTABLE",
           "modelAudio": {
             "kind": "speech-synthesis",
-            "text": "I see the schedule concern, but I’m concerned about skipping the test because staging covers only twenty percent.",
+            "text": "I see the schedule pressure, but I’m not comfortable with skipping the test because staging covers only twenty percent.",
             "locale": "en-US",
             "voiceHints": [
               "Aria",

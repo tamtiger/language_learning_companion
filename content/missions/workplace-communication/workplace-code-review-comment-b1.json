@@ -24,7 +24,7 @@
       "type": "source",
       "title": "Pull request snippet",
       "format": "technical-doc",
-      "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the page address, does not check an empty value and does not have a test. Reviewer notes: describe what you see, say why it matters and suggest a fix in a kind tone."
+      "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the URL into a variable named d, does not check an empty value and does not have a test. Reviewer notes: describe what you see, say why it matters and suggest a fix in a kind tone."
     },
     {
       "id": "crc-language",
@@ -106,7 +106,7 @@
           "phrase": "This matters because ___.",
           "meaning": "Giải thích lý do.",
           "tone": "neutral",
-          "example": "This matters because an empty code could remove the whole price.",
+          "example": "This matters because an empty code could make the whole order free.",
           "alternatives": [
             "The risk here is ___."
           ]
@@ -139,11 +139,11 @@
         {
           "id": "crc-good",
           "type": "choice",
-          "question": "Which comment is specific and kind?",
+          "question": "Nhận xét nào vừa cụ thể vừa lịch sự?",
           "options": [
             "I noticed that an empty code is not checked, so the price could be wrong. Could we add a check?",
-            "This code is wrong and I would not merge it until it is rewritten.",
-            "Why did you write it like this? Please explain before I review more."
+            "This code is wrong and I would not merge it until the whole function is rewritten from scratch.",
+            "Why did you write it like this? Please explain your choices in detail before I review anything more."
           ],
           "correctAnswer": [
             "I noticed that an empty code is not checked, so the price could be wrong. Could we add a check?"
@@ -153,11 +153,11 @@
         {
           "id": "crc-nit",
           "type": "choice",
-          "question": "When is \"Nit:\" a good label?",
+          "question": "Khi nào nên dùng nhãn \"Nit:\"?",
           "options": [
             "For a small point that need not block the merge",
-            "For a serious security bug",
-            "For praise or thanks only"
+            "For a serious security bug that must be fixed before the merge",
+            "For praise or thanks only, with no change requested"
           ],
           "correctAnswer": [
             "For a small point that need not block the merge"
@@ -173,7 +173,8 @@
           ],
           "explanation": "I suggest + V-ing.",
           "acceptedAnswers": [
-            "using"
+            "including",
+            "introducing"
           ]
         },
         {
@@ -240,18 +241,20 @@
         {
           "id": "wcrcb-vr-fill-1",
           "type": "fill",
-          "question": "Điền từ còn thiếu: ___: the variable name could be clearer.",
+          "question": "Điền từ còn thiếu (góp ý nhỏ): ___: the variable name could be clearer.",
           "correctAnswer": [
-            "Nit"
+            "Nit",
+            "Nitpick"
           ],
           "explanation": "\"nit\" nghĩa là góp ý nhỏ."
         },
         {
           "id": "wcrcb-vr-fill-2",
           "type": "fill",
-          "question": "Điền từ còn thiếu: This misses the ___ of an empty code.",
+          "question": "Điền từ còn thiếu (trường hợp biên): This misses the ___ of an empty code.",
           "correctAnswer": [
-            "edge case"
+            "edge case",
+            "corner case"
           ],
           "explanation": "\"edge case\" nghĩa là trường hợp biên."
         }
@@ -265,9 +268,9 @@
     "scenario": "Bạn review một pull request thêm mã giảm giá vào trang thanh toán và cần viết một nhận xét cho tác giả.",
     "baselinePrompt": "Viết một nhận xét review bằng tiếng Anh (50 đến 110 từ): quan sát, lý do và đề xuất lịch sự. Chưa xem bài mẫu.",
     "performancePrompt": "Write one code review comment in English, 50 to 110 words: what you notice, why it matters and a kind suggestion.",
-    "modelResponse": "Thanks for the update, the checkout flow is easier to follow now. I noticed that applyDiscount reads the code from the page address but does not check for an empty value. This matters because an empty code could set the discount to the full price, and customers might get items for free. Could we add a check for empty input and return early? A short test for that case would also help us avoid a regression later. Nit: the variable name \"d\" could be clearer, for example \"discountCode\", for readability. Happy to pair on the test if that helps.",
+    "modelResponse": "Thanks for adding the discount to the checkout page. I noticed that applyDiscount reads the code from the URL but does not check for an empty value. This matters because an empty code could set the discount to the full price, and customers might get items for free. Could we add a check for empty input and return early? A short test for that case would also help us avoid a regression later. Nit: the variable name \"d\" could be clearer, for example \"discountCode\", for readability. Happy to pair on the test if that helps.",
     "retryPrompt": "Write the comment again in English. Keep it kind and make the reason clearer.",
-    "transferPrompt": "Write a review comment for a different pull request, such as one that logs a user email.",
+    "transferPrompt": "Write a review comment for a different pull request, such as one with a long function that is hard to read.",
     "reviewPrompt": "Write a review comment for another change without looking at old notes.",
     "practiceContexts": {
       "baseline": {
@@ -279,7 +282,7 @@
             "type": "source",
             "title": "Discount on checkout",
             "format": "technical-doc",
-            "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the page address, does not check an empty value and does not have a test."
+            "content": "Synthetic training artifact — non-production. Pull request: add a discount to the checkout page. Snippet: the function applyDiscount reads the discount code from the URL into a variable named d, does not check an empty value and does not have a test."
           }
         ]
       },
@@ -364,7 +367,7 @@
           "met": "Gives a reason and one clear suggestion.",
           "notMet": "Gives a command or a reason with no fix."
         },
-        "dimension": "accuracy"
+        "dimension": "task"
       },
       {
         "id": "tone",
